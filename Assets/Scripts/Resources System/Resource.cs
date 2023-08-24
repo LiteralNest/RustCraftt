@@ -1,18 +1,9 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class Resource : MonoBehaviour
+[CreateAssetMenu(menuName = "ScriptableObjects/Resource")]
+public class Resource : ScriptableObject
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+   [field:SerializeField] public int Id { get; private set; }
+   [field:SerializeField] public string Name { get; private set; }
+   [field:SerializeField] public Sprite Icon { get; private set; }
 }
