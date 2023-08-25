@@ -46,12 +46,6 @@ public class InventorySlotsContainer : MonoBehaviour
         _cellsDisplayer.DisplayCellAt(index);
     }
     
-    private void AddItem(int index, InventoryItem item)
-    {
-        Cells[index] = new InventoryItem(item);
-        _cellsDisplayer.DisplayCellAt(index);
-    }
-
     private int GetFreeItemCellIndex()
     {
         int index = 0;
@@ -87,9 +81,12 @@ public class InventorySlotsContainer : MonoBehaviour
 
     public void AddItemToDesiredSlot(Item item, int count)
     {
+        GlobalEventsContainer.InventoryItemAdded?.Invoke(new InventoryItem(item, count));
         int resCount = TrySetItemToSimilar(item, count);
         if(resCount == 0) return;
-        _cellsDisplayer.DisplayCellAt(GetFreeItemCellIndex());
+        int cellIndex = GetFreeItemCellIndex();
+        Cells[cellIndex] = new InventoryItem(item, resCount);
+        _cellsDisplayer.DisplayCellAt(cellIndex);
     }
     
     [ContextMenu("Test Add Item")]

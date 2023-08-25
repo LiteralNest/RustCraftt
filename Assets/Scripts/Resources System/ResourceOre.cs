@@ -18,10 +18,11 @@ public class ResourceOre : MonoBehaviour
     }
     
     [ContextMenu("Minus HP")]
-    private void MinusHp()
+    public void MinusHp(InventorySlotsContainer inventory)
     {
         if(_currentHp <= 0) return;
         _currentHp--;
+        inventory.AddItemToDesiredSlot(_targetResource, 2);
         if(_currentHp > 0) return;
         _renderer.enabled = false;
         Recover();
