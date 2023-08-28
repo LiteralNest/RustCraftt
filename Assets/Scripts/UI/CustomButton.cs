@@ -6,7 +6,7 @@ public class CustomButton : MonoBehaviour, IPointerExitHandler ,IPointerClickHan
 {
     [SerializeField] private UnityEvent _pointerDown;
     [SerializeField] private UnityEvent _pointerClicked;
-    
+
     public void OnPointerDown(PointerEventData eventData)
     {
         _pointerDown?.Invoke();

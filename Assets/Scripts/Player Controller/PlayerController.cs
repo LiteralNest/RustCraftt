@@ -23,7 +23,7 @@ public class PlayerController : MonoBehaviour
             Move();
             return;
         }
-        transform.Translate(Vector3.forward * _movingSpeed * Time.deltaTime, Space.World);
+        transform.Translate(Vector3.forward * _movingSpeed * Time.deltaTime, Space.Self);
     }
 
     public void OnMove(InputAction.CallbackContext context)
