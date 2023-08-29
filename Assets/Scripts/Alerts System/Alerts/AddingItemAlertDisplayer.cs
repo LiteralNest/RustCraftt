@@ -6,9 +6,9 @@ public class AddingItemAlertDisplayer : AlertDisplayer
     [SerializeField] private TMP_Text _itemTitle;
     [SerializeField] private TMP_Text _itemCount;
 
-    public void Init(InventoryItem inventoryItem)
+    public void Init(InventoryCell inventoryCell)
     {
-        _itemTitle.text = inventoryItem.Item.Name;
-        _itemCount.text = "+" + inventoryItem.Count.ToString();
+        _itemTitle.text = inventoryCell.Item.Name;
+        _itemCount.text = "+" + inventoryCell.Count.ToString();
     }
 }

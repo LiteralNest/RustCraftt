@@ -18,9 +18,9 @@ public class AlertsCreator : MonoBehaviour
         GlobalEventsContainer.InventoryItemAdded -= CreateItemAlert;
     }
 
-    private void CreateItemAlert(InventoryItem inventoryItem)
+    private void CreateItemAlert(InventoryCell inventoryCell)
     {
         var instance = Instantiate(_addingItemAlertPrefab, _placeForAlerts);
-        instance.Init(inventoryItem);
+        instance.Init(inventoryCell);
     }
 }

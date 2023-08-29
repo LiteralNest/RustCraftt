@@ -1,18 +1,18 @@
 using UnityEngine;
 
 [System.Serializable]
-public class InventoryItem
+public class InventoryCell
 {
    [field:SerializeField] public Item Item { get; set; }
    [field:SerializeField] public int Count { get; set; }
 
-   public InventoryItem(InventoryItem item)
+   public InventoryCell(InventoryCell cell)
    {
-      Item = item.Item;
-      Count = item.Count;
+      Item = cell.Item;
+      Count = cell.Count;
    }
 
-   public InventoryItem(Item item, int count)
+   public InventoryCell(Item item, int count)
    {
       Item = item;
       Count = count;

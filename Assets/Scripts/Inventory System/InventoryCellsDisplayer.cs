@@ -19,13 +19,13 @@ public class InventoryCellsDisplayer : MonoBehaviour
             slotsContainer = GetComponent<InventorySlotsContainer>();
     }
 
-    private void CreateCell(InventoryItem item, int index)
+    private void CreateCell(InventoryCell cell, int index)
     {
         InventorySlotDisplayer slotDisplayer = _cellDisplayers[index];
         if(slotDisplayer.transform.childCount > 0)
             Destroy(slotDisplayer.transform.GetChild(0).gameObject);
         var instance = Instantiate(_itemDisplayerPrefab, slotDisplayer.transform);
-        instance.Init(slotDisplayer, item);
+        instance.Init(slotDisplayer, cell);
         slotDisplayer.Init(instance);
     }
     

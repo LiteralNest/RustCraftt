@@ -26,7 +26,7 @@ public class InventorySlotDisplayer : MonoBehaviour, IDropHandler
     {
         ItemDisplayer = item;
         item.Init(this);
-        Inventory.SetItemAt(Index, item.InventoryItem);
+        Inventory.SetItemAt(Index, item.InventoryCell);
     }
 
     public void OnDrop(PointerEventData eventData)
@@ -39,19 +39,19 @@ public class InventorySlotDisplayer : MonoBehaviour, IDropHandler
             return;
         }
 
-        int togetherCount = ItemDisplayer.InventoryItem.Count + itemDisplayer.InventoryItem.Count;
-        if (ItemDisplayer.InventoryItem.Item.ID == itemDisplayer.InventoryItem.Item.ID)
+        int togetherCount = ItemDisplayer.InventoryCell.Count + itemDisplayer.InventoryCell.Count;
+        if (ItemDisplayer.InventoryCell.Item.Id == itemDisplayer.InventoryCell.Item.Id)
         {
-            if (togetherCount >= ItemDisplayer.InventoryItem.Item.StackCount)
+            if (togetherCount >= ItemDisplayer.InventoryCell.Item.StackCount)
             {
-                int diff = togetherCount - itemDisplayer.InventoryItem.Item.StackCount;
+                int diff = togetherCount - itemDisplayer.InventoryCell.Item.StackCount;
                 itemDisplayer.SetCount(diff);
                 ItemDisplayer.SetCount(togetherCount - diff);
                 return;
             }
 
-            ItemDisplayer.AddCount(itemDisplayer.InventoryItem.Count);
-            itemDisplayer.MinusCount(itemDisplayer.InventoryItem.Count);
+            ItemDisplayer.AddCount(itemDisplayer.InventoryCell.Count);
+            itemDisplayer.MinusCount(itemDisplayer.InventoryCell.Count);
         }
     }
 }

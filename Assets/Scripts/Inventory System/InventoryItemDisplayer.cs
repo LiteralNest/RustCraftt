@@ -9,7 +9,7 @@ public class InventoryItemDisplayer : MonoBehaviour, IBeginDragHandler ,IDragHan
     [SerializeField] private Image _itemIcon;
     
     private InventorySlotDisplayer _slot;
-    public InventoryItem InventoryItem { get; private set; }
+    public InventoryCell InventoryCell { get; private set; }
 
     public void Init(InventorySlotDisplayer slot)
     {
@@ -22,10 +22,10 @@ public class InventoryItemDisplayer : MonoBehaviour, IBeginDragHandler ,IDragHan
         _slot = slot;
     }
 
-    public void Init(InventorySlotDisplayer slot, InventoryItem item)
+    public void Init(InventorySlotDisplayer slot, InventoryCell cell)
     {
         Init(slot);
-        InventoryItem = new InventoryItem(item);
+        InventoryCell = new InventoryCell(cell);
         DisplayData();
     }
 
@@ -55,8 +55,8 @@ public class InventoryItemDisplayer : MonoBehaviour, IBeginDragHandler ,IDragHan
         _itemIcon.raycastTarget = true;
     }
 
-    private void SetInventoryCellData(InventoryItem item)
-        => _slot.Inventory.SetItemAt(_slot.Index, item);
+    private void SetInventoryCellData(InventoryCell cell)
+        => _slot.Inventory.SetItemAt(_slot.Index, cell);
     
     private void DestroyCell()
     {
@@ -66,33 +66,33 @@ public class InventoryItemDisplayer : MonoBehaviour, IBeginDragHandler ,IDragHan
     
     private void DisplayData()
     {
-        _itemIcon.sprite = InventoryItem.Item.Icon;
-        _countText.text = InventoryItem.Count.ToString();
+        _itemIcon.sprite = InventoryCell.Item.Icon;
+        _countText.text = InventoryCell.Count.ToString();
     }
 
     public void SetCount(int value)
     {
-        InventoryItem.Count = value;
+        InventoryCell.Count = value;
         DisplayData();
-        SetInventoryCellData(InventoryItem);
+        SetInventoryCellData(InventoryCell);
     }
     
     public void MinusCount(int value)
     {
-        InventoryItem.Count -= value;
-        if (InventoryItem.Count <= 0)
+        InventoryCell.Count -= value;
+        if (InventoryCell.Count <= 0)
         {
             DestroyCell();
             return;
         }
         DisplayData();
-        SetInventoryCellData(InventoryItem);
+        SetInventoryCellData(InventoryCell);
     }
     
     public void AddCount(int value)
     {
-        InventoryItem.Count += value;
+        InventoryCell.Count += value;
         DisplayData();
-        SetInventoryCellData(InventoryItem);
+        SetInventoryCellData(InventoryCell);
     }
 }

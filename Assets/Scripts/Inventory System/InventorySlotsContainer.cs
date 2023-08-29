@@ -4,9 +4,16 @@ using UnityEngine;
 [RequireComponent(typeof(InventoryCellsDisplayer))]
 public class InventorySlotsContainer : MonoBehaviour
 {
+    public static InventorySlotsContainer singleton; 
     [SerializeField] private InventoryCellsDisplayer _cellsDisplayer;
-    [field: SerializeField] public List<InventoryItem> Cells { get; private set; }
+    [field: SerializeField] public List<InventoryCell> Cells { get; private set; }
     [SerializeField] private Item _testItem;
+
+    private void Awake()
+    {
+        gameObject.tag = "Inventory";
+        singleton = this;
+    }
 
     private void Start()
     {
@@ -26,7 +33,7 @@ public class InventorySlotsContainer : MonoBehaviour
         Cells[index].Count = 0;
     }
 
-    public void SetItemAt(int index, InventoryItem item)
+    public void SetItemAt(int index, InventoryCell cell)
     {
         if (index >= Cells.Count)
         {
@@ -34,11 +41,8 @@ public class InventorySlotsContainer : MonoBehaviour
             return;
         }
 
-        Cells[index] = new InventoryItem(item);
+        Cells[index] = new InventoryCell(cell);
     }
-
-    private void Awake()
-        => gameObject.tag = "Inventory";
 
     private void SetItemCount(int index, int count)
     {
@@ -66,7 +70,7 @@ public class InventorySlotsContainer : MonoBehaviour
         foreach (var cell in Cells)
         {
             index++;
-            if(cell.Item == null || cell.Item.ID != item.ID) continue;
+            if(cell.Item == null || cell.Item.Id != item.Id) continue;
             int sum = currentCount + cell.Count;
             if (sum < cell.Item.StackCount)
             {
@@ -81,17 +85,59 @@ public class InventorySlotsContainer : MonoBehaviour
 
     public void AddItemToDesiredSlot(Item item, int count)
     {
-        GlobalEventsContainer.InventoryItemAdded?.Invoke(new InventoryItem(item, count));
+        GlobalEventsContainer.InventoryItemAdded?.Invoke(new InventoryCell(item, count));
         int resCount = TrySetItemToSimilar(item, count);
-        if(resCount == 0) return;
-        int cellIndex = GetFreeItemCellIndex();
-        Cells[cellIndex] = new InventoryItem(item, resCount);
-        _cellsDisplayer.DisplayCellAt(cellIndex);
+        if(resCount > 0)
+        {
+            int cellIndex = GetFreeItemCellIndex();
+            Cells[cellIndex] = new InventoryCell(item, resCount);
+            _cellsDisplayer.DisplayCellAt(cellIndex);
+        }
+        GlobalEventsContainer.InventoryDataChanged?.Invoke();
     }
     
     [ContextMenu("Test Add Item")]
     private void TestAdd()
     {
         AddItemToDesiredSlot(_testItem, 10);
+    }
+
+    public int GetItemCount(Item item)
+    {
+        int count = 0;
+        foreach (var cell in Cells)
+        {
+            if (cell.Item == null) continue;
+            if (cell.Item.Id == item.Id)
+                count += cell.Count;
+        }
+        return count;
+    }
+
+    private int GetMinusItemFromCellWithDifference(int count, InventoryCell cell)
+    {
+        if (count > cell.Count)
+        {
+            Cells.Remove(cell);
+            return count - cell.Count;
+        }
+
+        cell.Count -= count;
+        return 0;
+    }
+    
+    public void DeleteSlot(Item item, int count)
+    {
+        int currentCount = count;
+
+        foreach (var cell in Cells)
+        {
+            if(cell.Item == null) continue;
+            if(cell.Item.Id == item.Id)
+                currentCount = GetMinusItemFromCellWithDifference(currentCount, cell);
+            if(currentCount == 0)
+                break;
+        }
+        GlobalEventsContainer.InventoryDataChanged?.Invoke();
     }
 }
