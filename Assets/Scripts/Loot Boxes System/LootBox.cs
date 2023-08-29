@@ -1,11 +1,17 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class LootBox : MonoBehaviour
 {
+    [SerializeField] private 
+    [SerializeField] private LootBoxGeneratingSet _set;
+
+    private void GenerateItems(Transform place)
+    {
+        
+    }
+    
     public void Open()
     {
-        Debug.Log("Opened");
+        InventoryCellsDisplayer.singleton.OpenLootBoxPanel();
     }
 }

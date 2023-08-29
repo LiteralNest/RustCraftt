@@ -462,33 +462,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1518584367}
-        m_TargetAssemblyTypeName: PanelsHandler, Assembly-CSharp
-        m_MethodName: TurnOnPanel
-        m_Mode: 2
-        m_Arguments:
-          m_ObjectArgument: {fileID: 513126569}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 1518584367}
-        m_TargetAssemblyTypeName: PanelsHandler, Assembly-CSharp
-        m_MethodName: TurnOffPanel
-        m_Mode: 2
-        m_Arguments:
-          m_ObjectArgument: {fileID: 590239868}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 1518584367}
-        m_TargetAssemblyTypeName: PanelsHandler, Assembly-CSharp
-        m_MethodName: SetCanDragInventoryItems
+      - m_Target: {fileID: 842142109}
+        m_TargetAssemblyTypeName: InventoryCellsDisplayer, Assembly-CSharp
+        m_MethodName: HandleInventory
         m_Mode: 6
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -5159,8 +5135,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 842142108}
-  - component: {fileID: 842142107}
   - component: {fileID: 842142109}
+  - component: {fileID: 842142107}
   m_Layer: 0
   m_Name: Inventory
   m_TagString: Untagged
@@ -5258,7 +5234,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cf6323d078d8cfa45bb40c351f43e419, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  slotsContainer: {fileID: 842142107}
+  _mainButtonsPanel: {fileID: 513126569}
+  _armorPanel: {fileID: 959259601}
+  _lootBoxPanel: {fileID: 885837092}
+  _inventoryPanel: {fileID: 590239868}
+  _slotsContainer: {fileID: 842142107}
   _itemDisplayerPrefab: {fileID: 2785422814213238586, guid: 002d21339cd3c4b44b1ddac59aa8e5b6, type: 3}
   _cellDisplayers:
   - {fileID: 224699230}
@@ -5462,12 +5442,12 @@ GameObject:
   - component: {fileID: 885837093}
   - component: {fileID: 885837094}
   m_Layer: 5
-  m_Name: Target Object Slots
+  m_Name: Loot Box Panel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &885837093
 RectTransform:
   m_ObjectHideFlags: 0
@@ -6384,12 +6364,12 @@ GameObject:
   - component: {fileID: 959259604}
   - component: {fileID: 959259603}
   m_Layer: 5
-  m_Name: Player Equip
+  m_Name: Armor Panel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &959259602
 RectTransform:
   m_ObjectHideFlags: 0
@@ -7516,6 +7496,7 @@ MonoBehaviour:
   <TargetResourceOre>k__BackingField: {fileID: 0}
   <TargetGathering>k__BackingField: {fileID: 0}
   <TargetBox>k__BackingField: {fileID: 0}
+  _lootText: {fileID: 1429371353}
   _maxOreHitDistance: 3
   _maxGatheringDistance: 5
   _maxLootBoxDistance: 5
@@ -8874,7 +8855,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1429371352
 RectTransform:
   m_ObjectHideFlags: 0
@@ -13039,41 +13020,17 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1518584367}
-        m_TargetAssemblyTypeName: PanelsHandler, Assembly-CSharp
-        m_MethodName: TurnOnPanel
-        m_Mode: 2
-        m_Arguments:
-          m_ObjectArgument: {fileID: 590239868}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 1518584367}
-        m_TargetAssemblyTypeName: PanelsHandler, Assembly-CSharp
-        m_MethodName: TurnOffPanel
-        m_Mode: 2
-        m_Arguments:
-          m_ObjectArgument: {fileID: 513126569}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 1518584367}
-        m_TargetAssemblyTypeName: PanelsHandler, Assembly-CSharp
-        m_MethodName: SetCanDragInventoryItems
-        m_Mode: 6
+      - m_Target: {fileID: 842142109}
+        m_TargetAssemblyTypeName: InventoryCellsDisplayer, Assembly-CSharp
+        m_MethodName: OpenArmorPanel
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
-          m_BoolArgument: 1
+          m_BoolArgument: 0
         m_CallState: 2
 --- !u!114 &2015394539
 MonoBehaviour:

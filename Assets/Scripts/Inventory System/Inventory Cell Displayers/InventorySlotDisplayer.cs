@@ -31,27 +31,27 @@ public class InventorySlotDisplayer : MonoBehaviour, IDropHandler
 
     public void OnDrop(PointerEventData eventData)
     {
-        InventoryItemDisplayer itemDisplayer = eventData.pointerDrag.GetComponent<InventoryItemDisplayer>();
-        if (itemDisplayer == null) return;
+        InventoryItemDisplayer newItemDisplayer = eventData.pointerDrag.GetComponent<InventoryItemDisplayer>();
+        if (newItemDisplayer == null) return;
         if (ItemDisplayer == null)
         {
-            AddItem(itemDisplayer);
+            AddItem(newItemDisplayer);
             return;
         }
 
-        int togetherCount = ItemDisplayer.InventoryCell.Count + itemDisplayer.InventoryCell.Count;
-        if (ItemDisplayer.InventoryCell.Item.Id == itemDisplayer.InventoryCell.Item.Id)
+        int togetherCount = ItemDisplayer.InventoryCell.Count + newItemDisplayer.InventoryCell.Count;
+        if (ItemDisplayer.InventoryCell.Item.Id == newItemDisplayer.InventoryCell.Item.Id)
         {
             if (togetherCount >= ItemDisplayer.InventoryCell.Item.StackCount)
             {
-                int diff = togetherCount - itemDisplayer.InventoryCell.Item.StackCount;
-                itemDisplayer.SetCount(diff);
+                int diff = togetherCount - newItemDisplayer.InventoryCell.Item.StackCount;
+                newItemDisplayer.SetCount(diff);
                 ItemDisplayer.SetCount(togetherCount - diff);
                 return;
             }
 
-            ItemDisplayer.AddCount(itemDisplayer.InventoryCell.Count);
-            itemDisplayer.MinusCount(itemDisplayer.InventoryCell.Count);
+            ItemDisplayer.AddCount(newItemDisplayer.InventoryCell.Count);
+            newItemDisplayer.MinusCount(newItemDisplayer.InventoryCell.Count);
         }
     }
 }

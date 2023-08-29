@@ -1,22 +1,31 @@
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 [RequireComponent(typeof(InventoryCellsDisplayer))]
 public class InventoryCellsDisplayer : MonoBehaviour
 {
-    [FormerlySerializedAs("_cellsContainer")]
-    [Header("Attached Scripts")]
-    [SerializeField] private InventorySlotsContainer slotsContainer;
+    public static InventoryCellsDisplayer singleton;
 
-    [Header("Start Init")] [SerializeField]
-    private InventoryItemDisplayer _itemDisplayerPrefab;
+    [Header("UI")] 
+    [SerializeField] private GameObject _mainButtonsPanel;
+    [SerializeField] private GameObject _armorPanel;
+    [SerializeField] private GameObject _lootBoxPanel;
+    [SerializeField] private GameObject _inventoryPanel;
+
+    [Header("Attached Scripts")]
+    [SerializeField] private InventorySlotsContainer _slotsContainer;
+
+    [Header("Start Init")] 
+    [SerializeField] private InventoryItemDisplayer _itemDisplayerPrefab;
     [SerializeField] private List<InventorySlotDisplayer> _cellDisplayers = new List<InventorySlotDisplayer>();
+
+    private void Awake()
+        => singleton = this;
     
     private void Start()
     {
-        if (slotsContainer == null)
-            slotsContainer = GetComponent<InventorySlotsContainer>();
+        if (_slotsContainer == null)
+            _slotsContainer = GetComponent<InventorySlotsContainer>();
     }
 
     private void CreateCell(InventoryCell cell, int index)
@@ -33,7 +42,7 @@ public class InventoryCellsDisplayer : MonoBehaviour
     public void DisplayCells()
     {
         int counter = 0;
-        foreach (var item in slotsContainer.Cells)
+        foreach (var item in _slotsContainer.Cells)
         {
             counter++;
             _cellDisplayers[counter - 1].Index = counter - 1;
@@ -50,6 +59,28 @@ public class InventoryCellsDisplayer : MonoBehaviour
             return;
         }
 
-        CreateCell(slotsContainer.Cells[index], index);
+        CreateCell(_slotsContainer.Cells[index], index);
+    }
+
+    public void HandleInventory(bool isOpen)
+    {
+        _mainButtonsPanel.SetActive(!isOpen);
+        _inventoryPanel.SetActive(isOpen);
+        GlobalValues.CanDragInventoryItems = isOpen;
+        GlobalValues.CanLookAround = !isOpen;
+    }
+
+    public void OpenArmorPanel()
+    {
+        HandleInventory(true);
+        _armorPanel.SetActive(true);
+        _lootBoxPanel.SetActive(false);
+    }
+
+    public void OpenLootBoxPanel()
+    {
+        HandleInventory(true);
+        _armorPanel.SetActive(false);
+        _lootBoxPanel.SetActive(true);
     }
 }
