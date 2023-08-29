@@ -69,7 +69,6 @@ public class PlayerRotator : MonoBehaviour, IDragHandler, IPointerDownHandler
     {
         _touchEndPos = eventData.position;
         Vector2 touchDelta = _touchEndPos - _touchStartPos;
-        Debug.Log(touchDelta.x + " " + touchDelta.y);       
         float rotationX = touchDelta.x * _rotationSpeed * Time.deltaTime;
         float rotationY = touchDelta.y * _rotationSpeed * Time.deltaTime;
 
