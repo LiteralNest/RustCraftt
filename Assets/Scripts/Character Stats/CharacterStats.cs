@@ -1,0 +1,75 @@
+using UnityEngine;
+
+[RequireComponent(typeof(CharacterStatsDisplayer))]
+public class CharacterStats : MonoBehaviour
+{
+   public static CharacterStats singleton { get; private set; }
+
+   [SerializeField] private CharacterStatsDisplayer _statsDisplayer;
+
+   [field:SerializeField] public float Health { get; private set; }
+   [field:SerializeField] public float Food { get; private set; }
+   [field:SerializeField] public float Water { get; private set; }
+
+   private void Awake()
+   {
+      if (_statsDisplayer == null)
+         _statsDisplayer = GetComponent<CharacterStatsDisplayer>();
+      singleton = this;
+   }
+   
+   
+   private float GetAddedStat(float stat, float addingValue)
+   {
+      float res = stat + addingValue;
+      if(res > 100)
+         res = 100;
+      return res;
+   }
+   
+   public void PlusStat(CharacterStatType type, float value)
+   {
+      switch (type)
+      {
+         case CharacterStatType.Health:
+            Health = GetAddedStat(Health, value);
+            _statsDisplayer.DisplayHp((int)Health);
+            break;
+         case CharacterStatType.Food:
+            Food = GetAddedStat(Food, value);
+            _statsDisplayer.DisplayFood((int)Food);
+            break;
+         case CharacterStatType.Water:
+            Water = GetAddedStat(Water, value);
+            _statsDisplayer.DisplayWater((int)Water);
+            break;
+      }
+   }
+   
+   private float GetSubstractedStat(float stat, float substractingValue)
+   {
+      float res = stat - substractingValue;
+      if(res < 0)
+         res = 0;
+      return res;
+   }
+   
+   public void MinusStat(CharacterStatType type, float value)
+   {
+      switch (type)
+      {
+         case CharacterStatType.Health:
+            Health = GetSubstractedStat(Health, value);
+            _statsDisplayer.DisplayHp((int)Health);
+            break;
+         case CharacterStatType.Food:
+            Food = GetSubstractedStat(Food, value);
+            _statsDisplayer.DisplayFood((int)Food);
+            break;
+         case CharacterStatType.Water:
+            Water = GetSubstractedStat(Water, value);
+            _statsDisplayer.DisplayWater((int)Water);
+            break;
+      }
+   }
+}
