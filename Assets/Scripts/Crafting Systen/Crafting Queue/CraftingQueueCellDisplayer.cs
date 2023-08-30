@@ -13,7 +13,7 @@ public class CraftingQueueCellDisplayer : MonoBehaviour, IPointerDownHandler
     [SerializeField] private Image _displayingIcon;
 
     [SerializeField] private List<CraftingItemDataTableSlot> _reservedSlotsForOneItem;
-
+    
     public bool Creating { get; private set; }
     
     private CraftingQueue _queue;
@@ -35,13 +35,13 @@ public class CraftingQueueCellDisplayer : MonoBehaviour, IPointerDownHandler
     private void DeleteItemsFromInventory()
     {
         foreach (var slot in _reservedSlotsForOneItem)
-            InventorySlotsContainer.singleton.DeleteSlot(slot.Resource, slot.Count * _count);
+            InventoryHandler.singleton.InventorySlotsContainer.DeleteSlot(slot.Resource, slot.Count * _count);
     }
     
     private void ReturnItemsToInventory()
     {
         foreach (var slot in _reservedSlotsForOneItem)
-            InventorySlotsContainer.singleton.AddItemToDesiredSlot(slot.Resource, slot.Count * _count);
+            InventoryHandler.singleton.InventorySlotsContainer.AddItemToDesiredSlot(slot.Resource, slot.Count * _count);
     }
     
     private void DisplayTimeText(int time)
@@ -66,7 +66,7 @@ public class CraftingQueueCellDisplayer : MonoBehaviour, IPointerDownHandler
                 yield return new WaitForSeconds(1);
                 _queue.DisplayAlert(_craftingItem, _count, i);
             }
-            InventorySlotsContainer.singleton.AddItemToDesiredSlot(_craftingItem,1);
+            InventoryHandler.singleton.InventorySlotsContainer.AddItemToDesiredSlot(_craftingItem,1);
             _count--;
             DisplayCountText();
         }

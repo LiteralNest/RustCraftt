@@ -8,7 +8,6 @@ public class PlayerResourcesGatherer : MonoBehaviour
     [SerializeField] private ObjectsRayCaster _objectsRayCaster;
     
     [Header("Ore")]
-    [SerializeField] private InventorySlotsContainer _inventory;
     [SerializeField] private float _recoveringSpeed = 0.3f;
     [SerializeField] private bool _canHit = true;
     
@@ -50,7 +49,7 @@ public class PlayerResourcesGatherer : MonoBehaviour
         Recover();
         var ore = _objectsRayCaster.TargetResourceOre;
         if(ore == null) return;
-        ore.MinusHp(_inventory);
+        ore.MinusHp();
     }
 
     private bool TryOpenChest()
@@ -66,6 +65,6 @@ public class PlayerResourcesGatherer : MonoBehaviour
         if(TryOpenChest()) return;
         var ore = _objectsRayCaster.TargetGathering;
         if(ore == null) return;
-        ore.Gather(_inventory);
+        ore.Gather();
     }
 }

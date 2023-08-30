@@ -1,27 +1,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(InventoryCellsDisplayer))]
-public class InventorySlotsContainer : MonoBehaviour
+[RequireComponent(typeof(InventorySlotsDisplayer))]
+public abstract class SlotsContainer : MonoBehaviour
 {
-    public static InventorySlotsContainer singleton; 
-    [SerializeField] private InventoryCellsDisplayer _cellsDisplayer;
+    [SerializeField] protected InventorySlotsDisplayer _cellsDisplayer;
     [field: SerializeField] public List<InventoryCell> Cells { get; private set; }
-    [SerializeField] private Item _testItem;
 
-    private void Awake()
-    {
-        gameObject.tag = "Inventory";
-        singleton = this;
-    }
+    #region virtual
 
-    private void Start()
-    {
-        if (_cellsDisplayer == null)
-            _cellsDisplayer = GetComponent<InventoryCellsDisplayer>();
-    }
-
-    public void ResetItemAt(int index)
+    public virtual void ResetItemAt(int index)
     {
         if (index >= Cells.Count)
         {
@@ -31,6 +19,48 @@ public class InventorySlotsContainer : MonoBehaviour
 
         Cells[index].Item = null;
         Cells[index].Count = 0;
+    }
+    
+    public virtual void AddItemToDesiredSlot(Item item, int count)
+    {
+        int resCount = TrySetItemToSimilar(item, count);
+        if(resCount > 0)
+        {
+            int cellIndex = GetFreeItemCellIndex();
+            Cells[cellIndex] = new InventoryCell(item, resCount);
+            _cellsDisplayer.DisplayCellAt(cellIndex);
+        }
+    }
+    
+    public virtual void DeleteSlot(Item item, int count)
+    {
+        int currentCount = count;
+
+        foreach (var cell in Cells)
+        {
+            if(cell.Item == null) continue;
+            if(cell.Item.Id == item.Id)
+                currentCount = GetMinusItemFromCellWithDifference(currentCount, cell);
+            if(currentCount == 0)
+                break;
+        }
+    }
+
+    #endregion
+
+    protected void ResetCells()
+    {
+        foreach (var cell in Cells)
+        {
+            cell.Count = 0;
+            cell.Item = null;
+        }
+    }
+    
+    private void Start()
+    {
+        if (_cellsDisplayer == null)
+            _cellsDisplayer = GetComponent<InventorySlotsDisplayer>();
     }
 
     public void SetItemAt(int index, InventoryCell cell)
@@ -58,7 +88,6 @@ public class InventorySlotsContainer : MonoBehaviour
             if (cell.Item == null) return index;
             index++;
         }
-        
         return -1;
     }
 
@@ -82,25 +111,7 @@ public class InventorySlotsContainer : MonoBehaviour
         }
         return currentCount;
     }
-
-    public void AddItemToDesiredSlot(Item item, int count)
-    {
-        GlobalEventsContainer.InventoryItemAdded?.Invoke(new InventoryCell(item, count));
-        int resCount = TrySetItemToSimilar(item, count);
-        if(resCount > 0)
-        {
-            int cellIndex = GetFreeItemCellIndex();
-            Cells[cellIndex] = new InventoryCell(item, resCount);
-            _cellsDisplayer.DisplayCellAt(cellIndex);
-        }
-        GlobalEventsContainer.InventoryDataChanged?.Invoke();
-    }
     
-    [ContextMenu("Test Add Item")]
-    private void TestAdd()
-    {
-        AddItemToDesiredSlot(_testItem, 10);
-    }
 
     public int GetItemCount(Item item)
     {
@@ -124,20 +135,5 @@ public class InventorySlotsContainer : MonoBehaviour
 
         cell.Count -= count;
         return 0;
-    }
-    
-    public void DeleteSlot(Item item, int count)
-    {
-        int currentCount = count;
-
-        foreach (var cell in Cells)
-        {
-            if(cell.Item == null) continue;
-            if(cell.Item.Id == item.Id)
-                currentCount = GetMinusItemFromCellWithDifference(currentCount, cell);
-            if(currentCount == 0)
-                break;
-        }
-        GlobalEventsContainer.InventoryDataChanged?.Invoke();
     }
 }

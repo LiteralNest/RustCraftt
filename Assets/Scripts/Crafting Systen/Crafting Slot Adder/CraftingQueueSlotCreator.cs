@@ -1,14 +1,14 @@
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class CraftingQueueSlotCreator : MonoBehaviour
 {
     [Header("Start Init")]
     [SerializeField] private int _currentCount = 1;
     
-    [Header("Attached Scripts")] [SerializeField]
-    private InventorySlotsContainer _inventorySlots;
+    [FormerlySerializedAs("_inventorySlots")] [Header("Attached Scripts")]
     [SerializeField] private CraftingQueue _craftingQueue;
     [SerializeField] private CraftingItemDataDisplayer _craftingItemDataDisplayer;
     [SerializeField] private CraftingItemDataTableSlotsContainer _craftingItemDataTableSlotsContainer;
@@ -33,8 +33,6 @@ public class CraftingQueueSlotCreator : MonoBehaviour
             _craftingItemDataDisplayer = FindObjectOfType<CraftingItemDataDisplayer>();
         if(_craftingItemDataTableSlotsContainer == null)
             _craftingItemDataTableSlotsContainer = FindObjectOfType<CraftingItemDataTableSlotsContainer>();
-        if (_inventorySlots == null)
-            _inventorySlots = FindObjectOfType<InventorySlotsContainer>();
         if (_slotsContainer == null)
             _slotsContainer = GetComponent<CraftingItemDataTableSlotsContainer>();
     }

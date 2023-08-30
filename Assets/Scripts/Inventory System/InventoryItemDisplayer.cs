@@ -10,21 +10,21 @@ public class InventoryItemDisplayer : MonoBehaviour, IBeginDragHandler ,IDragHan
     
     private InventorySlotDisplayer _slot;
     public InventoryCell InventoryCell { get; private set; }
-
-    public void Init(InventorySlotDisplayer slot)
+    private SlotsContainer _slotsContainer;
+    public void Init(InventorySlotDisplayer slot, SlotsContainer slotsContainer)
     {
         if (_slot != null)
             _slot.ClearItem();
-
+        _slotsContainer = slotsContainer;
         Transform cellTransform = slot.transform;
         transform.position = cellTransform.position;
         transform.SetParent(cellTransform);
         _slot = slot;
     }
 
-    public void Init(InventorySlotDisplayer slot, InventoryCell cell)
+    public void Init(InventorySlotDisplayer slot, InventoryCell cell, SlotsContainer slotsContainer)
     {
-        Init(slot);
+        Init(slot, slotsContainer);
         InventoryCell = new InventoryCell(cell);
         DisplayData();
     }

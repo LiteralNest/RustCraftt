@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class CraftingItemDataTableSlotsContainer : MonoBehaviour
 {
@@ -8,6 +9,7 @@ public class CraftingItemDataTableSlotsContainer : MonoBehaviour
     [SerializeField] private Transform _placeForSlots;
     [SerializeField] private int _slotsCount = 3;
     
+    [FormerlySerializedAs("_inventorySlotsContainer")]
     [Header("Attached Scripts")]
     [SerializeField] private CraftingItemDataTableSlotDisplayer _slotsDisplayer;
 

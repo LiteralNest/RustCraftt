@@ -1,43 +1,25 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class InventorySlotDisplayer : MonoBehaviour, IDropHandler
+public class InventorySlotDisplayer : SlotDisplayer
 {
-    [field:SerializeField] public InventorySlotsContainer Inventory { get; private set; }
-    [field:SerializeField] public int Index { get; set; }
-    [field: SerializeField] public InventoryItemDisplayer ItemDisplayer { get; private set; }
-    
-    private void Start()
-    {
-        if (Inventory == null)
-            Inventory = GameObject.FindGameObjectWithTag("Inventory").GetComponent<InventorySlotsContainer>();
-    }
-    
-    public void Init(InventoryItemDisplayer itemDisplayer)
-        => ItemDisplayer = itemDisplayer;
-
-    public void ClearItem()
+    public override void ClearItem()
     {
         Inventory.ResetItemAt(Index);
         ItemDisplayer = null;
     }
  
-    public void AddItem(InventoryItemDisplayer item)
+    protected override void AddItem(InventoryItemDisplayer item)
     {
         ItemDisplayer = item;
-        item.Init(this);
+        item.Init(this, Inventory);
         Inventory.SetItemAt(Index, item.InventoryCell);
     }
 
-    public void OnDrop(PointerEventData eventData)
+    protected override void Drop(PointerEventData eventData)
     {
         InventoryItemDisplayer newItemDisplayer = eventData.pointerDrag.GetComponent<InventoryItemDisplayer>();
-        if (newItemDisplayer == null) return;
-        if (ItemDisplayer == null)
-        {
-            AddItem(newItemDisplayer);
-            return;
-        }
+        if(TryAddToFreeSlot(newItemDisplayer)) return;
 
         int togetherCount = ItemDisplayer.InventoryCell.Count + newItemDisplayer.InventoryCell.Count;
         if (ItemDisplayer.InventoryCell.Item.Id == newItemDisplayer.InventoryCell.Item.Id)

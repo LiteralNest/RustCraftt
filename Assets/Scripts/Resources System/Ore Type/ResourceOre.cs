@@ -10,11 +10,11 @@ public class ResourceOre : Ore
         _currentHp = _hp;
     }
     
-    public async void MinusHp(InventorySlotsContainer inventory)
+    public async void MinusHp()
     {
         if(_currentHp <= 0) return;
         _currentHp--;
-        inventory.AddItemToDesiredSlot(_targetResource, 2);
+        InventoryHandler.singleton.InventorySlotsContainer.AddItemToDesiredSlot(_targetResource, 2);
         if(_currentHp > 0) return;
         await Destroy();
         _currentHp = _hp;
