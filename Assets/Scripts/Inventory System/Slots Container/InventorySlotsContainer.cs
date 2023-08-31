@@ -1,12 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
 public class InventorySlotsContainer : SlotsContainer
 {
-    [Header("Test")]
-    [SerializeField] private Item _testItem;
-    
+
     public override void AddItemToDesiredSlot(Item item, int count)
     {
         GlobalEventsContainer.InventoryItemAdded?.Invoke(new InventoryCell(item, count));
@@ -19,10 +13,10 @@ public class InventorySlotsContainer : SlotsContainer
         base.DeleteSlot(item, count);
         GlobalEventsContainer.InventoryDataChanged?.Invoke();
     }
-    
-    [ContextMenu("Test Add Item")]
-    private void TestAdd()
+
+    public override void RemoveItemCountAt(Item item, int count, int index)
     {
-        AddItemToDesiredSlot(_testItem, 10);
+        base.RemoveItemCountAt(item, count, index);
+        GlobalEventsContainer.InventoryItemRemoved?.Invoke(new InventoryCell(item, count));
     }
 }

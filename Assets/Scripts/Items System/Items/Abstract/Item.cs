@@ -10,5 +10,5 @@ public abstract class Item : ScriptableObject
     [field: SerializeField] public int TimeForCreating;
     [field: SerializeField] public int StackCount = 1000;
 
-    public abstract void Click(InventoryHandler handler);
+    public abstract void Click(QuickSlotDisplayer slotDisplayer, InventoryHandler handler,out bool shouldMinus);
 }

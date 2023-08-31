@@ -6,8 +6,8 @@ public class CraftingItem : Item
 {
    [field: SerializeField] public List<CraftingItemDataTableSlot> NeededSlots;
    
-   public override void Click(InventoryHandler handler)
+   public override void Click(QuickSlotDisplayer slotDisplayer, InventoryHandler handler, out bool shouldMinus)
    {
-      throw new System.NotImplementedException();
+      shouldMinus = false;
    }
 }

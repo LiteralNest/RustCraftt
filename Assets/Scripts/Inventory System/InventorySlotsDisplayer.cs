@@ -62,6 +62,17 @@ public class InventorySlotsDisplayer : MonoBehaviour
         CreateCell(_slotsContainer.Cells[index], index);
     }
 
+    public void DeleteCellAt(int index)
+    {
+        if (index >= _cellDisplayers.Count)
+        {
+            Debug.LogError("Index out of range " + index);
+            return;
+        }
+
+        _cellDisplayers[index].DeleteItem();
+    }
+
     public void ResetCells()
     {
         foreach (var cellDisplayer in _cellDisplayers)

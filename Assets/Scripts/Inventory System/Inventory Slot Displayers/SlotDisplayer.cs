@@ -5,7 +5,7 @@ public abstract class SlotDisplayer : MonoBehaviour, IDropHandler
 {
     [field: SerializeField] public int Index { get; set; }
     [field: SerializeField] public InventoryItemDisplayer ItemDisplayer { get; protected set; }
-    [field:SerializeField] public SlotsContainer Inventory { get; private set; }
+    [field: SerializeField] public SlotsContainer Inventory { get; private set; }
     protected abstract void Drop(PointerEventData eventData);
     protected abstract void AddItem(InventoryItemDisplayer item);
 
@@ -14,7 +14,7 @@ public abstract class SlotDisplayer : MonoBehaviour, IDropHandler
 
     public void Init(SlotsContainer slotsContainer)
         => Inventory = slotsContainer;
-    
+
     public void Init(InventoryItemDisplayer itemDisplayer)
     {
         ItemDisplayer = itemDisplayer;
@@ -32,5 +32,22 @@ public abstract class SlotDisplayer : MonoBehaviour, IDropHandler
         }
 
         return false;
+    }
+
+    private void ClearPlace(Transform place)
+    {
+        for (int i = 0; i < place.childCount; i++)
+        {
+            var child = place.GetChild(i);
+            if(!child.TryGetComponent(out InventoryItemDisplayer itemDisplayer)) continue;
+            Destroy(child.gameObject);
+            i--;
+        }
+    }
+    
+    public void DeleteItem()
+    {
+        ClearItem();
+        ClearPlace(transform);
     }
 }

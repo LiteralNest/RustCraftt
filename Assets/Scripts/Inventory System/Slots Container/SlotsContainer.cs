@@ -7,6 +7,12 @@ public abstract class SlotsContainer : MonoBehaviour
     [SerializeField] protected InventorySlotsDisplayer _cellsDisplayer;
     [field: SerializeField] public List<InventoryCell> Cells { get; private set; }
 
+    private void Start()
+    {
+        if (_cellsDisplayer == null)
+            _cellsDisplayer = GetComponent<InventorySlotsDisplayer>();
+    }
+    
     #region virtual
 
     public virtual void ResetItemAt(int index)
@@ -36,11 +42,12 @@ public abstract class SlotsContainer : MonoBehaviour
     {
         int currentCount = count;
 
-        foreach (var cell in Cells)
+        for (int i = 0; i < Cells.Count; i++)
         {
+            var cell = Cells[i];
             if(cell.Item == null) continue;
             if(cell.Item.Id == item.Id)
-                currentCount = GetMinusItemFromCellWithDifference(currentCount, cell);
+                currentCount = GetMinusItemFromCellWithDifference(i, currentCount, cell);
             if(currentCount == 0)
                 break;
         }
@@ -56,12 +63,6 @@ public abstract class SlotsContainer : MonoBehaviour
             cell.Item = null;
         }
     }
-    
-    private void Start()
-    {
-        if (_cellsDisplayer == null)
-            _cellsDisplayer = GetComponent<InventorySlotsDisplayer>();
-    }
 
     public void SetItemAt(int index, InventoryCell cell)
     {
@@ -74,6 +75,20 @@ public abstract class SlotsContainer : MonoBehaviour
         Cells[index] = new InventoryCell(cell);
     }
 
+    public virtual void RemoveItemCountAt(Item item, int count, int index)
+    {
+        if (index >= Cells.Count)
+        {
+            Debug.LogError("Index out of range " + index);
+            return;
+        }
+         var cell =  Cells[index];
+         cell.Count -= count;
+         _cellsDisplayer.DisplayCellAt(index);
+         if(cell.Count > 0) return;
+         _cellsDisplayer.DeleteCellAt(index);
+    }
+    
     private void SetItemCount(int index, int count)
     {
         Cells[index].Count = count;
@@ -112,7 +127,6 @@ public abstract class SlotsContainer : MonoBehaviour
         return currentCount;
     }
     
-
     public int GetItemCount(Item item)
     {
         int count = 0;
@@ -125,10 +139,11 @@ public abstract class SlotsContainer : MonoBehaviour
         return count;
     }
 
-    private int GetMinusItemFromCellWithDifference(int count, InventoryCell cell)
+    private int GetMinusItemFromCellWithDifference(int index, int count, InventoryCell cell)
     {
-        if (count > cell.Count)
+        if (count >= cell.Count)
         {
+            _cellsDisplayer.DeleteCellAt(index);
             Cells.Remove(cell);
             return count - cell.Count;
         }

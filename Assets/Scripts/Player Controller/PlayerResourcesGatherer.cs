@@ -4,7 +4,8 @@ using UnityEngine;
 [RequireComponent(typeof(ObjectsRayCaster))]
 public class PlayerResourcesGatherer : MonoBehaviour
 {
-    [Header("Attached Scripts")]
+    [Header("Attached Scripts")] [SerializeField]
+    private InventoryHandler _inventoryHandler;
     [SerializeField] private ObjectsRayCaster _objectsRayCaster;
     
     [Header("Ore")]
@@ -49,7 +50,7 @@ public class PlayerResourcesGatherer : MonoBehaviour
         Recover();
         var ore = _objectsRayCaster.TargetResourceOre;
         if(ore == null) return;
-        ore.MinusHp();
+        ore.MinusHp(_inventoryHandler.ActiveItem);
     }
 
     private bool TryOpenChest()

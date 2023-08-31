@@ -7,7 +7,8 @@ public class Ore : MonoBehaviour
     [SerializeField] private float _recoveringSpeed;
     [SerializeField] protected Resource _targetResource;
     [SerializeField] private List<Renderer> _renderers;
-
+    
+    
     public bool Recovering { get; protected set; } = false;
 
     private void TurnRenderers(bool value)
