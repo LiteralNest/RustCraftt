@@ -1,10 +1,12 @@
+using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Serialization;
 
 public class ObjectsRayCaster : MonoBehaviour
 {
-    [Header("UI")] [SerializeField] private TMP_Text _obtainText;
+    [Header("UI")] [SerializeField] private GameObject _pointPanel;
+    [SerializeField] private TMP_Text _obtainText;
     [SerializeField] private GameObject _lootButton;
     [SerializeField] private TMP_Text _lootButtonText;
     
@@ -16,12 +18,12 @@ public class ObjectsRayCaster : MonoBehaviour
     public ResourceOre TargetResourceOre { get; private set; }
     public GatheringOre TargetGathering { get; private set; }
     public LootBox TargetBox { get; private set; }
-    
+
     private void FixedUpdate()
     {
         TryRaycastTargets();
     }
-    
+
     private bool TryRaycast<T>(string tag, float hitDistance, out T target)
     {
         target = default;
@@ -32,8 +34,7 @@ public class ObjectsRayCaster : MonoBehaviour
         {
             GameObject hitObject = hitInfo.collider.gameObject;
             if(!hitObject.CompareTag(tag)) return false;
-            if (!hitObject.TryGetComponent(out T ore)) return false;
-            target = ore;
+            target = hitObject.GetComponent<T>();
             return true;
         }
 
@@ -41,23 +42,28 @@ public class ObjectsRayCaster : MonoBehaviour
     }
     
 
-    private void SetLootText(string text)
+    private void SetLootText(string text, bool active = true)
     {
-        if (!_obtainText.gameObject.activeSelf)
-            _obtainText.gameObject.SetActive(true);
+        _pointPanel.SetActive(!active);
+        if (_obtainText.gameObject.activeSelf != active)
+            _obtainText.gameObject.SetActive(active);
         _obtainText.text = text;
     }
 
     private void SetLootButton(string text, bool active = true)
     {
+        _pointPanel.SetActive(!active);
         if(_lootButton.activeSelf != active)
             _lootButton.SetActive(active);
         _lootButtonText.text = text;
     }
+
+    private bool OreReady(Ore ore)
+        => !ore.Recovering;
     
     private void TryRaycastTargets()
     {
-        _obtainText.gameObject.SetActive(false);
+        SetLootText("", false);
         TargetBox = null;
         TargetGathering = null;
         TargetResourceOre = null;
@@ -65,9 +71,12 @@ public class ObjectsRayCaster : MonoBehaviour
 
         if (TryRaycast("Gathering", _maxGatheringDistance, out GatheringOre item))
         {
-            TargetGathering = item;
-            SetLootButton("Gather");
-            return;
+            if (OreReady(item))
+            {
+                TargetGathering = item;
+                SetLootButton("Gather");
+                return;
+            }
         }
 
         if (TryRaycast("LootBox", _maxLootBoxDistance, out LootBox lootBox))
@@ -79,9 +88,12 @@ public class ObjectsRayCaster : MonoBehaviour
         
         if (TryRaycast("Ore", _maxOreHitDistance, out ResourceOre ore))
         {
-            TargetResourceOre = ore;
-            SetLootText("Obtain");
-            return;
+            if (OreReady(ore))
+            {
+                TargetResourceOre = ore;
+                SetLootText("Obtain");
+                return;
+            }
         }
     }
 }

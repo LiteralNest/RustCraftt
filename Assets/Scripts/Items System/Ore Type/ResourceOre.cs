@@ -7,6 +7,7 @@ public class ResourceOre : Ore
 
     private void Start()
     {
+        gameObject.tag = "Ore";
         _currentHp = _hp;
     }
     

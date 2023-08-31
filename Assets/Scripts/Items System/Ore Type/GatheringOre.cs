@@ -1,13 +1,14 @@
 public class GatheringOre : Ore
 {
-    private bool _recovering;
-    
+    private void Start()
+        => gameObject.tag = "Gathering";
+
     public async void Gather()
     {
-        if(_recovering) return;
+        if (Recovering) return;
         InventoryHandler.singleton.InventorySlotsContainer.AddItemToDesiredSlot(_targetResource, 1);
-        _recovering = true;
+        Recovering = true;
         await Destroy();
-        _recovering = false;
+        Recovering = false;
     }
 }

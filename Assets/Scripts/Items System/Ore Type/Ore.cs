@@ -8,6 +8,8 @@ public class Ore : MonoBehaviour
     [SerializeField] protected Resource _targetResource;
     [SerializeField] private List<Renderer> _renderers;
 
+    public bool Recovering { get; protected set; } = false;
+
     private void TurnRenderers(bool value)
     {
         foreach (var renderer in _renderers)
@@ -16,7 +18,9 @@ public class Ore : MonoBehaviour
     
     private async Task Recover()
     {
+        Recovering = true;
         await Task.Delay((int)(_recoveringSpeed * 1000));
+        Recovering = false;
         TurnRenderers(true);
     }
     

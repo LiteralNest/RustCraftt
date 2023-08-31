@@ -15,6 +15,11 @@ public class PlayerController : MonoBehaviour
     [SerializeField] 
     private float _runningKoef = 1.5f;
     private bool _ifRunning;
+
+    private float _currentMovingCpeed;
+    
+    private void Start()
+    => _currentMovingCpeed = _movingSpeed;
     
     private void Update()
     {
@@ -23,7 +28,7 @@ public class PlayerController : MonoBehaviour
             Move();
             return;
         }
-        transform.Translate(Vector3.forward * _movingSpeed * Time.deltaTime, Space.Self);
+        transform.Translate(Vector3.forward * _currentMovingCpeed * Time.deltaTime, Space.Self);
     }
 
     public void OnMove(InputAction.CallbackContext context)
@@ -37,18 +42,18 @@ public class PlayerController : MonoBehaviour
     {
         Vector3 movement = new Vector3(_move.x, 0f, _move.y);
         
-        transform.Translate(movement * _movingSpeed * Time.deltaTime, Space.Self);
+        transform.Translate(movement * _currentMovingCpeed * Time.deltaTime, Space.Self);
     }
 
     public void StartRunning()
     {
         _ifRunning = true;
-        _movingSpeed *= _runningKoef;
+        _currentMovingCpeed *= _runningKoef;
     }
 
     public void StopRunning()
     {
         _ifRunning = false;
-        _movingSpeed /= _runningKoef;
+        _currentMovingCpeed = _movingSpeed;
     }
 }

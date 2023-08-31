@@ -8,8 +8,11 @@ public class LootBox : MonoBehaviour
     [field: SerializeField] public List<InventoryCell> Cells { get; private set; }
 
     private void Start()
-        => GenerateCells();
-
+    {
+        gameObject.tag = "LootBox";
+        GenerateCells();
+    }
+    
     public void Init()
     {
         InventoryHandler.singleton.LootBoxSlotsContainer.Init(this, Cells);
