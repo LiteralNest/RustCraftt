@@ -1,19 +1,22 @@
 using TMPro;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class ObjectsRayCaster : MonoBehaviour
 {
-    [field: SerializeField] public ResourceOre TargetResourceOre { get; private set; }
-    [field: SerializeField] public GatheringOre TargetGathering { get; private set; }
-    [field: SerializeField] public LootBox TargetBox { get; private set; }
-
-    [Header("UI")] [SerializeField] private TMP_Text _lootText;
+    [Header("UI")] [SerializeField] private TMP_Text _obtainText;
+    [SerializeField] private GameObject _lootButton;
+    [SerializeField] private TMP_Text _lootButtonText;
     
     [Header("Distances")]
     [SerializeField] private float _maxOreHitDistance = 3f;
     [SerializeField] private float _maxGatheringDistance = 5f;
     [SerializeField] private float _maxLootBoxDistance = 5f;
-
+    
+    public ResourceOre TargetResourceOre { get; private set; }
+    public GatheringOre TargetGathering { get; private set; }
+    public LootBox TargetBox { get; private set; }
+    
     private void FixedUpdate()
     {
         TryRaycastTargets();
@@ -40,29 +43,37 @@ public class ObjectsRayCaster : MonoBehaviour
 
     private void SetLootText(string text)
     {
-        if (!_lootText.gameObject.activeSelf)
-            _lootText.gameObject.SetActive(true);
-        _lootText.text = text;
+        if (!_obtainText.gameObject.activeSelf)
+            _obtainText.gameObject.SetActive(true);
+        _obtainText.text = text;
+    }
+
+    private void SetLootButton(string text, bool active = true)
+    {
+        if(_lootButton.activeSelf != active)
+            _lootButton.SetActive(active);
+        _lootButtonText.text = text;
     }
     
     private void TryRaycastTargets()
     {
-        _lootText.gameObject.SetActive(false);
+        _obtainText.gameObject.SetActive(false);
         TargetBox = null;
         TargetGathering = null;
         TargetResourceOre = null;
+        SetLootButton("", false);
 
         if (TryRaycast("Gathering", _maxGatheringDistance, out GatheringOre item))
         {
             TargetGathering = item;
-            SetLootText("Gather");
+            SetLootButton("Gather");
             return;
         }
 
         if (TryRaycast("LootBox", _maxLootBoxDistance, out LootBox lootBox))
         {
             TargetBox = lootBox;
-            SetLootText("Open");
+            SetLootButton("Open");
             return;
         }
         

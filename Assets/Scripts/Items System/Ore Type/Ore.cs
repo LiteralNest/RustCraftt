@@ -1,28 +1,28 @@
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
 
-[RequireComponent(typeof(Renderer))]
 public class Ore : MonoBehaviour
 {
     [SerializeField] private float _recoveringSpeed;
     [SerializeField] protected Resource _targetResource;
-    [SerializeField] private Renderer _renderer;
+    [SerializeField] private List<Renderer> _renderers;
 
-    private void Start()
+    private void TurnRenderers(bool value)
     {
-        if (_renderer == null)
-            _renderer = GetComponent<Renderer>();
+        foreach (var renderer in _renderers)
+            renderer.enabled = value;
     }
-
+    
     private async Task Recover()
     {
         await Task.Delay((int)(_recoveringSpeed * 1000));
-        _renderer.enabled = true;
+        TurnRenderers(true);
     }
     
     protected async Task Destroy()
     {
-        _renderer.enabled = false;
+        TurnRenderers(false);
         await Recover();
     }
 }

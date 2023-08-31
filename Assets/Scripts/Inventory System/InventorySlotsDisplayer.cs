@@ -24,6 +24,7 @@ public class InventorySlotsDisplayer : MonoBehaviour
         {
             _cellDisplayers[i].Index = i;
             _cellDisplayers[i].Init(_slotsContainer);
+            
         }
     }
     

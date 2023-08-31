@@ -5,7 +5,7 @@ public abstract class SlotDisplayer : MonoBehaviour, IDropHandler
 {
     [field: SerializeField] public int Index { get; set; }
     [field: SerializeField] public InventoryItemDisplayer ItemDisplayer { get; protected set; }
-[field:SerializeField] public SlotsContainer Inventory { get; private set; }
+    [field:SerializeField] public SlotsContainer Inventory { get; private set; }
     protected abstract void Drop(PointerEventData eventData);
     protected abstract void AddItem(InventoryItemDisplayer item);
 

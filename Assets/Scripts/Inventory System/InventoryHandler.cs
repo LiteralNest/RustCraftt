@@ -4,6 +4,7 @@ public class InventoryHandler : MonoBehaviour
 {
     public static InventoryHandler singleton { get; set; }
     
+    [field:SerializeField] public CharacterStats Stats { get; private set; }
     [field:SerializeField] public LootBoxSlotsContainer LootBoxSlotsContainer { get; private set; }
     [field:SerializeField] public SlotsContainer InventorySlotsContainer { get; private set; }
     [field:SerializeField] public InventorySlotsDisplayer InventorySlotsDisplayer { get; private set; }
