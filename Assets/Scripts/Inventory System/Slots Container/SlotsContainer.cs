@@ -149,6 +149,7 @@ public abstract class SlotsContainer : MonoBehaviour
         }
 
         cell.Count -= count;
+        _cellsDisplayer.DisplayCellAt(index);
         return 0;
     }
 }

@@ -36,12 +36,10 @@ public abstract class SlotDisplayer : MonoBehaviour, IDropHandler
 
     private void ClearPlace(Transform place)
     {
-        for (int i = 0; i < place.childCount; i++)
+        foreach (Transform child in place)
         {
-            var child = place.GetChild(i);
             if(!child.TryGetComponent(out InventoryItemDisplayer itemDisplayer)) continue;
             Destroy(child.gameObject);
-            i--;
         }
     }
     

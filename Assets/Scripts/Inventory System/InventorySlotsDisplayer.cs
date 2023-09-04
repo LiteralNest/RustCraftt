@@ -27,12 +27,20 @@ public class InventorySlotsDisplayer : MonoBehaviour
             
         }
     }
+
+    private void ClearPlace(Transform place)
+    {
+        foreach (Transform child in place)
+        {
+            if(!child.TryGetComponent(out InventoryItemDisplayer itemDisplayer)) continue;
+            Destroy(child.gameObject);
+        }
+    }
     
     private void CreateCell(InventoryCell cell, int index)
     {
         InventorySlotDisplayer slotDisplayer = _cellDisplayers[index];
-        if(slotDisplayer.transform.childCount > 0)
-            Destroy(slotDisplayer.transform.GetChild(0).gameObject);
+        ClearPlace(slotDisplayer.transform);
         var instance = Instantiate(_itemDisplayerPrefab, slotDisplayer.transform);
         instance.Init(slotDisplayer, cell, _slotsContainer);
         slotDisplayer.Init(instance);
