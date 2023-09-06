@@ -1,5 +1,9 @@
 public class InventorySlotsContainer : SlotsContainer
 {
+    public static InventorySlotsContainer singleton { get; set; }
+
+    private void Awake()
+        => singleton = this;
 
     public override void AddItemToDesiredSlot(Item item, int count)
     {

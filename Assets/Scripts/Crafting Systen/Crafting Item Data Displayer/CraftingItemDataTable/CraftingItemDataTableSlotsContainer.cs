@@ -33,6 +33,7 @@ public class CraftingItemDataTableSlotsContainer : MonoBehaviour
     private void DisplaySlots()
     {
         ClearPlace(_placeForSlots);
+        SlotDisplayers.Clear();
         int counter = 0;
         foreach (var slot in Slots)
         {

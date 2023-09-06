@@ -62,9 +62,11 @@ public class CraftingQueueSlotCreator : MonoBehaviour
 
     private bool CanBeCreated()
     {
-        foreach(var slot in _slotsContainer.SlotDisplayers)
+        foreach (var slot in _slotsContainer.SlotDisplayers)
+        {
             if (!slot.ResourceAvailable)
                 return false;
+        }
         return true;
     }
     

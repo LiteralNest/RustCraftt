@@ -46,8 +46,11 @@ public abstract class SlotsContainer : MonoBehaviour
         {
             var cell = Cells[i];
             if(cell.Item == null) continue;
-            if(cell.Item.Id == item.Id)
+            if (cell.Item.Id == item.Id)
+            {
+                GlobalEventsContainer.InventoryItemRemoved?.Invoke(new InventoryCell(item, count));
                 currentCount = GetMinusItemFromCellWithDifference(i, currentCount, cell);
+            }
             if(currentCount == 0)
                 break;
         }
@@ -151,5 +154,36 @@ public abstract class SlotsContainer : MonoBehaviour
         cell.Count -= count;
         _cellsDisplayer.DisplayCellAt(index);
         return 0;
+    }
+
+    private bool TryDeleteCellFromList(List<InventoryCell> targetList, InventoryCell checkingCell)
+    {
+        int currentCount = checkingCell.Count;
+        for (int i = 0; i < targetList.Count; i++)
+        {
+            if(targetList[i].Item == null) continue;
+            if (targetList[i].Item.Id == checkingCell.Item.Id)
+            {
+                int res = targetList[i].Count - currentCount;
+                if (targetList[i].Count < 0)
+                {
+                    currentCount = Mathf.Abs(res);
+                    targetList.RemoveAt(i);
+                    i--;
+                    continue;
+                }
+                return true;
+            }
+        }
+        if (currentCount <= 0) return true;
+        return false;
+    }
+    
+    public bool ItemsAvaliable(List<InventoryCell> cells)
+    {
+        List<InventoryCell> targetCells = new List<InventoryCell>(Cells);
+        foreach (var cell in cells)
+            if (!TryDeleteCellFromList(targetCells, cell)) return false;
+        return true;
     }
 }
