@@ -1,14 +1,10 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(BuildingDragger))]
 public class BuildingChooser : MonoBehaviour
 {
-    [Header("Attached scripts")]
-    [SerializeField] private BuildingDragger _buildingDragger;
-    
-    [Header("UI")] [SerializeField] private GameObject _choosingPanel;
+    [Header("Attached scripts")] [SerializeField]
+    private BuildingDragger _buildingDragger;
 
     private void Start()
     {
@@ -20,6 +16,7 @@ public class BuildingChooser : MonoBehaviour
     {
         var instance = Instantiate(buildingBluePrint);
         _buildingDragger.SetCurrentPref(instance);
-        _choosingPanel.SetActive(false);
+        GlobalEventsContainer.ShouldDisplayBuildingChoosePanel?.Invoke(false);
+        GlobalEventsContainer.ShouldDisplayBuildingStaff?.Invoke(true);
     }
 }

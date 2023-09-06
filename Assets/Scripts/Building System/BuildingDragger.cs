@@ -35,6 +35,7 @@ public class BuildingDragger : MonoBehaviour
     {
         if(_currentPref == null) return;
         Destroy(_currentPref.gameObject);
+        GlobalEventsContainer.ShouldDisplayBuildingStaff?.Invoke(false);
         _currentPref = null;
     }
     

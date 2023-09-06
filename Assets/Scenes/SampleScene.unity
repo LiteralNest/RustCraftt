@@ -19965,7 +19965,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _buildingDragger: {fileID: 1161909730}
-  _choosingPanel: {fileID: 1677724567}
 --- !u!1001 &1172097618
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -25223,6 +25222,7 @@ GameObject:
   - component: {fileID: 1518584364}
   - component: {fileID: 1518584363}
   - component: {fileID: 1518584367}
+  - component: {fileID: 1518584368}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -25325,6 +25325,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 49e12d74fe33f0f429d2bb7fb010bfd6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1518584368
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1518584362}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d1b194e97dcddee47a8aca7f154f5c9f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _attackButton: {fileID: 945472421}
+  _buildingButton: {fileID: 1834174290}
+  _buildingChoosingPanel: {fileID: 1677724567}
+  _buildingStaffPanel: {fileID: 1581590100}
 --- !u!1 &1522341476
 GameObject:
   m_ObjectHideFlags: 0
@@ -26560,7 +26576,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1581590101
 RectTransform:
   m_ObjectHideFlags: 0
@@ -28454,7 +28470,7 @@ GameObject:
   - component: {fileID: 1677724570}
   - component: {fileID: 1677724569}
   m_Layer: 5
-  m_Name: Building Panel
+  m_Name: Building Choosing Panel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -31300,7 +31316,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1834174291
 RectTransform:
   m_ObjectHideFlags: 0
