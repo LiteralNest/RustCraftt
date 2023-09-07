@@ -26,11 +26,13 @@ public class BuildingObject : MonoBehaviour
       _currentObj.SetActive(true);
       _currentHp = _slots[id].Hp;
    }
-
-   [ContextMenu("Upgrade")]
-   private void TryUpgrade()
+   
+   public bool CanBeUpgrade()
+      => _currentLevel < _slots.Count - 1;
+   
+   public void TryUpgrade()
    {
-      if(_currentLevel == _slots.Count - 1) return;
+      if(!CanBeUpgrade()) return;
       _currentLevel++;
       InitSlot(_currentLevel);
    }

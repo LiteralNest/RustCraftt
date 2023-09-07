@@ -2,15 +2,9 @@ using UnityEngine;
 
 public class BuilldingHammer : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    private void OnEnable()
+        => GlobalEventsContainer.BuildingHammerActivated?.Invoke(true);
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    private void OnDisable()
+        => GlobalEventsContainer.BuildingHammerActivated?.Invoke(false);
 }
