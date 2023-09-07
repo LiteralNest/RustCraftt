@@ -1,12 +1,15 @@
-using TMPro;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class BuildingUpgrader : MonoBehaviour
 {
+    [Header("Main Params")]
     [SerializeField] private LayerMask _targetMask;
-    [SerializeField] private TMP_Text _upgradeText;
+    [SerializeField] private GameObject _upgradeDisplaying;
     [SerializeField] private Camera _targetCamera;
     [SerializeField] private bool _canUpgrade;
+
+    [Header("UI")] [SerializeField] private GameObject _hammerPanel;
     
     private BuildingObject _targetBuildingObject;
     
@@ -25,10 +28,10 @@ public class BuildingUpgrader : MonoBehaviour
     private void FixedUpdate()
     {
         if(!_canUpgrade) return;
-        _upgradeText.gameObject.SetActive(false);
+        _upgradeDisplaying.gameObject.SetActive(false);
         _targetBuildingObject = GetTargetBuildingObject();
         if(!CanUpgradeObject()) return;
-        _upgradeText.gameObject.SetActive(true);
+        _upgradeDisplaying.SetActive(true);
     }
 
     private void OnBuildingHammerActivated(bool value)
@@ -58,5 +61,15 @@ public class BuildingUpgrader : MonoBehaviour
     {
         if(!CanUpgradeObject()) return;
         _targetBuildingObject.TryUpgrade();
+        _hammerPanel.SetActive(false);
+    }
+
+    public void Destroy()
+    {
+        if(_targetBuildingObject == null) return;
+        _targetBuildingObject.ReturnMaterialsToInventory();
+        Destroy(_targetBuildingObject.gameObject);
+        _targetBuildingObject = null;
+        _hammerPanel.SetActive(false);
     }
 }

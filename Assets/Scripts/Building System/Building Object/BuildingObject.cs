@@ -25,6 +25,8 @@ public class BuildingObject : MonoBehaviour
       _currentObj = _slots[id].TargetObject;
       _currentObj.SetActive(true);
       _currentHp = _slots[id].Hp;
+      foreach (var cell in _slots[_currentLevel].NeededCellsForPlace)
+         InventorySlotsContainer.singleton.DeleteSlot(cell.Item, cell.Count);
    }
 
    public bool CanBeUpgrade()
@@ -39,7 +41,11 @@ public class BuildingObject : MonoBehaviour
       if(!CanBeUpgrade()) return;
       _currentLevel++;
       InitSlot(_currentLevel);
-      foreach (var cell in _slots[_currentLevel].NeededCellsForPlace)
-         InventorySlotsContainer.singleton.DeleteSlot(cell.Item, cell.Count);
+   }
+
+   public void ReturnMaterialsToInventory()
+   {
+      foreach (var cell in _slots[0].NeededCellsForPlace)
+         InventorySlotsContainer.singleton.AddItemToDesiredSlot(cell.Item, (int)(cell.Count / 2));
    }
 }

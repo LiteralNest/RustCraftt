@@ -38,11 +38,9 @@ public abstract class BuildingBluePrint : MonoBehaviour
     #region Virtual
     public virtual void TriggerEntered(Collider other){}
     public virtual void TriggerExit(Collider other){}
-    public virtual void Place()
+    public void Place()
     {
         Instantiate(_pref, transform.position, transform.rotation);
-        foreach (var cell in _neededCellsForPlace)
-            InventorySlotsContainer.singleton.DeleteSlot(cell.Item, cell.Count);
     }
     #endregion
 
