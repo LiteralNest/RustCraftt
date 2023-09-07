@@ -26,14 +26,20 @@ public class BuildingObject : MonoBehaviour
       _currentObj.SetActive(true);
       _currentHp = _slots[id].Hp;
    }
-   
+
    public bool CanBeUpgrade()
-      => _currentLevel < _slots.Count - 1;
-   
+   {
+      if (_currentLevel + 1 >= _slots.Count) return false;
+      if(!InventorySlotsContainer.singleton.ItemsAvaliable(_slots[_currentLevel + 1].NeededCellsForPlace)) return false;
+      return true;
+   }
+
    public void TryUpgrade()
    {
       if(!CanBeUpgrade()) return;
       _currentLevel++;
       InitSlot(_currentLevel);
+      foreach (var cell in _slots[_currentLevel].NeededCellsForPlace)
+         InventorySlotsContainer.singleton.DeleteSlot(cell.Item, cell.Count);
    }
 }

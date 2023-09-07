@@ -165,7 +165,7 @@ public abstract class SlotsContainer : MonoBehaviour
             if (targetList[i].Item.Id == checkingCell.Item.Id)
             {
                 int res = targetList[i].Count - currentCount;
-                if (targetList[i].Count < 0)
+                if (res < 0)
                 {
                     currentCount = Mathf.Abs(res);
                     targetList.RemoveAt(i);
