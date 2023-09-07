@@ -1,26 +1,20 @@
 using UnityEngine;
 
-public class Wall : BuildingBluePrint
+public class Roof : BuildingBluePrint
 {
     [SerializeField] private LayerMask _snapLayer;
-
+    
     private Snap _targetSnap;
-
+    
     private void Start()
     {
+        
         Init();
     }
     
     public override void CheckForAvailable()
     {
-        if (_targetSnap == null)
-        {
-            CanBePlaced = false;
-            DisplayRenderers();
-            return;
-        }
-        CanBePlaced = InventorySlotsContainer.singleton.ItemsAvaliable(_neededCellsForPlace);
-        DisplayRenderers();
+        CanBePlaced = true;
     }
 
     public override bool TryGetObjectCoords(Camera targetCamera, out Vector3 coords)
@@ -34,7 +28,7 @@ public class Wall : BuildingBluePrint
 
         if (Physics.Raycast(rayOrigin, rayDirection, out hit, Mathf.Infinity, _snapLayer))
         {
-            if (hit.transform.CompareTag("WallSnap"))
+            if (hit.transform.CompareTag("RoofSnap"))
             {
                 _targetSnap = hit.transform.GetComponent<Snap>();
                 coords = hit.transform.position;

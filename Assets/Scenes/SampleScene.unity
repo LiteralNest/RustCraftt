@@ -14823,8 +14823,9 @@ GameObject:
   m_Component:
   - component: {fileID: 904185677}
   - component: {fileID: 904185678}
+  - component: {fileID: 904185679}
   m_Layer: 0
-  m_Name: pickaxe (3)
+  m_Name: BluePrint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -14859,6 +14860,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   TargetItem: {fileID: 11400000, guid: d19e7a800f6934b41808df31e0177e08, type: 2}
+--- !u!114 &904185679
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 904185676}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 243b884ec4225694682bb6ce781c357a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &909860270
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -28021,7 +28034,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1633893036}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1161909731}
+        m_TargetAssemblyTypeName: BuildingChooser, Assembly-CSharp
+        m_MethodName: ChooseBuilding
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 7840761329692284573, guid: b71105c4736aa934e946e5ebc9813216, type: 3}
+          m_ObjectArgumentAssemblyTypeName: BuildingBluePrint, Assembly-CSharp
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1633893036
 MonoBehaviour:
   m_ObjectHideFlags: 0
