@@ -12,4 +12,5 @@ public static class GlobalEventsContainer
     public static Action<bool> ShouldDisplayBuildingStaff { get; set; }
     public static Action<bool> BuildingHammerActivated { get; set; }
     public static Action<bool> GatherButtonActivated { get; set; }
+    public static Action<bool> AttackButtonActivated { get; set; }
 }

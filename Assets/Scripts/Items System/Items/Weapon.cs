@@ -1,11 +1,8 @@
-using UnityEngine;
-
-[CreateAssetMenu(menuName = "Item/Resource")]
-public class Resource : Item
+public class Weapon : Tool
 {
     public override void Click(QuickSlotDisplayer slotDisplayer, InventoryHandler handler, out bool shouldMinus)
     {
         base.Click(slotDisplayer, handler, out shouldMinus);
-        shouldMinus = false;
+        GlobalEventsContainer.AttackButtonActivated?.Invoke(true);
     }
 }

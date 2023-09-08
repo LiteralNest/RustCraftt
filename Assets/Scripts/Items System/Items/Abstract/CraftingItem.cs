@@ -8,6 +8,7 @@ public class CraftingItem : Item
    
    public override void Click(QuickSlotDisplayer slotDisplayer, InventoryHandler handler, out bool shouldMinus)
    {
+      base.Click(slotDisplayer, handler, out shouldMinus);
       shouldMinus = false;
    }
 }

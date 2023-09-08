@@ -7,6 +7,7 @@ public class Food : Resource
     
     public override void Click(QuickSlotDisplayer slotDisplayer, InventoryHandler handler, out bool shouldMinus)
     {
+        base.Click(slotDisplayer, handler, out shouldMinus);
         shouldMinus = true;
         handler.Stats.PlusStat(CharacterStatType.Food, _addingFood);
     }

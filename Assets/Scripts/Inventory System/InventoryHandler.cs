@@ -8,14 +8,15 @@ public class InventoryHandler : MonoBehaviour
     [field:SerializeField] public LootBoxSlotsContainer LootBoxSlotsContainer { get; private set; }
     [field:SerializeField] public SlotsContainer InventorySlotsContainer { get; private set; }
     [field:SerializeField] public InventorySlotsDisplayer InventorySlotsDisplayer { get; private set; }
-    
+    [field: SerializeField] public ObjectPlacer ObjectPlacer { get; private set; }
+
     [Header("UI")] 
     [SerializeField] private GameObject _mainButtonsPanel;
     [SerializeField] private GameObject _armorPanel;
     [SerializeField] private GameObject _lootBoxPanel;
     [SerializeField] private GameObject _inventoryPanel;
     
-    [field:SerializeField] public Item ActiveItem { get; private set; }
+    public Item ActiveItem { get; private set; }
 
     private void Awake()
         => singleton = this;

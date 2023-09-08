@@ -12,7 +12,7 @@ public class BuildingDragger : MonoBehaviour
         TryMoveBuildingObject();
     }
 
-    public Vector3 GetFrontOfCameraPosition()
+    private Vector3 GetFrontOfCameraPosition()
         => _targetCamera.transform.position + _targetCamera.transform.forward * _distance;
 
     private void TryMoveBuildingObject()

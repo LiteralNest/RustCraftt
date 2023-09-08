@@ -1,7 +1,9 @@
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class MainUiHandler : MonoBehaviour
 {
+    [SerializeField] private GameObject _attackButton;
     [SerializeField] private GameObject _gatherButton;
     [SerializeField] private GameObject _buildingButton;
     [SerializeField] private GameObject _buildingChoosingPanel;
@@ -14,8 +16,8 @@ public class MainUiHandler : MonoBehaviour
         GlobalEventsContainer.ShouldDisplayBuildingChoosePanel += DisplayBuildingChoosingPanel;
         GlobalEventsContainer.BluePrintActiveSelfSet += ActivateBuildingButton;
         GlobalEventsContainer.BuildingHammerActivated += ActivateUpgradeButton;
-        ;
         GlobalEventsContainer.GatherButtonActivated += ActivateGatherButtonActivated;
+        GlobalEventsContainer.AttackButtonActivated += ActivateAttackButton;
     }
 
     private void OnDisable()
@@ -25,6 +27,7 @@ public class MainUiHandler : MonoBehaviour
         GlobalEventsContainer.BluePrintActiveSelfSet -= ActivateBuildingButton;
         GlobalEventsContainer.BuildingHammerActivated -= ActivateUpgradeButton;
         GlobalEventsContainer.GatherButtonActivated -= ActivateGatherButtonActivated;
+        GlobalEventsContainer.AttackButtonActivated -= ActivateAttackButton;
     }
 
     private void DisplayBuildingStaffPanel(bool value)
@@ -41,4 +44,7 @@ public class MainUiHandler : MonoBehaviour
 
     private void ActivateGatherButtonActivated(bool value)
         => _gatherButton.SetActive(value);
+
+    private void ActivateAttackButton(bool value)
+        => _attackButton.SetActive(value);
 }
