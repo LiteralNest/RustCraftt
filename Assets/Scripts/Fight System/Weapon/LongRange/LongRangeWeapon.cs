@@ -1,7 +1,8 @@
+using System;
 using System.Collections;
 using UnityEngine;
 
-public class LongRangeWeapon : MonoBehaviour
+public class LongRangeWeapon : WeaponObject
 {
     [Header("Main Params")] 
     [SerializeField] private int _magazineAmmoCount;
@@ -12,7 +13,19 @@ public class LongRangeWeapon : MonoBehaviour
     
     [Header("In Game Init")] [SerializeField]
     private int _currentAmmoCount;
+
+    private void OnEnable()
+    {
+        GlobalEventsContainer.AttackButtonActivated?.Invoke(true);
+        GlobalEventsContainer.WeaponObjectAssign?.Invoke(this);
+    }
     
+    private void OnDisable()
+    {
+        GlobalEventsContainer.AttackButtonActivated?.Invoke(false);
+        GlobalEventsContainer.WeaponObjectAssign?.Invoke(null);
+    }
+
     private IEnumerator ReloadRoutine()
     {
         yield return new WaitForSeconds(_reloadingTime);
@@ -20,7 +33,7 @@ public class LongRangeWeapon : MonoBehaviour
     }
     
     [ContextMenu("Shoot")]
-    public void TryShoot()
+    public override void Attack()
     {
         if (_currentAmmoCount == 0) return;
         var instance = Instantiate(_ammo, _ammoSpawnPoint.position, new Quaternion(0, 0, 0, 0), _ammoSpawnPoint);

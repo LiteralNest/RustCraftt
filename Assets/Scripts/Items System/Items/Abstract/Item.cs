@@ -13,6 +13,5 @@ public abstract class Item : ScriptableObject
     public virtual void Click(QuickSlotDisplayer slotDisplayer, InventoryHandler handler, out bool shouldMinus)
     {
         shouldMinus = false;
-        GlobalEventsContainer.AttackButtonActivated?.Invoke(false);
     }
 }
