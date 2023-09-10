@@ -1,12 +1,11 @@
+using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.Serialization;
-using UnityEngine.UIElements;
 
-public class PlayerController : MonoBehaviour
+public class PlayerController : NetworkBehaviour
 {
     [Header("Move")]
-    [SerializeField] private float _movingSpeed = 5;
+    [SerializeField] private NetworkVariable<float> _movingSpeed = new(5, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
 
     public bool IsMoving { get; private set; }
     private Vector2 _move;
@@ -19,7 +18,7 @@ public class PlayerController : MonoBehaviour
     private float _currentMovingCpeed;
     
     private void Start()
-    => _currentMovingCpeed = _movingSpeed;
+    => _currentMovingCpeed = _movingSpeed.Value;
     
     private void Update()
     {
@@ -54,6 +53,9 @@ public class PlayerController : MonoBehaviour
     public void StopRunning()
     {
         _ifRunning = false;
-        _currentMovingCpeed = _movingSpeed;
+        _currentMovingCpeed = _movingSpeed.Value;
     }
+    
+    public bool PlayerIsOwner()
+    => IsOwner;
 }

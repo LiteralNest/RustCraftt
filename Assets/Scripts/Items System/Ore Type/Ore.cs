@@ -1,14 +1,14 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Unity.Netcode;
 using UnityEngine;
 
-public class Ore : MonoBehaviour
+public class Ore : NetworkBehaviour
 {
     [SerializeField] private float _recoveringSpeed;
     [SerializeField] protected Resource _targetResource;
     [SerializeField] private List<Renderer> _renderers;
-    
-    
+
     public bool Recovering { get; protected set; } = false;
 
     private void TurnRenderers(bool value)
@@ -27,6 +27,7 @@ public class Ore : MonoBehaviour
     
     protected async Task Destroy()
     {
+        if(!IsOwner) return;
         TurnRenderers(false);
         await Recover();
     }
