@@ -16,6 +16,7 @@ public class InventorySlotsDisplayer : MonoBehaviour
         if (_slotsContainer == null)
             _slotsContainer = GetComponent<SlotsContainer>();
         InitCells();
+        DisplayCells();
     }
 
     private void InitCells()

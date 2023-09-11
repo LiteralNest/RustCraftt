@@ -3,9 +3,12 @@ using UnityEngine.InputSystem;
 
 public class PlayerNetworkController : MonoBehaviour
 {
+    [Header("NetCode")] 
+    [SerializeField] private PlayerNetCode _playerNetCode;
+
+    [Header("Scripts")] 
     [SerializeField] private PlayerController _playerController;
-    
-    [Header("Scripts")] [SerializeField] private PlayerInput _playerInput;
+    [SerializeField] private PlayerInput _playerInput;
     [SerializeField] private PlayerJumper _playerJumper;
     [SerializeField] private PlayerSitter _playerSitter;
     [SerializeField] private PlayerResourcesGatherer _playerResourcesGatherer;
@@ -18,14 +21,14 @@ public class PlayerNetworkController : MonoBehaviour
     [SerializeField] private PlayerFightHandler _playerFightHandler;
     [SerializeField] private PlayerHandler _playerHandler;
 
-    [Header("Children")] [SerializeField] private GameObject _eyes;
-    [SerializeField] private GameObject _inventory;
-    [SerializeField] private GameObject _groundCheckerObj;
-    [SerializeField] private GameObject _characterStatsObj;
-    
+    [Header("Children")]
+    [SerializeField] private GameObject _characterStaff;
+    [SerializeField] private GameObject _canvas;
+
     private void Start()
     {
-        if(!_playerController.PlayerIsOwner())
+        _canvas.transform.SetParent(null);
+        if(!_playerNetCode.PlayerIsOwner())
             ClearObjects();
         Destroy(this);
     }
@@ -33,7 +36,7 @@ public class PlayerNetworkController : MonoBehaviour
     private void ClearObjects()
     {
         Destroy(_playerInput);
-        _playerController.enabled = false;
+        Destroy(_playerController);
         Destroy(_playerJumper);
         Destroy(_playerSitter);
         Destroy(_playerResourcesGatherer);
@@ -46,9 +49,7 @@ public class PlayerNetworkController : MonoBehaviour
         Destroy(_playerHandler);
         Destroy(_playerFightHandler);
         
-        Destroy(_eyes);
-        Destroy(_inventory);
-        Destroy(_groundCheckerObj);
-        Destroy(_characterStatsObj);
+        Destroy(_canvas);
+        Destroy(_characterStaff);
     }
 }

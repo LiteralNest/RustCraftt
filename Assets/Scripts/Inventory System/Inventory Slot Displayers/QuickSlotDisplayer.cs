@@ -1,3 +1,4 @@
+using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -31,7 +32,7 @@ public class QuickSlotDisplayer : InventorySlotDisplayer, IPointerClickHandler
     {
         if (Index == index)
         {
-            GlobalEventsContainer.ShouldDisplayHandItem?.Invoke(ItemDisplayer.InventoryCell.Item);
+            GlobalEventsContainer.ShouldDisplayHandItem?.Invoke(ItemDisplayer.InventoryCell.Item.Id, _inventoryHandler.PlayerNetCode.GetClientId());
             _activeFon.SetActive(true);
             return;
         }

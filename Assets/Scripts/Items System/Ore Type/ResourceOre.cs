@@ -14,25 +14,40 @@ public class ResourceOre : Ore
     {
         gameObject.tag = "Ore";
         _currentHp.Value = _hp;
+        _currentHp.OnValueChanged += (ushort prevValue, ushort newValue) =>
+        {
+            CheckHp();
+        };
     }
 
     private bool CanUseTool(Item tool)
         => _toolsForGathering.Contains(tool);
     
-    public async void MinusHp(Item targetTool)
+    [ServerRpc(RequireOwnership = false)]
+    public void MinusHpServerRpc()
+    {
+        _currentHp.Value--;
+    }
+
+    private async void CheckHp()
+    {
+        if (_currentHp.Value > 0) return;
+        await Destroy();
+        if(NetworkManager.Singleton.IsServer)
+            _currentHp.Value = _hp;
+    }
+
+    public void MinusHp(Item targetTool)
     {
         if (_currentHp.Value <= 0) return;
         if(!CanUseTool(targetTool)) return;
-        _currentHp.Value--;
-        InventoryHandler.singleton.InventorySlotsContainer.AddItemToDesiredSlot(_targetResource, 2);
-        if (_currentHp.Value > 0) return;
-        await Destroy();
-        _currentHp.Value = _hp;
+        GlobalEventsContainer.InventoryItemAdded?.Invoke(new InventoryCell(_targetResource, 1));
+        MinusHpServerRpc();
     }
 
-    [ContextMenu("Test Destroy")]
-    private void TestDestroy()
+    [ContextMenu("Test RPC")]
+    private void TestRpc()
     {
-        Destroy();
+        MinusHpServerRpc();
     }
 }

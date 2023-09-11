@@ -27,7 +27,6 @@ public class Ore : NetworkBehaviour
     
     protected async Task Destroy()
     {
-        if(!IsOwner) return;
         TurnRenderers(false);
         await Recover();
     }

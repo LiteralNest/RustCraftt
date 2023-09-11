@@ -4615,7 +4615,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &302117534
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4633,6 +4633,8 @@ MonoBehaviour:
   _renderers:
   - {fileID: 1072106199}
   _hp: 10
+  _currentHp:
+    m_InternalValue: 100
   _toolsForGathering:
   - {fileID: 11400000, guid: c4791c33b05b3154992749c0dd27fc49, type: 2}
 --- !u!65 &302117535
@@ -16583,7 +16585,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &972587043
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16601,6 +16603,8 @@ MonoBehaviour:
   _renderers:
   - {fileID: 634295207}
   _hp: 10
+  _currentHp:
+    m_InternalValue: 100
   _toolsForGathering:
   - {fileID: 11400000, guid: c4791c33b05b3154992749c0dd27fc49, type: 2}
 --- !u!65 &972587044
@@ -26893,7 +26897,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!23 &1564847047
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -32636,7 +32640,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1841132701
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -32654,6 +32658,8 @@ MonoBehaviour:
   _renderers:
   - {fileID: 1822299782}
   _hp: 10
+  _currentHp:
+    m_InternalValue: 100
   _toolsForGathering:
   - {fileID: 11400000, guid: c4791c33b05b3154992749c0dd27fc49, type: 2}
 --- !u!65 &1841132702
@@ -35359,7 +35365,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1986068500
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -35377,6 +35383,8 @@ MonoBehaviour:
   _renderers:
   - {fileID: 985850171}
   _hp: 10
+  _currentHp:
+    m_InternalValue: 100
   _toolsForGathering:
   - {fileID: 11400000, guid: c4791c33b05b3154992749c0dd27fc49, type: 2}
 --- !u!65 &1986068501
@@ -38564,7 +38572,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9071783843722557713, guid: 9f4077a86f5afe74eb65591607fdf1df, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -39379,7 +39387,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8794021445112095676, guid: 2ff8862545a21d14ab427cd9984e1bb9, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -39651,7 +39659,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4b5d37d5afc1da14fb4f65d8a5b2cd2c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _movingSpeed: 5
+  _movingSpeed:
+    m_InternalValue: 5
   _runningKoef: 1.5
 --- !u!4 &5717561845390136719
 Transform:

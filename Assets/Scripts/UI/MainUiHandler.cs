@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using UnityEngine;
 
 public class MainUiHandler : MonoBehaviour
@@ -41,8 +42,12 @@ public class MainUiHandler : MonoBehaviour
     private void ActivateUpgradeButton(bool value)
         => _upgradeButton.SetActive(value);
 
-    private void ActivateGatherButtonActivated(bool value)
-        => _gatherButton.SetActive(value);
+    private async void ActivateGatherButtonActivated(bool value)
+    {
+        if(value)
+            await Task.Delay(100);
+        _gatherButton.SetActive(value);
+    }
 
     private void ActivateAttackButton(bool value)
         => _attackButton.SetActive(value);

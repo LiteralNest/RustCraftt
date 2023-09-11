@@ -2,7 +2,7 @@ using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class PlayerController : NetworkBehaviour
+public class PlayerController : MonoBehaviour
 {
     [Header("Move")]
     [SerializeField] private NetworkVariable<float> _movingSpeed = new(5, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
@@ -55,7 +55,10 @@ public class PlayerController : NetworkBehaviour
         _ifRunning = false;
         _currentMovingCpeed = _movingSpeed.Value;
     }
-    
-    public bool PlayerIsOwner()
-    => IsOwner;
+
+    [ContextMenu("Change variable value")]
+    private void ChangeMovingSpeedVar()
+    {
+        _movingSpeed.Value = 10;
+    }
 }
