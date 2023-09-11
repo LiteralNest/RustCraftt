@@ -1,12 +1,13 @@
 using System;
 using System.Collections.Generic;
+using Unity.Netcode;
 using UnityEngine;
 
 [RequireComponent(typeof(BoxCollider))]
 public abstract class BuildingBluePrint : MonoBehaviour
 {
     [Header("Target")] 
-    [SerializeField] protected GameObject _pref;
+    [SerializeField] protected int _poolPrefId;
 
     [Header("Colors")] 
     [SerializeField] private Color _normalColor;
@@ -38,12 +39,15 @@ public abstract class BuildingBluePrint : MonoBehaviour
     #region Virtual
     public virtual void TriggerEntered(Collider other){}
     public virtual void TriggerExit(Collider other){}
+    #endregion
+    
     public void Place()
     {
-        Instantiate(_pref, transform.position, transform.rotation);
+        // var instance = Instantiate(_pref, transform.position, transform.rotation).GetComponent<NetworkObject>();
+        BuildingsNetworkingSpawner.singleton.SpawnPrefServerRpc(_poolPrefId, transform.position, transform.rotation);
+        // instance.DontDestroyWithOwner = true;
     }
-    #endregion
-
+    
     private void SetColorToRenderers(Color color)
     {
         foreach (var renderer in _renderers)

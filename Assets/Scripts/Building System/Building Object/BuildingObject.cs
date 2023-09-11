@@ -24,8 +24,8 @@ public class BuildingObject : MonoBehaviour
       _currentObj = _slots[id].TargetObject;
       _currentObj.SetActive(true);
       _currentHp = _slots[id].Hp;
-      foreach (var cell in _slots[_currentLevel].NeededCellsForPlace)
-         InventorySlotsContainer.singleton.DeleteSlot(cell.Item, cell.Count);
+      // foreach (var cell in _slots[_currentLevel].NeededCellsForPlace)
+      //    InventorySlotsContainer.singleton.DeleteSlot(cell.Item, cell.Count);
    }
 
    public bool CanBeUpgrade()

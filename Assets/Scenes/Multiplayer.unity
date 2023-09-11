@@ -5197,7 +5197,7 @@ GameObject:
   - component: {fileID: 670314485}
   - component: {fileID: 670314484}
   - component: {fileID: 670314483}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Ground
   m_TagString: Ground
   m_Icon: {fileID: 0}
@@ -8696,6 +8696,10 @@ PrefabInstance:
     - target: {fileID: 8794021445112095676, guid: 2ff8862545a21d14ab427cd9984e1bb9, type: 3}
       propertyPath: m_Name
       value: Stone Ore
+      objectReference: {fileID: 0}
+    - target: {fileID: 8794021445112095676, guid: 2ff8862545a21d14ab427cd9984e1bb9, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8794021445112095676, guid: 2ff8862545a21d14ab427cd9984e1bb9, type: 3}
       propertyPath: m_TagString
@@ -14960,6 +14964,91 @@ Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 510fc663b7212b54db4119935427a9ae, type: 3}
   m_PrefabInstance: {fileID: 1772468331}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1792856224
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1792856226}
+  - component: {fileID: 1792856225}
+  - component: {fileID: 1792856227}
+  - component: {fileID: 1792856228}
+  m_Layer: 0
+  m_Name: Buildings Networking Spawner
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1792856225
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1792856224}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 38bf55e483aca8342b44a55bd65ddeed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _buildingObjectsPool: {fileID: 0}
+--- !u!4 &1792856226
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1792856224}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 4387.074, y: 1687.1584, z: 10.155837}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1792856227
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1792856224}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GlobalObjectIdHash: 1032051759
+  AlwaysReplicateAsRoot: 0
+  SynchronizeTransform: 1
+  ActiveSceneSynchronization: 0
+  SceneMigrationSynchronization: 1
+  SpawnWithObservers: 1
+  DontDestroyWithOwner: 0
+  AutoObjectParentSync: 1
+--- !u!114 &1792856228
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1792856224}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56db999e63907a24f937034ff017de25, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObjectsPool:
+  - {fileID: 4742788254131464980, guid: 06f259179e79efb40b2818383bbce3a1, type: 3}
+  - {fileID: -8573645219772439596, guid: 79ffef53d5c7e2c46a5eb5440a38c28c, type: 3}
+  - {fileID: 4296517517281241578, guid: b7961bd04d326eb498f07df0a125e952, type: 3}
+  - {fileID: -1175837839520754663, guid: 8e11567a736ea5d4eab3526d86ce42e0, type: 3}
+  - {fileID: -8212129822832629320, guid: 44c9d68c18ccc464eb488c9c484fd6a3, type: 3}
 --- !u!1001 &1794836797
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -18420,3 +18509,4 @@ SceneRoots:
   - {fileID: 670314486}
   - {fileID: 436025391}
   - {fileID: 1095424221}
+  - {fileID: 1792856226}

@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Unity.Netcode;
 using UnityEngine;
 
 public class BuildingConnector : MonoBehaviour
@@ -15,7 +16,7 @@ public class BuildingConnector : MonoBehaviour
 
     private void ConnectParent(ConnectionsParent parent)
     {
-        transform.parent = parent.transform;
+        GetComponent<NetworkObject>().TrySetParent(parent.transform);
         parent.AddConnectedBuilding(this);
     }
     
