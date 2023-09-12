@@ -1,7 +1,8 @@
 using System.Collections.Generic;
+using Unity.Netcode;
 using UnityEngine;
 
-public class BuildingObject : MonoBehaviour
+public class BuildingObject : NetworkBehaviour
 {
    [Header("Slots")]
    [SerializeField] private List<BuildingObjectSlot> _slots = new List<BuildingObjectSlot>();
@@ -9,12 +10,16 @@ public class BuildingObject : MonoBehaviour
    [Header("Test")]
    [SerializeField] private int _currentHp;
 
-   private int _currentLevel = 0;
+   private NetworkVariable<int> _currentLevel = new NetworkVariable<int>(0);
    private GameObject _currentObj;
 
-   private void Start()
+   private void Start()       
    {
-      InitSlot(0);
+      InitSlot(_currentLevel.Value);
+      _currentLevel.OnValueChanged += (int prevValue, int newValue) =>
+      {
+         InitSlot(newValue);
+      };
    }
 
    private void InitSlot(int id)
@@ -30,16 +35,23 @@ public class BuildingObject : MonoBehaviour
 
    public bool CanBeUpgrade()
    {
-      if (_currentLevel + 1 >= _slots.Count) return false;
-      if(!InventorySlotsContainer.singleton.ItemsAvaliable(_slots[_currentLevel + 1].NeededCellsForPlace)) return false;
+      if (_currentLevel.Value + 1 >= _slots.Count) return false;
+      if(!InventorySlotsContainer.singleton.ItemsAvaliable(_slots[_currentLevel.Value + 1].NeededCellsForPlace)) return false;
       return true;
    }
 
+   [ServerRpc(RequireOwnership = false)]
+   private void UpgradeServerRpc()
+   {
+      if(!IsServer) return;
+      _currentLevel.Value++;
+     
+   }
+   
    public void TryUpgrade()
    {
-      if(!CanBeUpgrade()) return;
-      _currentLevel++;
-      InitSlot(_currentLevel);
+      if(!CanBeUpgrade()) return; ;
+      UpgradeServerRpc();
    }
 
    public void ReturnMaterialsToInventory()
