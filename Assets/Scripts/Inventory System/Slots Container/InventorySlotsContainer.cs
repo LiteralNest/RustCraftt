@@ -9,12 +9,14 @@ public class InventorySlotsContainer : SlotsContainer
     {
         GlobalEventsContainer.InventoryItemAdded?.Invoke(new InventoryCell(item, count));
         base.AddItemToDesiredSlot(item, count);
+        GlobalEventsContainer.InventoryDataShouldBeSaved?.Invoke(Cells);
         GlobalEventsContainer.InventoryDataChanged?.Invoke();
     }
 
     public override void DeleteSlot(Item item, int count)
     {
         base.DeleteSlot(item, count);
+        GlobalEventsContainer.InventoryDataShouldBeSaved?.Invoke(Cells);
         GlobalEventsContainer.InventoryDataChanged?.Invoke();
     }
 

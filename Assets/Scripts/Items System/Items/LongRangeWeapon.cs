@@ -1,6 +1,7 @@
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "Item/Weapon")]
+[System.Serializable]
 public class LongRangeWeapon : Weapon
 {
     [field:SerializeField] public float FirePower { get; private set; }
