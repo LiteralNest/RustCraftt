@@ -3,7 +3,7 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Item/Building")]
 public class Building : CraftingItem
 {
-   [field:SerializeField] public PlacingObject TargetObject { get; private set; }
+   [field:SerializeField] public ObjectBluePrint TargetObject { get; private set; }
    
    public override void Click(QuickSlotDisplayer slotDisplayer, InventoryHandler handler, out bool shouldMinus)
    {

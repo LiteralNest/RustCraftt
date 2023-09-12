@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class BluePrint : MonoBehaviour
+public class BluePrintObject : MonoBehaviour
 {
     private void OnEnable()
         => GlobalEventsContainer.BluePrintActiveSelfSet?.Invoke(true);
