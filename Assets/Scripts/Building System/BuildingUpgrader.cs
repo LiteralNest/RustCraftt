@@ -60,6 +60,10 @@ public class BuildingUpgrader : MonoBehaviour
     {
         if(!CanUpgradeObject()) return;
         _targetBuildingObject.Upgrade();
+        foreach (var cell in _targetBuildingObject.GetUpgradingBlock().NeededCellsForPlace)
+        {
+            InventorySlotsContainer.singleton.DeleteSlot(cell.Item, cell.Count);
+        }
         _hammerPanel.SetActive(false);
     }
 

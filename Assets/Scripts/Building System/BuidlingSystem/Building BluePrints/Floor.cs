@@ -19,9 +19,7 @@ public class Floor : BuildingBluePrint
             DisplayRenderers();
             return;
         }
-
-        CanBePlaced = InventorySlotsContainer.singleton.ItemsAvaliable(_neededCellsForPlace);
-        ;
+        CanBePlaced = InventorySlotsContainer.singleton.ItemsAvaliable(TargetBuildingStructure.GetPlacingRemovingCells());
         DisplayRenderers();
     }
 
@@ -50,7 +48,7 @@ public class Floor : BuildingBluePrint
             if (hit.transform.CompareTag("Block"))
             {
                 int x, y, z;
-                var structureSize = _targetBuildingStruncture.StructureSize;
+                var structureSize = TargetBuildingStructure.StructureSize;
                 
                 y = Mathf.RoundToInt(hit.point.y + hit.normal.y / (2 / structureSize.y));
 

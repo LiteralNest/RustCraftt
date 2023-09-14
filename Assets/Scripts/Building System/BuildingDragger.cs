@@ -30,7 +30,11 @@ public class BuildingDragger : MonoBehaviour
     public void Place()
     {
         if (_currentPref == null) return;
-        _currentPref.TryPlace();
+        if(!_currentPref.TryPlace()) return;
+        foreach (var slot in _currentPref.TargetBuildingStructure.GetPlacingRemovingCells())
+        {
+            InventorySlotsContainer.singleton.DeleteSlot(slot.Item, slot.Count);
+        }
     }
 
     public void ClearCurrentPref()

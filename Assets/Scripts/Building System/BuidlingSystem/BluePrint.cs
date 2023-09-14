@@ -1,10 +1,10 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public abstract class BluePrint : MonoBehaviour
 {
-    [SerializeField]
-    protected BuildingStructure _targetBuildingStruncture;
+    [FormerlySerializedAs("TargetBuildingStruncture")] [FormerlySerializedAs("_targetBuildingStruncture")] public BuildingStructure TargetBuildingStructure;
     [Header("Colors")] 
     [SerializeField] protected Material _normalMaterial;
     [SerializeField] protected Material _negativeMaterial;
@@ -57,7 +57,7 @@ public abstract class BluePrint : MonoBehaviour
     
     private void Place()
     {
-        BuildingsNetworkingSpawner.singleton.SpawnPrefServerRpc(_targetBuildingStruncture.Id, transform.position, transform.rotation);
+        BuildingsNetworkingSpawner.singleton.SpawnPrefServerRpc(TargetBuildingStructure.Id, transform.position, transform.rotation);
     }
     
     public bool TryPlace()

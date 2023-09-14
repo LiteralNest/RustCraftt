@@ -46,4 +46,11 @@ public class BuildingBlock : MonoBehaviour, IDamagable
         if(Hp <= 0)
             Destroy(gameObject);
     }
+
+    public Block GetUpgradingBlock()
+    {
+        if (_currentLevel == _levels.Count - 1)
+            return _levels[_currentLevel];
+        return _levels[_currentLevel + 1];
+    }
 }
