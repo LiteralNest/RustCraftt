@@ -1,12 +1,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(BoxCollider))]
 public abstract class BluePrint : MonoBehaviour
 {
-    [Header("Target")] 
-    [SerializeField] protected int _poolPrefId;
-    
+    [SerializeField]
+    protected BuildingStructure _targetBuildingStruncture;
     [Header("Colors")] 
     [SerializeField] protected Material _normalMaterial;
     [SerializeField] protected Material _negativeMaterial;
@@ -27,6 +25,12 @@ public abstract class BluePrint : MonoBehaviour
     public virtual void TriggerExit(Collider other){}
     #endregion
 
+    public void SetCanBePlace(bool value)
+    {
+        CanBePlaced = value;
+        DisplayRenderers();
+    }
+    
     private void SetMaterialToRenderers(Material material)
     {
         foreach (var renderer in _renderers)
@@ -45,7 +49,7 @@ public abstract class BluePrint : MonoBehaviour
     
     private void Place()
     {
-        BuildingsNetworkingSpawner.singleton.SpawnPrefServerRpc(_poolPrefId, transform.position, transform.rotation);
+        BuildingsNetworkingSpawner.singleton.SpawnPrefServerRpc(_targetBuildingStruncture.Id, transform.position, transform.rotation);
     }
     
     public bool TryPlace()

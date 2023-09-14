@@ -5,7 +5,7 @@ using UnityEngine;
 public abstract class SlotsContainer : MonoBehaviour
 {
     [SerializeField] protected InventorySlotsDisplayer _cellsDisplayer;
-    [field: SerializeField] public List<InventoryCell> Cells { get; private set; }
+    [field: SerializeField] public List<InventoryCell> Cells { get; protected set; }
 
     private void Start()
     {
@@ -57,7 +57,7 @@ public abstract class SlotsContainer : MonoBehaviour
     }
 
     #endregion
-
+    
     protected void ResetCells()
     {
         foreach (var cell in Cells)

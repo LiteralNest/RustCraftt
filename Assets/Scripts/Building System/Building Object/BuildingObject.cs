@@ -5,10 +5,7 @@ using UnityEngine;
 public class BuildingObject : NetworkBehaviour
 {
    [Header("Slots")]
-   [SerializeField] private List<BuildingObjectSlot> _slots = new List<BuildingObjectSlot>();
-
-   [Header("Test")]
-   [SerializeField] private int _currentHp;
+   [SerializeField] private List<BuildingBlock> _slots = new List<BuildingBlock>();
 
    private NetworkVariable<int> _currentLevel = new NetworkVariable<int>(0);
    private GameObject _currentObj;
@@ -26,11 +23,8 @@ public class BuildingObject : NetworkBehaviour
    {
       if(_currentObj != null)
          _currentObj.SetActive(false);
-      _currentObj = _slots[id].TargetObject;
+      _currentObj = _slots[id].gameObject;
       _currentObj.SetActive(true);
-      _currentHp = _slots[id].Hp;
-      // foreach (var cell in _slots[_currentLevel].NeededCellsForPlace)
-      //    InventorySlotsContainer.singleton.DeleteSlot(cell.Item, cell.Count);
    }
 
    public bool CanBeUpgrade()

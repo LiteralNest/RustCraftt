@@ -10,29 +10,31 @@ public class Floor : BuildingBluePrint
     {
         Init();
     }
-    
+
     public override void CheckForAvailable()
     {
         if (_triggeredObjects.Count != 0)
-        { 
+        {
             CanBePlaced = false;
             DisplayRenderers();
             return;
         }
-        CanBePlaced = InventorySlotsContainer.singleton.ItemsAvaliable(_neededCellsForPlace);;
+
+        CanBePlaced = InventorySlotsContainer.singleton.ItemsAvaliable(_neededCellsForPlace);
+        ;
         DisplayRenderers();
     }
-    
+
     public override void TriggerEntered(Collider other)
     {
-        if(other.gameObject.tag == "Ground") return;
+        if (other.gameObject.tag == "Ground") return;
         _triggeredObjects.Add(other.gameObject);
         CheckForAvailable();
     }
 
     public override void TriggerExit(Collider other)
     {
-        if(other.gameObject.tag == "Ground") return;
+        if (other.gameObject.tag == "Ground") return;
         _triggeredObjects.Remove(other.gameObject);
         CheckForAvailable();
     }
@@ -45,14 +47,17 @@ public class Floor : BuildingBluePrint
 
         if (Physics.Raycast(rayOrigin, rayDirection, out hit, Mathf.Infinity, _targetMask))
         {
-            if (hit.transform.CompareTag("Ground"))
+            if (hit.transform.CompareTag("Block"))
             {
-                int x = Mathf.RoundToInt(hit.point.x);
-                int z = Mathf.RoundToInt(hit.point.z);
-                coords = new Vector3(x, hit.point.y, z);
+                var structureSize = _targetBuildingStruncture.StructureSize;
+                int x = Mathf.RoundToInt(hit.point.x + hit.normal.x / (2 / structureSize.x));
+                int y = Mathf.RoundToInt(hit.point.y + hit.normal.y / (2 / structureSize.y));
+                int z = Mathf.RoundToInt(hit.point.z + hit.normal.z / (2 / structureSize.z));
+                coords = new Vector3(x, y, z);
                 return true;
             }
         }
+
         coords = default;
         return false;
     }

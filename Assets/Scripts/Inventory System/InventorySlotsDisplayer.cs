@@ -25,7 +25,6 @@ public class InventorySlotsDisplayer : MonoBehaviour
         {
             _cellDisplayers[i].Index = i;
             _cellDisplayers[i].Init(_slotsContainer);
-            
         }
     }
 
@@ -46,10 +45,17 @@ public class InventorySlotsDisplayer : MonoBehaviour
         instance.Init(slotDisplayer, cell, _slotsContainer);
         slotDisplayer.Init(instance);
     }
-    
+
+    private void ClearCells()
+    {
+        foreach (var cell in _cellDisplayers)
+            ClearPlace(cell.transform);
+    }
+
     [ContextMenu("Display Inventory")]
     public void DisplayCells()
     {
+        ClearCells();
         int counter = 0;
         foreach (var item in _slotsContainer.Cells)
         {

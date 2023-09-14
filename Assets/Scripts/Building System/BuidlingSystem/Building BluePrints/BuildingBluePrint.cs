@@ -3,7 +3,7 @@ using UnityEngine;
 
 public abstract class BuildingBluePrint : BluePrint
 {
-    [Header("Inventory Materials")] 
+    [Header("Inventory Materials")]
     [SerializeField] protected List<InventoryCell> _neededCellsForPlace = new List<InventoryCell>();
 
     private void OnEnable()

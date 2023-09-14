@@ -19,7 +19,7 @@ public class BuildingsNetworkingSpawner : NetworkBehaviour
    public void SpawnPrefServerRpc(int id, Vector3 pos, Quaternion rot)
    {
       if(!IsServer) return;
-      var obj = Instantiate(_buildingObjectsPool.ObjectsPool[id], pos, rot);
+      var obj = Instantiate(_buildingObjectsPool.GetObjectByPoolId(id), pos, rot);
       obj.DontDestroyWithOwner = true;
       obj.Spawn();
    }

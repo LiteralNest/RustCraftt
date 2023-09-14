@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 public class InventorySlotsContainer : SlotsContainer
 {
     public static InventorySlotsContainer singleton { get; set; }
@@ -5,6 +7,27 @@ public class InventorySlotsContainer : SlotsContainer
     private void Awake()
         => singleton = this;
 
+    private void Start()
+        => TryLoadInventory();
+    
+    private void ConvertWebDataToList(List<SendingDataField> data)
+    {
+        ResetCells();
+        int i = 0;
+        foreach (var cell in data)
+        {
+            Cells[i] = new InventoryCell(ItemsContainer.singleton.GetItemById(cell.ItemId), cell.Count);
+            i++;
+        }
+        _cellsDisplayer.DisplayCells();
+    }
+    
+    private async void TryLoadInventory()
+    {
+        List<SendingDataField> data = await FirebaseInventoryDataSender.singleton.TryLoadData();
+        ConvertWebDataToList(data);
+    }
+    
     public override void AddItemToDesiredSlot(Item item, int count)
     {
         GlobalEventsContainer.InventoryItemAdded?.Invoke(new InventoryCell(item, count));
