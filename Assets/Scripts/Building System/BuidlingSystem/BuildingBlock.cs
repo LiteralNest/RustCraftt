@@ -1,11 +1,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BuildingBlock : DamagableBuilding
+public class BuildingBlock : MonoBehaviour, IDamagable
 {
-    [field:SerializeField] public List<InventoryCell> NeededCellsForPlace = new List<InventoryCell>();
-    [SerializeField] private List<GameObject> _levels = new List<GameObject>();
+    [SerializeField] private List<Block> _levels = new List<Block>();
+    [field:SerializeField] public int Hp { get; private set; }
     
+    public Block CurrentBlock => _levels[_currentLevel];
+    public List<InventoryCell> NeededCellsForPlace => _levels[_currentLevel].NeededCellsForPlace;
+
     private int _currentLevel;
     private GameObject _activeBlock;
     
@@ -19,18 +22,28 @@ public class BuildingBlock : DamagableBuilding
         _currentLevel = slotId;
         if (_activeBlock != null)
             _activeBlock.SetActive(false);
-        var activatingBlock = _levels[_currentLevel].gameObject;
-        activatingBlock.SetActive(true);
-        _activeBlock = activatingBlock;
+        var activatingBlock = _levels[_currentLevel];
+        activatingBlock.gameObject.SetActive(true);
+        _activeBlock = activatingBlock.gameObject;
+        Hp = activatingBlock.GetComponent<Block>().Hp;
     }
 
     [ContextMenu("Upgrade")]
     public void Upgrade()
         => InitSlot(_currentLevel + 1);
     
-    
     public void Repair()
     {
         //Додати Needed Resources for upgrade
+    }
+
+    public bool CanBeUpgraded()
+        => _currentLevel < _levels.Count - 1;
+    
+    public void GetDamage(int damage)
+    {
+        Hp -= damage;
+        if(Hp <= 0)
+            Destroy(gameObject);
     }
 }

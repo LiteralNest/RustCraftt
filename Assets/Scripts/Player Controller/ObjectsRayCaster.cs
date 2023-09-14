@@ -1,11 +1,14 @@
-using System;
 using TMPro;
 using UnityEngine;
-using UnityEngine.Serialization;
+using UnityEngine.UI;
 
 public class ObjectsRayCaster : MonoBehaviour
 {
-    [Header("UI")] [SerializeField] private GameObject _pointPanel;
+    [Header("Attached scripts")] [SerializeField]
+    private BuildingDataDisplayer _buildingDataDisplayer;
+    
+    [Header("UI")]
+    [SerializeField] private GameObject _pointPanel;
     [SerializeField] private TMP_Text _obtainText;
     [SerializeField] private GameObject _lootButton;
     [SerializeField] private TMP_Text _lootButtonText;
@@ -14,10 +17,12 @@ public class ObjectsRayCaster : MonoBehaviour
     [SerializeField] private float _maxOreHitDistance = 3f;
     [SerializeField] private float _maxGatheringDistance = 5f;
     [SerializeField] private float _maxLootBoxDistance = 5f;
+    [SerializeField] private float _maxBlockHitDistance = 5f;
     
     public ResourceOre TargetResourceOre { get; private set; }
     public GatheringOre TargetGathering { get; private set; }
     public LootBox TargetBox { get; private set; }
+    private BuildingBlock _targetBlock;
 
     private void FixedUpdate()
     {
@@ -63,12 +68,28 @@ public class ObjectsRayCaster : MonoBehaviour
     
     private void TryRaycastTargets()
     {
+        _buildingDataDisplayer.DisableBuildingPanel();
+        if (_targetBlock != null)
+        {
+            _targetBlock.CurrentBlock.TurnOutline(false);
+            _targetBlock = null;
+        }
         SetLootText("", false);
         TargetBox = null;
         TargetGathering = null;
         TargetResourceOre = null;
         SetLootButton("", false);
 
+        if(TryRaycast("Block", _maxBlockHitDistance, out BuildingBlock block))
+        {
+            if (block != null)
+            {
+                _targetBlock = block;
+                _targetBlock.CurrentBlock.TurnOutline(true);
+                _buildingDataDisplayer.DisplayBuildingData(_targetBlock);
+            }
+        }
+        
         if (TryRaycast("Gathering", _maxGatheringDistance, out GatheringOre item))
         {
             if (OreReady(item))

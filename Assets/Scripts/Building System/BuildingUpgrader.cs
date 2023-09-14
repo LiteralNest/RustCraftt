@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.Serialization;
 
 public class BuildingUpgrader : MonoBehaviour
 {
@@ -11,7 +10,7 @@ public class BuildingUpgrader : MonoBehaviour
 
     [Header("UI")] [SerializeField] private GameObject _hammerPanel;
     
-    private BuildingObject _targetBuildingObject;
+    private BuildingBlock _targetBuildingObject;
     
     private void OnEnable()
         => GlobalEventsContainer.BuildingHammerActivated += OnBuildingHammerActivated;
@@ -38,9 +37,9 @@ public class BuildingUpgrader : MonoBehaviour
         => _canUpgrade = value;
     
     private bool CanUpgradeObject()
-        => !(_targetBuildingObject == null || !_targetBuildingObject.CanBeUpgrade());
+        => !(_targetBuildingObject == null || !_targetBuildingObject.CanBeUpgraded());
     
-    private BuildingObject GetTargetBuildingObject()
+    private BuildingBlock GetTargetBuildingObject()
     {
         Vector3 rayOrigin = _targetCamera.transform.position;
         Vector3 rayDirection = _targetCamera.transform.forward;
@@ -48,9 +47,9 @@ public class BuildingUpgrader : MonoBehaviour
 
         if (Physics.Raycast(rayOrigin, rayDirection, out hit, Mathf.Infinity, _targetMask))
         {
-            if (hit.transform.CompareTag("Building"))
+            if (hit.transform.CompareTag("Block"))
             {
-                if (!hit.transform.TryGetComponent<BuildingObject>(out BuildingObject res)) return null;
+                if (!hit.transform.TryGetComponent<BuildingBlock>(out BuildingBlock res)) return null;
                 return res;
             }
         }
@@ -60,14 +59,14 @@ public class BuildingUpgrader : MonoBehaviour
     public void Upgrade()
     {
         if(!CanUpgradeObject()) return;
-        _targetBuildingObject.TryUpgrade();
+        _targetBuildingObject.Upgrade();
         _hammerPanel.SetActive(false);
     }
 
     public void Destroy()
     {
         if(_targetBuildingObject == null) return;
-        _targetBuildingObject.ReturnMaterialsToInventory();
+        // _targetBuildingObject.ReturnMaterialsToInventory();
         Destroy(_targetBuildingObject.gameObject);
         _targetBuildingObject = null;
         _hammerPanel.SetActive(false);

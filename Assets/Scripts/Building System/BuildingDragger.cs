@@ -46,4 +46,10 @@ public class BuildingDragger : MonoBehaviour
         ClearCurrentPref();
         _currentPref = target;
     }
+
+    public void Rotate()
+    {
+        if(_currentPref == null) return;
+        _currentPref.Rotate();
+    }
 }

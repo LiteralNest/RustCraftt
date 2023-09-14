@@ -49,10 +49,22 @@ public class Floor : BuildingBluePrint
         {
             if (hit.transform.CompareTag("Block"))
             {
+                int x, y, z;
                 var structureSize = _targetBuildingStruncture.StructureSize;
-                int x = Mathf.RoundToInt(hit.point.x + hit.normal.x / (2 / structureSize.x));
-                int y = Mathf.RoundToInt(hit.point.y + hit.normal.y / (2 / structureSize.y));
-                int z = Mathf.RoundToInt(hit.point.z + hit.normal.z / (2 / structureSize.z));
+                
+                y = Mathf.RoundToInt(hit.point.y + hit.normal.y / (2 / structureSize.y));
+
+                if (_rotatedSide)
+                {
+                    x = Mathf.RoundToInt(hit.point.x + hit.normal.x / (2 / structureSize.z));
+                    z = Mathf.RoundToInt(hit.point.z + hit.normal.z / (2 / structureSize.x));
+                }
+                else
+                {
+                    x = Mathf.RoundToInt(hit.point.x + hit.normal.x / (2 / structureSize.x));
+                    z = Mathf.RoundToInt(hit.point.z + hit.normal.z / (2 / structureSize.z));
+                }
+
                 coords = new Vector3(x, y, z);
                 return true;
             }

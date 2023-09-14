@@ -25,6 +25,14 @@ public abstract class BluePrint : MonoBehaviour
     public virtual void TriggerExit(Collider other){}
     #endregion
 
+    protected bool _rotatedSide;
+    
+    public void Rotate()
+    {
+        transform.eulerAngles += new Vector3(0, 90, 0);
+        _rotatedSide = !_rotatedSide;
+    }
+
     public void SetCanBePlace(bool value)
     {
         CanBePlaced = value;

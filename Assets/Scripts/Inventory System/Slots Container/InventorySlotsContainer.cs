@@ -24,6 +24,7 @@ public class InventorySlotsContainer : SlotsContainer
     
     private async void TryLoadInventory()
     {
+        if(FirebaseInventoryDataSender.singleton == null) return;
         List<SendingDataField> data = await FirebaseInventoryDataSender.singleton.TryLoadData();
         ConvertWebDataToList(data);
     }
