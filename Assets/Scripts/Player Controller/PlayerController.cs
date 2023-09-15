@@ -4,6 +4,8 @@ using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour
 {
+    [SerializeField] private Animator _animator;
+    
     [Header("Move")]
     [SerializeField] private NetworkVariable<float> _movingSpeed = new(5, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
 
@@ -19,14 +21,16 @@ public class PlayerController : MonoBehaviour
     
     private void Start()
     => _currentMovingCpeed = _movingSpeed.Value;
-    
+
     private void Update()
     {
         if (!_ifRunning)
         {
+            _animator.SetBool("Running", false);
             Move();
             return;
         }
+        _animator.SetBool("Running", true);
         transform.Translate(Vector3.forward * _currentMovingCpeed * Time.deltaTime, Space.Self);
     }
 
@@ -40,8 +44,15 @@ public class PlayerController : MonoBehaviour
     private void Move()
     {
         Vector3 movement = new Vector3(_move.x, 0f, _move.y);
-        
-        transform.Translate(movement * _currentMovingCpeed * Time.deltaTime, Space.Self);
+        if (movement != Vector3.zero)
+        {
+            _animator.SetBool("Walking", true);
+            Debug.Log(true);
+            transform.Translate(movement * _currentMovingCpeed * Time.deltaTime, Space.Self);
+            return;
+        }
+        _animator.SetBool("Walking", false);
+        Debug.Log(false);
     }
 
     public void StartRunning()

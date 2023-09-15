@@ -4,8 +4,9 @@ using UnityEngine;
 [RequireComponent(typeof(ObjectsRayCaster))]
 public class PlayerResourcesGatherer : MonoBehaviour
 {
-    [Header("Attached Scripts")] [SerializeField]
-    private InventoryHandler _inventoryHandler;
+    [Header("Attached Scripts")]
+    [SerializeField] private Animator _animator;
+    [SerializeField] private InventoryHandler _inventoryHandler;
     [SerializeField] private ObjectsRayCaster _objectsRayCaster;
     
     [Header("Ore")]
@@ -36,20 +37,27 @@ public class PlayerResourcesGatherer : MonoBehaviour
 
     public void StartGathering()
     {
+        _animator.SetBool("Mining", true);
         _gathering = true;
     }
     
     public void StopGathering()
     {
+        _animator.SetBool("Mining", false);
         _gathering = false;
     }
     
     private void TryHit()
     {
+       
         if (!_canHit) return;
         Recover();
         var ore = _objectsRayCaster.TargetResourceOre;
-        if(ore == null) return;
+        if (ore == null)
+        {
+            return;
+        }
+
         ore.MinusHp(_inventoryHandler.ActiveItem);
     }
 
