@@ -3,7 +3,7 @@ using UnityEngine;
 public class BuildingDragger : MonoBehaviour
 {
     [SerializeField] private Camera _targetCamera;
-    [SerializeField] private BuildingBluePrint _currentPref;
+    [SerializeField] private BluePrint _currentPref;
     [SerializeField] private float _distance = 5f;
 
     private void Update()
@@ -45,7 +45,7 @@ public class BuildingDragger : MonoBehaviour
         _currentPref = null;
     }
     
-    public void SetCurrentPref(BuildingBluePrint target)
+    public void SetCurrentPref(BluePrint target)
     {
         ClearCurrentPref();
         _currentPref = target;
