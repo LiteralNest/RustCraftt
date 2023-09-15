@@ -1,11 +1,12 @@
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class BuildingBlock : MonoBehaviour, IDamagable
 {
     [SerializeField] private List<Block> _levels = new List<Block>();
     [field:SerializeField] public int Hp { get; private set; }
-    
+    [field:SerializeField] public BuildingConnector BuildingConnector { get; private set; }
     public Block CurrentBlock => _levels[_currentLevel];
     public List<InventoryCell> NeededCellsForPlace => _levels[_currentLevel].NeededCellsForPlace;
 

@@ -13,7 +13,7 @@ public class GroundChecker : MonoBehaviour
     
     private void OnTriggerExit(Collider other)
     {
-        if (other.CompareTag("Ground"))
+        if (other.CompareTag("Ground") || other.CompareTag("Block"))
             IsGrounded = false;
     }
 }

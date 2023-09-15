@@ -17,7 +17,6 @@ public class PlayerNetworkController : MonoBehaviour
     [SerializeField] private BuildingChooser _buildingChooser;
     [SerializeField] private BuildingDragger _buildingDragger;
     [SerializeField] private BuildingUpgrader _buildingUpgrader;
-    [SerializeField] private ObjectPlacer _objectPlacer;
     [SerializeField] private PlayerFightHandler _playerFightHandler;
     [SerializeField] private PlayerHandler _playerHandler;
 
@@ -45,7 +44,6 @@ public class PlayerNetworkController : MonoBehaviour
         Destroy(_buildingChooser);
         Destroy(_buildingDragger);
         Destroy(_buildingUpgrader);
-        Destroy(_objectPlacer);
         Destroy(_playerHandler);
         Destroy(_playerFightHandler);
         
