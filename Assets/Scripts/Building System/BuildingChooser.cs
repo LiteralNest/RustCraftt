@@ -12,7 +12,7 @@ public class BuildingChooser : MonoBehaviour
             _buildingDragger = GetComponent<BuildingDragger>();
     }
 
-    public void ChooseBuilding(BuildingBluePrint buildingBluePrint)
+    public void ChooseBuilding(BluePrint buildingBluePrint)
     {
         var instance = Instantiate(buildingBluePrint);
         _buildingDragger.SetCurrentPref(instance);
