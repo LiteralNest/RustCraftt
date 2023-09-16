@@ -9,6 +9,7 @@ public class Ammo : NetworkBehaviour
     [SerializeField] private float _despawnTime;
     [SerializeField] private int _damage = 10;
     [SerializeField] private Rigidbody _rb;
+    [SerializeField] private bool _destroyOnEnter;
     // [SerializeField] private float _torque;
 
     private void Start()
@@ -35,6 +36,7 @@ public class Ammo : NetworkBehaviour
     {
         if (!other.gameObject.TryGetComponent<IDamagable>(out var damagable)) return;
         damagable.GetDamage(_damage);
+        if(_destroyOnEnter) Destroy(gameObject);
     }
 
     private IEnumerator DespawnObject()

@@ -47,12 +47,10 @@ public class PlayerController : MonoBehaviour
         if (movement != Vector3.zero)
         {
             _animator.SetBool("Walking", true);
-            Debug.Log(true);
             transform.Translate(movement * _currentMovingCpeed * Time.deltaTime, Space.Self);
             return;
         }
         _animator.SetBool("Walking", false);
-        Debug.Log(false);
     }
 
     public void StartRunning()
