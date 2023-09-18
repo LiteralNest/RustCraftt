@@ -13,6 +13,7 @@ public class BuildingConnector : MonoBehaviour
 
     public ConnectedStructure GetInstantiatedStructure()
     {
+        Vector3 position = transform.position;
         _currentStructure = Instantiate(_structurePrefab, transform.position, Quaternion.identity);
         _buildingBlock.transform.SetParent(_currentStructure.transform);
         return _currentStructure;

@@ -1,16 +1,12 @@
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 public abstract class BluePrint : MonoBehaviour
 {
     public BuildingStructure TargetBuildingStructure;
-    [Header("Colors")] 
-    [SerializeField] protected Material _normalMaterial;
-    [SerializeField] protected Material _negativeMaterial;
-    
+
     [Header("Renderers")] 
-    [SerializeField] protected List<Renderer> _renderers = new List<Renderer>();
+    [SerializeField] protected List<BuildingBluePrintCell> _bluePrintCells = new List<BuildingBluePrintCell>();
 
     [Header("Layers")]
     [SerializeField] protected LayerMask _targetMask;
@@ -69,29 +65,7 @@ public abstract class BluePrint : MonoBehaviour
         transform.eulerAngles += new Vector3(0, 90, 0);
         _rotatedSide = !_rotatedSide;
     }
-
-    public void SetCanBePlace(bool value)
-    {
-        CanBePlaced = value;
-        DisplayRenderers();
-    }
     
-    private void SetMaterialToRenderers(Material material)
-    {
-        foreach (var renderer in _renderers)
-            renderer.material = material;
-    }
-    
-    protected void DisplayRenderers()
-    {
-        if (CanBePlaced)
-        {
-            SetMaterialToRenderers(_normalMaterial);
-            return;
-        }
-        SetMaterialToRenderers(_negativeMaterial);
-    }
-
     public bool TryPlace()
     {
         if (!CanBePlaced)
@@ -105,4 +79,7 @@ public abstract class BluePrint : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
         => TriggerExit(other);
+
+    public void SetCanBePlaced(bool value)
+        => CanBePlaced = value;
 }

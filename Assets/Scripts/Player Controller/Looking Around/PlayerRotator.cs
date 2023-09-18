@@ -5,6 +5,8 @@ public class PlayerRotator : MonoBehaviour, IDragHandler, IPointerDownHandler
 {
     [Header("Attached Scripts")]
     [SerializeField] private PlayerController _playerController;
+
+    [SerializeField] private Transform _head;
     [Header("Main Parameters")]
     [SerializeField] private float _rotationSpeed = 3f;
     
@@ -31,7 +33,7 @@ public class PlayerRotator : MonoBehaviour, IDragHandler, IPointerDownHandler
         float rotationY = touchDelta.y * _rotationSpeed * Time.deltaTime;
 
         _playerController.transform.Rotate(Vector3.up * rotationX);
-        Camera.main.transform.Rotate(Vector3.left * rotationY);
+        _head.transform.Rotate(Vector3.left * rotationY);
 
         _touchStartPos = _touchEndPos;
     }

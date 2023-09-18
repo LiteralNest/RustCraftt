@@ -12,15 +12,13 @@ public class PlayerNetworkController : MonoBehaviour
     [SerializeField] private PlayerJumper _playerJumper;
     [SerializeField] private PlayerSitter _playerSitter;
     [SerializeField] private PlayerResourcesGatherer _playerResourcesGatherer;
-    [SerializeField] private GroundChecker _groundChecker;
     [SerializeField] private ObjectsRayCaster _objectsRayCaster;
     [SerializeField] private BuildingChooser _buildingChooser;
     [SerializeField] private BuildingDragger _buildingDragger;
     [SerializeField] private BuildingUpgrader _buildingUpgrader;
     [SerializeField] private PlayerFightHandler _playerFightHandler;
-    [SerializeField] private PlayerHandler _playerHandler;
 
-    [Header("Children")]
+    [Header("Children")] [SerializeField] private GameObject _eyes;
     [SerializeField] private GameObject _characterStaff;
     [SerializeField] private GameObject _canvas;
 
@@ -39,14 +37,13 @@ public class PlayerNetworkController : MonoBehaviour
         Destroy(_playerJumper);
         Destroy(_playerSitter);
         Destroy(_playerResourcesGatherer);
-        Destroy(_groundChecker);
         Destroy(_objectsRayCaster);
         Destroy(_buildingChooser);
         Destroy(_buildingDragger);
         Destroy(_buildingUpgrader);
-        Destroy(_playerHandler);
         Destroy(_playerFightHandler);
-        
+
+        Destroy(_eyes);
         Destroy(_canvas);
         Destroy(_characterStaff);
     }

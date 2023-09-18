@@ -1,15 +1,19 @@
 using System.Collections.Generic;
+using UnityEngine;
 
 public class InventorySlotsContainer : SlotsContainer
 {
     public static InventorySlotsContainer singleton { get; set; }
 
-    private void Awake()
-        => singleton = this;
-
-    private void Start()
-        => TryLoadInventory();
+    [SerializeField] private PlayerNetCode _playerNetCode;
     
+    private void Start()
+    {
+        if(_playerNetCode.PlayerIsOwner())
+            singleton = this;
+        TryLoadInventory();
+    }
+
     private void ConvertWebDataToList(List<SendingDataField> data)
     {
         ResetCells();

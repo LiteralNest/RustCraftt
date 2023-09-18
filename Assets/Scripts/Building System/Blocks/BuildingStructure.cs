@@ -43,9 +43,9 @@ public class BuildingStructure : MonoBehaviour
         {
             structures = GetAddedStructures(structures, block.BuildingConnector.GetRelativeStructuresList());
         }
-
+        
         int i = 0;
-
+        
         if (structures.Count == 0)
             currentStructure = _blocks[0].BuildingConnector.GetInstantiatedStructure();
         else
@@ -61,18 +61,13 @@ public class BuildingStructure : MonoBehaviour
                 structures[i].MigrateBlocks(currentStructure);
                 structures.RemoveAt(i);
             }
-            // foreach (var structure in structures)
-            // {
-            //     
-            //     structure.MigrateBlocks(currentStructure);
-            // }
         }
-
+        
         foreach (var block in _blocks)
         {
             block.BuildingConnector.SetNewStructure(currentStructure);
         }
-
-        Destroy(gameObject);
+        
+        // Destroy(gameObject);
     }
 }

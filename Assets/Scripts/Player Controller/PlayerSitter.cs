@@ -1,6 +1,5 @@
 using UnityEngine;
 
-[RequireComponent(typeof(GroundChecker))]
 public class PlayerSitter : MonoBehaviour
 {
     [SerializeField] private GroundChecker _groundChecker;

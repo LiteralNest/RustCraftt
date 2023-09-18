@@ -19,11 +19,11 @@ public class BuildingDragger : MonoBehaviour
     {
         if (!_currentPref.TryGetObjectCoords(_targetCamera, out var coords))
         {
-            _currentPref.SetCanBePlace(false);
+            _currentPref.SetCanBePlaced(false);
             _currentPref.transform.position = GetFrontOfCameraPosition();
             return;
         }
-        _currentPref.SetCanBePlace(true);
+        _currentPref.SetCanBePlaced(true);
         _currentPref.transform.position = coords;
     }
 

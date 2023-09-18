@@ -3,35 +3,30 @@ using UnityEngine;
 
 public class BuildingBluePrint : BluePrint
 {
-  
     private List<GameObject> _triggeredObjects = new List<GameObject>();
 
     private void OnEnable()
         => GlobalEventsContainer.InventoryDataChanged += CheckForAvailable;
-    
+
     private void OnDisable()
         => GlobalEventsContainer.InventoryDataChanged -= CheckForAvailable;
-    
-    private void Start()
+
+    private void Update()
     {
         CheckForAvailable();
     }
 
     public override void CheckForAvailable()
     {
-        if (_triggeredObjects.Count != 0)
-        {
-            CanBePlaced = false;
-            DisplayRenderers();
-            return;
-        }
-        CanBePlaced = InventorySlotsContainer.singleton.ItemsAvaliable(TargetBuildingStructure.GetPlacingRemovingCells());
-        DisplayRenderers();
+        foreach (var cell in _bluePrintCells)
+            cell.SetEnoughMaterials(
+                InventorySlotsContainer.singleton.ItemsAvaliable(TargetBuildingStructure.GetPlacingRemovingCells()));
     }
 
     public override void Place()
     {
-        BuildingsNetworkingSpawner.singleton.SpawnPrefServerRpc(TargetBuildingStructure.Id, transform.position, transform.rotation);
+        foreach (var cell in _bluePrintCells)
+            cell.TryPlace();
     }
 
     public override void TriggerEntered(Collider other)
