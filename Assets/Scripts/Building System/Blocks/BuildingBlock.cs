@@ -5,53 +5,86 @@ using UnityEngine;
 public class BuildingBlock : NetworkBehaviour, IDamagable
 {
     [SerializeField] private List<Block> _levels = new List<Block>();
-    [field:SerializeField] public int Hp { get; private set; }
-    [field:SerializeField] public BuildingConnector BuildingConnector { get; private set; }
-    public Block CurrentBlock => _levels[_currentLevel];
-    public List<InventoryCell> NeededCellsForPlace => _levels[_currentLevel].NeededCellsForPlace;
 
-    private int _currentLevel;
+    public NetworkVariable<ushort> Hp = new(100, NetworkVariableReadPermission.Everyone,
+        NetworkVariableWritePermission.Owner);
+
+    [field: SerializeField] public BuildingConnector BuildingConnector { get; private set; }
+    public Block CurrentBlock => _levels[_currentLevel.Value];
+    public List<InventoryCell> NeededCellsForPlace => _levels[_currentLevel.Value].NeededCellsForPlace;
+
+    private ushort _startHp;
+    private NetworkVariable<ushort> _currentLevel = new(0, NetworkVariableReadPermission.Everyone,
+    NetworkVariableWritePermission.Owner);
     private GameObject _activeBlock;
-    
+
     private void Start()
     {
-        InitSlot(0);
+        InitSlot(_currentLevel.Value);
+        _currentLevel.OnValueChanged += (ushort prevValue, ushort newValue) =>
+        {
+            InitSlot(newValue);
+        };
     }
 
     private void InitSlot(int slotId)
     {
-        _currentLevel = slotId;
         if (_activeBlock != null)
             _activeBlock.SetActive(false);
-        var activatingBlock = _levels[_currentLevel];
+        var activatingBlock = _levels[_currentLevel.Value];
         activatingBlock.gameObject.SetActive(true);
         _activeBlock = activatingBlock.gameObject;
-        Hp = activatingBlock.GetComponent<Block>().Hp;
+        var gettingHp = (ushort)activatingBlock.GetComponent<Block>().Hp;
+        SetHpServerRpc(gettingHp);
+        _startHp = gettingHp;
     }
 
+    [ServerRpc(RequireOwnership = false)]
+    private void SetLevelServerRpc(ushort value)
+    {
+        _currentLevel.Value = value;
+    }
+    
     [ContextMenu("Upgrade")]
     public void Upgrade()
-        => InitSlot(_currentLevel + 1);
-    
-    public void Repair()
+        => SetLevelServerRpc((ushort)(_currentLevel.Value + 1));
+
+    public bool CanBeRepaired()
     {
-        //Додати Needed Resources for upgrade
+        int damagingPercent = _startHp / Hp.Value;
+        List<InventoryCell> cells = new List<InventoryCell>();
+        foreach (var cell in NeededCellsForPlace)
+            cells.Add(new InventoryCell( cell.Item, cell.Count / damagingPercent));
+        return InventorySlotsContainer.singleton.ItemsAvaliable(cells);
+    }
+
+    public void TryRepair()
+    {
+        if (!CanBeRepaired()) return;
+        SetHpServerRpc(_startHp);
     }
 
     public bool CanBeUpgraded()
-        => _currentLevel < _levels.Count - 1;
-    
+        => _currentLevel.Value < _levels.Count - 1;
+
+    [ServerRpc(RequireOwnership = false)]
+    private void SetHpServerRpc(ushort value)
+    {
+        Hp.Value = value;
+        if (Hp.Value <= 0)
+            Destroy(gameObject);
+    }
+
     public void GetDamage(int damage)
     {
-        Hp -= damage;
-        if(Hp <= 0)
-            Destroy(gameObject);
+        int hp = Hp.Value - damage;
+        SetHpServerRpc((ushort)hp);
     }
 
     public Block GetUpgradingBlock()
     {
-        if (_currentLevel == _levels.Count - 1)
-            return _levels[_currentLevel];
-        return _levels[_currentLevel + 1];
+        if (_currentLevel.Value == _levels.Count - 1)
+            return _levels[_currentLevel.Value];
+        return _levels[_currentLevel.Value + 1];
     }
 }

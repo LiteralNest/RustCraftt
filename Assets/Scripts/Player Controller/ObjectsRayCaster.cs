@@ -18,6 +18,9 @@ public class ObjectsRayCaster : MonoBehaviour
     [SerializeField] private float _maxGatheringDistance = 5f;
     [SerializeField] private float _maxLootBoxDistance = 5f;
     [SerializeField] private float _maxBlockHitDistance = 5f;
+
+    [Header("Layers")] [SerializeField] private LayerMask _defaultMask;
+    [SerializeField] private LayerMask _blockMask;
     
     public ResourceOre TargetResourceOre { get; private set; }
     public GatheringOre TargetGathering { get; private set; }
@@ -29,17 +32,17 @@ public class ObjectsRayCaster : MonoBehaviour
         TryRaycastTargets();
     }
 
-    private bool TryRaycast<T>(string tag, float hitDistance, out T target)
+    private bool TryRaycast<T>(string tag, float hitDistance, out T target, LayerMask layer)
     {
         target = default;
         Ray ray = new Ray(Camera.main.transform.position, Camera.main.transform.forward);
         RaycastHit hitInfo;
 
-        if (Physics.Raycast(ray, out hitInfo, hitDistance))
+        if (Physics.Raycast(ray, out hitInfo, hitDistance, layer))
         {
             GameObject hitObject = hitInfo.collider.gameObject;
             if(!hitObject.CompareTag(tag)) return false;
-            target = hitObject.GetComponent<T>();
+            if (!hitObject.TryGetComponent<T>(out target)) return false;
             return true;
         }
 
@@ -80,7 +83,7 @@ public class ObjectsRayCaster : MonoBehaviour
         TargetResourceOre = null;
         SetLootButton("", false);
 
-        if(TryRaycast("Block", _maxBlockHitDistance, out BuildingBlock block))
+        if(TryRaycast("Block", _maxBlockHitDistance, out BuildingBlock block, _blockMask))
         {
             if (block != null)
             {
@@ -90,7 +93,7 @@ public class ObjectsRayCaster : MonoBehaviour
             }
         }
         
-        if (TryRaycast("Gathering", _maxGatheringDistance, out GatheringOre item))
+        if (TryRaycast("Gathering", _maxGatheringDistance, out GatheringOre item, _defaultMask))
         {
             if (OreReady(item))
             {
@@ -100,14 +103,14 @@ public class ObjectsRayCaster : MonoBehaviour
             }
         }
 
-        if (TryRaycast("LootBox", _maxLootBoxDistance, out LootBox lootBox))
+        if (TryRaycast("LootBox", _maxLootBoxDistance, out LootBox lootBox, _defaultMask))
         {
             TargetBox = lootBox;
             SetLootButton("Open");
             return;
         }
         
-        if (TryRaycast("Ore", _maxOreHitDistance, out ResourceOre ore))
+        if (TryRaycast("Ore", _maxOreHitDistance, out ResourceOre ore, _defaultMask))
         {
             if (OreReady(ore))
             {

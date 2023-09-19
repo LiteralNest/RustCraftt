@@ -67,6 +67,11 @@ public class BuildingUpgrader : MonoBehaviour
         _hammerPanel.SetActive(false);
     }
 
+    public void Repair()
+    {
+        _targetBuildingObject.TryRepair();
+    }
+    
     public void Destroy()
     {
         if(_targetBuildingObject == null) return;

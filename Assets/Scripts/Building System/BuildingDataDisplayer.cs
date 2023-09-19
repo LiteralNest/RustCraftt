@@ -15,7 +15,7 @@ public class BuildingDataDisplayer : MonoBehaviour
    {
       _displayingPanel.SetActive(true);
       
-      int hp = block.Hp;
+      int hp = block.Hp.Value;
       int maxHp = block.CurrentBlock.Hp;
       
       _fillingImage.fillAmount = (float)hp / maxHp;
