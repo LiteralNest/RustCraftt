@@ -1,5 +1,3 @@
-using UnityEngine;
-
 public class ObjectBluePrint : BluePrint
 {
     public override void CheckForAvailable()

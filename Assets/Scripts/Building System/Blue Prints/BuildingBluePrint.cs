@@ -18,14 +18,14 @@ public class BuildingBluePrint : BluePrint
 
     public override void CheckForAvailable()
     {
-        foreach (var cell in _bluePrintCells)
+        foreach (var cell in BluePrintCells)
             cell.SetEnoughMaterials(
                 InventorySlotsContainer.singleton.ItemsAvaliable(TargetBuildingStructure.GetPlacingRemovingCells()));
     }
 
     public override void Place()
     {
-        foreach (var cell in _bluePrintCells)
+        foreach (var cell in BluePrintCells)
             cell.TryPlace();
     }
 

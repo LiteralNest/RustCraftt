@@ -1,8 +1,8 @@
 using System.Collections.Generic;
-using Unity.VisualScripting;
+using Unity.Netcode;
 using UnityEngine;
 
-public class BuildingBlock : MonoBehaviour, IDamagable
+public class BuildingBlock : NetworkBehaviour, IDamagable
 {
     [SerializeField] private List<Block> _levels = new List<Block>();
     [field:SerializeField] public int Hp { get; private set; }

@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 public class BuildingObjectsPool : MonoBehaviour
 {
@@ -12,7 +11,7 @@ public class BuildingObjectsPool : MonoBehaviour
         foreach (var obj in _objectsPool)
         {
             if (obj.Id == id)
-                return obj.GetComponent<NetworkObject>();
+                return obj.NetworkObject;
         }
         Debug.LogError("Can't find object with id: " + id);
         return null;

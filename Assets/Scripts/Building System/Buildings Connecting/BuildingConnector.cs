@@ -1,4 +1,6 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
+using Unity.Netcode;
 using UnityEngine;
 
 [RequireComponent(typeof(BoxCollider))]
@@ -11,11 +13,17 @@ public class BuildingConnector : MonoBehaviour
 
     private List<BuildingConnector> _connectors = new List<BuildingConnector>();
 
+    private void Start()
+    {
+        ConnectBlocks();
+    }
+    
     public ConnectedStructure GetInstantiatedStructure()
     {
         Vector3 position = transform.position;
         _currentStructure = Instantiate(_structurePrefab, transform.position, Quaternion.identity);
-        _buildingBlock.transform.SetParent(_currentStructure.transform);
+        _currentStructure.GetComponent<NetworkObject>().Spawn();
+        _buildingBlock.transform.GetComponent<NetworkObject>().TrySetParent(_currentStructure.transform);
         return _currentStructure;
     }
     
@@ -23,7 +31,7 @@ public class BuildingConnector : MonoBehaviour
     {
         structure.Blocks.Add(_buildingBlock);
         _currentStructure = structure;
-        _buildingBlock.transform.SetParent(_currentStructure.transform);
+        _buildingBlock.GetComponent<NetworkObject>().TrySetParent(_currentStructure.transform);
     }
 
     private void OnTriggerEnter(Collider other)
@@ -43,4 +51,49 @@ public class BuildingConnector : MonoBehaviour
         }
         return res;
     }
+    
+    private List<ConnectedStructure> GetAddedStructures(List<ConnectedStructure> startedStructures,
+        List<ConnectedStructure> addingStructures)
+    {
+        List<ConnectedStructure> res = startedStructures;
+        foreach (var structure in addingStructures)
+        {
+            if (startedStructures.Contains(structure)) continue;
+            res.Add(structure);
+        }
+
+        return res;
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    private async void ConnectBlocks()
+    {
+        if(PlayerNetCode.singleton == null || !PlayerNetCode.singleton.IsServer) return;
+        await Task.Delay(100);
+        ConnectedStructure currentStructure = null;
+        List<ConnectedStructure> structures = new List<ConnectedStructure>();
+        structures = GetAddedStructures(structures, GetRelativeStructuresList());
+        
+        int i = 0;
+        
+        if (structures.Count == 0)
+            currentStructure = GetInstantiatedStructure();
+        else
+        {
+            currentStructure = structures[0];
+            while (structures.Count > 1)
+            {
+                if (i == 0)
+                {
+                    i++;
+                    continue;
+                }
+                structures[i].MigrateBlocks(currentStructure);
+                structures.RemoveAt(i);
+            }
+        }
+        
+        SetNewStructure(currentStructure);
+    }
+    
 }

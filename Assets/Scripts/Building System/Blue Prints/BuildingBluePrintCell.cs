@@ -1,7 +1,8 @@
  using System.Collections.Generic;
 using UnityEngine;
+ using UnityEngine.Serialization;
 
-[RequireComponent(typeof(Rigidbody), typeof(BoxCollider))]
+ [RequireComponent(typeof(Rigidbody), typeof(BoxCollider))]
 public class BuildingBluePrintCell : MonoBehaviour
 {
     [SerializeField] private BuildingStructure _targetBuildingStructure;
@@ -18,7 +19,7 @@ public class BuildingBluePrintCell : MonoBehaviour
     private void SetMaterial(Material material)
         => _renderer.material = material;
 
-    public void SetCanBePlaced(bool value)
+    private void SetCanBePlaced(bool value)
     {
         _canBePlaced = value;
         if(_canBePlaced)
@@ -46,6 +47,8 @@ public class BuildingBluePrintCell : MonoBehaviour
     public void TryPlace()
     {
         if (!_canBePlaced) return;
+        foreach (var cell in _targetBuildingStructure.GetPlacingRemovingCells())
+            InventorySlotsContainer.singleton.DeleteSlot(cell.Item, cell.Count);
         BuildingsNetworkingSpawner.singleton.SpawnPrefServerRpc(_targetBuildingStructure.Id, transform.position,
             transform.rotation);
     }

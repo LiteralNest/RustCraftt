@@ -1,12 +1,13 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public abstract class BluePrint : MonoBehaviour
 {
     public BuildingStructure TargetBuildingStructure;
-
-    [Header("Renderers")] 
-    [SerializeField] protected List<BuildingBluePrintCell> _bluePrintCells = new List<BuildingBluePrintCell>();
+    
+    [FormerlySerializedAs("_bluePrintCells")] [Header("Renderers")] 
+    public List<BuildingBluePrintCell> BluePrintCells = new List<BuildingBluePrintCell>();
 
     [Header("Layers")]
     [SerializeField] protected LayerMask _targetMask;
