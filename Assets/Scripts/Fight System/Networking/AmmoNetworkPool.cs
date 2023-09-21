@@ -28,6 +28,5 @@ public class AmmoNetworkPool : NetworkBehaviour
         obj.DontDestroyWithOwner = true;
         obj.Spawn();
         LongRangeWeapon weapon = GetWeaponById(weaponId);
-        weapon.AssignShoot(obj.gameObject, directionSpread);
     }
 }

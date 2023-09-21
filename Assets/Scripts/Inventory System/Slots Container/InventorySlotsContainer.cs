@@ -53,4 +53,16 @@ public class InventorySlotsContainer : SlotsContainer
         base.RemoveItemCountAt(item, count, index);
         GlobalEventsContainer.InventoryItemRemoved?.Invoke(new InventoryCell(item, count));
     }
+
+    public int GetItemCount(Item item)
+    {
+        int res = 0;
+        foreach (var cell in Cells)
+        {
+            if (cell.Item == null) continue;
+            if (cell.Item.Id == item.Id)
+                res += cell.Count;
+        }
+        return res;
+    }
 }

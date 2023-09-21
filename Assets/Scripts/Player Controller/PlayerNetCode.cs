@@ -29,9 +29,7 @@ public class PlayerNetCode : NetworkBehaviour
 
         ActiveItemId.OnValueChanged += (int prevValue, int newValue) =>
         {
-            Debug.Log("Checking id: getted client id:" + _gettedClientId.Value + " | Current Client id:" + GetClientId());
             if(GetClientId() != _gettedClientId.Value) return;
-            Debug.Log("Id check!");
             _inHandObjectsContainer.DisplayItems(ActiveItemId.Value);
         };
     }
@@ -56,7 +54,6 @@ public class PlayerNetCode : NetworkBehaviour
         // if(!IsOwner) return;
         ActiveItemId.Value = itemId;
         _gettedClientId.Value = clientId;
-        Debug.Log("Setted");
     }
 
     [ContextMenu("Test")]

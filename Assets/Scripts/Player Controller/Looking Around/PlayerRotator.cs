@@ -3,7 +3,8 @@ using UnityEngine.EventSystems;
 
 public class PlayerRotator : MonoBehaviour, IDragHandler, IPointerDownHandler
 {
-    [Header("Attached Scripts")]
+    [Header("Attached Scripts")] [SerializeField]
+    private PlayerHandsController _playerHandsController;
     [SerializeField] private PlayerController _playerController;
 
     [SerializeField] private Transform _head;
@@ -28,6 +29,7 @@ public class PlayerRotator : MonoBehaviour, IDragHandler, IPointerDownHandler
     {
         if(!GlobalValues.CanLookAround) return;
         _touchEndPos = eventData.position;
+        _playerHandsController.MoveHands();
         Vector2 touchDelta = _touchEndPos - _touchStartPos;
         float rotationX = touchDelta.x * _rotationSpeed * Time.deltaTime;
         float rotationY = touchDelta.y * _rotationSpeed * Time.deltaTime;
