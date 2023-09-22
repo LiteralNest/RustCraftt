@@ -28,7 +28,7 @@ public class PlayerRotator : MonoBehaviour, IDragHandler, IPointerDownHandler
     {
         if(!GlobalValues.CanLookAround) return;
         _touchEndPos = eventData.position;
-        _playerHandsController.MoveHands();
+        // _playerHandsController.MoveHands();
         Vector2 touchDelta = _touchEndPos - _touchStartPos;
 
         float rotationX = touchDelta.x * _rotationSpeed * Time.deltaTime;

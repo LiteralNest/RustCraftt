@@ -4,7 +4,8 @@ using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour
 {
-    [SerializeField] private Animator _animator;
+    [Header("Animators")]
+    [SerializeField] private Animator _handsAnimator;
     
     [Header("Move")]
     [SerializeField] private NetworkVariable<float> _movingSpeed = new(5, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
@@ -26,11 +27,9 @@ public class PlayerController : MonoBehaviour
     {
         if (!_ifRunning)
         {
-            _animator.SetBool("Running", false);
             Move();
             return;
         }
-        _animator.SetBool("Running", true);
         transform.Translate(Vector3.forward * _currentMovingCpeed * Time.deltaTime, Space.Self);
     }
 
@@ -46,28 +45,24 @@ public class PlayerController : MonoBehaviour
         Vector3 movement = new Vector3(_move.x, 0f, _move.y);
         if (movement != Vector3.zero)
         {
-            _animator.SetBool("Walking", true);
+            _handsAnimator.SetBool("Walking", true);
             transform.Translate(movement * _currentMovingCpeed * Time.deltaTime, Space.Self);
             return;
         }
-        _animator.SetBool("Walking", false);
+        _handsAnimator.SetBool("Walking", false);
     }
 
     public void StartRunning()
     {
+        _handsAnimator.SetBool("Running", true);
         _ifRunning = true;
         _currentMovingCpeed *= _runningKoef;
     }
 
     public void StopRunning()
     {
+        _handsAnimator.SetBool("Running", false);
         _ifRunning = false;
         _currentMovingCpeed = _movingSpeed.Value;
-    }
-
-    [ContextMenu("Change variable value")]
-    private void ChangeMovingSpeedVar()
-    {
-        _movingSpeed.Value = 10;
     }
 }
