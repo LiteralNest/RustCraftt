@@ -1,6 +1,5 @@
 using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class ObjectsRayCaster : MonoBehaviour
 {
@@ -78,6 +77,7 @@ public class ObjectsRayCaster : MonoBehaviour
             _targetBlock.CurrentBlock.TurnOutline(false);
             _targetBlock = null;
         }
+        GlobalEventsContainer.GatherButtonActivated?.Invoke(false);
         GlobalEventsContainer.PickUpButtonActivated?.Invoke(false);
         SetLootText("", false);
         TargetBox = null;
@@ -124,6 +124,7 @@ public class ObjectsRayCaster : MonoBehaviour
         {
             if (OreReady(ore))
             {
+                GlobalEventsContainer.GatherButtonActivated?.Invoke(true);
                 TargetResourceOre = ore;
                 SetLootText("Obtain");
                 return;

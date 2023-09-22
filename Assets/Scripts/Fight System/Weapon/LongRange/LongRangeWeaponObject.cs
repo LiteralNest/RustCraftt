@@ -80,6 +80,7 @@ public class LongRangeWeaponObject : WeaponObject
         int count = GetInventoryAmmoCount();
         if (count > Weapon.MagazineCount)
             count = Weapon.MagazineCount;
+        count -= _currentAmmoCount;
         InventorySlotsContainer.singleton.DeleteSlot(Weapon.Ammo, count);
         await Task.Delay(1000);
         _currentAmmoCount = count; //Дописати логіку перевірки в інвентарі
@@ -87,6 +88,7 @@ public class LongRangeWeaponObject : WeaponObject
     
     private void MinusAmmo()
     {
+        GlobalEventsContainer.ShouldDisplayReloadingButton?.Invoke(true);
         _currentAmmoCount--;
         if(_currentAmmoCount <= 0)
             Reload();
