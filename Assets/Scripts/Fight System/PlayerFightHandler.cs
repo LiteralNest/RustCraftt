@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class PlayerFightHandler : MonoBehaviour
 {
+    [SerializeField] private Animator _handsAnimator;
     private WeaponObject _currentWeaponObject;
     private bool _attacking;
 
@@ -20,6 +21,18 @@ public class PlayerFightHandler : MonoBehaviour
     private void AssignWeaponObject(WeaponObject value)
     {
         _currentWeaponObject = value;
+        if (value == null)
+        {
+            _handsAnimator.SetBool("IsLongWeapon", false);
+            return;
+        }
+        switch (value.WeaponType)
+        {
+            case WeaponType.LongWeapon:
+                _handsAnimator.SetBool("IsLongWeapon", true);
+                break;
+        }
+       
     }
 
     public void SetAttacking(bool value)
