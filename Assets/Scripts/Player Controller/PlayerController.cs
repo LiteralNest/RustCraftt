@@ -6,6 +6,7 @@ public class PlayerController : MonoBehaviour
 {
     [Header("Animators")]
     [SerializeField] private Animator _handsAnimator;
+    [SerializeField] private Animator _legsAnimator;
     
     [Header("Move")]
     [SerializeField] private NetworkVariable<float> _movingSpeed = new(5, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
@@ -45,16 +46,19 @@ public class PlayerController : MonoBehaviour
         Vector3 movement = new Vector3(_move.x, 0f, _move.y);
         if (movement != Vector3.zero)
         {
+            _legsAnimator.SetBool("Walking", true);
             _handsAnimator.SetBool("Walking", true);
             transform.Translate(movement * _currentMovingCpeed * Time.deltaTime, Space.Self);
             return;
         }
         _handsAnimator.SetBool("Walking", false);
+        _legsAnimator.SetBool("Walking", false);
     }
 
     public void StartRunning()
     {
         _handsAnimator.SetBool("Running", true);
+        _legsAnimator.SetBool("Running", true);
         _ifRunning = true;
         _currentMovingCpeed *= _runningKoef;
     }
@@ -62,6 +66,7 @@ public class PlayerController : MonoBehaviour
     public void StopRunning()
     {
         _handsAnimator.SetBool("Running", false);
+        _legsAnimator.SetBool("Running", false);
         _ifRunning = false;
         _currentMovingCpeed = _movingSpeed.Value;
     }
