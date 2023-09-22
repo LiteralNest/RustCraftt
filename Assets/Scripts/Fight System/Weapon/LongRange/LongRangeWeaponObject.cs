@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Threading.Tasks;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 [RequireComponent(typeof(WeaponSoudPlayer))]
 public class LongRangeWeaponObject : WeaponObject
@@ -16,14 +15,16 @@ public class LongRangeWeaponObject : WeaponObject
     [field:SerializeField] public LongRangeWeapon Weapon { get; private set; }
     [SerializeField] private GameObject _decal;
     [SerializeField] private LayerMask _targetMask;
-
+    
     [Header("In Game Init")] 
-    [SerializeField] private int _currentAmmoCount;
+    private int _currentAmmoCount;
 
     private bool _canShoot;
     private Vector3 _currentRotation;
     private Vector3 _targetRotation;
 
+    private LongRangeWeaponInventoryItemDisplayer _inventoryItemDisplayer;
+    
     private void OnEnable()
     {
         GlobalEventsContainer.AttackButtonActivated?.Invoke(true);

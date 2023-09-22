@@ -25,6 +25,7 @@ public class ObjectsRayCaster : MonoBehaviour
     public ResourceOre TargetResourceOre { get; private set; }
     public GatheringOre TargetGathering { get; private set; }
     public LootBox TargetBox { get; private set; }
+    public LootingItem LootingItem { get; private set; }
     private BuildingBlock _targetBlock;
 
     private void FixedUpdate()
@@ -77,12 +78,21 @@ public class ObjectsRayCaster : MonoBehaviour
             _targetBlock.CurrentBlock.TurnOutline(false);
             _targetBlock = null;
         }
+        GlobalEventsContainer.PickUpButtonActivated?.Invoke(false);
         SetLootText("", false);
         TargetBox = null;
         TargetGathering = null;
         TargetResourceOre = null;
         SetLootButton("", false);
 
+        if(TryRaycast("LootingItem", _maxGatheringDistance, out LootingItem lootingItem, _defaultMask))
+        {
+            LootingItem = lootingItem;
+            SetLootButton("Gather");
+            GlobalEventsContainer.PickUpButtonActivated?.Invoke(true);
+            return;
+        }
+        
         if(TryRaycast("Block", _maxBlockHitDistance, out BuildingBlock block, _blockMask))
         {
             if (block != null)

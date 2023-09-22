@@ -6,6 +6,7 @@ using UnityEngine;
 public class Ore : NetworkBehaviour
 {
     [SerializeField] private float _recoveringSpeed;
+    public Resource TargetResource => _targetResource;
     [SerializeField] protected Resource _targetResource;
     [SerializeField] private List<Renderer> _renderers;
 

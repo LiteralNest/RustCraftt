@@ -10,7 +10,6 @@ public class PlayerRotator : MonoBehaviour, IDragHandler, IPointerDownHandler
     [SerializeField] private Transform _head;
     [Header("Main Parameters")]
     [SerializeField] private float _rotationSpeed = 3f;
-    
     private Vector2 _touchStartPos;
     private Vector2 _touchEndPos;
 
@@ -31,12 +30,12 @@ public class PlayerRotator : MonoBehaviour, IDragHandler, IPointerDownHandler
         _touchEndPos = eventData.position;
         _playerHandsController.MoveHands();
         Vector2 touchDelta = _touchEndPos - _touchStartPos;
+
         float rotationX = touchDelta.x * _rotationSpeed * Time.deltaTime;
         float rotationY = touchDelta.y * _rotationSpeed * Time.deltaTime;
 
         _playerController.transform.Rotate(Vector3.up * rotationX);
         _head.transform.Rotate(Vector3.left * rotationY);
-
         _touchStartPos = _touchEndPos;
     }
 }

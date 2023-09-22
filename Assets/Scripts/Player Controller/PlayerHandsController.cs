@@ -53,7 +53,6 @@ public class PlayerHandsController : MonoBehaviour
 
    public void MoveHands()
    {
-      Touch touch = Input.GetTouch(0);
       float x = Input.GetAxisRaw("Mouse X") * _swayMultiplayer;
       float y = Input.GetAxisRaw("Mouse Y") * _swayMultiplayer;
       Vector2 lookPos = new Vector2(x, y);
