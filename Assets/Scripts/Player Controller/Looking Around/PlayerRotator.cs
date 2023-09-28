@@ -8,7 +8,6 @@ public class PlayerRotator : MonoBehaviour, IDragHandler, IPointerDownHandler
     [SerializeField] private PlayerController _playerController;
 
     [SerializeField] private Transform _head;
-    [SerializeField] private Transform _handsWithWeapon;
     [Header("Main Parameters")]
     [SerializeField] private float _rotationSpeed = 3f;
     private Vector2 _touchStartPos;
@@ -37,7 +36,6 @@ public class PlayerRotator : MonoBehaviour, IDragHandler, IPointerDownHandler
 
         _playerController.transform.Rotate(Vector3.up * rotationX);
         _head.transform.Rotate(Vector3.left * rotationY);
-        _handsWithWeapon.transform.Rotate(Vector3.left * rotationY);
         _touchStartPos = _touchEndPos;
     }
 }

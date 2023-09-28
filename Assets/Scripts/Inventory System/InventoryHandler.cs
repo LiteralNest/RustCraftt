@@ -9,6 +9,7 @@ public class InventoryHandler : MonoBehaviour
     [field:SerializeField] public LootBoxSlotsContainer LootBoxSlotsContainer { get; private set; }
     [field:SerializeField] public SlotsContainer InventorySlotsContainer { get; private set; }
     [field:SerializeField] public InventorySlotsDisplayer InventorySlotsDisplayer { get; private set; }
+    [field:SerializeField] public PlayerObjectsPlacer PlayerObjectsPlacer { get; private set; }
     [field:SerializeField] public BuildingChooser BuildingChooser { get; private set; }
     [Header("UI")] 
     [SerializeField] private GameObject _mainButtonsPanel;

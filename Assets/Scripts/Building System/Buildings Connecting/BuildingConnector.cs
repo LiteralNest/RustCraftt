@@ -9,6 +9,7 @@ public class BuildingConnector : MonoBehaviour
     [SerializeField] private ConnectedStructure _structurePrefab;
     [SerializeField] private BuildingBlock _buildingBlock;
 
+    public ConnectedStructure CurrentStructure => _currentStructure;
     private ConnectedStructure _currentStructure;
 
     private List<BuildingConnector> _connectors = new List<BuildingConnector>();
@@ -21,7 +22,7 @@ public class BuildingConnector : MonoBehaviour
     public ConnectedStructure GetInstantiatedStructure()
     {
         Vector3 position = transform.position;
-        _currentStructure = Instantiate(_structurePrefab, transform.position, Quaternion.identity);
+        _currentStructure = Instantiate(_structurePrefab, position, Quaternion.identity);
         _currentStructure.GetComponent<NetworkObject>().Spawn();
         _buildingBlock.transform.GetComponent<NetworkObject>().TrySetParent(_currentStructure.transform);
         return _currentStructure;
