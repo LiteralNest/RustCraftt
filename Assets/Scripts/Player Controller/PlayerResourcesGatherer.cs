@@ -5,7 +5,6 @@ using UnityEngine;
 public class PlayerResourcesGatherer : MonoBehaviour
 {
     [Header("Attached Scripts")]
-    [SerializeField] private Animator _animator;
     [SerializeField] private InventoryHandler _inventoryHandler;
     [SerializeField] private ObjectsRayCaster _objectsRayCaster;
     
@@ -15,7 +14,15 @@ public class PlayerResourcesGatherer : MonoBehaviour
     
     [Header("Gathering")]
     private bool _gathering = false;
+    
+    public ResourceGatheringObject ResourceGatheringObject { get; private set; }
 
+    private void OnEnable()
+        => GlobalEventsContainer.ResourceGatheringObjectAssign += AssignResourceGatheringObject;
+    
+    private void OnDisable()
+        => GlobalEventsContainer.ResourceGatheringObjectAssign -= AssignResourceGatheringObject;
+    
     private void Start()
     {
         if(_objectsRayCaster == null)
@@ -27,6 +34,9 @@ public class PlayerResourcesGatherer : MonoBehaviour
         if(_gathering)
             TryHit();
     }
+
+    private void AssignResourceGatheringObject(ResourceGatheringObject target)
+        => ResourceGatheringObject = target;
     
     private async void Recover()
     {
@@ -37,13 +47,13 @@ public class PlayerResourcesGatherer : MonoBehaviour
 
     public void StartGathering()
     {
-        _animator.SetBool("Mining", true);
+        ResourceGatheringObject.SetGathering(true);
         _gathering = true;
     }
     
     public void StopGathering()
     {
-        _animator.SetBool("Mining", false);
+        ResourceGatheringObject.SetGathering(false);
         _gathering = false;
     }
     

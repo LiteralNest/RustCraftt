@@ -19,4 +19,5 @@ public static class GlobalEventsContainer
     public static Action<WeaponObject> WeaponObjectAssign { get; set; }
     public static Action<bool> ShouldDisplayReloadingButton { get; set; }
     public static Action<bool> ShouldDisplayPlacingPanel { get; set; }
+    public static Action<ResourceGatheringObject> ResourceGatheringObjectAssign { get; set; }
 }
