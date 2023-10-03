@@ -6,7 +6,7 @@ public class PlayerNetworkController : MonoBehaviour
     [Header("NetCode")] 
     [SerializeField] private PlayerNetCode _playerNetCode;
 
-    [Header("Scripts")] 
+    [Header("Scripts")]
     [SerializeField] private PlayerController _playerController;
     [SerializeField] private PlayerInput _playerInput;
     [SerializeField] private PlayerJumper _playerJumper;
@@ -17,8 +17,10 @@ public class PlayerNetworkController : MonoBehaviour
     [SerializeField] private BuildingDragger _buildingDragger;
     [SerializeField] private BuildingUpgrader _buildingUpgrader;
     [SerializeField] private PlayerFightHandler _playerFightHandler;
+    [SerializeField] private Camera _camera;
+    [SerializeField] private AudioListener _listener;
 
-    [Header("Children")] [SerializeField] private GameObject _eyes;
+    [Header("Children")] 
     [SerializeField] private GameObject _characterStaff;
     [SerializeField] private GameObject _canvas;
 
@@ -42,8 +44,8 @@ public class PlayerNetworkController : MonoBehaviour
         Destroy(_buildingDragger);
         Destroy(_buildingUpgrader);
         Destroy(_playerFightHandler);
-
-        Destroy(_eyes);
+        _camera.enabled = false;
+        _listener.enabled = false;
         Destroy(_canvas);
         Destroy(_characterStaff);
     }

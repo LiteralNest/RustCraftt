@@ -37,12 +37,14 @@ public class ResourceOre : Ore
             _currentHp.Value = _hp;
     }
 
-    public void MinusHp(Item targetTool)
+    public void MinusHp(Item targetTool, out bool destroyed)
     {
+        destroyed = false;
         if (_currentHp.Value <= 0) return;
         if(!CanUseTool(targetTool)) return;
         GlobalEventsContainer.InventoryItemAdded?.Invoke(new InventoryCell(_targetResource, 1));
         MinusHpServerRpc();
+        destroyed = _currentHp.Value <= 0;
     }
 
     [ContextMenu("Test RPC")]

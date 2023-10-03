@@ -14,9 +14,9 @@ public class ObjectsRayCaster : MonoBehaviour
     
     [Header("Distances")]
     [SerializeField] private float _maxOreHitDistance = 3f;
-    [SerializeField] private float _maxGatheringDistance = 5f;
-    [SerializeField] private float _maxLootBoxDistance = 5f;
+    [SerializeField] private float _maxLootBoxDistance = 5f; 
     [SerializeField] private float _maxBlockHitDistance = 5f;
+    [SerializeField] private float _maxGatheringDistance = 5f;
 
     [Header("Layers")] [SerializeField] private LayerMask _defaultMask;
     [SerializeField] private LayerMask _blockMask;
@@ -26,8 +26,9 @@ public class ObjectsRayCaster : MonoBehaviour
     public LootBox TargetBox { get; private set; }
     public LootingItem LootingItem { get; private set; }
     private BuildingBlock _targetBlock;
+    public bool CanRayCastOre { get; set; }
 
-    private void FixedUpdate()
+    private void Update()
     {
         TryRaycastTargets();
     }
@@ -49,7 +50,6 @@ public class ObjectsRayCaster : MonoBehaviour
         return false;
     }
     
-
     private void SetLootText(string text, bool active = true)
     {
         _pointPanel.SetActive(!active);
@@ -68,6 +68,21 @@ public class ObjectsRayCaster : MonoBehaviour
 
     private bool OreReady(Ore ore)
         => !ore.Recovering;
+
+    private void TryRayCastOre()
+    {
+        if(!CanRayCastOre) return;
+        if (TryRaycast("Ore", _maxOreHitDistance, out ResourceOre ore, _defaultMask))
+        {
+            if (OreReady(ore))
+            {
+                GlobalEventsContainer.GatherButtonActivated?.Invoke(true);
+                TargetResourceOre = ore;
+                SetLootText("Obtain");
+                return;
+            }
+        }
+    }
     
     private void TryRaycastTargets()
     {
@@ -119,16 +134,7 @@ public class ObjectsRayCaster : MonoBehaviour
             SetLootButton("Open");
             return;
         }
-        
-        if (TryRaycast("Ore", _maxOreHitDistance, out ResourceOre ore, _defaultMask))
-        {
-            if (OreReady(ore))
-            {
-                GlobalEventsContainer.GatherButtonActivated?.Invoke(true);
-                TargetResourceOre = ore;
-                SetLootText("Obtain");
-                return;
-            }
-        }
+
+        TryRayCastOre();
     }
 }

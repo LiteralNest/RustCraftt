@@ -4,6 +4,9 @@ using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour
 {
+    [Header("Attached Scripts")]
+    [SerializeField] private InHandObjectsContainer _inHandObjectsContainer;
+    
     [Header("Animators")]
     [SerializeField] private Animator _handsAnimator;
     [SerializeField] private Animator _legsAnimator;
@@ -47,17 +50,17 @@ public class PlayerController : MonoBehaviour
         if (movement != Vector3.zero)
         {
             _legsAnimator.SetBool("Walking", true);
-            _handsAnimator.SetBool("Walking", true);
+            _inHandObjectsContainer.SetWalk(true);
             transform.Translate(movement * _currentMovingCpeed * Time.deltaTime, Space.Self);
             return;
         }
-        _handsAnimator.SetBool("Walking", false);
+        _inHandObjectsContainer.SetWalk(false);
         _legsAnimator.SetBool("Walking", false);
     }
 
     public void StartRunning()
     {
-        _handsAnimator.SetBool("Running", true);
+        _inHandObjectsContainer.SetRun(true);
         _legsAnimator.SetBool("Running", true);
         _ifRunning = true;
         _currentMovingCpeed *= _runningKoef;
@@ -65,7 +68,7 @@ public class PlayerController : MonoBehaviour
 
     public void StopRunning()
     {
-        _handsAnimator.SetBool("Running", false);
+        _inHandObjectsContainer.SetRun(false);
         _legsAnimator.SetBool("Running", false);
         _ifRunning = false;
         _currentMovingCpeed = _movingSpeed.Value;

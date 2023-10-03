@@ -1,4 +1,5 @@
 using System.Threading.Tasks;
+using TMPro;
 using UnityEngine;
 
 [RequireComponent(typeof(ObjectsRayCaster))]
@@ -13,6 +14,7 @@ public class PlayerResourcesGatherer : MonoBehaviour
     [SerializeField] private bool _canHit = true;
     
     [Header("Gathering")]
+    [SerializeField] private float _maxOreHitDistance = 5f;
     private bool _gathering = false;
     
     public ResourceGatheringObject ResourceGatheringObject { get; private set; }
@@ -36,8 +38,11 @@ public class PlayerResourcesGatherer : MonoBehaviour
     }
 
     private void AssignResourceGatheringObject(ResourceGatheringObject target)
-        => ResourceGatheringObject = target;
-    
+    {
+        _objectsRayCaster.CanRayCastOre = target != null;
+        ResourceGatheringObject = target;
+    }
+
     private async void Recover()
     {
         _canHit = false;
@@ -68,7 +73,9 @@ public class PlayerResourcesGatherer : MonoBehaviour
             return;
         }
 
-        ore.MinusHp(_inventoryHandler.ActiveItem);
+        ore.MinusHp(_inventoryHandler.ActiveItem, out bool destroyed);
+        if (!destroyed) return;
+        StopGathering();
     }
 
     private bool TryOpenChest()

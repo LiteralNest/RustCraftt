@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 [RequireComponent(typeof(RectTransform))]
@@ -5,7 +6,7 @@ public class SafeAreaSetter : MonoBehaviour
 {
    [SerializeField] private RectTransform _rectTransform;
 
-   private void Awake()
+   private void Start()
    {
       if(_rectTransform == null)
          _rectTransform = GetComponent<RectTransform>();
