@@ -1,5 +1,6 @@
 using TMPro;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class ObjectsRayCaster : MonoBehaviour
 {
@@ -14,7 +15,7 @@ public class ObjectsRayCaster : MonoBehaviour
     
     [Header("Distances")]
     [SerializeField] private float _maxOreHitDistance = 3f;
-    [SerializeField] private float _maxLootBoxDistance = 5f; 
+    [FormerlySerializedAs("_maxLootBoxDistance")] [SerializeField] private float _maxOpeningDistance = 5f; 
     [SerializeField] private float _maxBlockHitDistance = 5f;
     [SerializeField] private float _maxGatheringDistance = 5f;
 
@@ -25,6 +26,7 @@ public class ObjectsRayCaster : MonoBehaviour
     public GatheringOre TargetGathering { get; private set; }
     public LootBox TargetBox { get; private set; }
     public LootingItem LootingItem { get; private set; }
+    public CampFireHandler CampFireHandler { get; private set; }
     private BuildingBlock _targetBlock;
     public bool CanRayCastOre { get; set; }
 
@@ -128,9 +130,16 @@ public class ObjectsRayCaster : MonoBehaviour
             }
         }
 
-        if (TryRaycast("LootBox", _maxLootBoxDistance, out LootBox lootBox, _defaultMask))
+        if (TryRaycast("LootBox", _maxOpeningDistance, out LootBox lootBox, _defaultMask))
         {
             TargetBox = lootBox;
+            SetLootButton("Open");
+            return;
+        }
+
+        if (TryRaycast("CampFire", _maxOpeningDistance, out CampFireHandler campFireHandler, _defaultMask))
+        {
+            CampFireHandler = campFireHandler;
             SetLootButton("Open");
             return;
         }

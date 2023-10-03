@@ -61,18 +61,21 @@ public class PlayerResourcesGatherer : MonoBehaviour
         ResourceGatheringObject.SetGathering(false);
         _gathering = false;
     }
+
+    public void TryDoGathering()
+    {
+        TryHit();
+        TryOpenChest();
+        TryGather();
+        TryOpenCampFire();
+    }
     
     private void TryHit()
     {
-       
         if (!_canHit) return;
         Recover();
         var ore = _objectsRayCaster.TargetResourceOre;
-        if (ore == null)
-        {
-            return;
-        }
-
+        if (!ore) return;
         ore.MinusHp(_inventoryHandler.ActiveItem, out bool destroyed);
         if (!destroyed) return;
         StopGathering();
@@ -81,8 +84,8 @@ public class PlayerResourcesGatherer : MonoBehaviour
     private bool TryOpenChest()
     {
         var chest = _objectsRayCaster.TargetBox;
-        if(chest == null) return false;
-        chest.Open();
+        if(!chest) return false;
+        chest.Open(_inventoryHandler);
         return true;
     }
     
@@ -90,7 +93,14 @@ public class PlayerResourcesGatherer : MonoBehaviour
     {
         if(TryOpenChest()) return;
         var ore = _objectsRayCaster.TargetGathering;
-        if(ore == null) return;
+        if(!ore) return;
         ore.Gather();
+    }
+
+    public void TryOpenCampFire()
+    {
+        var campfire = _objectsRayCaster.CampFireHandler;
+        if(!campfire) return;
+        campfire.Open(_inventoryHandler);
     }
 }

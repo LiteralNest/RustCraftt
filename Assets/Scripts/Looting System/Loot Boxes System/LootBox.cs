@@ -13,9 +13,9 @@ public class LootBox : MonoBehaviour
         GenerateCells();
     }
     
-    public void Init()
+    public void Init(InventoryHandler handler)
     {
-        InventoryHandler.singleton.LootBoxSlotsContainer.Init(this, Cells);
+        handler.LootBoxSlotsContainer.Init(this, Cells);
     }
 
     private void GenerateCells()
@@ -24,10 +24,10 @@ public class LootBox : MonoBehaviour
             Cells.Add(new InventoryCell(item.Item, Random.Range(item.MinimalCount, item.MaximalCount)));
     }
 
-    public void Open()
+    public void Open(InventoryHandler handler)
     {
-        InventoryHandler.singleton.OpenLootBoxPanel();
-        Init();
+        handler.OpenLootBoxPanel();
+        Init(handler);
     }
 
     private void CheckCells()

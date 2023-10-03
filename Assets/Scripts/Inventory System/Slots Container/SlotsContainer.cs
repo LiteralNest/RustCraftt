@@ -58,7 +58,7 @@ public abstract class SlotsContainer : MonoBehaviour
 
     #endregion
     
-    protected void ResetCells()
+    public void ResetCells()
     {
         foreach (var cell in Cells)
         {
@@ -67,7 +67,7 @@ public abstract class SlotsContainer : MonoBehaviour
         }
     }
 
-    public void SetItemAt(int index, InventoryCell cell)
+    public virtual void SetItemAt(int index, InventoryCell cell)
     {
         if (index >= Cells.Count)
         {
