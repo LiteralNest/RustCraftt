@@ -55,7 +55,8 @@ public class BuildingBlock : NetworkBehaviour, IDamagable
         List<InventoryCell> cells = new List<InventoryCell>();
         foreach (var cell in NeededCellsForPlace)
             cells.Add(new InventoryCell( cell.Item, cell.Count / damagingPercent));
-        return InventorySlotsContainer.singleton.ItemsAvaliable(cells);
+        return false;
+        // return InventorySlotsContainer.singleton.ItemsAvaliable(cells);
     }
 
     public void TryRepair()

@@ -34,14 +34,14 @@ public class CraftingQueueSlotFunctional : MonoBehaviour
     
     private void DeleteItemsFromInventory()
     {
-        foreach (var slot in _reservedSlotsForOneItem)
-            InventoryHandler.singleton.InventorySlotsContainer.DeleteSlot(slot.Resource, slot.Count * _count);
+        // foreach (var slot in _reservedSlotsForOneItem)
+        //     InventoryHandler.singleton.InventorySlotsContainer.DeleteSlot(slot.Resource, slot.Count * _count);
     }
 
     private void ReturnItemsToInventory()
     {
-        foreach (var slot in _reservedSlotsForOneItem)
-            InventoryHandler.singleton.InventorySlotsContainer.AddItemToDesiredSlot(slot.Resource, slot.Count * _count);
+        // foreach (var slot in _reservedSlotsForOneItem)
+        //     InventoryHandler.singleton.InventorySlotsContainer.AddItemToDesiredSlot(slot.Resource, slot.Count * _count);
     }
     
     public void CreateItems()
@@ -70,7 +70,7 @@ public class CraftingQueueSlotFunctional : MonoBehaviour
                 _queue.DisplayAlert(_craftingItem, _count, i);
             }
 
-            InventoryHandler.singleton.InventorySlotsContainer.AddItemToDesiredSlot(_craftingItem, 1);
+            // InventoryHandler.singleton.InventorySlotsContainer.AddItemToDesiredSlot(_craftingItem, 1);
             _count--;
             _currentSlotDisplayer.DisplayCountText(_count);
         }

@@ -12,7 +12,7 @@ public class PlayerItemsPickuper : MonoBehaviour
     {
         var item = _objectsRayCaster.LootingItem;
         if (item == null) return;
-        _inventorySlotsContainer.AddItemToDesiredSlot(item.Item, item.Count);
+        // _inventorySlotsContainer.AddItemToDesiredSlot(item.Item, item.Count);
         Destroy(item.gameObject);
     }
 }

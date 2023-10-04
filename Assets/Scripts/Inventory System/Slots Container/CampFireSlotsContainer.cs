@@ -1,30 +1,46 @@
 using System.Collections.Generic;
+using UnityEngine;
 
 public class CampFireSlotsContainer : SlotsContainer
 {
+    [SerializeField] private InventorySlotsDisplayer _slotsDisplayer;
     private CampFireHandler _campFireHandler;
-    
-    public override void ResetItemAt(int index)
+
+    public void Init(CampFireHandler campFireHandler)
     {
-        _campFireHandler.RemoveCell(new InventoryCell(Cells[index].Item, Cells[index].Count));
-        base.ResetItemAt(index);
+        _campFireHandler = campFireHandler;
+        _slotsDisplayer.ResetCells();
+        Cells = new List<InventoryCell>(campFireHandler.Cells);
+        _slotsDisplayer.DisplayCells();
     }
 
-    public override void SetItemAt(int index, InventoryCell cell)
+    private bool ListContains(Item item, List<Item> list)
     {
-        _campFireHandler.AddCell(cell);
-        base.SetItemAt(index, cell);
-    }
-    
-    public void Init(CampFireHandler handler, List<InventoryCell> cells)
-    {
-        _campFireHandler = handler;
-        _cellsDisplayer.ResetCells();
-        ResetCells();
-        foreach (var cell in cells)
-            AddItemToDesiredSlot(cell.Item, cell.Count);
+        foreach (var cell in list)
+            if (item.Id == cell.Id)
+                return true;
+        return false;
     }
 
-    public void SetFlaming(bool value)
-        => _campFireHandler.TurnFlamingServerRpc(value);
+    private bool ListContains(Item item, List<CookingFood> list)
+    {
+        foreach (var cell in list)
+            if (item.Id == cell.Id)
+                return true;
+        return false;
+    }
+
+    public override bool CanAddItem(Item item)
+    {
+        if (ListContains(item, _campFireHandler.AvaliableFuel) ||
+            ListContains(item, _campFireHandler.AvaliableFoodForCooking)) return true;
+        return false;
+    }
+
+    public override void AddCell(int index, InventoryCell cell)
+    {
+        base.AddCell(index, cell);
+        _campFireHandler.SetItem(index, cell);
+    }
+
 }

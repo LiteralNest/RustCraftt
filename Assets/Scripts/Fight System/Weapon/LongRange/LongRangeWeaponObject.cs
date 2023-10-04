@@ -69,21 +69,21 @@ public class LongRangeWeaponObject : WeaponObject
         damagableObj.GetDamage((int)(Weapon.Damage * Weapon.Ammo.MultiplyKoef));
     }
     
-    private int GetInventoryAmmoCount() 
-        => InventorySlotsContainer.singleton.GetItemCount(Weapon.Ammo);
+    // private int GetInventoryAmmoCount() 
+    //     => InventorySlotsContainer.singleton.GetItemCount(Weapon.Ammo);
     
-    public override bool CanReload()
-        => GetInventoryAmmoCount() > 0;
+    // public override bool CanReload()
+    //     => GetInventoryAmmoCount() > 0;
 
     public override async void Reload()
     {
-        int count = GetInventoryAmmoCount();
-        if (count > Weapon.MagazineCount)
-            count = Weapon.MagazineCount;
-        count -= _currentAmmoCount;
-        InventorySlotsContainer.singleton.DeleteSlot(Weapon.Ammo, count);
+        // int count = GetInventoryAmmoCount();
+        // if (count > Weapon.MagazineCount)
+        //     count = Weapon.MagazineCount;
+        // count -= _currentAmmoCount;
+        // InventorySlotsContainer.singleton.DeleteSlot(Weapon.Ammo, count);
         await Task.Delay(1000);
-        _currentAmmoCount = count; //Дописати логіку перевірки в інвентарі
+        // _currentAmmoCount = count; //Дописати логіку перевірки в інвентарі
     }
     
     private void MinusAmmo()

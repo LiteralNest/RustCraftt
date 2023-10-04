@@ -15,7 +15,7 @@ public class LootBox : MonoBehaviour
     
     public void Init(InventoryHandler handler)
     {
-        handler.LootBoxSlotsContainer.Init(this, Cells);
+        // handler.LootBoxSlotsContainer.Init(this, Cells);
     }
 
     private void GenerateCells()

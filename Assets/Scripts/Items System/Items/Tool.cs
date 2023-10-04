@@ -8,6 +8,7 @@ public class Tool : CraftingItem
         base.Click(slotDisplayer, handler, out shouldMinus);
         shouldMinus = false;
         handler.SetActiveItem(this);
-        GlobalEventsContainer.ShouldActivateSlot?.Invoke(slotDisplayer.Index);
+        GlobalEventsContainer.ShouldDisplayHandItem?.Invoke(slotDisplayer.ItemDisplayer.InventoryCell.Item.Id,
+            handler.PlayerNetCode.GetClientId());
     }
 }

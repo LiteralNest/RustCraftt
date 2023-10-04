@@ -1,16 +1,18 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class InventorySlotsDisplayer : MonoBehaviour
 {
-    [Header("Attached Scripts")]
+    [Header("Attached Scripts")] [SerializeField]
+    private QuickSlotsDisplayer _quickSlotsDisplayer;
+
     [SerializeField] private SlotsContainer _slotsContainer;
 
-    [Header("Start Init")] 
-    [SerializeField] private InventoryItemDisplayer _itemDisplayerPrefab;
-    [SerializeField] private List<InventorySlotDisplayer> _cellDisplayers = new List<InventorySlotDisplayer>();
+    [Header("Start Init")] [SerializeField]
+    private InventoryItemDisplayer _itemDisplayerPrefab;
 
+    [SerializeField] private List<InventorySlotDisplayer> _cellDisplayers = new List<InventorySlotDisplayer>();
+    
     private void Start()
     {
         if (_slotsContainer == null)
@@ -22,78 +24,45 @@ public class InventorySlotsDisplayer : MonoBehaviour
     private void InitCells()
     {
         for (int i = 0; i < _cellDisplayers.Count; i++)
-        {
-            _cellDisplayers[i].Index = i;
-            _cellDisplayers[i].Init(_slotsContainer);
-        }
+            _cellDisplayers[i].Init(i, this, _slotsContainer);
     }
 
-    private void ClearPlace(Transform place)
+    private ItemDisplayer GetGeneratedItemDisplayer(InventoryCell cell, InventorySlotDisplayer slotDisplayer)
     {
-        foreach (Transform child in place)
-        {
-            if(!child.TryGetComponent(out InventoryItemDisplayer itemDisplayer)) continue;
-            Destroy(child.gameObject);
-        }
-    }
-    
-    private void CreateCell(InventoryCell cell, int index)
-    {
-        InventorySlotDisplayer slotDisplayer = _cellDisplayers[index];
-        ClearPlace(slotDisplayer.transform);
-        var instance = Instantiate(_itemDisplayerPrefab, slotDisplayer.transform);
-        instance.Init(slotDisplayer, cell, _slotsContainer);
-        slotDisplayer.Init(instance);
+        var itemDisplayer = Instantiate(_itemDisplayerPrefab, slotDisplayer.transform);
+        itemDisplayer.Init(slotDisplayer, cell, _slotsContainer);
+        return itemDisplayer;
     }
 
-    private void ClearCells()
-    {
-        foreach (var cell in _cellDisplayers)
-            ClearPlace(cell.transform);
-    }
-
-    [ContextMenu("Display Inventory")]
     public void DisplayCells()
     {
-        ClearCells();
-        int counter = 0;
-        foreach (var item in _slotsContainer.Cells)
+        if(!_slotsContainer) return;
+        var cells = _slotsContainer.Cells;
+        for (int i = 0; i < cells.Count; i++)
         {
-            counter++;
-            _cellDisplayers[counter - 1].Index = counter - 1;
-            if(item.Item == null) continue;
-            CreateCell(item, counter - 1);
+            if (!cells[i].Item) continue;
+            _cellDisplayers[i].SetItem(GetGeneratedItemDisplayer(cells[i], _cellDisplayers[i]));
         }
     }
 
-    public void DisplayCellAt(int index)
+    public List<SlotDisplayer> GetQuickSlots()
     {
-        if (index >= _cellDisplayers.Count)
+        List<SlotDisplayer> res = new List<SlotDisplayer>();
+        foreach (var slotDisplayer in _cellDisplayers)
         {
-            Debug.LogError("Index out of range " + index);
-            return;
+            if (slotDisplayer.IsQuickSlot)
+                res.Add(slotDisplayer);
         }
 
-        CreateCell(_slotsContainer.Cells[index], index);
+        return res;
     }
 
-    public void DeleteCellAt(int index)
-    {
-        if (index >= _cellDisplayers.Count)
-        {
-            Debug.LogError("Index out of range " + index);
-            return;
-        }
-
-        _cellDisplayers[index].DeleteItem();
-    }
+    public void DisplayQuickSlots()
+        => _quickSlotsDisplayer.AssignSlots(GetQuickSlots());
 
     public void ResetCells()
     {
-        foreach (var cellDisplayer in _cellDisplayers)
-        {
-            if(cellDisplayer.transform.childCount == 0) continue;
-            Destroy(cellDisplayer.transform.GetChild(0).gameObject);
-        }
+        foreach (var cell in _cellDisplayers)
+            cell.DestroyItem();
     }
 }

@@ -3,49 +3,77 @@ using UnityEngine.EventSystems;
 
 public abstract class SlotDisplayer : MonoBehaviour, IDropHandler
 {
-    [field: SerializeField] public int Index { get; set; }
-    [field: SerializeField] public ItemDisplayer ItemDisplayer { get; protected set; }
-    [field: SerializeField] public SlotsContainer Inventory { get; private set; }
-    protected abstract void Drop(PointerEventData eventData);
-    protected abstract void AddItem(InventoryItemDisplayer item);
+    public ItemDisplayer ItemDisplayer { get; protected set; }
+    [field:SerializeField] public bool IsQuickSlot { get; private set; }
+    
+    public int Index { get; private set; }
+    
+    public InventorySlotsDisplayer InventorySlotsDisplayer { get; protected set; }
+    public SlotsContainer Inventory { get; protected set; }
 
+    protected abstract void Drop(PointerEventData eventData);
+    
     public void OnDrop(PointerEventData eventData)
         => Drop(eventData);
 
-    public void Init(SlotsContainer slotsContainer)
-        => Inventory = slotsContainer;
-
-    public void Init(ItemDisplayer itemDisplayer)
+    public void Init(int index, InventorySlotsDisplayer slotsDisplayer, SlotsContainer slotsContainer)
     {
-        ItemDisplayer = itemDisplayer;
-    }
-
-    public abstract void ClearItem();
-
-    protected bool TryAddToFreeSlot(InventoryItemDisplayer newItemDisplayer)
-    {
-        if (newItemDisplayer == null) return false;
-        if (ItemDisplayer == null)
-        {
-            AddItem(newItemDisplayer);
-            return true;
-        }
-
-        return false;
-    }
-
-    private void ClearPlace(Transform place)
-    {
-        foreach (Transform child in place)
-        {
-            if(!child.TryGetComponent(out InventoryItemDisplayer itemDisplayer)) continue;
-            Destroy(child.gameObject);
-        }
+        Index = index;
+        InventorySlotsDisplayer = slotsDisplayer;
+        Inventory = slotsContainer;
+        ItemDisplayer = null;
     }
     
-    public void DeleteItem()
+    public void SetItem(ItemDisplayer itemDisplayer)
     {
-        ClearItem();
-        ClearPlace(transform);
+        if(ItemDisplayer != null) Destroy(ItemDisplayer.gameObject);
+        ItemDisplayer = itemDisplayer;
+        ItemDisplayer.SetNewCell(this);
+    }
+
+    public void ResetItem()
+    {
+        ItemDisplayer = null;
+    }
+    
+    public void DestroyItem()
+    {
+        if(!ItemDisplayer) return;
+        Destroy(ItemDisplayer.gameObject);
+        ResetItem();
+    }
+
+    private bool CheckForFree(ItemDisplayer itemDisplayer)
+    {
+        if (ItemDisplayer) return false;
+        SetItem(itemDisplayer);
+        return true;
+    }
+    
+    private bool TryStack(InventoryCell cell, out bool wasStacking)
+    {
+        wasStacking = false;
+        if (cell.Item == null || cell.Item != ItemDisplayer.InventoryCell.Item) return false;
+        wasStacking = true;
+        var res = ItemDisplayer.StackCount(cell.Count);
+        if (res > 0) return false;
+        return true;
+    }
+
+    private void Swap(ItemDisplayer itemDisplayer)
+    {
+        var prevCell = itemDisplayer.PreviousCell;
+        prevCell.SetItem(ItemDisplayer);
+        SetItem(itemDisplayer);
+    }
+    
+    protected bool TrySetItem(ItemDisplayer itemDisplayer)
+    {
+        if (!Inventory.CanAddItem(itemDisplayer.InventoryCell.Item)) return false;
+        if (CheckForFree(itemDisplayer)) return true;
+        if(TryStack(itemDisplayer.InventoryCell, out bool wasStacking)) return true;
+        if(wasStacking) return false;
+        Swap(itemDisplayer);
+        return true;
     }
 }

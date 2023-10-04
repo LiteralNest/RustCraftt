@@ -35,8 +35,8 @@ public class CraftingItemDataTableSlotDisplayer : MonoBehaviour
     private void DisplayInventoryCount(int count)
     {
         if(_slot.Resource == null) return;
-        var inventoryCount =  InventoryHandler.singleton.InventorySlotsContainer.GetItemCount(_slot.Resource);
-        _inventoryCount = inventoryCount;
+        // var inventoryCount =  InventoryHandler.singleton.InventorySlotsContainer.GetItemCount(_slot.Resource);
+        // _inventoryCount = inventoryCount;
         int globalCount = count * _slot.Count;
         ResourceAvailable  = _inventoryCount >= globalCount;
         DisplayInventoryText(_inventoryCount, ResourceAvailable);

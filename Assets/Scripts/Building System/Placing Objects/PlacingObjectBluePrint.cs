@@ -46,7 +46,7 @@ public class PlacingObjectBluePrint : MonoBehaviour
     public void TryPlace()
     {
         if (!_canBePlacedFromPlayer || !_canBePlaced) return;
-        InventorySlotsContainer.singleton.DeleteSlot(TargetPlacingObject.TargetItem, 1);
+        // InventorySlotsContainer.singleton.DeleteSlot(TargetPlacingObject.TargetItem, 1);
         PlacingObjectsPool.singleton.InstantiateObjectServerRpc(TargetPlacingObject.TargetItem.Id, transform.position,
             transform.rotation);
         

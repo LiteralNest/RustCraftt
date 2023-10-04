@@ -3,94 +3,48 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public abstract class ItemDisplayer : MonoBehaviour, IBeginDragHandler ,IDragHandler, IEndDragHandler
+public abstract class ItemDisplayer : MonoBehaviour
 {
     [SerializeField] protected TMP_Text _countText;
     [SerializeField] protected Image _itemIcon;
+    public InventoryCell InventoryCell { get; protected set; }
+    public SlotDisplayer PreviousCell { get; protected set; }
     
-    protected InventorySlotDisplayer _slot;
-    public InventoryCell InventoryCell { get; private set; }
-    protected SlotsContainer _slotsContainer;
-    
-    public abstract void DisplayData();
-    
-    
-    public void OnBeginDrag(PointerEventData eventData)
+    public void SetInventoryCell(InventoryCell inventoryCell)
     {
-        if(!GlobalValues.CanDragInventoryItems) return;
-        _slot.ClearItem();
-        _countText.gameObject.SetActive(false);
-        transform.SetParent(transform.root);
-        _itemIcon.raycastTarget = false;
-    }
-    
-    public void OnDrag(PointerEventData eventData)
-    {
-        if(!GlobalValues.CanDragInventoryItems) return;
-        transform.position = eventData.position;
-    }
-
-    public void OnEndDrag(PointerEventData eventData)
-    {
-        if(!GlobalValues.CanDragInventoryItems) return;
-        _slot.Init(this);
-        _countText.gameObject.SetActive(true);
-        transform.position = _slot.transform.position;
-        transform.SetParent(_slot.transform);
-        _itemIcon.raycastTarget = true;
-    }
-
-    
-    public void Init(InventorySlotDisplayer slot, SlotsContainer slotsContainer)
-    {
-        if (_slot != null)
-            _slot.ClearItem();
-        _slotsContainer = slotsContainer;
-        Transform cellTransform = slot.transform;
-        transform.position = cellTransform.position;
-        transform.SetParent(cellTransform);
-        _slot = slot;
-    }
-    
-    public void Init(InventorySlotDisplayer slot, InventoryCell cell, SlotsContainer slotsContainer)
-    {
-        Init(slot, slotsContainer);
-        InventoryCell = new InventoryCell(cell);
+        InventoryCell = inventoryCell;
         DisplayData();
     }
     
-    private void SetInventoryCellData(InventoryCell cell)
-        => _slot.Inventory.SetItemAt(_slot.Index, cell);
+    public void DisplayData()
+    {
+        if(InventoryCell.Item == null) return;
+        _itemIcon.sprite = InventoryCell.Item.Icon;
+        _countText.text = InventoryCell.Count.ToString();
+    }
 
-    private void DestroyCell()
+    public int StackCount(int addedCount)
     {
-        _slot.ClearItem();
-        Destroy(gameObject);
-    }
-    
-    public void SetCount(int value)
-    {
-        InventoryCell.Count = value;
-        DisplayData();
-        SetInventoryCellData(InventoryCell);
-    }
-    
-    public void MinusCount(int value)
-    {
-        InventoryCell.Count -= value;
-        if (InventoryCell.Count <= 0)
+        var currentItemCount = InventoryCell.Count;
+        int count = currentItemCount + addedCount;
+        if (count <= InventoryCell.Item.StackCount)
         {
-            DestroyCell();
-            return;
+            InventoryCell.Count = count;
+            return 0;
         }
-        DisplayData();
-        SetInventoryCellData(InventoryCell);
+
+        InventoryCell.Count = InventoryCell.Item.StackCount;
+        return count - InventoryCell.Item.StackCount;
     }
     
-    public void AddCount(int value)
+    public void SetPosition()
+        => transform.position = PreviousCell.transform.position;
+    
+    public virtual void SetNewCell(SlotDisplayer slotDisplayer)
     {
-        InventoryCell.Count += value;
-        DisplayData();
-        SetInventoryCellData(InventoryCell);
+        PreviousCell = slotDisplayer;
+        var slotTransform = slotDisplayer.transform;
+        transform.SetParent(slotTransform);
+        SetPosition();
     }
 }
