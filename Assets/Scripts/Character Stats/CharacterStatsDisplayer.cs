@@ -11,6 +11,7 @@ public class CharacterStatsDisplayer : MonoBehaviour
     [SerializeField] private Image _foodFill;
     [SerializeField] private TMP_Text _waterText;
     [SerializeField] private Image _waterFill;
+    [SerializeField] private TextMeshProUGUI _displayMessage;
 
     public void DisplayHp(int hp)
     {
@@ -28,5 +29,16 @@ public class CharacterStatsDisplayer : MonoBehaviour
     {
         _waterText.text = water.ToString();
         _waterFill.fillAmount = (float)water / 100;
+    }
+    public void DisplayDeathMessage(string message, Color color)
+    {
+        _displayMessage.text = message;
+        _displayMessage.color = color;
+        _displayMessage.alpha = 1f;
+    }
+
+    public void HideDeathMessage()
+    {
+        _displayMessage.alpha = 0f;
     }
 }

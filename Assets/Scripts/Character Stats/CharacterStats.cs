@@ -34,6 +34,7 @@ public class CharacterStats : MonoBehaviour
          case CharacterStatType.Health:
             Health = GetAddedStat(Health, value);
             _statsDisplayer.DisplayHp((int)Health);
+            
             break;
          case CharacterStatType.Food:
             Food = GetAddedStat(Food, value);
@@ -61,14 +62,29 @@ public class CharacterStats : MonoBehaviour
          case CharacterStatType.Health:
             Health = GetSubstractedStat(Health, value);
             _statsDisplayer.DisplayHp((int)Health);
+            if (Health <= 0)
+            {
+               GlobalEventsContainer.PlayerDied?.Invoke();
+               _statsDisplayer.DisplayDeathMessage("You died!", Color.red);
+            }
             break;
          case CharacterStatType.Food:
             Food = GetSubstractedStat(Food, value);
             _statsDisplayer.DisplayFood((int)Food);
+            if (Food <= 0)
+            {
+               GlobalEventsContainer.PlayerDied?.Invoke();
+               _statsDisplayer.DisplayDeathMessage("You died!", Color.green);
+            }
             break;
          case CharacterStatType.Water:
             Water = GetSubstractedStat(Water, value);
             _statsDisplayer.DisplayWater((int)Water);
+            if (Water <= 0)
+            {
+               GlobalEventsContainer.PlayerDied?.Invoke();
+               _statsDisplayer.DisplayDeathMessage("You died!", Color.blue);
+            }
             break;
       }
    }
