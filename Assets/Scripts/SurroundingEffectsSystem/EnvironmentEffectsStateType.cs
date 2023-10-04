@@ -1,7 +1,9 @@
 namespace SurroundingEffectsSystem
 {
-    public enum SurroundingEffectsStateType 
+    public enum EnvironmentEffectsStateType 
     {
+        None,
+        Hot,
         Warm,
         Cold,
         Radiation,

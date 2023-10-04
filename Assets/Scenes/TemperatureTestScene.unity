@@ -1736,12 +1736,11 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 54416795}
-  - component: {fileID: 54416794}
   - component: {fileID: 54416793}
   - component: {fileID: 54416796}
   m_Layer: 0
   m_Name: ColdTemperatureTrigger
-  m_TagString: EnvironmentZone
+  m_TagString: ColdEnvironment
   m_Icon: {fileID: -964228994112308473, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1761,36 +1760,12 @@ SphereCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
   m_Radius: 5
   m_Center: {x: 0, y: 5, z: 0}
---- !u!114 &54416794
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 54416792}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4dbb8d1e86287c2498b5ab8eaeb5a1a1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Layer:
-    UseConstant: 1
-    ConstantValue:
-      serializedVersion: 2
-      m_Bits: 4294967295
-    Variable: {fileID: 0}
-  triggerInteraction: 1
-  UseOnce: 0
-  Tags: []
-  onTriggerEnter:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!4 &54416795
 Transform:
   m_ObjectHideFlags: 0
@@ -1815,11 +1790,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 54416792}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 000dcc37107f446818ad2e08583ca6ea, type: 3}
+  m_Script: {fileID: 11500000, guid: ca4ec5a12dc0460fa512d39751ca0bb5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  EffectType: 0
+  EffectType: 2
   _color: {r: 0, g: 0, b: 0, a: 0}
+  _sphereCollider: {fileID: 54416793}
 --- !u!1001 &56041117
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -10914,12 +10890,11 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 336061019}
-  - component: {fileID: 336061018}
   - component: {fileID: 336061017}
   - component: {fileID: 336061020}
   m_Layer: 0
   m_Name: RadioactiveTriger
-  m_TagString: EnvironmentZone
+  m_TagString: RadioactiveEnvironment
   m_Icon: {fileID: 5132851093641282708, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -10939,36 +10914,12 @@ SphereCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
   m_Radius: 5
   m_Center: {x: 0, y: 5, z: 0}
---- !u!114 &336061018
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 336061016}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4dbb8d1e86287c2498b5ab8eaeb5a1a1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Layer:
-    UseConstant: 1
-    ConstantValue:
-      serializedVersion: 2
-      m_Bits: 4294967295
-    Variable: {fileID: 0}
-  triggerInteraction: 1
-  UseOnce: 0
-  Tags: []
-  onTriggerEnter:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!4 &336061019
 Transform:
   m_ObjectHideFlags: 0
@@ -10978,7 +10929,7 @@ Transform:
   m_GameObject: {fileID: 336061016}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -22.73, y: -7, z: 12.284386}
+  m_LocalPosition: {x: -22.73, y: -6.9, z: 12.284386}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -10993,11 +10944,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 336061016}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 000dcc37107f446818ad2e08583ca6ea, type: 3}
+  m_Script: {fileID: 11500000, guid: ca4ec5a12dc0460fa512d39751ca0bb5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  EffectType: 0
+  EffectType: 2
   _color: {r: 0, g: 0, b: 0, a: 0}
+  _sphereCollider: {fileID: 336061017}
 --- !u!1001 &336960574
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -43075,12 +43027,11 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1296618075}
-  - component: {fileID: 1296618074}
   - component: {fileID: 1296618073}
   - component: {fileID: 1296618076}
   m_Layer: 0
   m_Name: HotTemperatureTrigger
-  m_TagString: EnvironmentZone
+  m_TagString: WarmEnvironment
   m_Icon: {fileID: 2974397684917235467, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -43100,36 +43051,12 @@ SphereCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
   m_Radius: 5
   m_Center: {x: 0, y: 5, z: 0}
---- !u!114 &1296618074
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1296618072}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4dbb8d1e86287c2498b5ab8eaeb5a1a1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Layer:
-    UseConstant: 1
-    ConstantValue:
-      serializedVersion: 2
-      m_Bits: 4294967295
-    Variable: {fileID: 0}
-  triggerInteraction: 1
-  UseOnce: 0
-  Tags: []
-  onTriggerEnter:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!4 &1296618075
 Transform:
   m_ObjectHideFlags: 0
@@ -43139,7 +43066,7 @@ Transform:
   m_GameObject: {fileID: 1296618072}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.9922152, y: -8.08, z: 3.17}
+  m_LocalPosition: {x: -1.9922152, y: -7, z: 3.17}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -43154,11 +43081,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 1296618072}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 000dcc37107f446818ad2e08583ca6ea, type: 3}
+  m_Script: {fileID: 11500000, guid: ca4ec5a12dc0460fa512d39751ca0bb5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   EffectType: 0
-  _color: {r: 1, g: 0, b: 0, a: 0}
+  _color: {r: 0, g: 0, b: 0, a: 0}
+  _sphereCollider: {fileID: 1296618073}
 --- !u!1001 &1297090619
 PrefabInstance:
   m_ObjectHideFlags: 0
