@@ -8,8 +8,10 @@ namespace Character_Stats
     public class CharacterSpawnManager : MonoBehaviour
     {
         [SerializeField] private int _numberOfSpawnPoints = 10;
+        [SerializeField] private GameObject _backpackPrefab;
         private readonly List<Transform> _spawnPoints = new();
-    
+       private Transform _lastPlayerTransform;
+
         public static CharacterSpawnManager Instance { get; private set; }
 
         private void Awake()
@@ -49,9 +51,18 @@ namespace Character_Stats
 
         public void OnPlayerDeath()
         {
+            //Create separate script for BackpackLogic
+            _lastPlayerTransform = PlayerNetCode.Singleton.transform;
+            
+            var playerTransform = _lastPlayerTransform;
+            
+            var cube = Instantiate(_backpackPrefab, playerTransform.position, playerTransform.rotation);
+
+            var cubeRigidbody = cube.GetComponent<Rigidbody>();
+            cubeRigidbody.isKinematic = true;
+            
             SpawnPlayerRandomly();
             CharacterStats.Singleton.ResetStatsToDefault();
-            
         }
 
         private void OnDisable()
