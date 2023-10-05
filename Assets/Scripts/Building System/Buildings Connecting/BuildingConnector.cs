@@ -69,7 +69,7 @@ public class BuildingConnector : MonoBehaviour
     [ServerRpc(RequireOwnership = false)]
     private async void ConnectBlocks()
     {
-        if(PlayerNetCode.singleton == null || !PlayerNetCode.singleton.IsServer) return;
+        if(PlayerNetCode.Singleton == null || !PlayerNetCode.Singleton.IsServer) return;
         await Task.Delay(100);
         ConnectedStructure currentStructure = null;
         List<ConnectedStructure> structures = new List<ConnectedStructure>();
