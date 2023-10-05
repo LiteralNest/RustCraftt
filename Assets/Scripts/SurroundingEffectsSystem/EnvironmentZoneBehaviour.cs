@@ -18,7 +18,7 @@ namespace SurroundingEffectsSystem
 
         private void Start()
         {
-            _characterStats = CharacterStats.singleton;
+            _characterStats = CharacterStats.Singleton;
         }
 
         private void OnTriggerStay(Collider other)

@@ -1,3 +1,5 @@
+using System;
+using System.Threading.Tasks;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -12,6 +14,11 @@ public class CharacterStatsDisplayer : MonoBehaviour
     [SerializeField] private TMP_Text _waterText;
     [SerializeField] private Image _waterFill;
     [SerializeField] private TextMeshProUGUI _displayMessage;
+
+    // private void Awake()
+    // {
+    //     GlobalEventsContainer.PlayerSpawned += HideDeathMessage;
+    // }
 
     public void DisplayHp(int hp)
     {
@@ -30,15 +37,23 @@ public class CharacterStatsDisplayer : MonoBehaviour
         _waterText.text = water.ToString();
         _waterFill.fillAmount = (float)water / 100;
     }
-    public void DisplayDeathMessage(string message, Color color)
+    public async void DisplayDeathMessage(string message, Color color)
     {
         _displayMessage.text = message;
         _displayMessage.color = color;
         _displayMessage.alpha = 1f;
-    }
+        
+        await Task.Delay(5000);
 
-    public void HideDeathMessage()
-    {
         _displayMessage.alpha = 0f;
     }
+
+    // public void HideDeathMessage()
+    // {
+    //     _displayMessage.alpha = 0f;
+    // }
+    // private void OnDisable()
+    // {
+    //     GlobalEventsContainer.PlayerSpawned -= HideDeathMessage;
+    // }
 }

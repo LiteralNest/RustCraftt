@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class PlayerNetCode : NetworkBehaviour
 {
-    public static PlayerNetCode singleton { get; private set; }
+    public static PlayerNetCode Singleton { get; private set; }
     
     public NetworkVariable<int> ActiveItemId = new NetworkVariable<int>();
 
@@ -20,7 +20,7 @@ public class PlayerNetCode : NetworkBehaviour
     private void Start()
     {
         if (IsOwner)
-            singleton = this;
+            Singleton = this;
     }
     
     public override void OnNetworkSpawn()

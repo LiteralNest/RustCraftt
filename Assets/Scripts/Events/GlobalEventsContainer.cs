@@ -27,4 +27,5 @@ public static class GlobalEventsContainer
     public static Action RadiationStarted { get; set; }
     public static Action RadiationEnded { get; set; }
     public static Action PlayerDied { get; set; } 
+    public static Action PlayerSpawned { get; set; } 
 }

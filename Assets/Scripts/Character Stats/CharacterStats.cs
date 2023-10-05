@@ -3,22 +3,41 @@ using UnityEngine;
 [RequireComponent(typeof(CharacterStatsDisplayer))]
 public class CharacterStats : MonoBehaviour
 {
-   public static CharacterStats singleton { get; private set; }
+   public static CharacterStats Singleton { get; private set; }
 
    [SerializeField] private CharacterStatsDisplayer _statsDisplayer;
 
    [field:SerializeField] public float Health { get; private set; }
    [field:SerializeField] public float Food { get; private set; }
    [field:SerializeField] public float Water { get; private set; }
+   
+   
+   private float _initialHealth;
+   private float _initialFood;
+   private float _initialWater;
 
    private void Awake()
    {
       if (_statsDisplayer == null)
          _statsDisplayer = GetComponent<CharacterStatsDisplayer>();
-      singleton = this;
+      Singleton = this;
+      
+      _initialHealth = Health;
+      _initialFood = Food;
+      _initialWater = Water;
    }
    
-   
+   public void ResetStatsToDefault()
+   {
+      Health = _initialHealth;
+      Food = _initialFood;
+      Water = _initialWater;
+
+      // Оновити відображення
+      _statsDisplayer.DisplayHp((int)Health);
+      _statsDisplayer.DisplayFood((int)Food);
+      _statsDisplayer.DisplayWater((int)Water);
+   }
    private float GetAddedStat(float stat, float addingValue)
    {
       float res = stat + addingValue;
