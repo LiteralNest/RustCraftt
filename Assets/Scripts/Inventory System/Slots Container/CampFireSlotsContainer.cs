@@ -43,4 +43,10 @@ public class CampFireSlotsContainer : SlotsContainer
         _campFireHandler.SetItem(index, cell);
     }
 
+    public void TurnFire(bool value)
+    {
+        if(!_campFireHandler) return;
+        _campFireHandler.TurnFlamingServerRpc(value);
+    }
+
 }

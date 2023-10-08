@@ -18,6 +18,8 @@ public class CampFireHandler : NetworkBehaviour
 
     private CampFireSlotsContainer _targetSlotsContainer;
 
+    private bool _fireTurned;
+    
     private void Start()
     {
         TurnFire();
@@ -33,6 +35,11 @@ public class CampFireHandler : NetworkBehaviour
         Cells[index].Count = cell.Count;
     }
 
+    private void SetItemCount(int index, int count)
+    {
+        Cells[index].Count = count;
+    }
+
     public void Open(InventoryHandler handler)
     {
         handler.OpenCampFirePanel();
@@ -42,8 +49,11 @@ public class CampFireHandler : NetworkBehaviour
 
     private void TurnFire()
         => _fireObject.SetActive(_flaming.Value);
-    
+
     [ServerRpc(RequireOwnership = false)]
     public void TurnFlamingServerRpc(bool value)
-        => _flaming.Value = value;
+    {
+        _fireTurned = value;
+        _flaming.Value = value;
+    }
 }
