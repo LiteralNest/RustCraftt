@@ -82,7 +82,9 @@ public class LongRangeWeaponObject : WeaponObject
         //     count = Weapon.MagazineCount;
         // count -= _currentAmmoCount;
         // InventorySlotsContainer.singleton.DeleteSlot(Weapon.Ammo, count);
+        
         await Task.Delay(1000);
+        _currentAmmoCount = Weapon.MagazineCount;
         // _currentAmmoCount = count; //Дописати логіку перевірки в інвентарі
     }
     

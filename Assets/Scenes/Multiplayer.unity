@@ -747,7 +747,7 @@ Transform:
   m_GameObject: {fileID: 76966770}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0.11, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -3399,7 +3399,7 @@ MonoBehaviour:
   _currentHp:
     m_InternalValue: 40
   _loot:
-  - <Item>k__BackingField: {fileID: 11400000, guid: 2f84f18216fad0b448e98f2081bbcf6d, type: 2}
+  - <Item>k__BackingField: {fileID: 11400000, guid: c7c6f1721202fae4ab90fddd87a57ef5, type: 2}
     <MinimalCount>k__BackingField: 1
     <MaximalCount>k__BackingField: 10
 --- !u!23 &267891883
@@ -4841,7 +4841,7 @@ MonoBehaviour:
   _currentHp:
     m_InternalValue: 40
   _loot:
-  - <Item>k__BackingField: {fileID: 11400000, guid: 2f84f18216fad0b448e98f2081bbcf6d, type: 2}
+  - <Item>k__BackingField: {fileID: 11400000, guid: c7c6f1721202fae4ab90fddd87a57ef5, type: 2}
     <MinimalCount>k__BackingField: 1
     <MaximalCount>k__BackingField: 10
 --- !u!23 &369640841
@@ -7738,7 +7738,7 @@ GameObject:
   - component: {fileID: 670314486}
   - component: {fileID: 670314485}
   - component: {fileID: 670314484}
-  - component: {fileID: 670314483}
+  - component: {fileID: 670314487}
   m_Layer: 7
   m_Name: Ground
   m_TagString: Block
@@ -7746,28 +7746,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!64 &670314483
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 670314482}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!23 &670314484
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -7827,12 +7805,33 @@ Transform:
   m_GameObject: {fileID: 670314482}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -8.7773, y: -0.13600004, z: 9.0474}
+  m_LocalPosition: {x: -8.7773, y: -0.14, z: 9.0474}
   m_LocalScale: {x: 31.291176, y: 8.9991, z: 27.082458}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1130419244}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &670314487
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 670314482}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 10, y: 0.03, z: 10}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1001 &671269555
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -10525,7 +10524,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <Items>k__BackingField:
   - {fileID: 11400000, guid: 28bd3b93ac23fe14db313f2088d450df, type: 2}
-  - {fileID: 11400000, guid: 2f84f18216fad0b448e98f2081bbcf6d, type: 2}
+  - {fileID: 11400000, guid: 200d2c64639dc31419395399e2005cfe, type: 2}
   - {fileID: 11400000, guid: 12e7439b0d8101e4b9d35bc10237adb6, type: 2}
   - {fileID: 11400000, guid: 722b392527e89894ba230a29531d3973, type: 2}
   - {fileID: 11400000, guid: c4791c33b05b3154992749c0dd27fc49, type: 2}
@@ -21469,7 +21468,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _items:
-  - {fileID: 1782543523105099631, guid: 183a87f8065d3da408f0dcce0d18a168, type: 3}
+  - {fileID: 8798916821313942567, guid: 19f2e39febf883349b66011df7eb5d00, type: 3}
 --- !u!114 &1792856231
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -26094,6 +26093,10 @@ PrefabInstance:
       propertyPath: m_Size.z
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 2912804234154143460, guid: 966a8c97d98f39b41979466115215e17, type: 3}
+      propertyPath: <AvaliableFuel>k__BackingField.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 200d2c64639dc31419395399e2005cfe, type: 2}
     - target: {fileID: 2912804234154143460, guid: 966a8c97d98f39b41979466115215e17, type: 3}
       propertyPath: <Cells>k__BackingField.Array.data[0].<Item>k__BackingField
       value: 

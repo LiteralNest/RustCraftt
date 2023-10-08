@@ -1,20 +1,23 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class CampFireSlotsContainer : SlotsContainer
 {
-    [SerializeField] private InventorySlotsDisplayer _slotsDisplayer;
-    private CampFireHandler _campFireHandler;
+    [field:SerializeField] public InventorySlotsDisplayer SlotsDisplayer { get; private set; }
+    [SerializeField] private CampFireDisplayer _campFireDisplayer;
+    public CampFireHandler CampFireHandler { get; private set; }
 
     public void Init(CampFireHandler campFireHandler)
     {
-        _campFireHandler = campFireHandler;
-        _slotsDisplayer.ResetCells();
+        CampFireHandler = campFireHandler;
+        SlotsDisplayer.ResetCells();
         Cells = new List<InventoryCell>(campFireHandler.Cells);
-        _slotsDisplayer.DisplayCells();
+        SlotsDisplayer.DisplayCells();
+        _campFireDisplayer.DisplayButton(campFireHandler.Flaming.Value);
     }
 
-    private bool ListContains(Item item, List<Item> list)
+    private bool ListContains(Item item, List<Fuel> list)
     {
         foreach (var cell in list)
             if (item.Id == cell.Id)
@@ -32,21 +35,21 @@ public class CampFireSlotsContainer : SlotsContainer
 
     public override bool CanAddItem(Item item)
     {
-        if (ListContains(item, _campFireHandler.AvaliableFuel) ||
-            ListContains(item, _campFireHandler.AvaliableFoodForCooking)) return true;
+        if (ListContains(item, CampFireHandler.AvaliableFuel) ||
+            ListContains(item, CampFireHandler.AvaliableFoodForCooking)) return true;
         return false;
     }
 
     public override void AddCell(int index, InventoryCell cell)
     {
         base.AddCell(index, cell);
-        _campFireHandler.SetItem(index, cell);
+        CampFireHandler.SetItem(index, cell);
     }
 
     public void TurnFire(bool value)
     {
-        if(!_campFireHandler) return;
-        _campFireHandler.TurnFlamingServerRpc(value);
+        if(!CampFireHandler) return;
+        CampFireHandler.TurnFlamingServerRpc(value);
     }
 
 }

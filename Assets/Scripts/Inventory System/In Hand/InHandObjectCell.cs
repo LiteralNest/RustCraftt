@@ -33,8 +33,8 @@ public class InHandObjectCell
 
         if (FirstPersonObject != null)
             FirstPersonObject.gameObject.SetActive(true);
-        if (ThirdPersonObject != null)
-            ThirdPersonObject.gameObject.SetActive(true);
+        // if (ThirdPersonObject != null)
+        //     ThirdPersonObject.gameObject.SetActive(true);
     }
     
     private void DisableThirdPersonRenderers()

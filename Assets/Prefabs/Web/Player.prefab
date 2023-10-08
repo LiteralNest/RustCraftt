@@ -1155,6 +1155,7 @@ GameObject:
   - component: {fileID: 6349935870654982802}
   - component: {fileID: 3746317939516822040}
   - component: {fileID: 3957482385951624368}
+  - component: {fileID: 7141929790208998001}
   m_Layer: 0
   m_Name: CampFire Inventory
   m_TagString: Untagged
@@ -1218,7 +1219,23 @@ MonoBehaviour:
     <Count>k__BackingField: 0
   - <Item>k__BackingField: {fileID: 0}
     <Count>k__BackingField: 0
-  _slotsDisplayer: {fileID: 3746317939516822040}
+  <SlotsDisplayer>k__BackingField: {fileID: 3746317939516822040}
+  _campFireDisplayer: {fileID: 7141929790208998001}
+--- !u!114 &7141929790208998001
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 402694151525734529}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7460314522c714846a98e8e9447edf85, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _turnOnButton: {fileID: 5068964912870328913}
+  _turnOffButton: {fileID: 8792019460915484961}
+  _campFireSlotsContainer: {fileID: 3957482385951624368}
 --- !u!1 &449733703128442524
 GameObject:
   m_ObjectHideFlags: 0
@@ -15431,21 +15448,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2283927603342542094}
-        m_TargetAssemblyTypeName: PanelsHandler, Assembly-CSharp
-        m_MethodName: TurnOnPanel
-        m_Mode: 2
-        m_Arguments:
-          m_ObjectArgument: {fileID: 8792019460915484961}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 1
-        m_CallState: 2
-      - m_Target: {fileID: 3957482385951624368}
-        m_TargetAssemblyTypeName: CampFireSlotsContainer, Assembly-CSharp
-        m_MethodName: TurnFire
+      - m_Target: {fileID: 7141929790208998001}
+        m_TargetAssemblyTypeName: CampFireDisplayer, Assembly-CSharp
+        m_MethodName: SetFlaming
         m_Mode: 6
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -16170,14 +16175,14 @@ MonoBehaviour:
     <Count>k__BackingField: 1
   - <Item>k__BackingField: {fileID: 11400000, guid: d19e7a800f6934b41808df31e0177e08, type: 2}
     <Count>k__BackingField: 1
-  - <Item>k__BackingField: {fileID: 11400000, guid: 2f84f18216fad0b448e98f2081bbcf6d, type: 2}
+  - <Item>k__BackingField: {fileID: 11400000, guid: 200d2c64639dc31419395399e2005cfe, type: 2}
     <Count>k__BackingField: 999
   - <Item>k__BackingField: {fileID: 11400000, guid: 006e8b380b45c9d4f8833e6f057b6585, type: 2}
     <Count>k__BackingField: 1
   - <Item>k__BackingField: {fileID: 11400000, guid: 5e1882a214c6140428679d895f07a887, type: 2}
     <Count>k__BackingField: 1000
-  - <Item>k__BackingField: {fileID: 0}
-    <Count>k__BackingField: 0
+  - <Item>k__BackingField: {fileID: 11400000, guid: 2768babedf856e54f88b068259da7913, type: 2}
+    <Count>k__BackingField: 2
   - <Item>k__BackingField: {fileID: 0}
     <Count>k__BackingField: 0
   - <Item>k__BackingField: {fileID: 0}
@@ -19573,7 +19578,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &5731910562613618807
 RectTransform:
   m_ObjectHideFlags: 0
@@ -26298,21 +26303,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2283927603342542094}
-        m_TargetAssemblyTypeName: PanelsHandler, Assembly-CSharp
-        m_MethodName: TurnOffPanel
-        m_Mode: 2
-        m_Arguments:
-          m_ObjectArgument: {fileID: 8792019460915484961}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 1
-        m_CallState: 2
-      - m_Target: {fileID: 3957482385951624368}
-        m_TargetAssemblyTypeName: CampFireSlotsContainer, Assembly-CSharp
-        m_MethodName: TurnFire
+      - m_Target: {fileID: 7141929790208998001}
+        m_TargetAssemblyTypeName: CampFireDisplayer, Assembly-CSharp
+        m_MethodName: SetFlaming
         m_Mode: 6
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
