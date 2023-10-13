@@ -111,27 +111,6 @@ public class CampFireHandler : NetworkBehaviour
         StartCoroutine(RemoveFuel(fuel[0]));
     }
 
-    private InventoryCell GetFreeCell()
-    {
-        foreach (var cell in Cells)
-            if (cell.Item == null)
-                return cell;
-        return null;
-    }
-
-    private InventoryCell GetDesiredCell(Item item, int count)
-    {
-        foreach (var cell in Cells)
-        {
-            if (cell.Item == item)
-            {
-                if (cell.Item.StackCount >= count + cell.Count)
-                    return cell;
-            }
-        }
-        return GetFreeCell(); 
-    }
-
     private void ResetCell(InventoryCell cell)
     {
         cell.Item = null;
@@ -189,7 +168,7 @@ public class CampFireHandler : NetworkBehaviour
         var foodList = GetFood();
         if(foodList.Count == 0) return;
         var food = GetFoodById(foodList[0].Item.Id);
-        var bindedCell = GetDesiredCell(food.FoodAfterCooking, 1);
+        var bindedCell = InventoryHelper.GetDesiredCell(food.FoodAfterCooking, 1, Cells);
         if(bindedCell == null) return;
         StartCoroutine(Cook(food, bindedCell));
     }

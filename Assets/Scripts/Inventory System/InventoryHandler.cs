@@ -12,6 +12,7 @@ public class InventoryHandler : MonoBehaviour
     [field: SerializeField] public PlayerObjectsPlacer PlayerObjectsPlacer { get; private set; }
     [field: SerializeField] public BuildingChooser BuildingChooser { get; private set; }
     [field: SerializeField] public CampFireSlotsContainer CampFireSlotsContainer { get; private set; }
+    [field:SerializeField] public RecyclerSlotsContainer RecyclerSlotsContainer { get; private set; }
 
     [Header("UI")] 
     [SerializeField] private GameObject _mainButtonsPanel;
@@ -19,6 +20,7 @@ public class InventoryHandler : MonoBehaviour
     [SerializeField] private GameObject _lootBoxPanel;
     [SerializeField] private GameObject _inventoryPanel;
     [SerializeField] private GameObject _campFirePanel;
+    [SerializeField] private GameObject _recyclerPanel;
 
     public Item ActiveItem { get; private set; }
 
@@ -53,6 +55,14 @@ public class InventoryHandler : MonoBehaviour
         _armorPanel.SetActive(true);
         _lootBoxPanel.SetActive(false);
         _campFirePanel.SetActive(true); 
+    }
+
+    public void OpenRecyclerPanel()
+    {
+        HandleInventory(true);
+        _armorPanel.SetActive(true);
+        _lootBoxPanel.SetActive(false);
+        _recyclerPanel.SetActive(true); 
     }
 
     public void SetActiveItem(Item item)

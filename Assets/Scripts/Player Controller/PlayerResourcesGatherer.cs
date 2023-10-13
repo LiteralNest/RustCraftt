@@ -68,6 +68,7 @@ public class PlayerResourcesGatherer : MonoBehaviour
         TryOpenChest();
         TryGather();
         TryOpenCampFire();
+        TryOpenRecycler();
     }
     
     private void TryHit()
@@ -102,5 +103,12 @@ public class PlayerResourcesGatherer : MonoBehaviour
         var campfire = _objectsRayCaster.CampFireHandler;
         if(!campfire) return;
         campfire.Open(_inventoryHandler);
+    }
+
+    public void TryOpenRecycler()
+    {
+        var recylcer = _objectsRayCaster.RecyclerHandler;
+        if(!recylcer) return;
+        recylcer.Open(_inventoryHandler);
     }
 }
