@@ -42,27 +42,6 @@ public class Recycler : MonoBehaviour
         }
         return null;
     }
-
-    private InventoryCell GetFreeCell()
-    {
-        foreach (var cell in _cells)
-            if (cell.Item == null)
-                return cell;
-        return null;
-    }
-
-    private InventoryCell GetDesiredCell(Item item, int count)
-    {
-        foreach (var cell in _cells)
-        {
-            if (cell.Item == item)
-            {
-                if (cell.Item.StackCount >= count + cell.Count)
-                    return cell;
-            }
-        }
-        return GetFreeCell(); 
-    }
     
     private void ResetCell(InventoryCell cell)
     {
@@ -91,7 +70,7 @@ public class Recycler : MonoBehaviour
         foreach (var cell in item.Cells)
         {
             var rand = Random.Range(cell.ItemsRange.x, cell.ItemsRange.y);
-            var desiredCell = GetDesiredCell(cell.ResultItem, rand);
+            var desiredCell = InventoryHelper.GetDesiredCell(cell.ResultItem, rand, _cells);
             if (desiredCell == null)
             {
                 _recycling = false;
