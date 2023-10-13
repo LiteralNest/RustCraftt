@@ -5,10 +5,11 @@ public abstract class SlotDisplayer : MonoBehaviour, IDropHandler
 {
     public ItemDisplayer ItemDisplayer { get; protected set; }
     [field:SerializeField] public bool IsQuickSlot { get; private set; }
+    [field:SerializeField] public bool CanSetSlot { get; set; }
     
     public int Index { get; private set; }
     
-    public InventorySlotsDisplayer InventorySlotsDisplayer { get; protected set; }
+    public SlotsDisplayer InventorySlotsDisplayer { get; protected set; }
     public SlotsContainer Inventory { get; protected set; }
 
     protected abstract void Drop(PointerEventData eventData);
@@ -16,7 +17,7 @@ public abstract class SlotDisplayer : MonoBehaviour, IDropHandler
     public void OnDrop(PointerEventData eventData)
         => Drop(eventData);
 
-    public void Init(int index, InventorySlotsDisplayer slotsDisplayer, SlotsContainer slotsContainer)
+    public void Init(int index, SlotsDisplayer slotsDisplayer, SlotsContainer slotsContainer)
     {
         Index = index;
         InventorySlotsDisplayer = slotsDisplayer;
@@ -69,6 +70,7 @@ public abstract class SlotDisplayer : MonoBehaviour, IDropHandler
     
     protected bool TrySetItem(ItemDisplayer itemDisplayer)
     {
+        if (!CanSetSlot) return false;
         if (!Inventory.CanAddItem(itemDisplayer.InventoryCell.Item)) return false;
         if (CheckForFree(itemDisplayer)) return true;
         if(TryStack(itemDisplayer.InventoryCell, out bool wasStacking)) return true;

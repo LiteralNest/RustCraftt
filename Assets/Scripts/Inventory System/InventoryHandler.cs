@@ -12,7 +12,7 @@ public class InventoryHandler : MonoBehaviour
     [field: SerializeField] public PlayerObjectsPlacer PlayerObjectsPlacer { get; private set; }
     [field: SerializeField] public BuildingChooser BuildingChooser { get; private set; }
     [field: SerializeField] public CampFireSlotsContainer CampFireSlotsContainer { get; private set; }
-    
+
     [Header("UI")] 
     [SerializeField] private GameObject _mainButtonsPanel;
     [SerializeField] private GameObject _armorPanel;

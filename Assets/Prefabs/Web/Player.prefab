@@ -516,6 +516,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <IsQuickSlot>k__BackingField: 0
+  <CanSetSlot>k__BackingField: 0
 --- !u!1 &233883564989069643
 GameObject:
   m_ObjectHideFlags: 0
@@ -1144,6 +1145,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <IsQuickSlot>k__BackingField: 1
+  <CanSetSlot>k__BackingField: 0
 --- !u!1 &402694151525734529
 GameObject:
   m_ObjectHideFlags: 0
@@ -1190,7 +1192,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9d9a39657460a2547af406459c627dd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _quickSlotsDisplayer: {fileID: 4897013275646678667}
   _slotsContainer: {fileID: 3957482385951624368}
   _itemDisplayerPrefab: {fileID: 2785422814213238586, guid: 002d21339cd3c4b44b1ddac59aa8e5b6, type: 3}
   _cellDisplayers:
@@ -1198,6 +1199,7 @@ MonoBehaviour:
   - {fileID: 8748279432833053117}
   - {fileID: 7410276671109096724}
   - {fileID: 5657568100756906251}
+  _quickSlotsDisplayer: {fileID: 4897013275646678667}
 --- !u!114 &3957482385951624368
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1406,6 +1408,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <IsQuickSlot>k__BackingField: 0
+  <CanSetSlot>k__BackingField: 0
 --- !u!1 &514306850955058134
 GameObject:
   m_ObjectHideFlags: 0
@@ -1686,6 +1689,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <IsQuickSlot>k__BackingField: 0
+  <CanSetSlot>k__BackingField: 0
 --- !u!1 &582105474381289926
 GameObject:
   m_ObjectHideFlags: 0
@@ -1813,6 +1817,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <IsQuickSlot>k__BackingField: 1
+  <CanSetSlot>k__BackingField: 0
 --- !u!1 &668321806324226104
 GameObject:
   m_ObjectHideFlags: 0
@@ -1980,6 +1985,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <IsQuickSlot>k__BackingField: 0
+  <CanSetSlot>k__BackingField: 0
 --- !u!1 &697549524064097967
 GameObject:
   m_ObjectHideFlags: 0
@@ -2069,6 +2075,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <IsQuickSlot>k__BackingField: 0
+  <CanSetSlot>k__BackingField: 0
 --- !u!1 &705280935420745589
 GameObject:
   m_ObjectHideFlags: 0
@@ -4291,8 +4298,6 @@ GameObject:
   m_Component:
   - component: {fileID: 5097182360417628108}
   - component: {fileID: 1888364353164553779}
-  - component: {fileID: 7844203932323237298}
-  - component: {fileID: 4565465570603301073}
   m_Layer: 5
   m_Name: Loot Box Panel
   m_TagString: Untagged
@@ -4330,83 +4335,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1222957922542312518}
   m_CullTransparentMesh: 1
---- !u!114 &7844203932323237298
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1222957922542312518}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9d9a39657460a2547af406459c627dd8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _quickSlotsDisplayer: {fileID: 0}
-  _slotsContainer: {fileID: 4565465570603301073}
-  _itemDisplayerPrefab: {fileID: 2785422814213238586, guid: 002d21339cd3c4b44b1ddac59aa8e5b6, type: 3}
-  _cellDisplayers:
-  - {fileID: 236793904853361014}
-  - {fileID: 6213955548003651274}
-  - {fileID: 1056037159503054423}
-  - {fileID: 2965445463644402262}
-  - {fileID: 7310912227582182776}
-  - {fileID: 856787346015871173}
-  - {fileID: 5001062849438481519}
-  - {fileID: 7160979038423308614}
-  - {fileID: 7313901759828698206}
-  - {fileID: 4005313344713196582}
-  - {fileID: 3891577053503273413}
-  - {fileID: 4839580150433364226}
-  - {fileID: 4937447828448035890}
-  - {fileID: 1491248805923437401}
-  - {fileID: 1454018978627209376}
-  - {fileID: 8799075259673775470}
---- !u!114 &4565465570603301073
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1222957922542312518}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 79ee031677ca47e43a6111aa25475fe6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  <Cells>k__BackingField:
-  - <Item>k__BackingField: {fileID: 0}
-    <Count>k__BackingField: 0
-  - <Item>k__BackingField: {fileID: 0}
-    <Count>k__BackingField: 0
-  - <Item>k__BackingField: {fileID: 0}
-    <Count>k__BackingField: 0
-  - <Item>k__BackingField: {fileID: 0}
-    <Count>k__BackingField: 0
-  - <Item>k__BackingField: {fileID: 0}
-    <Count>k__BackingField: 0
-  - <Item>k__BackingField: {fileID: 0}
-    <Count>k__BackingField: 0
-  - <Item>k__BackingField: {fileID: 0}
-    <Count>k__BackingField: 0
-  - <Item>k__BackingField: {fileID: 0}
-    <Count>k__BackingField: 0
-  - <Item>k__BackingField: {fileID: 0}
-    <Count>k__BackingField: 0
-  - <Item>k__BackingField: {fileID: 0}
-    <Count>k__BackingField: 0
-  - <Item>k__BackingField: {fileID: 0}
-    <Count>k__BackingField: 0
-  - <Item>k__BackingField: {fileID: 0}
-    <Count>k__BackingField: 0
-  - <Item>k__BackingField: {fileID: 0}
-    <Count>k__BackingField: 0
-  - <Item>k__BackingField: {fileID: 0}
-    <Count>k__BackingField: 0
-  - <Item>k__BackingField: {fileID: 0}
-    <Count>k__BackingField: 0
-  - <Item>k__BackingField: {fileID: 0}
-    <Count>k__BackingField: 0
 --- !u!1 &1226421285571569936
 GameObject:
   m_ObjectHideFlags: 0
@@ -4496,6 +4424,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <IsQuickSlot>k__BackingField: 0
+  <CanSetSlot>k__BackingField: 0
 --- !u!1 &1238558600619340357
 GameObject:
   m_ObjectHideFlags: 0
@@ -5467,6 +5396,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <IsQuickSlot>k__BackingField: 0
+  <CanSetSlot>k__BackingField: 0
 --- !u!1 &1605213622824476984
 GameObject:
   m_ObjectHideFlags: 0
@@ -5556,6 +5486,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <IsQuickSlot>k__BackingField: 0
+  <CanSetSlot>k__BackingField: 0
 --- !u!1 &1642066339119560615
 GameObject:
   m_ObjectHideFlags: 0
@@ -6132,6 +6063,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <IsQuickSlot>k__BackingField: 0
+  <CanSetSlot>k__BackingField: 0
 --- !u!1 &1814931537377674314
 GameObject:
   m_ObjectHideFlags: 0
@@ -6640,6 +6572,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <IsQuickSlot>k__BackingField: 1
+  <CanSetSlot>k__BackingField: 0
 --- !u!1 &2012280353237344959
 GameObject:
   m_ObjectHideFlags: 0
@@ -6729,6 +6662,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <IsQuickSlot>k__BackingField: 0
+  <CanSetSlot>k__BackingField: 0
 --- !u!1 &2043788968295328751
 GameObject:
   m_ObjectHideFlags: 0
@@ -6925,6 +6859,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <IsQuickSlot>k__BackingField: 0
+  <CanSetSlot>k__BackingField: 0
 --- !u!1 &2214489696573152320
 GameObject:
   m_ObjectHideFlags: 0
@@ -7192,6 +7127,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <IsQuickSlot>k__BackingField: 1
+  <CanSetSlot>k__BackingField: 0
 --- !u!1 &2258686988212111386
 GameObject:
   m_ObjectHideFlags: 0
@@ -7281,6 +7217,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <IsQuickSlot>k__BackingField: 0
+  <CanSetSlot>k__BackingField: 0
 --- !u!1 &2318022592036297945
 GameObject:
   m_ObjectHideFlags: 0
@@ -8073,6 +8010,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <IsQuickSlot>k__BackingField: 1
+  <CanSetSlot>k__BackingField: 0
 --- !u!1 &2564317431457481032
 GameObject:
   m_ObjectHideFlags: 0
@@ -9127,6 +9065,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <IsQuickSlot>k__BackingField: 0
+  <CanSetSlot>k__BackingField: 0
 --- !u!1 &2972325501917741710
 GameObject:
   m_ObjectHideFlags: 0
@@ -9676,6 +9615,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <IsQuickSlot>k__BackingField: 0
+  <CanSetSlot>k__BackingField: 0
 --- !u!1 &3292911397209185921
 GameObject:
   m_ObjectHideFlags: 0
@@ -9883,6 +9823,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <IsQuickSlot>k__BackingField: 0
+  <CanSetSlot>k__BackingField: 0
 --- !u!1 &3356690260187667505
 GameObject:
   m_ObjectHideFlags: 0
@@ -9972,6 +9913,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <IsQuickSlot>k__BackingField: 0
+  <CanSetSlot>k__BackingField: 0
 --- !u!1 &3367623737473758845
 GameObject:
   m_ObjectHideFlags: 0
@@ -10564,7 +10506,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7368aec550714d64fa7b96fb24b033df, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _playerHandsController: {fileID: 0}
   _playerController: {fileID: 8624086197897355627}
   _head: {fileID: 7340987074405387226}
   _rotationSpeed: 2
@@ -10657,6 +10598,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <IsQuickSlot>k__BackingField: 0
+  <CanSetSlot>k__BackingField: 0
 --- !u!1 &3517442248575843321
 GameObject:
   m_ObjectHideFlags: 0
@@ -10777,6 +10719,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <IsQuickSlot>k__BackingField: 0
+  <CanSetSlot>k__BackingField: 0
 --- !u!1 &3605463701092246824
 GameObject:
   m_ObjectHideFlags: 0
@@ -11681,6 +11624,116 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!1 &3868883906912204139
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 649124963461089317}
+  - component: {fileID: 6325019148786662960}
+  - component: {fileID: 8976669236365155111}
+  m_Layer: 0
+  m_Name: LootBox Inventory
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &649124963461089317
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3868883906912204139}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1073976444382258915}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6325019148786662960
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3868883906912204139}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 79ee031677ca47e43a6111aa25475fe6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <Cells>k__BackingField:
+  - <Item>k__BackingField: {fileID: 0}
+    <Count>k__BackingField: 0
+  - <Item>k__BackingField: {fileID: 0}
+    <Count>k__BackingField: 0
+  - <Item>k__BackingField: {fileID: 0}
+    <Count>k__BackingField: 0
+  - <Item>k__BackingField: {fileID: 0}
+    <Count>k__BackingField: 0
+  - <Item>k__BackingField: {fileID: 0}
+    <Count>k__BackingField: 0
+  - <Item>k__BackingField: {fileID: 0}
+    <Count>k__BackingField: 0
+  - <Item>k__BackingField: {fileID: 0}
+    <Count>k__BackingField: 0
+  - <Item>k__BackingField: {fileID: 0}
+    <Count>k__BackingField: 0
+  - <Item>k__BackingField: {fileID: 0}
+    <Count>k__BackingField: 0
+  - <Item>k__BackingField: {fileID: 0}
+    <Count>k__BackingField: 0
+  - <Item>k__BackingField: {fileID: 0}
+    <Count>k__BackingField: 0
+  - <Item>k__BackingField: {fileID: 0}
+    <Count>k__BackingField: 0
+  - <Item>k__BackingField: {fileID: 0}
+    <Count>k__BackingField: 0
+  - <Item>k__BackingField: {fileID: 0}
+    <Count>k__BackingField: 0
+  - <Item>k__BackingField: {fileID: 0}
+    <Count>k__BackingField: 0
+  - <Item>k__BackingField: {fileID: 0}
+    <Count>k__BackingField: 0
+  _lootBoxSlotsDisplayer: {fileID: 8976669236365155111}
+--- !u!114 &8976669236365155111
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3868883906912204139}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 27b2452a159531c428fc10eb4851c3e5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _slotsContainer: {fileID: 6325019148786662960}
+  _itemDisplayerPrefab: {fileID: 2785422814213238586, guid: 002d21339cd3c4b44b1ddac59aa8e5b6, type: 3}
+  _cellDisplayers:
+  - {fileID: 236793904853361014}
+  - {fileID: 6213955548003651274}
+  - {fileID: 1056037159503054423}
+  - {fileID: 2965445463644402262}
+  - {fileID: 7310912227582182776}
+  - {fileID: 856787346015871173}
+  - {fileID: 5001062849438481519}
+  - {fileID: 7160979038423308614}
+  - {fileID: 7313901759828698206}
+  - {fileID: 4005313344713196582}
+  - {fileID: 3891577053503273413}
+  - {fileID: 4839580150433364226}
+  - {fileID: 4937447828448035890}
+  - {fileID: 1491248805923437401}
+  - {fileID: 1454018978627209376}
+  - {fileID: 8799075259673775470}
 --- !u!1 &3885574449831695791
 GameObject:
   m_ObjectHideFlags: 0
@@ -12666,6 +12719,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <IsQuickSlot>k__BackingField: 0
+  <CanSetSlot>k__BackingField: 0
 --- !u!1 &4199740908972199320
 GameObject:
   m_ObjectHideFlags: 0
@@ -13195,6 +13249,7 @@ Transform:
   m_Children:
   - {fileID: 8621543477783646555}
   - {fileID: 6349935870654982802}
+  - {fileID: 649124963461089317}
   m_Father: {fileID: 8086720571742289560}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &4407210964384183395
@@ -13552,6 +13607,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <IsQuickSlot>k__BackingField: 0
+  <CanSetSlot>k__BackingField: 0
 --- !u!1 &4449048282429245710
 GameObject:
   m_ObjectHideFlags: 0
@@ -14143,6 +14199,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <IsQuickSlot>k__BackingField: 0
+  <CanSetSlot>k__BackingField: 0
 --- !u!1 &4823926637444137802
 GameObject:
   m_ObjectHideFlags: 0
@@ -14602,6 +14659,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <IsQuickSlot>k__BackingField: 0
+  <CanSetSlot>k__BackingField: 0
 --- !u!1 &4943085886262644179
 GameObject:
   m_ObjectHideFlags: 0
@@ -15025,6 +15083,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <IsQuickSlot>k__BackingField: 0
+  <CanSetSlot>k__BackingField: 0
 --- !u!1 &5008614474437455084
 GameObject:
   m_ObjectHideFlags: 0
@@ -15869,6 +15928,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <IsQuickSlot>k__BackingField: 0
+  <CanSetSlot>k__BackingField: 0
 --- !u!1 &5294937254271757712
 GameObject:
   m_ObjectHideFlags: 0
@@ -16239,7 +16299,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9d9a39657460a2547af406459c627dd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _quickSlotsDisplayer: {fileID: 4897013275646678667}
   _slotsContainer: {fileID: 8361857723791590592}
   _itemDisplayerPrefab: {fileID: 2785422814213238586, guid: 002d21339cd3c4b44b1ddac59aa8e5b6, type: 3}
   _cellDisplayers:
@@ -16273,6 +16332,7 @@ MonoBehaviour:
   - {fileID: 6332566284102417511}
   - {fileID: 3382008880377860218}
   - {fileID: 9001849273662258304}
+  _quickSlotsDisplayer: {fileID: 4897013275646678667}
 --- !u!114 &4897013275646678667
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16307,7 +16367,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <PlayerNetCode>k__BackingField: {fileID: -5502007171107923210}
   <Stats>k__BackingField: {fileID: 4901743657664774041}
-  <LootBoxSlotsContainer>k__BackingField: {fileID: 4565465570603301073}
+  <LootBoxSlotsContainer>k__BackingField: {fileID: 6325019148786662960}
   <InventorySlotsContainer>k__BackingField: {fileID: 8361857723791590592}
   <InventorySlotsDisplayer>k__BackingField: {fileID: 1768856232368872589}
   <PlayerObjectsPlacer>k__BackingField: {fileID: 7278581159367419240}
@@ -16954,6 +17014,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <IsQuickSlot>k__BackingField: 0
+  <CanSetSlot>k__BackingField: 0
 --- !u!1 &5834849566030933406
 GameObject:
   m_ObjectHideFlags: 0
@@ -17209,6 +17270,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <IsQuickSlot>k__BackingField: 1
+  <CanSetSlot>k__BackingField: 0
 --- !u!1 &5927116003446392570
 GameObject:
   m_ObjectHideFlags: 0
@@ -17409,6 +17471,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <IsQuickSlot>k__BackingField: 0
+  <CanSetSlot>k__BackingField: 0
 --- !u!1 &6178017357264071494
 GameObject:
   m_ObjectHideFlags: 0
@@ -17544,6 +17607,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <IsQuickSlot>k__BackingField: 0
+  <CanSetSlot>k__BackingField: 0
 --- !u!1 &6345686656874686473
 GameObject:
   m_ObjectHideFlags: 0
@@ -17633,6 +17697,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <IsQuickSlot>k__BackingField: 0
+  <CanSetSlot>k__BackingField: 0
 --- !u!1 &6362591849219240560
 GameObject:
   m_ObjectHideFlags: 0
@@ -17856,6 +17921,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <IsQuickSlot>k__BackingField: 0
+  <CanSetSlot>k__BackingField: 0
 --- !u!1 &6368793448097003796
 GameObject:
   m_ObjectHideFlags: 0
@@ -17945,6 +18011,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <IsQuickSlot>k__BackingField: 0
+  <CanSetSlot>k__BackingField: 0
 --- !u!1 &6443056040679676237
 GameObject:
   m_ObjectHideFlags: 0
@@ -18319,6 +18386,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <IsQuickSlot>k__BackingField: 0
+  <CanSetSlot>k__BackingField: 0
 --- !u!1 &6653711268252034103
 GameObject:
   m_ObjectHideFlags: 0
@@ -18827,6 +18895,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <IsQuickSlot>k__BackingField: 0
+  <CanSetSlot>k__BackingField: 0
 --- !u!1 &6794575321403568574
 GameObject:
   m_ObjectHideFlags: 0
@@ -19188,6 +19257,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <IsQuickSlot>k__BackingField: 0
+  <CanSetSlot>k__BackingField: 0
 --- !u!1 &6957928491551483413
 GameObject:
   m_ObjectHideFlags: 0
@@ -20015,6 +20085,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <IsQuickSlot>k__BackingField: 0
+  <CanSetSlot>k__BackingField: 0
 --- !u!1 &7186793640261807241
 GameObject:
   m_ObjectHideFlags: 0
@@ -22047,6 +22118,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <IsQuickSlot>k__BackingField: 0
+  <CanSetSlot>k__BackingField: 0
 --- !u!1 &7678384434589569971
 GameObject:
   m_ObjectHideFlags: 0
@@ -22136,6 +22208,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <IsQuickSlot>k__BackingField: 0
+  <CanSetSlot>k__BackingField: 0
 --- !u!1 &7784837536326161213
 GameObject:
   m_ObjectHideFlags: 0
@@ -22438,6 +22511,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <IsQuickSlot>k__BackingField: 0
+  <CanSetSlot>k__BackingField: 0
 --- !u!1 &7896385144323835261
 GameObject:
   m_ObjectHideFlags: 0
@@ -23478,6 +23552,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <IsQuickSlot>k__BackingField: 0
+  <CanSetSlot>k__BackingField: 0
 --- !u!1 &8159907298768058075
 GameObject:
   m_ObjectHideFlags: 0
@@ -24648,6 +24723,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <IsQuickSlot>k__BackingField: 0
+  <CanSetSlot>k__BackingField: 0
 --- !u!1 &8304277189025617660
 GameObject:
   m_ObjectHideFlags: 0
@@ -25244,6 +25320,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <IsQuickSlot>k__BackingField: 0
+  <CanSetSlot>k__BackingField: 0
 --- !u!1 &8511025905202266103
 GameObject:
   m_ObjectHideFlags: 0
@@ -25941,6 +26018,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <IsQuickSlot>k__BackingField: 0
+  <CanSetSlot>k__BackingField: 0
 --- !u!1 &8736658335593866034
 GameObject:
   m_ObjectHideFlags: 0
@@ -26436,6 +26514,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <IsQuickSlot>k__BackingField: 0
+  <CanSetSlot>k__BackingField: 0
 --- !u!1 &8860816069643526593
 GameObject:
   m_ObjectHideFlags: 0
@@ -26600,6 +26679,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <IsQuickSlot>k__BackingField: 0
+  <CanSetSlot>k__BackingField: 0
 --- !u!1 &8897076479888170127
 GameObject:
   m_ObjectHideFlags: 0
@@ -27392,6 +27472,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <IsQuickSlot>k__BackingField: 0
+  <CanSetSlot>k__BackingField: 0
 --- !u!1 &9176116623819627850
 GameObject:
   m_ObjectHideFlags: 0

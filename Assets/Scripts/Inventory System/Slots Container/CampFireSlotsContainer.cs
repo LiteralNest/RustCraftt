@@ -50,5 +50,4 @@ public class CampFireSlotsContainer : SlotsContainer
         if(!CampFireHandler) return;
         CampFireHandler.TurnFlamingServerRpc(value);
     }
-
 }

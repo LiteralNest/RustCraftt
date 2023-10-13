@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(InventorySlotsDisplayer))]
 public abstract class SlotsContainer : MonoBehaviour
 {
     [field: SerializeField] public List<InventoryCell> Cells { get; protected set; }
