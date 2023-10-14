@@ -3,10 +3,16 @@ using UnityEngine;
 
 public class InHandObjectsContainer : MonoBehaviour
 {
+    public static InHandObjectsContainer singleton { get; private set; }
+    
     [SerializeField] private List<InHandObjectCell> _inHandObjects;
     [SerializeField] private PlayerNetCode _playerNetCode;
+    
     private InHandObjectCell _currentCell;
 
+    private void Awake()
+        => singleton = this;
+    
     private void Start()
     {
         TurnOffObject();

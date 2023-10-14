@@ -1,11 +1,10 @@
 using UnityEngine;
 
-[RequireComponent(typeof(Animator))]
 public class InHandObject : MonoBehaviour
 {
     [Header("Attached Scripts")]
     [SerializeField] private Animator _animator;
-    
+
     [Header("Animator States")]
     [SerializeField] private string _attackIndex = "Attacking";
     [SerializeField] private string _walkIndex = "Walking";

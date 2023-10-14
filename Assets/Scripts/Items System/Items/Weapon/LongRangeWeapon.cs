@@ -1,6 +1,6 @@
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "Item/Weapon")]
+[CreateAssetMenu(menuName = "Item/Long Range Weapon")]
 [System.Serializable]
 public class LongRangeWeapon : Weapon
 {

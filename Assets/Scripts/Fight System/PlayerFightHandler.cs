@@ -15,28 +15,19 @@ public class PlayerFightHandler : MonoBehaviour
     private void Update()
     {
         if(!_attacking || _currentWeaponObject == null) return;
-        _currentWeaponObject.Attack();
     }
 
     private void AssignWeaponObject(WeaponObject value)
     {
         _currentWeaponObject = value;
-        // if (value == null)
-        // {
-        //     _handsAnimator.SetBool("IsLongWeapon", false);
-        //     return;
-        // }
-        // switch (value.WeaponType)
-        // {
-        //     case WeaponType.LongWeapon:
-        //         _handsAnimator.SetBool("IsLongWeapon", true);
-        //         break;
-        // }
-        //
+        
     }
 
     public void SetAttacking(bool value)
-        => _attacking = value;
+    {
+        _currentWeaponObject.Attack(value);
+        _attacking = value;
+    }
 
     public void Reload()
     {

@@ -25,18 +25,6 @@ public class LongRangeWeaponObject : WeaponObject
 
     private LongRangeWeaponInventoryItemDisplayer _inventoryItemDisplayer;
     
-    private void OnEnable()
-    {
-        GlobalEventsContainer.AttackButtonActivated?.Invoke(true);
-        GlobalEventsContainer.WeaponObjectAssign?.Invoke(this);
-    }
-
-    private void OnDisable()
-    {
-        GlobalEventsContainer.AttackButtonActivated?.Invoke(false);
-        GlobalEventsContainer.WeaponObjectAssign?.Invoke(null);
-    }
-
     private void Start()
     {
         Reload();
@@ -113,7 +101,7 @@ public class LongRangeWeaponObject : WeaponObject
         Destroy(decal, 5);
     }
     
-    public override void Attack()
+    public override void Attack(bool value)
     {
         if (!_canShoot || _currentAmmoCount <= 0) return;
         RaycastHit hit;
