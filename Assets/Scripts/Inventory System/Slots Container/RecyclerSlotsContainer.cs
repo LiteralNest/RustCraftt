@@ -3,12 +3,11 @@ using UnityEngine;
 
 public class RecyclerSlotsContainer : SlotsContainer
 {
-    [SerializeField] private SlotsDisplayer _slotsDisplayer;
     private Recycler _recycler;
     public void InitCells(List<InventoryCell> cells)
     {
         Cells = cells;
-        _slotsDisplayer.DisplayCells();
+        SlotsDisplayer.DisplayCells();
     }
 
     public void Init(Recycler recycler)

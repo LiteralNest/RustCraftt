@@ -3,7 +3,6 @@ using UnityEngine;
 
 public class CampFireSlotsContainer : SlotsContainer
 {
-    [field:SerializeField] public InventorySlotsDisplayer SlotsDisplayer { get; private set; }
     [SerializeField] private CampFireDisplayer _campFireDisplayer;
     public CampFireHandler CampFireHandler { get; private set; }
 

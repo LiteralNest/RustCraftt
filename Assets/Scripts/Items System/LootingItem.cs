@@ -9,6 +9,9 @@ public class LootingItem : MonoBehaviour
 
     private void Start()
         => gameObject.tag = "LootingItem";
-    
-    
+
+    public void PickUp()
+    {
+        Destroy(gameObject);
+    }
 }

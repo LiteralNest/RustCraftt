@@ -69,6 +69,7 @@ public class PlayerResourcesGatherer : MonoBehaviour
         TryGather();
         TryOpenCampFire();
         TryOpenRecycler();
+        TryPickUp();
     }
     
     private void TryHit()
@@ -110,5 +111,13 @@ public class PlayerResourcesGatherer : MonoBehaviour
         var recylcer = _objectsRayCaster.RecyclerHandler;
         if(!recylcer) return;
         recylcer.Open(_inventoryHandler);
+    }
+
+    public void TryPickUp()
+    {
+        var lootingItem = _objectsRayCaster.LootingItem;
+        if(!lootingItem) return;
+        _inventoryHandler.InventorySlotsContainer.AddItemToDesiredSlot(lootingItem.Item, lootingItem.Count);
+        lootingItem.PickUp();
     }
 }

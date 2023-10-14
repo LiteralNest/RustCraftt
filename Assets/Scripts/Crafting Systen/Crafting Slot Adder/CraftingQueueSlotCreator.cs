@@ -75,6 +75,8 @@ public class CraftingQueueSlotCreator : MonoBehaviour
         if(!CanBeCreated()) return;
         List<CraftingItemDataTableSlot> slots = _craftingItemDataTableSlotsContainer.Slots;
         _craftingQueue.CreateCell(_craftingItemDataDisplayer.CurrentItem, _currentCount, slots);
+        foreach(var slot in slots)
+            InventoryHandler.singleton.InventorySlotsContainer.RemoveItemFromDesiredSlot(slot.Resource, slot.Count);
         _currentCount = 1;
         DisplayCurrentCountText();
     }
