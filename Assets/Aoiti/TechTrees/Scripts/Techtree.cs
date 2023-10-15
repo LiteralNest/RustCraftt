@@ -43,8 +43,8 @@ namespace Aoiti.Techtrees
         
     }
 
-    //[CreateAssetMenu(menuName = "Techtrees/new Techtree")] //only if Techtree is changed into ScriptableObject
-    public class Techtree : MonoBehaviour
+    [CreateAssetMenu(menuName = "Techtrees/new Techtree")] //only if Techtree is changed into ScriptableObject
+    public class Techtree : ScriptableObject
     {
         public Techtree(Techtree originalTemplateTree)
         {

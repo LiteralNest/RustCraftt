@@ -103,14 +103,14 @@ public class TechtreeEditorWindow: EditorWindow
         // Shows selected node tech and gives option to delete node
         if ( GUILayout.Button("Create a tech", GUILayout.MaxWidth(160)))
         {
-            //var newTech = ScriptableObject.CreateInstance<Tech>();
-            GameObject newTechGO = new GameObject("Tech");
-            newTechGO.transform.parent = targetTree.transform;
-            Tech newTech = newTechGO.AddComponent<Tech>();
+            var newTech = ScriptableObject.CreateInstance<Tech>();
+            // GameObject newTechGO = new GameObject("Tech");
+            // newTechGO.transform.parent = targetTree.transform;
+            // Tech newTech = newTechGO.AddComponent<Tech>();
             newTech.name = "untitled tech";
 
-            //AssetDatabase.CreateAsset(newTech, GetDirectoryPath(AssetDatabase.GetAssetPath(selectedNode.tech)) + "/" + newTech.name + ".asset");
-            //AssetDatabase.SaveAssets();
+            AssetDatabase.CreateAsset(newTech, GetDirectoryPath(AssetDatabase.GetAssetPath(targetTree)) + "/" + newTech.name + ".asset");
+            AssetDatabase.SaveAssets();
             
             if (targetTree.AddNode(newTech, ((selectedNode!=null)? selectedNode.UIposition: scrollPosition) + Vector2.one * 50))
             {
@@ -139,12 +139,12 @@ public class TechtreeEditorWindow: EditorWindow
             }
             if (selectedNode != null)
             {
-                if( !PrefabUtility.IsPartOfPrefabInstance(selectedNode.tech.gameObject) )
+                if( !PrefabUtility.IsPartOfPrefabInstance(selectedNode.tech) )
                 {
                     if (GUILayout.Button("Delete tech", GUILayout.MaxWidth(160)))
                     {
-                        //AssetDatabase.DeleteAsset(AssetDatabase.GetAssetPath(selectedNode.tech));
-                        DestroyImmediate(selectedNode.tech.gameObject,true);
+                        AssetDatabase.DeleteAsset(AssetDatabase.GetAssetPath(selectedNode.tech));
+                        // DestroyImmediate(selectedNode.tech,true);
                         selectedNode = null;
                     }
                 } else
@@ -215,7 +215,7 @@ public class TechtreeEditorWindow: EditorWindow
                         targetTree.nodes[reqIdx].UIposition - scrollPosition + incomingEdgeVec,
                         targetTree.nodes[nodeIdx].UIposition - scrollPosition + outgoingEdgeVec + Vector2.left * 100,
                         targetTree.nodes[reqIdx].UIposition - scrollPosition + incomingEdgeVec + Vector2.right * 100,
-                        Color.white
+                        Color.green
                         , null
                         , 3f);
                     //Draw arrow
@@ -402,7 +402,7 @@ public class TechtreeEditorWindow: EditorWindow
         }
     }
 
-    [MenuItem("Tools/Techtrees/Create Techtree")]
+    // [MenuItem("Tools/Techtrees/Create Techtree")]
     private static void CreatePrefabInProject()
     {
         //string prefabName = "Techtree";
@@ -413,8 +413,8 @@ public class TechtreeEditorWindow: EditorWindow
         //    i++;
         //    targetPath= $"{CurrentProjectFolderPath}/{prefabName+ " " + i.ToString()}.prefab";
         //}
-        var source = new GameObject("Techtree");
-        source.AddComponent<Techtree>();
+        // var source = new GameObject("Techtree");
+        // source.AddComponent<Techtree>();
         //PrefabUtility.SaveAsPrefabAsset(source, targetPath);
     }
 

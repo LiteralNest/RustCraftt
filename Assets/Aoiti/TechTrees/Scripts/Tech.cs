@@ -6,9 +6,9 @@ using UnityEngine.Events;
 namespace Aoiti.Techtrees
 {
     
-    //[CreateAssetMenu(menuName = "Techtrees/new Tech")]
-    [DisallowMultipleComponent]
-    public class Tech : MonoBehaviour
+    [CreateAssetMenu(menuName = "Techtrees/new Tech")]
+    // [DisallowMultipleComponent]
+    public class Tech : ScriptableObject
     {
         [TextArea(3, 10)]
         public string definition;

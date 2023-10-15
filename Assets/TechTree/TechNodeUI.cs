@@ -1,13 +1,12 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ExampleScene_TechnodeUI : MonoBehaviour
+public class TechNodeUI : MonoBehaviour
 {
     public RectTransform rectTransform;
     public RectTransform incomingNode;
     public RectTransform outgoingNode;
+    public Image techImage;
     public GameObject checkImage;
     public Button researchButton;
     public Scrollbar progressBar;
@@ -16,5 +15,10 @@ public class ExampleScene_TechnodeUI : MonoBehaviour
     private void Awake()
     {
         rectTransform = transform as RectTransform;
+    }
+    
+    public void SetTechImage(Sprite sprite)
+    {
+        techImage.sprite = sprite;
     }
 }

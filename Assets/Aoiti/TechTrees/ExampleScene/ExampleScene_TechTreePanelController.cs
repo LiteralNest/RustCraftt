@@ -15,7 +15,7 @@ public class ExampleScene_TechTreePanelController : MonoBehaviour
     void Start()
     
     {
-        //techtree = ScriptableObject.Instantiate<Techtree>(techtree); 
+        // techtree = ScriptableObject.Instantiate<Techtree>(techtree); 
         nodeGameObjects = new Dictionary<TechNode, ExampleScene_TechnodeUI>();
         
         foreach (TechNode tn in techtree.nodes)
@@ -117,7 +117,3 @@ public class ExampleScene_TechTreePanelController : MonoBehaviour
 
     
 }
-
-
-
-    

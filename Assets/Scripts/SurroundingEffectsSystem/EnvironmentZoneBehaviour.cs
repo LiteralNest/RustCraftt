@@ -33,11 +33,11 @@ namespace SurroundingEffectsSystem
                 SetEffect(EnvironmentEffectsStateType.Warm);
                 StartCoroutine(WarmEffect());
             }
-            else if (other.CompareTag("RadioactiveEnvironment"))
-            {
-                SetEffect(EnvironmentEffectsStateType.Radiation);
-                StartCoroutine(RadiationEffect());
-            }
+            // else if (other.CompareTag("RadioactiveEnvironment"))
+            // {
+            //     SetEffect(EnvironmentEffectsStateType.Radiation);
+            //     StartCoroutine(RadiationEffect());
+            // }
         }
 
         private void OnTriggerExit(Collider other)
@@ -50,10 +50,10 @@ namespace SurroundingEffectsSystem
             {
                 SetEffect(EnvironmentEffectsStateType.None);
             }
-            else if (other.CompareTag("RadioactiveEnvironment") && _currentEffect == EnvironmentEffectsStateType.Radiation)
-            {
-                SetEffect(EnvironmentEffectsStateType.None);
-            }
+            // else if (other.CompareTag("RadioactiveEnvironment") && _currentEffect == EnvironmentEffectsStateType.Radiation)
+            // {
+            //     SetEffect(EnvironmentEffectsStateType.None);
+            // }
         }
 
         private void SetEffect(EnvironmentEffectsStateType effect)
