@@ -4,8 +4,8 @@ using UnityEngine.Serialization;
 
 public class ObjectsRayCaster : MonoBehaviour
 {
-    [Header("Attached scripts")] [SerializeField]
-    private BuildingDataDisplayer _buildingDataDisplayer;
+    [FormerlySerializedAs("_buildingDataDisplayer")] [Header("Attached scripts")] [SerializeField]
+    private ObjectHpDisplayer objectHpDisplayer;
     
     [Header("UI")]
     [SerializeField] private GameObject _pointPanel;
@@ -86,10 +86,16 @@ public class ObjectsRayCaster : MonoBehaviour
             }
         }
     }
+
+    private void TryDisplayHp()
+    {
+        if(!TryRaycast("DamagingItem", _maxGatheringDistance, out IDamagable damagable, _defaultMask)) return;
+        objectHpDisplayer.DisplayObjectHp(damagable);
+    }
     
     private void TryRaycastTargets()
     {
-        _buildingDataDisplayer.DisableBuildingPanel();
+        objectHpDisplayer.DisableBuildingPanel();
         if (_targetBlock != null)
         {
             _targetBlock.CurrentBlock.TurnOutline(false);
@@ -103,6 +109,8 @@ public class ObjectsRayCaster : MonoBehaviour
         TargetResourceOre = null;
         SetLootButton("", false);
 
+        TryDisplayHp();
+        
         if(TryRaycast("LootingItem", _maxGatheringDistance, out LootingItem lootingItem, _defaultMask))
         {
             LootingItem = lootingItem;
@@ -117,7 +125,7 @@ public class ObjectsRayCaster : MonoBehaviour
             {
                 _targetBlock = block;
                 _targetBlock.CurrentBlock.TurnOutline(true);
-                _buildingDataDisplayer.DisplayBuildingData(_targetBlock);
+                objectHpDisplayer.DisplayObjectHp(_targetBlock);
             }
         }
         

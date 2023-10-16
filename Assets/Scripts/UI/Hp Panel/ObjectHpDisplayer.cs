@@ -2,7 +2,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class BuildingDataDisplayer : MonoBehaviour
+public class ObjectHpDisplayer : MonoBehaviour
 {
    [Header("UI")] [SerializeField] private GameObject _displayingPanel;
    [SerializeField] private Image _fillingImage;
@@ -11,12 +11,12 @@ public class BuildingDataDisplayer : MonoBehaviour
    public void DisableBuildingPanel()
       => _displayingPanel.SetActive(false);
 
-   public void DisplayBuildingData(BuildingBlock block)
+   public void DisplayObjectHp(IDamagable damagable)
    {
       _displayingPanel.SetActive(true);
       
-      int hp = block.Hp.Value;
-      int maxHp = block.CurrentBlock.Hp;
+      int hp = damagable.GetHp();
+      int maxHp = damagable.GetMaxHp();
       
       _fillingImage.fillAmount = (float)hp / maxHp;
       _fillingText.text = hp + "/" + maxHp;

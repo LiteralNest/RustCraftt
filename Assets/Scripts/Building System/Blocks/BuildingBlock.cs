@@ -6,11 +6,11 @@ public class BuildingBlock : NetworkBehaviour, IDamagable
 {
     [SerializeField] private List<Block> _levels = new List<Block>();
 
-    public NetworkVariable<ushort> Hp = new(100, NetworkVariableReadPermission.Everyone,
+    private NetworkVariable<ushort> _hp = new(100, NetworkVariableReadPermission.Everyone,
         NetworkVariableWritePermission.Owner);
 
-    [field: SerializeField] public BuildingConnector BuildingConnector { get; private set; }
     public Block CurrentBlock => _levels[_currentLevel.Value];
+    [field: SerializeField] public BuildingConnector BuildingConnector { get; private set; }
     public List<InventoryCell> NeededCellsForPlace => _levels[_currentLevel.Value].NeededCellsForPlace;
 
     private ushort _startHp;
@@ -20,6 +20,7 @@ public class BuildingBlock : NetworkBehaviour, IDamagable
 
     private void Start()
     {
+        transform.tag = "DamagingItem";
         InitSlot(_currentLevel.Value);
         _currentLevel.OnValueChanged += (ushort prevValue, ushort newValue) =>
         {
@@ -49,9 +50,15 @@ public class BuildingBlock : NetworkBehaviour, IDamagable
     public void Upgrade()
         => SetLevelServerRpc((ushort)(_currentLevel.Value + 1));
 
+    public ushort GetHp()
+        => _hp.Value;
+
+    public int GetMaxHp()
+        => CurrentBlock.Hp;
+
     public bool CanBeRepaired()
     {
-        int damagingPercent = _startHp / Hp.Value;
+        int damagingPercent = _startHp / _hp.Value;
         List<InventoryCell> cells = new List<InventoryCell>();
         foreach (var cell in NeededCellsForPlace)
             cells.Add(new InventoryCell( cell.Item, cell.Count / damagingPercent));
@@ -71,14 +78,14 @@ public class BuildingBlock : NetworkBehaviour, IDamagable
     [ServerRpc(RequireOwnership = false)]
     private void SetHpServerRpc(ushort value)
     {
-        Hp.Value = value;
-        if (Hp.Value <= 0)
+        _hp.Value = value;
+        if (_hp.Value <= 0)
             Destroy(gameObject);
     }
 
     public void GetDamage(int damage)
     {
-        int hp = Hp.Value - damage;
+        int hp = _hp.Value - damage;
         SetHpServerRpc((ushort)hp);
     }
 
