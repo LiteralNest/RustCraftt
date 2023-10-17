@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using Unity.Netcode;
 using Unity.Services.Vivox;
 using UnityEngine;
@@ -23,7 +21,6 @@ public class VivoxPlayer : MonoBehaviour
         _vvm.OnUserLoggedOutEvent += OnUserLoggedOut;
 
         //Need to discuss how to this in better way
-        // xrCam = GameObject.Find("Main Camera").transform;
         if (NetworkManager.Singleton.IsHost)
         {
             _camera = transform.Find("Main Camera");
@@ -146,8 +143,7 @@ public class VivoxPlayer : MonoBehaviour
         Debug.Log("Disconnecting from Vivox");
         _vvm.Logout();  
     }
-
-    // Update is called once per frame
+    
     private void Update()
     {
         float nextUpdate = 0;
