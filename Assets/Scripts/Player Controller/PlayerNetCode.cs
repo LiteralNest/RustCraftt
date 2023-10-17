@@ -1,5 +1,6 @@
 using Unity.Netcode;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerNetCode : NetworkBehaviour
 {
@@ -32,9 +33,18 @@ public class PlayerNetCode : NetworkBehaviour
             if(GetClientId() != _gettedClientId.Value) return;
             _inHandObjectsContainer.DisplayItems(ActiveItemId.Value);
         };
+
+        ViVoxInitialise();
     }
-    
-    
+
+    private void ViVoxInitialise()
+    {
+        var vTog = GameObject.Find("Toggle").GetComponent<Toggle>();
+        if (vTog.isOn)
+        {
+            GameObject.Find("NetworkManager").GetComponent<VivoxPlayer>().SignIntoVivox();
+        }
+    }
     public bool PlayerIsOwner()
         => IsOwner;
 

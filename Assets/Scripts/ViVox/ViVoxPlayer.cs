@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Netcode;
 using Unity.Services.Vivox;
 using UnityEngine;
 using UnityEngine.Android;
@@ -10,25 +11,35 @@ public class VivoxPlayer : MonoBehaviour
     private VivoxVoiceManager _vvm;
     IChannelSession _chan;
     private int PermissionAskedCount;
-    [SerializeField]
-    public string VoiceChannelName = "BaMChannel";
+    [SerializeField] public string VoiceChannelName = "BloodRustChannel";
 
-    private Transform xrCam; //position of our Main Camera
+    private Transform _camera; //position of our Main Camera
 
     // Start is called before the first frame update
-    void Start()
+    private void Awake()
     {
         _vvm = VivoxVoiceManager.Instance;
         _vvm.OnUserLoggedInEvent += OnUserLoggedIn;
         _vvm.OnUserLoggedOutEvent += OnUserLoggedOut;
 
-        xrCam = GameObject.Find("Main Camera").transform;
+        //Need to discuss how to this in better way
+        // xrCam = GameObject.Find("Main Camera").transform;
+        if (NetworkManager.Singleton.IsHost)
+        {
+            _camera = transform.Find("Main Camera");
+            _camera.GetComponent<AudioListener>().enabled = true;
+        }
+        else
+        {
+            _camera = transform.Find("Secondary Camera");
+            _camera.GetComponent<AudioListener>().enabled = true;
+        }
     }
 
     public void SignIntoVivox ()
     {
 #if (UNITY_ANDROID && !UNITY_EDITOR) || __ANDROID__
-    bool IsAndroid12AndUp()
+    private bool IsAndroid12AndUp()
     {
         // android12VersionCode is hardcoded because it might not be available in all versions of Android SDK
         const int android12VersionCode = 31;
@@ -38,7 +49,7 @@ public class VivoxPlayer : MonoBehaviour
         return buildSdkVersion >= android12VersionCode;
     }
 
-    string GetBluetoothConnectPermissionCode()
+    private string GetBluetoothConnectPermissionCode()
     {
         if (IsAndroid12AndUp())
         {
@@ -67,7 +78,7 @@ public class VivoxPlayer : MonoBehaviour
 
         void AskForPermissions()
         {
-            string permissionCode = Permission.Microphone;
+            var permissionCode = Permission.Microphone;
 
 #if (UNITY_ANDROID && !UNITY_EDITOR) || __ANDROID__
         if (PermissionAskedCount == 1 && IsAndroid12AndUp())
@@ -94,14 +105,14 @@ public class VivoxPlayer : MonoBehaviour
         //Actual code runs from here
         if (IsMicPermissionGranted())
         {
-            _vvm.Login(transform.name.ToString());
+            _vvm.Login(transform.name);
         }
         else
         {
             if (IsPermissionsDenied())
             {
                 PermissionAskedCount = 0;
-                _vvm.Login(transform.name.ToString());
+                _vvm.Login(transform.name);
             }
             else
             {
@@ -110,9 +121,9 @@ public class VivoxPlayer : MonoBehaviour
         }
     }
 
-    void OnUserLoggedIn ()
+    private void OnUserLoggedIn ()
     {
-        if (_vvm.LoginState == VivoxUnity.LoginState.LoggedIn)
+        if (_vvm.LoginState == LoginState.LoggedIn)
         {
             Debug.Log("Successfully connected to Vivox");
             Debug.Log("Joining voice channel: " + VoiceChannelName);
@@ -137,19 +148,19 @@ public class VivoxPlayer : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    private void Update()
     {
-        float _nextUpdate = 0;
+        float nextUpdate = 0;
 
         if (_chan == null)
             return;
         
         if (_chan.ChannelState.ToString() == "Connected")
         {
-            if (Time.time > _nextUpdate)
+            if (Time.time > nextUpdate)
             {
-                _chan.Set3DPosition(xrCam.position, xrCam.position, xrCam.forward, xrCam.up);
-                _nextUpdate += 0.5f;
+                _chan.Set3DPosition(_camera.position, _camera.position, _camera.forward, _camera.up);
+                nextUpdate += 0.5f;//delay of speech
             }
         }
         
