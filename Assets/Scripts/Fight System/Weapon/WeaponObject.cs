@@ -16,7 +16,6 @@ public abstract class WeaponObject : MonoBehaviour
         GlobalEventsContainer.AttackButtonActivated?.Invoke(false);
         GlobalEventsContainer.WeaponObjectAssign?.Invoke(null);
     }
-
     
     public abstract void Attack(bool value);
     public virtual async void Reload(){}

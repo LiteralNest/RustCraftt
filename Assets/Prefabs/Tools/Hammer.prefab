@@ -12,13 +12,15 @@ GameObject:
   - component: {fileID: 3694187071208618371}
   - component: {fileID: 5552591565046111105}
   - component: {fileID: 6926814552375195377}
+  - component: {fileID: 2190006058938914297}
+  - component: {fileID: 5451875102773257049}
   m_Layer: 0
   m_Name: Hammer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &792401623808147719
 Transform:
   m_ObjectHideFlags: 0
@@ -27,7 +29,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7031406294250464381}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.037067227, y: 0.67914367, z: 0.034378327, w: 0.7322623}
+  m_LocalRotation: {x: 0.037065413, y: 0.6791417, z: 0.03437518, w: 0.7322643}
   m_LocalPosition: {x: 0.0028599966, y: -0.0033205457, z: 0.0065302267}
   m_LocalScale: {x: 0.008, y: 0.008, z: 0.008}
   m_ConstrainProportionsScale: 1
@@ -96,3 +98,40 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 567d6841f5800d444b042db8088f87b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!95 &2190006058938914297
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7031406294250464381}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 1a1c6e26bfacfa1439fff6fc0b42c152, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &5451875102773257049
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7031406294250464381}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fd18f1623cafcc342824303799eb2e6c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _animator: {fileID: 2190006058938914297}
+  _attackIndex: Attacking
+  _walkIndex: Walking
+  _runIndex: Running

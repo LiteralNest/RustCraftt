@@ -4,11 +4,14 @@ using UnityEngine;
 
 public class ResourceOre : Ore
 {
+    [Header("Start init")]
     [SerializeField] private ushort _hp = 100;
     [SerializeField] private NetworkVariable<ushort> _currentHp = new(100, NetworkVariableReadPermission.Everyone,
         NetworkVariableWritePermission.Owner);
-    
     [SerializeField] private List<Item> _toolsForGathering = new List<Item>();
+    
+    [field: SerializeField] public AudioClip GatheringClip { get; private set; }
+
 
     private void Start()
     {

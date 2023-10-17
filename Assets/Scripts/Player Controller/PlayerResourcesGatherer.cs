@@ -2,21 +2,23 @@ using System.Threading.Tasks;
 using TMPro;
 using UnityEngine;
 
+[RequireComponent(typeof(AudioSource))]
 [RequireComponent(typeof(ObjectsRayCaster))]
 public class PlayerResourcesGatherer : MonoBehaviour
 {
     [Header("Attached Scripts")]
     [SerializeField] private InventoryHandler _inventoryHandler;
     [SerializeField] private ObjectsRayCaster _objectsRayCaster;
-    
+    [SerializeField] private AudioSource _audioSource;
+    private float _recoveringTime = 1; 
+
     [Header("Ore")]
-    [SerializeField] private float _recoveringSpeed = 0.3f;
     [SerializeField] private bool _canHit = true;
     
     [Header("Gathering")]
-    [SerializeField] private float _maxOreHitDistance = 5f;
-    private bool _gathering = false;
-    
+    public bool _gathering = false;
+    public bool StartedGather { get; private set; }
+
     public ResourceGatheringObject ResourceGatheringObject { get; private set; }
 
     private void OnEnable()
@@ -29,7 +31,7 @@ public class PlayerResourcesGatherer : MonoBehaviour
     {
         if(_objectsRayCaster == null)
             _objectsRayCaster = GetComponent<ObjectsRayCaster>();
-    }
+    } 
     
     private void Update()
     {
@@ -45,8 +47,9 @@ public class PlayerResourcesGatherer : MonoBehaviour
 
     private async void Recover()
     {
+        _recoveringTime = ResourceGatheringObject.GatheringAnimation.length;
         _canHit = false;
-        await Task.Delay((int)(_recoveringSpeed * 1000));
+        await Task.Delay((int)(_recoveringTime * 1000));
         _canHit = true;
     }
 
@@ -78,7 +81,9 @@ public class PlayerResourcesGatherer : MonoBehaviour
         Recover();
         var ore = _objectsRayCaster.TargetResourceOre;
         if (!ore) return;
+        StartedGather = true;
         ore.MinusHp(_inventoryHandler.ActiveItem, out bool destroyed);
+        _audioSource.PlayOneShot(ore.GatheringClip);
         if (!destroyed) return;
         StopGathering();
     }

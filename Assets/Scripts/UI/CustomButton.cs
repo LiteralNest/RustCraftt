@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
 
-public class CustomButton : MonoBehaviour, IPointerExitHandler ,IPointerClickHandler, IPointerDownHandler
+public class CustomButton : MonoBehaviour, IPointerUpHandler ,IPointerClickHandler, IPointerDownHandler, IPointerExitHandler
 {
     [SerializeField] private UnityEvent _pointerDown;
     [SerializeField] private UnityEvent _pointerClicked;
@@ -17,6 +17,11 @@ public class CustomButton : MonoBehaviour, IPointerExitHandler ,IPointerClickHan
         _pointerClicked?.Invoke();
     }
 
+    public void OnPointerUp(PointerEventData eventData)
+    {
+        _pointerClicked?.Invoke();
+    }
+    
     public void OnPointerExit(PointerEventData eventData)
     {
         _pointerClicked?.Invoke();

@@ -7,7 +7,10 @@ public class ResourceGatheringObject : MonoBehaviour
    [SerializeField] private Animator _animator;
 
    [Header("Animator Config")]
-   [SerializeField] private string _gatherAnimationTag = "Gather";  
+   [SerializeField] private string _gatherAnimationTag = "Gather";
+   public AnimationClip GatheringAnimation => _gatheringAnimation;
+   [SerializeField] private AnimationClip _gatheringAnimation;
+
    private void Start()
    {
       if(_animator == null)
