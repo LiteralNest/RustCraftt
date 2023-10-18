@@ -11,8 +11,7 @@ public class VivoxPlayer : MonoBehaviour
     IChannelSession _chan;
     private int PermissionAskedCount;
     [SerializeField] public string VoiceChannelName = "BloodRustChannel";
-
-    private Camera _camera; //position of our Main Camera
+    [SerializeField] private Camera _camera; //position of our Main Camera
 
     // Start is called before the first frame update
     private void Awake()
@@ -22,7 +21,7 @@ public class VivoxPlayer : MonoBehaviour
         _vvm.OnUserLoggedOutEvent += OnUserLoggedOut;
 
         //Need to discuss how to this in better way
-        GlobalEventsContainer.OnNetworkPlayerSpawned += CameraSpawned;
+        // GlobalEventsContainer.OnNetworkPlayerSpawned += CameraSpawned;
     }
 
     private void CameraSpawned()
@@ -115,6 +114,7 @@ public class VivoxPlayer : MonoBehaviour
                 AskForPermissions();
             }
         }
+        
     }
 
     private void OnUserLoggedIn ()
@@ -123,8 +123,8 @@ public class VivoxPlayer : MonoBehaviour
         {
             Debug.Log("Successfully connected to Vivox");
             Debug.Log("Joining voice channel: " + VoiceChannelName);
-            //_vvm.JoinChannel(VoiceChannelName, ChannelType.NonPositional, VivoxVoiceManager.ChatCapability.AudioOnly);
-            _vvm.JoinChannel(VoiceChannelName, ChannelType.Positional, VivoxVoiceManager.ChatCapability.AudioOnly);
+            _vvm.JoinChannel(VoiceChannelName, ChannelType.NonPositional, VivoxVoiceManager.ChatCapability.AudioOnly);
+            // _vvm.JoinChannel(VoiceChannelName, ChannelType.Positional, VivoxVoiceManager.ChatCapability.AudioOnly);
 
             var cid = new Channel(VoiceChannelName, ChannelType.Positional);
             _chan = _vvm.LoginSession.GetChannelSession(cid);
@@ -135,7 +135,7 @@ public class VivoxPlayer : MonoBehaviour
         }
     }
 
-    void OnUserLoggedOut()
+    private void OnUserLoggedOut()
     {
         Debug.Log("Disconnecting from voice channel " + VoiceChannelName);
         _vvm.DisconnectAllChannels();
@@ -162,6 +162,6 @@ public class VivoxPlayer : MonoBehaviour
 
     private void OnDestroy()
     {
-        GlobalEventsContainer.OnNetworkPlayerSpawned -= CameraSpawned;
+        // GlobalEventsContainer.OnNetworkPlayerSpawned -= CameraSpawned;
     }
 }

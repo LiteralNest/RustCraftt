@@ -12,14 +12,22 @@ public class LaunchVoiceUI : MonoBehaviour
     {
         _hostButton.onClick.AddListener(() =>
         {
-            //add code here
+            // VivoxPlayer vivoxPlayer = FindObjectOfType<VivoxPlayer>();
+            // if (vivoxPlayer != null)
+            // {
+            //     vivoxPlayer.SignIntoVivox();
+            // }
             NetworkManager.Singleton.StartHost();
 
         });
 
         _clientButton.onClick.AddListener(() =>
         {
-            //add code here
+            // VivoxPlayer vivoxPlayer = FindObjectOfType<VivoxPlayer>();
+            // if (vivoxPlayer != null)
+            // {
+            //     vivoxPlayer.SignIntoVivox();
+            // }
             NetworkManager.Singleton.StartClient();
         });
 

@@ -35,15 +35,24 @@ public class PlayerNetCode : NetworkBehaviour
             _inHandObjectsContainer.DisplayItems(ActiveItemId.Value);
         };
 
-        ViVoxInitialise();
+        // ViVoxInitialise();
     }
 
+  
     private void ViVoxInitialise()
     {
         var vTog = GameObject.Find("Toggle").GetComponent<Toggle>();
         if (vTog.isOn)
         {
-            GameObject.Find("NetworkManager").GetComponent<VivoxPlayer>().SignIntoVivox();
+            VivoxPlayer vivoxPlayer = FindObjectOfType<VivoxPlayer>();
+            if (IsClient)
+            {
+                if (vivoxPlayer != null)
+                {
+                    Debug.Log("2222");
+                    vivoxPlayer.SignIntoVivox();
+                }
+            }
         }
     }
     public bool PlayerIsOwner()
