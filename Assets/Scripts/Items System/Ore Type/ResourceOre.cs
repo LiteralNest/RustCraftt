@@ -16,7 +16,6 @@ public class ResourceOre : Ore
     private void Start()
     {
         gameObject.tag = "Ore";
-        _currentHp.Value = _hp;
         _currentHp.OnValueChanged += (ushort prevValue, ushort newValue) =>
         {
             CheckHp();
