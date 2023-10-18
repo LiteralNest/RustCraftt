@@ -26,6 +26,7 @@ public class PlayerNetCode : NetworkBehaviour
     
     public override void OnNetworkSpawn()
     {
+        GlobalEventsContainer.OnNetworkPlayerSpawned?.Invoke();
         _gettedClientId.Value = GetClientId();
 
         ActiveItemId.OnValueChanged += (int prevValue, int newValue) =>

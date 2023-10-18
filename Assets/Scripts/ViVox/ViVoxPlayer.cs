@@ -1,3 +1,4 @@
+using System;
 using Unity.Netcode;
 using Unity.Services.Vivox;
 using UnityEngine;
@@ -11,7 +12,7 @@ public class VivoxPlayer : MonoBehaviour
     private int PermissionAskedCount;
     [SerializeField] public string VoiceChannelName = "BloodRustChannel";
 
-    private Transform _camera; //position of our Main Camera
+    private Camera _camera; //position of our Main Camera
 
     // Start is called before the first frame update
     private void Awake()
@@ -21,18 +22,16 @@ public class VivoxPlayer : MonoBehaviour
         _vvm.OnUserLoggedOutEvent += OnUserLoggedOut;
 
         //Need to discuss how to this in better way
-        if (NetworkManager.Singleton.IsHost)
-        {
-            _camera = transform.Find("Main Camera");
-            _camera.GetComponent<AudioListener>().enabled = true;
-        }
-        else
-        {
-            _camera = transform.Find("Secondary Camera");
-            _camera.GetComponent<AudioListener>().enabled = true;
-        }
+        GlobalEventsContainer.OnNetworkPlayerSpawned += CameraSpawned;
     }
 
+    private void CameraSpawned()
+    {
+
+        _camera = Camera.main;
+        
+     
+    }
     public void SignIntoVivox ()
     {
 #if (UNITY_ANDROID && !UNITY_EDITOR) || __ANDROID__
@@ -155,10 +154,14 @@ public class VivoxPlayer : MonoBehaviour
         {
             if (Time.time > nextUpdate)
             {
-                _chan.Set3DPosition(_camera.position, _camera.position, _camera.forward, _camera.up);
+                _chan.Set3DPosition(_camera.transform.position, _camera.transform.position, _camera.transform.forward, _camera.transform.up);
                 nextUpdate += 0.5f;//delay of speech
             }
         }
-        
+    }
+
+    private void OnDestroy()
+    {
+        GlobalEventsContainer.OnNetworkPlayerSpawned -= CameraSpawned;
     }
 }
