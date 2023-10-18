@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
+  m_IndirectSpecularColor: {r: 0.4465788, g: 0.49641287, b: 0.5748173, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -10384,6 +10384,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4b824517822144874a3237adadaa6db7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _hostButton: {fileID: 0}
+  _clientButton: {fileID: 0}
+  _voiceToggle: {fileID: 0}
 --- !u!1001 &797616183
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -19953,7 +19956,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1707123912}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 28eaf8df88d35bd44bf5ffef298d44b4, type: 3}
+  m_Script: {fileID: 11500000, guid: 5c44218c2be6a473980f934921cd00a3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   VoiceChannelName: BloodRustChannel
@@ -22822,7 +22825,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1941695039}
-  - component: {fileID: 1941695038}
   m_Layer: 0
   m_Name: ViVoxVoiceManager
   m_TagString: Untagged
@@ -22830,22 +22832,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1941695038
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1941695037}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0794ad39c5af562408fe64eee7da53a3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _key: 
-  _issuer: 
-  _domain: 
-  _server: 
 --- !u!4 &1941695039
 Transform:
   m_ObjectHideFlags: 0

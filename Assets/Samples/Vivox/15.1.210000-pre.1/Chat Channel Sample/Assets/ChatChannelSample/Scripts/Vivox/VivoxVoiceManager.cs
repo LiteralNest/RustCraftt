@@ -12,7 +12,7 @@ using Unity.Services.Vivox;
 #if AUTH_PACKAGE_PRESENT
 using Unity.Services.Authentication;
 #endif
-
+ 
 
 public class VivoxVoiceManager : MonoBehaviour
 {
