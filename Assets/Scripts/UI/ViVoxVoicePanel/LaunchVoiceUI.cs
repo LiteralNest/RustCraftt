@@ -7,35 +7,40 @@ public class LaunchVoiceUI : MonoBehaviour
     [SerializeField] private Button _hostButton;
     [SerializeField] private Button _clientButton;
     [SerializeField] private Toggle _voiceToggle;
+    [SerializeField] private Button _speakButton;
 
+    private VivoxPlayer _vivox;
     private void Awake()
     {
+        _vivox = FindObjectOfType<VivoxPlayer>();
+        
         _hostButton.onClick.AddListener(() =>
         {
-            // VivoxPlayer vivoxPlayer = FindObjectOfType<VivoxPlayer>();
-            // if (vivoxPlayer != null)
-            // {
-            //     vivoxPlayer.SignIntoVivox();
-            // }
-            NetworkManager.Singleton.StartHost();
-
+            _vivox.SignIntoVivox();
+            SwitchOffUi();
         });
 
         _clientButton.onClick.AddListener(() =>
         {
-            // VivoxPlayer vivoxPlayer = FindObjectOfType<VivoxPlayer>();
-            // if (vivoxPlayer != null)
-            // {
-            //     vivoxPlayer.SignIntoVivox();
-            // }
-            NetworkManager.Singleton.StartClient();
+            _vivox.SignIntoVivox();
+            SwitchOffUi();
         });
 
+        _speakButton.onClick.AddListener(() =>
+        {
+            _vivox.ToggleMicrophone(_speakButton.interactable);
+        });
         _voiceToggle.onValueChanged.AddListener(delegate { VivoxToggle(_voiceToggle); });
 
     }
 
-    void VivoxToggle(Toggle voiceToggle)
+    private void SwitchOffUi()
+    {
+        _hostButton.gameObject.SetActive(false);
+        _clientButton.gameObject.SetActive(false);
+        _speakButton.gameObject.SetActive(true);
+    }
+    private void VivoxToggle(Toggle voiceToggle)
     {
         Debug.Log("Voice " + voiceToggle.isOn);
     }

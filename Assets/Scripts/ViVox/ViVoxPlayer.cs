@@ -13,6 +13,7 @@ public class VivoxPlayer : MonoBehaviour
     [SerializeField] public string VoiceChannelName = "BloodRustChannel";
     [SerializeField] private Camera _camera; //position of our Main Camera
 
+    private bool _isMicrophoneOn;
     // Start is called before the first frame update
     private void Awake()
     {
@@ -26,11 +27,9 @@ public class VivoxPlayer : MonoBehaviour
 
     private void CameraSpawned()
     {
-
-        _camera = Camera.main;
-        
-     
+        // _camera = Camera.main;
     }
+    
     public void SignIntoVivox ()
     {
 #if (UNITY_ANDROID && !UNITY_EDITOR) || __ANDROID__
@@ -117,6 +116,19 @@ public class VivoxPlayer : MonoBehaviour
         
     }
 
+    public void ToggleMicrophone(bool isButtonDown)
+    {
+        if (isButtonDown && !_isMicrophoneOn) 
+        {
+            _vvm.AudioInputDevices.Muted = false; 
+            _isMicrophoneOn = true;
+        }
+        else if (!isButtonDown && _isMicrophoneOn) 
+        {
+            _vvm.AudioInputDevices.Muted = true;
+            _isMicrophoneOn = false;
+        }
+    }
     private void OnUserLoggedIn ()
     {
         if (_vvm.LoginState == LoginState.LoggedIn)
@@ -131,6 +143,7 @@ public class VivoxPlayer : MonoBehaviour
         }
         else
         {
+            
             Debug.Log("Cannot sign into Vivox, check your credentials and token settings");
         }
     }

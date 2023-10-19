@@ -41,19 +41,19 @@ public class PlayerNetCode : NetworkBehaviour
   
     private void ViVoxInitialise()
     {
-        var vTog = GameObject.Find("Toggle").GetComponent<Toggle>();
-        if (vTog.isOn)
-        {
-            VivoxPlayer vivoxPlayer = FindObjectOfType<VivoxPlayer>();
-            if (IsClient)
-            {
-                if (vivoxPlayer != null)
-                {
-                    Debug.Log("2222");
-                    vivoxPlayer.SignIntoVivox();
-                }
-            }
-        }
+        // var vTog = GameObject.Find("Toggle").GetComponent<Toggle>();
+        // if (vTog.isOn)
+        // {
+        //     VivoxVoiceTesting vivoxVoiceTesting = FindObjectOfType<VivoxVoiceTesting>();
+        //     if (IsClient)
+        //     {
+        //         if (vivoxVoiceTesting != null)
+        //         {
+        //             Debug.Log("2222");
+        //             vivoxVoiceTesting.SignIntoVivox();
+        //         }
+        //     }
+        // }
     }
     public bool PlayerIsOwner()
         => IsOwner;
