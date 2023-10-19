@@ -26,11 +26,11 @@ public class LaunchVoiceUI : MonoBehaviour
             SwitchOffUi();
         });
 
-        _speakButton.onClick.AddListener(() =>
-        {
-            _vivox.ToggleMicrophone(_speakButton.interactable);
-        });
-        _voiceToggle.onValueChanged.AddListener(delegate { VivoxToggle(_voiceToggle); });
+        // _speakButton.onClick.AddListener(() =>
+        // {
+        //     _vivox.ToggleMicrophone(_speakButton.interactable);
+        // });
+        // _voiceToggle.onValueChanged.AddListener(delegate { VivoxToggle(_voiceToggle); });
 
     }
 

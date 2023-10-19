@@ -21,10 +21,15 @@ public class VivoxPlayer : MonoBehaviour
         _vvm.OnUserLoggedInEvent += OnUserLoggedIn;
         _vvm.OnUserLoggedOutEvent += OnUserLoggedOut;
 
+     
+
         //Need to discuss how to this in better way
         // GlobalEventsContainer.OnNetworkPlayerSpawned += CameraSpawned;
     }
 
+    private void Start()
+    =>    _vvm.AudioInputDevices.Muted = true; 
+    
     private void CameraSpawned()
     {
         // _camera = Camera.main;
