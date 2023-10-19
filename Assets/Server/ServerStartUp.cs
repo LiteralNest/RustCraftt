@@ -1,9 +1,11 @@
+using Unity.Netcode;
+using Unity.Netcode.Transports.UTP;
 using UnityEngine;
 
 public class ServerStartUp : MonoBehaviour
 {
-    [SerializeField] private int _serverPort = 7777;
-    private string _internalServerIp = "0.0.0.0";
+    [SerializeField] private ushort _serverPort = 7777;
+    private const string InternalServerIp = "0.0.0.0";
     private void Start()
     {
         bool isServer = false;
@@ -20,13 +22,14 @@ public class ServerStartUp : MonoBehaviour
             if (args[i] == "-port" && (i + 1 < args.Length))
                 _serverPort = (ushort)int.Parse(args[i + 1]);
         }
-        
+
         if(!isServer) return;
         StartServer();
     }
 
     private void StartServer()
     {
-        // NetworkManager.singleton.StartServer();
+        NetworkManager.Singleton.GetComponent<UnityTransport>().SetConnectionData(InternalServerIp, _serverPort);
+        NetworkManager.Singleton.StartServer();
     }
 }
