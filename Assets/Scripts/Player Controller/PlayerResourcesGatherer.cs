@@ -1,8 +1,6 @@
 using System.Threading.Tasks;
-using TMPro;
 using UnityEngine;
 
-[RequireComponent(typeof(AudioSource))]
 [RequireComponent(typeof(ObjectsRayCaster))]
 public class PlayerResourcesGatherer : MonoBehaviour
 {
