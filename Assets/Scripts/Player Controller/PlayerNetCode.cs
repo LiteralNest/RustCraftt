@@ -21,6 +21,7 @@ public class PlayerNetCode : NetworkBehaviour
     {
         if (IsOwner)
             Singleton = this;
+        NetworkManager.StartClient();
     }
     
     public override void OnNetworkSpawn()
@@ -62,3 +63,4 @@ public class PlayerNetCode : NetworkBehaviour
         ChangeInHandItemServerRpc(4, GetClientId());
     }
 }
+

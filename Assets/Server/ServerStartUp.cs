@@ -9,36 +9,29 @@ using UnityEngine;
 public class ServerStartUp : MonoBehaviour
 {
     [SerializeField] private ushort _serverPort = 7777;
-    [SerializeField] private ushort _maxPlayer = 10;
-    
+
     private const string InternalServerIp = "0.0.0.0";
-    private IMultiplayService _multiplayServices;
-    private MultiplayEventCallbacks _serverCallBacks;
-    private IServerEvents _serverEvents;
 
     async void Start()
     {
-        bool isServer = false;
-        var args = System.Environment.GetCommandLineArgs();
+        await InitializeServerAsync();
+    }
 
-        for (int i = 0; i < args.Length; i++)
+    public async Task InitializeServerAsync()
+    {
+        await UnityServices.InitializeAsync();
+
+        try
         {
-            if (args[i] == "-dedicatedServer")
-            {
-                isServer = true;
-                continue;
-            }
-
-            if (args[i] == "-port" && (i + 1 < args.Length))
-                _serverPort = (ushort)int.Parse(args[i + 1]);
+            IMultiplayService multiplayServices = MultiplayService.Instance;
+            await multiplayServices.StartServerQueryHandlerAsync(4, "n/a", "n/a", "n/a", "n/a");
+        }
+        catch (Exception ex)
+        {
+            Debug.LogError($"Something went wrong trying to set up the SQP:\n{ex}");
         }
 
-        if (isServer)
-        {
-            StartServer();
-
-            await StartServerServices();
-        }
+        StartServer();
     }
 
     private void StartServer()
@@ -46,20 +39,5 @@ public class ServerStartUp : MonoBehaviour
         NetworkManager.Singleton.GetComponent<UnityTransport>().SetConnectionData(InternalServerIp, _serverPort);
         NetworkManager.Singleton.StartServer();
     }
-    
-    async Task StartServerServices()
-    {
-        await UnityServices.InitializeAsync();
-
-        try
-        {
-            _multiplayServices = MultiplayService.Instance;
-            await _multiplayServices.StartServerQueryHandlerAsync(_maxPlayer, "n/a", "n/a", "0", "n/a");
-        }
-
-        catch (Exception ex)
-        {
-            Debug.LogError($"Something went wrong trying to set up the SQP:\n{ex}");
-        }
-    }
 }
+
