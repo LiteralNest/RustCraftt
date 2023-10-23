@@ -15,7 +15,7 @@ public class DoorScript : MonoBehaviour
         Pressed();
     }
 
-    public void Pressed()
+    private void Pressed()
     {
         if (Input.touchCount > 0)
         {
