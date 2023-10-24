@@ -19,9 +19,9 @@ public class PlayerNetCode : NetworkBehaviour
 
     private void Start()
     {
-        if (IsOwner)
-            Singleton = this;
-        NetworkManager.StartClient();
+        // if (IsOwner)
+        //     Singleton = this;
+        // NetworkManager.StartClient();
     }
     
     public override void OnNetworkSpawn()

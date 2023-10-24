@@ -1,4 +1,6 @@
+using System;
 using System.Linq;
+using System.Threading.Tasks;
 using Cysharp.Threading.Tasks;
 using MultiplayApi.Service;
 using Unity.Netcode;
@@ -12,12 +14,12 @@ namespace Server
     {
         private const string KeyId = "faa78a72-a769-4594-a20b-8c677901adb6";
         private const string SecretId = "DiAfnaW4MhJJSY1baH0sS6AnnJUX8KML";
-
         private const string ProjectId = "093ae33f-9b56-4e1a-a233-08ad3438b76c";
         private const string EnvironmentId = "5105ae74-6981-4eb6-89a4-9da20b640c13";
-        private const string FleetId = "b9d8ddf4-4121-4516-b427-4a02270e2f88";
+        
+        private const string FleetId = "f17bde87-612b-40d7-b479-8287da85d9bc";
         private const string EuropeRegionId = "0548345a-8510-49a8-80c8-ae8ce00fc934";
-        private const int BuildConfigId = 1244747;
+        private const int BuildConfigId = 1245284;
 
         private IMultiplayWebApi _multiplayWebApi = new MultiplayWebApi(KeyId, SecretId, ProjectId, EnvironmentId,
             FleetId, EuropeRegionId, BuildConfigId);
@@ -31,14 +33,18 @@ namespace Server
 
         private void OnGUI()
         {
-            GUILayout.BeginArea(new Rect(50, 50, 500, 500));
+            var customButtonStyle = new GUIStyle(GUI.skin.button);
+            customButtonStyle.fontSize = 40;
+            
+            GUILayout.BeginArea(new Rect(50, 50, 400, 100));
 
             var networkManager = NetworkManager.Singleton;
             if (!networkManager.IsClient && !networkManager.IsServer)
             {
                 // if (GUILayout.Button("Host")) networkManager.StartHost();
+                GUILayout.Space(20);
+                if (GUILayout.Button("Client",customButtonStyle, GUILayout.Width(400), GUILayout.Height(100))) Connect();
 
-                if (GUILayout.Button("Client")) Connect();
 
                 // if (GUILayout.Button("Server")) networkManager.StartServer();
             }
@@ -66,7 +72,12 @@ namespace Server
 
             var allocationId = await _multiplayWebApi.AllocateServer();
             var serverById = await _multiplayWebApi.GetServerById(allocationId);
-
+            while (string.IsNullOrWhiteSpace(serverById.Ipv4))
+            {
+                await Task.Delay(TimeSpan.FromSeconds(1));
+                
+                serverById = await _multiplayWebApi.GetServerById(allocationId);
+            }
             transport.SetConnectionData(serverById.Ipv4, (ushort)serverById.GamePort);
             networkManager.StartClient();
         }
