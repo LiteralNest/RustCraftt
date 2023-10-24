@@ -71,6 +71,7 @@ public class ServerStartUp : MonoBehaviour
         try
         {
             _multiplayService = MultiplayService.Instance;
+            
         }
         catch (Exception ex)
         {
