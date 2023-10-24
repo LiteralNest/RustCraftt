@@ -4,6 +4,7 @@ using SurroundingEffectsSystem;
 
 public static class GlobalEventsContainer
 {
+    public static Action InventoryDataUpdated { get; set; }
     public static Action<InventoryCell> InventoryItemAdded { get; set; }
     public static Action<InventoryCell> InventoryItemRemoved { get; set; }
     public static Action<List<InventoryCell>> InventoryDataShouldBeSaved { get; set; }
