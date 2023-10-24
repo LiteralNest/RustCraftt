@@ -56,7 +56,6 @@ public static class Chunk
         return chunkData.worldReference.GetBlockFromChunkCoordinates(chunkData, chunkData.worldPosition.x + x, chunkData.worldPosition.y + y, chunkData.worldPosition.z + z);
     }
 
-
     public static void SetBlock(ChunkData chunkData, Vector3Int localPosition, BlockType block)
     {
         if (InRange(chunkData, localPosition.x) && InRangeHeight(chunkData, localPosition.y) && InRange(chunkData, localPosition.z))
@@ -66,7 +65,7 @@ public static class Chunk
         }
         else
         {
-            WorldDataHelper.SetBlock(chunkData.worldReference, localPosition + chunkData.worldPosition, block);
+            WorldDataHelper.SetBlock(chunkData.worldReference, localPosition, block);
         }
     }
 

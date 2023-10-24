@@ -15,10 +15,10 @@ MonoBehaviour:
   active: 1
   postExposure:
     m_OverrideState: 0
-    m_Value: 0.1
+    m_Value: 0
   contrast:
     m_OverrideState: 1
-    m_Value: 5
+    m_Value: 9
   colorFilter:
     m_OverrideState: 0
     m_Value: {r: 1, g: 1, b: 1, a: 1}
@@ -27,7 +27,7 @@ MonoBehaviour:
     m_Value: -180
   saturation:
     m_OverrideState: 1
-    m_Value: 15
+    m_Value: 20
 --- !u!114 &-4564117086162695136
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -80,50 +80,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5485954d14dfb9a4c8ead8edb0ded5b1, type: 3}
   m_Name: LiftGammaGain
   m_EditorClassIdentifier: 
-  active: 0
+  active: 1
   lift:
     m_OverrideState: 0
-    m_Value: {x: 1, y: 1, z: 1, w: -0.022123808}
+    m_Value: {x: 1, y: 1, z: 1, w: 0}
   gamma:
     m_OverrideState: 1
-    m_Value: {x: 0.99823153, y: 1, z: 0.9913547, w: 0.0011042967}
+    m_Value: {x: 1, y: 0.9906945, z: 0.95451003, w: 0.15280138}
   gain:
-    m_OverrideState: 1
-    m_Value: {x: 1, y: 1, z: 1, w: 0.10209869}
---- !u!114 &-31626423533458013
-MonoBehaviour:
-  m_ObjectHideFlags: 3
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 558a8e2b6826cf840aae193990ba9f2e, type: 3}
-  m_Name: ShadowsMidtonesHighlights
-  m_EditorClassIdentifier: 
-  active: 1
-  shadows:
-    m_OverrideState: 1
-    m_Value: {x: 1, y: 1, z: 1, w: -0.1758366}
-  midtones:
-    m_OverrideState: 1
-    m_Value: {x: 1, y: 1, z: 1, w: 0.011344299}
-  highlights:
-    m_OverrideState: 1
-    m_Value: {x: 1, y: 1, z: 1, w: -0.0056723156}
-  shadowsStart:
     m_OverrideState: 0
-    m_Value: 0
-  shadowsEnd:
-    m_OverrideState: 0
-    m_Value: 0.3
-  highlightsStart:
-    m_OverrideState: 0
-    m_Value: 0.55
-  highlightsEnd:
-    m_OverrideState: 0
-    m_Value: 1
+    m_Value: {x: 1, y: 1, z: 1, w: 0}
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -140,7 +106,6 @@ MonoBehaviour:
   - {fileID: -4564117086162695136}
   - {fileID: -1924990659970774151}
   - {fileID: 3695864347424513760}
-  - {fileID: -31626423533458013}
   - {fileID: -6928250367770165787}
 --- !u!114 &3695864347424513760
 MonoBehaviour:
@@ -175,8 +140,8 @@ MonoBehaviour:
           inWeight: 0
           outWeight: 0
         - serializedVersion: 3
-          time: 0.26688102
-          value: 0.24916941
+          time: 0.20873787
+          value: 0.23589742
           inSlope: 1.0301822
           outSlope: 1.0301822
           tangentMode: 0
@@ -184,8 +149,8 @@ MonoBehaviour:
           inWeight: 0
           outWeight: 0
         - serializedVersion: 3
-          time: 0.6768489
-          value: 0.7475083
+          time: 0.6553398
+          value: 0.74358976
           inSlope: 1.0891101
           outSlope: 1.0891101
           tangentMode: 0
