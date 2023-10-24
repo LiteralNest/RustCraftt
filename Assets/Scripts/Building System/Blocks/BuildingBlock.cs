@@ -20,7 +20,6 @@ public class BuildingBlock : NetworkBehaviour, IDamagable
 
     private void Start()
     {
-        transform.tag = "DamagingItem";
         InitSlot(_currentLevel.Value);
         _currentLevel.OnValueChanged += (ushort prevValue, ushort newValue) =>
         {

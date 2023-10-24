@@ -12,7 +12,7 @@ public class BuildingBluePrintCell : MonoBehaviour
     [SerializeField] private Renderer _renderer;
     
     private List<GameObject> _triggeredObjects = new List<GameObject>();
-    private bool _canBePlaced;
+    [SerializeField] private bool _canBePlaced;
 
     private bool _enoughMaterials;
     
@@ -30,7 +30,7 @@ public class BuildingBluePrintCell : MonoBehaviour
 
     private void CheckForAvailable()
     {
-        if (!_enoughMaterials || _triggeredObjects.Count > 0)
+        if (/*!_enoughMaterials ||*/ _triggeredObjects.Count > 0)
         {
             SetCanBePlaced(false);
             return;
@@ -55,21 +55,17 @@ public class BuildingBluePrintCell : MonoBehaviour
     
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Block"))
-        {
-            if(_triggeredObjects.Contains(other.gameObject)) return;
-            _triggeredObjects.Add(other.gameObject);
-            CheckForAvailable();
-        }
+        if(other.CompareTag("ConnectingPoint")) return;
+        if(_triggeredObjects.Contains(other.gameObject)) return;
+        _triggeredObjects.Add(other.gameObject);
+        CheckForAvailable();
     }
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.CompareTag("Block"))
-        {
-            if(!_triggeredObjects.Contains(other.gameObject)) return;
-            _triggeredObjects.Remove(other.gameObject);
-            CheckForAvailable();
-        }
+        if(other.CompareTag("ConnectingPoint")) return;
+        if(!_triggeredObjects.Contains(other.gameObject)) return;
+        _triggeredObjects.Remove(other.gameObject);
+        CheckForAvailable();
     }
 }
