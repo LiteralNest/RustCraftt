@@ -20,19 +20,19 @@ public class PlayerObjectsPlacer : MonoBehaviour
     {
         if (!_targetBluePrint.TryGetObjectCoords(_targetCamera, out var coords))
         {
-            _targetBluePrint.SetCanBePlaced(false);
+            _targetBluePrint.SetOnFrontOfPlayer(true);
             _targetBluePrint.transform.position = GetFrontOfCameraPosition();
             return;
         }
 
-        _targetBluePrint.SetCanBePlaced(true);
+        _targetBluePrint.SetOnFrontOfPlayer(false);
         _targetBluePrint.transform.position = coords;
     }
 
     public void Place()
     {
         if (_targetBluePrint == null) return;
-        _targetBluePrint.TryPlace();
+        _targetBluePrint.Place();
         GlobalEventsContainer.ShouldDisplayPlacingPanel?.Invoke(false);
         ClearCurrentPref();
     }

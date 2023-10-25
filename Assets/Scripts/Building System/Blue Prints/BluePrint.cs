@@ -4,27 +4,23 @@ using UnityEngine.Serialization;
 
 public abstract class BluePrint : MonoBehaviour
 {
-    public BuildingStructure TargetBuildingStructure;
-    
     [FormerlySerializedAs("_bluePrintCells")] [Header("Renderers")] 
     public List<BuildingBluePrintCell> BluePrintCells = new List<BuildingBluePrintCell>();
 
+    [SerializeField] private List<string> _placingTags = new List<string>();
+
     [Header("Layers")]
     [SerializeField] protected LayerMask _targetMask;
-    public bool CanBePlaced { get; protected set; }
+    public bool OnFrontOfPlayer { get; protected set; }
     
         
     protected bool _rotatedSide;
     
     #region Abstract
-    public abstract void CheckForAvailable();
     public abstract void Place();
+    public abstract BuildingStructure GetBuildingStructure();
     #endregion
     
-    #region Virtual
-    public virtual void TriggerEntered(Collider other){}
-    public virtual void TriggerExit(Collider other){}
-    #endregion
 
     public bool TryGetObjectCoords(Camera targetCamera, out Vector3 coords)
     {
@@ -34,10 +30,10 @@ public abstract class BluePrint : MonoBehaviour
 
         if (Physics.Raycast(rayOrigin, rayDirection, out hit, Mathf.Infinity, _targetMask))
         {
-            if (hit.transform.CompareTag("Block"))
+            if (_placingTags.Contains(hit.collider.tag))
             {
                 int x, y, z;
-                var structureSize = TargetBuildingStructure.StructureSize;
+                var structureSize = GetBuildingStructure().StructureSize;
                 
                 y = Mathf.RoundToInt(hit.point.y + hit.normal.y / (2 / structureSize.y));
 
@@ -66,21 +62,11 @@ public abstract class BluePrint : MonoBehaviour
         transform.eulerAngles += new Vector3(0, 90, 0);
         _rotatedSide = !_rotatedSide;
     }
-    
-    public bool TryPlace()
+
+    public void SetOnFrontOfPlayer(bool value)
     {
-        if (!CanBePlaced)
-            return false;
-        Place();
-        return true;
+        OnFrontOfPlayer = value;
+        foreach(var cell in BluePrintCells)
+            cell.CheckForAvailable();
     }
-    
-    private void OnTriggerEnter(Collider other)
-        => TriggerEntered(other);
-
-    private void OnTriggerExit(Collider other)
-        => TriggerExit(other);
-
-    public void SetCanBePlaced(bool value)
-        => CanBePlaced = value;
 }

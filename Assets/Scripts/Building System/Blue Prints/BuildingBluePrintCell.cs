@@ -1,17 +1,18 @@
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 [RequireComponent(typeof(Rigidbody), typeof(BoxCollider))]
 public class BuildingBluePrintCell : MonoBehaviour
 {
+    [Header("Start Init")]
+    [SerializeField] private BluePrint _bluePrint;
     [SerializeField] private BuildingStructure _targetBuildingStructure;
     [Header("Materials")] [SerializeField] private Material _negativeMaterial;
     [SerializeField] private Material _normalMaterial;
     [SerializeField] private Renderer _renderer;
 
     private List<GameObject> _triggeredObjects = new List<GameObject>();
-    [SerializeField] private bool _canBePlaced;
+    public bool CanBePlaced { get; private set; }
 
     private bool _enoughMaterials;
 
@@ -29,16 +30,16 @@ public class BuildingBluePrintCell : MonoBehaviour
 
     private void SetCanBePlaced(bool value)
     {
-        _canBePlaced = value;
-        if (!_enoughMaterials || !_canBePlaced)
+        CanBePlaced = value;
+        if (!_enoughMaterials || !CanBePlaced)
             SetMaterial(_negativeMaterial);
         else
             SetMaterial(_normalMaterial);
     }
 
-    private void CheckForAvailable()
+    public void CheckForAvailable()
     {
-        if (!_enoughMaterials || _triggeredObjects.Count > 0)
+        if (!_enoughMaterials || _triggeredObjects.Count > 0 || _bluePrint.OnFrontOfPlayer)
         {
             SetCanBePlaced(false);
             return;
@@ -54,7 +55,7 @@ public class BuildingBluePrintCell : MonoBehaviour
 
     public void TryPlace()
     {
-        if (!_canBePlaced) return;
+        if (!CanBePlaced) return;
         foreach (var cell in _targetBuildingStructure.GetPlacingRemovingCells())
             InventorySlotsContainer.singleton.RemoveItemFromDesiredSlot(cell.Item, cell.Count);
         BuildingsNetworkingSpawner.singleton.SpawnPrefServerRpc(_targetBuildingStructure.Id, transform.position,
