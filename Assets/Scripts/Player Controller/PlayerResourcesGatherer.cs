@@ -45,6 +45,7 @@ public class PlayerResourcesGatherer : MonoBehaviour
 
     private async void Recover()
     {
+        if(!ResourceGatheringObject) return;
         _recoveringTime = ResourceGatheringObject.GatheringAnimation.length;
         _canHit = false;
         await Task.Delay((int)(_recoveringTime * 1000));
@@ -71,6 +72,14 @@ public class PlayerResourcesGatherer : MonoBehaviour
         TryOpenCampFire();
         TryOpenRecycler();
         TryPickUp();
+        TryOpenDoor();
+    }
+
+    private void TryOpenDoor()
+    {
+        var door = _objectsRayCaster.DoorHandler;
+        if (!door) return;
+        door.Open();
     }
     
     private void TryHit()

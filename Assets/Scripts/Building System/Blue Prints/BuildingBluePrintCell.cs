@@ -11,7 +11,7 @@ public class BuildingBluePrintCell : MonoBehaviour
     [SerializeField] private Material _normalMaterial;
     [SerializeField] private Renderer _renderer;
 
-    private List<GameObject> _triggeredObjects = new List<GameObject>();
+    [SerializeField] private List<GameObject> _triggeredObjects = new List<GameObject>();
     public bool CanBePlaced { get; private set; }
 
     private bool _enoughMaterials;

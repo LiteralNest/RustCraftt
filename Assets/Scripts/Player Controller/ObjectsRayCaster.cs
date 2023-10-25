@@ -28,6 +28,7 @@ public class ObjectsRayCaster : MonoBehaviour
     public LootingItem LootingItem { get; private set; }
     public CampFireHandler CampFireHandler { get; private set; }
     public Recycler RecyclerHandler { get; private set; }
+    public DoorHandler DoorHandler { get; private set; }
     private BuildingBlock _targetBlock;
     public bool CanRayCastOre { get; set; }
 
@@ -156,6 +157,13 @@ public class ObjectsRayCaster : MonoBehaviour
         if(TryRaycast("Recycler", _maxOpeningDistance, out Recycler recycler, _defaultMask))
         {
             RecyclerHandler = recycler;
+            SetLootButton("Open");
+            return;
+        }
+        
+        if(TryRaycast("Door", _maxOpeningDistance, out DoorHandler doorHandler, _defaultMask))
+        {
+            DoorHandler = doorHandler;
             SetLootButton("Open");
             return;
         }
