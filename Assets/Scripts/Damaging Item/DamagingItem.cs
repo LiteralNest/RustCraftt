@@ -28,8 +28,8 @@ public class DamagingItem : NetworkBehaviour, IDamagable
    
    private void Destroy()
    {
-      foreach (var cell in _loot)
-         SpawnLootCell(cell);
+      // foreach (var cell in _loot)
+      //    SpawnLootCell(cell);
       Destroy(gameObject);
    }
    
