@@ -8,7 +8,7 @@ using VivoxUnity;
 
 public class LobbyScreenUI : MonoBehaviour
 {
- 
+
     private VivoxVoiceManager _vivoxVoiceManager;
 
     public string LobbyChannelName = "lobbyChannel";

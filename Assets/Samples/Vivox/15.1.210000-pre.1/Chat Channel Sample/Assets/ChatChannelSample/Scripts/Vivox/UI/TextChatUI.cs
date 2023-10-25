@@ -6,7 +6,7 @@ using UnityEngine.EventSystems;
 using VivoxUnity;
 using System.Collections.Generic;
 using System.Collections;
- 
+
 public class TextChatUI : MonoBehaviour
 {
     private VivoxVoiceManager _vivoxVoiceManager;

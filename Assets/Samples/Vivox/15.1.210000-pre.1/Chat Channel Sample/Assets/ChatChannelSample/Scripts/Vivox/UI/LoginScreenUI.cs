@@ -4,7 +4,7 @@ using UnityEngine.Android;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using System.Collections.Generic;
- 
+
 public class LoginScreenUI : MonoBehaviour
 {
     private VivoxVoiceManager _vivoxVoiceManager;

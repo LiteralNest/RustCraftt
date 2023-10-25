@@ -4,7 +4,7 @@ using UnityEngine;
 using VivoxUnity;
 using System.Linq;
 using System;
- 
+
 public class RosterManager : MonoBehaviour
 {
     private const string LobbyChannelName = "lobbyChannel";

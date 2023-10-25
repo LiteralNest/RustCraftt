@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using System.Linq;
- 
+
 public class MainMenuOptions : MonoBehaviour
 {
     public Button SaveButton;
