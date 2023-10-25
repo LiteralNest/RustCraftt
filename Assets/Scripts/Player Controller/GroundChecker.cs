@@ -5,7 +5,7 @@ public class GroundChecker : MonoBehaviour
 {
     [field:SerializeField] public bool IsGrounded { get; private set; }
     
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerStay(Collider other)
     {
         if (other.CompareTag("Ground") || other.CompareTag("Block"))
             IsGrounded = true;

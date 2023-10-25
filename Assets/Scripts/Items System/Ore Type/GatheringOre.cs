@@ -1,3 +1,6 @@
+using UnityEngine;
+
+[RequireComponent(typeof(Rigidbody), typeof(BoxCollider))]
 public class GatheringOre : Ore
 {
     private void Start()
@@ -6,7 +9,7 @@ public class GatheringOre : Ore
     public async void Gather()
     {
         if (Recovering) return;
-        // InventoryHandler.singleton.InventorySlotsContainer.AddItemToDesiredSlot(_targetResource, 1);
+        InventoryHandler.singleton.InventorySlotsContainer.AddItemToDesiredSlot(_targetResource, 1);
         Recovering = true;
         await Destroy();
         Recovering = false;

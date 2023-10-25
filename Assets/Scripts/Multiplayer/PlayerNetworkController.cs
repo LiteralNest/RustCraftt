@@ -8,7 +8,6 @@ public class PlayerNetworkController : MonoBehaviour
 
     [Header("Scripts")]
     [SerializeField] private PlayerController _playerController;
-    [SerializeField] private PlayerInput _playerInput;
     [SerializeField] private PlayerJumper _playerJumper;
     [SerializeField] private PlayerSitter _playerSitter;
     [SerializeField] private PlayerResourcesGatherer _playerResourcesGatherer;
@@ -34,7 +33,6 @@ public class PlayerNetworkController : MonoBehaviour
 
     private void ClearObjects()
     {
-        Destroy(_playerInput);
         Destroy(_playerController);
         Destroy(_playerJumper);
         Destroy(_playerSitter);
