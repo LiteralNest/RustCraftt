@@ -18,7 +18,7 @@ public class PlayerObjectsPlacer : MonoBehaviour
 
     private void TryMoveBuildingObject()
     {
-        if (!_targetBluePrint.TryGetObjectCoords(_targetCamera, out var coords))
+        if (!_targetBluePrint.TryGetObjectCoords(_targetCamera, out var coords, out var rotation))
         {
             _targetBluePrint.SetOnFrontOfPlayer(true);
             _targetBluePrint.transform.position = GetFrontOfCameraPosition();
