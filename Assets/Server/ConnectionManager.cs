@@ -19,7 +19,7 @@ namespace Server
         
         private const string FleetId = "f17bde87-612b-40d7-b479-8287da85d9bc";
         private const string EuropeRegionId = "0548345a-8510-49a8-80c8-ae8ce00fc934";
-        private const int BuildConfigId = 1245284;
+        private const int BuildConfigId = 1245485;
 
         private IMultiplayWebApi _multiplayWebApi = new MultiplayWebApi(KeyId, SecretId, ProjectId, EnvironmentId,
             FleetId, EuropeRegionId, BuildConfigId);
