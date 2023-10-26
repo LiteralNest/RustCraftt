@@ -6,8 +6,6 @@ using MultiplayApi.Service;
 using Unity.Netcode;
 using Unity.Netcode.Samples;
 using Unity.Netcode.Transports.UTP;
-using Unity.Services.Core;
-using Unity.Services.Multiplay;
 using UnityEngine;
 
 namespace Server
@@ -33,11 +31,6 @@ namespace Server
             Debug.LogError("Auth Completed");
         }
 
-        private void Start()
-        {
-            UnityServices.InitializeAsync();
-        }
-        
         private void OnGUI()
         {
             var customButtonStyle = new GUIStyle(GUI.skin.button);
@@ -60,6 +53,7 @@ namespace Server
 
             GUILayout.EndArea();
         }
+
 
         private async void Connect()
         {
