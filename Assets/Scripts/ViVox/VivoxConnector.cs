@@ -1,11 +1,12 @@
 using System;
-using Unity.Netcode;
+using TMPro;
 using Unity.Services.Vivox;
+using Unity.Tutorials.Core.Editor;
 using UnityEngine;
 using UnityEngine.Android;
 using VivoxUnity;
 
-public class VivoxPlayer : MonoBehaviour
+public class VivoxConnector : MonoBehaviour
 {
     private VivoxVoiceManager _vvm;
     IChannelSession _chan;
@@ -27,15 +28,14 @@ public class VivoxPlayer : MonoBehaviour
         // GlobalEventsContainer.OnNetworkPlayerSpawned += CameraSpawned;
     }
 
-    private void Start()
-    =>    _vvm.AudioInputDevices.Muted = true; 
+    private void Start() => _vvm.AudioInputDevices.Muted = true; 
     
     private void CameraSpawned()
     {
         // _camera = Camera.main;
     }
-    
-    public void SignIntoVivox ()
+
+    public void SignIntoViVox (string n)
     {
 #if (UNITY_ANDROID && !UNITY_EDITOR) || __ANDROID__
     private bool IsAndroid12AndUp()
@@ -104,14 +104,14 @@ public class VivoxPlayer : MonoBehaviour
         //Actual code runs from here
         if (IsMicPermissionGranted())
         {
-            _vvm.Login(transform.name);
+            _vvm.Login(n);
         }
         else
         {
             if (IsPermissionsDenied())
             {
                 PermissionAskedCount = 0;
-                _vvm.Login(transform.name);
+                _vvm.Login(n);
             }
             else
             {
@@ -178,8 +178,19 @@ public class VivoxPlayer : MonoBehaviour
         }
     }
 
-    private void OnDestroy()
-    {
-        // GlobalEventsContainer.OnNetworkPlayerSpawned -= CameraSpawned;
-    }
+    // public void LoginIntoViVox(TMP_InputField field, int lenght)
+    // {
+    //     if (_vvm.LoginState == VivoxUnity.LoginState.LoggedIn)
+    //     {
+    //         OnUserLoggedIn();
+    //         field.text = _vvm.LoginSession.Key.DisplayName;
+    //     }
+    //     else
+    //     {
+    //         // OnUserLoggedOut();
+    //         var systInfoDeviceName = string.IsNullOrWhiteSpace(SystemInfo.deviceName) == false ? SystemInfo.deviceName : Environment.MachineName;
+    //
+    //         field.text = Environment.MachineName.Substring(0, Math.Min(lenght, Environment.MachineName.Length));
+    //     }
+    // }
 }

@@ -4,13 +4,14 @@ using UnityEngine.Android;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using System.Collections.Generic;
+using TMPro;
 
 public class LoginScreenUI : MonoBehaviour
 {
     private VivoxVoiceManager _vivoxVoiceManager;
 
     public Button LoginButton;
-    public InputField DisplayNameInput;
+    public TMP_InputField DisplayNameInput;
     public GameObject LoginScreen;
 
     private int defaultMaxStringLength = 9;

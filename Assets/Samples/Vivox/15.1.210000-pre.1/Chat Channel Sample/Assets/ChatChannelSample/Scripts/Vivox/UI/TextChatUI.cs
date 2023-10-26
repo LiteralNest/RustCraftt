@@ -2,7 +2,6 @@
 using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.EventSystems;
 using VivoxUnity;
 using System.Collections.Generic;
 using System.Collections;
@@ -18,11 +17,8 @@ public class TextChatUI : MonoBehaviour
     public GameObject ChatContentObj;
     public GameObject MessageObject;
     public Button EnterButton;
-    public Button SendTTSMessageButton;
     public InputField MessageInputField;
-    public Toggle ToggleTTS;
-
-
+    
     private void Awake()
     {
         _textChatScrollRect = GetComponent<ScrollRect>();
@@ -45,8 +41,6 @@ public class TextChatUI : MonoBehaviour
 #else
         EnterButton.onClick.AddListener(SubmitTextToVivox);
         MessageInputField.onEndEdit.AddListener((string text) => { EnterKeyOnTextField(); });
-        SendTTSMessageButton.onClick.AddListener(SubmitTTSMessageToVivox);
-        ToggleTTS.onValueChanged.AddListener(TTSToggleValueChanged);
 
 #endif
         if (_vivoxVoiceManager.ActiveChannels.Count > 0)
@@ -64,20 +58,8 @@ public class TextChatUI : MonoBehaviour
 #if UNITY_STANDALONE || UNITY_IOS || UNITY_ANDROID || UNITY_STADIA
         EnterButton.onClick.RemoveAllListeners();
         MessageInputField.onEndEdit.RemoveAllListeners();
-        SendTTSMessageButton.onClick.RemoveAllListeners();
-        ToggleTTS.onValueChanged.RemoveAllListeners();
 #endif
     }
-
-
-    private void TTSToggleValueChanged(bool toggleTTS)
-    {
-        if (!ToggleTTS.isOn)
-        {
-            _vivoxVoiceManager.LoginSession.TTS.CancelDestination(TTSDestination.QueuedLocalPlayback);
-        }
-    }
-
 
     private void ClearMessageObjectPool()
     {
@@ -122,41 +104,7 @@ public class TextChatUI : MonoBehaviour
 
         return value.Substring(0, value.IndexOf(" ", length));
     }
-
-
-
-    //public string[] TruncateWithPreservation(string s, int len)
-    //{
-    //    string[] words = s.Split(' ');
-    //    string[] sections;
-
-    //    StringBuilder sb = new StringBuilder();
-
-    //    string currentString;
-
-    //    foreach (string word in words)
-    //    {
-    //        if (sb.Length + word.Length > len)
-
-    //            currentString = Strin;
-    //            break;
-    //        currentString += " ";
-    //        currentString += word;
-    //    }
-
-    //    return sb.ToString();
-    //}
-
-    private void SubmitTTSMessageToVivox()
-    {
-        if (string.IsNullOrEmpty(MessageInputField.text))
-        {
-            return;
-        }
-        var ttsMessage = new TTSMessage(MessageInputField.text, TTSDestination.QueuedRemoteTransmissionWithLocalPlayback);
-        _vivoxVoiceManager.LoginSession.TTS.Speak(ttsMessage);
-        ClearOutTextField();
-    }
+    
 
     private IEnumerator SendScrollRectToBottom()
     {
@@ -167,13 +115,7 @@ public class TextChatUI : MonoBehaviour
 
         yield return null;
     }
-
-    public void DisplayHostingMessage(IChannelTextMessage channelTextMessage)
-    {
-        var newMessageObj = Instantiate(MessageObject, ChatContentObj.transform);
-        _messageObjPool.Add(newMessageObj);
-        Text newMessageText = newMessageObj.GetComponent<Text>();
-    }
+    
 
     #region Vivox Callbacks
 
@@ -202,19 +144,13 @@ public class TextChatUI : MonoBehaviour
         if (channelTextMessage.FromSelf)
         {
             newMessageText.alignment = TextAnchor.MiddleRight;
-            newMessageText.text = string.Format($"{channelTextMessage.Message} :<color=blue>{sender} </color>\n<color=#5A5A5A><size=8>{channelTextMessage.ReceivedTime}</size></color>");
+            newMessageText.text = string.Format($"{channelTextMessage.Message} :<color=blue>{sender} </color>\n<color=#5A5A5A><size=20>{channelTextMessage.ReceivedTime}</size></color>");
             StartCoroutine(SendScrollRectToBottom());
         }
         else
         {
             newMessageText.alignment = TextAnchor.MiddleLeft;
-            newMessageText.text = string.Format($"<color=green>{sender} </color>: {channelTextMessage.Message}\n<color=#5A5A5A><size=8>{channelTextMessage.ReceivedTime}</size></color>");
-            if (ToggleTTS.isOn)
-            {
-                // Speak local tts message with incoming text message
-                new TTSMessage($"{sender} said,", TTSDestination.QueuedLocalPlayback).Speak(_vivoxVoiceManager.LoginSession);
-                new TTSMessage($"{channelTextMessage.Message}", TTSDestination.QueuedLocalPlayback).Speak(_vivoxVoiceManager.LoginSession);
-            }
+            newMessageText.text = string.Format($"<color=green>{sender} </color>: {channelTextMessage.Message}\n<color=#5A5A5A><size=20>{channelTextMessage.ReceivedTime}</size></color>");
         }
     }
 

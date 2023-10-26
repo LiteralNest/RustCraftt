@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -8,20 +6,19 @@ using VivoxUnity;
 
 public class LobbyScreenUI : MonoBehaviour
 {
-
-    private VivoxVoiceManager _vivoxVoiceManager;
-
     public string LobbyChannelName = "lobbyChannel";
 
-    private EventSystem _evtSystem;
-
+    public Button SpeakButton;
     public Button LogoutButton;
     public GameObject LobbyScreen;
     public GameObject ConnectionIndicatorDot;
     public GameObject ConnectionIndicatorText;
 
+    private VivoxVoiceManager _vivoxVoiceManager;
+    private EventSystem _evtSystem;
     private Image _connectionIndicatorDotImage;
     private Text _connectionIndicatorDotText;
+    private bool _isMicrophoneOn;
 
     #region Unity Callbacks
 
@@ -70,6 +67,20 @@ public class LobbyScreenUI : MonoBehaviour
 
     #endregion
 
+    public void ToggleMicrophone(bool isButtonDown)
+    {
+        if (isButtonDown && !_isMicrophoneOn) 
+        {
+            _vivoxVoiceManager.AudioInputDevices.Muted = false; 
+            _isMicrophoneOn = true;
+        }
+        else if (!isButtonDown && _isMicrophoneOn) 
+        {
+            _vivoxVoiceManager.AudioInputDevices.Muted = true;
+            _isMicrophoneOn = false;
+        }
+    }
+    
     private void JoinLobbyChannel()
     {
         // Do nothing, participant added will take care of this
@@ -108,6 +119,7 @@ public class LobbyScreenUI : MonoBehaviour
             || lobbychannel == null)
         {
             JoinLobbyChannel();
+            _vivoxVoiceManager.AudioInputDevices.Muted = true; 
         }
         else
         {
