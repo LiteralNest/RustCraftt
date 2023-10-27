@@ -1,5 +1,4 @@
-[System.Serializable]
-public struct CampFireData
+public struct UserServerData
 {
     public int Id;
     public InventorySendingData InventorySendingData;

@@ -21,9 +21,9 @@ public class PlayerNetCode : NetworkBehaviour
 
     private void Start()
     {
-        // if (IsOwner)
-        //     Singleton = this;
-        // NetworkManager.StartClient();
+#if UNITY_SERVER
+        WebServerDataHandler.singleton.RegistrateNewUser();
+#endif
     }
 
     public override void OnNetworkSpawn()

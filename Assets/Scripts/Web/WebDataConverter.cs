@@ -1,28 +1,28 @@
 using System.Collections.Generic;
 
 [System.Serializable]
-public struct SendingDataField
+public struct InventorySendingDataField
 {
     public int Count;
     public int ItemId;
 }
 
 [System.Serializable]
-public struct SendingData
+public struct InventorySendingData
 {
-    public List<SendingDataField> Cells;
+    public List<InventorySendingDataField> Cells;
 }
 
 public static class WebDataConverter
 {
-    public static SendingData GetConvertedSendingData(List<InventoryCell> inputCells)
+    public static InventorySendingData GetConvertedSendingData(List<InventoryCell> inputCells)
     {
-        SendingData data = new SendingData();
-        List<SendingDataField> cells = new List<SendingDataField>();
+        InventorySendingData data = new InventorySendingData();
+        List<InventorySendingDataField> cells = new List<InventorySendingDataField>();
         foreach (var cell in inputCells)
         {
             if (cell.Item == null) continue;
-            cells.Add(new SendingDataField { Count = cell.Count, ItemId = cell.Item.Id });
+            cells.Add(new InventorySendingDataField { Count = cell.Count, ItemId = cell.Item.Id });
         }
 
         data.Cells = cells;

@@ -33,6 +33,7 @@ public abstract class SlotsContainer : MonoBehaviour
         slot.Item = item;
         slot.Count += count;
         GlobalEventsContainer.InventoryItemAdded?.Invoke(new InventoryCell(item, count));
+        GlobalEventsContainer.InventoryDataShouldBeSaved?.Invoke(Cells);
         SlotsDisplayer.DisplayCells();
     }
 
@@ -40,6 +41,7 @@ public abstract class SlotsContainer : MonoBehaviour
     {
         InventoryHelper.RemoveItem(item, count, Cells);
         GlobalEventsContainer.InventoryItemRemoved?.Invoke(new InventoryCell(item, count));
+        GlobalEventsContainer.InventoryDataShouldBeSaved?.Invoke(Cells);
         SlotsDisplayer.DisplayCells();
     }
 
@@ -68,5 +70,15 @@ public abstract class SlotsContainer : MonoBehaviour
         }
         if (slots.Count == 0) return true;
         return false;
+    }
+
+    public void AssignCells(List<InventorySendingDataField> dataCells)
+    {
+        for (int i = 0; i < dataCells.Count; i++)
+        {
+            Cells[i].Item = ItemsContainer.singleton.GetItemById(dataCells[i].ItemId);
+            Cells[i].Count = dataCells[i].Count;
+        }
+        SlotsDisplayer.DisplayCells();
     }
 }

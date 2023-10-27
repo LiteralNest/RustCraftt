@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
 
 public class InventorySlotsDisplayer : SlotsDisplayer
@@ -31,5 +32,17 @@ public class InventorySlotsDisplayer : SlotsDisplayer
     {
         foreach (var cell in _cellDisplayers)
             cell.DestroyItem();
+    }
+
+    private async void DisplayQuiclCells()
+    {
+        await Task.Delay(100);
+        DisplayQuickSlots();
+    }
+    
+    public override void DisplayCells()
+    {
+        base.DisplayCells();
+        DisplayQuiclCells();
     }
 }
