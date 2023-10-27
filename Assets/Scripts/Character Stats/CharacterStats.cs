@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 [RequireComponent(typeof(CharacterStatsDisplayer))]
@@ -26,7 +27,9 @@ public class CharacterStats : MonoBehaviour
       _initialFood = Food;
       _initialWater = Water;
    }
+
    
+
    public void ResetStatsToDefault()
    {
       Health = _initialHealth;
@@ -106,5 +109,14 @@ public class CharacterStats : MonoBehaviour
             }
             break;
       }
+   }
+
+   public void TestDeathStat()
+   {
+      MinusStat(CharacterStatType.Health, 100);
+      MinusStat(CharacterStatType.Food, 100);
+      MinusStat(CharacterStatType.Water, 100);
+      
+      GlobalEventsContainer.PlayerDied.Invoke();
    }
 }

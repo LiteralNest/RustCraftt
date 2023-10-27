@@ -13,7 +13,6 @@ GameObject:
   - component: {fileID: 8811583063145363087}
   - component: {fileID: 4818731055852844963}
   - component: {fileID: 8996190094794023005}
-  - component: {fileID: -379380772061034320}
   - component: {fileID: -8608857186101489484}
   m_Layer: 0
   m_Name: BackPack
@@ -135,21 +134,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &-379380772061034320
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6540947051957950569}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9d9a39657460a2547af406459c627dd8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _slotsContainer: {fileID: -8608857186101489484}
-  _itemDisplayerPrefab: {fileID: 0}
-  _cellDisplayers: []
 --- !u!114 &-8608857186101489484
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -162,6 +146,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 051a542b5d07b1344a73b2ac29bc2b0a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _cellsDisplayer: {fileID: -379380772061034320}
+  <SlotsDisplayer>k__BackingField: {fileID: 0}
   <Cells>k__BackingField: []
-  _playerNetCode: {fileID: -5502007171107923210, guid: f4c204364977c4f08897cb562e6d16dc, type: 3}
