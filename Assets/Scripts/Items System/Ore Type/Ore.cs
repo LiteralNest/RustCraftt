@@ -8,6 +8,7 @@ public class Ore : NetworkBehaviour
     [SerializeField] private float _recoveringSpeed;
     public Resource TargetResource => _targetResource;
     [SerializeField] protected Resource _targetResource;
+    [SerializeField] protected Vector2Int _addingCount = new Vector2Int(1,2);
     [SerializeField] private List<Renderer> _renderers;
 
     public bool Recovering { get; protected set; } = false;

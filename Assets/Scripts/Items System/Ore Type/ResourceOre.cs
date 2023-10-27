@@ -45,7 +45,7 @@ public class ResourceOre : Ore
         destroyed = false;
         if (_currentHp.Value <= 0) return;
         if(!CanUseTool(targetTool)) return;
-        InventoryHandler.singleton.InventorySlotsContainer.AddItemToDesiredSlot(_targetResource, 1);
+        InventoryHandler.singleton.InventorySlotsContainer.AddItemToDesiredSlot(_targetResource, Random.Range(_addingCount.x, _addingCount.y + 1));
         MinusHpServerRpc();
         destroyed = _currentHp.Value <= 0;
     }
