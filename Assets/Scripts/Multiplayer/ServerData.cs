@@ -3,7 +3,7 @@ using UnityEngine;
 public class ServerData : MonoBehaviour
 {
     public static ServerData singleton { get; set; }
-
+    
     public int ServerId { get; set; } = 7777;
     
     private void Awake()

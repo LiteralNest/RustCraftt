@@ -2,7 +2,6 @@ using System.Threading.Tasks;
 using Firebase.Database;
 using TMPro;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class UserCreator : MonoBehaviour
 {
@@ -27,11 +26,11 @@ public class UserCreator : MonoBehaviour
          return;
       }
       _userDataHandler.UserData = data;
-      SceneManager.LoadScene(1);
    }
    
    public async void TryCreateUser()
    {
+      int id = await GetLastUserId();
       _userExistsText.gameObject.SetActive(false);
       _createUserButoon.SetActive(false);
       string name = _userInputField.text;
@@ -45,11 +44,12 @@ public class UserCreator : MonoBehaviour
       
       UserData data = new UserData();
       data.Name = name;
+      data.Id = ++id;
       string json = JsonUtility.ToJson(data);
       _userJsonDataHandler.SaveUserData(json);
-      await _databaseReference.Child("Users").Child(data.Name).SetRawJsonValueAsync(json);
+      await _databaseReference.Child("Users").Child(data.Id.ToString()).SetRawJsonValueAsync(json);
       _userDataHandler.UserData = data;
-      SceneManager.LoadScene(1);
+      _creatingUserPanel.SetActive(false);
    }
    
    public async Task<bool> UserExists(string name)
@@ -57,5 +57,18 @@ public class UserCreator : MonoBehaviour
       var task = await _databaseReference.Child("Users").OrderByChild("Name").EqualTo(name).GetValueAsync();
       if(task.Exists) return true;
       return false;
+   }
+   
+   public async Task<int> GetLastUserId()
+   {
+      var task = await _databaseReference.Child("Users").OrderByKey().LimitToLast(1).GetValueAsync();
+      if (task.ChildrenCount == 0) return 0;
+      foreach (var child in task.Children)
+      {
+         UserData data = JsonUtility.FromJson<UserData>(child.GetRawJsonValue());
+         return data.Id;
+      }
+      
+      return 0;
    }
 }
