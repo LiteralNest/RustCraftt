@@ -1,44 +1,35 @@
 using UnityEngine;
 
-[RequireComponent(typeof(Collider))]
-
 public class Ladder : MonoBehaviour
 {
-    private bool isClimbing = false;
-    private Rigidbody playerRigidbody;
-    private Vector3 moveDirection;
+    [SerializeField] private float _climbForce = 10.0f;
+    [SerializeField] private float _distanceToTrigger = 1.5f;
 
-    public float climbSpeed = 3.0f;
+    private bool isClimbing = false;
 
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
         {
             isClimbing = true;
-            playerRigidbody = other.GetComponent<Rigidbody>();
-            playerRigidbody.useGravity = false;
-            moveDirection = Vector3.zero; // Инициализируем направление движения
+            if (isClimbing && other.CompareTag("Player"))
+            {
+                Rigidbody playerRigidbody = other.GetComponent<Rigidbody>();
+                if (playerRigidbody != null)
+                {
+                    Vector3 climbForceVector = Vector3.up * _climbForce;
+                    playerRigidbody.AddForce(climbForceVector, ForceMode.Impulse);
+                }
+            }
         }
     }
+    
 
     private void OnTriggerExit(Collider other)
     {
         if (isClimbing && other.CompareTag("Player"))
         {
             isClimbing = false;
-            playerRigidbody.useGravity = true;
-            moveDirection = Vector3.zero; // Обнуляем направление движения при выходе
-        }
-    }
-
-    private void Update()
-    {
-        if (isClimbing)
-        {
-            float verticalMovement = Input.GetAxis("Vertical");
-
-            moveDirection = transform.up * verticalMovement * climbSpeed;
-            playerRigidbody.velocity = moveDirection;
         }
     }
 }
