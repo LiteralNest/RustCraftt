@@ -11,16 +11,17 @@ public class InstantiatingItemsPool : NetworkBehaviour
     private void Awake()
         => sigleton = this;
 
-    [ServerRpc]
+    [ServerRpc(RequireOwnership = false)]
     public void SpawnObjectServerRpc(int inputItemId, int count, Vector3 position)
     {
+        if(!IsServer) return;
         foreach (var ore in _items)
         {
             if (ore.Item.Id == inputItemId)
             {
                 var obj = Instantiate(ore, position, Quaternion.identity);
                 obj.Count = count;
-                if (!ore.gameObject.GetComponent<NetworkObject>().IsSpawned) return;
+                obj.NetworkObject.DontDestroyWithOwner = true;
                 ore.gameObject.GetComponent<NetworkObject>().Spawn();
                 return;
             }

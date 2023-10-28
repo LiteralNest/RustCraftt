@@ -13,15 +13,15 @@ public class InHandObject : MonoBehaviour
     public void Walk(bool value)
     {
         if(!_animator) return;
-        _animator.SetBool(_runIndex, false);
-        _animator.SetBool(_walkIndex, value);
+        // _animator.SetBool(_runIndex, false);
+        // _animator.SetBool(_walkIndex, value);
     }
 
     public void Run(bool value)
     {
         if(!_animator) return;
-        _animator.SetBool(_runIndex, value);
-        _animator.SetBool(_walkIndex, false);
+        // _animator.SetBool(_runIndex, value);
+        // _animator.SetBool(_walkIndex, false);
     }
 
     public void HandleAttacking(bool attack)

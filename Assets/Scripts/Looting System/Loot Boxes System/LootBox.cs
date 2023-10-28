@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -16,15 +17,12 @@ public class LootBox : NetworkBehaviour
     private void Start()
     {
         gameObject.tag = "LootBox";
-        LoadCells();
     }
 
     public override void OnNetworkSpawn()
     {
-#if UNITY_SERVER
-        InitLootBox();
-#endif
-        
+        if(IsServer)
+            InitLootBox();
         base.OnNetworkSpawn();
     }
 
@@ -36,14 +34,28 @@ public class LootBox : NetworkBehaviour
 
     private void AssignCells(List<InventorySendingDataField> dataCells)
     {
-        for (int i = 0; i < dataCells.Count; i++)
+        int i = 0;
+        for (i = 0; i < dataCells.Count; i++)
         {
             _cells[i].Item = ItemsContainer.singleton.GetItemById(dataCells[i].ItemId);
             _cells[i].Count = dataCells[i].Count;
         }
+
+        for (int j = i; j < _cells.Count; j++)
+        {
+            _cells[i].Item = null;
+            _cells[i].Count = 0;
+        }
+    }
+
+    public void AssignCellsAndSendData(List<InventoryCell> inputCells)
+    {
+        _cells = new List<InventoryCell>(inputCells);
+        WebServerDataHandler.singleton.SaveLootBoxData(_cells, LootBoxId.Value);
+        CheckCells();
     }
     
-    private async void LoadCells()
+    private async Task LoadCells()
     {
         var cells = await WebServerDataHandler.singleton.LoadLootBoxData(LootBoxId.Value);
         AssignCells(cells);
@@ -56,10 +68,11 @@ public class LootBox : NetworkBehaviour
         GlobalEventsContainer.LootBoxDataShouldBeSaved?.Invoke(_cells, LootBoxId.Value);
     }
 
-    public void Open(InventoryHandler handler)
+    public async void Open(InventoryHandler handler)
     {
+        await LoadCells();
+        handler.LootBoxSlotsContainer.InitCells(_cells, this);
         handler.OpenLootBoxPanel();
-        handler.LootBoxSlotsContainer.InitCells(_cells);
     }
 
     private void CheckCells()
@@ -68,20 +81,5 @@ public class LootBox : NetworkBehaviour
             if (cell.Item != null)
                 return;
         Destroy(gameObject);
-    }
-
-    public void RemoveCell(Item item, int count)
-    {
-        CheckCells();
-        // foreach (var cell in Cells)
-        // {
-        //     if(cell.Item == null || item == null) return;
-        //     if (cell.Item.Id == item.Id && cell.Count == count)
-        //     {
-        //         Cells.Remove(cell);
-        //         CheckCells();
-        //         return;
-        //     }
-        // }
     }
 }

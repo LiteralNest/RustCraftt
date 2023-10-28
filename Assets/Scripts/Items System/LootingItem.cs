@@ -1,7 +1,8 @@
+using Unity.Netcode;
 using UnityEngine;
 
 [RequireComponent(typeof(BoxCollider), typeof(Rigidbody))]
-public class LootingItem : MonoBehaviour
+public class LootingItem : NetworkBehaviour
 {
     public Item Item => _item;
     [SerializeField] private Item _item;
@@ -10,8 +11,13 @@ public class LootingItem : MonoBehaviour
     private void Start()
         => gameObject.tag = "LootingItem";
 
-    public void PickUp()
+    [ServerRpc(RequireOwnership = false)]
+    public void PickUpServerRpc()
     {
+        if (IsServer)
+        {
+           GetComponent<NetworkObject>().Despawn();
+        }
         Destroy(gameObject);
     }
 }
