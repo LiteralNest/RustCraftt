@@ -48,13 +48,14 @@ public class InventoryHandler : MonoBehaviour
     {
         HandleInventory(true);
         _armorPanel.SetActive(false);
+        _campFirePanel.SetActive(false);
         _lootBoxPanel.SetActive(true);
     }
 
     public void OpenCampFirePanel()
     {
         HandleInventory(true);
-        _armorPanel.SetActive(true);
+        _armorPanel.SetActive(false);
         _lootBoxPanel.SetActive(false);
         _campFirePanel.SetActive(true);
     }

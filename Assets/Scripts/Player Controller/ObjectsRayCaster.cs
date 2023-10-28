@@ -108,6 +108,8 @@ public class ObjectsRayCaster : MonoBehaviour
         TargetBox = null;
         TargetGathering = null;
         TargetResourceOre = null;
+        CampFireHandler = null;
+        RecyclerHandler = null;
         SetLootButton("", false);
 
         TryDisplayHp();
