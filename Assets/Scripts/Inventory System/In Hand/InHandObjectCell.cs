@@ -14,35 +14,30 @@ public class InHandObjectCell
         if (!shouldActivate)
         {
             if (FirstPersonObject != null)
-                FirstPersonObject.gameObject.SetActive(false);
+                FirstPersonObject.DisplayRenderers(false);
             if (ThirdPersonObject != null)
-                ThirdPersonObject.gameObject.SetActive(false);
+                ThirdPersonObject.DisplayRenderers(false);
             return;
         }
 
-        // if (isOwner)
-        // {
-        //     if(FirstPersonObject != null)
-        //         FirstPersonObject.gameObject.SetActive(true);
-        // }
-        // else
-        // {
-        //     if(ThirdPersonObject != null)
-        //         ThirdPersonObject.gameObject.SetActive(true);
-        // }
-
-        if (FirstPersonObject != null)
-            FirstPersonObject.gameObject.SetActive(true);
-        // if (ThirdPersonObject != null)
-        //     ThirdPersonObject.gameObject.SetActive(true);
+        if (isOwner)
+        {
+            FirstPersonObject.DisplayRenderers(true);
+            ThirdPersonObject.DisplayRenderers(false);
+        }
+        else
+        {
+            FirstPersonObject.DisplayRenderers(false);
+            ThirdPersonObject.DisplayRenderers(true);
+        }
     }
-    
+
     private void DisableThirdPersonRenderers()
     {
         foreach (var renderer in Renderers)
             renderer.enabled = false;
     }
-    
+
     public void SetWalk(bool value)
     {
         if (FirstPersonObject)

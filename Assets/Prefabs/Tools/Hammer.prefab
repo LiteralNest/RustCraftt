@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &7031406294250464381
+--- !u!1 &1627303589197153302
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,50 +8,49 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 792401623808147719}
-  - component: {fileID: 3694187071208618371}
-  - component: {fileID: 5552591565046111105}
-  - component: {fileID: 6926814552375195377}
-  - component: {fileID: 2190006058938914297}
-  - component: {fileID: 5451875102773257049}
+  - component: {fileID: 9112731625677409957}
+  - component: {fileID: 7309017581427167308}
+  - component: {fileID: 4601540039267915889}
+  - component: {fileID: 4032539140592995641}
+  - component: {fileID: 5295773497304042046}
   m_Layer: 0
   m_Name: Hammer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
---- !u!4 &792401623808147719
+  m_IsActive: 1
+--- !u!4 &9112731625677409957
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7031406294250464381}
+  m_GameObject: {fileID: 1627303589197153302}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.037065413, y: 0.6791417, z: 0.03437518, w: 0.7322643}
-  m_LocalPosition: {x: 0.0028599966, y: -0.0033205457, z: 0.0065302267}
-  m_LocalScale: {x: 0.008, y: 0.008, z: 0.008}
+  m_LocalRotation: {x: 0.037067205, y: 0.67914367, z: 0.034378394, w: 0.73226225}
+  m_LocalPosition: {x: 0.002859998, y: -0.0033205557, z: 0.006530217}
+  m_LocalScale: {x: 0.008, y: 0.008, z: 0.008000003}
   m_ConstrainProportionsScale: 1
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 792401623808147719}
   m_LocalEulerAnglesHint: {x: 0.435, y: 85.711, z: 5.779}
---- !u!33 &3694187071208618371
+--- !u!33 &7309017581427167308
 MeshFilter:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7031406294250464381}
+  m_GameObject: {fileID: 1627303589197153302}
   m_Mesh: {fileID: -5840013982718932518, guid: ade3686a47031f045a46842ded7e0996, type: 3}
---- !u!23 &5552591565046111105
+--- !u!23 &4601540039267915889
 MeshRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7031406294250464381}
-  m_Enabled: 1
+  m_GameObject: {fileID: 1627303589197153302}
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -86,29 +85,17 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &6926814552375195377
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7031406294250464381}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 567d6841f5800d444b042db8088f87b2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!95 &2190006058938914297
+--- !u!95 &4032539140592995641
 Animator:
   serializedVersion: 5
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7031406294250464381}
+  m_GameObject: {fileID: 1627303589197153302}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 1a1c6e26bfacfa1439fff6fc0b42c152, type: 2}
+  m_Controller: {fileID: 9100000, guid: eff2595f7c031a240a6a896471734ac9, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -119,6 +106,98 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &5295773497304042046
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1627303589197153302}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ad8deae8091111f4eb30a56c1f4e0d3e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  TransitionStateInfoList: []
+  m_Animator: {fileID: 4032539140592995641}
+--- !u!1 &2101982344063819166
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4536819499909377455}
+  - component: {fileID: 1057479950804188623}
+  m_Layer: 0
+  m_Name: Hammer Staff
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!4 &4536819499909377455
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2101982344063819166}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0.000000031073917, y: 0.67428464, z: -0.000000028473998, w: 0.7384716}
+  m_LocalPosition: {x: 0.0028128098, y: -0.0069000064, z: 0.0065196594}
+  m_LocalScale: {x: 0.007999978, y: 0.007999978, z: 0.00799998}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 792401623808147719}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1057479950804188623
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2101982344063819166}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 567d6841f5800d444b042db8088f87b2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!1 &7031406294250464381
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 792401623808147719}
+  - component: {fileID: 5451875102773257049}
+  m_Layer: 0
+  m_Name: Hammer
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &792401623808147719
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7031406294250464381}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 4536819499909377455}
+  - {fileID: 9112731625677409957}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &5451875102773257049
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -131,7 +210,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fd18f1623cafcc342824303799eb2e6c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _animator: {fileID: 2190006058938914297}
+  _animator: {fileID: 4032539140592995641}
+  _renderers:
+  - {fileID: 4601540039267915889}
+  _activatingObjects:
+  - {fileID: 2101982344063819166}
   _attackIndex: Attacking
   _walkIndex: Walking
   _runIndex: Running

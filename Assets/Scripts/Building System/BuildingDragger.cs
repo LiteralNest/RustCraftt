@@ -17,20 +17,21 @@ public class BuildingDragger : MonoBehaviour
 
     private void TryMoveBuildingObject()
     {
-        if (!_currentPref.TryGetObjectCoords(_targetCamera, out var coords))
+        if (!_currentPref.TryGetObjectCoords(_targetCamera, out var coords, out var rotation))
         {
-            _currentPref.SetCanBePlaced(false);
+            _currentPref.SetOnFrontOfPlayer(true);
             _currentPref.transform.position = GetFrontOfCameraPosition();
             return;
         }
-        _currentPref.SetCanBePlaced(true);
+        _currentPref.SetOnFrontOfPlayer(false);
         _currentPref.transform.position = coords;
+        _currentPref.transform.eulerAngles = rotation;
     }
 
     public void Place()
     {
         if (_currentPref == null) return;
-        if(!_currentPref.TryPlace()) return;
+        _currentPref.Place();
     }
 
     public void ClearCurrentPref()

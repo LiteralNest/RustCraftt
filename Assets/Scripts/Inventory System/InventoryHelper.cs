@@ -27,14 +27,16 @@ public static class InventoryHelper
     public static void RemoveItem(Item item, int count, List<InventoryCell> cells)
     {
         int currentCount = count;
-        foreach (var cell in cells)
+        for (int i = 0; i < cells.Count; i++)
         {
+            var cell = cells[i];
             if (cell.Item == item)
             {
-                if (currentCount > cell.Count)
+                if (currentCount >= cell.Count)
                 {
                     currentCount -= cell.Count;
-                    cell.Count = 0;
+                    cell.Item = null;
+                    i--;
                     if (currentCount <= 0)
                         return;
                     continue;
@@ -42,7 +44,6 @@ public static class InventoryHelper
                 cell.Count -= currentCount;
                 return;
             }
-            
         }
     }
     

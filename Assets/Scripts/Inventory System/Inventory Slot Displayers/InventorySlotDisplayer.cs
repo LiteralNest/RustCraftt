@@ -8,4 +8,10 @@ public class InventorySlotDisplayer : SlotDisplayer
         if(TrySetItem(itemDisplayer)) return;
         itemDisplayer.SetPosition();
     }
+
+    public override void Swap(ItemDisplayer itemDisplayer)
+    {
+        base.Swap(itemDisplayer);
+        GlobalEventsContainer.ShouldDisplayInventoryCells?.Invoke();
+    }
 }

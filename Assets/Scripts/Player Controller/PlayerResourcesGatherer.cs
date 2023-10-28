@@ -1,8 +1,6 @@
 using System.Threading.Tasks;
-using TMPro;
 using UnityEngine;
 
-[RequireComponent(typeof(AudioSource))]
 [RequireComponent(typeof(ObjectsRayCaster))]
 public class PlayerResourcesGatherer : MonoBehaviour
 {
@@ -47,6 +45,7 @@ public class PlayerResourcesGatherer : MonoBehaviour
 
     private async void Recover()
     {
+        if(!ResourceGatheringObject) return;
         _recoveringTime = ResourceGatheringObject.GatheringAnimation.length;
         _canHit = false;
         await Task.Delay((int)(_recoveringTime * 1000));
@@ -73,6 +72,14 @@ public class PlayerResourcesGatherer : MonoBehaviour
         TryOpenCampFire();
         TryOpenRecycler();
         TryPickUp();
+        TryOpenDoor();
+    }
+
+    private void TryOpenDoor()
+    {
+        var door = _objectsRayCaster.DoorHandler;
+        if (!door) return;
+        door.Open();
     }
     
     private void TryHit()
@@ -122,7 +129,7 @@ public class PlayerResourcesGatherer : MonoBehaviour
     {
         var lootingItem = _objectsRayCaster.LootingItem;
         if(!lootingItem) return;
-        _inventoryHandler.InventorySlotsContainer.AddItemToDesiredSlot(lootingItem.Item, lootingItem.Count);
-        lootingItem.PickUp();
+        _inventoryHandler.InventorySlotsContainer.AddItemToDesiredSlot(lootingItem.Item, lootingItem.Count.Value);
+        lootingItem.PickUpServerRpc();
     }
 }

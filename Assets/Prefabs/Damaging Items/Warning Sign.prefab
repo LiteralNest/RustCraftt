@@ -28,7 +28,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5962394803617006348}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: 1, z: -0, w: -0.00000035762784}
+  m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
   m_LocalPosition: {x: 0, y: -1.0050135, z: 4.9999986}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -104,6 +104,10 @@ MonoBehaviour:
   - <Item>k__BackingField: {fileID: 11400000, guid: c7c6f1721202fae4ab90fddd87a57ef5, type: 2}
     <MinimalCount>k__BackingField: 8
     <MaximalCount>k__BackingField: 10
+  _renderers:
+  - {fileID: 3516049337651014446}
+  - {fileID: 1370236023527550609}
+  _boxCollider: {fileID: 5688128215674228830}
 --- !u!114 &1519453761018255839
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -175,7 +179,7 @@ PrefabInstance:
     - target: {fileID: -7511558181221131132, guid: 69ef5381f92f1f14ca0a603998e1261f, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 7f6bf4cad0a5cda419b734d90c7d459a, type: 2}
+      objectReference: {fileID: 2100000, guid: 9145b376a195c844aa148d58a71aba09, type: 2}
     - target: {fileID: 919132149155446097, guid: 69ef5381f92f1f14ca0a603998e1261f, type: 3}
       propertyPath: m_Name
       value: PanelSign
@@ -188,6 +192,11 @@ PrefabInstance:
 --- !u!4 &238447496069797374 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 69ef5381f92f1f14ca0a603998e1261f, type: 3}
+  m_PrefabInstance: {fileID: 343852223457866261}
+  m_PrefabAsset: {fileID: 0}
+--- !u!23 &1370236023527550609 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: -7511558181221131132, guid: 69ef5381f92f1f14ca0a603998e1261f, type: 3}
   m_PrefabInstance: {fileID: 343852223457866261}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &2813080294893893546
@@ -241,7 +250,7 @@ PrefabInstance:
     - target: {fileID: -7511558181221131132, guid: 63535280ecdf45d4a8ac7b20a332ebcc, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: eb2a9571b5c4d7b409ed7c246b1c1154, type: 2}
+      objectReference: {fileID: 2100000, guid: 9145b376a195c844aa148d58a71aba09, type: 2}
     - target: {fileID: 919132149155446097, guid: 63535280ecdf45d4a8ac7b20a332ebcc, type: 3}
       propertyPath: m_Name
       value: SignPipe
@@ -254,5 +263,10 @@ PrefabInstance:
 --- !u!4 &2342057498261868609 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 63535280ecdf45d4a8ac7b20a332ebcc, type: 3}
+  m_PrefabInstance: {fileID: 2813080294893893546}
+  m_PrefabAsset: {fileID: 0}
+--- !u!23 &3516049337651014446 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: -7511558181221131132, guid: 63535280ecdf45d4a8ac7b20a332ebcc, type: 3}
   m_PrefabInstance: {fileID: 2813080294893893546}
   m_PrefabAsset: {fileID: 0}

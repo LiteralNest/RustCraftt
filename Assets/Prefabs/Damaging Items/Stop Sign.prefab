@@ -28,7 +28,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5005409488513846879}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: 1, z: -0, w: -0.00000035762784}
+  m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
   m_LocalPosition: {x: -3, y: -1.0050135, z: 5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -104,6 +104,10 @@ MonoBehaviour:
   - <Item>k__BackingField: {fileID: 11400000, guid: c7c6f1721202fae4ab90fddd87a57ef5, type: 2}
     <MinimalCount>k__BackingField: 8
     <MaximalCount>k__BackingField: 10
+  _renderers:
+  - {fileID: 4497442547510311848}
+  - {fileID: 1807969595908304893}
+  _boxCollider: {fileID: 3009938408699643736}
 --- !u!114 &7267266393118187671
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -175,7 +179,7 @@ PrefabInstance:
     - target: {fileID: -7511558181221131132, guid: 63535280ecdf45d4a8ac7b20a332ebcc, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: eb2a9571b5c4d7b409ed7c246b1c1154, type: 2}
+      objectReference: {fileID: 2100000, guid: 9145b376a195c844aa148d58a71aba09, type: 2}
     - target: {fileID: 919132149155446097, guid: 63535280ecdf45d4a8ac7b20a332ebcc, type: 3}
       propertyPath: m_Name
       value: SignPipe
@@ -188,6 +192,11 @@ PrefabInstance:
 --- !u!4 &674447132975813778 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 63535280ecdf45d4a8ac7b20a332ebcc, type: 3}
+  m_PrefabInstance: {fileID: 1069226015566377849}
+  m_PrefabAsset: {fileID: 0}
+--- !u!23 &1807969595908304893 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: -7511558181221131132, guid: 63535280ecdf45d4a8ac7b20a332ebcc, type: 3}
   m_PrefabInstance: {fileID: 1069226015566377849}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &3002693184921200428
@@ -241,7 +250,7 @@ PrefabInstance:
     - target: {fileID: -7511558181221131132, guid: 3f4ec323bc976564fb9e14b239083b1c, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 61cf2f41e015a2045b5678bc4b0fe01d, type: 2}
+      objectReference: {fileID: 2100000, guid: 9145b376a195c844aa148d58a71aba09, type: 2}
     - target: {fileID: 919132149155446097, guid: 3f4ec323bc976564fb9e14b239083b1c, type: 3}
       propertyPath: m_Name
       value: StopSign
@@ -254,5 +263,10 @@ PrefabInstance:
 --- !u!4 &3323952257355710663 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 3f4ec323bc976564fb9e14b239083b1c, type: 3}
+  m_PrefabInstance: {fileID: 3002693184921200428}
+  m_PrefabAsset: {fileID: 0}
+--- !u!23 &4497442547510311848 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: -7511558181221131132, guid: 3f4ec323bc976564fb9e14b239083b1c, type: 3}
   m_PrefabInstance: {fileID: 3002693184921200428}
   m_PrefabAsset: {fileID: 0}
