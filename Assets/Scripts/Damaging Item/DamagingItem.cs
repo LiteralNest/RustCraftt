@@ -11,7 +11,7 @@ public class DamagingItem : NetworkBehaviour, IDamagable
    [SerializeField] private List<LootBarrelCell> _loot = new List<LootBarrelCell>();
 
    [SerializeField] private List<Renderer> _renderers;
-
+   [SerializeField] private BoxCollider _boxCollider;
    private int _cachedHp;
    private bool _canGetDamage;
 
@@ -45,6 +45,8 @@ public class DamagingItem : NetworkBehaviour, IDamagable
          foreach (var cell in _loot)
             SpawnLootCell(cell);
       }
+
+      _boxCollider.enabled = false;
       _canGetDamage = false;
       EnableRenderers(false);
    }

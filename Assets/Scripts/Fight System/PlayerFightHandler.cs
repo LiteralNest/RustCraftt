@@ -2,7 +2,6 @@ using UnityEngine;
 
 public class PlayerFightHandler : MonoBehaviour
 {
-    [SerializeField] private Animator _handsAnimator;
     private WeaponObject _currentWeaponObject;
     private bool _attacking;
 

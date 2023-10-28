@@ -6,7 +6,8 @@ public class LootingItem : NetworkBehaviour
 {
     public Item Item => _item;
     [SerializeField] private Item _item;
-    public int Count { get; set; }
+    public NetworkVariable<int> Count = new(0, NetworkVariableReadPermission.Everyone,
+        NetworkVariableWritePermission.Owner);
 
     private void Start()
         => gameObject.tag = "LootingItem";

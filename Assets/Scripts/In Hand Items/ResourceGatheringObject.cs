@@ -1,6 +1,5 @@
 using UnityEngine;
 
-[RequireComponent(typeof(Animator))]
 public class ResourceGatheringObject : MonoBehaviour
 {
    [Header("Attached")]
@@ -11,12 +10,6 @@ public class ResourceGatheringObject : MonoBehaviour
    public AnimationClip GatheringAnimation => _gatheringAnimation;
    [SerializeField] private AnimationClip _gatheringAnimation;
 
-   private void Start()
-   {
-      if(_animator == null)
-         _animator = GetComponent<Animator>();
-   }
- 
    private void OnEnable()
    {
       GlobalEventsContainer.ResourceGatheringObjectAssign?.Invoke(this);

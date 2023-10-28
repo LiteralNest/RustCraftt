@@ -28,7 +28,7 @@ namespace Server
         {
             await MultiplayWebApi.Authenticate();
             await UniTask.Yield(PlayerLoopTiming.LastUpdate);
-            Debug.LogError("Auth Completed");
+            // Debug.LogError("Auth Completed");
         }
 
         private void OnGUI()

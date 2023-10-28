@@ -68,6 +68,6 @@ public class PlayerNetCode : NetworkBehaviour
     [ContextMenu("Test")]
     public void TestRPC()
     {
-        ChangeInHandItemServerRpc(4, GetClientId());
+        ChangeInHandItemServerRpc(18, GetClientId());
     }
 }

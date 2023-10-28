@@ -20,9 +20,9 @@ public class InstantiatingItemsPool : NetworkBehaviour
             if (ore.Item.Id == inputItemId)
             {
                 var obj = Instantiate(ore, position, Quaternion.identity);
-                obj.Count = count;
+                obj.Count.Value = count;
                 obj.NetworkObject.DontDestroyWithOwner = true;
-                ore.gameObject.GetComponent<NetworkObject>().Spawn();
+                obj.NetworkObject.Spawn();
                 return;
             }
             Debug.LogError("Can't find object with id " + inputItemId);

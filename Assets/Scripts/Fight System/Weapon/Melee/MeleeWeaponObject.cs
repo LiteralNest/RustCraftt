@@ -4,6 +4,6 @@ public class MeleeWeaponObject : WeaponObject
 {
     public override void Attack(bool value)
     {
-        InHandObjectsContainer.singleton.HandleAttacking(value);
+        GlobalEventsContainer.ShouldHandleAttacking?.Invoke(value);
     }
 }
