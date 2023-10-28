@@ -185,7 +185,7 @@ public class WebServerDataHandler : MonoBehaviour
 
     #region LootBox
 
-      private async Task<int> GetLastLootBox()
+    private async Task<int> GetLastLootBox()
     {
         var task = await _dbReference
             .Child(ServerId)
@@ -219,7 +219,7 @@ public class WebServerDataHandler : MonoBehaviour
         return data.Id;
     }
 
-    private void SaveLootBoxData(List<InventoryCell> cells, int id)
+    public void SaveLootBoxData(List<InventoryCell> cells, int id)
     {
         CampFireData campFireData = new CampFireData();
         campFireData.Id = id;
@@ -237,6 +237,7 @@ public class WebServerDataHandler : MonoBehaviour
             .Child(ServerId)
             .Child(_lootBoxPath)
             .Child(id.ToString())
+            .Child("InventorySendingData")
             .Child("Cells")
             .GetValueAsync();
         await request;

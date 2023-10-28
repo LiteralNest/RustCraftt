@@ -20,7 +20,7 @@ public abstract class SlotsContainer : MonoBehaviour
 
     #endregion
 
-    public void ResetCell(int index)
+    public virtual void ResetCell(int index)
     {
         Cells[index].Item = null;
         Cells[index].Count = 0;

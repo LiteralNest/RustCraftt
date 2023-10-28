@@ -37,13 +37,19 @@ public abstract class SlotDisplayer : MonoBehaviour, IDropHandler
         ItemDisplayer = null;
     }
 
+    private void ClearPlace(Transform place)
+    {
+        foreach (Transform child in place)
+            Destroy(child.gameObject);
+    }
+
     public void DestroyItem()
     {
         if (transform.childCount != 0)
-            Destroy(transform.GetChild(0).gameObject);
+            ClearPlace(transform);
         ResetItem();
     }
-    
+
     private bool CheckForFree(ItemDisplayer itemDisplayer)
     {
         if (ItemDisplayer) return false;
