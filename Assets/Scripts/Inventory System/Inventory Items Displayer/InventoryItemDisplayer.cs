@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using UnityEngine.EventSystems;
 
 public class InventoryItemDisplayer : ItemDisplayer, IBeginDragHandler, IDragHandler, IEndDragHandler
@@ -51,10 +52,18 @@ public class InventoryItemDisplayer : ItemDisplayer, IBeginDragHandler, IDragHan
         GlobalEventsContainer.InventoryDataShouldBeSaved?.Invoke(_slotsContainer.Cells);
     }
 
-    public override int StackCount(int addedCount)
+    public override int StackCount(int addedCount, SlotDisplayer slotDisplayer)
     {
-        var res = base.StackCount(addedCount);
+        var res = base.StackCount(addedCount, slotDisplayer);
+        _slotsContainer.AddCell(slotDisplayer.Index, InventoryCell);
         GlobalEventsContainer.InventoryDataShouldBeSaved?.Invoke(_slotsContainer.Cells);
+        RedisplayInventrory();
         return res;
+    }
+
+    private async void RedisplayInventrory()
+    {
+        await Task.Delay(100);
+        GlobalEventsContainer.ShouldDisplayInventoryCells?.Invoke();
     }
 }
