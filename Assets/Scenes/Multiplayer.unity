@@ -2476,6 +2476,52 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 6656891269696423355, guid: 9f4077a86f5afe74eb65591607fdf1df, type: 3}
   m_PrefabInstance: {fileID: 978368739}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &838283524
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 838283526}
+  - component: {fileID: 838283525}
+  m_Layer: 0
+  m_Name: Server Scene Loader
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &838283525
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 838283524}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bae1194c48161ad449e399364f437ae5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _shouldLoadHost: 1
+  _connectionManager: {fileID: 0}
+--- !u!4 &838283526
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 838283524}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1008.4312, y: 647.9682, z: -4.162211}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &839786382
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -7155,6 +7201,7 @@ SceneRoots:
   - {fileID: 8595686284293223721}
   - {fileID: 1252824276}
   - {fileID: 1792856226}
+  - {fileID: 838283526}
   - {fileID: 1754904682}
   - {fileID: 76966771}
   - {fileID: 429230732}

@@ -55,7 +55,7 @@ namespace Server
         }
 
 
-        private async void Connect()
+        public async void Connect()
         {
             var networkManager = NetworkManager.Singleton;
             var transport = networkManager.GetComponent<UnityTransport>();
