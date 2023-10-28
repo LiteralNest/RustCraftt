@@ -12,10 +12,9 @@ public class InventoryHandler : MonoBehaviour
     [field: SerializeField] public PlayerObjectsPlacer PlayerObjectsPlacer { get; private set; }
     [field: SerializeField] public BuildingChooser BuildingChooser { get; private set; }
     [field: SerializeField] public CampFireSlotsContainer CampFireSlotsContainer { get; private set; }
-    [field:SerializeField] public RecyclerSlotsContainer RecyclerSlotsContainer { get; private set; }
+    [field: SerializeField] public RecyclerSlotsContainer RecyclerSlotsContainer { get; private set; }
 
-    [Header("UI")] 
-    [SerializeField] private GameObject _mainButtonsPanel;
+    [Header("UI")] [SerializeField] private GameObject _mainButtonsPanel;
     [SerializeField] private GameObject _armorPanel;
     [SerializeField] private GameObject _lootBoxPanel;
     [SerializeField] private GameObject _inventoryPanel;
@@ -35,6 +34,9 @@ public class InventoryHandler : MonoBehaviour
         GlobalValues.CanLookAround = !isOpen;
     }
 
+    public void DisplayInventoryCells()
+        => InventorySlotsDisplayer.DisplayCells();
+
     public void OpenArmorPanel()
     {
         HandleInventory(true);
@@ -46,23 +48,24 @@ public class InventoryHandler : MonoBehaviour
     {
         HandleInventory(true);
         _armorPanel.SetActive(false);
+        _campFirePanel.SetActive(false);
         _lootBoxPanel.SetActive(true);
     }
 
     public void OpenCampFirePanel()
     {
         HandleInventory(true);
-        _armorPanel.SetActive(true);
+        _armorPanel.SetActive(false);
         _lootBoxPanel.SetActive(false);
-        _campFirePanel.SetActive(true); 
+        _campFirePanel.SetActive(true);
     }
 
     public void OpenRecyclerPanel()
     {
         HandleInventory(true);
-        _armorPanel.SetActive(true);
+        _armorPanel.SetActive(false);
         _lootBoxPanel.SetActive(false);
-        _recyclerPanel.SetActive(true); 
+        _recyclerPanel.SetActive(true);
     }
 
     public void SetActiveItem(Item item)

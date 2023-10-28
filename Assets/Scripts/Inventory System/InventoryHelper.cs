@@ -35,7 +35,7 @@ public static class InventoryHelper
                 if (currentCount >= cell.Count)
                 {
                     currentCount -= cell.Count;
-                    cells.Remove(cell);
+                    cell.Item = null;
                     i--;
                     if (currentCount <= 0)
                         return;

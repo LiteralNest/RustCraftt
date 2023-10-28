@@ -8,6 +8,9 @@ public static class GlobalEventsContainer
     public static Action<InventoryCell> InventoryItemAdded { get; set; }
     public static Action<InventoryCell> InventoryItemRemoved { get; set; }
     public static Action<List<InventoryCell>> InventoryDataShouldBeSaved { get; set; }
+    public static Action ShouldDisplayInventoryCells { get; set; }
+    public static Action<List<InventoryCell>, int> LootBoxDataShouldBeSaved { get; set; }
+    public static Action<List<InventoryCell>, int> CampFireDataShouldBeSaved { get; set; } 
     public static Action InventoryDataChanged { get; set; }
     public static Action<int> ShouldActivateSlot { get; set; }
     public static Action<int, ulong> ShouldDisplayHandItem { get; set; }

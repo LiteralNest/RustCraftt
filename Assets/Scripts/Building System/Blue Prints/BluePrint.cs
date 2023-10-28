@@ -23,12 +23,12 @@ public abstract class BluePrint : MonoBehaviour
     #endregion
 
 
-    public virtual bool TryGetObjectCoords(Camera targetCamera, out Vector3 coords)
+    public virtual bool TryGetObjectCoords(Camera targetCamera, out Vector3 coords, out Vector3 rotation)
     {
         Vector3 rayOrigin = targetCamera.transform.position;
         Vector3 rayDirection = targetCamera.transform.forward;
         RaycastHit hit;
-
+        rotation = default;
         coords = default;
         if (Physics.Raycast(rayOrigin, rayDirection, out hit, Mathf.Infinity, _targetMask))
         {
