@@ -23,7 +23,7 @@ public abstract class ItemDisplayer : MonoBehaviour
         _countText.text = InventoryCell.Count.ToString();
     }
 
-    public int StackCount(int addedCount)
+    public virtual int StackCount(int addedCount)
     {
         var currentItemCount = InventoryCell.Count;
         int count = currentItemCount + addedCount;

@@ -48,5 +48,13 @@ public class InventoryItemDisplayer : ItemDisplayer, IBeginDragHandler, IDragHan
         _slotsContainer = slotDisplayer.Inventory;
         if (!_slotsContainer) return;
         _slotsContainer.AddCell(slotDisplayer.Index, InventoryCell);
+        GlobalEventsContainer.InventoryDataShouldBeSaved?.Invoke(_slotsContainer.Cells);
+    }
+
+    public override int StackCount(int addedCount)
+    {
+        var res = base.StackCount(addedCount);
+        GlobalEventsContainer.InventoryDataShouldBeSaved?.Invoke(_slotsContainer.Cells);
+        return res;
     }
 }

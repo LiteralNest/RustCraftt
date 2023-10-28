@@ -63,7 +63,7 @@ public class InventoryHandler : MonoBehaviour
     public void OpenRecyclerPanel()
     {
         HandleInventory(true);
-        _armorPanel.SetActive(true);
+        _armorPanel.SetActive(false);
         _lootBoxPanel.SetActive(false);
         _recyclerPanel.SetActive(true);
     }

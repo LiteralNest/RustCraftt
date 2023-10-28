@@ -34,7 +34,7 @@ public class InventorySlotsDisplayer : SlotsDisplayer
             cell.DestroyItem();
     }
 
-    private async void DisplayQuiclCells()
+    private async void DisplayQuickCells()
     {
         await Task.Delay(100);
         DisplayQuickSlots();
@@ -43,6 +43,6 @@ public class InventorySlotsDisplayer : SlotsDisplayer
     public override void DisplayCells()
     {
         base.DisplayCells();
-        DisplayQuiclCells();
+        DisplayQuickCells();
     }
 }
