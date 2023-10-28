@@ -12,14 +12,7 @@ namespace Character_Stats
         {
             GlobalEventsContainer.PlayerDied += OnPlayerDeath;
         }
-
-        private void Update()
-        {
-            if (Input.GetKeyDown(KeyCode.F))
-            {
-                CharacterStats.Singleton.TestDeathStat();
-            }
-        }
+        
         public override void OnDestroy()
         {
             GlobalEventsContainer.PlayerDied -= OnPlayerDeath;
@@ -27,9 +20,9 @@ namespace Character_Stats
 
         private void OnPlayerDeath()
         {
-            if (NetworkObject.IsLocalPlayer)
+            var healt = CharacterStats.Singleton.Health;
+            if (NetworkObject.IsLocalPlayer && healt >= 0)
             {
-                CharacterSpawnManager.Instance.OnPlayerDeath();
                 _deathScreen.SetActive(true);
             }
         }

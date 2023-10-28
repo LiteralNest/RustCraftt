@@ -18,7 +18,7 @@ using Random = UnityEngine.Random;
          {
              Instance = this;
              GenerateSpawnPoints();
-             GlobalEventsContainer.PlayerDied += OnPlayerDeath;
+             // GlobalEventsContainer.PlayerDied += OnPlayerDeath;
          }
 
          private void GenerateSpawnPoints()

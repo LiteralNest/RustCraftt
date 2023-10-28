@@ -28,7 +28,10 @@ public class CharacterStats : MonoBehaviour
       _initialWater = Water;
    }
 
-   
+   private void Update()
+   {
+      PlayerDead();
+   }
 
    public void ResetStatsToDefault()
    {
@@ -111,12 +114,11 @@ public class CharacterStats : MonoBehaviour
       }
    }
 
-   public void TestDeathStat()
+   public void PlayerDead()
    {
-      MinusStat(CharacterStatType.Health, 100);
-      MinusStat(CharacterStatType.Food, 100);
-      MinusStat(CharacterStatType.Water, 100);
-      
-      GlobalEventsContainer.PlayerDied.Invoke();
+      if (Health <= 0)
+      {
+         GlobalEventsContainer.PlayerDied.Invoke();
+      }
    }
 }
