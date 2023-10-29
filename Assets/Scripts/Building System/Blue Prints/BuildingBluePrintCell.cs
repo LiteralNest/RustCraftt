@@ -31,7 +31,7 @@ public class BuildingBluePrintCell : MonoBehaviour
     private void SetCanBePlaced(bool value)
     {
         CanBePlaced = value;
-        if (!_enoughMaterials || !CanBePlaced)
+        if (!CanBePlaced)
             SetMaterial(_negativeMaterial);
         else
             SetMaterial(_normalMaterial);
@@ -39,7 +39,7 @@ public class BuildingBluePrintCell : MonoBehaviour
 
     public void CheckForAvailable()
     {
-        if (!_enoughMaterials || _triggeredObjects.Count > 0 || _bluePrint.OnFrontOfPlayer)
+        if (/*!_enoughMaterials ||*/ _triggeredObjects.Count > 0 || _bluePrint.OnFrontOfPlayer)
         {
             SetCanBePlaced(false);
             return;
@@ -56,8 +56,9 @@ public class BuildingBluePrintCell : MonoBehaviour
     public void TryPlace()
     {
         if (!CanBePlaced) return;
-        foreach (var cell in _targetBuildingStructure.GetPlacingRemovingCells())
-            InventorySlotsContainer.singleton.RemoveItemFromDesiredSlot(cell.Item, cell.Count);
+        // var cells = _targetBuildingStructure.GetPlacingRemovingCells();
+        // foreach (var cell in cells)
+        //     InventorySlotsContainer.singleton.RemoveItemFromDesiredSlot(cell.Item, cell.Count);
         BuildingsNetworkingSpawner.singleton.SpawnPrefServerRpc(_targetBuildingStructure.Id, transform.position,
             transform.rotation);
     }

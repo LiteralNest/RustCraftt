@@ -25,7 +25,8 @@ public class BuildingDragger : MonoBehaviour
         }
         _currentPref.SetOnFrontOfPlayer(false);
         _currentPref.transform.position = coords;
-        _currentPref.transform.eulerAngles = rotation;
+        if(rotation == default) return;
+            _currentPref.transform.eulerAngles = rotation;
     }
 
     public void Place()

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
@@ -11,13 +12,14 @@ public class BuildingBlock : NetworkBehaviour, IDamagable
 
     public Block CurrentBlock => _levels[_currentLevel.Value];
     [field: SerializeField] public BuildingConnector BuildingConnector { get; private set; }
-    public List<InventoryCell> NeededCellsForPlace => _levels[_currentLevel.Value].NeededCellsForPlace;
 
     private ushort _startHp;
     private NetworkVariable<ushort> _currentLevel = new(0, NetworkVariableReadPermission.Everyone,
     NetworkVariableWritePermission.Owner);
     private GameObject _activeBlock;
 
+    public List<InventoryCell> GetNeededCellsForPlace()
+        => _levels[_currentLevel.Value].NeededCellsForPlace;
     private void Start()
     {
         InitSlot(_currentLevel.Value);
@@ -59,7 +61,7 @@ public class BuildingBlock : NetworkBehaviour, IDamagable
     {
         int damagingPercent = _startHp / _hp.Value;
         List<InventoryCell> cells = new List<InventoryCell>();
-        foreach (var cell in NeededCellsForPlace)
+        foreach (var cell in GetNeededCellsForPlace())
             cells.Add(new InventoryCell( cell.Item, cell.Count / damagingPercent));
         return false;
         // return InventorySlotsContainer.singleton.ItemsAvaliable(cells);

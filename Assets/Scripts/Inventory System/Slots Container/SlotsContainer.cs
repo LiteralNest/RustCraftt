@@ -35,6 +35,7 @@ public abstract class SlotsContainer : MonoBehaviour
         GlobalEventsContainer.InventoryItemAdded?.Invoke(new InventoryCell(item, count));
         GlobalEventsContainer.InventoryDataShouldBeSaved?.Invoke(Cells);
         SlotsDisplayer.DisplayCells();
+        GlobalEventsContainer.InventoryDataChanged?.Invoke();
     }
 
     public void RemoveItemFromDesiredSlot(Item item, int count)
@@ -43,6 +44,7 @@ public abstract class SlotsContainer : MonoBehaviour
         GlobalEventsContainer.InventoryItemRemoved?.Invoke(new InventoryCell(item, count));
         GlobalEventsContainer.InventoryDataShouldBeSaved?.Invoke(Cells);
         SlotsDisplayer.DisplayCells();
+        GlobalEventsContainer.InventoryDataChanged?.Invoke();
     }
 
     public int GetItemCount(Item item)
