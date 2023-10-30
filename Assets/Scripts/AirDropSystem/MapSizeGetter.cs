@@ -4,7 +4,7 @@ using Unity.Tutorials.Core.Editor;
 using UnityEngine;
 using UnityEngine.Serialization;
 
-public class MapGenerator : MonoBehaviour
+public class MapSizeGetter : MonoBehaviour
 {
     [SerializeField] private int _mapWidth = 10;
     [SerializeField] private int _mapHeight = 10;
