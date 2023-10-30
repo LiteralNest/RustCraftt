@@ -51,11 +51,11 @@ namespace AirDropSystem
             var randomEdgeIndex = Random.Range(0, availableEdges.Count);
             var randomEdge2 = availableEdges[randomEdgeIndex];
 
-            Vector3 edgePoint = Vector3.zero;
+            var edgePoint = Vector3.zero;
 
-            float halfWidth = _mapSizeGetter.MapWidth * _mapSizeGetter.BlockSize / 2;
-            float halfHeight = _mapSizeGetter.MapHeight * _mapSizeGetter.BlockSize / 2;
-            Vector3 center = _mapSizeGetter.transform.position;
+            var halfWidth = _mapSizeGetter.MapWidth * _mapSizeGetter.BlockSize / 2;
+            var halfHeight = _mapSizeGetter.MapHeight * _mapSizeGetter.BlockSize / 2;
+            var center = _mapSizeGetter.transform.position;
 
             switch (randomEdge)
             {
