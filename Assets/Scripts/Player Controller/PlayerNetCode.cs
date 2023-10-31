@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using TMPro;
 using Unity.Netcode;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlayerNetCode : NetworkBehaviour
@@ -28,6 +29,8 @@ public class PlayerNetCode : NetworkBehaviour
 
     public override void OnNetworkSpawn()
     {
+        if(IsOwner)
+            Singleton = this;
         _gettedClientId.Value = GetClientId();
         AssignName();
         ActiveItemId.OnValueChanged += (int prevValue, int newValue) =>
