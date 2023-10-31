@@ -18,6 +18,8 @@ public abstract class BluePrint : MonoBehaviour
 
     public abstract void Place();
 
+    public abstract void InitPlacedObject(BuildingStructure structure);
+
     #endregion
 
 

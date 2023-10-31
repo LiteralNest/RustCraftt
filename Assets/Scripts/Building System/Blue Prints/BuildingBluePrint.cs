@@ -5,4 +5,9 @@ public class BuildingBluePrint : BluePrint
         foreach (var cell in BluePrintCells)
             cell.TryPlace();
     }
+
+    public override void InitPlacedObject(BuildingStructure structure)
+    {
+        
+    }
 }

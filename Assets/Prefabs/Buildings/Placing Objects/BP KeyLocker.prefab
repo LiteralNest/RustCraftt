@@ -146,7 +146,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d6ab88aa131870d41b3b1ba568ff8961, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _bluePrint: {fileID: 8593436580210687885}
+  _bluePrint: {fileID: 1683059355442289101}
   _targetBuildingStructure: {fileID: 1989593182122475027, guid: 3a40ef176d998a94d987c32d1c901d9b, type: 3}
   _negativeMaterial: {fileID: 2100000, guid: 0971632772a28584ca35068ec62d6dd7, type: 2}
   _normalMaterial: {fileID: 2100000, guid: 744e937d0ca5c324e80f80d9bd2ce177, type: 2}
@@ -163,7 +163,7 @@ GameObject:
   - component: {fileID: 3376773660752023200}
   - component: {fileID: 4447709862204570320}
   - component: {fileID: 6925278257842702489}
-  - component: {fileID: 8593436580210687885}
+  - component: {fileID: 1683059355442289101}
   m_Layer: 0
   m_Name: BP KeyLocker
   m_TagString: Untagged
@@ -180,7 +180,7 @@ Transform:
   m_GameObject: {fileID: 3278251360922449297}
   serializedVersion: 2
   m_LocalRotation: {x: 0.5, y: 0.5, z: -0.5, w: 0.5}
-  m_LocalPosition: {x: 22.120754, y: -11.603, z: 21.117374}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.73896086, y: 0.73896086, z: 0.73896086}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -237,7 +237,7 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &8593436580210687885
+--- !u!114 &1683059355442289101
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -246,14 +246,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 3278251360922449297}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8cebdf8ebcde80448ab9b291965d0a94, type: 3}
+  m_Script: {fileID: 11500000, guid: 11a54ee7b117cbb4ca6e86d7bc421aa0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _buildingSize: {x: 1, y: 1, z: 1}
   BluePrintCells:
   - {fileID: 1745306366709926345}
-  _placingTags:
-  - Lock Snap
   _targetMask:
     serializedVersion: 2
     m_Bits: 64
+  _placingTags:
+  - Lock Snap
   TargetPlacingObject: {fileID: 2196846820076776693, guid: 2a6b27f6a229a9642bfa44060ae06186, type: 3}
