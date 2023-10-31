@@ -12,6 +12,7 @@ public class InventoryItemDisplayer : ItemDisplayer, IBeginDragHandler, IDragHan
         PreviousCell.ResetItem();
         _countText.gameObject.SetActive(false);
         transform.SetParent(transform.root);
+        ResourcesDropper.singleton.InventoryItemDisplayer = this;
         _itemIcon.raycastTarget = false;
     }
 

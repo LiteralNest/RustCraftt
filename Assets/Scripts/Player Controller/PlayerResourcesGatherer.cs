@@ -129,7 +129,7 @@ public class PlayerResourcesGatherer : MonoBehaviour
     {
         var lootingItem = _objectsRayCaster.LootingItem;
         if(!lootingItem) return;
-        _inventoryHandler.InventorySlotsContainer.AddItemToDesiredSlot(lootingItem.Item, lootingItem.Count.Value);
+        _inventoryHandler.InventorySlotsContainer.AddItemToDesiredSlot(ItemFinder.singleton.GetItemById(lootingItem.ItemId.Value), lootingItem.Count.Value);
         lootingItem.PickUpServerRpc();
     }
 }

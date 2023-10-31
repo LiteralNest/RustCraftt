@@ -37,6 +37,17 @@ public class ObjectsRayCaster : MonoBehaviour
         TryRaycastTargets();
     }
 
+    private void ResetTargets()
+    {
+        TargetResourceOre = null;
+        TargetGathering = null;
+        TargetBox = null;
+        LootingItem = null;
+        CampFireHandler = null;
+        RecyclerHandler = null;
+        DoorHandler = null;
+    }
+    
     private bool TryRaycast<T>(string tag, float hitDistance, out T target, LayerMask layer)
     {
         target = default;
@@ -93,7 +104,7 @@ public class ObjectsRayCaster : MonoBehaviour
         if(!TryRaycast("DamagingItem", _maxGatheringDistance, out IDamagable damagable, _defaultMask)) return;
         objectHpDisplayer.DisplayObjectHp(damagable);
     }
-    
+
     private void TryRaycastTargets()
     {
         objectHpDisplayer.DisableBuildingPanel();
@@ -105,13 +116,9 @@ public class ObjectsRayCaster : MonoBehaviour
         GlobalEventsContainer.GatherButtonActivated?.Invoke(false);
         GlobalEventsContainer.PickUpButtonActivated?.Invoke(false);
         SetLootText("", false);
-        TargetBox = null;
-        TargetGathering = null;
-        TargetResourceOre = null;
-        CampFireHandler = null;
-        RecyclerHandler = null;
+      
         SetLootButton("", false);
-
+        ResetTargets();
         TryDisplayHp();
         
         if(TryRaycast("LootingItem", _maxGatheringDistance, out LootingItem lootingItem, _defaultMask))
