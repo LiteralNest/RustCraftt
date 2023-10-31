@@ -6,7 +6,6 @@ public class BuildingBluePrintCell : MonoBehaviour
 {
     [Header("Start Init")] [SerializeField]
     private BluePrint _bluePrint;
-    [SerializeField] private List<InventoryCell> _cellsForPlace = new List<InventoryCell>();
     [SerializeField] private BuildingStructure _targetBuildingStructure;
     [Header("Materials")] [SerializeField] private Material _negativeMaterial;
     [SerializeField] private Material _normalMaterial;
@@ -52,13 +51,13 @@ public class BuildingBluePrintCell : MonoBehaviour
     }
 
     public void CheckEnoughMaterials()
-        => _enoughMaterials = InventorySlotsContainer.singleton.EnoughMaterials(_cellsForPlace);
+        => _enoughMaterials = InventoryHelper.EnoughMaterials(_targetBuildingStructure.GetPlacingRemovingCells(), InventorySlotsContainer.singleton.Cells);
 
     public void TryPlace()
     {
         if (!CanBePlaced) return;
         
-        foreach (var cell in _cellsForPlace)
+        foreach (var cell in _targetBuildingStructure.GetPlacingRemovingCells())
             InventorySlotsContainer.singleton.RemoveItemFromDesiredSlot(cell.Item, cell.Count);
 
         BuildingsNetworkingSpawner.singleton.SpawnPrefServerRpc(_targetBuildingStructure.Id, transform.position,

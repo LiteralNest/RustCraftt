@@ -10,20 +10,20 @@ public class BuildingBlock : NetworkBehaviour, IDamagable
         NetworkVariableWritePermission.Owner);
 
     public Block CurrentBlock => _levels[_currentLevel.Value];
-    [field: SerializeField] public BuildingConnector BuildingConnector { get; private set; }
+    [field: SerializeField] public StructureConnector BuildingConnector { get; private set; }
 
+    public ushort StartHp => _startHp;
     private ushort _startHp;
+
     private NetworkVariable<ushort> _currentLevel = new(0, NetworkVariableReadPermission.Everyone,
-    NetworkVariableWritePermission.Owner);
+        NetworkVariableWritePermission.Owner);
+
     private GameObject _activeBlock;
 
     private void Start()
     {
         InitSlot(_currentLevel.Value);
-        _currentLevel.OnValueChanged += (ushort prevValue, ushort newValue) =>
-        {
-            InitSlot(newValue);
-        };
+        _currentLevel.OnValueChanged += (ushort prevValue, ushort newValue) => { InitSlot(newValue); };
     }
 
     private void InitSlot(int slotId)
@@ -38,12 +38,15 @@ public class BuildingBlock : NetworkBehaviour, IDamagable
         _startHp = gettingHp;
     }
 
+    public List<InventoryCell> GetNeededCellsForPlacing()
+        => _levels[_currentLevel.Value].CellForPlace;
+
     [ServerRpc(RequireOwnership = false)]
     private void SetLevelServerRpc(ushort value)
     {
         _currentLevel.Value = value;
     }
-    
+
     [ContextMenu("Upgrade")]
     public void Upgrade()
         => SetLevelServerRpc((ushort)(_currentLevel.Value + 1));
@@ -78,7 +81,10 @@ public class BuildingBlock : NetworkBehaviour, IDamagable
     {
         _hp.Value = value;
         if (_hp.Value <= 0)
+        {
+            GetComponent<NetworkObject>().Despawn();
             Destroy(gameObject);
+        }
     }
 
     public void GetDamage(int damage)

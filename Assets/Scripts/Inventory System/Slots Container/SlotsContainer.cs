@@ -50,30 +50,6 @@ public abstract class SlotsContainer : MonoBehaviour
     public int GetItemCount(Item item)
         => InventoryHelper.GetItemCount(item, Cells);
 
-    public bool EnoughMaterials(List<InventoryCell> inputSlots)
-    {
-        List<InventoryCell> slots = new List<InventoryCell>(inputSlots);
-        List<InventoryCell> cells = new List<InventoryCell>(Cells);
-        for (int i = 0; i < slots.Count; i++)
-        {
-            var slot = slots[i];
-            if (slot.Item == null) continue;
-            for (int j = 0; j < cells.Count; j++)
-            {
-                var cell = cells[j];
-                if (cell.Item == null) continue;
-                if (cell.Item.Id == slot.Item.Id && cell.Count >= slot.Count)
-                {
-                    slots.Remove(slot);
-                    i--;
-                    if (slots.Count == 0) return true;
-                }
-            }
-        }
-        if (slots.Count == 0) return true;
-        return false;
-    }
-
     public void AssignCells(List<InventorySendingDataField> dataCells)
     {
         for (int i = 0; i < dataCells.Count; i++)

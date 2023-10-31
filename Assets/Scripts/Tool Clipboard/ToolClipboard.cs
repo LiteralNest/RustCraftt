@@ -1,9 +1,9 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class ToolClipboard : MonoBehaviour
 {
-    private void ConnectToBuildingStructure()
-    {
-        
-    }
+    [field:SerializeField] public List<InventoryCell> Cells { get; private set; }
+    
+    
 }
