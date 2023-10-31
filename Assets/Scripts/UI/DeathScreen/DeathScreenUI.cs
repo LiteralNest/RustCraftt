@@ -47,6 +47,7 @@ namespace UI.DeathScreen
             var selectedSpawnPoint = _spawnPoints[selectedSpawnIndex];
 
             CharacterSpawnManager.Instance.OnSpawnPointSelected(selectedSpawnPoint.gameObject);
+            CharacterStats.Singleton.ResetStatsToDefault();
             _input.ActivateInput();
             _gameHUD.SetActive(true);
             gameObject.SetActive(false);

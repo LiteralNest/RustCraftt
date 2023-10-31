@@ -66,21 +66,21 @@ using Random = UnityEngine.Random;
              cubeRigidbody.isKinematic = true;
          }
 
-         public void OnSpawnPointSelected(GameObject selectedSpawnPoint)
-         {
-             if (selectedSpawnPoint != null)
-             {
-                 RespawnPlayer(selectedSpawnPoint.transform);
-                 CharacterStats.Singleton.ResetStatsToDefault();
-             }
-         }
-
-         private void RespawnPlayer(Transform respawnPoint)
+         public void RespawnPlayer(Transform respawnPoint)
          {
              var playerTransform = PlayerNetCode.Singleton.transform;
              playerTransform.position = respawnPoint.position;
 
              GlobalEventsContainer.PlayerSpawned?.Invoke();
+         }
+
+         public void OnSpawnPointSelected(GameObject selectedSpawnPoint)
+         {
+             if (selectedSpawnPoint != null)
+             {
+                 RespawnPlayer(selectedSpawnPoint.transform);
+                 
+             }
          }
      }
  }

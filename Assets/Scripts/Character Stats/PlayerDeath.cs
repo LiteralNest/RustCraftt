@@ -29,7 +29,7 @@ namespace Character_Stats
             var health = CharacterStats.Singleton.Health;
             if (health is <= 5 and > 0)
             {
-                _knockDownScreen .SetActive(true);
+                _knockDownScreen.SetActive(true);
                 CharacterStats.Singleton.MinusStat(CharacterStatType.Food,40);
                 CharacterStats.Singleton.MinusStat(CharacterStatType.Water,40);
             }
@@ -39,6 +39,7 @@ namespace Character_Stats
             var healt = CharacterStats.Singleton.Health;
             if (healt <= 0)
             {
+                _knockDownScreen.SetActive(false);
                 _deathScreen.SetActive(true);
             }
         }
