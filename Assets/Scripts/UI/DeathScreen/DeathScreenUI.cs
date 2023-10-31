@@ -26,14 +26,13 @@ namespace UI.DeathScreen
 
         private void Start()
         {
-            gameObject.SetActive(true);
             _gameHUD.SetActive(false);
             _input.DeactivateInput();
             
             _spawnPoints = CharacterSpawnManager.Instance.GetSpawnPoints();
 
             var spawnPointNames = new List<string>();
-            foreach (Transform point in _spawnPoints)
+            foreach (var point in _spawnPoints)
             {
                 spawnPointNames.Add(point.name);
             }

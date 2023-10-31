@@ -59,7 +59,6 @@ public class CharacterStats : MonoBehaviour
          case CharacterStatType.Health:
             Health = GetAddedStat(Health, value);
             _statsDisplayer.DisplayHp((int)Health);
-            
             break;
          case CharacterStatType.Food:
             Food = GetAddedStat(Food, value);
@@ -74,7 +73,7 @@ public class CharacterStats : MonoBehaviour
    
    private float GetSubstractedStat(float stat, float substractingValue)
    {
-      float res = stat - substractingValue;
+      var res = stat - substractingValue;
       if(res < 0)
          res = 0;
       return res;
@@ -87,19 +86,16 @@ public class CharacterStats : MonoBehaviour
          case CharacterStatType.Health:
             Health = GetSubstractedStat(Health, value);
             _statsDisplayer.DisplayHp((int)Health);
-            if (Health <= 0)
-            {
-               // GlobalEventsContainer.PlayerDied?.Invoke();
-               // _statsDisplayer.DisplayDeathMessage("You died!", Color.red);
-            }
+            PlayerHealthStatus();
+            
             break;
          case CharacterStatType.Food:
             Food = GetSubstractedStat(Food, value);
             _statsDisplayer.DisplayFood((int)Food);
             if (Food <= 0)
             {
-               // GlobalEventsContainer.PlayerDied?.Invoke();
-               // _statsDisplayer.DisplayDeathMessage("You died!", Color.green);
+               Health = GetSubstractedStat(Health, value);
+               _statsDisplayer.DisplayHp((int)Health);
             }
             break;
          case CharacterStatType.Water:
@@ -107,18 +103,28 @@ public class CharacterStats : MonoBehaviour
             _statsDisplayer.DisplayWater((int)Water);
             if (Water <= 0)
             {
-               // GlobalEventsContainer.PlayerDied?.Invoke();
-               // _statsDisplayer.DisplayDeathMessage("You died!", Color.blue);
+               Health = GetSubstractedStat(Health, value);
+               _statsDisplayer.DisplayHp((int)Health);
             }
             break;
       }
    }
 
-   public void PlayerDead()
+
+
+   private void PlayerHealthStatus()
    {
-      if (Health <= 0)
+      switch (Health)
       {
-         GlobalEventsContainer.PlayerDied.Invoke();
+         case <= 5 and > 0:
+            PlayerKnockDowned();
+            break;
+         case <= 0:
+            PlayerDead();
+            break;
       }
    }
+   private void PlayerDead() => GlobalEventsContainer.PlayerDied?.Invoke();
+   private void PlayerKnockDowned() => GlobalEventsContainer.PlayerKnockDowned?.Invoke();
+   
 }
