@@ -64,10 +64,10 @@ public abstract class SlotsContainer : MonoBehaviour
                 if (cell.Item == null) continue;
                 if (cell.Item.Id == slot.Item.Id && cell.Count >= slot.Count)
                 {
-                    InventoryHelper.RemoveItem(cell.Item, cell.Count, slots);
-                    if (!cells.Contains(cell)) i--;
+                    slots.Remove(slot);
+                    i--;
+                    if (slots.Count == 0) return true;
                 }
-                   
             }
         }
         if (slots.Count == 0) return true;

@@ -4,21 +4,19 @@ using UnityEngine.Serialization;
 
 public abstract class BluePrint : MonoBehaviour
 {
-    [FormerlySerializedAs("_bluePrintCells")] [Header("Renderers")]
+    [Header("Main Params")]
+    [SerializeField] protected Vector3Int _buildingSize = new Vector3Int(1, 1, 1);
+    [Header("Renderers")]
     public List<BuildingBluePrintCell> BluePrintCells = new List<BuildingBluePrintCell>();
-
+    [Header("Layers")] 
+    [SerializeField] protected LayerMask _targetMask;
     [SerializeField] protected List<string> _placingTags = new List<string>();
 
-    [Header("Layers")] [SerializeField] protected LayerMask _targetMask;
-    public bool OnFrontOfPlayer { get; protected set; }
-
-
     protected bool _rotatedSide;
-
+    
     #region Abstract
 
     public abstract void Place();
-    public abstract BuildingStructure GetBuildingStructure();
 
     #endregion
 
@@ -34,7 +32,7 @@ public abstract class BluePrint : MonoBehaviour
         {
             if (!_placingTags.Contains(hit.collider.tag)) return false;
             int x, y, z;
-            var structureSize = GetBuildingStructure().StructureSize;
+            var structureSize = _buildingSize;
 
             y = Mathf.RoundToInt(hit.point.y + hit.normal.y / (2 / structureSize.y));
 
@@ -65,8 +63,10 @@ public abstract class BluePrint : MonoBehaviour
 
     public void SetOnFrontOfPlayer(bool value)
     {
-        OnFrontOfPlayer = value;
         foreach (var cell in BluePrintCells)
+        {
+            cell.OnFrontOfPlayer = value;
             cell.CheckForAvailable();
+        }
     }
 }

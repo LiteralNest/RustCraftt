@@ -3,7 +3,6 @@ using UnityEngine;
 public class PlacingObjectBluePrint : BluePrint
 {
     public PlacingObject TargetPlacingObject;
-    private bool _rotatedSide;
 
     private bool CanBePlaced()
     {
@@ -21,9 +20,6 @@ public class PlacingObjectBluePrint : BluePrint
             transform.position,
             transform.rotation);
     }
-
-    public override BuildingStructure GetBuildingStructure()
-        => TargetPlacingObject;
 
     public void Rotate()
     {

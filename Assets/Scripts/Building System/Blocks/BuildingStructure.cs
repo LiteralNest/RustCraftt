@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class BuildingStructure : MonoBehaviour
 {
@@ -12,8 +13,7 @@ public class BuildingStructure : MonoBehaviour
     public List<InventoryCell> GetPlacingRemovingCells()
     {
         List<InventoryCell> res = new List<InventoryCell>();
-        foreach (var block in _blocks)
-            res.AddRange(block.GetNeededCellsForPlace());
+        // res.AddRange(_cellsForPlace);
         return res;
     }
 }

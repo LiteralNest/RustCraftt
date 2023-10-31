@@ -4,8 +4,9 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody), typeof(BoxCollider))]
 public class BuildingBluePrintCell : MonoBehaviour
 {
-    [Header("Start Init")]
-    [SerializeField] private BluePrint _bluePrint;
+    [Header("Start Init")] [SerializeField]
+    private BluePrint _bluePrint;
+    [SerializeField] private List<InventoryCell> _cellsForPlace = new List<InventoryCell>();
     [SerializeField] private BuildingStructure _targetBuildingStructure;
     [Header("Materials")] [SerializeField] private Material _negativeMaterial;
     [SerializeField] private Material _normalMaterial;
@@ -13,6 +14,8 @@ public class BuildingBluePrintCell : MonoBehaviour
 
     [SerializeField] private List<GameObject> _triggeredObjects = new List<GameObject>();
     public bool CanBePlaced { get; private set; }
+    
+    public bool OnFrontOfPlayer { get; set; }
 
     private bool _enoughMaterials;
 
@@ -26,7 +29,7 @@ public class BuildingBluePrintCell : MonoBehaviour
         => CheckEnoughMaterials();
 
     private void SetMaterial(Material material)
-        => _renderer.material = material;
+        => _renderer.sharedMaterial = material;
 
     private void SetCanBePlaced(bool value)
     {
@@ -39,26 +42,25 @@ public class BuildingBluePrintCell : MonoBehaviour
 
     public void CheckForAvailable()
     {
-        if (/*!_enoughMaterials ||*/ _triggeredObjects.Count > 0 || _bluePrint.OnFrontOfPlayer)
+        CheckEnoughMaterials();
+        if (!_enoughMaterials || _triggeredObjects.Count > 0 || OnFrontOfPlayer)
         {
             SetCanBePlaced(false);
             return;
         }
-
         SetCanBePlaced(true);
     }
 
     public void CheckEnoughMaterials()
-    {
-        _enoughMaterials = InventorySlotsContainer.singleton.EnoughMaterials(_targetBuildingStructure.GetPlacingRemovingCells());
-    }
+        => _enoughMaterials = InventorySlotsContainer.singleton.EnoughMaterials(_cellsForPlace);
 
     public void TryPlace()
     {
         if (!CanBePlaced) return;
-        // var cells = _targetBuildingStructure.GetPlacingRemovingCells();
-        // foreach (var cell in cells)
-        //     InventorySlotsContainer.singleton.RemoveItemFromDesiredSlot(cell.Item, cell.Count);
+        
+        foreach (var cell in _cellsForPlace)
+            InventorySlotsContainer.singleton.RemoveItemFromDesiredSlot(cell.Item, cell.Count);
+
         BuildingsNetworkingSpawner.singleton.SpawnPrefServerRpc(_targetBuildingStructure.Id, transform.position,
             transform.rotation);
     }

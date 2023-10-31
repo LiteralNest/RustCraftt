@@ -5,7 +5,7 @@ using UnityEngine;
 public class Block : MonoBehaviour
 {
    [field:SerializeField] public int Hp { get; protected set; }
-   [field:SerializeField] public List<InventoryCell> NeededCellsForPlace { get; private set; }
+   [field:SerializeField] public List<InventoryCell> CellForPlace { get; private set; }
    [SerializeField] private Outline _outline;
 
    private void Awake()

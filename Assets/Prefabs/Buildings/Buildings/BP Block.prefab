@@ -43,7 +43,7 @@ GameObject:
   - component: {fileID: 3284789127453051722}
   - component: {fileID: 3982671828229363433}
   m_Layer: 0
-  m_Name: Block BluePrint
+  m_Name: BP Block
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -58,7 +58,7 @@ Transform:
   m_GameObject: {fileID: 8406315250175409861}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2.3314142, y: -0.06, z: 5.156233}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -77,15 +77,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b1825147f6ad3954cb6075500802928a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _buildingSize: {x: 1, y: 1, z: 1}
   BluePrintCells:
   - {fileID: 540258816762760721, guid: 5fc1566635f0b8d42841aac571b01edd, type: 3}
-  _placingTags:
-  - Block
-  - Ground
   _targetMask:
     serializedVersion: 2
     m_Bits: 128
-  TargetBuildingStructure: {fileID: 1989593182122475027, guid: 3a40ef176d998a94d987c32d1c901d9b, type: 3}
+  _placingTags:
+  - Block
+  - Ground
 --- !u!1001 &2851690281797050568
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -98,6 +98,18 @@ PrefabInstance:
       propertyPath: _bluePrint
       value: 
       objectReference: {fileID: 3982671828229363433}
+    - target: {fileID: 679708530313221217, guid: 5fc1566635f0b8d42841aac571b01edd, type: 3}
+      propertyPath: m_Size.x
+      value: 0.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 679708530313221217, guid: 5fc1566635f0b8d42841aac571b01edd, type: 3}
+      propertyPath: m_Size.y
+      value: 0.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 679708530313221217, guid: 5fc1566635f0b8d42841aac571b01edd, type: 3}
+      propertyPath: m_Size.z
+      value: 0.8
+      objectReference: {fileID: 0}
     - target: {fileID: 965015179193896900, guid: 5fc1566635f0b8d42841aac571b01edd, type: 3}
       propertyPath: m_Name
       value: Block Blue Print Cell
