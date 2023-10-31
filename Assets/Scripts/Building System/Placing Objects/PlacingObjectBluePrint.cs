@@ -4,7 +4,7 @@ public class PlacingObjectBluePrint : BluePrint
 {
     public PlacingObject TargetPlacingObject;
 
-    private bool CanBePlaced()
+    protected bool CanBePlaced()
     {
         foreach (var cell in BluePrintCells)
             if (!cell.CanBePlaced)
@@ -20,6 +20,9 @@ public class PlacingObjectBluePrint : BluePrint
             transform.position,
             transform.rotation);
     }
+
+    public override void InitPlacedObject(BuildingStructure structure){}
+
 
     public void Rotate()
     {

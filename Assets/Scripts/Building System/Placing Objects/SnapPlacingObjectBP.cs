@@ -21,4 +21,8 @@ public class SnapPlacingObjectBP : PlacingObjectBluePrint
 
         return false;
     }
+
+    public override void InitPlacedObject(BuildingStructure structure)
+    {
+    }
 }

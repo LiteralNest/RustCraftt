@@ -6,6 +6,7 @@ public class BuildingBluePrintCell : MonoBehaviour
 {
     [Header("Start Init")] [SerializeField]
     private BluePrint _bluePrint;
+
     [SerializeField] private BuildingStructure _targetBuildingStructure;
     [Header("Materials")] [SerializeField] private Material _negativeMaterial;
     [SerializeField] private Material _normalMaterial;
@@ -13,7 +14,7 @@ public class BuildingBluePrintCell : MonoBehaviour
 
     [SerializeField] private List<GameObject> _triggeredObjects = new List<GameObject>();
     public bool CanBePlaced { get; private set; }
-    
+
     public bool OnFrontOfPlayer { get; set; }
 
     private bool _enoughMaterials;
@@ -47,19 +48,23 @@ public class BuildingBluePrintCell : MonoBehaviour
             SetCanBePlaced(false);
             return;
         }
+
         SetCanBePlaced(true);
     }
 
     public void CheckEnoughMaterials()
-        => _enoughMaterials = InventoryHelper.EnoughMaterials(_targetBuildingStructure.GetPlacingRemovingCells(), InventorySlotsContainer.singleton.Cells);
+        => _enoughMaterials = InventoryHelper.EnoughMaterials(_targetBuildingStructure.GetPlacingRemovingCells(),
+            InventorySlotsContainer.singleton.Cells);
+
+    public void InitPlacedObject(GameObject target)
+        => _bluePrint.InitPlacedObject(target.GetComponent<BuildingStructure>());
 
     public void TryPlace()
     {
         if (!CanBePlaced) return;
-        
+
         foreach (var cell in _targetBuildingStructure.GetPlacingRemovingCells())
             InventorySlotsContainer.singleton.RemoveItemFromDesiredSlot(cell.Item, cell.Count);
-
         BuildingsNetworkingSpawner.singleton.SpawnPrefServerRpc(_targetBuildingStructure.Id, transform.position,
             transform.rotation);
     }
@@ -71,6 +76,7 @@ public class BuildingBluePrintCell : MonoBehaviour
             SetCanBePlaced(false);
             return;
         }
+
         if (other.CompareTag("ConnectingPoint")) return;
         if (_triggeredObjects.Contains(other.gameObject)) return;
         _triggeredObjects.Add(other.gameObject);

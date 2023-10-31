@@ -79,7 +79,7 @@ public class PlayerResourcesGatherer : MonoBehaviour
     {
         var door = _objectsRayCaster.DoorHandler;
         if (!door) return;
-        door.Open();
+        door.Open(UserDataHandler.singleton.UserData.Id);
     }
     
     private void TryHit()

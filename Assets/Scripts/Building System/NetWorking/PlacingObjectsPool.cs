@@ -8,6 +8,8 @@ public class PlacingObjectsPool : NetworkBehaviour
 
     [SerializeField] private List<PlacingObject> _placingObjects = new List<PlacingObject>();
 
+    public GameObject LastInstantiatedObj { get; private set; }
+    
     private void Awake()
     {
         singleton = this;
@@ -22,11 +24,22 @@ public class PlacingObjectsPool : NetworkBehaviour
         return null;
     }
 
+    
     [ServerRpc(RequireOwnership = false)]
     public void InstantiateObjectServerRpc(int id, Vector3 pos, Quaternion rot)
     {
         if (!IsServer) return;
         var obj = Instantiate(GetObjectById(id), pos, rot);
+        obj.NetworkObject.DontDestroyWithOwner = true;
+        obj.NetworkObject.Spawn();
+    }
+    
+    [ServerRpc(RequireOwnership = false)]
+    public void InstantiateObjectServerRpc(int id, Vector3 pos, Quaternion rot, int playerId)
+    {
+        if (!IsServer) return;
+        var obj = Instantiate(GetObjectById(id), pos, rot);
+        obj.GetComponent<KeyLocker>().RegistrateKey(playerId);
         obj.NetworkObject.DontDestroyWithOwner = true;
         obj.NetworkObject.Spawn();
     }
