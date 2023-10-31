@@ -67,6 +67,11 @@ public class BuildingBluePrintCell : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        if (other.CompareTag("NoBuild"))
+        {
+            SetCanBePlaced(false);
+            return;
+        }
         if (other.CompareTag("ConnectingPoint")) return;
         if (_triggeredObjects.Contains(other.gameObject)) return;
         _triggeredObjects.Add(other.gameObject);
