@@ -26,7 +26,6 @@ public static class GlobalEventsContainer
     public static Action<bool> ShouldDisplayPlacingPanel { get; set; }
     public static Action<ResourceGatheringObject> ResourceGatheringObjectAssign { get; set; }
     
-    public static Action<EnvironmentEffectsStateType> TemperatureChanged { get; set; }
     public static Action CriticalTemperatureReached { get; set; }
     public static Action RadiationStarted { get; set; }
     public static Action RadiationEnded { get; set; }
