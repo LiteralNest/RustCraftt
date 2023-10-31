@@ -8,7 +8,9 @@ namespace Player_Controller
     {
         private IEnvironmentEffect _currentEffect;
         private CharacterStats _characterStats;
-      
+
+        [SerializeField] private ColdEffect _coldEffect;
+        
         private void Start()
         {
             _characterStats = CharacterStats.Singleton;
@@ -20,28 +22,27 @@ namespace Player_Controller
 
             if (other.CompareTag("ColdEnvironment"))
             {
-                effect = new ColdEffect(_characterStats);
+                effect = _coldEffect;
             }
-            else if (other.CompareTag("RadioactiveEnvironment"))
-            {
-                effect = new RadiationEffect(_characterStats);
-            }
+            // else if (other.CompareTag("RadioactiveEnvironment"))
+            // {
+            //     effect = new RadiationEffect(_characterStats);
+            // }
 
             if (effect != null && effect != _currentEffect)
             {
+                effect.OnEnter();
                 _currentEffect = effect;
-                StartCoroutine(effect.EffectByTime(other));
             }
         }
 
         private void OnTriggerExit(Collider other)
         {
-            _currentEffect.OnExit();
+           
             if (_currentEffect != null && _currentEffect.MatchesTrigger(other))
             {
+                _currentEffect.OnExit();
                 _currentEffect = null;
-
-                StartCoroutine(_currentEffect.DecreaseEffectOverTime());
             }
         }
     }

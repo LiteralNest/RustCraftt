@@ -1,48 +1,46 @@
 using System.Collections;
+using System.Threading.Tasks;
 using SurroundingEffectsSystem;
 using UnityEngine;
 
 namespace EnvironmentEffectsSystem.Effects
 {
-    public class ColdEffect : IEnvironmentEffect
+    public class ColdEffect : MonoBehaviour ,IEnvironmentEffect
     {
-        //[SerializeField] 
         private readonly float _coldEffectValue = 10f;
-        //[SerializeField] 
         private readonly float _temperatureDecreaseRate = 1f;
-        //[SerializeField] 
         private readonly float _temperatureDecreaseInterval = 2f;
-        //[SerializeField] 
         private readonly float _coldEffectInterval = 2f;
 
         private float _currentTemperature;
         private CharacterStats _characterStats;
 
-        public ColdEffect(CharacterStats characterStats)
-        {
-            _characterStats = characterStats;
-        }
-
+        private bool _isEntering;
+        
         public bool MatchesTrigger(Collider other)
-        {
+        { 
             return other.CompareTag("ColdEnvironment");
         }
-
+        
+        
         public void OnEnter()
         {
+            _isEntering = true;
+            StartCoroutine(EffectByTimeRoutine());
             Debug.Log("Entered Cold Zone");
         }
 
         public void OnExit()
         {
+            _isEntering = false;
+            StartCoroutine(DecreaseEffectOverTime());
             Debug.Log("Exited Cold Zone");
-         
         }
 
-        public IEnumerator EffectByTime(Collider collider)
+
+        private IEnumerator EffectByTimeRoutine()
         {
-            var match = MatchesTrigger(collider);
-            while (match)
+            while (_isEntering)
             {
                 _currentTemperature -= _coldEffectValue;
                 // DisplayTemperature();
@@ -54,14 +52,12 @@ namespace EnvironmentEffectsSystem.Effects
 
                 Debug.Log($"Current Temperature: {_currentTemperature}");
                 yield return new WaitForSeconds(_coldEffectInterval);
-
-                match = MatchesTrigger(collider);
             }
         }
 
-        public IEnumerator DecreaseEffectOverTime()
+        private IEnumerator DecreaseEffectOverTime()
         {
-            while (_currentTemperature > 0f)
+            while (!_isEntering && _currentTemperature > 0f)
             {
                 _currentTemperature -= _temperatureDecreaseRate;
                 Debug.Log($"Current Temperature: {_currentTemperature}");

@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace EnvironmentEffectsSystem.Effects
 {
-    public class RadiationEffect : IEnvironmentEffect
+    public class RadiationEffect// : IEnvironmentEffect
     {
         [SerializeField] private float _radiationEffectValue = 1f;
         [SerializeField] private float _radiationEffectInterval = 2f;

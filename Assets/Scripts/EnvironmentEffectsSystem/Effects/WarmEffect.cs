@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace EnvironmentEffectsSystem.Effects
 {
-    public class WarmEffect : IEnvironmentEffect
+    public class WarmEffect //: IEnvironmentEffect
     {
         private CharacterStats _characterStats;
 
