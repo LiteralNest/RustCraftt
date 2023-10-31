@@ -22,10 +22,15 @@ namespace UI.DeathScreen
         private Transform _transform;
         private bool _shouldMoveCamera = true;
         private float _movementSpeed = 1f; //
+
+        private int _currentDeathTimer;
+        
+        
         private void Start()
         {
+            _currentDeathTimer = _deathTimer;
             _deathProgressBar.fillAmount = 1f;
-            _deathTimerText.text = _deathTimer.ToString();
+            _deathTimerText.text = _currentDeathTimer.ToString();
 
             _reviveProgressBar.fillAmount = 1f;
             _reviveChanceText.text = _reviveChance.ToString();
@@ -50,14 +55,14 @@ namespace UI.DeathScreen
         }
         private IEnumerator DeathTimerCoroutine()
         {
-            while (_deathTimer > 0)
+            while (_currentDeathTimer > 0)
             {
                 yield return new WaitForSeconds(1);
-                _deathTimer--;
+                _currentDeathTimer--;
 
                 // Update timer bar
-                _deathProgressBar.fillAmount = _deathTimer / 30f;
-                _deathTimerText.text = _deathTimer.ToString();
+                _deathProgressBar.fillAmount = _currentDeathTimer / 30f;
+                _deathTimerText.text = _currentDeathTimer.ToString();
 
                 // Update chance bar
                 _reviveProgressBar.fillAmount = _reviveChance / 100f;
@@ -81,6 +86,7 @@ namespace UI.DeathScreen
         //Need to Implement behavior of player knock
         private void RevivePlayer()
         {
+            _currentDeathTimer = _deathTimer;
             _shouldMoveCamera = true;
             gameObject.SetActive(false);
             
