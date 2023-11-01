@@ -134,8 +134,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _explosionRadius: 5
   _maxDamage: 30
-  _explosiveSorce: {fileID: 6043651254727373909}
+  _explosiveSource: {fileID: 6043651254727373909}
   _explosiveClip: {fileID: 8300000, guid: a7451edbf48c145bd86ea30cfffa96bc, type: 3}
+  shakeDuration: 0.5
+  shakeMagnitude: 0.2
   _timeToExplode: 2
 --- !u!65 &8452837492409302541
 BoxCollider:
@@ -195,8 +197,8 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 0}
-  m_PlayOnAwake: 1
+  m_audioClip: {fileID: 8300000, guid: a7451edbf48c145bd86ea30cfffa96bc, type: 3}
+  m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
   Loop: 0
