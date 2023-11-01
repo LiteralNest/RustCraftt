@@ -32,6 +32,9 @@ public class ObjectsRayCaster : MonoBehaviour
     private BuildingBlock _targetBlock;
     public bool CanRayCastOre { get; set; }
 
+    public Vector3 LastRaycastedPosition { get; private set; }
+    public Vector3 LastRayCastedRotation { get; private set; }
+
     private void Update()
     {
         TryRaycastTargets();
@@ -56,6 +59,8 @@ public class ObjectsRayCaster : MonoBehaviour
 
         if (Physics.Raycast(ray, out hitInfo, hitDistance, layer))
         {
+            LastRaycastedPosition = hitInfo.point;
+            LastRayCastedRotation = hitInfo.normal;
             GameObject hitObject = hitInfo.collider.gameObject;
             if(!hitObject.CompareTag(tag)) return false;
             if (!hitObject.TryGetComponent<T>(out target)) return false;

@@ -14,10 +14,11 @@ public class StorageSlotsContainer : SlotsContainer
     
     public void InitCells(List<InventoryCell> cells, Storage storage)
     {
+        _targetStorage = storage;
         Appear();
         Cells = cells;
         storageSlotsDisplayer.DisplayCells();
-        _targetStorage = storage;
+       
     }
 
     public override void ResetCell(int index)

@@ -89,7 +89,7 @@ public class PlayerResourcesGatherer : MonoBehaviour
         var ore = _objectsRayCaster.TargetResourceOre;
         if (!ore) return;
         StartedGather = true;
-        ore.MinusHp(_inventoryHandler.ActiveItem, out bool destroyed);
+        ore.MinusHp(_inventoryHandler.ActiveItem, out bool destroyed, _objectsRayCaster.LastRaycastedPosition, _objectsRayCaster.LastRayCastedRotation);
         _audioSource.PlayOneShot(ore.GatheringClip);
         if (!destroyed) return;
         StopGathering();
