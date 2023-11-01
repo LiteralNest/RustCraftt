@@ -15,12 +15,13 @@ public class CampFireHandler : NetworkBehaviour
 
     [Header("Main Params")] [SerializeField]
     private GameObject _fireObject;
-
     [field: SerializeField] public List<Fuel> AvaliableFuel { get; private set; }
     [field: SerializeField] public List<CookingFood> AvaliableFoodForCooking { get; private set; }
-
     [field: SerializeField] public List<InventoryCell> Cells { get; private set; }
 
+    [Header("Sound")] 
+    [SerializeField] private AudioSource _source;
+    
     private CampFireSlotsContainer _targetSlotsContainer;
 
     private CookingFood _currentlyCookingFood;
@@ -91,7 +92,7 @@ public class CampFireHandler : NetworkBehaviour
         List<InventoryCell> res = new List<InventoryCell>();
         foreach (var cell in Cells)
         {
-            if (FuelContains(cell.Item))
+            if (FuelContains(cell.Item) && cell.Count > 0)
                 res.Add(cell);
         }
 
@@ -126,14 +127,18 @@ public class CampFireHandler : NetworkBehaviour
     public void TurnFlamingServerRpc(bool value)
     {
         List<InventoryCell> fuel = new List<InventoryCell>();
+        Flaming.Value = value;
         if (value)
         {
             fuel = GetFuel();
             if (fuel.Count == 0) return;
         }
-
-        Flaming.Value = value;
-        if (!value) return;
+        else
+        {
+            _source.Stop();
+            return;
+        }
+        _source.Play();
         StartCoroutine(RemoveFuel(fuel[0]));
     }
 

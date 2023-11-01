@@ -11,6 +11,9 @@ public class Recycler : MonoBehaviour
     [Header("Cells")]
     [SerializeField] private List<InventoryCell> _cells = new List<InventoryCell>();
     [SerializeField] private List<RecyclingItem> _avaliableItems = new List<RecyclingItem>();
+
+    [Header("Audio")]
+    [SerializeField] private AudioSource _source;
     
     private RecyclerSlotsContainer _recyclerSlotsContainer;
     private bool _turned;
@@ -95,13 +98,20 @@ public class Recycler : MonoBehaviour
             if (!cell.Item || !GetRecyclingItemById(cell.Item.Id)) continue;
             RecycleItem(GetRecyclingItemById(cell.Item.Id));
             _recycling = true;
+            return;
         }
+        SetTurned(false);
     }
 
     public void SetTurned(bool value)
     {
         _turned = value;
+        _source.Play();
         if (!value)
+        {
+            _source.Stop();
             _recycling = value;
+        }
+        _recyclerSlotsContainer.DisplayButtons(value);
     }
 }
