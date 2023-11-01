@@ -17826,6 +17826,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4341349121896943449}
   - component: {fileID: 5155884267220930911}
+  - component: {fileID: 5511061317855291483}
   - component: {fileID: 738316315059642892}
   - component: {fileID: -4478240619763004460}
   - component: {fileID: 601864239057295743}
@@ -17845,9 +17846,10 @@ GameObject:
   - component: {fileID: 1707071653376519926}
   - component: {fileID: -5502007171107923210}
   - component: {fileID: 2926654359359091872}
+  - component: {fileID: 1451852465645917735}
   m_Layer: 0
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -17887,6 +17889,27 @@ BoxCollider:
     m_Bits: 0
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.6634107, y: 1.7389528, z: 0.36}
+  m_Center: {x: 0.010466553, y: -0.4067505, z: 0}
+--- !u!65 &5511061317855291483
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2441425697621568629}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
@@ -18028,6 +18051,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _inHandObjectsContainer: {fileID: 435786282250258972}
+  _rigidbody: {fileID: 738316315059642892}
+  _playerClimber: {fileID: 1451852465645917735}
   _handsAnimator: {fileID: 1008675546970426368}
   _legsAnimator: {fileID: 6032314742145925802}
   _movingSpeed:
@@ -18351,6 +18376,19 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &1451852465645917735
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2441425697621568629}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b35917063efdd4a20b5ec26bb507835b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _climbForce: 10
 --- !u!1 &2459110374375551443
 GameObject:
   m_ObjectHideFlags: 0
@@ -27244,7 +27282,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &2794849981630978062
 Transform:
   m_ObjectHideFlags: 0
@@ -28014,7 +28052,7 @@ MonoBehaviour:
     Count: 0
   - Item: {fileID: 0}
     Count: 0
-  _lootBoxSlotsDisplayer: {fileID: 8976669236365155111}
+  storageSlotsDisplayer: {fileID: 8976669236365155111}
 --- !u!114 &8976669236365155111
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -51135,7 +51173,7 @@ MonoBehaviour:
     Count: 0
   - Item: {fileID: 0}
     Count: 0
-  _lootBoxSlotsDisplayer: {fileID: 6854673301849909312}
+  storageSlotsDisplayer: {fileID: 6854673301849909312}
 --- !u!114 &6854673301849909312
 MonoBehaviour:
   m_ObjectHideFlags: 0
