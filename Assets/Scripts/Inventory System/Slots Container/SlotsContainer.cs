@@ -9,6 +9,9 @@ public abstract class SlotsContainer : MonoBehaviour
 
     #region virtual
 
+    protected virtual void Appear()
+        => ActiveInvetoriesHandler.singleton.AddActiveInventory(this);
+    
     public virtual void AddCell(int index, InventoryCell cell)
     {
         Cells[index].Count = cell.Count;
@@ -24,6 +27,12 @@ public abstract class SlotsContainer : MonoBehaviour
     {
         Cells[index].Item = null;
         Cells[index].Count = 0;
+    }
+
+    public virtual void ResetCellAndSendData(int index)
+    {
+        ResetCell(index);
+        GlobalEventsContainer.InventoryDataShouldBeSaved?.Invoke(Cells);
     }
 
     public void AddItemToDesiredSlot(Item item, int count)

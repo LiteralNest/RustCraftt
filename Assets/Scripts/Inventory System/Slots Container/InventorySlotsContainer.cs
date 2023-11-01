@@ -11,4 +11,6 @@ public class InventorySlotsContainer : SlotsContainer
         if(cells == null) return;
         AssignCells(cells);
     }
+    
+    protected override void Appear(){}
 }

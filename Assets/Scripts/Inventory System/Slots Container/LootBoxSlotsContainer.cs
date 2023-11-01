@@ -7,6 +7,7 @@ public class LootBoxSlotsContainer : SlotsContainer
     private LootBox _targetLootBox;
     public void InitCells(List<InventoryCell> cells, LootBox lootBox)
     {
+        Appear();
         Cells = cells;
         _lootBoxSlotsDisplayer.DisplayCells();
         _targetLootBox = lootBox;

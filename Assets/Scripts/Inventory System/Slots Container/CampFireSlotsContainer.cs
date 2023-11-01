@@ -8,6 +8,7 @@ public class CampFireSlotsContainer : SlotsContainer
 
     public void Init(CampFireHandler campFireHandler)
     {
+        Appear();
         CampFireHandler = campFireHandler;
         SlotsDisplayer.ResetCells();
         Cells = new List<InventoryCell>(campFireHandler.Cells);

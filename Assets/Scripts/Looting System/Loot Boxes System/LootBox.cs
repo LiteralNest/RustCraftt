@@ -63,8 +63,11 @@ public class LootBox : NetworkBehaviour
     
     private void GenerateCells()
     {
-        foreach (var item in _set.Items)
-            _cells.Add(new InventoryCell(item.Item, Random.Range(item.MinimalCount, item.MaximalCount)));
+        for (int i = 0; i < _set.Items.Count; i++)
+        {
+            _cells[i].Item = _set.Items[i].Item;
+            _cells[i].Count = Random.Range(_set.Items[i].MinimalCount, _set.Items[i].MaximalCount);
+        }
         GlobalEventsContainer.LootBoxDataShouldBeSaved?.Invoke(_cells, LootBoxId.Value);
     }
 

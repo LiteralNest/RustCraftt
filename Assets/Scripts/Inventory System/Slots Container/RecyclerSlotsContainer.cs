@@ -10,8 +10,11 @@ public class RecyclerSlotsContainer : SlotsContainer
     }
 
     public void Init(Recycler recycler)
-        => _recycler = recycler;
-    
+    {
+        Appear();
+        _recycler = recycler;
+    }
+
     public void Turn(bool value)
     {
         _recycler.SetTurned(value);

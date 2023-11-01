@@ -60,6 +60,7 @@ public static class InventoryHelper
                 {
                     currentCount -= cell.Count;
                     cell.Item = null;
+                    cell.Count = 0;
                     i--;
                     if (currentCount <= 0)
                         return;

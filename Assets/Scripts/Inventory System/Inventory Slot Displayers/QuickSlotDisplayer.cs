@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class QuickSlotDisplayer : MonoBehaviour, IPointerClickHandler
+public class QuickSlotDisplayer : MonoBehaviour
 {
     [SerializeField] private InventoryHandler _inventoryHandler;
     
@@ -20,9 +20,10 @@ public class QuickSlotDisplayer : MonoBehaviour, IPointerClickHandler
     public void AssignItemDisplayer(ItemDisplayer itemDisplayer)
     {
         ItemDisplayer = itemDisplayer;
+        Destroy(itemDisplayer.GetComponent<DoubleTapHandler>());
     }
     
-    public void OnPointerClick(PointerEventData eventData)
+    public void Click()
     {
         if(GlobalValues.CanDragInventoryItems) return;
         if (ItemDisplayer == null || ItemDisplayer.InventoryCell == null) return;
