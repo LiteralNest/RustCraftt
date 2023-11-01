@@ -6,6 +6,8 @@ public class PlayerController : MonoBehaviour
 {
     [Header("Attached Scripts")]
     [SerializeField] private InHandObjectsContainer _inHandObjectsContainer;
+    [SerializeField] private Rigidbody _rigidbody;
+    [SerializeField] private PlayerClimber _playerClimber;
     
     [Header("Animators")]
     [SerializeField] private Animator _handsAnimator;
@@ -50,6 +52,7 @@ public class PlayerController : MonoBehaviour
         if (movement != Vector3.zero)
         {
             _legsAnimator.SetBool("Walking", true);
+            if(_playerClimber.TryClimb(transform)) return;
             _inHandObjectsContainer.SetWalk(true);
             transform.Translate(movement * _currentMovingCpeed * Time.deltaTime, Space.Self);
             return;
