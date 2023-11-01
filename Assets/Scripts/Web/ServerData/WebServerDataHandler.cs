@@ -11,6 +11,7 @@ public class WebServerDataHandler : MonoBehaviour
     [field: SerializeField] public string ServerId { get; private set; } = "127001";
     [SerializeField] private string _campFiresPath = "CampFires";
     [SerializeField] private string _lootBoxPath = "LootBoxes";
+    [SerializeField] private string _storageBoxPath = "StorageBoxes";
     [SerializeField] private string _usersPath = "Users";
 
     private DatabaseReference _dbReference;
@@ -221,14 +222,14 @@ public class WebServerDataHandler : MonoBehaviour
 
     public void SaveLootBoxData(List<InventoryCell> cells, int id)
     {
-        CampFireData campFireData = new CampFireData();
-        campFireData.Id = id;
-        campFireData.InventorySendingData = WebDataConverter.GetConvertedSendingData(cells);
+        CampFireData data = new CampFireData();
+        data.Id = id;
+        data.InventorySendingData = WebDataConverter.GetConvertedSendingData(cells);
         _dbReference
             .Child(ServerId)
             .Child(_lootBoxPath)
             .Child(id.ToString())
-            .SetRawJsonValueAsync(JsonUtility.ToJson(campFireData));
+            .SetRawJsonValueAsync(JsonUtility.ToJson(data));
     }
 
     public async Task<List<InventorySendingDataField>> LoadLootBoxData(int id)
@@ -253,5 +254,77 @@ public class WebServerDataHandler : MonoBehaviour
         return cells;
     }
 
+    #endregion
+
+    #region StorageBox
+
+    private async Task<int> GetLastStorageBox()
+    {
+        var task = await _dbReference
+            .Child(ServerId)
+            .Child(_storageBoxPath)
+            .OrderByChild("Id")
+            .LimitToLast(1)
+            .GetValueAsync();
+        if (!task.Exists || task.ChildrenCount == 0) return 0;
+        foreach (var child in task.Children)
+        {
+            CampFireData data = JsonUtility.FromJson<CampFireData>(child.GetRawJsonValue());
+            return data.Id;
+        }
+
+        return 0;
+    }
+    
+    public async Task<int> RegistrateNewStorageBox()
+    {
+        int id = await GetLastStorageBox();
+        var InventoryCells = new List<InventoryCell>();
+        var sendingData = WebDataConverter.GetConvertedSendingData(InventoryCells);
+        CampFireData data = new CampFireData();
+        data.Id = ++id;
+        data.InventorySendingData = sendingData;
+        await _dbReference
+            .Child(ServerId)
+            .Child(_storageBoxPath)
+            .Child(data.Id.ToString())
+            .SetRawJsonValueAsync(JsonUtility.ToJson(data));
+        return data.Id;
+    }
+    
+    public void SaveStorageBoxData(List<InventoryCell> cells, int id)
+    {
+        CampFireData data = new CampFireData();
+        data.Id = id;
+        data.InventorySendingData = WebDataConverter.GetConvertedSendingData(cells);
+        _dbReference
+            .Child(ServerId)
+            .Child(_storageBoxPath)
+            .Child(id.ToString())
+            .SetRawJsonValueAsync(JsonUtility.ToJson(data));
+    }
+
+    public async Task<List<InventorySendingDataField>> LoadStorageBoxData(int id)
+    {
+        var request = FirebaseSetup.singleton.DatabaseReference
+            .Child(ServerId)
+            .Child(_storageBoxPath)
+            .Child(id.ToString())
+            .Child("InventorySendingData")
+            .Child("Cells")
+            .GetValueAsync();
+        await request;
+        
+        List<InventorySendingDataField> cells = new List<InventorySendingDataField>();
+        foreach (var item in request.Result.Children)
+        {
+            int count = Int32.Parse(item.Child("Count").Value.ToString());
+            int itemId = Int32.Parse(item.Child("ItemId").Value.ToString());
+            cells.Add(new InventorySendingDataField() { Count = count, ItemId = itemId });
+        }
+
+        return cells;
+    }
+    
     #endregion
 }

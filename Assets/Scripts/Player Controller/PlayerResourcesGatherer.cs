@@ -102,7 +102,7 @@ public class PlayerResourcesGatherer : MonoBehaviour
         chest.Open(_inventoryHandler);
         return true;
     }
-    
+
     public void TryGather()
     {
         if(TryOpenChest()) return;

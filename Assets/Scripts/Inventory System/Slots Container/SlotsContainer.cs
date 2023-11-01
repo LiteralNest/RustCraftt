@@ -9,6 +9,11 @@ public abstract class SlotsContainer : MonoBehaviour
 
     #region virtual
 
+    protected virtual void SendDataToServer()
+    {
+        
+    }
+
     protected virtual void Appear()
         => ActiveInvetoriesHandler.singleton.AddActiveInventory(this);
     
@@ -16,6 +21,7 @@ public abstract class SlotsContainer : MonoBehaviour
     {
         Cells[index].Count = cell.Count;
         Cells[index].Item = cell.Item;
+        SendDataToServer();
     }
 
     public virtual bool CanAddItem(Item item)

@@ -6,7 +6,8 @@ public class InventoryHandler : MonoBehaviour
 
     [field: SerializeField] public PlayerNetCode PlayerNetCode { get; private set; }
     [field: SerializeField] public CharacterStats Stats { get; private set; }
-    [field: SerializeField] public LootBoxSlotsContainer LootBoxSlotsContainer { get; private set; }
+    [field: SerializeField] public StorageSlotsContainer LootboxSlotsContainer { get; private set; }
+    [field:SerializeField] public StorageSlotsContainer LargeStorageSlotsContainer { get; private set; }
     [field: SerializeField] public SlotsContainer InventorySlotsContainer { get; private set; }
     [field: SerializeField] public InventorySlotsDisplayer InventorySlotsDisplayer { get; private set; }
     [field: SerializeField] public PlayerObjectsPlacer PlayerObjectsPlacer { get; private set; }
@@ -17,6 +18,7 @@ public class InventoryHandler : MonoBehaviour
     [Header("UI")] [SerializeField] private GameObject _mainButtonsPanel;
     [SerializeField] private GameObject _armorPanel;
     [SerializeField] private GameObject _lootBoxPanel;
+    [SerializeField] private GameObject _largeStoragePanel;
     [SerializeField] private GameObject _inventoryPanel;
     [SerializeField] private GameObject _campFirePanel;
     [SerializeField] private GameObject _recyclerPanel;
@@ -49,6 +51,7 @@ public class InventoryHandler : MonoBehaviour
         HandleInventory(true);
         _armorPanel.SetActive(false);
         _campFirePanel.SetActive(false);
+        _largeStoragePanel.SetActive(false);
         _lootBoxPanel.SetActive(true);
     }
 
@@ -57,6 +60,7 @@ public class InventoryHandler : MonoBehaviour
         HandleInventory(true);
         _armorPanel.SetActive(false);
         _lootBoxPanel.SetActive(false);
+        _largeStoragePanel.SetActive(false);
         _campFirePanel.SetActive(true);
     }
 
@@ -65,7 +69,17 @@ public class InventoryHandler : MonoBehaviour
         HandleInventory(true);
         _armorPanel.SetActive(false);
         _lootBoxPanel.SetActive(false);
+        _largeStoragePanel.SetActive(false);
         _recyclerPanel.SetActive(true);
+    }
+    
+    public void OpenLargeChestPanel()
+    {
+        HandleInventory(true);
+        _armorPanel.SetActive(false);
+        _lootBoxPanel.SetActive(false);
+        _recyclerPanel.SetActive(false);
+        _largeStoragePanel.SetActive(true);
     }
 
     public void SetActiveItem(Item item)

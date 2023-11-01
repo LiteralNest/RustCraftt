@@ -15,7 +15,7 @@ public class ObjectsRayCaster : MonoBehaviour
     
     [Header("Distances")]
     [SerializeField] private float _maxOreHitDistance = 3f;
-    [FormerlySerializedAs("_maxLootBoxDistance")] [SerializeField] private float _maxOpeningDistance = 5f; 
+    [SerializeField] private float _maxOpeningDistance = 5f; 
     [SerializeField] private float _maxBlockHitDistance = 5f;
     [SerializeField] private float _maxGatheringDistance = 5f;
 
@@ -24,7 +24,7 @@ public class ObjectsRayCaster : MonoBehaviour
     
     public ResourceOre TargetResourceOre { get; private set; }
     public GatheringOre TargetGathering { get; private set; }
-    public LootBox TargetBox { get; private set; }
+    public Storage TargetBox { get; private set; }
     public LootingItem LootingItem { get; private set; }
     public CampFireHandler CampFireHandler { get; private set; }
     public Recycler RecyclerHandler { get; private set; }
@@ -149,9 +149,9 @@ public class ObjectsRayCaster : MonoBehaviour
             }
         }
 
-        if (TryRaycast("LootBox", _maxOpeningDistance, out LootBox lootBox, _defaultMask))
+        if (TryRaycast("LootBox", _maxOpeningDistance, out Storage lootbox, _defaultMask))
         {
-            TargetBox = lootBox;
+            TargetBox = lootbox;
             SetLootButton("Open");
             return;
         }
