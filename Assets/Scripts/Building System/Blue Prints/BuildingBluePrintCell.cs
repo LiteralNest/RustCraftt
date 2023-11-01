@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody), typeof(BoxCollider))]
@@ -10,7 +11,7 @@ public class BuildingBluePrintCell : MonoBehaviour
     [SerializeField] private BuildingStructure _targetBuildingStructure;
     [Header("Materials")] [SerializeField] private Material _negativeMaterial;
     [SerializeField] private Material _normalMaterial;
-    [SerializeField] private Renderer _renderer;
+    [SerializeField] private List<Renderer> _renderers;
 
     [SerializeField] private List<GameObject> _triggeredObjects = new List<GameObject>();
     public bool CanBePlaced { get; private set; }
@@ -29,7 +30,10 @@ public class BuildingBluePrintCell : MonoBehaviour
         => CheckEnoughMaterials();
 
     private void SetMaterial(Material material)
-        => _renderer.sharedMaterial = material;
+    {
+        foreach(var renderer in _renderers)
+            renderer.sharedMaterial = material;
+    }
 
     private void SetCanBePlaced(bool value)
     {

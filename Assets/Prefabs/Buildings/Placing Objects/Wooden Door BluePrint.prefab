@@ -45,14 +45,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d7a2be0bf46e212419971d2b94e5c4bb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _buildingSize: {x: 1, y: 1, z: 1}
   BluePrintCells:
   - {fileID: 2444681589714002210}
+  _targetMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
   _placingTags:
   - Block
   - Ground
-  _targetMask:
-    serializedVersion: 2
-    m_Bits: 128
   TargetPlacingObject: {fileID: 8042364910410863315, guid: 56787cae23ea1ff46aabc44828eb5e04, type: 3}
 --- !u!1 &4540756741070023794
 GameObject:
@@ -204,5 +205,6 @@ MonoBehaviour:
   _targetBuildingStructure: {fileID: 1989593182122475027, guid: 3a40ef176d998a94d987c32d1c901d9b, type: 3}
   _negativeMaterial: {fileID: 2100000, guid: 0971632772a28584ca35068ec62d6dd7, type: 2}
   _normalMaterial: {fileID: 2100000, guid: 744e937d0ca5c324e80f80d9bd2ce177, type: 2}
-  _renderer: {fileID: 2206260400407522060}
+  _renderers:
+  - {fileID: 2206260400407522060}
   _triggeredObjects: []

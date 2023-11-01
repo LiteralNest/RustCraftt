@@ -13,7 +13,7 @@ public class DoorHandler : NetworkBehaviour
 
     public void Open(int id)
     {
-        if(!DoorLocker.CanBeOpened(id)) return;
+        if(DoorLocker != null && !DoorLocker.CanBeOpened(id)) return;
         _anim.SetBool(Opened, !_anim.GetBool(Opened));
     }
 }

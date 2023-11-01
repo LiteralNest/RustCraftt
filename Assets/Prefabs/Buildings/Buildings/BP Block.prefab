@@ -82,7 +82,7 @@ MonoBehaviour:
   - {fileID: 540258816762760721, guid: 5fc1566635f0b8d42841aac571b01edd, type: 3}
   _targetMask:
     serializedVersion: 2
-    m_Bits: 128
+    m_Bits: 0
   _placingTags:
   - Block
   - Ground
@@ -98,6 +98,14 @@ PrefabInstance:
       propertyPath: _bluePrint
       value: 
       objectReference: {fileID: 3982671828229363433}
+    - target: {fileID: 540258816762760721, guid: 5fc1566635f0b8d42841aac571b01edd, type: 3}
+      propertyPath: _renderers.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 540258816762760721, guid: 5fc1566635f0b8d42841aac571b01edd, type: 3}
+      propertyPath: _renderers.Array.data[0]
+      value: 
+      objectReference: {fileID: 5864607065424493565}
     - target: {fileID: 679708530313221217, guid: 5fc1566635f0b8d42841aac571b01edd, type: 3}
       propertyPath: m_Size.x
       value: 0.8
@@ -159,6 +167,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5fc1566635f0b8d42841aac571b01edd, type: 3}
+--- !u!23 &5864607065424493565 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 8570482299075631925, guid: 5fc1566635f0b8d42841aac571b01edd, type: 3}
+  m_PrefabInstance: {fileID: 2851690281797050568}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &7566822588086636834 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5661583551254770154, guid: 5fc1566635f0b8d42841aac571b01edd, type: 3}
