@@ -2220,13 +2220,14 @@ GameObject:
   - component: {fileID: 1682016652125617578}
   - component: {fileID: 4607669181554110733}
   - component: {fileID: 8636938524075493801}
+  - component: {fileID: 6394116040895432750}
   m_Layer: 0
   m_Name: Berdan rifle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &9013585940172669959
 Transform:
   m_ObjectHideFlags: 0
@@ -2359,11 +2360,11 @@ MonoBehaviour:
   _impactEffect: {fileID: 8636746905528279354, guid: cf52497d3a8edde4c9f2d2c8b7bae708, type: 3}
   _flameEffect: {fileID: 8411022084911130960}
   _flameEffectDuration: 0.1
-  <Weapon>k__BackingField: {fileID: 11400000, guid: 006e8b380b45c9d4f8833e6f057b6585, type: 2}
+  <Weapon>k__BackingField: {fileID: 0}
   _decal: {fileID: 1305036650871697919, guid: 74feb497a20face4e89facba0677d7ab, type: 3}
   _targetMask:
     serializedVersion: 2
-    m_Bits: 1015
+    m_Bits: 55
 --- !u!114 &4607669181554110733
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2399,6 +2400,26 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &6394116040895432750
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 289882559171148944}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 05e726e55990d4cb09c156a317e300b1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _swayAmount: 1
+  _maxSwayAmount: 0.14
+  _swayXBounds: 0.01
+  _swayYBounds: 0.01
+  _smoothFactor: 1
+  _rotationAmount: 3.3
+  _maxRotation: 4
+  _returnSpeed: 4
 --- !u!1 &295774022490019819
 GameObject:
   m_ObjectHideFlags: 0
@@ -5690,6 +5711,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3528628193356378694}
   - component: {fileID: 5169975910511970367}
+  - component: {fileID: 5904107047328730729}
   m_Layer: 0
   m_Name: Berdanka
   m_TagString: Untagged
@@ -5778,6 +5800,26 @@ SkinnedMeshRenderer:
     m_Center: {x: 0.004607183, y: -0.0005961964, z: 0.003073885}
     m_Extent: {x: 0.0023268522, y: 0.004466684, z: 0.007788473}
   m_DirtyAABB: 0
+--- !u!114 &5904107047328730729
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 807967767498449790}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 05e726e55990d4cb09c156a317e300b1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _swayAmount: 0.25
+  _maxSwayAmount: 0.1
+  _swayXBounds: 1
+  _swayYBounds: 1
+  _smoothFactor: 4
+  _rotationAmount: 2.6
+  _maxRotation: 6
+  _returnSpeed: 4
 --- !u!1 &814658304924629984
 GameObject:
   m_ObjectHideFlags: 0
@@ -6736,6 +6778,7 @@ GameObject:
   - component: {fileID: 3742221531316608333}
   - component: {fileID: 1422952516851971844}
   - component: {fileID: 6732226680224694901}
+  - component: {fileID: 6437369322346995073}
   m_Layer: 0
   m_Name: Semi-Rifle Hands
   m_TagString: Untagged
@@ -6816,6 +6859,26 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   TransitionStateInfoList: []
   m_Animator: {fileID: 3742221531316608333}
+--- !u!114 &6437369322346995073
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 893987471479948161}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 05e726e55990d4cb09c156a317e300b1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _swayAmount: 0.01
+  _maxSwayAmount: 0.17
+  _swayXBounds: 0.45
+  _swayYBounds: 0.45
+  _smoothFactor: 2.5
+  _rotationAmount: 3
+  _maxRotation: 6
+  _returnSpeed: 4
 --- !u!1 &906040407447460399
 GameObject:
   m_ObjectHideFlags: 0
@@ -23477,7 +23540,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &2609386760624933141
 Transform:
   m_ObjectHideFlags: 0
@@ -50846,7 +50909,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -1.880249}
+  m_AnchoredPosition: {x: 0, y: -1.8802185}
   m_SizeDelta: {x: 0, y: 3.7614}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4535336883527770226
@@ -72834,6 +72897,10 @@ PrefabInstance:
     - target: {fileID: 5893490556171311329, guid: 17af16e74e11444e2987b9277c92e3ea, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6376605016399747860, guid: 17af16e74e11444e2987b9277c92e3ea, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 73
       objectReference: {fileID: 0}
     - target: {fileID: 8585337382185643213, guid: 17af16e74e11444e2987b9277c92e3ea, type: 3}
       propertyPath: _input
