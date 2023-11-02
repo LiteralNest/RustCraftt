@@ -21,8 +21,6 @@ public class AmmoObject : NetworkBehaviour
         Destroy(_rb);
     }
 
-
-
     private IEnumerator DespawnObject()
     {
         yield return new WaitForSeconds(_despawnTime);

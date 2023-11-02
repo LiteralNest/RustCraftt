@@ -1,11 +1,14 @@
 using System.Collections;
 using System.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.Serialization;
 
+[RequireComponent(typeof(WeaponSoundPlayer))]
 public class ShotgunObject : WeaponObject
 {
+    [FormerlySerializedAs("_soudPlayer")]
     [Header("Attached Objects")]
-    [SerializeField] private WeaponSoudPlayer _soudPlayer;
+    [SerializeField] private WeaponSoundPlayer _soundPlayer;
     [SerializeField] private Transform _ammoSpawnPoint;
     [SerializeField] private GameObject _impactEffect;
     [SerializeField] private GameObject _flameEffect;
@@ -21,7 +24,6 @@ public class ShotgunObject : WeaponObject
     private bool _canShoot;
     private Vector3 _currentRotation;
     private Vector3 _targetRotation;
-    private Camera _cam;
 
     private LongRangeWeaponInventoryItemDisplayer _inventoryItemDisplayer;
 
@@ -31,7 +33,6 @@ public class ShotgunObject : WeaponObject
 
     private void Start()
     {
-        _cam = Camera.main;
         Reload();
         _canShoot = true;
     }
@@ -119,7 +120,7 @@ public class ShotgunObject : WeaponObject
     {
         if (!_canShoot || _currentAmmoCount <= 0) return;
 
-        _soudPlayer.PlayShot();
+        _soundPlayer.PlayShot();
         MinusAmmo();
         SpreadShots(); // Need to add logic of scope
         StartCoroutine(WaitBetweenShootsRoutine());

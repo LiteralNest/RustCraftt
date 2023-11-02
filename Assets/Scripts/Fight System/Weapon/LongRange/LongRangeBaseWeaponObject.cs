@@ -1,12 +1,14 @@
 using System.Collections;
 using System.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.Serialization;
 
-[RequireComponent(typeof(WeaponSoudPlayer))]
+[RequireComponent(typeof(WeaponSoundPlayer))]
 public class LongRangeWeaponObject : WeaponObject
 {
+    [FormerlySerializedAs("_soudPlayer")]
     [Header("Attached Objects")]
-    [SerializeField] private WeaponSoudPlayer _soudPlayer;
+    [SerializeField] private WeaponSoundPlayer _soundPlayer;
     [SerializeField] private Transform _ammoSpawnPoint;
     [SerializeField] private GameObject _impactEffect;
     [SerializeField] private GameObject _flameEffect;
@@ -105,7 +107,7 @@ public class LongRangeWeaponObject : WeaponObject
     {
         if (!_canShoot || _currentAmmoCount <= 0) return;
         RaycastHit hit;
-        _soudPlayer.PlayShot();
+        _soundPlayer.PlayShot();
         MinusAmmo();
         RecoilFire();
         DisplayFlameEffect();
