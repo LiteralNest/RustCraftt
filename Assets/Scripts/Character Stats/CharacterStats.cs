@@ -1,3 +1,5 @@
+using System;
+using System.Threading.Tasks;
 using UnityEngine;
 
 [RequireComponent(typeof(CharacterStatsDisplayer))]
@@ -10,12 +12,16 @@ public class CharacterStats : MonoBehaviour
    [field:SerializeField] public float Health { get; private set; }
    [field:SerializeField] public float Food { get; private set; }
    [field:SerializeField] public float Water { get; private set; }
-   
-   
+   [field:SerializeField] public float Oxygen { get; private set; }
+
+   [SerializeField] private GameObject _OxygenPanel;
+
+   private float _currentOxygen;
    private float _initialHealth;
    private float _initialFood;
    private float _initialWater;
-
+   private float _minussingValueOxygen = 10f;
+   
    private void Awake()
    {
       if (_statsDisplayer == null)
@@ -25,18 +31,29 @@ public class CharacterStats : MonoBehaviour
       _initialHealth = Health;
       _initialFood = Food;
       _initialWater = Water;
+      _currentOxygen = Oxygen;
    }
-   
+
+   private void Update()
+   {
+      if (_currentOxygen >= 100)
+      {
+         _OxygenPanel.SetActive(false);
+      }
+   }
+
    public void ResetStatsToDefault()
    {
       Health = _initialHealth;
       Food = _initialFood;
       Water = _initialWater;
+      Oxygen = _currentOxygen;
 
       // Оновити відображення
       _statsDisplayer.DisplayHp((int)Health);
       _statsDisplayer.DisplayFood((int)Food);
       _statsDisplayer.DisplayWater((int)Water);
+      _statsDisplayer.DisplayOxygen((int)Oxygen);
    }
    private float GetAddedStat(float stat, float addingValue)
    {
@@ -63,6 +80,10 @@ public class CharacterStats : MonoBehaviour
             Water = GetAddedStat(Water, value);
             _statsDisplayer.DisplayWater((int)Water);
             break;
+         case CharacterStatType.Oxygen:
+            Oxygen = GetAddedStat(Oxygen, value);
+            _statsDisplayer.DisplayOxygen((int)Oxygen);
+            break;
       }
    }
    
@@ -73,7 +94,7 @@ public class CharacterStats : MonoBehaviour
          res = 0;
       return res;
    }
-   
+
    public void MinusStat(CharacterStatType type, float value)
    {
       switch (type)
@@ -105,6 +126,30 @@ public class CharacterStats : MonoBehaviour
                // _statsDisplayer.DisplayDeathMessage("You died!", Color.blue);
             }
             break;
+         case CharacterStatType.Oxygen:
+            Oxygen = GetSubstractedStat(Oxygen, value);
+            _statsDisplayer.DisplayOxygen((int)Oxygen);
+            if (Oxygen < 0)
+            {
+               
+            }
+            break;
       }
+   }
+   
+   
+   public async void SubstractStatsOxygenMinus(bool statement)
+   {
+      if (!statement) return;
+      _OxygenPanel.SetActive(true);
+      await Task.Delay(1000);
+      MinusStat(CharacterStatType.Oxygen, _minussingValueOxygen);
+   }
+
+   public async void SubstractStatsOxygenPlus(bool statement)
+   {
+      if (!statement) return;
+      await Task.Delay(1000);
+      PlusStat(CharacterStatType.Oxygen, 1);
    }
 }

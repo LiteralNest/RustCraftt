@@ -13,7 +13,8 @@ public class CharacterStatsDisplayer : MonoBehaviour
     [SerializeField] private TMP_Text _waterText;
     [SerializeField] private Image _waterFill;
     [SerializeField] private TextMeshProUGUI _displayMessage;
-
+    [SerializeField] private TextMeshProUGUI _OxygenText;
+    [SerializeField] private Image _oxygenFill;
     // private void Awake()
     // {
     //     GlobalEventsContainer.PlayerSpawned += HideDeathMessage;
@@ -35,6 +36,13 @@ public class CharacterStatsDisplayer : MonoBehaviour
     {
         _waterText.text = water.ToString();
         _waterFill.fillAmount = (float)water / 100;
+    }
+
+
+    public void DisplayOxygen(int oxygen)
+    {
+        _OxygenText.text = oxygen.ToString();
+        _waterFill.fillAmount = (float)oxygen / 100;
     }
     public async void DisplayDeathMessage(string message, Color color)
     {
