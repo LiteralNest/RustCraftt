@@ -15,6 +15,9 @@ public class UserCreator : MonoBehaviour
    [SerializeField] private TMP_Text _userExistsText;
    private DatabaseReference _databaseReference;
    [SerializeField] private GameObject _createUserButoon;
+   
+   #if !UNITY_SERVER
+   
    private void Start()
       => _databaseReference = FirebaseSetup.singleton.DatabaseReference;
 
@@ -71,4 +74,6 @@ public class UserCreator : MonoBehaviour
       
       return 0;
    }
+
+#endif
 }

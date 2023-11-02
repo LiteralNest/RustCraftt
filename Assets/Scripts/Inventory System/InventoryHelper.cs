@@ -24,6 +24,27 @@ public static class InventoryHelper
         return GetFreeCell(cells); 
     }
 
+    private static int GetFreeCellId(List<InventoryCell> cells)
+    {
+        for (int i = 0; i < cells.Count; i++)
+        {
+            if (cells[i].Item == null)
+                return i;
+            
+        }
+        return -1;
+    }
+    
+    public static int GetDesiredCellId(Item item, int count, List<InventoryCell> cells)
+    {
+        for (int i = 0; i < cells.Count; i++)
+        {
+            if(cells[i].Item == item)
+                return i;
+        }
+        return GetFreeCellId(cells);
+    }
+
     public static bool EnoughMaterials(List<InventoryCell> inputSlots, List<InventoryCell> targetSlots)
     {
         List<InventoryCell> slots = new List<InventoryCell>(inputSlots);

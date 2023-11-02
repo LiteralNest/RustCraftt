@@ -43,7 +43,6 @@ public abstract class SlotsDisplayer : MonoBehaviour
 
     public virtual void DisplayCells()
     {
-        if (!_slotsContainer) return;
         ResetCells();
         var cells = _slotsContainer.Cells;
         for (int i = 0; i < cells.Count; i++)

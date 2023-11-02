@@ -6,12 +6,12 @@ public class CampFireSlotsContainer : SlotsContainer
     [SerializeField] private CampFireDisplayer _campFireDisplayer;
     public CampFireHandler CampFireHandler { get; private set; }
 
-    public void Init(CampFireHandler campFireHandler)
+    public void Init(List<InventoryCell> cells, CampFireHandler campFireHandler)
     {
         Appear();
         CampFireHandler = campFireHandler;
         SlotsDisplayer.ResetCells();
-        Cells = new List<InventoryCell>(campFireHandler.Cells);
+        Cells = new List<InventoryCell>(cells);
         SlotsDisplayer.DisplayCells();
         _campFireDisplayer.DisplayButton(campFireHandler.Flaming.Value);
     }
@@ -42,7 +42,7 @@ public class CampFireSlotsContainer : SlotsContainer
     public override void AddCell(int index, InventoryCell cell)
     {
         base.AddCell(index, cell);
-        CampFireHandler.SetItem(index, cell);
+        CampFireHandler.SetItemServerRpc(index, cell.Item.Id, cell.Count);
     }
 
     public void TurnFire(bool value)

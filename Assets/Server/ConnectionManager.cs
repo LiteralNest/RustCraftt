@@ -17,9 +17,9 @@ namespace Server
         private const string ProjectId = "093ae33f-9b56-4e1a-a233-08ad3438b76c";
         private const string EnvironmentId = "5105ae74-6981-4eb6-89a4-9da20b640c13";
         
-        private const string FleetId = "f17bde87-612b-40d7-b479-8287da85d9bc";
+        private const string FleetId = "6c3271c4-daf9-433a-b6a0-9446acce2911";
         private const string EuropeRegionId = "0548345a-8510-49a8-80c8-ae8ce00fc934";
-        private const int BuildConfigId = 1245935;
+        private const int BuildConfigId = 1246562;
 
         public IMultiplayWebApi MultiplayWebApi { get; private set; } = new MultiplayWebApi(KeyId, SecretId, ProjectId, EnvironmentId,
             FleetId, EuropeRegionId, BuildConfigId);

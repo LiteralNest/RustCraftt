@@ -5,14 +5,9 @@ using UnityEngine.Serialization;
 public abstract class SlotsContainer : MonoBehaviour
 {
     [field: SerializeField] public SlotsDisplayer SlotsDisplayer { get; private set; }
-    [field: SerializeField] public List<InventoryCell> Cells { get; protected set; }
+    [field: SerializeField] public List<InventoryCell> Cells { get; set; }
 
     #region virtual
-
-    protected virtual void SendDataToServer()
-    {
-        
-    }
 
     protected virtual void Appear()
         => ActiveInvetoriesHandler.singleton.AddActiveInventory(this);
@@ -21,7 +16,6 @@ public abstract class SlotsContainer : MonoBehaviour
     {
         Cells[index].Count = cell.Count;
         Cells[index].Item = cell.Item;
-        SendDataToServer();
     }
 
     public virtual bool CanAddItem(Item item)

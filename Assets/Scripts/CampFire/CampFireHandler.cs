@@ -3,76 +3,50 @@ using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
 
-public class CampFireHandler : NetworkBehaviour
+public class CampFireHandler : Storage
 {
     public NetworkVariable<bool> Flaming { get; private set; } = new(false,
         NetworkVariableReadPermission.Everyone,
         NetworkVariableWritePermission.Owner);
 
-    [field: SerializeField] public NetworkVariable<int> CampFireId { get; private set; } = new(-1,
-        NetworkVariableReadPermission.Everyone,
-        NetworkVariableWritePermission.Owner);
-
     [Header("Main Params")] [SerializeField]
     private GameObject _fireObject;
+
     [field: SerializeField] public List<Fuel> AvaliableFuel { get; private set; }
     [field: SerializeField] public List<CookingFood> AvaliableFoodForCooking { get; private set; }
-    [field: SerializeField] public List<InventoryCell> Cells { get; private set; }
 
-    [Header("Sound")] 
-    [SerializeField] private AudioSource _source;
-    
+    [Header("Sound")] [SerializeField] private AudioSource _source;
+
     private CampFireSlotsContainer _targetSlotsContainer;
 
     private CookingFood _currentlyCookingFood;
 
     private void Start()
+        => gameObject.tag = "CampFire";
+
+    public override void OnNetworkSpawn()
     {
-#if UNITY_SERVER
-        Registrate();
-#endif
-        LoadCells();
-        TurnFire();
         Flaming.OnValueChanged += (bool prevValue, bool newValue) => { TurnFire(); };
+        TurnFire();
+        base.OnNetworkSpawn();
     }
 
     private void Update()
     {
         TryCook();
     }
-    
-#if UNITY_SERVER
-    private async void Registrate()
-        => CampFireId.Value = await WebServerDataHandler.singleton.RegistrateNewCampFire();
-#endif
-    
-    public void AssignCells(List<InventorySendingDataField> dataCells)
-    {
-        for (int i = 0; i < dataCells.Count; i++)
-        {
-            Cells[i].Item = ItemsContainer.singleton.GetItemById(dataCells[i].ItemId);
-            Cells[i].Count = dataCells[i].Count;
-        }
-    }
-    
-    private async void LoadCells()
-    {
-        var cells = await WebServerDataHandler.singleton.LoadCampFireData(CampFireId.Value);
-        AssignCells(cells);
-    }
-    
-    public void SetItem(int index, InventoryCell cell)
-    {
-        Cells[index].Item = cell.Item;
-        Cells[index].Count = cell.Count;
-        GlobalEventsContainer.CampFireDataShouldBeSaved?.Invoke(Cells, CampFireId.Value);
-    }
 
-    public void Open(InventoryHandler handler)
+    public override void Open(InventoryHandler handler)
     {
         handler.OpenCampFirePanel();
         _targetSlotsContainer = handler.CampFireSlotsContainer;
-        _targetSlotsContainer.Init(this);
+        _targetSlotsContainer.Init(Cells, this);
+    }
+
+    public override void ConvertWebData(NetworkListEvent<Vector2Int> changeEvent)
+    {
+        base.ConvertWebData(changeEvent);
+        if (_targetSlotsContainer == null) return;
     }
 
     private void TurnFire()
@@ -87,13 +61,13 @@ public class CampFireHandler : NetworkBehaviour
         return false;
     }
 
-    private List<InventoryCell> GetFuel()
+    private List<int> GetFuel()
     {
-        List<InventoryCell> res = new List<InventoryCell>();
-        foreach (var cell in Cells)
+        List<int> res = new List<int>();
+        for (int i = 0; i < Cells.Count; i++)
         {
-            if (FuelContains(cell.Item) && cell.Count > 0)
-                res.Add(cell);
+            if (FuelContains(Cells[i].Item) && Cells[i].Count > 0)
+                res.Add(i);
         }
 
         return res;
@@ -108,11 +82,12 @@ public class CampFireHandler : NetworkBehaviour
         return null;
     }
 
-    private IEnumerator RemoveFuel(InventoryCell cell)
+    private IEnumerator RemoveFuel(int cellId)
     {
-        cell.Count--;
+        RemoveItemCountServerRpc(cellId, 1);
+        _targetSlotsContainer.Cells = Cells;
         _targetSlotsContainer.SlotsDisplayer.DisplayCells();
-        yield return new WaitForSeconds(GetFuelById(cell.Item.Id).BurningTime);
+        yield return new WaitForSeconds(GetFuelById(Cells[cellId].Item.Id).BurningTime);
         if (Flaming.Value)
         {
             var fuel = GetFuel();
@@ -126,39 +101,29 @@ public class CampFireHandler : NetworkBehaviour
     [ServerRpc(RequireOwnership = false)]
     public void TurnFlamingServerRpc(bool value)
     {
-        List<InventoryCell> fuel = new List<InventoryCell>();
+        List<int> fuelIds = new List<int>();
         Flaming.Value = value;
         if (value)
         {
-            fuel = GetFuel();
-            if (fuel.Count == 0) return;
+            fuelIds = GetFuel();
+            if (fuelIds.Count == 0) return;
         }
         else
         {
             _source.Stop();
             return;
         }
-        _source.Play();
-        StartCoroutine(RemoveFuel(fuel[0]));
-    }
 
-    private void ResetCell(InventoryCell cell)
-    {
-        cell.Item = null;
-        cell.Count = 0;
-        _targetSlotsContainer.SlotsDisplayer.DisplayCells();
+        _source.Play();
+        StartCoroutine(RemoveFuel(fuelIds[0]));
     }
 
     private void RemoveItem(Item item, int count)
     {
-        foreach (var cell in Cells)
+        for (int i = 0; i < Cells.Count; i++)
         {
-            if (cell.Item == item)
-            {
-                cell.Count -= count;
-                if (cell.Count > 0) return;
-                ResetCell(cell);
-            }
+            if (Cells[i].Item == item)
+                RemoveItemCountServerRpc(i, count);
         }
     }
 

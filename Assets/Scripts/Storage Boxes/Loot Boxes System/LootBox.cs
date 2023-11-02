@@ -1,4 +1,4 @@
-using System.Threading.Tasks;
+using Unity.Netcode;
 using UnityEngine;
 
 [RequireComponent(typeof(BoxCollider))]
@@ -7,45 +7,40 @@ public class LootBox : Storage
     [SerializeField] private LootBoxGeneratingSet _set;
 
     public override void InitBox()
-        => InitLootBox();
+        => GenerateCells();
 
     public override void Open(InventoryHandler handler)
         => OpenBox(handler);
     
     public override void CheckCells()
     {
-        foreach (var cell in _cells)
-            if (cell.Item != null)
-                return;
-        Destroy(gameObject);
-    }
-    
-    private async void InitLootBox()
-    {
-        BoxId.Value = await WebServerDataHandler.singleton.RegistrateNewLootBox();
-        GenerateCells();
+        CheckCellsServerRpc();
     }
 
-    private async Task LoadCells()
+    [ServerRpc(RequireOwnership = false)]
+    private void CheckCellsServerRpc()
     {
-        var cells = await WebServerDataHandler.singleton.LoadLootBoxData(BoxId.Value);
-        AssignCells(cells);
+        if(!IsServer) return;
+        foreach (var cell in Cells)
+            if (cell.Item != null)
+                return;
+        GetComponent<NetworkObject>().Despawn();
+        Destroy(gameObject);
     }
     
     private void GenerateCells()
     {
         for (int i = 0; i < _set.Items.Count; i++)
         {
-            _cells[i].Item = _set.Items[i].Item;
-            _cells[i].Count = Random.Range(_set.Items[i].MinimalCount, _set.Items[i].MaximalCount);
+            Cells[i].Item = _set.Items[i].Item;
+            Cells[i].Count = Random.Range(_set.Items[i].MinimalCount, _set.Items[i].MaximalCount);
         }
-        GlobalEventsContainer.LootBoxDataShouldBeSaved?.Invoke(_cells, BoxId.Value);
+        SaveNetData();
     }
 
-    private async void OpenBox(InventoryHandler handler)
+    private void OpenBox(InventoryHandler handler)
     {
-        await LoadCells();
-        handler.LootboxSlotsContainer.InitCells(_cells, this);
+        handler.LootboxSlotsContainer.InitCells(Cells, this);
         handler.OpenLootBoxPanel();
     }
 }

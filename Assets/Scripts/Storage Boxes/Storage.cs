@@ -1,58 +1,95 @@
 using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public abstract class Storage : NetworkBehaviour
 {
-    [field: SerializeField]
-    public NetworkVariable<int> BoxId { get; private set; } = new(-1,
+    private NetworkList<Vector2Int> _itemsNetData = new(null,
         NetworkVariableReadPermission.Everyone,
         NetworkVariableWritePermission.Owner);
-    
-    [SerializeField] protected List<InventoryCell> _cells;
+
+    [FormerlySerializedAs("_cells")] [SerializeField]
+    public List<InventoryCell> Cells;
 
     #region abstract
-    
-    public abstract void InitBox();
-    
-    public abstract void CheckCells();
+
+    public virtual void InitBox()
+    {
+        SaveNetData();
+    }
+
+    public virtual void CheckCells()
+    {
+    }
 
     public abstract void Open(InventoryHandler handler);
 
     #endregion
-    
+
     private void Start()
-    {
-        gameObject.tag = "LootBox";
-    }
+        => gameObject.tag = "LootBox";
 
     public override void OnNetworkSpawn()
     {
-        if(IsServer)
+        Debug.Log("Network spawn");
+        if (IsServer)
             InitBox();
+        else
+            ConvertWebData();
+        _itemsNetData.OnListChanged += ConvertWebData;
         base.OnNetworkSpawn();
     }
-    
-    protected void AssignCells(List<InventorySendingDataField> dataCells)
-    {
-        int i = 0;
-        for (i = 0; i < dataCells.Count; i++)
-        {
-            _cells[i].Item = ItemsContainer.singleton.GetItemById(dataCells[i].ItemId);
-            _cells[i].Count = dataCells[i].Count;
-        }
 
-        for (int j = i; j < _cells.Count; j++)
-        {
-            _cells[i].Item = null;
-            _cells[i].Count = 0;
-        }
+    [ServerRpc(RequireOwnership = false)]
+    public void ResetItemServerRpc(int id)
+    {
+        if (IsServer)
+            _itemsNetData[id] = new Vector2Int(-1, 0);
+        ConvertWebData();
     }
 
-    public void AssignCellsAndSendData(List<InventoryCell> inputCells)
+    [ServerRpc(RequireOwnership = false)]
+    public void SetItemServerRpc(int cellId, int itemId, int count)
     {
-        _cells = new List<InventoryCell>(inputCells);
-        WebServerDataHandler.singleton.SaveLootBoxData(_cells, BoxId.Value);
+        if (IsServer)
+            _itemsNetData[cellId] = new Vector2Int(itemId, count);
+        ConvertWebData();
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    public void RemoveItemCountServerRpc(int id, int count)
+    {
+        if (IsServer)
+        {
+            _itemsNetData[id] -= new Vector2Int(0, count);
+            if (_itemsNetData[id].y <= 0)
+                _itemsNetData[id] = new Vector2Int(-1, 0);
+        }
+
+        ConvertWebData();
+    }
+
+
+    protected void SaveNetData()
+        => CustomDataSerializer.SetConvertedItemsList(Cells, _itemsNetData);
+
+    public virtual void ConvertWebData()
+    {
+        Cells = CustomDataSerializer.GetConvertedCellsList(_itemsNetData);
         CheckCells();
+    }
+
+    public virtual void ConvertWebData(NetworkListEvent<Vector2Int> changeEvent)
+    {
+        if (!IsServer)
+            ConvertWebData();
+    }
+
+    [ContextMenu("DebugNetCells")]
+    private void DebugNetCells()
+    {
+        foreach (var cell in _itemsNetData)
+            Debug.Log("Id: " + cell.x + " Count: " + cell.y);
     }
 }

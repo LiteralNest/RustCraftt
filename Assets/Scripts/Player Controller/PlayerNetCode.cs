@@ -29,7 +29,7 @@ public class PlayerNetCode : NetworkBehaviour
 
     public override void OnNetworkSpawn()
     {
-        if(IsOwner)
+        if (IsOwner)
             Singleton = this;
         _gettedClientId.Value = GetClientId();
         AssignName();
@@ -39,7 +39,7 @@ public class PlayerNetCode : NetworkBehaviour
             _inHandObjectsContainer.DisplayItems(ActiveItemId.Value);
         };
     }
-
+    
     private async void AssignName()
     {
         string name = await WebUserDataHandler.singleton.GetUserValueById(UserDataHandler.singleton.UserData.Id);

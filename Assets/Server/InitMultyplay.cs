@@ -74,12 +74,16 @@ public class InitMultiplay : MonoBehaviour
     }
 
     #endregion
+    
 
     private async void UpdateData()
     {
         _waiting = true;
-        _serverQueryHandler.UpdateServerCheck();
         await Task.Delay(100);
+        if (_serverQueryHandler == null)
+            Debug.Log("ServerQueryHandler is null");
+        else
+            _serverQueryHandler.UpdateServerCheck();
         _waiting = false;
     }
 

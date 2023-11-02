@@ -3,9 +3,10 @@ using UnityEngine;
 public class UserDataHandler : MonoBehaviour
 {
     public static UserDataHandler singleton { get; set; }
-
     [field: SerializeField] public UserData UserData { get; set; }
 
+#if !UNITY_SERVER
+    
     private void Awake()
     {
         if (singleton != null && singleton != this)
@@ -15,4 +16,6 @@ public class UserDataHandler : MonoBehaviour
         }
         singleton = this;
     }
+
+#endif
 }

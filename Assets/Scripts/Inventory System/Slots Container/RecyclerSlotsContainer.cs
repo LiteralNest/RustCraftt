@@ -8,6 +8,13 @@ public class RecyclerSlotsContainer : SlotsContainer
     [SerializeField] private GameObject _unactiveButton;
     
     private Recycler _recycler;
+    
+    public override void AddCell(int index, InventoryCell cell)
+    {
+        base.AddCell(index, cell);
+        _recycler.SetItemServerRpc(index, cell.Item.Id, cell.Count);
+    }
+    
     public void InitCells(List<InventoryCell> cells)
     {
         Cells = cells;

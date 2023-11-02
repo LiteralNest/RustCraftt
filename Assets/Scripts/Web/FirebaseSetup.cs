@@ -4,9 +4,10 @@ using UnityEngine;
 public class FirebaseSetup : MonoBehaviour
 {
     public static FirebaseSetup singleton { get; set; }
-    
+
     public DatabaseReference DatabaseReference { get; set; }
 
+#if !UNITY_SERVER
     private void Awake()
     {
         if(singleton != null && singleton != this)
@@ -18,6 +19,7 @@ public class FirebaseSetup : MonoBehaviour
         DatabaseReference = FirebaseDatabase.DefaultInstance.RootReference;
         DontDestroyOnLoad(this);
     }
+#endif
 
     [ContextMenu("Check Connection")]
     private async void CheckConnection()

@@ -84,7 +84,7 @@ namespace AirDropSystem
 
             spawnPoint = new Vector3(spawnPoint.x, _spawnZoneOffsetY, spawnPoint.z);
             _spawnPoint = spawnPoint;
-            
+
             return spawnPoint;
         }
 
@@ -120,12 +120,12 @@ namespace AirDropSystem
 
             Gizmos.color = Color.yellow;
             Gizmos.DrawWireSphere(_point2, 10f);
-        
+
             Gizmos.color = Color.magenta;
             Gizmos.DrawWireSphere(_spawnPoint, 10f);
         }
 
         #endregion
-    }
 #endif
+    }
 }
