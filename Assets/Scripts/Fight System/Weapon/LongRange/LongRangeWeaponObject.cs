@@ -46,9 +46,9 @@ public class LongRangeWeaponObject : WeaponObject
     
     private IEnumerator WaitBetweenShootsRoutine()
     {
-        _canShoot = false;
+         // _canShoot = false;
         yield return new WaitForSeconds(Weapon.DelayBetweenShoots);
-        _canShoot = true;
+        // _canShoot = true;
     }
 
     private void TryDamage(RaycastHit hit)

@@ -51,9 +51,9 @@ public class ShotgunObject : WeaponObject
 
     private IEnumerator WaitBetweenShootsRoutine()
     {
-        _canShoot = false;
+        // _canShoot = false;
         yield return new WaitForSeconds(Weapon.DelayBetweenShoots);
-        _canShoot = true;
+        // _canShoot = true;
     }
 
     private void TryDamage(RaycastHit hit)
@@ -93,27 +93,27 @@ public class ShotgunObject : WeaponObject
 
     private void SpreadShots()
     {
+        var spawnPoint = _ammoSpawnPoint.position;
+        var shootDirection = transform.forward;
+
         for (int i = 0; i < _pelletCount; i++)
         {
-            Vector3 shootDirection = _cam.transform.forward;
+            var spreadWorldPos = Random.insideUnitCircle * _spreadAngle;
 
-            Vector2 spreadWorldPos = Random.insideUnitCircle * _spreadAngle;
+            var spreadOffset = new Vector3(spreadWorldPos.x, spreadWorldPos.y, 0f);
 
-            Vector3 spreadOffset = new Vector3(spreadWorldPos.x, spreadWorldPos.y, 0f);
-
-            Ray shootRay = new Ray(_cam.transform.position, shootDirection + spreadOffset);
-
-            RaycastHit hit;
+            var shootRay = new Ray(spawnPoint, shootDirection + spreadOffset);
 
             RecoilFire();
 
-            if (Physics.Raycast(shootRay, out hit, Weapon.Range, _targetMask))
+            if (Physics.Raycast(shootRay, out var hit, Weapon.Range, _targetMask))
             {
                 TryDamage(hit);
                 DisplayHit(hit);
             }
         }
     }
+
 
     public override void Attack(bool value)
     {
