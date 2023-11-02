@@ -13,7 +13,6 @@ public class PlayerController : MonoBehaviour
     
     [Header("Move")]
     [SerializeField] private NetworkVariable<float> _movingSpeed = new(5, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
-
     public bool IsMoving { get; private set; }
     private Vector2 _move;
 
@@ -23,25 +22,55 @@ public class PlayerController : MonoBehaviour
     private bool _ifRunning;
 
     private float _currentMovingCpeed;
+    private Rigidbody _rb;
+
+    [Header("Swim")]
+    [SerializeField] private float _swimSpeed;
+    [SerializeField] private Transform _target;
+    public bool IsSwimming { get; set; }
     
     private void Start()
-    => _currentMovingCpeed = _movingSpeed.Value;
-
-    private void Update()
     {
-        if (!_ifRunning)
+        _rb = GetComponent<Rigidbody>();
+        _currentMovingCpeed = _movingSpeed.Value;
+    }
+
+    private void FixedUpdate()
+    {
+        if (IsSwimming != true)
         {
-            Move();
-            return;
+            if (_rb.useGravity != true)
+                _rb.useGravity = true;
+            if (!_ifRunning)
+            {
+                Move();
+                return;
+            }
+            transform.Translate(Vector3.forward * _currentMovingCpeed * Time.deltaTime, Space.Self);
         }
-        transform.Translate(Vector3.forward * _currentMovingCpeed * Time.deltaTime, Space.Self);
+        else
+        {
+            if (_rb.useGravity) 
+                _rb.useGravity = false;
+
+            if (_move.y > 0) transform.position += _target.forward * _swimSpeed * Time.deltaTime;
+             if (_move.y < 0) transform.position -= _target.forward * _swimSpeed * Time.deltaTime;
+        }
     }
 
     public void OnMove(InputAction.CallbackContext context)
     {
-        IsMoving = true;
-        _move = context.ReadValue<Vector2>();
-        IsMoving = false;
+        if (IsSwimming)
+        {
+            _move = context.ReadValue<Vector2>();
+        }
+        else
+        {
+            IsMoving = true;
+            _move = context.ReadValue<Vector2>();
+            IsMoving = false;
+        }
+      
     }
 
     private void Move()
@@ -54,10 +83,22 @@ public class PlayerController : MonoBehaviour
             transform.Translate(movement * _currentMovingCpeed * Time.deltaTime, Space.Self);
             return;
         }
+
         _inHandObjectsContainer.SetWalk(false);
         _legsAnimator.SetBool("Walking", false);
     }
 
+    private void Swim()
+    {
+        Vector3 movement = new Vector3(_move.x, 0f, _move.y);
+        if (movement != Vector3.zero)
+        {
+            // Add swimming logic here
+            transform.Translate(movement * _swimSpeed * Time.deltaTime, Space.Self);
+            return;
+        }
+    }
+    
     public void StartRunning()
     {
         _inHandObjectsContainer.SetRun(true);

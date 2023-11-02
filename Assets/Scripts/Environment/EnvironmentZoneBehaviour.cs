@@ -65,7 +65,7 @@ namespace SurroundingEffectsSystem
 
             _currentEffect = effect;
 
-            GlobalEventsContainer.TemperatureChanged?.Invoke(effect);
+            // GlobalEventsContainer.TemperatureChanged?.Invoke(effect);
 
             switch (effect)
             {
@@ -76,12 +76,12 @@ namespace SurroundingEffectsSystem
                     GlobalEventsContainer.RadiationStarted?.Invoke();
                     break;
                 case EnvironmentEffectsStateType.Cold:
-                    GlobalEventsContainer.TemperatureChanged?.Invoke(EnvironmentEffectsStateType.Cold);
-                    StartCoroutine(ColdEffect());
+                    // GlobalEventsContainer.TemperatureChanged?.Invoke(EnvironmentEffectsStateType.Cold);
+                    // StartCoroutine(ColdEffect());
                     break;
                 case EnvironmentEffectsStateType.Warm:
-                    GlobalEventsContainer.TemperatureChanged?.Invoke(EnvironmentEffectsStateType.Warm);
-                    StartCoroutine(WarmEffect());
+                    // GlobalEventsContainer.TemperatureChanged?.Invoke(EnvironmentEffectsStateType.Warm);
+                    // StartCoroutine(WarmEffect());
                     break;
                 case EnvironmentEffectsStateType.None:
                     GlobalEventsContainer.RadiationEnded?.Invoke();
