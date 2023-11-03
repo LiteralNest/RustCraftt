@@ -39,15 +39,15 @@ public class ShotgunObject : WeaponObject
 
     private void Update()
     {
-        _targetRotation = Vector3.Lerp(_targetRotation, Vector3.zero, Weapon.ReturnSpeed * Time.deltaTime);
-        _currentRotation = Vector3.Slerp(_currentRotation, _targetRotation, Weapon.Snappiness * Time.fixedDeltaTime);
+        // _targetRotation = Vector3.Lerp(_targetRotation, Vector3.zero, Weapon.ReturnSpeed * Time.deltaTime);
+        // _currentRotation = Vector3.Slerp(_currentRotation, _targetRotation, Weapon.Snappiness * Time.fixedDeltaTime);
         transform.localRotation = Quaternion.Euler(_currentRotation);
     }
 
     private void RecoilFire()
     {
-        _targetRotation += new Vector3(Weapon.RecoilX, Random.Range(-Weapon.RecoilY, Weapon.RecoilY),
-            Random.Range(-Weapon.RecoilZ, Weapon.RecoilZ));
+        // _targetRotation += new Vector3(Weapon.RecoilX, Random.Range(-Weapon.RecoilY, Weapon.RecoilY),
+        //     Random.Range(-Weapon.RecoilZ, Weapon.RecoilZ));
     }
 
     private IEnumerator WaitBetweenShootsRoutine()
@@ -115,10 +115,14 @@ public class ShotgunObject : WeaponObject
         }
     }
 
-
+    [ContextMenu("Shot")]
+    private void TestShot()
+        => Attack(true);
+    
+ 
     public override void Attack(bool value)
     {
-        if (!_canShoot || _currentAmmoCount <= 0) return;
+        if (!_canShoot /*|| _currentAmmoCount <= 0*/) return;
 
         _soundPlayer.PlayShot();
         MinusAmmo();
