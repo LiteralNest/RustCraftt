@@ -53,17 +53,17 @@ public class PlayerController : MonoBehaviour
         {
             _legsAnimator.SetBool("Walking", true);
             if(_playerClimber.TryClimb(transform)) return;
-            _inHandObjectsContainer.SetWalk(true);
+            //_inHandObjectsContainer.SetWalk(true);
             transform.Translate(movement * _currentMovingCpeed * Time.deltaTime, Space.Self);
             return;
         }
-        _inHandObjectsContainer.SetWalk(false);
+       // _inHandObjectsContainer.SetWalk(false);
         _legsAnimator.SetBool("Walking", false);
     }
 
     public void StartRunning()
     {
-        _inHandObjectsContainer.SetRun(true);
+        //_inHandObjectsContainer.SetRun(true);
         _legsAnimator.SetBool("Running", true);
         _ifRunning = true;
         _currentMovingCpeed *= _runningKoef;
@@ -71,7 +71,7 @@ public class PlayerController : MonoBehaviour
 
     public void StopRunning()
     {
-        _inHandObjectsContainer.SetRun(false);
+        //_inHandObjectsContainer.SetRun(false);
         _legsAnimator.SetBool("Running", false);
         _ifRunning = false;
         _currentMovingCpeed = _movingSpeed.Value;
