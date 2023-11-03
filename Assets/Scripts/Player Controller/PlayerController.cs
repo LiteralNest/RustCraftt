@@ -26,7 +26,7 @@ namespace Player_Controller
     
         [Header("Swim")]
         [SerializeField] private float _swimSpeed = 0.5f;
-        [SerializeField] private float _riseCoefficient = 4f; 
+        [SerializeField] private float _riseCoefficient = 20f; 
         public bool IsSwimming { get; set; }
     
         private Rigidbody _rb;
@@ -71,7 +71,7 @@ namespace Player_Controller
             {
                 if (_rb.useGravity) _rb.useGravity = false;
                 Swim();
-                Move();
+                // Move();
             }
         }
 
@@ -132,21 +132,17 @@ namespace Player_Controller
         #region Swimming
         private void Swim()
         {
-            var cameraForward = _camera.transform.forward;
-
-            var verticalInput = _move.y;
-
-            if (verticalInput == 0f) return; 
+            var cameraForward = _camera.transform.forward ;
+            cameraForward *= _move.y;
+            cameraForward.x = _move.x;
+            cameraForward.Normalize();
             
-            verticalInput *= _riseCoefficient;
 
-            var movement = cameraForward * verticalInput;
-
-            if (movement != Vector3.zero)
+            if (cameraForward != Vector3.zero)
             {
                 _rb.drag = _targetDrag;
                 _rb.angularDrag = _targetAngularDrag;
-                transform.Translate(movement * _swimSpeed * Time.deltaTime, Space.World);
+                transform.Translate(cameraForward * _swimSpeed * Time.deltaTime, Space.World);
             }
         }
 
