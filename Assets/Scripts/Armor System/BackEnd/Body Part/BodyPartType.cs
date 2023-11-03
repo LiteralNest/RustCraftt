@@ -1,4 +1,4 @@
-namespace ArmorSystem
+namespace ArmorSystem.Backend
 {
     public enum BodyPartType
     {

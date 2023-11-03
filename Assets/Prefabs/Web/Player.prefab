@@ -3052,6 +3052,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5487815f11ffdae479e44358c403f693, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _dressedArmorsHandler: {fileID: 4783020008607354844}
+  _bodyPartsDisplayer: {fileID: 1263816123425336626}
+  _bodyPartType: 5
   _armor: {fileID: 11400000, guid: 0ff086b48df805346a8759e746668e5f, type: 2}
   _targetMaterial: {fileID: 2100000, guid: cd1951bcebc9e91489415484d947119b, type: 2}
   _targetObject: {fileID: 9157256895796970774}
@@ -5088,6 +5091,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5487815f11ffdae479e44358c403f693, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _dressedArmorsHandler: {fileID: 4783020008607354844}
+  _bodyPartsDisplayer: {fileID: 1263816123425336626}
+  _bodyPartType: 5
   _armor: {fileID: 11400000, guid: ce4d57a3d9cd8ab4484becfcb1e73ef3, type: 2}
   _targetMaterial: {fileID: 2100000, guid: 7f22c188414929b439142211a2f678db, type: 2}
   _targetObject: {fileID: 5323953431001886838}
@@ -33499,6 +33505,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6529421634409231889}
   - component: {fileID: 2310418435352806697}
+  - component: {fileID: 4783020008607354844}
   m_Layer: 0
   m_Name: Armors Container
   m_TagString: Untagged
@@ -33535,8 +33542,31 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d70ac7b7e2485794bb9c8b2b496dcc6b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _armorCells: []
+  _armorCells:
+  - {fileID: 6685199028347322987}
+  - {fileID: 5082151498535547997}
   _testArmor: {fileID: 11400000, guid: 0ff086b48df805346a8759e746668e5f, type: 2}
+--- !u!114 &4783020008607354844
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7924411088112680768}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a6df6288f911f7447a74f184011693e8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _slots:
+  - <BodyPartType>k__BackingField: 1
+    <Armor>k__BackingField: {fileID: 11400000, guid: ce4d57a3d9cd8ab4484becfcb1e73ef3, type: 2}
+  - <BodyPartType>k__BackingField: 2
+    <Armor>k__BackingField: {fileID: 11400000, guid: ce4d57a3d9cd8ab4484becfcb1e73ef3, type: 2}
+  - <BodyPartType>k__BackingField: 3
+    <Armor>k__BackingField: {fileID: 11400000, guid: ce4d57a3d9cd8ab4484becfcb1e73ef3, type: 2}
+  - <BodyPartType>k__BackingField: 4
+    <Armor>k__BackingField: {fileID: 11400000, guid: ce4d57a3d9cd8ab4484becfcb1e73ef3, type: 2}
 --- !u!1 &7947019612142313657
 GameObject:
   m_ObjectHideFlags: 0

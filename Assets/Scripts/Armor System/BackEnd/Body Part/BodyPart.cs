@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace ArmorSystem
+namespace ArmorSystem.Backend
 {
     [System.Serializable]
     public class BodyPart
