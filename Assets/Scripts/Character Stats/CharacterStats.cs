@@ -16,8 +16,7 @@ public class CharacterStats : MonoBehaviour
 
    [SerializeField] private GameObject _OxygenPanel;
 
-   public bool IsSubstractingOxygen { get; set; }
-   private float _currentOxygen;
+   public float CurrentOxygen { get; private set;}
    private float _initialHealth;
    private float _initialFood;
    private float _initialWater;
@@ -34,7 +33,7 @@ public class CharacterStats : MonoBehaviour
       _initialHealth = Health;
       _initialFood = Food;
       _initialWater = Water;
-      _currentOxygen = Oxygen;
+      CurrentOxygen = Oxygen;
    }
 
    // private void Update()
@@ -50,7 +49,7 @@ public class CharacterStats : MonoBehaviour
       Health = _initialHealth;
       Food = _initialFood;
       Water = _initialWater;
-      Oxygen = _currentOxygen;
+      Oxygen = CurrentOxygen;
 
       // Оновити відображення
       _statsDisplayer.DisplayHp((int)Health);
@@ -141,9 +140,9 @@ public class CharacterStats : MonoBehaviour
       }
    }
 
-   public void SetActiveOxygen()
+   public void SetActiveOxygen(bool state)
    {
-      _OxygenPanel.SetActive(true);
+      _OxygenPanel.SetActive(state);
    }
    
    // public async void SubstractStatsOxygenMinus(bool statement)
