@@ -5,8 +5,6 @@ namespace ArmorSystem.Backend
 {
     public class DressedArmorsHandler : MonoBehaviour
     {
-        public static DressedArmorsHandler singleton { get; private set; }
-        
         [SerializeField] private List<DressedArmorSlot> _slots = new List<DressedArmorSlot>();
 
         private DressedArmorSlot GetDressedSlotByPart(BodyPartType partType)

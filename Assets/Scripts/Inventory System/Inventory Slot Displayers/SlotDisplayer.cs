@@ -75,7 +75,7 @@ public abstract class SlotDisplayer : MonoBehaviour, IDropHandler
         SetItem(itemDisplayer);
     }
 
-    protected bool TrySetItem(ItemDisplayer itemDisplayer)
+    protected virtual bool TrySetItem(ItemDisplayer itemDisplayer)
     {
         if (!CanSetSlot) return false;
         if (!Inventory.CanAddItem(itemDisplayer.InventoryCell.Item)) return false;

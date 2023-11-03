@@ -8,7 +8,7 @@ namespace ArmorSystem.Backend
         [SerializeField] private List<ArmorCell> _armorCells = new List<ArmorCell>();
 
         [SerializeField] private Armor _testArmor;
-        
+
         public void DisplayArmor(Armor targetArmor)
         {
             foreach (var armor in _armorCells)

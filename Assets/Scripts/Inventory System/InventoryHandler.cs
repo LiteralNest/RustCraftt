@@ -1,3 +1,4 @@
+using ArmorSystem.Backend;
 using UnityEngine;
 
 public class InventoryHandler : MonoBehaviour
@@ -15,6 +16,7 @@ public class InventoryHandler : MonoBehaviour
     [field: SerializeField] public CampFireSlotsContainer CampFireSlotsContainer { get; private set; }
     [field: SerializeField] public RecyclerSlotsContainer RecyclerSlotsContainer { get; private set; }
     [field: SerializeField] public InHandObjectsContainer InHandObjectsContainer { get; private set; }
+    [field:SerializeField] public ArmorsContainer ArmorsContainer { get; private set; }
 
     [Header("UI")] [SerializeField] private GameObject _mainButtonsPanel;
     [SerializeField] private GameObject _armorPanel;

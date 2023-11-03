@@ -34,8 +34,7 @@ public class CampFireSlotsContainer : SlotsContainer
 
     public override bool CanAddItem(Item item)
     {
-        if (ListContains(item, CampFireHandler.AvaliableFuel) ||
-            ListContains(item, CampFireHandler.AvaliableFoodForCooking)) return true;
+        if(item is Food || item is CookingFood) return true;
         return false;
     }
 

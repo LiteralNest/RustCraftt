@@ -12,9 +12,6 @@ public class CampFireHandler : Storage
     [Header("Main Params")] [SerializeField]
     private GameObject _fireObject;
 
-    [field: SerializeField] public List<Fuel> AvaliableFuel { get; private set; }
-    [field: SerializeField] public List<CookingFood> AvaliableFoodForCooking { get; private set; }
-
     [Header("Sound")] [SerializeField] private AudioSource _source;
 
     private CampFireSlotsContainer _targetSlotsContainer;
@@ -52,34 +49,16 @@ public class CampFireHandler : Storage
     private void TurnFire()
         => _fireObject.SetActive(Flaming.Value);
 
-    private bool FuelContains(Item item)
-    {
-        if (item == null) return false;
-        foreach (var fuel in AvaliableFuel)
-            if (fuel.Id == item.Id)
-                return true;
-        return false;
-    }
-
     private List<int> GetFuel()
     {
         List<int> res = new List<int>();
         for (int i = 0; i < Cells.Count; i++)
         {
-            if (FuelContains(Cells[i].Item) && Cells[i].Count > 0)
+            if (Cells[i].Item is Fuel && Cells[i].Count > 0)
                 res.Add(i);
         }
 
         return res;
-    }
-
-    private Fuel GetFuelById(int id)
-    {
-        foreach (var fuel in AvaliableFuel)
-            if (fuel.Id == id)
-                return fuel;
-        Debug.LogError("Can't find fuel with id: " + id);
-        return null;
     }
 
     private IEnumerator RemoveFuel(int cellId)
@@ -87,7 +66,8 @@ public class CampFireHandler : Storage
         RemoveItemCountServerRpc(cellId, 1);
         _targetSlotsContainer.Cells = Cells;
         _targetSlotsContainer.SlotsDisplayer.DisplayCells();
-        yield return new WaitForSeconds(GetFuelById(Cells[cellId].Item.Id).BurningTime);
+        var currentFuel = Cells[cellId].Item as Fuel;
+        yield return new WaitForSeconds(currentFuel.BurningTime);
         if (Flaming.Value)
         {
             var fuel = GetFuel();
@@ -126,34 +106,15 @@ public class CampFireHandler : Storage
                 RemoveItemCountServerRpc(i, count);
         }
     }
-
-    private bool FoodContains(Item item)
-    {
-        if (item == null) return false;
-        foreach (var fuel in AvaliableFoodForCooking)
-            if (fuel.Id == item.Id)
-                return true;
-        return false;
-    }
-
-    private CookingFood GetFoodById(int id)
-    {
-        foreach (var food in AvaliableFoodForCooking)
-            if (food.Id == id)
-                return food;
-        Debug.LogError("Can't find food with id: " + id);
-        return null;
-    }
-
+    
     private List<InventoryCell> GetFood()
     {
         List<InventoryCell> res = new List<InventoryCell>();
         foreach (var cell in Cells)
         {
-            if (FoodContains(cell.Item))
+            if (cell.Item is CookingFood)
                 res.Add(cell);
         }
-
         return res;
     }
 
@@ -163,7 +124,7 @@ public class CampFireHandler : Storage
         if (_currentlyCookingFood != null) return;
         var foodList = GetFood();
         if (foodList.Count == 0) return;
-        var food = GetFoodById(foodList[0].Item.Id);
+        var food = foodList[0].Item as CookingFood;
         var bindedCell = InventoryHelper.GetDesiredCell(food.FoodAfterCooking, 1, Cells);
         if (bindedCell == null) return;
         StartCoroutine(Cook(food, bindedCell));
