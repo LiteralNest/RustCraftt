@@ -1,13 +1,13 @@
 using System.Collections.Generic;
+using Unity.Netcode;
 using UnityEngine;
 
-public class InHandObjectsContainer : MonoBehaviour
+public class InHandObjectsContainer : NetworkBehaviour
 {
     [SerializeField] private List<InHandObjectCell> _inHandObjects;
     [SerializeField] private PlayerNetCode _playerNetCode;
-    [SerializeField] private GameObject _defaultHands;
     private InHandObjectCell _currentCell;
-
+    
     private void OnEnable()
     {
         GlobalEventsContainer.ShouldHandleAttacking += HandleAttacking;
@@ -21,26 +21,12 @@ public class InHandObjectsContainer : MonoBehaviour
         GlobalEventsContainer.ShouldHandleWalk -= SetWalk;
         GlobalEventsContainer.ShouldHandleRun -= SetRun;
     }
-    
-    private void Start()
-    {
-        if(_playerNetCode.IsOwner)
-            _defaultHands.SetActive(false);
-        TurnOffObject();
-    }
 
-    private void TurnOffObject()
-    {
-        foreach (var obj in _inHandObjects)
-        {
-            obj.FirstPersonObject.enabled = false;
-            obj.ThirdPersonObject.enabled = false;
-        }
-    }
-    
+    private void Start()
+        => SetDefaultHands();
+
     public void DisplayItems(int itemId)
     {
-        _defaultHands.SetActive(false);
         bool isOwner = _playerNetCode.PlayerIsOwner();
         foreach (var obj in _inHandObjects)
         {
@@ -66,6 +52,9 @@ public class InHandObjectsContainer : MonoBehaviour
         if(_currentCell == null) return;
         _currentCell.SetRun(value);
     }
+
+    public void SetDefaultHands()
+        =>  DisplayItems(0);
 
     private void HandleAttacking(bool attack)
     {

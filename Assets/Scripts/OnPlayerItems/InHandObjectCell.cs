@@ -7,7 +7,6 @@ public class InHandObjectCell
     [field: SerializeField] public Item TargetItem { get; private set; }
     [field: SerializeField] public InHandObject FirstPersonObject { get; private set; }
     [field: SerializeField] public InHandObject ThirdPersonObject { get; private set; }
-    [field: SerializeField] public List<Renderer> Renderers { get; private set; }
 
     public void ActivateInHandObject(bool isOwner, bool shouldActivate = true)
     {
@@ -30,12 +29,6 @@ public class InHandObjectCell
             FirstPersonObject.DisplayRenderers(false);
             ThirdPersonObject.DisplayRenderers(true);
         }
-    }
-
-    private void DisableThirdPersonRenderers()
-    {
-        foreach (var renderer in Renderers)
-            renderer.enabled = false;
     }
 
     public void SetWalk(bool value)
