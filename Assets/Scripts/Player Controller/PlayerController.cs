@@ -33,8 +33,8 @@ namespace Player_Controller
         private float _originalDrag;
         private float _originalAngularDrag;
     
-        private readonly float _targetDrag = 0.4f;
-        private readonly float _targetAngularDrag = 1f;
+        private readonly float _targetDrag = 0.3f;
+        private readonly float _targetAngularDrag = 0.7f;
         private readonly float _floatStrength = 0.4f;
 
         private void Start()

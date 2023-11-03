@@ -8,15 +8,18 @@ public class Water : MonoBehaviour
     {
         if (other.CompareTag("Player") && other.GetComponent<PlayerController>() != null)
         {
+            CharacterStats.Singleton.MinusStat(CharacterStatType.Oxygen, 10);
+            CharacterStats.Singleton.SetActiveOxygen();
             var move = other.GetComponent<PlayerController>();
-            
+            Debug.Log("Swim");
             move.IsSwimming = true;
         }
     }
 
     private void OnTriggerStay(Collider other)
     {
-        CharacterStats.Singleton.MinusStat(CharacterStatType.Oxygen, 10);
+        CharacterStats.Singleton.MinusStat(CharacterStatType.Oxygen, 1 *Time.fixedDeltaTime);
+        Debug.Log("Stay");
     }
 
     private void OnTriggerExit(Collider other)
@@ -25,6 +28,7 @@ public class Water : MonoBehaviour
         {
             var move = other.GetComponent<PlayerController>();
             CharacterStats.Singleton.PlusStat(CharacterStatType.Oxygen, 1);
+            Debug.Log("Exit");
             move.IsSwimming = false;
         }
     }

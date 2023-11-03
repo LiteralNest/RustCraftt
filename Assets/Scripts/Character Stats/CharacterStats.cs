@@ -16,12 +16,15 @@ public class CharacterStats : MonoBehaviour
 
    [SerializeField] private GameObject _OxygenPanel;
 
+   public bool IsSubstractingOxygen { get; set; }
    private float _currentOxygen;
    private float _initialHealth;
    private float _initialFood;
    private float _initialWater;
    private float _minussingValueOxygen = 10f;
-   
+
+   private bool _minus;
+   private bool _plus;
    private void Awake()
    {
       if (_statsDisplayer == null)
@@ -34,13 +37,13 @@ public class CharacterStats : MonoBehaviour
       _currentOxygen = Oxygen;
    }
 
-   private void Update()
-   {
-      if (_currentOxygen >= 100)
-      {
-         _OxygenPanel.SetActive(false);
-      }
-   }
+   // private void Update()
+   // {
+   //    if (_currentOxygen >= 100)
+   //    {
+   //       _OxygenPanel.SetActive(false);
+   //    }
+   // }
 
    public void ResetStatsToDefault()
    {
@@ -129,6 +132,7 @@ public class CharacterStats : MonoBehaviour
          case CharacterStatType.Oxygen:
             Oxygen = GetSubstractedStat(Oxygen, value);
             _statsDisplayer.DisplayOxygen((int)Oxygen);
+            
             if (Oxygen < 0)
             {
                
@@ -136,20 +140,26 @@ public class CharacterStats : MonoBehaviour
             break;
       }
    }
-   
-   
-   public async void SubstractStatsOxygenMinus(bool statement)
-   {
-      if (!statement) return;
-      _OxygenPanel.SetActive(true);
-      await Task.Delay(1000);
-      MinusStat(CharacterStatType.Oxygen, _minussingValueOxygen);
-   }
 
-   public async void SubstractStatsOxygenPlus(bool statement)
+   public void SetActiveOxygen()
    {
-      if (!statement) return;
-      await Task.Delay(1000);
-      PlusStat(CharacterStatType.Oxygen, 1);
+      _OxygenPanel.SetActive(true);
    }
+   
+   // public async void SubstractStatsOxygenMinus(bool statement)
+   // {
+   //    statement = true;
+   //   
+   //    await Task.Delay(1000);
+   //    MinusStat(CharacterStatType.Oxygen, _minussingValueOxygen);
+   //    statement = false;
+   // }
+   //
+   // public async void SubstractStatsOxygenPlus(bool statement)
+   // {
+   //    statement = true;
+   //    await Task.Delay(1000);
+   //    PlusStat(CharacterStatType.Oxygen, 1);
+   //    statement = false;
+   // }
 }

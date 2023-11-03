@@ -13,7 +13,7 @@ public class CharacterStatsDisplayer : MonoBehaviour
     [SerializeField] private TMP_Text _waterText;
     [SerializeField] private Image _waterFill;
     [SerializeField] private TextMeshProUGUI _displayMessage;
-    [SerializeField] private TextMeshProUGUI _OxygenText;
+    [SerializeField] private TextMeshProUGUI _oxygenText;
     [SerializeField] private Image _oxygenFill;
     // private void Awake()
     // {
@@ -41,8 +41,8 @@ public class CharacterStatsDisplayer : MonoBehaviour
 
     public void DisplayOxygen(int oxygen)
     {
-        _OxygenText.text = oxygen.ToString();
-        _waterFill.fillAmount = (float)oxygen / 100;
+        _oxygenText.text = oxygen.ToString();
+        _oxygenFill.fillAmount = (float)oxygen / 100;
     }
     public async void DisplayDeathMessage(string message, Color color)
     {
