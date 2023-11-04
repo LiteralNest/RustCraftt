@@ -33,6 +33,7 @@ public class PlayerNetCode : NetworkBehaviour
             Singleton = this;
         _gettedClientId.Value = GetClientId();
         AssignName();
+        
         ActiveItemId.OnValueChanged += (int prevValue, int newValue) =>
         {
             if (GetClientId() != _gettedClientId.Value) return;
