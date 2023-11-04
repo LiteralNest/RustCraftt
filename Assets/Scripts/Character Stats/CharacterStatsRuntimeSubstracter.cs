@@ -8,9 +8,9 @@ public class CharacterStatsRuntimeSubstracter : MonoBehaviour
     [SerializeField] private CharacterStats _characterStats;
     [Header("Main Params")]
     [SerializeField] private float _minusingValuePerSecond;
-    
-    private bool _minusing;
 
+    private bool _minusing;
+    
     private void Awake()
     {
         if(_characterStats == null)
