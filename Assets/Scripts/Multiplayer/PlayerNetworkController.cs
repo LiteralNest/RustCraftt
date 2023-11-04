@@ -30,7 +30,8 @@ public class PlayerNetworkController : MonoBehaviour
         _canvas.transform.SetParent(null);
         if(!_playerNetCode.PlayerIsOwner())
             ClearObjects();
-        GlobalEventsContainer.ShouldActivateVivox?.Invoke();
+        else
+            GlobalEventsContainer.ShouldActivateVivox?.Invoke();
         Destroy(this);
     }
 

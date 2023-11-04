@@ -189,7 +189,11 @@ public class VivoxVoiceManager : MonoBehaviour
     public void Login(string displayName = null)
     {
         m_Account = new Account(displayName);
-
+        Debug.Log("----------------------------");
+        Debug.Log(m_Account.Name);
+        Debug.Log(m_Account.DisplayName);
+        Debug.Log("----------------------------");
+        
         LoginSession = _client.GetLoginSession(m_Account);
         LoginSession.PropertyChanged += OnLoginSessionPropertyChanged;
         LoginSession.BeginLogin(LoginSession.GetLoginToken(), SubscriptionMode.Accept, null, null, null, ar =>

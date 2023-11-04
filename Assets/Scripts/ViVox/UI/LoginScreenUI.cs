@@ -12,7 +12,7 @@ public class LoginScreenUI : MonoBehaviour
     private VivoxVoiceManager _vivoxVoiceManager;
 
     // public Button LoginButton;
-    // public TMP_InputField DisplayNameInput;
+    public TMP_InputField DisplayNameInput;
     // public GameObject LoginScreen;
 
     private int defaultMaxStringLength = 9;
@@ -176,14 +176,14 @@ public class LoginScreenUI : MonoBehaviour
     {
         // LoginButton.interactable = false;
 
-        if (string.IsNullOrEmpty(UserDataHandler.singleton.UserData.Name))
+        if (string.IsNullOrEmpty(DisplayNameInput.text))
         {
             Debug.LogError("Please enter a display name.");
             return;
         }
 
         // _vivoxVoiceManager.Login(DisplayNameInput.text);
-        _vivoxVoiceManager.Login(UserDataHandler.singleton.UserData.Name);
+        _vivoxVoiceManager.Login(DisplayNameInput.text);
     }
 
     #region Vivox Callbacks
