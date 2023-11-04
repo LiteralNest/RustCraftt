@@ -134,7 +134,8 @@ namespace Player_Controller
         {
             var cameraForward = _camera.transform.forward ;
             cameraForward *= _move.y;
-            cameraForward.x = _move.x;
+            Vector3 movement = new Vector3(_move.x, cameraForward.y, _move.y);
+            // cameraForward.x = _move.x;
             cameraForward.Normalize();
             
 
@@ -142,7 +143,7 @@ namespace Player_Controller
             {
                 _rb.drag = _targetDrag;
                 _rb.angularDrag = _targetAngularDrag;
-                transform.Translate(cameraForward * _swimSpeed * Time.deltaTime, Space.World);
+                transform.Translate(movement * _swimSpeed * Time.deltaTime, Space.Self);
             }
         }
 
