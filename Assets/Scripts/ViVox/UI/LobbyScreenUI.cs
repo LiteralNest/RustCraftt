@@ -7,17 +7,11 @@ using VivoxUnity;
 public class LobbyScreenUI : MonoBehaviour
 {
     public string LobbyChannelName = "lobbyChannel";
-
-    public Button SpeakButton;
-    public Button LogoutButton;
+    
     public GameObject LobbyScreen;
-    public GameObject ConnectionIndicatorDot;
-    public GameObject ConnectionIndicatorText;
 
     private VivoxVoiceManager _vivoxVoiceManager;
     private EventSystem _evtSystem;
-    private Image _connectionIndicatorDotImage;
-    private Text _connectionIndicatorDotText;
     private bool _isMicrophoneOn;
 
     #region Unity Callbacks
@@ -29,21 +23,9 @@ public class LobbyScreenUI : MonoBehaviour
         {
             Debug.LogError("Unable to find EventSystem object.");
         }
-        _connectionIndicatorDotImage = ConnectionIndicatorDot.GetComponent<Image>();
-        if (!_connectionIndicatorDotImage)
-        {
-            Debug.LogError("Unable to find ConnectionIndicatorDot Image object.");
-        }
-        _connectionIndicatorDotText = ConnectionIndicatorText.GetComponent<Text>();
-        if (!_connectionIndicatorDotText)
-        {
-            Debug.LogError("Unable to find ConnectionIndicatorText Text object.");
-        }
         _vivoxVoiceManager = VivoxVoiceManager.Instance;
         _vivoxVoiceManager.OnUserLoggedInEvent += OnUserLoggedIn;
         _vivoxVoiceManager.OnUserLoggedOutEvent += OnUserLoggedOut;
-        _vivoxVoiceManager.OnRecoveryStateChangedEvent += OnRecoveryStateChanged;
-        LogoutButton.onClick.AddListener(() => { LogoutOfVivoxService(); });
 
         if (_vivoxVoiceManager.LoginState == LoginState.LoggedIn)
         {
@@ -60,9 +42,6 @@ public class LobbyScreenUI : MonoBehaviour
         _vivoxVoiceManager.OnUserLoggedInEvent -= OnUserLoggedIn;
         _vivoxVoiceManager.OnUserLoggedOutEvent -= OnUserLoggedOut;
         _vivoxVoiceManager.OnParticipantAddedEvent -= VivoxVoiceManager_OnParticipantAddedEvent;
-        _vivoxVoiceManager.OnRecoveryStateChangedEvent -= OnRecoveryStateChanged;
-
-        LogoutButton.onClick.RemoveAllListeners();
     }
 
     #endregion
@@ -87,15 +66,7 @@ public class LobbyScreenUI : MonoBehaviour
         _vivoxVoiceManager.OnParticipantAddedEvent += VivoxVoiceManager_OnParticipantAddedEvent;
         _vivoxVoiceManager.JoinChannel(LobbyChannelName, ChannelType.NonPositional, VivoxVoiceManager.ChatCapability.TextAndAudio);
     }
-
-    private void LogoutOfVivoxService()
-    {
-        LogoutButton.interactable = false;
-
-        _vivoxVoiceManager.DisconnectAllChannels();
-
-        _vivoxVoiceManager.Logout();
-    }
+    
 
     #region Vivox Callbacks
 
@@ -111,8 +82,6 @@ public class LobbyScreenUI : MonoBehaviour
     private void OnUserLoggedIn()
     {
         LobbyScreen.SetActive(true);
-        LogoutButton.interactable = true;
-        _evtSystem.SetSelectedGameObject(LogoutButton.gameObject, null);
 
         var lobbychannel = _vivoxVoiceManager.ActiveChannels.FirstOrDefault(ac => ac.Channel.Name == LobbyChannelName);
         if ((_vivoxVoiceManager && _vivoxVoiceManager.ActiveChannels.Count == 0) 
@@ -141,34 +110,6 @@ public class LobbyScreenUI : MonoBehaviour
         _vivoxVoiceManager.DisconnectAllChannels();
 
         LobbyScreen.SetActive(false);
-    }
-
-    private void OnRecoveryStateChanged(ConnectionRecoveryState recoveryState)
-    {
-        Color indicatorColor;
-        switch (recoveryState)
-        {
-            case ConnectionRecoveryState.Connected:
-                indicatorColor = Color.green;
-                break;
-            case ConnectionRecoveryState.Disconnected:
-                indicatorColor = Color.red;
-                break;
-            case ConnectionRecoveryState.FailedToRecover:
-                indicatorColor = Color.black;
-                break;
-            case ConnectionRecoveryState.Recovered:
-                indicatorColor = Color.green;
-                break;
-            case ConnectionRecoveryState.Recovering:
-                indicatorColor = Color.yellow;
-                break;
-            default:
-                indicatorColor = Color.white;
-                break;
-        }
-        _connectionIndicatorDotImage.color = indicatorColor;
-        _connectionIndicatorDotText.text = recoveryState.ToString();
     }
 
     #endregion

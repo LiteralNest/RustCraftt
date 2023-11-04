@@ -16,6 +16,8 @@ using Unity.Services.Authentication;
 
 public class VivoxVoiceManager : MonoBehaviour
 {
+    public static VivoxVoiceManager singleton { get; private set; }
+    
 #region Enums
 
     /// <summary>
@@ -145,7 +147,7 @@ public class VivoxVoiceManager : MonoBehaviour
 
     private void Awake()
     {
-        
+        singleton = this;
         if (m_Instance != this && m_Instance != null)
         {
             Debug.LogWarning("Multiple VivoxVoiceManager detected in the scene. Only one VivoxVoiceManager can exist at a time. The duplicate VivoxVoiceManager will be destroyed.");
