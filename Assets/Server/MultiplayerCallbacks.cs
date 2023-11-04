@@ -1,9 +1,12 @@
 using System;
+#if UNITY_SERVER
 using Unity.Services.Multiplay;
+#endif
 using UnityEngine;
 
 public class MultiplayerCallbacks : MonoBehaviour
 {
+#if UNITY_SERVER
     public event Action<MultiplayAllocation> Allocate;
     public event Action<MultiplayDeallocation> Dealocate;
     
@@ -72,4 +75,5 @@ public class MultiplayerCallbacks : MonoBehaviour
         Debug.Log($"QueryPort[{serverConfig.QueryPort}");
         Debug.Log($"LogDirectory[{serverConfig.ServerLogDirectory}]");
     }
+#endif
 }

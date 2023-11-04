@@ -2,6 +2,7 @@ using System.Threading.Tasks;
 using Firebase.Database;
 using TMPro;
 using UnityEngine;
+using Web.User;
 
 public class UserCreator : MonoBehaviour
 {
@@ -31,7 +32,7 @@ public class UserCreator : MonoBehaviour
       _userDataHandler.UserData = data;
    }
    
-   public async void TryCreateUser()
+   public async void TryCreateUser() 
    {
       int id = await GetLastUserId();
       _userExistsText.gameObject.SetActive(false);

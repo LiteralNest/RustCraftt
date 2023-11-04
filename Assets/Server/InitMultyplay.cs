@@ -1,9 +1,11 @@
+#if UNITY_SERVER
 using System;
 using System.Threading.Tasks;
 using Unity.Netcode;
 using Unity.Netcode.Transports.UTP;
 using Unity.Services.Core;
 using Unity.Services.Multiplay;
+#endif
 using UnityEngine;
 
 public class InitMultiplay : MonoBehaviour

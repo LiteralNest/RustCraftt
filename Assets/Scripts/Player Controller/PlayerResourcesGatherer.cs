@@ -1,5 +1,6 @@
 using System.Threading.Tasks;
 using UnityEngine;
+using Web.User;
 
 [RequireComponent(typeof(ObjectsRayCaster))]
 public class PlayerResourcesGatherer : MonoBehaviour

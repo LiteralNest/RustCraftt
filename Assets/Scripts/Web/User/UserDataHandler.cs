@@ -1,21 +1,24 @@
 using UnityEngine;
 
-public class UserDataHandler : MonoBehaviour
+namespace Web.User
 {
-    public static UserDataHandler singleton { get; set; }
-    [field: SerializeField] public UserData UserData { get; set; }
+    public class UserDataHandler : MonoBehaviour
+    {
+        public static UserDataHandler singleton { get; set; }
+        [field: SerializeField] public UserData UserData { get; set; }
 
 #if !UNITY_SERVER
     
-    private void Awake()
-    {
-        if (singleton != null && singleton != this)
+        private void Awake()
         {
-            Destroy(gameObject);
-            return;
+            if (singleton != null && singleton != this)
+            {
+                Destroy(gameObject);
+                return;
+            }
+            singleton = this;
         }
-        singleton = this;
-    }
 
 #endif
+    }
 }
