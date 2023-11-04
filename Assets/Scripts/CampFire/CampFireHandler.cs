@@ -40,7 +40,7 @@ public class CampFireHandler : Storage
         _targetSlotsContainer.Init(Cells, this);
     }
 
-    public override void ConvertWebData(NetworkListEvent<Vector2Int> changeEvent)
+    public override void ConvertWebData(NetworkListEvent<Vector2> changeEvent)
     {
         base.ConvertWebData(changeEvent);
         if (_targetSlotsContainer == null) return;

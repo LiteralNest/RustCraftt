@@ -1,10 +1,11 @@
+using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
 
 [RequireComponent(typeof(BoxCollider))]
 public class LootBox : Storage
 {
-    [SerializeField] private LootBoxGeneratingSet _set;
+    [SerializeField] private List<LootBoxGeneratingSet> _setsPool = new List<LootBoxGeneratingSet>();
 
     public override void InitBox()
         => GenerateCells();
@@ -28,12 +29,16 @@ public class LootBox : Storage
         Destroy(gameObject);
     }
     
+    private LootBoxGeneratingSet GetRandomSet()
+        => _setsPool[Random.Range(0, _setsPool.Count)];
+    
     private void GenerateCells()
     {
-        for (int i = 0; i < _set.Items.Count; i++)
+        var set = GetRandomSet();
+        for (int i = 0; i < set.Items.Count; i++)
         {
-            Cells[i].Item = _set.Items[i].Item;
-            Cells[i].Count = Random.Range(_set.Items[i].MinimalCount, _set.Items[i].MaximalCount);
+            Cells[i].Item = set.Items[i].Item;
+            Cells[i].Count = Random.Range(set.Items[i].MinimalCount, set.Items[i].MaximalCount + 1);
         }
         SaveNetData();
     }

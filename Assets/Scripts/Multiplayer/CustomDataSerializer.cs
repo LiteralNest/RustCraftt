@@ -4,10 +4,10 @@ using UnityEngine;
 
 public static class CustomDataSerializer
 {
-    private static void ClearList(NetworkList<Vector2Int> res)
+    private static void ClearList(NetworkList<Vector2> res)
         => res.Clear();
     
-    public static void SetConvertedItemsList(List<InventoryCell> cells, NetworkList<Vector2Int> res)
+    public static void SetConvertedItemsList(List<InventoryCell> cells, NetworkList<Vector2> res)
     {
         ClearList(res);
         foreach (var cell in cells)
@@ -19,7 +19,7 @@ public static class CustomDataSerializer
         }
     }
 
-    public static List<InventoryCell> GetConvertedCellsList(NetworkList<Vector2Int> data)
+    public static List<InventoryCell> GetConvertedCellsList(NetworkList<Vector2> data)
     {
         List<InventoryCell> res = new List<InventoryCell>();
 
@@ -28,7 +28,7 @@ public static class CustomDataSerializer
             if (cell.x == -1)
                 res.Add(new InventoryCell(null, 0));
             else
-                res.Add(new InventoryCell(ItemsContainer.singleton.GetItemById(cell.x), cell.y));
+                res.Add(new InventoryCell(ItemsContainer.singleton.GetItemById((int)cell.x), (int)cell.y));
         }
         
         return res;

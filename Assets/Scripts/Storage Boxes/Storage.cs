@@ -5,9 +5,7 @@ using UnityEngine.Serialization;
 
 public abstract class Storage : NetworkBehaviour
 {
-    private NetworkList<Vector2Int> _itemsNetData = new(null,
-        NetworkVariableReadPermission.Everyone,
-        NetworkVariableWritePermission.Owner);
+    [field:SerializeField] private NetworkList<Vector2> _itemsNetData;
 
     [FormerlySerializedAs("_cells")] [SerializeField]
     public List<InventoryCell> Cells;
@@ -27,12 +25,14 @@ public abstract class Storage : NetworkBehaviour
 
     #endregion
 
+    private void Awake()
+        => _itemsNetData = new NetworkList<Vector2>();
+    
     private void Start()
         => gameObject.tag = "LootBox";
 
     public override void OnNetworkSpawn()
     {
-        Debug.Log("Network spawn");
         if (IsServer)
             InitBox();
         else
@@ -80,7 +80,7 @@ public abstract class Storage : NetworkBehaviour
         CheckCells();
     }
 
-    public virtual void ConvertWebData(NetworkListEvent<Vector2Int> changeEvent)
+    public virtual void ConvertWebData(NetworkListEvent<Vector2> changeEvent)
     {
         if (!IsServer)
             ConvertWebData();

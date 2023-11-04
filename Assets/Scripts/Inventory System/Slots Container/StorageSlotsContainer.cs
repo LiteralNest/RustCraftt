@@ -3,15 +3,19 @@ using UnityEngine;
 
 public class StorageSlotsContainer : SlotsContainer
 {
-    [SerializeField] private StorageSlotsDisplayer storageSlotsDisplayer;
     private Storage _targetStorage;
+
+    private Storage _bufferedStorage;
     
     public void InitCells(List<InventoryCell> cells, Storage storage)
     {
         _targetStorage = storage;
         Appear();
         Cells = cells;
-        storageSlotsDisplayer.DisplayCells();
+        _bufferedStorage = storage;
+        SlotsDisplayer.DisplayCells();
+        _targetStorage = storage;
+       
     }
 
     public override void ResetCell(int index)
@@ -23,6 +27,6 @@ public class StorageSlotsContainer : SlotsContainer
     public override void AddCell(int index, InventoryCell cell)
     {
         base.AddCell(index, cell);
-        _targetStorage.SetItemServerRpc(index, cell.Item.Id, cell.Count);
+        _bufferedStorage.SetItemServerRpc(index, cell.Item.Id, cell.Count);
     }
 }
