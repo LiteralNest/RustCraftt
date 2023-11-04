@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using Unity.Services.Vivox;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -13,6 +14,7 @@ public class LobbyScreenUI : MonoBehaviour
     private VivoxVoiceManager _vivoxVoiceManager;
     private EventSystem _evtSystem;
     private bool _isMicrophoneOn;
+    private IChannelSession _chan;
 
     #region Unity Callbacks
 
@@ -64,7 +66,9 @@ public class LobbyScreenUI : MonoBehaviour
     {
         // Do nothing, participant added will take care of this
         _vivoxVoiceManager.OnParticipantAddedEvent += VivoxVoiceManager_OnParticipantAddedEvent;
-        _vivoxVoiceManager.JoinChannel(LobbyChannelName, ChannelType.NonPositional, VivoxVoiceManager.ChatCapability.TextAndAudio);
+        _vivoxVoiceManager.JoinChannel(LobbyChannelName, ChannelType.Positional, VivoxVoiceManager.ChatCapability.TextAndAudio);
+        var channelId = new Channel(LobbyChannelName, ChannelType.Positional);
+        _chan = _vivoxVoiceManager.LoginSession.GetChannelSession(channelId);
     }
     
 
@@ -112,5 +116,12 @@ public class LobbyScreenUI : MonoBehaviour
         LobbyScreen.SetActive(false);
     }
 
+    private void FixedUpdate()
+    {
+        if (_chan == null || _chan.ChannelState != ConnectionState.Connected) return;
+        var camera = Camera.main.transform;
+        _chan.Set3DPosition(camera.position,camera.position,camera.forward, camera.up);
+    }
+    
     #endregion
 }
