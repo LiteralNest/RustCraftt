@@ -1,19 +1,19 @@
 ﻿using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.Android;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using System.Collections.Generic;
 using TMPro;
+using Unity.Services.Vivox;
+using VivoxUnity;
 using Web.User;
 
 public class LoginScreenUI : MonoBehaviour
 {
     private VivoxVoiceManager _vivoxVoiceManager;
-
-    // public Button LoginButton;
     public TMP_InputField DisplayNameInput;
-    // public GameObject LoginScreen;
 
     private int defaultMaxStringLength = 9;
     private int PermissionAskedCount = 0;
@@ -21,12 +21,7 @@ public class LoginScreenUI : MonoBehaviour
     #region Unity Callbacks
 
     private EventSystem _evtSystem;
-
-    private void OnEnable()
-        => GlobalEventsContainer.ShouldActivateVivox += LoginToVivoxService;
     
-    private void OnDisable()
-        => GlobalEventsContainer.ShouldActivateVivox -= LoginToVivoxService;
 
     private void Awake()
     {
@@ -59,6 +54,9 @@ public class LoginScreenUI : MonoBehaviour
         }
     }
 
+    private void Start()
+        => StartCoroutine(WaitForLogin());
+    
     private void OnDestroy()
     {
         _vivoxVoiceManager.OnUserLoggedInEvent -= OnUserLoggedIn;
@@ -82,6 +80,12 @@ public class LoginScreenUI : MonoBehaviour
     private void HideLoginUI()
     {
         // LoginScreen.SetActive(false);
+    }
+
+    private IEnumerator WaitForLogin()
+    {
+        yield return new WaitForSeconds(2);
+        LoginToVivoxService();
     }
 
 #if (UNITY_ANDROID && !UNITY_EDITOR) || __ANDROID__
@@ -149,6 +153,7 @@ public class LoginScreenUI : MonoBehaviour
         return PermissionAskedCount == 1;
     }
 
+    [ContextMenu("LoginToVivoxService")]
     public void LoginToVivoxService()
     {
         if (IsMicPermissionGranted())

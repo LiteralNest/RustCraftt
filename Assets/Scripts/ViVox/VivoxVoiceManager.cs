@@ -206,6 +206,7 @@ public class VivoxVoiceManager : MonoBehaviour
             {
                 // Handle error 
                 VivoxLogError(nameof(e));
+
                 // Unbind if we failed to login.
                 LoginSession.PropertyChanged -= OnLoginSessionPropertyChanged;
                 return;
