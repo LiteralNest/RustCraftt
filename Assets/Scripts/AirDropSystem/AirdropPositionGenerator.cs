@@ -20,6 +20,7 @@ namespace AirDropSystem
             Instantiate(_airdropPrefab, spawnPoint, Quaternion.identity);
         }
 
+        [ContextMenu("Spawn AirDrop")]
         private void CalculateAndSpawn()
         {
             var randomEdge1 = Random.Range(0, 4);
@@ -94,15 +95,7 @@ namespace AirDropSystem
 
         #region UnityEditorTest
 
-        private void OnGUI()
-        {
-            if (GUI.Button(new Rect(Screen.width / 2 - 50, Screen.height / 2 - 15, 400, 160), "Generate Airdrop"))
-            {
-                CalculateAndSpawn();
-            }
-        }
-
-        private void OnDrawGizmos()
+        private void OnDrawGizmosSelected()
         {
             var halfWidth = _mapSizeGetter.MapWidth * _mapSizeGetter.BlockSize / 2;
             var halfHeight = _mapSizeGetter.MapHeight * _mapSizeGetter.BlockSize / 2;

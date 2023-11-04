@@ -4021,7 +4021,10 @@ PrefabInstance:
     - {fileID: 4487211246006657753, guid: e50b321f32214a441b6801426f6d0aab, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 7473235584291589163, guid: e50b321f32214a441b6801426f6d0aab, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1741593515}
   m_SourcePrefab: {fileID: 100100000, guid: e50b321f32214a441b6801426f6d0aab, type: 3}
 --- !u!1 &868054758
 GameObject:
@@ -5118,6 +5121,54 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1104253181}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1179551846
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1179551848}
+  - component: {fileID: 1179551847}
+  m_Layer: 0
+  m_Name: AirDropManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1179551847
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1179551846}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 295d4e8c52da44ba966a6f2b8e773eeb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _airdropPrefab: {fileID: 6769776913304042297, guid: 45b7f0bd244704f33bc10f47051373b1, type: 3}
+  _mapSizeGetter: {fileID: 1741593515}
+  _airdropHeight: 85.3
+  _spawnZoneOffsetY: 60.6
+--- !u!4 &1179551848
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1179551846}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1202253759
@@ -6333,6 +6384,26 @@ Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 3d47e06892acd4a419564ede8143f86d, type: 3}
   m_PrefabInstance: {fileID: 1716732639}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1741593514 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7473235584291589163, guid: e50b321f32214a441b6801426f6d0aab, type: 3}
+  m_PrefabInstance: {fileID: 840667155}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1741593515
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1741593514}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b43d212f271a4eb9b07a0f6fde8a718, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _mapWidth: 160
+  _mapHeight: 160
+  _blockSize: 1
 --- !u!1 &1754904681
 GameObject:
   m_ObjectHideFlags: 0
@@ -7777,3 +7848,4 @@ SceneRoots:
   - {fileID: 1896363350}
   - {fileID: 1202253759}
   - {fileID: 722498562}
+  - {fileID: 1179551848}
