@@ -25,10 +25,4 @@ public class GunTrap : MonoBehaviour
             CharacterStats.Singleton.MinusStat(CharacterStatType.Health, _damageAmount);
         }
     }
-
-    private void OnDrawGizmos()
-    {
-        Gizmos.color = Color.green;
-        Gizmos.DrawRay(_transform.position, _transform.forward * _rayDistance);
-    }
 }

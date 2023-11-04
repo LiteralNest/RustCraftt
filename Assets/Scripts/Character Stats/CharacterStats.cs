@@ -1,5 +1,3 @@
-using System;
-using System.Threading.Tasks;
 using UnityEngine;
 
 [RequireComponent(typeof(CharacterStatsDisplayer))]
@@ -35,14 +33,6 @@ public class CharacterStats : MonoBehaviour
       _initialWater = Water;
       CurrentOxygen = Oxygen;
    }
-
-   // private void Update()
-   // {
-   //    if (_currentOxygen >= 100)
-   //    {
-   //       _OxygenPanel.SetActive(false);
-   //    }
-   // }
 
    public void ResetStatsToDefault()
    {
@@ -104,11 +94,7 @@ public class CharacterStats : MonoBehaviour
          case CharacterStatType.Health:
             Health = GetSubstractedStat(Health, value);
             _statsDisplayer.DisplayHp((int)Health);
-            if (Health <= 0)
-            {
-               // GlobalEventsContainer.PlayerDied?.Invoke();
-               // _statsDisplayer.DisplayDeathMessage("You died!", Color.red);
-            }
+            PlayerHealthStatus();
             break;
          case CharacterStatType.Food:
             Food = GetSubstractedStat(Food, value);
@@ -145,20 +131,18 @@ public class CharacterStats : MonoBehaviour
       _OxygenPanel.SetActive(state);
    }
    
-   // public async void SubstractStatsOxygenMinus(bool statement)
-   // {
-   //    statement = true;
-   //   
-   //    await Task.Delay(1000);
-   //    MinusStat(CharacterStatType.Oxygen, _minussingValueOxygen);
-   //    statement = false;
-   // }
-   //
-   // public async void SubstractStatsOxygenPlus(bool statement)
-   // {
-   //    statement = true;
-   //    await Task.Delay(1000);
-   //    PlusStat(CharacterStatType.Oxygen, 1);
-   //    statement = false;
-   // }
+   private void PlayerHealthStatus()
+   {
+      switch (Health)
+      {
+         case <= 5 and > 0:
+            PlayerKnockDowned();
+            break;
+         case <= 0:
+            PlayerDead();
+            break;
+      }
+   }
+   private void PlayerDead() => GlobalEventsContainer.PlayerDied?.Invoke();
+   private void PlayerKnockDowned() => GlobalEventsContainer.PlayerKnockDowned?.Invoke();
 }
