@@ -1,6 +1,5 @@
 using Player_Controller;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 public class PlayerNetworkController : MonoBehaviour
 {
@@ -23,9 +22,11 @@ public class PlayerNetworkController : MonoBehaviour
     [Header("Children")] 
     [SerializeField] private GameObject _characterStaff;
     [SerializeField] private GameObject _canvas;
+    [SerializeField] private GameObject _vivox;
 
     private void Start()
     {
+        _vivox.transform.SetParent(null);
         _canvas.transform.SetParent(null);
         if(!_playerNetCode.PlayerIsOwner())
             ClearObjects();
