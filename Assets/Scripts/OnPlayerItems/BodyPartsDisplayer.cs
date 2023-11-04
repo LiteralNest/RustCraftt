@@ -24,5 +24,14 @@ namespace ArmorSystem.Backend
                 bodyPart.AssignMaterial(material);
             }
         }
+
+        public void ReturnArmorsToDefault(BodyPartType exceptBodyPartType = BodyPartType.None)
+        {
+            foreach (var bodyPart in _bodyParts)
+            {
+                if (bodyPart.BodyPartType == exceptBodyPartType) continue;
+                bodyPart.ReturnToDefault();
+            }
+        }
     }
 }

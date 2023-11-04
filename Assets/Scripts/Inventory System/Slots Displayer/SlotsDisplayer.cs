@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using ArmorSystem.UI;
 using UnityEngine;
 
 public abstract class SlotsDisplayer : MonoBehaviour
@@ -9,8 +10,11 @@ public abstract class SlotsDisplayer : MonoBehaviour
     protected InventoryItemDisplayer _itemDisplayerPrefab;
 
     [SerializeField] protected List<InventorySlotDisplayer> _cellDisplayers = new List<InventorySlotDisplayer>();
-
+    
     public abstract void InitItems();
+
+    public virtual List<ArmorSlotDisplayer> GetArmorSlots()
+        => null;
 
     private void Start()
     {
@@ -20,7 +24,7 @@ public abstract class SlotsDisplayer : MonoBehaviour
         InitCells();
         DisplayCells();
     }
-
+    
     private void InitCells()
     {
         for (int i = 0; i < _cellDisplayers.Count; i++)

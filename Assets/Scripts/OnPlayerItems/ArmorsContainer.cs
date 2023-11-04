@@ -6,9 +6,6 @@ namespace ArmorSystem.Backend
     public class ArmorsContainer : MonoBehaviour
     {
         [SerializeField] private List<ArmorCell> _armorCells = new List<ArmorCell>();
-
-        [SerializeField] private Armor _testArmor;
-
         public void DisplayArmor(Armor targetArmor)
         {
             foreach (var armor in _armorCells)
@@ -21,9 +18,5 @@ namespace ArmorSystem.Backend
                 armor.PutOnArmor();
             }
         }
-
-        [ContextMenu("Test PutOn Armor")]
-        private void TestDisplayArmor()
-            => DisplayArmor(_testArmor);
     }
 }

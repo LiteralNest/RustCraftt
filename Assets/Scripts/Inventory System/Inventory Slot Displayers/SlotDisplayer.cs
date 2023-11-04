@@ -32,10 +32,13 @@ public abstract class SlotDisplayer : MonoBehaviour, IDropHandler
         ItemDisplayer.SetNewCell(this);
     }
 
-    public void ResetItem()
+    private void ResetItem()
     {
         ItemDisplayer = null;
     }
+
+    public virtual void ResetItemWhileDrag()
+        => ItemDisplayer = null;
 
     private void ClearPlace(Transform place)
     {

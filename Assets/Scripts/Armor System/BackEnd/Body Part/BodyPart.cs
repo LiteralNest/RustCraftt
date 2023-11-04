@@ -27,5 +27,11 @@ namespace ArmorSystem.Backend
             foreach (var renderer in _targetRenderers)
                 renderer.sharedMaterial = assigningMaterial;
         }
+
+        public void ReturnToDefault()
+        {
+            foreach (var renderer in _cachedRenderers)
+                renderer.ReturnToDefault();
+        }
     }
 }

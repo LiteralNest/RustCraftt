@@ -9,7 +9,7 @@ public class InventoryItemDisplayer : ItemDisplayer, IBeginDragHandler, IDragHan
     {
         if (!GlobalValues.CanDragInventoryItems) return;
         _slotsContainer.ResetCell(PreviousCell.Index);
-        PreviousCell.ResetItem();
+        PreviousCell.ResetItemWhileDrag();
         _countText.gameObject.SetActive(false);
         transform.SetParent(transform.root);
         ResourcesDropper.singleton.InventoryItemDisplayer = this;

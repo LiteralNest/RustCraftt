@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 public abstract class SlotsContainer : MonoBehaviour
 {
@@ -8,7 +7,7 @@ public abstract class SlotsContainer : MonoBehaviour
     [field: SerializeField] public List<InventoryCell> Cells { get; set; }
 
     #region virtual
-
+    
     protected virtual void Appear()
         => ActiveInvetoriesHandler.singleton.AddActiveInventory(this);
     
