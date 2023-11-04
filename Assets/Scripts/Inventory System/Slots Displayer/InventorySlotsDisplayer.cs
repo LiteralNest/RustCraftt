@@ -1,6 +1,6 @@
-using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using ArmorSystem.UI;
 using UnityEngine;
 
 public class InventorySlotsDisplayer : SlotsDisplayer
@@ -8,11 +8,22 @@ public class InventorySlotsDisplayer : SlotsDisplayer
     [Header("Attached Scripts")] [SerializeField]
     private QuickSlotsDisplayer _quickSlotsDisplayer;
 
+    [SerializeField] private int _mainSlotsCount;
+    [SerializeField] private int _armorCellsCount;
+
     private void OnEnable()
         => GlobalEventsContainer.ShouldDisplayInventoryCells += DisplayCells;
 
     private void OnDisable()
         => GlobalEventsContainer.ShouldDisplayInventoryCells -= DisplayCells;
+
+    public override List<ArmorSlotDisplayer> GetArmorSlots()
+    {
+        var res = new List<ArmorSlotDisplayer>();
+        for (int i = _mainSlotsCount; i < _cellDisplayers.Count; i++)
+            res.Add(_cellDisplayers[i] as ArmorSlotDisplayer);
+        return res;
+    }
 
     public override void InitItems()
     {

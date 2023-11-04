@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 public class InventorySlotsContainer : SlotsContainer
 {
     public static InventorySlotsContainer singleton { get; private set; }
@@ -11,6 +13,6 @@ public class InventorySlotsContainer : SlotsContainer
         if(cells == null) return;
         AssignCells(cells);
     }
-    
+
     protected override void Appear(){}
 }
