@@ -1,15 +1,20 @@
 using UnityEngine;
 
-public class Landmine : BaseExplosive
+namespace Fight_System.Weapon.Explosive
 {
-    private void OnCollisionEnter(Collision collision)
+    public class Landmine : BaseExplosive
     {
-        if (_hasExploded) return;
-
-        if (collision.collider.CompareTag("Player"))
+        private void OnCollisionEnter(Collision collision)
         {
-            Explode();
-            CharacterStats.Singleton.MinusStat(CharacterStatType.Health, _maxDamage);
+            if (_hasExploded) return;
+
+            if (collision.collider.CompareTag("Player"))
+            {
+                Debug.Log("Mine");
+                Explode();
+                PlaySound();
+                CharacterStats.Singleton.MinusStat(CharacterStatType.Health, _maxDamage);
+            }
         }
     }
 }

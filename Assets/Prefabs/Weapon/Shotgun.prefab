@@ -41,12 +41,12 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6204424103932651478}
-  - component: {fileID: 4349214220257681019}
   - component: {fileID: 1512506632451936988}
   - component: {fileID: 4925500289109209217}
   - component: {fileID: 5176850307065824357}
+  - component: {fileID: -4924745843043698236}
   m_Layer: 0
-  m_Name: Berdan rifle
+  m_Name: Shotgun
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -69,30 +69,6 @@ Transform:
   - {fileID: 6454343342693749600}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &4349214220257681019
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3389491808241082177}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 54c4f769c8df5cf4382575c576b7cfb7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _canBeReloaded: 0
-  <WeaponType>k__BackingField: 0
-  _soudPlayer: {fileID: 1512506632451936988}
-  _ammoSpawnPoint: {fileID: 7670277374402306744}
-  _impactEffect: {fileID: 8636746905528279354, guid: cf52497d3a8edde4c9f2d2c8b7bae708, type: 3}
-  _flameEffect: {fileID: 6896645403536755329}
-  _flameEffectDuration: 0.1
-  <Weapon>k__BackingField: {fileID: 11400000, guid: 006e8b380b45c9d4f8833e6f057b6585, type: 2}
-  _decal: {fileID: 1305036650871697919, guid: 74feb497a20face4e89facba0677d7ab, type: 3}
-  _targetMask:
-    serializedVersion: 2
-    m_Bits: 55
 --- !u!114 &1512506632451936988
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -222,6 +198,33 @@ MonoBehaviour:
   _smoothFactor: 3
   _rotationAmount: 2
   _maxRotation: 5
+  _returnSpeed: 4
+--- !u!114 &-4924745843043698236
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3389491808241082177}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4466773ece24686b59b3a9dc47c5170, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _canBeReloaded: 1
+  <WeaponType>k__BackingField: 0
+  _soundPlayer: {fileID: 1512506632451936988}
+  _ammoSpawnPoint: {fileID: 7670277374402306744}
+  _impactEffect: {fileID: 8636746905528279354, guid: cf52497d3a8edde4c9f2d2c8b7bae708, type: 3}
+  _flameEffect: {fileID: 6896645403536755329}
+  _flameEffectDuration: 0.2
+  <Weapon>k__BackingField: {fileID: 11400000, guid: 006e8b380b45c9d4f8833e6f057b6585, type: 2}
+  _decal: {fileID: 1305036650871697919, guid: 74feb497a20face4e89facba0677d7ab, type: 3}
+  _targetMask:
+    serializedVersion: 2
+    m_Bits: 55
+  _pelletCount: 12
+  _spreadAngle: 20
 --- !u!1 &7807611124122348867
 GameObject:
   m_ObjectHideFlags: 0

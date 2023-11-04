@@ -18,6 +18,10 @@ public class Explosive : BaseExplosive
         _countdownTimer -= Time.deltaTime;
 
         if (_countdownTimer <= 0f)
+        {
             Explode();
+            PlaySound();
+        }
+            
     }
 }

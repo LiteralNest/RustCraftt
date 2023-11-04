@@ -17,16 +17,4 @@ public class LongRangeWeapon : Weapon
     [SerializeField] private Ammo _ammo;
     public int MagazineCount => _magazineCount;
     [SerializeField] private int _magazineCount;
-    
-    public float RecoilX => _recoilX;
-    [Header("Recoil")] 
-    [SerializeField] private float _recoilX;
-    public float RecoilY => _recoilY;
-    [SerializeField] private float _recoilY;
-    public float RecoilZ => _recoilZ;
-    [SerializeField] private float _recoilZ;
-    public float ReturnSpeed => _returnSpeed;
-    [SerializeField] private float _returnSpeed;
-    public float Snappiness => _snappiness;
-    [SerializeField] private float _snappiness;
 }

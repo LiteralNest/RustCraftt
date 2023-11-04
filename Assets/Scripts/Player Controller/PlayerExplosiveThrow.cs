@@ -15,12 +15,12 @@ public class PlayerExplosiveThrow : MonoBehaviour
         if (rb != null) rb.AddForce(transform.forward * _throwForce, ForceMode.Impulse);
     }
 
-    private void OnGUI()
-    {
-        if (GUI.Button(new Rect(Screen.width - 250, Screen.height / 2 - 25, 200, 100), "Explosive"))
-            SpawnAndThrowExplosive(_explosivePrefab);
-        
-        if (GUI.Button(new Rect(Screen.width - 250, Screen.height / 2 + 100, 200, 100), "Mine"))
-            SpawnAndThrowExplosive(_landminePrefab);
-    }
+    // private void OnGUI()
+    // {
+    //     if (GUI.Button(new Rect(Screen.width - 500, Screen.height / 2 - 25, 200, 100), "Explosive"))
+    //         SpawnAndThrowExplosive(_explosivePrefab);
+    //     
+    //     if (GUI.Button(new Rect(Screen.width - 500, Screen.height / 2 + 100, 200, 100), "Mine"))
+    //         SpawnAndThrowExplosive(_landminePrefab);
+    // }
 }

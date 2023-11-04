@@ -1,12 +1,14 @@
 using System.Collections;
 using System.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.Serialization;
 
-[RequireComponent(typeof(WeaponSoudPlayer))]
+[RequireComponent(typeof(WeaponSoundPlayer))]
 public class LongRangeWeaponObject : WeaponObject
 {
+    [FormerlySerializedAs("_soudPlayer")]
     [Header("Attached Objects")]
-    [SerializeField] private WeaponSoudPlayer _soudPlayer;
+    [SerializeField] private WeaponSoundPlayer _soundPlayer;
     [SerializeField] private Transform _ammoSpawnPoint;
     [SerializeField] private GameObject _impactEffect;
     [SerializeField] private GameObject _flameEffect;
@@ -29,26 +31,27 @@ public class LongRangeWeaponObject : WeaponObject
     {
         Reload();
         _canShoot = true;
+        _currentAmmoCount = 100;
     }
 
     private void Update()
     {
-        _targetRotation = Vector3.Lerp(_targetRotation, Vector3.zero, Weapon.ReturnSpeed * Time.deltaTime);
-        _currentRotation = Vector3.Slerp(_currentRotation, _targetRotation, Weapon.Snappiness * Time.fixedDeltaTime);
+        // _targetRotation = Vector3.Lerp(_targetRotation, Vector3.zero, Weapon.ReturnSpeed * Time.deltaTime);
+        // _currentRotation = Vector3.Slerp(_currentRotation, _targetRotation, Weapon.Snappiness * Time.fixedDeltaTime);
         transform.localRotation = Quaternion.Euler(_currentRotation);
     }
     
     private void RecoilFire()
     {
-        _targetRotation += new Vector3(Weapon.RecoilX, Random.Range(-Weapon.RecoilY, Weapon.RecoilY),
-            Random.Range(-Weapon.RecoilZ, Weapon.RecoilZ));
+        // _targetRotation += new Vector3(Weapon.RecoilX, Random.Range(-Weapon.RecoilY, Weapon.RecoilY),
+        //     Random.Range(-Weapon.RecoilZ, Weapon.RecoilZ));
     }
     
     private IEnumerator WaitBetweenShootsRoutine()
     {
-        _canShoot = false;
+         // _canShoot = false;
         yield return new WaitForSeconds(Weapon.DelayBetweenShoots);
-        _canShoot = true;
+        // _canShoot = true;
     }
 
     private void TryDamage(RaycastHit hit)
@@ -105,8 +108,8 @@ public class LongRangeWeaponObject : WeaponObject
     {
         if (!_canShoot || _currentAmmoCount <= 0) return;
         RaycastHit hit;
-        _soudPlayer.PlayShot();
-        MinusAmmo();
+        _soundPlayer.PlayShot();
+        // MinusAmmo();
         RecoilFire();
         DisplayFlameEffect();
         if (Physics.Raycast(transform.position, transform.forward, out hit,
