@@ -37,4 +37,6 @@ public static class GlobalEventsContainer
     public static Action<bool> ShouldHandleAttacking { get; set; }
     public static Action<bool> ShouldHandleWalk { get; set; }
     public static Action<bool> ShouldHandleRun { get; set; }
+    
+    public static Action ShouldActivateVivox { get; set; }
 }

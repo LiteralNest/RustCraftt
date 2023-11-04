@@ -30,6 +30,7 @@ public class PlayerNetworkController : MonoBehaviour
         _canvas.transform.SetParent(null);
         if(!_playerNetCode.PlayerIsOwner())
             ClearObjects();
+        GlobalEventsContainer.ShouldActivateVivox?.Invoke();
         Destroy(this);
     }
 
@@ -47,6 +48,7 @@ public class PlayerNetworkController : MonoBehaviour
         _camera.enabled = false;
         _listener.enabled = false;
         Destroy(_canvas);
+        Destroy(_vivox);
         Destroy(_characterStaff);
     }
 }

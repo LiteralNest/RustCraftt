@@ -17,9 +17,16 @@ public class LoginScreenUI : MonoBehaviour
 
     private int defaultMaxStringLength = 9;
     private int PermissionAskedCount = 0;
+
     #region Unity Callbacks
 
     private EventSystem _evtSystem;
+
+    private void OnEnable()
+        => GlobalEventsContainer.ShouldActivateVivox += LoginToVivoxService;
+
+    private void OnDisable()
+        => GlobalEventsContainer.ShouldActivateVivox -= LoginToVivoxService;
 
     private void Awake()
     {
@@ -33,7 +40,7 @@ public class LoginScreenUI : MonoBehaviour
 #else
         // DisplayNameInput.onEndEdit.AddListener((string text) => { LoginToVivoxService(); });
 #endif
-        LoginToVivoxService();
+        // LoginToVivoxService();
         //LoginButton.onClick.AddListener(() => { LoginToVivoxService(); });
 
         if (_vivoxVoiceManager.LoginState == VivoxUnity.LoginState.LoggedIn)
@@ -44,7 +51,9 @@ public class LoginScreenUI : MonoBehaviour
         else
         {
             OnUserLoggedOut();
-            var systInfoDeviceName = String.IsNullOrWhiteSpace(SystemInfo.deviceName) == false ? SystemInfo.deviceName : Environment.MachineName;
+            var systInfoDeviceName = String.IsNullOrWhiteSpace(SystemInfo.deviceName) == false
+                ? SystemInfo.deviceName
+                : Environment.MachineName;
 
             // DisplayNameInput.text = Environment.MachineName.Substring(0, Math.Min(defaultMaxStringLength, Environment.MachineName.Length));
         }
@@ -68,7 +77,6 @@ public class LoginScreenUI : MonoBehaviour
         // LoginScreen.SetActive(true);
         // LoginButton.interactable = true;
         // _evtSystem.SetSelectedGameObject(LoginButton.gameObject, null);
-
     }
 
     private void HideLoginUI()
@@ -173,7 +181,8 @@ public class LoginScreenUI : MonoBehaviour
             Debug.LogError("Please enter a display name.");
             return;
         }
-       // _vivoxVoiceManager.Login(DisplayNameInput.text);
+
+        // _vivoxVoiceManager.Login(DisplayNameInput.text);
         _vivoxVoiceManager.Login(UserDataHandler.singleton.UserData.Name);
     }
 
