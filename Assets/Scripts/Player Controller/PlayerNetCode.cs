@@ -12,7 +12,8 @@ public class PlayerNetCode : NetworkBehaviour
     private NetworkVariable<ulong> _gettedClientId = new NetworkVariable<ulong>();
     [SerializeField] private InHandObjectsContainer _inHandObjectsContainer;
 
-    [Header("NickName")] [SerializeField] private NetworkVariable<int> _playerId = new NetworkVariable<int>();
+    [Header("NickName")] [SerializeField] private NetworkVariable<int> _playerId = new(-1, NetworkVariableReadPermission.Everyone,
+    NetworkVariableWritePermission.Owner);
     [SerializeField] private List<TMP_Text> _nickNameTexts = new List<TMP_Text>();
 
     private void OnEnable()
@@ -31,7 +32,10 @@ public class PlayerNetCode : NetworkBehaviour
     public override void OnNetworkSpawn()
     {
         if (IsOwner)
+        {
             Singleton = this;
+            _playerId.Value = UserDataHandler.singleton.UserData.Id;
+        }
         _gettedClientId.Value = GetClientId();
         AssignName();
         
@@ -40,11 +44,16 @@ public class PlayerNetCode : NetworkBehaviour
             if (GetClientId() != _gettedClientId.Value) return;
             _inHandObjectsContainer.DisplayItems(ActiveItemId.Value);
         };
+
+        _playerId.OnValueChanged += (int prevValue, int newValue) =>
+        {
+            AssignName();
+        };
     }
     
     private async void AssignName()
     {
-        string name = await WebUserDataHandler.singleton.GetUserValueById(UserDataHandler.singleton.UserData.Id);
+        string name = await WebUserDataHandler.singleton.GetUserValueById(_playerId.Value);
         foreach (var nickNameText in _nickNameTexts)
             nickNameText.text = name;
     }

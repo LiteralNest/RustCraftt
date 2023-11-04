@@ -174,7 +174,7 @@ public class LoginScreenUI : MonoBehaviour
             return;
         }
        // _vivoxVoiceManager.Login(DisplayNameInput.text);
-        _vivoxVoiceManager.Login();
+        _vivoxVoiceManager.Login(UserDataHandler.singleton.UserData.Name);
     }
 
     #region Vivox Callbacks
