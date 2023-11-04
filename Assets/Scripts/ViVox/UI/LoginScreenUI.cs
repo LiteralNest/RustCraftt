@@ -22,11 +22,11 @@ public class LoginScreenUI : MonoBehaviour
 
     private EventSystem _evtSystem;
 
-    // private void OnEnable()
-    //     => GlobalEventsContainer.ShouldActivateVivox += LoginToVivoxService;
-    //
-    // private void OnDisable()
-    //     => GlobalEventsContainer.ShouldActivateVivox -= LoginToVivoxService;
+    private void OnEnable()
+        => GlobalEventsContainer.ShouldActivateVivox += LoginToVivoxService;
+    
+    private void OnDisable()
+        => GlobalEventsContainer.ShouldActivateVivox -= LoginToVivoxService;
 
     private void Awake()
     {
@@ -176,14 +176,14 @@ public class LoginScreenUI : MonoBehaviour
     {
         // LoginButton.interactable = false;
 
-        if (string.IsNullOrEmpty(DisplayNameInput.text))
+        if (string.IsNullOrEmpty(UserDataHandler.singleton.UserData.Name))
         {
             Debug.LogError("Please enter a display name.");
             return;
         }
 
         // _vivoxVoiceManager.Login(DisplayNameInput.text);
-        _vivoxVoiceManager.Login(DisplayNameInput.text);
+        _vivoxVoiceManager.Login(UserDataHandler.singleton.UserData.Name);
     }
 
     #region Vivox Callbacks
