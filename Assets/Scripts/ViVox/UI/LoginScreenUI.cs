@@ -22,11 +22,11 @@ public class LoginScreenUI : MonoBehaviour
 
     private EventSystem _evtSystem;
 
-    private void OnEnable()
-        => GlobalEventsContainer.ShouldActivateVivox += LoginToVivoxService;
-
-    private void OnDisable()
-        => GlobalEventsContainer.ShouldActivateVivox -= LoginToVivoxService;
+    // private void OnEnable()
+    //     => GlobalEventsContainer.ShouldActivateVivox += LoginToVivoxService;
+    //
+    // private void OnDisable()
+    //     => GlobalEventsContainer.ShouldActivateVivox -= LoginToVivoxService;
 
     private void Awake()
     {
@@ -149,7 +149,7 @@ public class LoginScreenUI : MonoBehaviour
         return PermissionAskedCount == 1;
     }
 
-    private void LoginToVivoxService()
+    public void LoginToVivoxService()
     {
         if (IsMicPermissionGranted())
         {
