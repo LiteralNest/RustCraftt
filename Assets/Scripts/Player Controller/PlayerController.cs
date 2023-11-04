@@ -26,7 +26,6 @@ namespace Player_Controller
     
         [Header("Swim")]
         [SerializeField] private float _swimSpeed = 0.5f;
-        [SerializeField] private float _riseCoefficient = 20f; 
         public bool IsSwimming { get; set; }
     
         private Rigidbody _rb;
@@ -54,25 +53,25 @@ namespace Player_Controller
         {
             if (IsSwimming != true)
             {
-                if (_rb.useGravity != true)
-                {
-                    _rb.useGravity = true;
-                    _rb.drag = _originalDrag;
-                    _rb.angularDrag = _originalAngularDrag;
-                }
+                if (!_rb.useGravity)
+                    ReturnOriginalRb();
                 if (!_ifRunning)
                 {
                     Move();
                     return;
                 }
                 transform.Translate(Vector3.forward * _currentMovingSpeed * Time.deltaTime, Space.Self);
+                return;
             }
-            else
-            {
-                if (_rb.useGravity) _rb.useGravity = false;
-                Swim();
-                // Move();
-            }
+            
+            Swim();
+        }
+
+        private void ReturnOriginalRb()
+        {
+            _rb.useGravity = true;
+            _rb.drag = _originalDrag;
+            _rb.angularDrag = _originalAngularDrag;
         }
 
         #region InputMap
@@ -132,6 +131,8 @@ namespace Player_Controller
         #region Swimming
         private void Swim()
         {
+            if (_rb.useGravity) 
+                _rb.useGravity = false;
             var cameraForward = _camera.transform.forward ;
             cameraForward *= _move.y;
             Vector3 movement = new Vector3(_move.x, cameraForward.y, _move.y);
@@ -156,27 +157,6 @@ namespace Player_Controller
                 _rb.AddForce(jumpForce, ForceMode.Force);
             }
         }
-    
-    
-
         #endregion
-   
-        private void OnDrawGizmos()
-        {
-            Vector3 cameraForward = _camera.transform.forward;
-
-            float verticalInput = _move.y;
-
-            if (verticalInput != 0f) // Проверка на наличие входного сигнала
-            {
-                // Умножаем на коэффициент подъема
-                verticalInput *= _riseCoefficient;
-
-                Vector3 movement = _camera.transform.up * verticalInput;
-
-                Gizmos.color = Color.blue;
-                Gizmos.DrawLine(transform.position, transform.position + movement);
-            }
-        }
     }
 }
