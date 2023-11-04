@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657874, g: 0.49641275, b: 0.5748172, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -33351,7 +33351,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1536344282
 RectTransform:
   m_ObjectHideFlags: 0
@@ -35004,7 +35004,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1633568527
 RectTransform:
   m_ObjectHideFlags: 0
@@ -45275,6 +45275,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _animator: {fileID: 0}
+  _renderers: []
+  _activatingObjects: []
   _attackIndex: Attacking
   _walkIndex: Walking
   _runIndex: Running
@@ -46038,33 +46040,18 @@ MonoBehaviour:
   - <TargetItem>k__BackingField: {fileID: 11400000, guid: 7a60a301ea01e46409846c33bcb67898, type: 2}
     <FirstPersonObject>k__BackingField: {fileID: 5595391391286839872}
     <ThirdPersonObject>k__BackingField: {fileID: 6726563646308975795}
-    <Renderers>k__BackingField:
-    - {fileID: 5305580344426225096}
-    - {fileID: 3262331990141570728}
   - <TargetItem>k__BackingField: {fileID: 11400000, guid: c4791c33b05b3154992749c0dd27fc49, type: 2}
-    <FirstPersonObject>k__BackingField: {fileID: 7097992632192457737}
+    <FirstPersonObject>k__BackingField: {fileID: 0}
     <ThirdPersonObject>k__BackingField: {fileID: 2275627690652324946}
-    <Renderers>k__BackingField:
-    - {fileID: 6666620165290072699}
-    - {fileID: 5048807973949565155}
   - <TargetItem>k__BackingField: {fileID: 11400000, guid: 722b392527e89894ba230a29531d3973, type: 2}
     <FirstPersonObject>k__BackingField: {fileID: 3718697419726202836}
     <ThirdPersonObject>k__BackingField: {fileID: 172514524329626105}
-    <Renderers>k__BackingField:
-    - {fileID: 6666620165290072699}
-    - {fileID: 5048807973949565155}
   - <TargetItem>k__BackingField: {fileID: 11400000, guid: 006e8b380b45c9d4f8833e6f057b6585, type: 2}
     <FirstPersonObject>k__BackingField: {fileID: 4147749295272526881}
     <ThirdPersonObject>k__BackingField: {fileID: 1422952516766982459}
-    <Renderers>k__BackingField:
-    - {fileID: 6666620165290072699}
-    - {fileID: 5048807973949565155}
   - <TargetItem>k__BackingField: {fileID: 11400000, guid: ebeabc5889d66a241a55747f01558524, type: 2}
     <FirstPersonObject>k__BackingField: {fileID: 7500893983603619999}
     <ThirdPersonObject>k__BackingField: {fileID: 6498714263573746147}
-    <Renderers>k__BackingField:
-    - {fileID: 1856624063140823384}
-    - {fileID: 5477905465977954021}
   _playerNetCode: {fileID: 3721364865024298185}
 --- !u!224 &440094869754997188
 RectTransform:
@@ -46860,16 +46847,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <PlayerNetCode>k__BackingField: {fileID: 3721364865024298185}
   <Stats>k__BackingField: {fileID: 4901743657984502182}
-  <LootBoxSlotsContainer>k__BackingField: {fileID: 6325019149540632591}
+  <LootboxSlotsContainer>k__BackingField: {fileID: 0}
+  <LargeStorageSlotsContainer>k__BackingField: {fileID: 0}
   <InventorySlotsContainer>k__BackingField: {fileID: 8361857722934956799}
   <InventorySlotsDisplayer>k__BackingField: {fileID: 1768856232418101938}
   <PlayerObjectsPlacer>k__BackingField: {fileID: 7278581158510818135}
   <BuildingChooser>k__BackingField: {fileID: 6207217002524218853}
   <CampFireSlotsContainer>k__BackingField: {fileID: 3957482385600305807}
   <RecyclerSlotsContainer>k__BackingField: {fileID: 3385327418033767500}
+  <InHandObjectsContainer>k__BackingField: {fileID: 0}
+  <ArmorsContainer>k__BackingField: {fileID: 0}
   _mainButtonsPanel: {fileID: 1381974793085465032}
   _armorPanel: {fileID: 2043788967405141456}
   _lootBoxPanel: {fileID: 0}
+  _largeStoragePanel: {fileID: 0}
   _inventoryPanel: {fileID: 1780746530764642920}
   _campFirePanel: {fileID: 0}
   _recyclerPanel: {fileID: 0}
@@ -48425,6 +48416,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _animator: {fileID: 0}
+  _renderers: []
+  _activatingObjects: []
   _attackIndex: Attacking
   _walkIndex: Walking
   _runIndex: Running
@@ -48803,7 +48796,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _playerNetCode: {fileID: 3721364865024298185}
   _playerController: {fileID: 8624086197847996244}
-  _playerInput: {fileID: 7329390832707411638}
   _playerJumper: {fileID: 2115686005623525431}
   _playerSitter: {fileID: 5624260414416897344}
   _playerResourcesGatherer: {fileID: 7740005035764613613}
@@ -48941,6 +48933,8 @@ MonoBehaviour:
   - {fileID: 6662978733463468805}
   - {fileID: 6571911659341744238}
   _quickSlotsDisplayer: {fileID: 4897013275027013812}
+  _mainSlotsCount: 0
+  _armorCellsCount: 0
 --- !u!1 &1775403348190120447
 GameObject:
   m_ObjectHideFlags: 0
@@ -50262,6 +50256,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _animator: {fileID: 0}
+  _renderers: []
+  _activatingObjects: []
   _attackIndex: Attacking
   _walkIndex: Walking
   _runIndex: Running
@@ -53165,14 +53161,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <SlotsDisplayer>k__BackingField: {fileID: 4041470148022166487}
   <Cells>k__BackingField:
-  - <Item>k__BackingField: {fileID: 0}
-    <Count>k__BackingField: 0
-  - <Item>k__BackingField: {fileID: 0}
-    <Count>k__BackingField: 0
-  - <Item>k__BackingField: {fileID: 0}
-    <Count>k__BackingField: 0
-  - <Item>k__BackingField: {fileID: 0}
-    <Count>k__BackingField: 0
+  - Item: {fileID: 0}
+    Count: 0
+  - Item: {fileID: 0}
+    Count: 0
+  - Item: {fileID: 0}
+    Count: 0
+  - Item: {fileID: 0}
+    Count: 0
+  _activeButton: {fileID: 0}
+  _unactiveButton: {fileID: 0}
 --- !u!114 &3393655720378700883
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -53981,6 +53979,9 @@ MonoBehaviour:
   ActiveItemId:
     m_InternalValue: 0
   _inHandObjectsContainer: {fileID: 435786282569997347}
+  _playerId:
+    m_InternalValue: 0
+  _nickNameTexts: []
 --- !u!224 &3735073804564484131
 RectTransform:
   m_ObjectHideFlags: 0
@@ -54093,6 +54094,8 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   _quickSlotsDisplayer: {fileID: 4897013275027013812}
+  _mainSlotsCount: 0
+  _armorCellsCount: 0
 --- !u!1 &3746964176384818559
 GameObject:
   m_ObjectHideFlags: 0
@@ -54833,14 +54836,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <SlotsDisplayer>k__BackingField: {fileID: 3746317938928616487}
   <Cells>k__BackingField:
-  - <Item>k__BackingField: {fileID: 0}
-    <Count>k__BackingField: 0
-  - <Item>k__BackingField: {fileID: 0}
-    <Count>k__BackingField: 0
-  - <Item>k__BackingField: {fileID: 0}
-    <Count>k__BackingField: 0
-  - <Item>k__BackingField: {fileID: 0}
-    <Count>k__BackingField: 0
+  - Item: {fileID: 0}
+    Count: 0
+  - Item: {fileID: 0}
+    Count: 0
+  - Item: {fileID: 0}
+    Count: 0
+  - Item: {fileID: 0}
+    Count: 0
   _campFireDisplayer: {fileID: 7141929789220105294}
 --- !u!1 &3979354128379284044
 GameObject:
@@ -54953,6 +54956,8 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   _quickSlotsDisplayer: {fileID: 4897013275027013812}
+  _mainSlotsCount: 0
+  _armorCellsCount: 0
 --- !u!222 &4053207633772434821
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -55085,6 +55090,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _animator: {fileID: 8636938525100040086}
+  _renderers: []
+  _activatingObjects: []
   _attackIndex: Attacking
   _walkIndex: Walking
   _runIndex: Running
@@ -56909,6 +56916,8 @@ MonoBehaviour:
   <Health>k__BackingField: 100
   <Food>k__BackingField: 100
   <Water>k__BackingField: 100
+  <Oxygen>k__BackingField: 0
+  _OxygenPanel: {fileID: 0}
 --- !u!1 &4903409390997996824
 GameObject:
   m_ObjectHideFlags: 0
@@ -59907,39 +59916,39 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <SlotsDisplayer>k__BackingField: {fileID: 8976669236011830552}
   <Cells>k__BackingField:
-  - <Item>k__BackingField: {fileID: 0}
-    <Count>k__BackingField: 0
-  - <Item>k__BackingField: {fileID: 0}
-    <Count>k__BackingField: 0
-  - <Item>k__BackingField: {fileID: 0}
-    <Count>k__BackingField: 0
-  - <Item>k__BackingField: {fileID: 0}
-    <Count>k__BackingField: 0
-  - <Item>k__BackingField: {fileID: 0}
-    <Count>k__BackingField: 0
-  - <Item>k__BackingField: {fileID: 0}
-    <Count>k__BackingField: 0
-  - <Item>k__BackingField: {fileID: 0}
-    <Count>k__BackingField: 0
-  - <Item>k__BackingField: {fileID: 0}
-    <Count>k__BackingField: 0
-  - <Item>k__BackingField: {fileID: 0}
-    <Count>k__BackingField: 0
-  - <Item>k__BackingField: {fileID: 0}
-    <Count>k__BackingField: 0
-  - <Item>k__BackingField: {fileID: 0}
-    <Count>k__BackingField: 0
-  - <Item>k__BackingField: {fileID: 0}
-    <Count>k__BackingField: 0
-  - <Item>k__BackingField: {fileID: 0}
-    <Count>k__BackingField: 0
-  - <Item>k__BackingField: {fileID: 0}
-    <Count>k__BackingField: 0
-  - <Item>k__BackingField: {fileID: 0}
-    <Count>k__BackingField: 0
-  - <Item>k__BackingField: {fileID: 0}
-    <Count>k__BackingField: 0
-  _lootBoxSlotsDisplayer: {fileID: 8976669236011830552}
+  - Item: {fileID: 0}
+    Count: 0
+  - Item: {fileID: 0}
+    Count: 0
+  - Item: {fileID: 0}
+    Count: 0
+  - Item: {fileID: 0}
+    Count: 0
+  - Item: {fileID: 0}
+    Count: 0
+  - Item: {fileID: 0}
+    Count: 0
+  - Item: {fileID: 0}
+    Count: 0
+  - Item: {fileID: 0}
+    Count: 0
+  - Item: {fileID: 0}
+    Count: 0
+  - Item: {fileID: 0}
+    Count: 0
+  - Item: {fileID: 0}
+    Count: 0
+  - Item: {fileID: 0}
+    Count: 0
+  - Item: {fileID: 0}
+    Count: 0
+  - Item: {fileID: 0}
+    Count: 0
+  - Item: {fileID: 0}
+    Count: 0
+  - Item: {fileID: 0}
+    Count: 0
+  storageSlotsDisplayer: {fileID: 0}
 --- !u!4 &6349935870203133101
 Transform:
   m_ObjectHideFlags: 0
@@ -60182,6 +60191,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _animator: {fileID: 7353273876171351770}
+  _renderers: []
+  _activatingObjects: []
   _attackIndex: Attacking
   _walkIndex: Walking
   _runIndex: Running
@@ -61040,6 +61051,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _animator: {fileID: 4452604553123152941}
+  _renderers: []
+  _activatingObjects: []
   _attackIndex: Attacking
   _walkIndex: Walking
   _runIndex: Running
@@ -62079,20 +62092,9 @@ PrefabInstance:
   m_SourcePrefab: {fileID: 100100000, guid: 8ec984686977898478733b5cfdcb6f92, type: 3}
 --- !u!4 &7097992632192457736 stripped
 Transform:
-  m_CorrespondingSourceObject: {fileID: 2152995751478485234, guid: 8ec984686977898478733b5cfdcb6f92, type: 3}
+  m_CorrespondingSourceObject: {fileID: 4410114676988508095, guid: 8ec984686977898478733b5cfdcb6f92, type: 3}
   m_PrefabInstance: {fileID: 7097992632192457735}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &7097992632192457737 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 9019217992200084127, guid: 8ec984686977898478733b5cfdcb6f92, type: 3}
-  m_PrefabInstance: {fileID: 7097992632192457735}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fd18f1623cafcc342824303799eb2e6c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &7113904617545020843
 GameObject:
   m_ObjectHideFlags: 0
@@ -63069,6 +63071,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _animator: {fileID: 7707167549019757066}
+  _renderers: []
+  _activatingObjects: []
   _attackIndex: Attacking
   _walkIndex: Walking
   _runIndex: Running
@@ -64038,7 +64042,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -4.48584, y: -3.2060547}
+  m_AnchoredPosition: {x: -4.48584, y: -3.20607}
   m_SizeDelta: {x: 8.9714, y: 6.4042}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!4 &8086720572632574119
@@ -64857,66 +64861,66 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <SlotsDisplayer>k__BackingField: {fileID: 1768856232418101938}
   <Cells>k__BackingField:
-  - <Item>k__BackingField: {fileID: 11400000, guid: 722b392527e89894ba230a29531d3973, type: 2}
-    <Count>k__BackingField: 1
-  - <Item>k__BackingField: {fileID: 11400000, guid: c4791c33b05b3154992749c0dd27fc49, type: 2}
-    <Count>k__BackingField: 1
-  - <Item>k__BackingField: {fileID: 11400000, guid: 7a60a301ea01e46409846c33bcb67898, type: 2}
-    <Count>k__BackingField: 1
-  - <Item>k__BackingField: {fileID: 11400000, guid: d19e7a800f6934b41808df31e0177e08, type: 2}
-    <Count>k__BackingField: 1
-  - <Item>k__BackingField: {fileID: 11400000, guid: 200d2c64639dc31419395399e2005cfe, type: 2}
-    <Count>k__BackingField: 999
-  - <Item>k__BackingField: {fileID: 11400000, guid: 006e8b380b45c9d4f8833e6f057b6585, type: 2}
-    <Count>k__BackingField: 1
-  - <Item>k__BackingField: {fileID: 11400000, guid: 5e1882a214c6140428679d895f07a887, type: 2}
-    <Count>k__BackingField: 1000
-  - <Item>k__BackingField: {fileID: 11400000, guid: 2768babedf856e54f88b068259da7913, type: 2}
-    <Count>k__BackingField: 2
-  - <Item>k__BackingField: {fileID: 11400000, guid: c5ebc474bb46147439c6ddcb5f6d8802, type: 2}
-    <Count>k__BackingField: 5
-  - <Item>k__BackingField: {fileID: 11400000, guid: 28bd3b93ac23fe14db313f2088d450df, type: 2}
-    <Count>k__BackingField: 10
-  - <Item>k__BackingField: {fileID: 11400000, guid: ebeabc5889d66a241a55747f01558524, type: 2}
-    <Count>k__BackingField: 1
-  - <Item>k__BackingField: {fileID: 0}
-    <Count>k__BackingField: 0
-  - <Item>k__BackingField: {fileID: 0}
-    <Count>k__BackingField: 0
-  - <Item>k__BackingField: {fileID: 0}
-    <Count>k__BackingField: 0
-  - <Item>k__BackingField: {fileID: 0}
-    <Count>k__BackingField: 0
-  - <Item>k__BackingField: {fileID: 0}
-    <Count>k__BackingField: 0
-  - <Item>k__BackingField: {fileID: 0}
-    <Count>k__BackingField: 0
-  - <Item>k__BackingField: {fileID: 0}
-    <Count>k__BackingField: 0
-  - <Item>k__BackingField: {fileID: 0}
-    <Count>k__BackingField: 0
-  - <Item>k__BackingField: {fileID: 0}
-    <Count>k__BackingField: 0
-  - <Item>k__BackingField: {fileID: 0}
-    <Count>k__BackingField: 0
-  - <Item>k__BackingField: {fileID: 0}
-    <Count>k__BackingField: 0
-  - <Item>k__BackingField: {fileID: 0}
-    <Count>k__BackingField: 0
-  - <Item>k__BackingField: {fileID: 0}
-    <Count>k__BackingField: 0
-  - <Item>k__BackingField: {fileID: 0}
-    <Count>k__BackingField: 0
-  - <Item>k__BackingField: {fileID: 0}
-    <Count>k__BackingField: 0
-  - <Item>k__BackingField: {fileID: 0}
-    <Count>k__BackingField: 0
-  - <Item>k__BackingField: {fileID: 0}
-    <Count>k__BackingField: 0
-  - <Item>k__BackingField: {fileID: 0}
-    <Count>k__BackingField: 0
-  - <Item>k__BackingField: {fileID: 0}
-    <Count>k__BackingField: 0
+  - Item: {fileID: 0}
+    Count: 0
+  - Item: {fileID: 0}
+    Count: 0
+  - Item: {fileID: 0}
+    Count: 0
+  - Item: {fileID: 0}
+    Count: 0
+  - Item: {fileID: 0}
+    Count: 0
+  - Item: {fileID: 0}
+    Count: 0
+  - Item: {fileID: 0}
+    Count: 0
+  - Item: {fileID: 0}
+    Count: 0
+  - Item: {fileID: 0}
+    Count: 0
+  - Item: {fileID: 0}
+    Count: 0
+  - Item: {fileID: 0}
+    Count: 0
+  - Item: {fileID: 0}
+    Count: 0
+  - Item: {fileID: 0}
+    Count: 0
+  - Item: {fileID: 0}
+    Count: 0
+  - Item: {fileID: 0}
+    Count: 0
+  - Item: {fileID: 0}
+    Count: 0
+  - Item: {fileID: 0}
+    Count: 0
+  - Item: {fileID: 0}
+    Count: 0
+  - Item: {fileID: 0}
+    Count: 0
+  - Item: {fileID: 0}
+    Count: 0
+  - Item: {fileID: 0}
+    Count: 0
+  - Item: {fileID: 0}
+    Count: 0
+  - Item: {fileID: 0}
+    Count: 0
+  - Item: {fileID: 0}
+    Count: 0
+  - Item: {fileID: 0}
+    Count: 0
+  - Item: {fileID: 0}
+    Count: 0
+  - Item: {fileID: 0}
+    Count: 0
+  - Item: {fileID: 0}
+    Count: 0
+  - Item: {fileID: 0}
+    Count: 0
+  - Item: {fileID: 0}
+    Count: 0
 --- !u!20 &8370799428267917980
 Camera:
   m_ObjectHideFlags: 0
@@ -65774,6 +65778,7 @@ MonoBehaviour:
   _movingSpeed:
     m_InternalValue: 5
   _runningKoef: 1.5
+  _swimSpeed: 0.5
 --- !u!95 &8636938525100040086
 Animator:
   serializedVersion: 5
@@ -66234,6 +66239,8 @@ MonoBehaviour:
   _waterText: {fileID: 4436982542468085010}
   _waterFill: {fileID: 2444680516977915230}
   _displayMessage: {fileID: 0}
+  _oxygenText: {fileID: 0}
+  _oxygenFill: {fileID: 0}
 --- !u!4 &8784360286891082820
 Transform:
   m_ObjectHideFlags: 0
@@ -66759,6 +66766,7 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
+  _canSetSlots: 0
 --- !u!224 &8978123543630968305
 RectTransform:
   m_ObjectHideFlags: 0
@@ -67112,7 +67120,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3d80f810bf2b7cc4c8d88b9f9fd8412c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _handsAnimator: {fileID: 1008675547323750975}
 --- !u!4 &9139589289698999298
 Transform:
   m_ObjectHideFlags: 0
