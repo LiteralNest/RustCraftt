@@ -31,29 +31,6 @@ namespace Server
             // Debug.LogError("Auth Completed");
         }
 
-        private void OnGUI()
-        {
-            var customButtonStyle = new GUIStyle(GUI.skin.button);
-            customButtonStyle.fontSize = 40;
-            
-            GUILayout.BeginArea(new Rect(50, 50, 400, 100));
-
-            var networkManager = NetworkManager.Singleton;
-            if (!networkManager.IsClient && !networkManager.IsServer)
-            {
-                // if (GUILayout.Button("Host")) networkManager.StartHost();
-                GUILayout.Space(20);
-                if (GUILayout.Button("Client",customButtonStyle, GUILayout.Width(400), GUILayout.Height(100))) Connect();
-
-
-                // if (GUILayout.Button("Server")) networkManager.StartServer();
-            }
-            else
-                GUILayout.Label($"Mode: {(networkManager.IsHost ? "Host" : networkManager.IsServer ? "Server" : "Client")}");
-
-            GUILayout.EndArea();
-        }
-        
         public async void Connect()
         {
             var networkManager = NetworkManager.Singleton;
