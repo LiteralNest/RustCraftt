@@ -26,7 +26,7 @@ namespace ArmorSystem.UI
             //         cell.ReturnCellToInventory();
             // }
             
-            InventoryHandler.singleton.ArmorsContainer.DisplayArmor(armor);
+            InventoryHandler.singleton.ArmorsContainer.AssignItem(armor.Id);
             _currentArmor = armor;
             
             base.TrySetItem(itemDisplayer);
@@ -36,7 +36,7 @@ namespace ArmorSystem.UI
         public override void ResetItemWhileDrag()
         {
             base.ResetItemWhileDrag();
-            InventoryHandler.singleton.ArmorsContainer.DisplayArmor(_defaultArmor);
+            InventoryHandler.singleton.ArmorsContainer.AssignItem(_defaultArmor.Id);
             _currentArmor = _defaultArmor;
         }
 

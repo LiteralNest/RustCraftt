@@ -10576,7 +10576,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ActiveItemId:
     m_InternalValue: 0
-  _inHandObjectsContainer: {fileID: 0}
+  _inHandObjectsContainer: {fileID: 470103304248853290}
+  ActiveArmorId:
+    m_InternalValue: 101
+  _armorsContainer: {fileID: 2310418435352806697}
   _playerId:
     m_InternalValue: 0
   _nickNameTexts:
@@ -35827,7 +35830,6 @@ GameObject:
   m_Component:
   - component: {fileID: 8784360286403449467}
   - component: {fileID: 6032314742145925802}
-  - component: {fileID: 6383628287758002812}
   m_Layer: 15
   m_Name: Legs
   m_TagString: Untagged
@@ -35873,20 +35875,6 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &6383628287758002812
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7896385144323835261}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ad8deae8091111f4eb30a56c1f4e0d3e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  TransitionStateInfoList: []
-  m_Animator: {fileID: 6032314742145925802}
 --- !u!1 &7904735137109755971
 GameObject:
   m_ObjectHideFlags: 0
@@ -36233,6 +36221,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d70ac7b7e2485794bb9c8b2b496dcc6b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _playerNetCode: {fileID: -5502007171107923210}
   _armorCells:
   - {fileID: 6685199028347322987}
   - {fileID: 5082151498535547997}

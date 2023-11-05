@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using ArmorSystem.Backend;
 using TMPro;
 using Unity.Netcode;
 using Unity.VisualScripting;
@@ -8,9 +9,17 @@ using Web.User;
 public class PlayerNetCode : NetworkBehaviour
 {
     public static PlayerNetCode Singleton { get; private set; }
-    public NetworkVariable<int> ActiveItemId = new NetworkVariable<int>();
+    
     private NetworkVariable<ulong> _gettedClientId = new NetworkVariable<ulong>();
+    
+    [Header("In Hand Items")]
+    public NetworkVariable<int> ActiveItemId = new NetworkVariable<int>();
     [SerializeField] private InHandObjectsContainer _inHandObjectsContainer;
+
+    [Header("Armor")]
+    public NetworkVariable<int> ActiveArmorId = new(101, NetworkVariableReadPermission.Everyone,
+    NetworkVariableWritePermission.Owner);
+    [SerializeField] private ArmorsContainer _armorsContainer;
 
     [Header("NickName")] [SerializeField] private NetworkVariable<int> _playerId = new(-1, NetworkVariableReadPermission.Everyone,
     NetworkVariableWritePermission.Owner);
@@ -45,10 +54,19 @@ public class PlayerNetCode : NetworkBehaviour
             _inHandObjectsContainer.DisplayItems(ActiveItemId.Value);
         };
 
+        ActiveArmorId.OnValueChanged += (int prevValue, int newValue) =>
+        {
+            if (GetClientId() != _gettedClientId.Value) return;
+            _armorsContainer.DisplayArmor(ActiveArmorId.Value);
+        };
+        
         _playerId.OnValueChanged += (int prevValue, int newValue) =>
         {
             AssignName();
         };
+        
+        _inHandObjectsContainer.DisplayItems(ActiveItemId.Value);
+        _armorsContainer.DisplayArmor(ActiveArmorId.Value);
     }
     
     private async void AssignName()

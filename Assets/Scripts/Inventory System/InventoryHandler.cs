@@ -1,7 +1,8 @@
 using ArmorSystem.Backend;
+using Unity.Netcode;
 using UnityEngine;
 
-public class InventoryHandler : MonoBehaviour
+public class InventoryHandler : NetworkBehaviour
 {
     public static InventoryHandler singleton { get; set; }
     
@@ -28,8 +29,12 @@ public class InventoryHandler : MonoBehaviour
 
     public Item ActiveItem { get; private set; }
 
-    private void Awake()
-        => singleton = this;
+    public override void OnNetworkSpawn()
+    {
+        if(IsOwner)
+            singleton = this;
+        base.OnNetworkSpawn();
+    }
 
     public void HandleInventory(bool isOpen)
     {
