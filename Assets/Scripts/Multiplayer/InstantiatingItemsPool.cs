@@ -22,6 +22,7 @@ public class InstantiatingItemsPool : NetworkBehaviour
             if (ore.ItemId.Value == inputItemId)
             {
                 var obj = Instantiate(ore, position, Quaternion.identity);
+                var objItemId = obj.ItemId;
                 obj.Count.Value = count;
                 obj.NetworkObject.DontDestroyWithOwner = true;
                 obj.NetworkObject.Spawn();
