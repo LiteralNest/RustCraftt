@@ -6444,9 +6444,10 @@ GameObject:
   - component: {fileID: 1814840800}
   - component: {fileID: 1814840799}
   - component: {fileID: 1814840798}
+  - component: {fileID: 1814840803}
   m_Layer: 0
   m_Name: Boat
-  m_TagString: Untagged
+  m_TagString: Boat
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -6459,8 +6460,8 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1814840797}
   serializedVersion: 4
-  m_Mass: 1
-  m_Drag: 0
+  m_Mass: 0.5
+  m_Drag: 1
   m_AngularDrag: 0.05
   m_CenterOfMass: {x: 0, y: 0, z: 0}
   m_InertiaTensor: {x: 1, y: 1, z: 1}
@@ -6476,7 +6477,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 80
   m_CollisionDetection: 0
 --- !u!65 &1814840799
 BoxCollider:
@@ -6497,8 +6498,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 1.1359499, y: 1, z: 1}
+  m_Center: {x: 0.017186254, y: 0, z: 2.691189e-11}
 --- !u!23 &1814840800
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -6557,13 +6558,29 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1814840797}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 14.84, y: -10.63, z: -5.0466022}
+  m_LocalRotation: {x: -0, y: 0.7568776, z: -0, w: 0.65355664}
+  m_LocalPosition: {x: 9.73, y: -11.15, z: -7.7}
   m_LocalScale: {x: 1.2, y: 0.6, z: 2}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 98.379, z: 0}
+--- !u!114 &1814840803
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1814840797}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 16c6dabd1f5a43dcb2deac8b0f1ef261, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  VehicleRb: {fileID: 1814840798}
+  _pushForce: 4
+  _depthBeforeSubmerged: 1
+  _displacementAmount: 1
 --- !u!1001 &1853943289
 PrefabInstance:
   m_ObjectHideFlags: 0
