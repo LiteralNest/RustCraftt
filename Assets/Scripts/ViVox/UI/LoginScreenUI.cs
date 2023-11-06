@@ -46,9 +46,9 @@ public class LoginScreenUI : MonoBehaviour
         else
         {
             OnUserLoggedOut();
-            var systInfoDeviceName = String.IsNullOrWhiteSpace(SystemInfo.deviceName) == false
-                ? SystemInfo.deviceName
-                : Environment.MachineName;
+            // var systInfoDeviceName = String.IsNullOrWhiteSpace(SystemInfo.deviceName) == false
+            //     ? SystemInfo.deviceName
+            //     : Environment.MachineName;
 
             // DisplayNameInput.text = Environment.MachineName.Substring(0, Math.Min(defaultMaxStringLength, Environment.MachineName.Length));
         }
