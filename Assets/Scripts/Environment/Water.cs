@@ -6,14 +6,14 @@ namespace Environment
 {
     public class Water : MonoBehaviour
     {
-        private float _waveHieght = 0f;
+        private float _waveHieght = 0f; //Could be used later for water
         private bool _isRestoringOxygen = false;
 
         private void Update()
         {
             if (_isRestoringOxygen)
             {
-            
+
                 CharacterStats.Singleton.PlusStat(CharacterStatType.Oxygen, 1 * Time.fixedDeltaTime);
                 if (CharacterStats.Singleton.Oxygen >= CharacterStats.Singleton.CurrentOxygen)
                 {
@@ -25,14 +25,7 @@ namespace Environment
 
         private void OnTriggerEnter(Collider other)
         {
-            if (other.CompareTag("Boat"))
-            {
-                var boat = other.GetComponent<Boat>();
-                if (boat != null)
-                    boat.BoatFloating(_waveHieght);
-                    // boat.IsFloating = true;
-            }
-        
+
             if (other.CompareTag("Player") && other.GetComponent<PlayerController>() != null)
             {
                 _isRestoringOxygen = false;
@@ -41,6 +34,7 @@ namespace Environment
                 var move = other.GetComponent<PlayerController>();
                 move.IsSwimming = true;
             }
+
         }
 
         private void OnTriggerStay(Collider other)
@@ -48,10 +42,11 @@ namespace Environment
             if (other.CompareTag("Boat"))
             {
                 var boat = other.GetComponent<Boat>();
-                if (boat != null)
-                    boat.BoatFloating(_waveHieght);
+                var boatMove = other.GetComponent<BoatController>();
+                if (boat != null) boat.Float(_waveHieght, true);
+                if (boatMove != null) boatMove.IsMoving = true;
             }
-            
+
             if (other.CompareTag("Player") && other.GetComponent<PlayerController>() != null)
             {
                 CharacterStats.Singleton.MinusStat(CharacterStatType.Oxygen, 1 * Time.fixedDeltaTime);
@@ -66,6 +61,14 @@ namespace Environment
                 _isRestoringOxygen = true;
                 var move = other.GetComponent<PlayerController>();
                 move.IsSwimming = false;
+            }
+
+            if (other.CompareTag("Boat"))
+            {
+                var boat = other.GetComponent<Boat>();
+                var boatMove = other.GetComponent<BoatController>();
+                if (boat != null) boat.Float(_waveHieght, false);
+                if (boatMove != null) boatMove.IsMoving = false;
             }
         }
     }

@@ -48,6 +48,7 @@ namespace Player_Controller
             _currentMovingSpeed = _movingSpeed.Value;
         }
 
+        
         private void FixedUpdate()
         {
             if (IsSwimming != true)
@@ -157,7 +158,5 @@ namespace Player_Controller
             }
         }
         #endregion
-        
-        
     }
 }
