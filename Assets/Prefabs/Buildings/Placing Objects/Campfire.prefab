@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 8729345033283500795}
   - component: {fileID: 9158152713484374393}
   - component: {fileID: 2960956340532359393}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Campfire
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -99,7 +99,7 @@ GameObject:
   - component: {fileID: 4352665622986602154}
   - component: {fileID: 8569014338111738669}
   - component: {fileID: 4613313815660969726}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Campfire
   m_TagString: CampFire
   m_Icon: {fileID: 0}
@@ -202,7 +202,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f2c1c23dd94f68469bb7580fe13d651, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _cells:
+  Cells:
   - Item: {fileID: 0}
     Count: 0
   - Item: {fileID: 0}
@@ -214,10 +214,6 @@ MonoBehaviour:
   - Item: {fileID: 0}
     Count: 0
   _fireObject: {fileID: 5361097199258350177}
-  <AvaliableFuel>k__BackingField:
-  - {fileID: 11400000, guid: 200d2c64639dc31419395399e2005cfe, type: 2}
-  <AvaliableFoodForCooking>k__BackingField:
-  - {fileID: 11400000, guid: 2768babedf856e54f88b068259da7913, type: 2}
   _source: {fileID: 4613313815660969726}
 --- !u!54 &4352665622986602154
 Rigidbody:
@@ -418,6 +414,10 @@ PrefabInstance:
     - target: {fileID: 9017099166791023436, guid: 3b9486cb9c0cfc5438acfe51924f48ef, type: 3}
       propertyPath: m_Name
       value: FireGraph
+      objectReference: {fileID: 0}
+    - target: {fileID: 9017099166791023436, guid: 3b9486cb9c0cfc5438acfe51924f48ef, type: 3}
+      propertyPath: m_Layer
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 9017099166791023436, guid: 3b9486cb9c0cfc5438acfe51924f48ef, type: 3}
       propertyPath: m_IsActive

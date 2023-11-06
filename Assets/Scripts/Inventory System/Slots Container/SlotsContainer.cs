@@ -7,10 +7,10 @@ public abstract class SlotsContainer : MonoBehaviour
     [field: SerializeField] public List<InventoryCell> Cells { get; set; }
 
     #region virtual
-    
+
     protected virtual void Appear()
         => ActiveInvetoriesHandler.singleton.AddActiveInventory(this);
-    
+
     public virtual void AddCell(int index, InventoryCell cell)
     {
         Cells[index].Count = cell.Count;
@@ -46,6 +46,12 @@ public abstract class SlotsContainer : MonoBehaviour
         GlobalEventsContainer.InventoryDataChanged?.Invoke();
     }
 
+    public void RemoveItems(List<InventoryCell> cellsForRemoving)
+    {
+        foreach (var cell in cellsForRemoving)
+            RemoveItemFromDesiredSlot(cell.Item, cell.Count);
+    }
+    
     public void RemoveItemFromDesiredSlot(Item item, int count)
     {
         InventoryHelper.RemoveItem(item, count, Cells);
@@ -65,6 +71,10 @@ public abstract class SlotsContainer : MonoBehaviour
             Cells[i].Item = ItemsContainer.singleton.GetItemById(dataCells[i].ItemId);
             Cells[i].Count = dataCells[i].Count;
         }
+
         SlotsDisplayer.DisplayCells();
     }
+
+    public virtual bool EnoughMaterials(List<InventoryCell> inputCells)
+        => InventoryHelper.EnoughMaterials(inputCells,Cells);
 }
