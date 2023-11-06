@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -82,11 +83,24 @@ public class BuildingBlock : NetworkBehaviour, IDamagable
         _hp.Value = value;
         if (_hp.Value <= 0)
         {
-            GetComponent<NetworkObject>().Despawn();
-            Destroy(gameObject);
+            if (IsServer)
+                Destroy();
         }
     }
 
+    public void Destroy()
+        => DestroyAsync();
+    
+    private async void DestroyAsync()
+    {
+        //Потрібно щоб OnTriggerExit зчитався
+        transform.position = new Vector3(1000000, 1000000, 1000000);
+        await Task.Delay(100);
+        var networkObj = GetComponent<NetworkObject>();
+        if(networkObj != null)
+            networkObj.Despawn();
+        Destroy(gameObject);
+    }
     public void GetDamage(int damage)
     {
         int hp = _hp.Value - damage;

@@ -28,4 +28,9 @@ public class LootObject : MonoBehaviour, IDamagable
         _hp -= damage;
         CheckHp();
     }
+
+    public void Destroy()
+    {
+        
+    }
 }

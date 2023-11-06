@@ -38,7 +38,7 @@ public class DamagingItem : NetworkBehaviour, IDamagable
       InstantiatingItemsPool.sigleton.SpawnObjectServerRpc(cell.Item.Id, rand, fixedPos);
    }
    
-   private void Destroy()
+   public void Destroy()
    {
       if (IsServer)
       {
