@@ -1,17 +1,14 @@
-using System;
 using Player_Controller;
-using Unity.Multiplayer.Samples.Utilities.ClientAuthority;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.Serialization;
 
 namespace Vehicle
 {
     public class BoatController : NetworkBehaviour
     {
         [SerializeField] private Boat _boat;
-        [SerializeField] private Vector3 _offset;
+        [SerializeField] private Vector3 _offset = new Vector3(0f, 0.5f, 0f);
         [SerializeField] private PlayerInput _boatInput;
         public bool IsMoving { get; set; }
         private bool _isNearBoat = false;
@@ -55,7 +52,6 @@ namespace Vehicle
         {
             _moveInput = context.ReadValue<Vector2>();
             IsMoving = context.performed;
-            Debug.LogError(_moveInput);
         }
 
         #region InteractionWithBoat
@@ -94,16 +90,19 @@ namespace Vehicle
         {
             if (!IsServer) return;
             _isSittingInBoat = true;
-            // var networkTransform = _playerController.GetComponent<ClientNetworkTransform>();
-            // networkTransform.enabled = false;
-            _playerController.transform.SetPositionAndRotation(_boat.SitAtPlace().position + _offset, _boat.SitAtPlace().rotation);
+            
+            _playerController.GetComponent<NetworkObject>().TrySetParent(_boat.transform);
+            SetPhysicInBoat();
+            
+            _playerController.enabled = false;
+            _boatInput.enabled = true;
+        }
+
+        private void SetPhysicInBoat()
+        {
             var rb =_playerController.GetComponent<Rigidbody>();
             rb.mass = 0f;
             rb.useGravity = true;
-            _playerController.enabled = false;
-            _boatInput.enabled = true;
-            _playerController.GetComponent<NetworkObject>().TrySetParent(_boat.transform);
-            // _playerController.transform.SetParent(_boat.transform);
         }
     }
 }

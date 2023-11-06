@@ -105,6 +105,89 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": true
                 }
             ]
+        },
+        {
+            ""name"": ""Vehicle"",
+            ""id"": ""91c4f624-277e-4fed-9151-0c0872719f27"",
+            ""actions"": [
+                {
+                    ""name"": ""Move"",
+                    ""type"": ""Value"",
+                    ""id"": ""1eb45981-b072-4d51-8750-f6eb58b5a3e3"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""eb67ae47-6db1-4880-abd6-d0b6f743974f"",
+                    ""path"": ""<Gamepad>/leftStick"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""WASD"",
+                    ""id"": ""036e7995-20fc-417b-9f83-f2392ebcc598"",
+                    ""path"": ""2DVector"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Move"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""up"",
+                    ""id"": ""b915db1c-5f38-42e4-9ce0-6cc77e1dd576"",
+                    ""path"": ""<Keyboard>/w"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""down"",
+                    ""id"": ""3997d78e-e86e-45ad-a409-ea61af23f22c"",
+                    ""path"": ""<Keyboard>/s"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""left"",
+                    ""id"": ""dd4e7a57-85fe-467d-87c2-b5a8784ac545"",
+                    ""path"": ""<Keyboard>/a"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""right"",
+                    ""id"": ""695b1479-5742-4e46-bffa-8c6ad3524121"",
+                    ""path"": ""<Keyboard>/d"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                }
+            ]
         }
     ],
     ""controlSchemes"": []
@@ -112,6 +195,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         // Player
         m_Player = asset.FindActionMap("Player", throwIfNotFound: true);
         m_Player_Move = m_Player.FindAction("Move", throwIfNotFound: true);
+        // Vehicle
+        m_Vehicle = asset.FindActionMap("Vehicle", throwIfNotFound: true);
+        m_Vehicle_Move = m_Vehicle.FindAction("Move", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -215,7 +301,57 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         }
     }
     public PlayerActions @Player => new PlayerActions(this);
+
+    // Vehicle
+    private readonly InputActionMap m_Vehicle;
+    private List<IVehicleActions> m_VehicleActionsCallbackInterfaces = new List<IVehicleActions>();
+    private readonly InputAction m_Vehicle_Move;
+    public struct VehicleActions
+    {
+        private @PlayerControls m_Wrapper;
+        public VehicleActions(@PlayerControls wrapper) { m_Wrapper = wrapper; }
+        public InputAction @Move => m_Wrapper.m_Vehicle_Move;
+        public InputActionMap Get() { return m_Wrapper.m_Vehicle; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(VehicleActions set) { return set.Get(); }
+        public void AddCallbacks(IVehicleActions instance)
+        {
+            if (instance == null || m_Wrapper.m_VehicleActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_VehicleActionsCallbackInterfaces.Add(instance);
+            @Move.started += instance.OnMove;
+            @Move.performed += instance.OnMove;
+            @Move.canceled += instance.OnMove;
+        }
+
+        private void UnregisterCallbacks(IVehicleActions instance)
+        {
+            @Move.started -= instance.OnMove;
+            @Move.performed -= instance.OnMove;
+            @Move.canceled -= instance.OnMove;
+        }
+
+        public void RemoveCallbacks(IVehicleActions instance)
+        {
+            if (m_Wrapper.m_VehicleActionsCallbackInterfaces.Remove(instance))
+                UnregisterCallbacks(instance);
+        }
+
+        public void SetCallbacks(IVehicleActions instance)
+        {
+            foreach (var item in m_Wrapper.m_VehicleActionsCallbackInterfaces)
+                UnregisterCallbacks(item);
+            m_Wrapper.m_VehicleActionsCallbackInterfaces.Clear();
+            AddCallbacks(instance);
+        }
+    }
+    public VehicleActions @Vehicle => new VehicleActions(this);
     public interface IPlayerActions
+    {
+        void OnMove(InputAction.CallbackContext context);
+    }
+    public interface IVehicleActions
     {
         void OnMove(InputAction.CallbackContext context);
     }

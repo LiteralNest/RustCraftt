@@ -42,9 +42,7 @@ namespace Environment
             if (other.CompareTag("Boat"))
             {
                 var boat = other.GetComponent<Boat>();
-                var boatMove = other.GetComponent<BoatController>();
                 if (boat != null) boat.Float(_waveHieght, true);
-                if (boatMove != null) boatMove.IsMoving = true;
             }
 
             if (other.CompareTag("Player") && other.GetComponent<PlayerController>() != null)
@@ -66,9 +64,8 @@ namespace Environment
             if (other.CompareTag("Boat"))
             {
                 var boat = other.GetComponent<Boat>();
-                var boatMove = other.GetComponent<BoatController>();
                 if (boat != null) boat.Float(_waveHieght, false);
-                if (boatMove != null) boatMove.IsMoving = false;
+             
             }
         }
     }
