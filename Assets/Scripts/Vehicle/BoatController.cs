@@ -94,15 +94,16 @@ namespace Vehicle
         {
             if (!IsServer) return;
             _isSittingInBoat = true;
-            var networkTransform = _playerController.GetComponent<ClientNetworkTransform>();
-            networkTransform.enabled = false;
+            // var networkTransform = _playerController.GetComponent<ClientNetworkTransform>();
+            // networkTransform.enabled = false;
             _playerController.transform.SetPositionAndRotation(_boat.SitAtPlace().position + _offset, _boat.SitAtPlace().rotation);
             var rb =_playerController.GetComponent<Rigidbody>();
             rb.mass = 0f;
             rb.useGravity = true;
             _playerController.enabled = false;
             _boatInput.enabled = true;
-            _playerController.transform.SetParent(_boat.transform);
+            _playerController.GetComponent<NetworkObject>().TrySetParent(_boat.transform);
+            // _playerController.transform.SetParent(_boat.transform);
         }
     }
 }
