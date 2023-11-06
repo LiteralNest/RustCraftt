@@ -79,13 +79,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _buildingSize: {x: 1, y: 1, z: 1}
   BluePrintCells:
-  - {fileID: 540258816762760721, guid: 5fc1566635f0b8d42841aac571b01edd, type: 3}
+  - {fileID: 2372376363770883801}
   _targetMask:
     serializedVersion: 2
     m_Bits: 128
   _placingTags:
   - Block
   - Ground
+  - DamagingItem
 --- !u!1001 &2851690281797050568
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -167,6 +168,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5fc1566635f0b8d42841aac571b01edd, type: 3}
+--- !u!114 &2372376363770883801 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 540258816762760721, guid: 5fc1566635f0b8d42841aac571b01edd, type: 3}
+  m_PrefabInstance: {fileID: 2851690281797050568}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d6ab88aa131870d41b3b1ba568ff8961, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!23 &5864607065424493565 stripped
 MeshRenderer:
   m_CorrespondingSourceObject: {fileID: 8570482299075631925, guid: 5fc1566635f0b8d42841aac571b01edd, type: 3}

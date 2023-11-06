@@ -95,7 +95,7 @@ public class BuildingBlock : NetworkBehaviour, IDamagable
     {
         //Потрібно щоб OnTriggerExit зчитався
         transform.position = new Vector3(1000000, 1000000, 1000000);
-        await Task.Delay(100);
+        await Task.Delay(1000);
         var networkObj = GetComponent<NetworkObject>();
         if(networkObj != null)
             networkObj.Despawn();
