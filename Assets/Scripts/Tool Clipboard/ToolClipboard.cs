@@ -2,6 +2,7 @@ public class ToolClipboard : Storage
 {
     public override void Open(InventoryHandler handler)
     {
-        throw new System.NotImplementedException();
+        handler.ToolClipboardSlotsContainer.InitCells(Cells, this);
+        handler.OpenClipBoardPanel();
     }
 }
