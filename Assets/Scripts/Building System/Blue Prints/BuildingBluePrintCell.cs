@@ -13,7 +13,7 @@ public class BuildingBluePrintCell : MonoBehaviour
     [SerializeField] private Material _normalMaterial;
     [SerializeField] private List<Renderer> _renderers;
 
-    [SerializeField] private List<GameObject> _triggeredObjects = new List<GameObject>();
+    private List<GameObject> _triggeredObjects = new List<GameObject>();
     public bool CanBePlaced { get; private set; }
 
     public bool OnFrontOfPlayer { get; set; }
@@ -31,9 +31,12 @@ public class BuildingBluePrintCell : MonoBehaviour
 
     private void SetMaterial(Material material)
     {
-        foreach(var renderer in _renderers)
+        foreach (var renderer in _renderers)
             renderer.sharedMaterial = material;
     }
+
+    public virtual bool CanBePlace()
+        => !(!_enoughMaterials || _triggeredObjects.Count > 0 || OnFrontOfPlayer);
 
     private void SetCanBePlaced(bool value)
     {
@@ -47,7 +50,7 @@ public class BuildingBluePrintCell : MonoBehaviour
     public void CheckForAvailable()
     {
         CheckEnoughMaterials();
-        if (!_enoughMaterials || _triggeredObjects.Count > 0 || OnFrontOfPlayer)
+        if (!CanBePlace())
         {
             SetCanBePlaced(false);
             return;
@@ -81,7 +84,7 @@ public class BuildingBluePrintCell : MonoBehaviour
             return;
         }
 
-        if (other.CompareTag("ConnectingPoint")) return;
+        if (other.CompareTag("ConnectingPoint") || other.CompareTag("ShelfZone")) return;
         if (_triggeredObjects.Contains(other.gameObject)) return;
         _triggeredObjects.Add(other.gameObject);
         CheckForAvailable();
@@ -89,7 +92,7 @@ public class BuildingBluePrintCell : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.CompareTag("ConnectingPoint")) return;
+        if (other.CompareTag("ConnectingPoint") || other.CompareTag("ShelfZone")) return;
         if (!_triggeredObjects.Contains(other.gameObject)) return;
         _triggeredObjects.Remove(other.gameObject);
         CheckForAvailable();

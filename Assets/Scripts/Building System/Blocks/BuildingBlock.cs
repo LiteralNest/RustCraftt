@@ -85,6 +85,15 @@ public class BuildingBlock : NetworkBehaviour, IDamagable, IHammerInteractable
     private bool MaxHp()
         => _hp.Value >= _startHp;
     
+    public void RestoreHealth(int value)
+    {
+        int hp = _hp.Value + value;
+        if(hp > _startHp)
+            hp = _startHp;
+        SetHpServerRpc((ushort)hp);
+    }
+
+    
     #region IHammerInteractable
 
     public bool CanBeRepaired()
@@ -138,7 +147,7 @@ public class BuildingBlock : NetworkBehaviour, IDamagable, IHammerInteractable
     }
 
     #endregion
-
+    
     #region IDamagable
 
     public void GetDamage(int damage)

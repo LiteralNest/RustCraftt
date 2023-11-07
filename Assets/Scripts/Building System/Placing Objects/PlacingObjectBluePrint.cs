@@ -4,7 +4,7 @@ public class PlacingObjectBluePrint : BluePrint
 {
     public PlacingObject TargetPlacingObject;
 
-    protected bool CanBePlaced()
+    protected virtual bool CanBePlaced()
     {
         foreach (var cell in BluePrintCells)
             if (!cell.CanBePlaced)

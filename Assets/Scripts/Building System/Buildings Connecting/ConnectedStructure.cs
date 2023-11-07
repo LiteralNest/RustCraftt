@@ -55,7 +55,8 @@ public class ConnectedStructure : MonoBehaviour
     {
         foreach (var block in Blocks)
         {
-            if(ThereIsEnoughMaterials(block.CurrentBlock.CellsForRemovingPerTime)) continue;
+            if(ThereIsEnoughMaterials(block.CurrentBlock.CellsForRemovingPerTime))
+                block.RestoreHealth(block.StartHp / 10);
             block.GetDamage(block.StartHp / 10);
         }
     }
