@@ -1,7 +1,10 @@
 using Unity.Netcode;
 using UnityEngine;
 
-public class Lock : NetworkBehaviour
+namespace Lock_System
 {
-   [SerializeField] private NetworkVariable<ushort> _playerId = new NetworkVariable<ushort>();
+   public class Lock : NetworkBehaviour
+   {
+      [SerializeField] private NetworkVariable<ushort> _playerId = new NetworkVariable<ushort>();
+   }
 }

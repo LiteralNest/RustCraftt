@@ -29,7 +29,7 @@ Transform:
   m_GameObject: {fileID: 2240645240207874407}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.09500003, y: 0.867, z: -0.408}
+  m_LocalPosition: {x: 0.09500003, y: 0.333, z: -0.408}
   m_LocalScale: {x: 0.19567, y: 0.19567, z: 0.19567}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -118,7 +118,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1eddd4ea08cced46ad3e22a882cb190, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _fatherDoor: {fileID: 0}
+  LocakableObject: {fileID: 8222900624699332346}
 --- !u!1 &5172863750559824064
 GameObject:
   m_ObjectHideFlags: 0
@@ -315,7 +315,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d4a18ae8cf0f4a328acd6c252960d669, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <MainTransform>k__BackingField: {fileID: 694013764970809479}
+  _mainTransform: {fileID: 0}
   _anim: {fileID: 215909887272497998}
 --- !u!114 &3798141749729791039
 MonoBehaviour:
@@ -448,7 +448,6 @@ GameObject:
   - component: {fileID: 8727611398305708269}
   - component: {fileID: 5802662630316585089}
   - component: {fileID: 6711003684368441550}
-  - component: {fileID: 1350895912709196744}
   m_Layer: 7
   m_Name: Double Wooden Door
   m_TagString: Untagged
@@ -540,24 +539,3 @@ MonoBehaviour:
   <StructureSize>k__BackingField: {x: 1, y: 2, z: 1}
   _blocks: []
   <TargetItem>k__BackingField: {fileID: 11400000, guid: 7d42a8d415587a74e8f0d7efa585d360, type: 2}
---- !u!65 &1350895912709196744
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8222900624699332346}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 0.5025692, y: 1.9470549, z: 1.9315548}
-  m_Center: {x: 0, y: 0.47352743, z: -0.4657774}
