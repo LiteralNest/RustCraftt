@@ -64,7 +64,11 @@ namespace Environment
             if (other.CompareTag("Boat"))
             {
                 var boat = other.GetComponent<Boat>();
-                if (boat != null) boat.Float(_waveHieght, false);
+                if (boat != null)
+                {
+                    boat.Float(_waveHieght, false);
+                }
+                
              
             }
         }

@@ -6,20 +6,40 @@ namespace Vehicle
     public class Boat : BaseVehicle
     {
         [SerializeField] private float _boatMoveSpeed = 5f;
-        [SerializeField] private float _boatRotationSpeed = 10f;
-        [SerializeField] private float _pushForce = 10f;
+        [SerializeField] private float _boatRotationSpeed = 40f;
+        [SerializeField] private float _pushForce = 100f;
         [SerializeField] private float _depthBeforeSubmerged = 1f;
-        [SerializeField] private float _displacementAmount = 2f;
+        [SerializeField] private float _displacementAmount = 1.09f;
         [SerializeField] private Transform _sitPlace;
-        
-        
+
+        private float _originalRb = 0;
+        public bool IsFloating { get; set; }
+
+        public void SetVehicleRbInWater()
+        {
+            VehicleRb.drag = 1.04f;
+            VehicleRb.mass = 50f;
+        }
+
+        private void SetVehicleRbOnGround()
+        {
+            VehicleRb.drag = _originalRb;
+            VehicleRb.mass = 0f;
+        }
         public void Float(float waveHeight, bool statement)
         {
-            if (transform.position.y < waveHeight && statement)
+            IsFloating = statement;
+
+            if (IsFloating)
             {
+                SetVehicleRbInWater();
+                if (!(transform.position.y < waveHeight) || !statement) return;
+                
                 var displacementMultiplier = Mathf.Clamp01(waveHeight - transform.position.y / _depthBeforeSubmerged) * _displacementAmount;
                 VehicleRb.AddForce(new Vector3(0f, Mathf.Abs(Physics.gravity.y) * displacementMultiplier, 0f), ForceMode.Acceleration);
             }
+            else SetVehicleRbInWater();
+               
         }
         public void Push(Vector3 pushDirection)
         {

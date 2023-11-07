@@ -13,18 +13,19 @@ namespace Vehicle
         public bool IsMoving { get; set; }
         private bool _isNearBoat = false;
         private bool _isSittingInBoat;
-
+        
         private PlayerController _playerController;
         private Vector2 _moveInput;
-
+        private RigidbodyConstraints _rbConstraints;
         private void Awake()
         {
             _boatInput.enabled = false;
+            
         }
 
         private void FixedUpdate()
         {
-            if (IsMoving)
+            if (IsMoving && _boat.IsFloating)
             {
                 _boat.Move(_moveInput);
             }
@@ -46,6 +47,13 @@ namespace Vehicle
                     }
                 }
             }
+            else if (_isSittingInBoat)
+            {
+                if (GUI.Button(new Rect(Screen.width / 2 - 50, Screen.height / 2 + 75, 200, 100), "Stand from boat"))
+                {
+                    StandUpFromBoat();
+                }
+            }
         }
 
         public void OnMove(InputAction.CallbackContext context)
@@ -62,6 +70,7 @@ namespace Vehicle
             {
                 _isNearBoat = true;
                 _playerController = collision.gameObject.GetComponent<PlayerController>();
+                
             }
         }
 
@@ -78,7 +87,7 @@ namespace Vehicle
         {
             if (_playerController != null)
             {
-                Vector3 pushDirection = (transform.position - _playerController.transform.position).normalized;
+                Vector3 pushDirection = (_playerController.transform.forward).normalized;
                 
                 _boat.Push(pushDirection);
             }
@@ -92,16 +101,32 @@ namespace Vehicle
             _isSittingInBoat = true;
             
             _playerController.GetComponent<NetworkObject>().TrySetParent(_boat.transform);
-            SetPhysicInBoat();
+            _playerController.transform.position = _boat.transform.position + _offset;
+            _rbConstraints = _playerController.GetComponent<Rigidbody>().constraints;
+            
+            SetPlayerPhysicInBoat();
             
             _playerController.enabled = false;
             _boatInput.enabled = true;
         }
 
-        private void SetPhysicInBoat()
+        private void StandUpFromBoat()
+        {
+            if (!IsServer) return;
+            _isSittingInBoat = false;
+            _playerController.GetComponent<NetworkObject>().TryRemoveParent(true);
+            var rb =_playerController.GetComponent<Rigidbody>();
+            rb.constraints = _rbConstraints;
+            rb.useGravity = true;
+            
+            _playerController.enabled = true;
+            _boatInput.enabled = false;
+        }
+
+        private void SetPlayerPhysicInBoat()
         {
             var rb =_playerController.GetComponent<Rigidbody>();
-            rb.mass = 0f;
+            rb.constraints = RigidbodyConstraints.FreezeAll;
             rb.useGravity = true;
         }
     }
