@@ -38,7 +38,7 @@ namespace Vehicle
                 var displacementMultiplier = Mathf.Clamp01(waveHeight - transform.position.y / _depthBeforeSubmerged) * _displacementAmount;
                 VehicleRb.AddForce(new Vector3(0f, Mathf.Abs(Physics.gravity.y) * displacementMultiplier, 0f), ForceMode.Acceleration);
             }
-            else SetVehicleRbInWater();
+            else SetVehicleRbOnGround();
                
         }
         public void Push(Vector3 pushDirection)
