@@ -17,7 +17,7 @@ public class BuildingDragger : MonoBehaviour
 
     private void TryMoveBuildingObject()
     {
-        if (!_currentPref.TryGetObjectCoords(_targetCamera, out var coords, out var rotation))
+        if (!_currentPref.TryGetObjectCoords(_targetCamera, out var coords, out var rotation, out bool shouldRotate))
         {
             _currentPref.SetOnFrontOfPlayer(true);
             _currentPref.transform.position = GetFrontOfCameraPosition();
@@ -25,8 +25,8 @@ public class BuildingDragger : MonoBehaviour
         }
         _currentPref.SetOnFrontOfPlayer(false);
         _currentPref.transform.position = coords;
-        if(rotation == default) return;
-            _currentPref.transform.eulerAngles = rotation;
+        if(!shouldRotate) return;
+        _currentPref.transform.rotation = rotation;
     }
 
     public void Place()

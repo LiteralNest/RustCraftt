@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
 
-public class BuildingStructure : MonoBehaviour
+public class BuildingStructure : NetworkBehaviour
 {
     [field: SerializeField] public NetworkObject NetworkObject { get; private set; }
     [field: SerializeField] public int Id { get; private set; }

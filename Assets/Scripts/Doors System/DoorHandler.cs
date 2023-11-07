@@ -1,11 +1,12 @@
+using Lock_System;
 using Unity.Netcode;
 using UnityEngine;
 
-public class DoorHandler : NetworkBehaviour
+public class DoorHandler : NetworkBehaviour, ILockable
 {
-    [field: SerializeField] public Transform MainTransform { get; private set; }
+    [SerializeField] private Transform _mainTransform;
     [SerializeField] private Animator _anim;
-    public KeyLocker DoorLocker { get; set; }
+    private KeyLocker _doorLocker;
     private static readonly int Opened = Animator.StringToHash("Opened");
 
     private void Start()
@@ -13,7 +14,20 @@ public class DoorHandler : NetworkBehaviour
 
     public void Open(int id)
     {
-        if(DoorLocker != null && !DoorLocker.CanBeOpened(id)) return;
+        if (_doorLocker != null && !_doorLocker.CanBeOpened(id)) return;
         _anim.SetBool(Opened, !_anim.GetBool(Opened));
     }
+
+    #region ILockable
+
+    public void Lock(KeyLocker locker)
+        => _doorLocker = locker;
+
+    public Transform GetParent()
+        => _mainTransform;
+
+    public bool Locked
+        => _doorLocker != null;
+
+    #endregion
 }

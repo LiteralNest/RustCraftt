@@ -2,12 +2,14 @@ using UnityEngine;
 
 public class SnapPlacingObjectBP : PlacingObjectBluePrint
 {
-    public override bool TryGetObjectCoords(Camera targetCamera, out Vector3 coords, out Vector3 rotation)
+    public override bool TryGetObjectCoords(Camera targetCamera, out Vector3 coords, out Quaternion rotation, out bool shouldRotate)
     {
+        shouldRotate = true;
+        
         Vector3 rayOrigin = targetCamera.transform.position;
         Vector3 rayDirection = targetCamera.transform.forward;
         RaycastHit hit;
-
+       
         coords = default;
         rotation = default;
 
@@ -15,7 +17,7 @@ public class SnapPlacingObjectBP : PlacingObjectBluePrint
         {
             if (!_placingTags.Contains(hit.collider.tag)) return false;
             coords = hit.collider.transform.position;
-            rotation = hit.normal;
+            rotation = Quaternion.FromToRotation(Vector3.up, hit.normal);
             return true;
         }
 

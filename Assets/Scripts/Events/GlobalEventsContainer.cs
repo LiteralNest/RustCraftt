@@ -17,7 +17,6 @@ public static class GlobalEventsContainer
     public static Action<bool> BluePrintActiveSelfSet { get; set; }
     public static Action<bool> ShouldDisplayBuildingChoosePanel { get; set; }
     public static Action<bool> ShouldDisplayBuildingStaff { get; set; }
-    public static Action<bool> BuildingHammerActivated { get; set; }
     public static Action<bool> GatherButtonActivated { get; set; }
     public static Action<bool> AttackButtonActivated { get; set; }
     public static Action<bool> PickUpButtonActivated { get; set; }
@@ -37,4 +36,10 @@ public static class GlobalEventsContainer
     public static Action<bool> ShouldHandleAttacking { get; set; }
     public static Action<bool> ShouldHandleWalk { get; set; }
     public static Action<bool> ShouldHandleRun { get; set; }
+
+    #region Building Hammer
+
+    public static Action<bool> BuildingHammerActivated { get; set; }
+
+    #endregion
 }

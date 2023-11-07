@@ -23,8 +23,9 @@ public abstract class BluePrint : MonoBehaviour
     #endregion
 
 
-    public virtual bool TryGetObjectCoords(Camera targetCamera, out Vector3 coords, out Vector3 rotation)
+    public virtual bool TryGetObjectCoords(Camera targetCamera, out Vector3 coords, out Quaternion rotation, out bool shouldRotate)
     {
+        shouldRotate = false;
         Vector3 rayOrigin = targetCamera.transform.position;
         Vector3 rayDirection = targetCamera.transform.forward;
         RaycastHit hit;
@@ -48,7 +49,7 @@ public abstract class BluePrint : MonoBehaviour
                 x = Mathf.RoundToInt(hit.point.x + hit.normal.x / (2 / structureSize.x));
                 z = Mathf.RoundToInt(hit.point.z + hit.normal.z / (2 / structureSize.z));
             }
-
+            
             coords = new Vector3(x, y, z);
             return true;
         }
