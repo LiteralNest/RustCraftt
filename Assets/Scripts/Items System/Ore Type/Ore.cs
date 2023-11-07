@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Items_System.Ore_Type;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -11,9 +12,7 @@ public class Ore : NetworkBehaviour
         NetworkVariableWritePermission.Owner);
     
     [SerializeField] private float _recoveringSpeed;
-    public Resource TargetResource => _targetResource;
-    [SerializeField] protected Resource _targetResource;
-    [SerializeField] protected Vector2Int _addingCount = new Vector2Int(1,2);
+    [SerializeField] protected List<OreSlot> _resourceSlots = new List<OreSlot>();
     [SerializeField] private List<Renderer> _renderers;
 
     public bool Recovering { get; protected set; } = false;
@@ -25,6 +24,12 @@ public class Ore : NetworkBehaviour
         {
             CheckHp();
         };
+    }
+    
+    protected void AddResourcesToInventory()
+    {
+        foreach(var slot in _resourceSlots)
+            InventoryHandler.singleton.InventorySlotsContainer.AddItemToDesiredSlot(slot.Resource, Random.Range(slot.CountRange.x, slot.CountRange.y + 1));
     }
     
     private async void CheckHp()

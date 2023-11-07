@@ -53,8 +53,9 @@ MonoBehaviour:
   _currentHp:
     m_InternalValue: 1
   _recoveringSpeed: 60
-  _targetResource: {fileID: 11400000, guid: 200d2c64639dc31419395399e2005cfe, type: 2}
-  _addingCount: {x: 50, y: 100}
+  _resourceSlots:
+  - Resource: {fileID: 11400000, guid: 200d2c64639dc31419395399e2005cfe, type: 2}
+    CountRange: {x: 50, y: 50}
   _renderers:
   - {fileID: 6687467333515392812}
 --- !u!114 &7282996394745334296
@@ -96,7 +97,7 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1, y: 1.1695518, z: 1.041832}
+  m_Size: {x: 1.9337267, y: 1.1695518, z: 1.9863651}
   m_Center: {x: 0, y: 0.46051216, z: 0.20158195}
 --- !u!54 &8556192864413243752
 Rigidbody:

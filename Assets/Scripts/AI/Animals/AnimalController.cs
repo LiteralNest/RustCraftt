@@ -7,7 +7,7 @@ namespace AI.Animals
 {
     public class AnimalController : MonoBehaviour
     {
-        [Header("Main Params")] 
+        [Header("Main Params")]
         [SerializeField] private List<AIPerception> _aIPerceptions = new List<AIPerception>();
         [field: SerializeField] public NavMeshAgent NavMeshAgent { get; private set; }
         [field:SerializeField] public Vector2 InteractingRange { get;private set; } = new Vector2(4, 10);
