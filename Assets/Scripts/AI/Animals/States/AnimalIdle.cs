@@ -1,7 +1,7 @@
 using System.Collections;
 using UnityEngine;
 
-namespace Animals.AI.States
+namespace AI.Animals.States
 {
     public class AnimalIdle : AnimalState
     {

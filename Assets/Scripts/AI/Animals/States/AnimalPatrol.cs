@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Animals.AI.States
+namespace AI.Animals.States
 {
     public class AnimalPatrol : AnimalState
     {

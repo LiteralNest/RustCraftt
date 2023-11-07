@@ -1,7 +1,7 @@
 using System.Collections;
 using UnityEngine;
 
-namespace Animals.AI.States
+namespace AI.Animals.States
 {
     public class AnimalRunningAway : AnimalState
     {
@@ -17,7 +17,7 @@ namespace Animals.AI.States
             var cachedNearestObject = nearestObject;
             while (true)
             {
-                nearestObject = _controller.GetNearestObjectToRunFrom();
+                nearestObject = _controller.GetNearestObject();
                 if(nearestObject == null)
                     break;
                 if(nearestObject == cachedNearestObject)
