@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Unity.Netcode;
+using Unity.VisualScripting;
 using UnityEngine;
 
 namespace Building_System
@@ -21,11 +22,18 @@ namespace Building_System
             }
         }
 
+        private bool ThereIsGround()
+        {
+            foreach(var snap in _snapObjects)
+                if (snap._ground != null) return true;
+            return false;
+        }
+        
         private void CheckSnaps()
         {
             if(_ground != null) return;
             foreach (var snap in _snapObjects)
-                if (snap._ground != null)
+                if (snap.ThereIsGround())
                     return;
             _destroyingObject.GetComponent<IDamagable>().Destroy();
         }
