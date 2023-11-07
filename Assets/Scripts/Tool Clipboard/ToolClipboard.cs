@@ -1,9 +1,7 @@
-using System.Collections.Generic;
-using UnityEngine;
-
-public class ToolClipboard : MonoBehaviour
+public class ToolClipboard : Storage
 {
-    [field:SerializeField] public List<InventoryCell> Cells { get; private set; }
-    
-    
+    public override void Open(InventoryHandler handler)
+    {
+        throw new System.NotImplementedException();
+    }
 }

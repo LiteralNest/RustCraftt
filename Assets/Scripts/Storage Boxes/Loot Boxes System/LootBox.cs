@@ -45,7 +45,7 @@ public class LootBox : Storage
 
     private void OpenBox(InventoryHandler handler)
     {
-        handler.LootboxSlotsContainer.InitCells(Cells, this);
         handler.OpenLootBoxPanel();
+        handler.LootboxSlotsContainer.InitCells(Cells, this);
     }
 }
