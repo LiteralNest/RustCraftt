@@ -5,71 +5,70 @@ using UnityEngine.InputSystem;
 
 namespace Vehicle
 {
-    public class BoatController : NetworkBehaviour
+    public class HorseController : NetworkBehaviour
     {
-        [SerializeField] private Boat _boat;
+        [SerializeField] private Horse _horse;
         [SerializeField] private Vector3 _offset = new Vector3(0f, 0.5f, 0f);
-        [SerializeField] private PlayerInput _boatInput;
+        [SerializeField] private PlayerInput _horseInput;
+        
         public bool IsMoving { get; set; }
-        private bool _isNearBoat = false;
-        private bool _isSittingInBoat;
+        private bool _isNearHorse = false;
+        private bool _isSittingOnHorse;
         
         private PlayerController _playerController;
         private Vector2 _moveInput;
         private RigidbodyConstraints _rbConstraints;
+        
         private void Awake()
         {
-            _boatInput.enabled = false;
+            _horseInput.enabled = false;
         }
-
         private void FixedUpdate()
         {
-            if (IsMoving && _boat.IsFloating)
+            Debug.Log("FixedUpdate called"); 
+            if (IsMoving)
             {
-                _boat.Move(_moveInput);
+                _horse.Move(_moveInput);
             }
         }
-
         private void OnGUI()
         {
-            if (!_isSittingInBoat)
+            if (!_isSittingOnHorse)
             {
-                if (_isNearBoat && _playerController != null)
+                if (_isNearHorse && _playerController != null)
                 {
-                    if (GUI.Button(new Rect(Screen.width / 2 - 50, Screen.height / 2 - 25, 200, 100), "Push Boat"))
+                    if (GUI.Button(new Rect(Screen.width / 2 - 50, Screen.height / 2 + 75, 200, 100), "Siton horse"))
                     {
-                        PushBoat();
-                    }
-                    if (GUI.Button(new Rect(Screen.width / 2 - 50, Screen.height / 2 + 75, 200, 100), "Sit in Boat"))
-                    {
-                        SitInBoat();
+                        SitOnHorse();
                     }
                 }
             }
-            else if (_isSittingInBoat)
+            else if (_isSittingOnHorse)
             {
-                if (GUI.Button(new Rect(Screen.width / 2 - 50, Screen.height / 2 + 75, 200, 100), "Stand from boat"))
+                if (GUI.Button(new Rect(Screen.width / 2 - 100, Screen.height / 2 + 100, 200, 100), "Stand from horse"))
                 {
-                    StandUpFromBoat();
+                    StandUpFromHorse();
+                }
+                if (GUI.Button(new Rect(Screen.width / 2 - 50, Screen.height / 2 + 50, 200, 100), "Stand from horse"))
+                {
+                    _horse.Jump();
                 }
             }
         }
 
         public void OnMove(InputAction.CallbackContext context)
         {
+            IsMoving = true;
             _moveInput = context.ReadValue<Vector2>();
-            IsMoving = context.performed;
+            Debug.Log("OnMove called with input: " + _moveInput);
         }
-
-        #region InteractionWithBoat
 
         private void OnCollisionEnter(Collision collision)
         {
             if (collision.gameObject.CompareTag("Player"))
             {
-                _isNearBoat = true;
+                _isNearHorse = true;
                 _playerController = collision.gameObject.GetComponent<PlayerController>();
-                
             }
         }
 
@@ -77,52 +76,38 @@ namespace Vehicle
         {
             if (collision.gameObject.CompareTag("Player"))
             {
-                _isNearBoat = false;
+                _isNearHorse = false;
                 _playerController = null;
             }
         }
-
-        private void PushBoat()
-        {
-            if (_playerController != null)
-            {
-                Vector3 pushDirection = (_playerController.transform.forward).normalized;
-                
-                _boat.Push(pushDirection);
-            }
-        }
-
-        #endregion
-
-        private void SitInBoat()
+        private void SitOnHorse()
         {
             if (!IsServer) return;
-            _isSittingInBoat = true;
+            _isSittingOnHorse = true;
             
-            _playerController.GetComponent<NetworkObject>().TrySetParent(_boat.transform);
-            _playerController.transform.position = _boat.transform.position + _offset;
+            _playerController.GetComponent<NetworkObject>().TrySetParent(_horse.transform);
+            _playerController.transform.position = _horse.transform.position + _offset;
             _rbConstraints = _playerController.GetComponent<Rigidbody>().constraints;
             
-            SetPlayerPhysicInBoat();
+            SetPlayerPhysicOnHorse();
             
             _playerController.enabled = false;
-            _boatInput.enabled = true;
+            _horseInput.enabled = true;
         }
-
-        private void StandUpFromBoat()
+        private void StandUpFromHorse()
         {
             if (!IsServer) return;
-            _isSittingInBoat = false;
+            _isSittingOnHorse = false;
             _playerController.GetComponent<NetworkObject>().TryRemoveParent(true);
             var rb =_playerController.GetComponent<Rigidbody>();
             rb.constraints = _rbConstraints;
             rb.useGravity = true;
             
             _playerController.enabled = true;
-            _boatInput.enabled = false;
+            _horseInput.enabled = false;
         }
 
-        private void SetPlayerPhysicInBoat()
+        private void SetPlayerPhysicOnHorse()
         {
             var rb =_playerController.GetComponent<Rigidbody>();
             rb.constraints = RigidbodyConstraints.FreezeAll;

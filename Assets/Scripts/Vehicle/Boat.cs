@@ -1,16 +1,16 @@
 using System;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Vehicle
 {
     public class Boat : BaseVehicle
     {
-        [SerializeField] private float _boatMoveSpeed = 5f;
-        [SerializeField] private float _boatRotationSpeed = 40f;
+        
         [SerializeField] private float _pushForce = 100f;
         [SerializeField] private float _depthBeforeSubmerged = 1f;
         [SerializeField] private float _displacementAmount = 1.09f;
-        [SerializeField] private Transform _sitPlace;
+        
 
         private float _originalRb = 0;
         public bool IsFloating { get; set; }
@@ -50,19 +50,19 @@ namespace Vehicle
         {
             float forwardMovement = Mathf.Clamp(moveInput.y, 0, 1f);
             var movement = new Vector3(forwardMovement, 0f, 0f);
-            var rotation = moveInput.x * _boatRotationSpeed * Time.fixedDeltaTime;
+            var rotation = moveInput.x * RotationSpeed * Time.fixedDeltaTime;
 
             transform.Rotate(0f, rotation, 0f);
 
             if (forwardMovement > 0)
             {
-                transform.Translate(-movement * _boatMoveSpeed * Time.deltaTime, Space.Self);
+                transform.Translate(movement * MoveSpeed * Time.deltaTime, Space.Self);
             }
         }
 
         public Transform SitAtPlace()
         {
-            return _sitPlace;
+            return SitPlace;
         }
     }
 }
