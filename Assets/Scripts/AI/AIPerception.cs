@@ -17,14 +17,14 @@ namespace AI
          GetComponent<Rigidbody>().useGravity = false;
       }
 
-      public List<T> GetObjects<T>() where T : class
+      public List<Transform> GetObjects<T>() where T : class
       {
-         var res = new List<T>();
+         var res = new List<Transform>();
          foreach (var target in _targets)
          {
             var component = target.GetComponent<T>();
             if (component == null) continue;
-            res.Add(component);
+            res.Add(target.transform);
          }
          return res;
       }

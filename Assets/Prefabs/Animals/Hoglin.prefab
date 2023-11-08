@@ -45,8 +45,8 @@ GameObject:
   - component: {fileID: 512706180159415732}
   - component: {fileID: 8301171887506107673}
   - component: {fileID: 8069076699056476948}
-  - component: {fileID: 4852067080884387004}
   - component: {fileID: 1429353532505065904}
+  - component: {fileID: 8740509958954913548}
   - component: {fileID: 7995870956587467087}
   m_Layer: 0
   m_Name: Hoglin
@@ -193,26 +193,6 @@ MonoBehaviour:
   InLocalSpace: 0
   Interpolate: 1
   SlerpPosition: 0
---- !u!114 &4852067080884387004
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 265887055128463060}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 150b150bb53fe56408ccdf110356b751, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  animalID: {fileID: 7995870956587467087}
-  _aIPerceptions:
-  - {fileID: 7232416058289457243}
-  - {fileID: 1147332798449190967}
-  <NavMeshAgent>k__BackingField: {fileID: 6263872755653614842}
-  <InteractingRange>k__BackingField: {x: 4, y: 10}
-  _idleState: {fileID: 6466762726874543800}
-  _playerInteractionState: {fileID: 2010302467885120269}
 --- !u!114 &1429353532505065904
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -228,6 +208,25 @@ MonoBehaviour:
   _animalId: {fileID: 7995870956587467087}
   _hp:
     m_InternalValue: 100
+--- !u!114 &8740509958954913548
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 265887055128463060}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 13c2b0759cb48de4a9870e0a44d4aea6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _aIPerceptions:
+  - {fileID: 1147332798449190967}
+  - {fileID: 7232416058289457243}
+  <NavMeshAgent>k__BackingField: {fileID: 6263872755653614842}
+  <InteractingRange>k__BackingField: {x: 4, y: 10}
+  _idleState: {fileID: 6466762726874543800}
+  _playerInteractionState: {fileID: 2010302467885120269}
 --- !u!114 &7995870956587467087
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1259,7 +1258,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4926c94054505bd4b88382a93cdf9879, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _animalController: {fileID: 4852067080884387004}
+  _animalController: {fileID: 8740509958954913548}
 --- !u!1 &4032422690037127279
 GameObject:
   m_ObjectHideFlags: 0
@@ -1850,7 +1849,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4926c94054505bd4b88382a93cdf9879, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _animalController: {fileID: 4852067080884387004}
+  _animalController: {fileID: 8740509958954913548}
 --- !u!1 &7088867673820380689
 GameObject:
   m_ObjectHideFlags: 0

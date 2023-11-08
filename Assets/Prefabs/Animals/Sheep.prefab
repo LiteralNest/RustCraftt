@@ -146,7 +146,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4926c94054505bd4b88382a93cdf9879, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _animalController: {fileID: 2853219181188795572}
+  _animalController: {fileID: 474434149788373670}
 --- !u!1 &3807297282725105513
 GameObject:
   m_ObjectHideFlags: 0
@@ -551,7 +551,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4926c94054505bd4b88382a93cdf9879, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _animalController: {fileID: 2853219181188795572}
+  _animalController: {fileID: 474434149788373670}
 --- !u!1 &7940998801609871278
 GameObject:
   m_ObjectHideFlags: 0
@@ -682,8 +682,8 @@ GameObject:
   - component: {fileID: 2590319505852200009}
   - component: {fileID: 7396794662649559242}
   - component: {fileID: 5221093859305909089}
-  - component: {fileID: 2853219181188795572}
   - component: {fileID: 4838747443785591544}
+  - component: {fileID: 474434149788373670}
   - component: {fileID: 1770868726360872817}
   m_Layer: 0
   m_Name: Sheep
@@ -720,7 +720,7 @@ NavMeshAgent:
   m_Enabled: 1
   m_AgentTypeID: 0
   m_Radius: 0.18
-  m_Speed: 3.5
+  m_Speed: 4
   m_Acceleration: 8
   avoidancePriority: 50
   m_AngularSpeed: 120
@@ -830,25 +830,6 @@ MonoBehaviour:
   SpawnWithObservers: 1
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
---- !u!114 &2853219181188795572
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9018761214685652603}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 150b150bb53fe56408ccdf110356b751, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _aIPerceptions:
-  - {fileID: 544790735061902691}
-  - {fileID: 3439835241763727760}
-  <NavMeshAgent>k__BackingField: {fileID: 4823291897623362019}
-  <InteractingRange>k__BackingField: {x: 4, y: 10}
-  _idleState: {fileID: 5069920426355616617}
-  _playerInteractionState: {fileID: 3327387251882102570}
 --- !u!114 &4838747443785591544
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -864,6 +845,25 @@ MonoBehaviour:
   _animalId: {fileID: 1770868726360872817}
   _hp:
     m_InternalValue: 50
+--- !u!114 &474434149788373670
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9018761214685652603}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 60f694b073a51e84c858f1c7438f4032, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _aIPerceptions:
+  - {fileID: 3439835241763727760}
+  - {fileID: 544790735061902691}
+  <NavMeshAgent>k__BackingField: {fileID: 4823291897623362019}
+  <InteractingRange>k__BackingField: {x: 4, y: 10}
+  _idleState: {fileID: 5069920426355616617}
+  _playerInteractionState: {fileID: 3327387251882102570}
 --- !u!114 &1770868726360872817
 MonoBehaviour:
   m_ObjectHideFlags: 0

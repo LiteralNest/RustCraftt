@@ -5,21 +5,21 @@ using UnityEngine.AI;
 
 namespace AI.Animals
 {
-    public class AnimalController : MonoBehaviour
+    public abstract class AnimalController : MonoBehaviour
     {
-        [Header("Main Params")]
-        [SerializeField] private List<AIPerception> _aIPerceptions = new List<AIPerception>();
-        [field: SerializeField] public NavMeshAgent NavMeshAgent { get; private set; }
-        [field:SerializeField] public Vector2 InteractingRange { get;private set; } = new Vector2(4, 10);
+        [Header("Main Params")] [SerializeField]
+        protected List<AIPerception> _aIPerceptions = new List<AIPerception>();
 
-        [Header("States")] 
-        [SerializeField] protected AnimalState _idleState;
+        [field: SerializeField] public NavMeshAgent NavMeshAgent { get; private set; }
+        [field: SerializeField] public Vector2 InteractingRange { get; private set; } = new Vector2(4, 10);
+
+        [Header("States")] [SerializeField] protected AnimalState _idleState;
         [SerializeField] private AnimalState _playerInteractionState;
-        
+
         protected AnimalState _currentState;
-        
-        public List<PlayerNetCode> ObjectsToInteract { get; private set; } = new List<PlayerNetCode>();
-        
+
+        public List<Transform> ObjectsToInteract { get; private set; } = new List<Transform>();
+
         private void Update()
         {
             if (_currentState == _playerInteractionState) return;
@@ -28,10 +28,14 @@ namespace AI.Animals
             if (GetDistanceTo(nearestObject.position) < InteractingRange.x)
                 SetState(_playerInteractionState);
         }
-        
+
         private void Start()
             => SetState(_idleState);
 
+        public virtual void RefreshList()
+        {
+            ObjectsToInteract.Clear();
+        }
 
         public Transform GetNearestObject()
         {
@@ -65,20 +69,13 @@ namespace AI.Animals
 
         public void SetIdleState()
             => SetState(_idleState);
-        
+
         public float GetDistanceTo(Vector3 pos)
         {
             pos.y = 0;
             Vector3 aiPos = transform.position;
             aiPos.y = 0;
             return Vector3.Distance(pos, aiPos);
-        }
-        
-        public void RefreshList()
-        {
-            ObjectsToInteract.Clear();
-            foreach (var perception in _aIPerceptions)
-                ObjectsToInteract.AddRange(perception.GetObjects<PlayerNetCode>());
         }
     }
 }

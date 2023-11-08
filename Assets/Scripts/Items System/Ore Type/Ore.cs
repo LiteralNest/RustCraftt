@@ -63,6 +63,7 @@ public class Ore : NetworkBehaviour
     [ServerRpc(RequireOwnership = false)]
     public void MinusHpServerRpc()
     {
+        if (_currentHp.Value <= 0) return;
         _currentHp.Value--;
     }
 }
