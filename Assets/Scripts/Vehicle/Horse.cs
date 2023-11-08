@@ -6,7 +6,7 @@ namespace Vehicle
     public class Horse : BaseVehicle
     {
         [SerializeField] private float _galopingSpeed = 10f;
-        [SerializeField]private float _jumpForce = 0.5f;
+        [SerializeField] private float _jumpForce = 0.5f;
         private float _currentMovingSpeed;
 
         private void Start()

@@ -56,7 +56,7 @@ namespace Vehicle
 
             if (forwardMovement > 0)
             {
-                transform.Translate(movement * MoveSpeed * Time.deltaTime, Space.Self);
+                transform.Translate(-movement * MoveSpeed * Time.deltaTime, Space.Self);
             }
         }
 

@@ -1,5 +1,7 @@
+using System;
 using Player_Controller;
 using Unity.Netcode;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -25,7 +27,6 @@ namespace Vehicle
         }
         private void FixedUpdate()
         {
-            Debug.Log("FixedUpdate called"); 
             if (IsMoving)
             {
                 _horse.Move(_moveInput);
@@ -56,13 +57,32 @@ namespace Vehicle
             }
         }
 
+        #region InputMap
         public void OnMove(InputAction.CallbackContext context)
         {
             IsMoving = true;
             _moveInput = context.ReadValue<Vector2>();
-            Debug.Log("OnMove called with input: " + _moveInput);
+        }
+        #endregion
+
+        #region Trigger
+
+        private void OnTriggerEnter(Collider other)
+        {
+            if(other.CompareTag("Ground"))
+                _horse.Jump();
         }
 
+        private void OnTriggerExit(Collider other)
+        {
+            //
+            // var ground = other.CompareTag("Ground");
+            // if (ground)
+            //     ground = false;
+        }
+
+        #endregion
+        #region Colision
         private void OnCollisionEnter(Collision collision)
         {
             if (collision.gameObject.CompareTag("Player"))
@@ -80,6 +100,8 @@ namespace Vehicle
                 _playerController = null;
             }
         }
+        #endregion
+        #region InteractionWithVehiclce
         private void SitOnHorse()
         {
             if (!IsServer) return;
@@ -113,5 +135,7 @@ namespace Vehicle
             rb.constraints = RigidbodyConstraints.FreezeAll;
             rb.useGravity = true;
         }
+        #endregion
+     
     }
 }
