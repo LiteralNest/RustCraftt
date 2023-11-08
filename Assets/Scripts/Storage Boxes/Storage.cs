@@ -5,7 +5,7 @@ using UnityEngine.Serialization;
 
 public abstract class Storage : NetworkBehaviour
 {
-    [field:SerializeField] private NetworkList<Vector2> _itemsNetData;
+    private NetworkList<Vector2> _itemsNetData;
 
     [FormerlySerializedAs("_cells")] [SerializeField]
     public List<InventoryCell> Cells;
@@ -82,8 +82,7 @@ public abstract class Storage : NetworkBehaviour
 
     public virtual void ConvertWebData(NetworkListEvent<Vector2> changeEvent)
     {
-        if (!IsServer)
-            ConvertWebData();
+        ConvertWebData();
     }
 
     [ContextMenu("DebugNetCells")]

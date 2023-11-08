@@ -11,6 +11,7 @@ public class InventoryHandler : NetworkBehaviour
     [field: SerializeField] public StorageSlotsContainer LootboxSlotsContainer { get; private set; }
     [field: SerializeField] public StorageSlotsContainer LargeStorageSlotsContainer { get; private set; }
     [field: SerializeField] public StorageSlotsContainer ToolClipboardSlotsContainer { get; private set; }
+    [field: SerializeField] public StorageSlotsContainer ShotGunSlotsContainer { get; private set; }
     [field: SerializeField] public SlotsContainer InventorySlotsContainer { get; private set; }
     [field: SerializeField] public InventorySlotsDisplayer InventorySlotsDisplayer { get; private set; }
     [field: SerializeField] public PlayerObjectsPlacer PlayerObjectsPlacer { get; private set; }
@@ -29,6 +30,7 @@ public class InventoryHandler : NetworkBehaviour
     [SerializeField] private GameObject _campFirePanel;
     [SerializeField] private GameObject _recyclerPanel;
     [SerializeField] private GameObject _toolClipboardPanel;
+    [SerializeField] private GameObject _shotGunPanel;
 
     public Item ActiveItem { get; private set; }
 
@@ -64,6 +66,7 @@ public class InventoryHandler : NetworkBehaviour
         _campFirePanel.SetActive(false);
         _largeStoragePanel.SetActive(false);
         _toolClipboardPanel.SetActive(false);
+        _shotGunPanel.SetActive(false);
         _lootBoxPanel.SetActive(true);
     }
 
@@ -74,6 +77,7 @@ public class InventoryHandler : NetworkBehaviour
         _lootBoxPanel.SetActive(false);
         _largeStoragePanel.SetActive(false);
         _toolClipboardPanel.SetActive(false);
+        _shotGunPanel.SetActive(false);
         _campFirePanel.SetActive(true);
     }
 
@@ -84,6 +88,7 @@ public class InventoryHandler : NetworkBehaviour
         _lootBoxPanel.SetActive(false);
         _largeStoragePanel.SetActive(false);
         _toolClipboardPanel.SetActive(false);
+        _shotGunPanel.SetActive(false);
         _recyclerPanel.SetActive(true);
     }
 
@@ -94,6 +99,7 @@ public class InventoryHandler : NetworkBehaviour
         _lootBoxPanel.SetActive(false);
         _recyclerPanel.SetActive(false);
         _toolClipboardPanel.SetActive(false);
+        _shotGunPanel.SetActive(false);
         _largeStoragePanel.SetActive(true);
     }
     
@@ -104,7 +110,19 @@ public class InventoryHandler : NetworkBehaviour
         _lootBoxPanel.SetActive(false);
         _recyclerPanel.SetActive(false);
         _largeStoragePanel.SetActive(false);
+        _shotGunPanel.SetActive(false);
         _toolClipboardPanel.SetActive(true);
+    }
+
+    public void OpenShotGunPanel()
+    {
+        HandleInventory(true);
+        _armorPanel.SetActive(false);
+        _lootBoxPanel.SetActive(false);
+        _recyclerPanel.SetActive(false);
+        _largeStoragePanel.SetActive(false);
+        _toolClipboardPanel.SetActive(false);
+        _shotGunPanel.SetActive(true);
     }
 
     public void SetActiveItem(Item item)
