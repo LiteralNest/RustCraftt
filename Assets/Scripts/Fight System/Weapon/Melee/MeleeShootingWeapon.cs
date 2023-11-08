@@ -1,3 +1,4 @@
+using Fight_System.Weapon.ShootingWeapon;
 using UnityEngine;
 
 public class MeleeShootingWeapon : BaseShootingWeapon
