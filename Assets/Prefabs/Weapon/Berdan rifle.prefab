@@ -44,8 +44,8 @@ GameObject:
   - component: {fileID: 4349214220257681019}
   - component: {fileID: 1512506632451936988}
   - component: {fileID: 4925500289109209217}
-  - component: {fileID: 5176850307065824357}
   - component: {fileID: 608208407856586891}
+  - component: {fileID: 8438203317833167886}
   m_Layer: 0
   m_Name: Berdan rifle
   m_TagString: Untagged
@@ -94,7 +94,6 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 1083211895
   Weapon: {fileID: 11400000, guid: 006e8b380b45c9d4f8833e6f057b6585, type: 2}
-  _timeBetweenShots: 0.2
 --- !u!114 &1512506632451936988
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -205,26 +204,6 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!114 &5176850307065824357
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3389491808241082177}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 05e726e55990d4cb09c156a317e300b1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _swayAmount: 0.001
-  _maxSwayAmount: 0.006
-  _swayXBounds: 1
-  _swayYBounds: 1
-  _smoothFactor: 3
-  _rotationAmount: 2
-  _maxRotation: 5
-  _returnSpeed: 4
 --- !u!114 &608208407856586891
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -237,6 +216,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4412c967bbdd4da78f9d2d772778bf3a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &8438203317833167886
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3389491808241082177}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 05e726e55990d4cb09c156a317e300b1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _swayAmount: 1
+  _maxSwayAmount: 0.14
+  _swayXBounds: 0.01
+  _swayYBounds: 0.01
+  _smoothFactor: 1
+  _rotationAmount: 3.5
+  _maxRotation: 6
+  _returnSpeed: 4
 --- !u!1 &6896645403536755329
 GameObject:
   m_ObjectHideFlags: 0
