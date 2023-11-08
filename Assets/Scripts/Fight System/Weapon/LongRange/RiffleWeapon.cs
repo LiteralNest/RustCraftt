@@ -8,6 +8,8 @@ public class RiffleWeapon : BaseShootingWeapon
 
     private LongRangeWeaponInventoryItemDisplayer inventoryItemDisplayer;
     
+
+    
     private void Start()
     {
         Reload();
@@ -20,7 +22,7 @@ public class RiffleWeapon : BaseShootingWeapon
         Recoil.UpdateRecoil();
     }
 
-    protected void Attack(bool value)
+    public override void Attack(bool value)
     {
         if (!CanShoot() || currentAmmoCount <= 0) return;
         RaycastHit hit;

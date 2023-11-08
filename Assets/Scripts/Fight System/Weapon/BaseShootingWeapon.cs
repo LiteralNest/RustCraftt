@@ -3,7 +3,7 @@ using UnityEngine;
 
 public abstract class BaseShootingWeapon : MonoBehaviour, IWeapon
 {
-    [SerializeField] private bool canBeReloaded = false;//to show in editor for debug
+    [SerializeField] private bool canBeReloaded = false; //to show in editor for debug
 
     [SerializeField] protected WeaponRecoil Recoil;
     [SerializeField] protected WeaponSoundPlayer SoundPlayer;
@@ -13,14 +13,23 @@ public abstract class BaseShootingWeapon : MonoBehaviour, IWeapon
     [SerializeField] protected float FlameEffectDuration;
     [SerializeField] protected GameObject Decal;
     [SerializeField] protected LayerMask TargetMask;
-    protected LongRangeWeapon Weapon;
+    [SerializeField] protected ShootingWeapon Weapon;
 
     protected int currentAmmoCount;
     protected bool canShoot;
     private float _timeBetweenShots = 0f; // Variable to handle shots between shoots
     private bool _isReloading = false;
 
-    public virtual void Attack(bool value) { }
+    private void OnEnable()
+        => GlobalEventsContainer.WeaponObjectAssign?.Invoke(this);
+
+    private void OnDisable()
+        => GlobalEventsContainer.WeaponObjectAssign?.Invoke(null);
+    
+    public virtual void Attack(bool value)
+    {
+    }
+
     public virtual bool CanReload() => canBeReloaded;
 
 

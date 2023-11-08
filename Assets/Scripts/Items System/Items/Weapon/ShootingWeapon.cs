@@ -2,7 +2,7 @@ using UnityEngine;
 
 [CreateAssetMenu(menuName = "Item/Long Range Weapon")]
 [System.Serializable]
-public class LongRangeWeapon : Weapon
+public class ShootingWeapon : Weapon
 {
     [Header("Long Range Weapon")] 
     [SerializeField] private float _range = 100;
