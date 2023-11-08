@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class PlayerFightHandler : MonoBehaviour
 {
-    private WeaponObject _currentWeaponObject;
+    private BaseShootingWeapon _currentBaseShootingWeapon;
     private bool _attacking;
 
     private void OnEnable()
@@ -13,24 +13,24 @@ public class PlayerFightHandler : MonoBehaviour
     
     private void Update()
     {
-        if(!_attacking || _currentWeaponObject == null) return;
+        if(!_attacking || _currentBaseShootingWeapon == null) return;
     }
 
-    private void AssignWeaponObject(WeaponObject value)
+    private void AssignWeaponObject(BaseShootingWeapon value)
     {
-        _currentWeaponObject = value;
+        _currentBaseShootingWeapon = value;
         
     }
 
     public void SetAttacking(bool value)
     {
-        _currentWeaponObject.Attack(value);
+        _currentBaseShootingWeapon.Attack(value);
         _attacking = value;
     }
 
     public void Reload()
     {
-        _currentWeaponObject.Reload();
+        _currentBaseShootingWeapon.Reload();
         GlobalEventsContainer.ShouldDisplayReloadingButton?.Invoke(false);
     }
 }

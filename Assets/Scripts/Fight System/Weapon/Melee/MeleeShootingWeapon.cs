@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class MeleeWeaponObject : WeaponObject
+public class MeleeShootingWeapon : BaseShootingWeapon
 {
     public override void Attack(bool value)
     {

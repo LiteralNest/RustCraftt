@@ -20,7 +20,7 @@ public static class GlobalEventsContainer
     public static Action<bool> GatherButtonActivated { get; set; }
     public static Action<bool> AttackButtonActivated { get; set; }
     public static Action<bool> PickUpButtonActivated { get; set; }
-    public static Action<WeaponObject> WeaponObjectAssign { get; set; }
+    public static Action<BaseShootingWeapon> WeaponObjectAssign { get; set; }
     public static Action<bool> ShouldDisplayReloadingButton { get; set; }
     public static Action<bool> ShouldDisplayPlacingPanel { get; set; }
     public static Action<ResourceGatheringObject> ResourceGatheringObjectAssign { get; set; }

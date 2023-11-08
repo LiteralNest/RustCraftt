@@ -4,17 +4,22 @@ using UnityEngine;
 [System.Serializable]
 public class LongRangeWeapon : Weapon
 {
-    public float Range => _range;
     [Header("Long Range Weapon")] 
     [SerializeField] private float _range = 100;
-    public int Damage => _damage;
     [SerializeField] private int _damage = 1;
-    public float DelayBetweenShoots => _delayBetweenShoots;
-    [SerializeField]private float _delayBetweenShoots = 0.1f;
-    
-    public Ammo Ammo => _ammo;
-    [Header("Ammo")]
+    [SerializeField] private float _delayBetweenShoots = 0.1f;
     [SerializeField] private Ammo _ammo;
-    public int MagazineCount => _magazineCount;
     [SerializeField] private int _magazineCount;
+    [SerializeField] private float _recoilX;
+    [SerializeField] private float _recoilY;
+    [SerializeField] private float _recoilZ;
+
+    public float Range => _range;
+    public int Damage => _damage;
+    public float DelayBetweenShoots => _delayBetweenShoots;
+    public Ammo Ammo => _ammo;
+    public int MagazineCount => _magazineCount;
+    public float RecoilX => _recoilX;
+    public float RecoilY => _recoilY;
+    public float RecoilZ => _recoilZ;
 }
