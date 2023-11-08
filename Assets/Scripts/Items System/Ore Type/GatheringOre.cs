@@ -12,7 +12,7 @@ public class GatheringOre : Ore
     public void Gather()
     {
         if(Recovering) return;
-        InventoryHandler.singleton.InventorySlotsContainer.AddItemToDesiredSlot(_targetResource, Random.Range(_addingCount.x, _addingCount.y + 1));
+        AddResourcesToInventory();
         MinusHpServerRpc();
     }
 }

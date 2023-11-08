@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using Unity.Netcode;
 using UnityEngine;
 
 public class ResourceOre : Ore
@@ -22,7 +21,7 @@ public class ResourceOre : Ore
         destroyed = false;
         if (_currentHp.Value <= 0) return;
         if(!CanUseTool(targetTool)) return;
-        InventoryHandler.singleton.InventorySlotsContainer.AddItemToDesiredSlot(_targetResource, Random.Range(_addingCount.x, _addingCount.y + 1));
+        AddResourcesToInventory();
         Instantiate(_vfxEffect, lastRayPos,  Quaternion.FromToRotation(Vector3.up, lastRayRot));
         MinusHpServerRpc();
         destroyed = _currentHp.Value <= 0;
