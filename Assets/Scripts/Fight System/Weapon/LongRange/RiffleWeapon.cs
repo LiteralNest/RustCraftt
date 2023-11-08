@@ -19,7 +19,7 @@ public class RiffleWeapon : BaseShootingWeapon
 
     private void Update()
     {
-        Recoil.UpdateRecoil();
+        Recoil.UpdateRecoil(2f);
     }
 
     public override void Attack(bool value)

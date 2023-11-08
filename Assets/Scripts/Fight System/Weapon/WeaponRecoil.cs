@@ -1,4 +1,6 @@
+using System;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class WeaponRecoil : MonoBehaviour
 {
@@ -9,8 +11,8 @@ public class WeaponRecoil : MonoBehaviour
         currentRotation += new Vector3(recoilX, Random.Range(-recoilY, recoilY), Random.Range(-recoilZ, recoilZ));
     }
 
-    public void UpdateRecoil()
+    public void UpdateRecoil(float returnSpeed)
     {
-        transform.localRotation = Quaternion.Euler(currentRotation);
+        transform.localRotation = Quaternion.Slerp(transform.localRotation, Quaternion.identity, Time.deltaTime * returnSpeed);
     }
 }
