@@ -5,13 +5,13 @@ namespace Character_Stats
 {
     public class PlayerDeath : NetworkBehaviour
     {
+        [SerializeField] private CharacterStats _characterStats;
         [SerializeField] private GameObject _deathScreen;
         [SerializeField] private GameObject _knockDownScreen;
         
         
         private void Start()
         {
-            if (!NetworkObject.IsLocalPlayer) return;
             GlobalEventsContainer.PlayerDied += OnPlayerDeath;
             GlobalEventsContainer.PlayerKnockDowned += OnPlayerKnockDown;
         }
@@ -25,7 +25,7 @@ namespace Character_Stats
         
         private void OnPlayerKnockDown()
         {
-            var health = CharacterStats.Singleton.Health;
+            var health = _characterStats.Health;
             if (health is <= 5 and > 0)
             {
                 _knockDownScreen.SetActive(true);
@@ -35,7 +35,7 @@ namespace Character_Stats
         }
         private void OnPlayerDeath()
         {
-            var healt = CharacterStats.Singleton.Health;
+            var healt = _characterStats.Health;
             if (healt <= 0)
             {
                 _knockDownScreen.SetActive(false);

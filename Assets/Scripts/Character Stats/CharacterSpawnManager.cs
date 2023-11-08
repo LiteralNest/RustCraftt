@@ -1,5 +1,6 @@
  using System.Collections.Generic;
-using UnityEngine;
+ using Player_Controller;
+ using UnityEngine;
 using Random = UnityEngine.Random;
 
  namespace Character_Stats

@@ -1,4 +1,6 @@
 
+using Player_Controller;
+
 namespace AI.Animals
 {
     public class AC_Predator : AnimalController

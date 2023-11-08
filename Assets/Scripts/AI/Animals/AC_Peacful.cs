@@ -1,3 +1,5 @@
+using Player_Controller;
+
 namespace AI.Animals
 {
     public class AC_Peacful : AnimalController
