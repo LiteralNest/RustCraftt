@@ -31,13 +31,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 9147506513617174129}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0.15009731, y: -0, z: -0, w: 0.98867124}
   m_LocalPosition: {x: -0.011, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 17.265, y: 0, z: 0}
 --- !u!33 &6219370348472025692
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -107,8 +107,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.05414375, y: 0.047060337, z: 0.032814592}
-  m_Center: {x: -0.00009833649, y: 0.0064762104, z: 0.39324075}
+  m_Size: {x: 0.022722058, y: 0.022430308, z: 0.032814622}
+  m_Center: {x: 0.000041147694, y: 0.0012102132, z: 0.39324075}
 --- !u!54 &7712269352634625924
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -120,7 +120,7 @@ Rigidbody:
   m_Mass: 1
   m_Drag: 0
   m_AngularDrag: 0.05
-  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_CenterOfMass: {x: 0, y: 0, z: -0.2}
   m_InertiaTensor: {x: 1, y: 1, z: 1}
   m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
   m_IncludeLayers:
@@ -129,7 +129,7 @@ Rigidbody:
   m_ExcludeLayers:
     serializedVersion: 2
     m_Bits: 0
-  m_ImplicitCom: 1
+  m_ImplicitCom: 0
   m_ImplicitTensor: 1
   m_UseGravity: 1
   m_IsKinematic: 1
@@ -151,7 +151,8 @@ MonoBehaviour:
   <AmmoPoolId>k__BackingField: 2
   _despawnTime: 10
   _rb: {fileID: 7712269352634625924}
-  _torque: 10
+  _torque: 2
+  _arrowCollider: {fileID: 4888910354429494302}
 --- !u!114 &428616925624492165
 MonoBehaviour:
   m_ObjectHideFlags: 0
