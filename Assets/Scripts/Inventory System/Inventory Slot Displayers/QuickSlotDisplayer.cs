@@ -33,6 +33,6 @@ public class QuickSlotDisplayer : MonoBehaviour
         var cell = ItemDisplayer.InventoryCell;
         if (cell == null) return;
         var item = cell.Item;
-        item.Click(this, _inventoryHandler, out bool shouldMinus);
+        item.Click(this, _inventoryHandler);
     }
 }
