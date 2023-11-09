@@ -1,4 +1,4 @@
-namespace Fight_System.Weapon.ShootingWeapon
+namespace Fight_System.Weapon.ShootWeapon
 {
     public interface IWeapon
     {

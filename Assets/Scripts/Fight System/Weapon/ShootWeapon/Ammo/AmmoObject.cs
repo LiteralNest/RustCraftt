@@ -2,7 +2,7 @@ using System.Collections;
 using Unity.Netcode;
 using UnityEngine;
 
-namespace Fight_System.Weapon.ShootingWeapon.Ammo
+namespace Fight_System.Weapon.ShootWeapon.Ammo
 {
     [RequireComponent(typeof(BoxCollider))]
     public class AmmoObject : NetworkBehaviour

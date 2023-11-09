@@ -1,11 +1,10 @@
 using System.Collections;
-using Unity.Netcode;
 using UnityEngine;
 
-namespace Fight_System.Weapon.ShootingWeapon.Ammo
+namespace Fight_System.Weapon.ShootWeapon.Ammo
 {
     [RequireComponent(typeof(WeaponSoundPlayer))]
-    public class Arrow : NetworkBehaviour
+    public class Arrow : MonoBehaviour
     {
         [field: SerializeField] public int AmmoPoolId { get; private set; }
         [SerializeField] private float _despawnTime;
@@ -16,7 +15,7 @@ namespace Fight_System.Weapon.ShootingWeapon.Ammo
         {
             if (_rb == null)
                 _rb = GetComponent<Rigidbody>();
-            StartCoroutine(DespawnObject());
+            // StartCoroutine(DespawnObject());
         }
         
         public void ArrowFly(Vector3 force)
@@ -32,15 +31,13 @@ namespace Fight_System.Weapon.ShootingWeapon.Ammo
             _rb.velocity = Vector3.zero;
             _rb.angularVelocity = Vector3.zero;
             _rb.isKinematic = true;
-            transform.SetParent(other.transform);  
-            // Destroy(_rb);
+            transform.SetParent(other.transform);
         }
         
         private IEnumerator DespawnObject()
         {
-            yield return new WaitForSeconds(_despawnTime);
-            Destroy(gameObject);
-            GetComponent<NetworkObject>().Despawn();
+            yield return new WaitForSeconds(_despawnTime); Destroy(gameObject);
+            // GetComponent<NetworkObject>().Despawn();
         }
     }
 }

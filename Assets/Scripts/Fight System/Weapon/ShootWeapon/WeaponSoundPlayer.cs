@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Fight_System.Weapon.ShootingWeapon
+namespace Fight_System.Weapon.ShootWeapon
 {
     public class WeaponSoundPlayer : MonoBehaviour
     {

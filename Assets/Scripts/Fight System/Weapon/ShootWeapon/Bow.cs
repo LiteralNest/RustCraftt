@@ -1,7 +1,7 @@
-using Fight_System.Weapon.ShootingWeapon.Ammo;
+using Fight_System.Weapon.ShootWeapon.Ammo;
 using UnityEngine;
 
-namespace Fight_System.Weapon.ShootingWeapon
+namespace Fight_System.Weapon.ShootWeapon
 {
     public class Bow : BaseShootingWeapon
     {
@@ -12,6 +12,8 @@ namespace Fight_System.Weapon.ShootingWeapon
 
         private void Start()
         {
+            base.Start();
+            currentAmmoCount = 100;
             CreateArrow(); // Instantiate the arrow on start
         }
 
@@ -28,6 +30,7 @@ namespace Fight_System.Weapon.ShootingWeapon
             if (_arrowPrefab != null)
             {
                 _currentArrow = Instantiate(_arrowPrefab, AmmoSpawnPoint.position, AmmoSpawnPoint.rotation);
+                _currentArrow.transform.SetParent(AmmoSpawnPoint);
             }
         }
 

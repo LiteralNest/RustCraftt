@@ -1,7 +1,7 @@
 using System.Collections;
 using UnityEngine;
 
-namespace Fight_System.Weapon.ShootingWeapon
+namespace Fight_System.Weapon.ShootWeapon
 {
     public abstract class BaseShootingWeapon : MonoBehaviour, IWeapon
     {
@@ -15,13 +15,16 @@ namespace Fight_System.Weapon.ShootingWeapon
         [SerializeField] protected float FlameEffectDuration;
         [SerializeField] protected GameObject Decal;
         [SerializeField] protected LayerMask TargetMask;
-        [SerializeField] protected global::ShootingWeapon Weapon;
+        [SerializeField] protected ShootingWeapon Weapon;
 
         protected int currentAmmoCount;
         protected bool canShoot;
         private float _timeBetweenShots = 0f; // Variable to handle shots between shoots
         private bool _isReloading = false;
 
+        protected void Start()
+            => canShoot = true;
+        
         protected bool CanShoot()
         {
             return canShoot && _timeBetweenShots <= 0 && currentAmmoCount > 0 && !_isReloading;

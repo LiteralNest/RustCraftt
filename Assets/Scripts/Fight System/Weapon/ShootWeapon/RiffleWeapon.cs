@@ -1,8 +1,6 @@
-using System;
 using UnityEngine;
-using UnityEngine.Serialization;
 
-namespace Fight_System.Weapon.ShootingWeapon
+namespace Fight_System.Weapon.ShootWeapon
 {
     [RequireComponent(typeof(WeaponSoundPlayer))]
     public class RiffleWeapon : BaseShootingWeapon
