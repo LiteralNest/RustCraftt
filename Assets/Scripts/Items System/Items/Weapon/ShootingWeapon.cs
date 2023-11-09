@@ -4,7 +4,7 @@ using UnityEngine;
 [System.Serializable]
 public class ShootingWeapon : Weapon
 {
-    [Header("Long Range Weapon")] 
+    [Header("Shooting Weapon")] 
     [SerializeField] private float _range = 100;
     [SerializeField] private int _damage = 1;
     [SerializeField] private float _delayBetweenShoots = 0.1f;
