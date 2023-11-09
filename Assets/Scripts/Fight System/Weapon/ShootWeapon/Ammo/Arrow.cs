@@ -40,8 +40,7 @@ namespace Fight_System.Weapon.ShootWeapon.Ammo
 
             // Set the arrow's position and rotation to match the point of impact
             transform.position = other.contacts[0].point;
-
-            // Родительство оставляем как есть
+            
             transform.SetParent(other.transform);
             StartCoroutine(DespawnObject());
         }
