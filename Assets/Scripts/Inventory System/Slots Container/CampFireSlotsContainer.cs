@@ -24,7 +24,7 @@ public class CampFireSlotsContainer : SlotsContainer
         return false;
     }
 
-    private bool ListContains(Item item, List<CookingFood> list)
+    private bool ListContains(Item item, List<CookingCharacterStatRiser> list)
     {
         foreach (var cell in list)
             if (item.Id == cell.Id)
@@ -34,7 +34,7 @@ public class CampFireSlotsContainer : SlotsContainer
 
     public override bool CanAddItem(Item item)
     {
-        if(item is Food || item is CookingFood) return true;
+        if(item is CharacterStatRiser || item is CookingCharacterStatRiser) return true;
         return false;
     }
 

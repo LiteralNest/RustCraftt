@@ -16,7 +16,7 @@ public class CampFireHandler : Storage
 
     private CampFireSlotsContainer _targetSlotsContainer;
 
-    private CookingFood _currentlyCookingFood;
+    private CookingCharacterStatRiser _currentlyCookingCharacterStatRiser;
 
     private void Start()
         => gameObject.tag = "CampFire";
@@ -112,7 +112,7 @@ public class CampFireHandler : Storage
         List<InventoryCell> res = new List<InventoryCell>();
         foreach (var cell in Cells)
         {
-            if (cell.Item is CookingFood)
+            if (cell.Item is CookingCharacterStatRiser)
                 res.Add(cell);
         }
         return res;
@@ -121,26 +121,26 @@ public class CampFireHandler : Storage
     private void TryCook()
     {
         if (!Flaming.Value) return;
-        if (_currentlyCookingFood != null) return;
+        if (_currentlyCookingCharacterStatRiser != null) return;
         var foodList = GetFood();
         if (foodList.Count == 0) return;
-        var food = foodList[0].Item as CookingFood;
-        var bindedCell = InventoryHelper.GetDesiredCell(food.FoodAfterCooking, 1, Cells);
+        var food = foodList[0].Item as CookingCharacterStatRiser;
+        var bindedCell = InventoryHelper.GetDesiredCell(food.CharacterStatRiserAfterCooking, 1, Cells);
         if (bindedCell == null) return;
         StartCoroutine(Cook(food, bindedCell));
     }
 
-    private IEnumerator Cook(CookingFood food, InventoryCell bindedCell)
+    private IEnumerator Cook(CookingCharacterStatRiser characterStatRiser, InventoryCell bindedCell)
     {
-        _currentlyCookingFood = food;
-        yield return new WaitForSeconds(food.CookingTime);
+        _currentlyCookingCharacterStatRiser = characterStatRiser;
+        yield return new WaitForSeconds(characterStatRiser.CookingTime);
         if (Flaming.Value)
         {
-            RemoveItem(_currentlyCookingFood, 1);
-            bindedCell.Item = food.FoodAfterCooking;
+            RemoveItem(_currentlyCookingCharacterStatRiser, 1);
+            bindedCell.Item = characterStatRiser.CharacterStatRiserAfterCooking;
             bindedCell.Count += 1;
         }
 
-        _currentlyCookingFood = null;
+        _currentlyCookingCharacterStatRiser = null;
     }
 }
