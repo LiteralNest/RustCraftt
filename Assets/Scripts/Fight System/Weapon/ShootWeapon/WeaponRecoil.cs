@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -16,12 +17,5 @@ namespace Fight_System.Weapon.ShootWeapon
         {
             transform.localRotation = Quaternion.Slerp(transform.localRotation, Quaternion.identity, Time.deltaTime * returnSpeed);
         }
-    }
-
-
-    public class WeaponAim : MonoBehaviour
-    {
-        [SerializeField] private Transform _weapomAimPosition;
-        // [SerializeField]
     }
 }
