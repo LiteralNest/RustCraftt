@@ -21,13 +21,11 @@ namespace Fight_System.Weapon.ShootWeapon
         }
         
 
-        public override void Attack(bool value)
+        public override void Attack()
         {
-            if (CanShoot() && value)
-            {
-                ShootArrow();
-                Debug.Log("Shoot Arrow");
-            }
+            if (!CanShoot()) return;
+            ShootArrow();
+            Debug.Log("Shoot Arrow");
         }
 
         private void CreateArrow()

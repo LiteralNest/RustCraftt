@@ -28,9 +28,9 @@ namespace Fight_System.Weapon.ShootWeapon
         }
 
         [ContextMenu("Shot")]
-        private void TestShot() => Attack(true);
+        private void TestShot() => Attack();
 
-        public override void Attack(bool value)
+        public override void Attack()
         {
             if (!CanShoot() || currentAmmoCount <= 0) return;
             SoundPlayer.PlayShot();
@@ -53,15 +53,15 @@ namespace Fight_System.Weapon.ShootWeapon
                 var spreadAngleRad = angle * Mathf.Deg2Rad;
 
                 var x = Mathf.Cos(spreadAngleRad);
-                var z = Mathf.Sin(spreadAngleRad);
+                var y = Mathf.Sin(spreadAngleRad);
 
-                var spreadOffset = new Vector3(0f, x, z) * _spreadRadius; 
+                var spreadOffset = new Vector3(x, y, 0f) * _spreadRadius; 
 
                 var spreadDirection = (shootDirection + spreadOffset).normalized;
 
                 var randomSpreadOffset = Random.insideUnitCircle * _spreadRadius;
         
-                var randomSpreadOffset3D = new Vector3(0f, randomSpreadOffset.x, randomSpreadOffset.y);
+                var randomSpreadOffset3D = new Vector3(randomSpreadOffset.x, randomSpreadOffset.y, 0f);
 
                 var shootRay = new Ray(spawnPoint, (spreadDirection + randomSpreadOffset3D).normalized);
 
@@ -92,15 +92,15 @@ namespace Fight_System.Weapon.ShootWeapon
                 var spreadAngleRad = angle * Mathf.Deg2Rad;
 
                 var x = Mathf.Cos(spreadAngleRad);
-                var z = Mathf.Sin(spreadAngleRad);
+                var y = Mathf.Sin(spreadAngleRad);
 
-                var spreadOffset = new Vector3(0f, x, z) * _spreadRadius;
+                var spreadOffset = new Vector3(x, y, 0) * _spreadRadius;
 
                 var spreadDirection = (shootDirection + spreadOffset).normalized;
             
                 var randomSpreadOffset = Random.insideUnitCircle * _spreadRadius;
             
-                var randomSpreadOffset3D = new Vector3(0f, randomSpreadOffset.x, randomSpreadOffset.y);
+                var randomSpreadOffset3D = new Vector3(randomSpreadOffset.x, randomSpreadOffset.y, 0f);
 
                 Gizmos.DrawLine(spawnPoint, spawnPoint + (spreadDirection + randomSpreadOffset3D).normalized * Weapon.Range);
             }

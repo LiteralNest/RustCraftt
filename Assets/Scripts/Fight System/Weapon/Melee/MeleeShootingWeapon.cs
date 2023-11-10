@@ -1,3 +1,4 @@
+using System;
 using Fight_System.Weapon.ShootWeapon;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -91,6 +92,14 @@ public class MeleeShootingWeapon : MonoBehaviour
         transform.SetParent(other.transform);
     }
 
+
+    private void OnDrawGizmos()
+    {
+        {
+            Gizmos.color = Color.red;
+            Gizmos.DrawRay(_spawnPoint.forward, _direction * _throwForce);
+        }
+    }
     // public void Attack(bool value)
     // {
     //     GlobalEventsContainer.ShouldHandleAttacking?.Invoke(value);

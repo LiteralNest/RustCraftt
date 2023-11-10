@@ -15,6 +15,7 @@ public class PlayerFightHandler : MonoBehaviour
     private void Update()
     {
         if(!_attacking || _currentBaseShootingWeapon == null) return;
+            _currentBaseShootingWeapon.Attack();
     }
 
     private void AssignWeaponObject(BaseShootingWeapon value)
@@ -25,7 +26,6 @@ public class PlayerFightHandler : MonoBehaviour
 
     public void SetAttacking(bool value)
     {
-        _currentBaseShootingWeapon.Attack(value);
         _attacking = value;
     }
 

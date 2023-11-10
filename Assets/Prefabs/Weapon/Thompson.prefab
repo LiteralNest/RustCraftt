@@ -24,13 +24,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 72057078934924330}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
+  m_LocalPosition: {x: 0.379, y: 0.206, z: 0.001}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 3869159468103385626}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
 --- !u!1 &2384839824987862673
 GameObject:
   m_ObjectHideFlags: 0
@@ -105,8 +105,6 @@ GameObject:
   - component: {fileID: 1780830092849003540}
   - component: {fileID: 6716319207711033615}
   - component: {fileID: 2308187194533042783}
-  - component: {fileID: 8950232355035371461}
-  - component: {fileID: 3845235788123883139}
   m_Layer: 0
   m_Name: Model
   m_TagString: Untagged
@@ -180,44 +178,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &8950232355035371461
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6519563048917708278}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ce82c81453a3e034fa60ef6dcae3095a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _shotClip: {fileID: 0}
-  _shotSource: {fileID: 0}
---- !u!114 &3845235788123883139
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6519563048917708278}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 54c4f769c8df5cf4382575c576b7cfb7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  canBeReloaded: 0
-  Recoil: {fileID: 0}
-  SoundPlayer: {fileID: 0}
-  AmmoSpawnPoint: {fileID: 0}
-  ImpactEffect: {fileID: 0}
-  FlameEffect: {fileID: 0}
-  FlameEffectDuration: 0
-  Decal: {fileID: 0}
-  TargetMask:
-    serializedVersion: 2
-    m_Bits: 0
-  Weapon: {fileID: 0}
 --- !u!1 &8224823364394637169
 GameObject:
   m_ObjectHideFlags: 0
@@ -249,8 +209,8 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 0.01, y: 0.01, z: 0.01}
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 1780830092849003540}
   - {fileID: 7858735950263122477}
