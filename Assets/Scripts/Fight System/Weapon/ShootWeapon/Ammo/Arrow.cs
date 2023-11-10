@@ -27,9 +27,6 @@ namespace Fight_System.Weapon.ShootWeapon.Ammo
             _rb.AddForce(force, ForceMode.Impulse);
             _rb.useGravity = true;
             _rb.AddTorque(_rb.transform.forward * _torque);
-           
-            float angleY = Mathf.Atan2(force.x, force.z) * Mathf.Rad2Deg;
-            _rb.rotation = Quaternion.Euler(transform.rotation.eulerAngles.x, angleY, transform.rotation.eulerAngles.z);
         }
         
         private void OnCollisionEnter(Collision other)

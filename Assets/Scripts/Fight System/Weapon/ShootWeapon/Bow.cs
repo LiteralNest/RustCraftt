@@ -19,6 +19,7 @@ namespace Fight_System.Weapon.ShootWeapon
             // Instantiate arrow at the start
             CreateArrow();
         }
+        
 
         public override void Attack(bool value)
         {
