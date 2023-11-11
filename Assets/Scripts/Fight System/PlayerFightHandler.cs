@@ -15,7 +15,16 @@ public class PlayerFightHandler : MonoBehaviour
     private void Update()
     {
         if(!_attacking || _currentBaseShootingWeapon == null) return;
+
+        if (_currentBaseShootingWeapon.IsSingle)
+        {
             _currentBaseShootingWeapon.Attack();
+            SetAttacking(false);
+        }
+        else
+        {
+            _currentBaseShootingWeapon.Attack();
+        }
     }
 
     private void AssignWeaponObject(BaseShootingWeapon value)
@@ -33,5 +42,10 @@ public class PlayerFightHandler : MonoBehaviour
     {
         _currentBaseShootingWeapon.Reload();
         GlobalEventsContainer.ShouldDisplayReloadingButton?.Invoke(false);
+    }
+
+    public void Scope()
+    {
+        _currentBaseShootingWeapon.Scope();
     }
 }

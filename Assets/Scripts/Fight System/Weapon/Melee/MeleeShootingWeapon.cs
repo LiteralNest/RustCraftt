@@ -93,13 +93,13 @@ public class MeleeShootingWeapon : MonoBehaviour
     }
 
 
-    private void OnDrawGizmos()
-    {
-        {
-            Gizmos.color = Color.red;
-            Gizmos.DrawRay(_spawnPoint.forward, _direction * _throwForce);
-        }
-    }
+    // private void OnDrawGizmos()
+    // {
+    //     {
+    //         Gizmos.color = Color.red;
+    //         Gizmos.DrawRay(_spawnPoint.forward, _direction * _throwForce);
+    //     }
+    // }
     // public void Attack(bool value)
     // {
     //     GlobalEventsContainer.ShouldHandleAttacking?.Invoke(value);

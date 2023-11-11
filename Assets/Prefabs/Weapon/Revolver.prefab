@@ -1,36 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &386500279415073847
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 2795251867777950107}
-  m_Layer: 0
-  m_Name: AimPosition
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &2795251867777950107
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 386500279415073847}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 7659109331894256498}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &692297182805547742
 GameObject:
   m_ObjectHideFlags: 0
@@ -109,7 +78,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &4674098614474618320
 Transform:
   m_ObjectHideFlags: 0
@@ -134,11 +103,12 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7659109331894256498}
-  - component: {fileID: 3762701862422735789}
-  - component: {fileID: 4474067727926051165}
-  - component: {fileID: 5751005111518923223}
-  - component: {fileID: 5129138133832913626}
-  - component: {fileID: 8073998525503808675}
+  - component: {fileID: 6562024054706615046}
+  - component: {fileID: 5255436541561584932}
+  - component: {fileID: 8889639243699230884}
+  - component: {fileID: 5094304937019151670}
+  - component: {fileID: 9070949396589645514}
+  - component: {fileID: 6737143325904943252}
   m_Layer: 0
   m_Name: Revolver
   m_TagString: Untagged
@@ -154,17 +124,16 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4627253660360710090}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.01, y: 0.01, z: 0.01}
-  m_ConstrainProportionsScale: 1
+  m_LocalRotation: {x: 0, y: -0.034515765, z: 0, w: 0.9994042}
+  m_LocalPosition: {x: -0.00012243332, y: -0.001939998, z: 0.0016254253}
+  m_LocalScale: {x: 0.009999999, y: 0.009999999, z: 0.009999999}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2670936565761410191}
   - {fileID: 4674098614474618320}
-  - {fileID: 2795251867777950107}
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!82 &3762701862422735789
+  m_LocalEulerAnglesHint: {x: 0, y: -3.956, z: 0}
+--- !u!82 &6562024054706615046
 AudioSource:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -260,7 +229,7 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!114 &4474067727926051165
+--- !u!114 &5255436541561584932
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -272,9 +241,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ce82c81453a3e034fa60ef6dcae3095a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _shotClip: {fileID: 8300000, guid: 2e416b8e7768e4f4789989366017b91a, type: 3}
-  _shotSource: {fileID: 3762701862422735789}
---- !u!114 &5751005111518923223
+  _shotClip: {fileID: 8300000, guid: 064fb4edd500f4248a1b4cdaad85c5f8, type: 3}
+  _shotSource: {fileID: 6562024054706615046}
+--- !u!114 &8889639243699230884
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -286,9 +255,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 54c4f769c8df5cf4382575c576b7cfb7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  WeaponAim: {fileID: 6737143325904943252}
   canBeReloaded: 0
-  Recoil: {fileID: 5129138133832913626}
-  SoundPlayer: {fileID: 4474067727926051165}
+  _isSingle: 0
+  Recoil: {fileID: 5094304937019151670}
+  SoundPlayer: {fileID: 5255436541561584932}
   AmmoSpawnPoint: {fileID: 4189862163875063531}
   ImpactEffect: {fileID: 2545601963701713663}
   FlameEffect: {fileID: 2545601963701713663}
@@ -298,7 +269,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 1083211895
   Weapon: {fileID: 11400000, guid: ef1b33f0483a14c289b53fdfd3468b87, type: 2}
---- !u!114 &5129138133832913626
+--- !u!114 &5094304937019151670
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -310,14 +281,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4412c967bbdd4da78f9d2d772778bf3a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &8073998525503808675
+--- !u!114 &9070949396589645514
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4627253660360710090}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 05e726e55990d4cb09c156a317e300b1, type: 3}
   m_Name: 
@@ -330,6 +301,21 @@ MonoBehaviour:
   _rotationAmount: 3.5
   _maxRotation: 6
   _returnSpeed: 4
+--- !u!114 &6737143325904943252
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4627253660360710090}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db8d2ec2cbd34d788eb4c919a82c64ed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _weaponAimPosition: {fileID: 0}
+  _sway: {fileID: 9070949396589645514}
+  _aimSpeed: 5
 --- !u!1 &7421558203887303400
 GameObject:
   m_ObjectHideFlags: 0
@@ -358,8 +344,8 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.09, y: 0.09, z: 0.09}
-  m_ConstrainProportionsScale: 1
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 5152493470951417699}
   m_Father: {fileID: 7659109331894256498}

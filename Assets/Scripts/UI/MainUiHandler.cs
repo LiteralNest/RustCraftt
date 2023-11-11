@@ -12,6 +12,7 @@ public class MainUiHandler : MonoBehaviour
     [SerializeField] private GameObject _pickUpButton;
     [SerializeField] private GameObject _reloadingButton;
     [SerializeField] private GameObject _placingPanel;
+    [SerializeField] private GameObject _scopeButton;
 
     private void OnEnable()
     {
@@ -24,6 +25,7 @@ public class MainUiHandler : MonoBehaviour
         GlobalEventsContainer.PickUpButtonActivated += ActivatePickupButton;
         GlobalEventsContainer.ShouldDisplayReloadingButton += ActivateReloadingButton;
         GlobalEventsContainer.ShouldDisplayPlacingPanel += ActivatePlacingPanel;
+        GlobalEventsContainer.ShouldHandleScope += DisplayScope;
     }
 
     private void OnDisable()
@@ -37,9 +39,13 @@ public class MainUiHandler : MonoBehaviour
         GlobalEventsContainer.PickUpButtonActivated -= ActivatePickupButton;
         GlobalEventsContainer.ShouldDisplayReloadingButton -= ActivateReloadingButton;
         GlobalEventsContainer.ShouldDisplayPlacingPanel -= ActivatePlacingPanel;
+        GlobalEventsContainer.ShouldHandleScope -= DisplayScope;
     }
 
-    private void DisplayBuildingStaffPanel(bool value)
+    private void DisplayScope(bool value)
+        => _scopeButton.SetActive(value);
+
+        private void DisplayBuildingStaffPanel(bool value)
         => _buildingStaffPanel.SetActive(value);
 
     private void DisplayBuildingChoosingPanel(bool value)

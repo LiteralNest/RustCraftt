@@ -93,15 +93,8 @@ namespace Player_Controller
         [ServerRpc(RequireOwnership = false)]
         public void ChangeInHandItemServerRpc(int itemId, ulong clientId)
         {
-            // if(!IsOwner) return;
             ActiveItemId.Value = itemId;
             _gettedClientId.Value = clientId;
-        }
-
-        [ContextMenu("Test")]
-        public void TestRPC()
-        {
-            ChangeInHandItemServerRpc(18, GetClientId());
         }
     }
 }

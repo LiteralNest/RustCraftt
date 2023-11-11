@@ -8,14 +8,14 @@ public class InHandObjectsContainer : NetworkBehaviour
     [SerializeField] private List<InHandObjectCell> _inHandObjects;
     [SerializeField] private PlayerNetCode _playerNetCode;
     private InHandObjectCell _currentCell;
-    
+
     private void OnEnable()
     {
         GlobalEventsContainer.ShouldHandleAttacking += HandleAttacking;
         GlobalEventsContainer.ShouldHandleWalk += SetWalk;
         GlobalEventsContainer.ShouldHandleRun += SetRun;
     }
-    
+
     private void OnDisable()
     {
         GlobalEventsContainer.ShouldHandleAttacking -= HandleAttacking;
@@ -30,37 +30,38 @@ public class InHandObjectsContainer : NetworkBehaviour
     {
         bool isOwner = _playerNetCode.PlayerIsOwner();
         foreach (var obj in _inHandObjects)
+            obj.ActivateInHandObject(isOwner, false);
+
+        foreach (var obj in _inHandObjects)
         {
             if (obj.TargetItem.Id == itemId)
             {
                 obj.ActivateInHandObject(isOwner);
                 _currentCell = obj;
-                continue;
+                return;
             }
-
-            obj.ActivateInHandObject(isOwner, false);
         }
     }
 
     public void SetWalk(bool value)
     {
-        if(_currentCell == null) return;
+        if (_currentCell == null) return;
         _currentCell.SetWalk(value);
     }
 
     public void SetRun(bool value)
     {
-        if(_currentCell == null) return;
+        if (_currentCell == null) return;
         _currentCell.SetRun(value);
     }
 
     public void SetDefaultHands()
-        =>  DisplayItems(0);
+        => DisplayItems(0);
 
     private void HandleAttacking(bool attack)
     {
-        if(!_playerNetCode.IsOwner) return;
-        if(_currentCell == null) return;
+        if (!_playerNetCode.IsOwner) return;
+        if (_currentCell == null) return;
         _currentCell.HandleAttacking(attack);
     }
 }

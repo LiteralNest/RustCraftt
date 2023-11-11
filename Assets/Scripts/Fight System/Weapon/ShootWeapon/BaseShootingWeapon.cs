@@ -5,7 +5,11 @@ namespace Fight_System.Weapon.ShootWeapon
 {
     public abstract class BaseShootingWeapon : MonoBehaviour, IWeapon
     {
+        [SerializeField] protected WeaponAim WeaponAim;
         [SerializeField] private bool canBeReloaded = false; //to show in editor for debug
+
+        [Header("Shooting Mode")] [SerializeField]
+        private bool _isSingle;
 
         [SerializeField] protected WeaponRecoil Recoil;
         [SerializeField] protected WeaponSoundPlayer SoundPlayer;
@@ -17,6 +21,7 @@ namespace Fight_System.Weapon.ShootWeapon
         [SerializeField] protected LayerMask TargetMask;
         [SerializeField] protected ShootingWeapon Weapon;
 
+        public bool IsSingle => _isSingle;
         protected int currentAmmoCount;
         protected bool canShoot;
         private float _timeBetweenShots = 0f; // Variable to handle shots between shoots
@@ -24,17 +29,23 @@ namespace Fight_System.Weapon.ShootWeapon
 
         protected void Start()
             => canShoot = true;
-        
+
         protected bool CanShoot()
         {
             return canShoot && _timeBetweenShots <= 0 && currentAmmoCount > 0 && !_isReloading;
         }
 
         private void OnEnable()
-            => GlobalEventsContainer.WeaponObjectAssign?.Invoke(this);
+        {
+            GlobalEventsContainer.ShouldHandleScope?.Invoke(true);
+            GlobalEventsContainer.WeaponObjectAssign?.Invoke(this);
+        }
 
         private void OnDisable()
-            => GlobalEventsContainer.WeaponObjectAssign?.Invoke(null);
+        {
+            GlobalEventsContainer.ShouldHandleScope?.Invoke(false);
+            GlobalEventsContainer.WeaponObjectAssign?.Invoke(null);
+        }
 
         public virtual void Attack()
         {
@@ -95,6 +106,12 @@ namespace Fight_System.Weapon.ShootWeapon
             canShoot = false;
             yield return new WaitForSeconds(Weapon.DelayBetweenShoots);
             canShoot = true;
+        }
+
+        public void Scope()
+        {
+            if(!WeaponAim) return;
+            WeaponAim.SetScope();
         }
     }
 }
