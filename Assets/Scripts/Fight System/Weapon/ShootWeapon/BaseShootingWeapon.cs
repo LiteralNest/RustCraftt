@@ -1,12 +1,15 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Fight_System.Weapon.ShootWeapon
 {
     public abstract class BaseShootingWeapon : MonoBehaviour, IWeapon
     {
         [SerializeField] private bool canBeReloaded = false; //to show in editor for debug
-
+        [Header("Shooting Mode")]
+        [SerializeField] private bool _isSingle;
+        
         [SerializeField] protected WeaponRecoil Recoil;
         [SerializeField] protected WeaponSoundPlayer SoundPlayer;
         [SerializeField] protected Transform AmmoSpawnPoint;
@@ -17,6 +20,7 @@ namespace Fight_System.Weapon.ShootWeapon
         [SerializeField] protected LayerMask TargetMask;
         [SerializeField] protected ShootingWeapon Weapon;
 
+        public bool IsSingle => _isSingle;
         protected int currentAmmoCount;
         protected bool canShoot;
         private float _timeBetweenShots = 0f; // Variable to handle shots between shoots
