@@ -36,7 +36,7 @@ namespace Fight_System.Weapon.ShootWeapon
         private void OnDisable()
             => GlobalEventsContainer.WeaponObjectAssign?.Invoke(null);
 
-        public virtual void Attack(bool value)
+        public virtual void Attack()
         {
         }
 

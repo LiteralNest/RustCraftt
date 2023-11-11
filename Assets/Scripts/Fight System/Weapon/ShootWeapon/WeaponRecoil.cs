@@ -1,15 +1,14 @@
 using UnityEngine;
-using Random = UnityEngine.Random;
 
 namespace Fight_System.Weapon.ShootWeapon
 {
     public class WeaponRecoil : MonoBehaviour
     {
-        private Vector3 currentRotation;
+        private Vector3 _currentRotation;
 
         public void ApplyRecoil(float recoilX, float recoilY, float recoilZ)
         {
-            currentRotation += new Vector3(recoilX, Random.Range(-recoilY, recoilY), Random.Range(-recoilZ, recoilZ));
+            _currentRotation += new Vector3(recoilX, recoilY, recoilZ);
         }
 
         public void UpdateRecoil(float returnSpeed)

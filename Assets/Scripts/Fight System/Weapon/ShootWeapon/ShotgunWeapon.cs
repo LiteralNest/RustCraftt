@@ -1,13 +1,17 @@
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Fight_System.Weapon.ShootWeapon
 {
     [RequireComponent(typeof(WeaponSoundPlayer))]
     public class ShotgunWeapon : BaseShootingWeapon
     {
+        [SerializeField] private WeaponAim _weaponAim;
+        
         [Header("Shotgun Settings")]
         [SerializeField] private int _pelletCount = 12;
-        [SerializeField] private float _spreadRadius = 0.5f; 
+        [SerializeField] private float _spreadRadiusNoFocus = 0.5f;
+        [SerializeField] private float _spreadRadiusFocus = 0.1f;
 
         [Header("In Game Init")] 
         private readonly int _startingAmmoCount = 100;
@@ -28,9 +32,9 @@ namespace Fight_System.Weapon.ShootWeapon
         }
 
         [ContextMenu("Shot")]
-        private void TestShot() => Attack(true);
+        private void TestShot() => Attack();
 
-        public override void Attack(bool value)
+        public override void Attack()
         {
             if (!CanShoot() || currentAmmoCount <= 0) return;
             SoundPlayer.PlayShot();
@@ -39,11 +43,12 @@ namespace Fight_System.Weapon.ShootWeapon
             var spawnPoint = AmmoSpawnPoint.position;
             var shootDirection = transform.forward;
 
-            SpreadShots(spawnPoint, shootDirection);
+            SpreadShots(spawnPoint, shootDirection, _weaponAim.IsAiming ? _spreadRadiusFocus : _spreadRadiusNoFocus);
+            
             StartCoroutine(WaitBetweenShootsRoutine());
         }
 
-        private void SpreadShots(Vector3 spawnPoint, Vector3 shootDirection)
+        private void SpreadShots(Vector3 spawnPoint, Vector3 shootDirection, float radius)
         {
             var angleStep = 360f / _pelletCount;
 
@@ -53,15 +58,15 @@ namespace Fight_System.Weapon.ShootWeapon
                 var spreadAngleRad = angle * Mathf.Deg2Rad;
 
                 var x = Mathf.Cos(spreadAngleRad);
-                var z = Mathf.Sin(spreadAngleRad);
+                var y = Mathf.Sin(spreadAngleRad);
 
-                var spreadOffset = new Vector3(0f, x, z) * _spreadRadius; 
+                var spreadOffset = new Vector3(x, y, 0f) * radius; 
 
                 var spreadDirection = (shootDirection + spreadOffset).normalized;
 
-                var randomSpreadOffset = Random.insideUnitCircle * _spreadRadius;
+                var randomSpreadOffset = Random.insideUnitCircle * _spreadRadiusNoFocus;
         
-                var randomSpreadOffset3D = new Vector3(0f, randomSpreadOffset.x, randomSpreadOffset.y);
+                var randomSpreadOffset3D = new Vector3(randomSpreadOffset.x, randomSpreadOffset.y, 0f);
 
                 var shootRay = new Ray(spawnPoint, (spreadDirection + randomSpreadOffset3D).normalized);
 
@@ -92,15 +97,15 @@ namespace Fight_System.Weapon.ShootWeapon
                 var spreadAngleRad = angle * Mathf.Deg2Rad;
 
                 var x = Mathf.Cos(spreadAngleRad);
-                var z = Mathf.Sin(spreadAngleRad);
+                var y = Mathf.Sin(spreadAngleRad);
 
-                var spreadOffset = new Vector3(0f, x, z) * _spreadRadius;
+                var spreadOffset = new Vector3(x, y, 0) * _spreadRadiusNoFocus;
 
                 var spreadDirection = (shootDirection + spreadOffset).normalized;
             
-                var randomSpreadOffset = Random.insideUnitCircle * _spreadRadius;
+                var randomSpreadOffset = Random.insideUnitCircle * _spreadRadiusNoFocus;
             
-                var randomSpreadOffset3D = new Vector3(0f, randomSpreadOffset.x, randomSpreadOffset.y);
+                var randomSpreadOffset3D = new Vector3(randomSpreadOffset.x, randomSpreadOffset.y, 0f);
 
                 Gizmos.DrawLine(spawnPoint, spawnPoint + (spreadDirection + randomSpreadOffset3D).normalized * Weapon.Range);
             }

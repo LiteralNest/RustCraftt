@@ -172,7 +172,7 @@ Transform:
   m_GameObject: {fileID: 4933617279253083442}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -0.687, y: 0.103, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -191,6 +191,7 @@ GameObject:
   - component: {fileID: 3725229735737249372}
   - component: {fileID: 2959019487417061630}
   - component: {fileID: 2376439954373231195}
+  - component: {fileID: 6991838979662379029}
   m_Layer: 0
   m_Name: DualShotGun
   m_TagString: Untagged
@@ -253,8 +254,10 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 1083211895
   Weapon: {fileID: 11400000, guid: a4b678a2268fe46b38029350dd4df310, type: 2}
+  _weaponAim: {fileID: 6991838979662379029}
   _pelletCount: 12
-  _spreadAngle: 20
+  _spreadRadiusNoFocus: 0.5
+  _spreadRadiusFocus: 0.1
 --- !u!114 &2959019487417061630
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -287,3 +290,18 @@ MonoBehaviour:
   _rotationAmount: 3.5
   _maxRotation: 6
   _returnSpeed: 4
+--- !u!114 &6991838979662379029
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7213947642032504677}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db8d2ec2cbd34d788eb4c919a82c64ed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _weaponAimPosition: {fileID: 0}
+  _sway: {fileID: 2376439954373231195}
+  _aimSpeed: 5

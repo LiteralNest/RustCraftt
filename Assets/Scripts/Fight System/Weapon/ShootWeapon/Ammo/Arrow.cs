@@ -10,20 +10,23 @@ namespace Fight_System.Weapon.ShootWeapon.Ammo
         [SerializeField] private float _despawnTime;
         [SerializeField] private Rigidbody _rb;
         [SerializeField] private float _torque = 10f;
+        [SerializeField] private Collider _arrowCollider;
         
         private void Start()
         {
             if (_rb == null)
                 _rb = GetComponent<Rigidbody>();
+            _arrowCollider.enabled = false;
             // StartCoroutine(DespawnObject());
         }
         
         public void ArrowFly(Vector3 force)
         {
+            _arrowCollider.enabled = true;
             _rb.isKinematic = false;
             _rb.AddForce(force, ForceMode.Impulse);
-            _rb.AddTorque(_rb.transform.right * _torque);
-            transform.SetParent(null);
+            _rb.useGravity = true;
+            _rb.AddTorque(_rb.transform.forward * _torque);
         }
         
         private void OnCollisionEnter(Collision other)
@@ -31,7 +34,12 @@ namespace Fight_System.Weapon.ShootWeapon.Ammo
             _rb.velocity = Vector3.zero;
             _rb.angularVelocity = Vector3.zero;
             _rb.isKinematic = true;
+
+            // Set the arrow's position and rotation to match the point of impact
+            transform.position = other.contacts[0].point;
+            
             transform.SetParent(other.transform);
+            StartCoroutine(DespawnObject());
         }
         
         private IEnumerator DespawnObject()

@@ -1,3 +1,4 @@
+using System;
 using Fight_System.Weapon.ShootWeapon.Ammo;
 using UnityEngine;
 
@@ -8,21 +9,22 @@ namespace Fight_System.Weapon.ShootWeapon
         [SerializeField] private Arrow _arrowPrefab;
         [SerializeField] private float _arrowForce;
 
-        private Arrow _currentArrow; // Added a field to store the current arrow instance
-
-        private void Start()
+        private Arrow _currentArrow;
+        private Vector3 _force;
+        protected new void Start()
         {
             base.Start();
             currentAmmoCount = 100;
-            CreateArrow(); // Instantiate the arrow on start
-        }
 
-        public override void Attack(bool value)
+            // Instantiate arrow at the start
+            CreateArrow();
+        }
+        
+
+        public override void Attack()
         {
-            if (CanShoot() && value)
-            {
-                ShootArrow();
-            }
+            if (!CanShoot()) return;
+            ShootArrow();
         }
 
         private void CreateArrow()
@@ -41,11 +43,23 @@ namespace Fight_System.Weapon.ShootWeapon
                 CreateArrow();
             }
 
-            var force = AmmoSpawnPoint.TransformDirection(Vector3.forward * _arrowForce);
-            _currentArrow.ArrowFly(force); // Apply force and torque to the arrow
-
+            _force = AmmoSpawnPoint.TransformDirection(Vector3.forward * _arrowForce);
+            _currentArrow.ArrowFly(_force);
+            _currentArrow.transform.SetParent(null);
             MinusAmmo();
+
+            // Spawn a new arrow immediately after shooting
+            CreateArrow();
+
             StartCoroutine(WaitBetweenShootsRoutine());
+        }
+
+        private void OnDrawGizmos()
+        {
+            {
+                Gizmos.color = Color.red;
+                Gizmos.DrawRay(AmmoSpawnPoint.position, AmmoSpawnPoint.forward * _arrowForce);
+            }
         }
     }
 }
