@@ -25,7 +25,6 @@ namespace Fight_System.Weapon.ShootWeapon
         {
             if (!CanShoot()) return;
             ShootArrow();
-            Debug.Log("Shoot Arrow");
         }
 
         private void CreateArrow()

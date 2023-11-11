@@ -11,7 +11,7 @@ namespace Fight_System.Weapon.ShootWeapon
         private Transform _transform;
         private Vector3 _originalPosition;
         private Quaternion _originalRotation;
-        private bool _isAiming = false;
+        public bool IsAiming { get; private set; }
         private void OnGUI()
         {
             int buttonWidth = 150;
@@ -37,10 +37,15 @@ namespace Fight_System.Weapon.ShootWeapon
 
         private void SetOnAimPosition()
         {
+            //Right now doesn`t work. When implementing logic with UI buttons, SetOnAimPosition() must clalled in Update
+            // _transform.localPosition = Vector3.Lerp(_transform.localPosition, _weaponAimPosition.localPosition, Time.deltaTime * _aimSpeed);
+            // _transform.localRotation = Quaternion.Lerp(_transform.localRotation, _weaponAimPosition.localRotation, Time.deltaTime * _aimSpeed);
+            
             _transform.localPosition = _weaponAimPosition.localPosition;
             _transform.localRotation = _weaponAimPosition.localRotation;
 
             _sway.enabled = false;
+            IsAiming = true;
         }
 
         private void SetOnOriginalPosition()
@@ -49,6 +54,7 @@ namespace Fight_System.Weapon.ShootWeapon
             _transform.localRotation = _originalRotation;
 
             _sway.enabled = true;
+            IsAiming = false;
         }
     }
 }
