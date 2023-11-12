@@ -20,8 +20,10 @@ public static class GlobalEventsContainer
     public static Action<bool> ShouldDisplayBuildingStaff { get; set; }
     public static Action<bool> GatherButtonActivated { get; set; }
     public static Action<bool> AttackButtonActivated { get; set; }
+    public static Action<bool> ThrowMeleeButtonActivated { get; set; }
     public static Action<bool> PickUpButtonActivated { get; set; }
     public static Action<BaseShootingWeapon> WeaponObjectAssign { get; set; }
+    public static Action<MeleeShootingWeapon> WeaponMeleeObjectAssign { get; set; }
     public static Action<bool> ShouldDisplayReloadingButton { get; set; }
     public static Action<bool> ShouldDisplayPlacingPanel { get; set; }
     public static Action<ResourceGatheringObject> ResourceGatheringObjectAssign { get; set; }
@@ -39,6 +41,7 @@ public static class GlobalEventsContainer
     public static Action<bool> ShouldHandleRun { get; set; }
     
     public static Action<bool> ShouldHandleScope { get; set; }
+    public static Action<bool> ShouldHandleScopeSpear { get; set; }
     
     
     #region Building Hammer

@@ -24,20 +24,22 @@ public class MeleeShootingWeapon : MonoBehaviour
     private Vector3 _direction;
     private bool _rotateInFixedUpdate = false;
 
+    private void OnEnable()
+    {
+        GlobalEventsContainer.WeaponMeleeObjectAssign?.Invoke(this);
+    }
+
     private void Start()
     {
         // gameObject.SetActive(false);
-        
+
         _rb.isKinematic = true;
         _rb.useGravity = false;
     }
 
-    private void Update()
+    public void ThrowSpearByPhysic()
     {
-        if(Input.GetKey(KeyCode.Space))
-        {
-            ThrowSpear();
-        }
+        ThrowSpear();
         
         if (_rotateInFixedUpdate)
         {
@@ -50,7 +52,7 @@ public class MeleeShootingWeapon : MonoBehaviour
                 transform.rotation = Quaternion.Lerp(transform.rotation, newRotation, Time.deltaTime * _lerpSpeed);
             }
 
-            _rotateInFixedUpdate = false; 
+            _rotateInFixedUpdate = false;
         }
     }
 
@@ -62,9 +64,17 @@ public class MeleeShootingWeapon : MonoBehaviour
         IsInThrowingPosition = true;
         _spearCollider.enabled = true;
         _rb.useGravity = true;
+        
     }
 
-    public void ThrowSpear()
+
+    private void OnDisable()
+    {
+        GlobalEventsContainer.WeaponMeleeObjectAssign?.Invoke(this);
+        GlobalEventsContainer.ThrowMeleeButtonActivated?.Invoke(false);
+    }
+
+    private void ThrowSpear()
     {
         IsInThrowingPosition = false;
         _spearCollider.enabled = true;
