@@ -27,16 +27,15 @@ namespace Player_Controller
         [Header("Swim")]
         [SerializeField] private float _swimSpeed = 0.5f;
         public bool IsSwimming { get; set; }
-    
-        private Rigidbody _rb;
 
+        private Rigidbody _rb;
         private float _originalDrag;
         private float _originalAngularDrag;
     
         private readonly float _targetDrag = 0.3f;
         private readonly float _targetAngularDrag = 0.7f;
         private readonly float _floatStrength = 0.4f;
-
+        
         private Camera _camera;
 
         private void Start()
@@ -49,6 +48,7 @@ namespace Player_Controller
             _currentMovingSpeed = _movingSpeed.Value;
         }
 
+        
         private void FixedUpdate()
         {
             if (IsSwimming != true)
