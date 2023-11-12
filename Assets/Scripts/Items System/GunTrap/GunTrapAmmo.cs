@@ -8,7 +8,7 @@ namespace Items_System.GunTrap
         private InventoryCell GetCellWithAmmo()
         {
             foreach(var cell in Cells)
-                if(cell.Item != null && Cells[0].Count > 0)
+                if(cell.Item != null && cell.Count > 0)
                     return cell;
             return null;
             
