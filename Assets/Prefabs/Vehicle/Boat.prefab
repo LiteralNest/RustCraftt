@@ -182,12 +182,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   VehicleRb: {fileID: 5804164441601376887}
-  _boatMoveSpeed: 5
-  _boatRotationSpeed: 40
+  SitPlace: {fileID: 1288299358769663234}
+  MoveSpeed: 5
+  RotationSpeed: 40
   _pushForce: 5
   _depthBeforeSubmerged: 1
   _displacementAmount: 1.09
-  _sitPlace: {fileID: 1288299358769663234}
 --- !u!114 &3867364107936202290
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -249,7 +249,19 @@ MonoBehaviour:
       m_Calls: []
   m_ActionEvents:
   - m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 3867364107936202290}
+        m_TargetAssemblyTypeName: 
+        m_MethodName: 
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: 71c10542-ceb3-490d-aba4-dff5d929591b
     m_ActionName: Player/Move[/Keyboard/w,/Keyboard/s,/Keyboard/a,/Keyboard/d]
   - m_PersistentCalls:

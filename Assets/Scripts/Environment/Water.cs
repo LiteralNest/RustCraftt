@@ -68,8 +68,6 @@ namespace Environment
                 {
                     boat.Float(_waveHieght, false);
                 }
-                
-             
             }
         }
     }
