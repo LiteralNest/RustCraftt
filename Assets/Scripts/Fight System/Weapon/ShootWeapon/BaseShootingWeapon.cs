@@ -44,6 +44,8 @@ namespace Fight_System.Weapon.ShootWeapon
         private void OnDisable()
         {
             GlobalEventsContainer.ShouldHandleScope?.Invoke(false);
+            GlobalEventsContainer.ShouldDisplayReloadingButton?.Invoke(false);
+            GlobalEventsContainer.AttackButtonActivated?.Invoke(false);
             GlobalEventsContainer.WeaponObjectAssign?.Invoke(null);
         }
 

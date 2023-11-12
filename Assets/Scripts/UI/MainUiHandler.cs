@@ -13,6 +13,8 @@ public class MainUiHandler : MonoBehaviour
     [SerializeField] private GameObject _reloadingButton;
     [SerializeField] private GameObject _placingPanel;
     [SerializeField] private GameObject _scopeButton;
+    [SerializeField] private GameObject _throwingAimButton;
+    [SerializeField] private GameObject _meleeThrowButton;
 
     private void OnEnable()
     {
@@ -26,6 +28,9 @@ public class MainUiHandler : MonoBehaviour
         GlobalEventsContainer.ShouldDisplayReloadingButton += ActivateReloadingButton;
         GlobalEventsContainer.ShouldDisplayPlacingPanel += ActivatePlacingPanel;
         GlobalEventsContainer.ShouldHandleScope += DisplayScope;
+        GlobalEventsContainer.ShouldHandleScopeSpear += DisplayThrowingButton;
+        GlobalEventsContainer.ThrowMeleeButtonActivated += ActivateMeleeThrowButton;
+
     }
 
     private void OnDisable()
@@ -40,8 +45,19 @@ public class MainUiHandler : MonoBehaviour
         GlobalEventsContainer.ShouldDisplayReloadingButton -= ActivateReloadingButton;
         GlobalEventsContainer.ShouldDisplayPlacingPanel -= ActivatePlacingPanel;
         GlobalEventsContainer.ShouldHandleScope -= DisplayScope;
+        GlobalEventsContainer.ShouldHandleScopeSpear -= DisplayThrowingButton;
+        GlobalEventsContainer.ThrowMeleeButtonActivated -= ActivateMeleeThrowButton;
     }
 
+    private void ActivateMeleeThrowButton(bool value)
+    {
+        _meleeThrowButton.SetActive(value);
+        Debug.Log("Attack");
+    }
+
+    private void DisplayThrowingButton(bool value)
+        => _throwingAimButton.SetActive(value);
+    
     private void DisplayScope(bool value)
         => _scopeButton.SetActive(value);
 

@@ -23,8 +23,11 @@ public class InHandObjectsContainer : NetworkBehaviour
         GlobalEventsContainer.ShouldHandleRun -= SetRun;
     }
 
-    private void Start()
-        => SetDefaultHands();
+    public override void OnNetworkSpawn()
+    {
+        base.OnNetworkSpawn();
+        SetDefaultHands();
+    }
 
     public void DisplayItems(int itemId)
     {
@@ -56,7 +59,7 @@ public class InHandObjectsContainer : NetworkBehaviour
     }
 
     public void SetDefaultHands()
-        => DisplayItems(0);
+        => DisplayItems(-1);
 
     private void HandleAttacking(bool attack)
     {
