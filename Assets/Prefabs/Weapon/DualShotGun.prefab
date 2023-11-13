@@ -277,6 +277,7 @@ GameObject:
   - component: {fileID: 2376439954373231195}
   - component: {fileID: 6991838979662379029}
   - component: {fileID: 47196937436495918}
+  - component: {fileID: 6286108350076164310}
   m_Layer: 0
   m_Name: DualShotGun
   m_TagString: Untagged
@@ -339,7 +340,7 @@ MonoBehaviour:
   TargetMask:
     serializedVersion: 2
     m_Bits: 1083211959
-  Weapon: {fileID: 11400000, guid: a4b678a2268fe46b38029350dd4df310, type: 2}
+  Weapon: {fileID: 11400000, guid: ff489915aee544cddbb847f9c5db7ac7, type: 2}
   _weaponAim: {fileID: 6991838979662379029}
   _pelletCount: 12
   _spreadRadiusNoFocus: 0.09
@@ -389,7 +390,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _weaponAimPosition: {fileID: 0}
-  _sway: {fileID: 2376439954373231195}
+  _weaponSway: {fileID: 2376439954373231195}
+  _aimSway: {fileID: 6286108350076164310}
   _aimSpeed: 5
 --- !u!82 &47196937436495918
 AudioSource:
@@ -487,3 +489,23 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &6286108350076164310
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7213947642032504677}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 20201d759c124bc29a8d028a4fc44575, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _swayAmount: 1
+  _maxSwayAmount: 0.14
+  _swayXBounds: 0.003
+  _swayYBounds: 0.003
+  _smoothFactor: 1
+  _rotationAmount: 3.5
+  _maxRotation: 6
+  _returnSpeed: 4

@@ -78,6 +78,7 @@ GameObject:
   - component: {fileID: 5094304937019151670}
   - component: {fileID: 9070949396589645514}
   - component: {fileID: 6737143325904943252}
+  - component: {fileID: 6290353768646775753}
   m_Layer: 0
   m_Name: Revolver
   m_TagString: Untagged
@@ -282,8 +283,29 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _weaponAimPosition: {fileID: 0}
-  _sway: {fileID: 9070949396589645514}
+  _weaponSway: {fileID: 9070949396589645514}
+  _aimSway: {fileID: 6290353768646775753}
   _aimSpeed: 5
+--- !u!114 &6290353768646775753
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4627253660360710090}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 20201d759c124bc29a8d028a4fc44575, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _swayAmount: 1
+  _maxSwayAmount: 0.14
+  _swayXBounds: 0.003
+  _swayYBounds: 0.003
+  _smoothFactor: 1
+  _rotationAmount: 3.5
+  _maxRotation: 6
+  _returnSpeed: 4
 --- !u!1 &7421558203887303400
 GameObject:
   m_ObjectHideFlags: 0

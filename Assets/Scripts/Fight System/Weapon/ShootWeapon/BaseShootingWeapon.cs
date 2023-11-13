@@ -116,5 +116,10 @@ namespace Fight_System.Weapon.ShootWeapon
             if(!WeaponAim) return;
             WeaponAim.SetScope();
         }
+
+        public void ResetRecoil()
+        {
+            Recoil.ResetRecoil();
+        }
     }
 }

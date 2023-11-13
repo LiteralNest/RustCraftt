@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace Fight_System.Weapon.ShootWeapon
 {
-    public class WeaponAimSway : MonoBehaviour
+    public class AimSway : MonoBehaviour
     {
         [Header("Adjust how much the weapon sways")] [SerializeField]
         private float _swayAmount = 1f;

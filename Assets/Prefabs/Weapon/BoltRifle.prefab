@@ -143,7 +143,7 @@ Transform:
   m_GameObject: {fileID: 4151499602121003206}
   serializedVersion: 2
   m_LocalRotation: {x: 0.029337235, y: -0.7141599, z: 0.026441084, w: 0.69886774}
-  m_LocalPosition: {x: -1.58, y: 0.1, z: 0.03}
+  m_LocalPosition: {x: -1.561, y: 0.103, z: 0.031}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children: []
@@ -245,6 +245,7 @@ GameObject:
   - component: {fileID: 5143698559524655553}
   - component: {fileID: 2963224622291726753}
   - component: {fileID: 5684319796969454457}
+  - component: {fileID: 6013226968797358313}
   m_Layer: 0
   m_Name: BoltRifle
   m_TagString: Untagged
@@ -449,8 +450,29 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _weaponAimPosition: {fileID: 0}
-  _sway: {fileID: 2963224622291726753}
+  _weaponSway: {fileID: 2963224622291726753}
+  _aimSway: {fileID: 6013226968797358313}
   _aimSpeed: 5
+--- !u!114 &6013226968797358313
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5800850483591592515}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 20201d759c124bc29a8d028a4fc44575, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _swayAmount: 1
+  _maxSwayAmount: 0.14
+  _swayXBounds: 0.003
+  _swayYBounds: 0.003
+  _smoothFactor: 1
+  _rotationAmount: 3.5
+  _maxRotation: 6
+  _returnSpeed: 4
 --- !u!1 &6565953170091320930
 GameObject:
   m_ObjectHideFlags: 0

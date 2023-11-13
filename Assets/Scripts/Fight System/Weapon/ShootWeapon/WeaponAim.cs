@@ -7,7 +7,7 @@ namespace Fight_System.Weapon.ShootWeapon
     {
         [SerializeField] private Transform _weaponAimPosition;
         [SerializeField] private WeaponSway _weaponSway;
-        [SerializeField] private WeaponAimSway _weaponAimSway;
+        [FormerlySerializedAs("_weaponAimSway")] [SerializeField] private AimSway _aimSway;
         
         [SerializeField] private float _aimSpeed = 5f;
 
@@ -30,7 +30,7 @@ namespace Fight_System.Weapon.ShootWeapon
             _transform.localRotation = _weaponAimPosition.localRotation;
             
             _weaponSway.enabled = false;
-            _weaponAimSway.enabled = true;
+            _aimSway.enabled = true;
 
             IsAiming = true;
         }
@@ -41,7 +41,7 @@ namespace Fight_System.Weapon.ShootWeapon
             _transform.localRotation = _originalRotation;
 
             _weaponSway.enabled = true;
-            _weaponAimSway.enabled = false;
+            _aimSway.enabled = false;
             
             IsAiming = false;
         }

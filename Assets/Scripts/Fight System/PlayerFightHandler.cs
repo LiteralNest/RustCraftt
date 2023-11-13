@@ -35,6 +35,10 @@ public class PlayerFightHandler : MonoBehaviour
     public void SetAttacking(bool value)
     {
         _attacking = value;
+        if (value == false)
+        {
+            _currentBaseShootingWeapon.ResetRecoil();
+        }
     }
 
     public void Reload()
