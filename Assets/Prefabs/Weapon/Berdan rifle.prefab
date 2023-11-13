@@ -47,6 +47,7 @@ GameObject:
   - component: {fileID: 608208407856586891}
   - component: {fileID: 8438203317833167886}
   - component: {fileID: 3175582613460758278}
+  - component: {fileID: 7337933166275904610}
   m_Layer: 0
   m_Name: Berdan rifle
   m_TagString: Untagged
@@ -250,9 +251,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db8d2ec2cbd34d788eb4c919a82c64ed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _weaponAimPosition: {fileID: 0}
-  _sway: {fileID: 8438203317833167886}
+  _weaponAimPosition: {fileID: 7670277374402306744}
+  _weaponSway: {fileID: 0}
+  _weaponAimSway: {fileID: 0}
   _aimSpeed: 5
+--- !u!114 &7337933166275904610
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3389491808241082177}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 20201d759c124bc29a8d028a4fc44575, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _swayAmount: 1
+  _maxSwayAmount: 0.14
+  _swayXBounds: 0.003
+  _swayYBounds: 0.003
+  _smoothFactor: 1
+  _rotationAmount: 3.5
+  _maxRotation: 6
+  _returnSpeed: 3
 --- !u!1 &3831813656943190158
 GameObject:
   m_ObjectHideFlags: 0

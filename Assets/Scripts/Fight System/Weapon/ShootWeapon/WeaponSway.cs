@@ -4,13 +4,21 @@ namespace Fight_System.Weapon.ShootWeapon
 {
     public class WeaponSway : MonoBehaviour
     {
-        [SerializeField] private float _swayAmount = 1f;    // Adjust how much the weapon sways
-        [SerializeField] private float _maxSwayAmount = 0.14f; // Maximum sway amount
-        [SerializeField] private float _swayXBounds = 0.01f;    // Horizontal sway bounds
-        [SerializeField] private float _swayYBounds = 0.01f;    // Vertical sway bounds
-        [SerializeField] private float _smoothFactor = 1f;   // Smoothing factor for sway
-        [SerializeField] private float _rotationAmount = 3.5f; // Adjust how much the weapon rotates
-        [SerializeField] private float _maxRotation = 6.0f;    // Maximum rotation amount
+        [Header("Adjust how much the weapon sways")]
+        [SerializeField] private float _swayAmount = 1f;
+        [Header("Maximum sway amount")]
+        [SerializeField] private float _maxSwayAmount = 0.14f;
+        [Header("Horizontal sway bounds")]
+        [SerializeField] private float _swayXBounds = 0.01f;
+        [Header("Vertical sway bounds")]
+        [SerializeField] private float _swayYBounds = 0.01f;
+        [Header("Smoothing factor for sway")]
+        [SerializeField] private float _smoothFactor = 1f;
+        [Header("Adjust how much weapon rotates")]
+        [SerializeField] private float _rotationAmount = 3.5f;
+        [Header("Adjust how much the weapon sways")]
+        [SerializeField] private float _maxRotation = 6.0f;
+        [Header("Maximum rotation amount")]
         [SerializeField] private float _returnSpeed = 4f;
 
         private Vector3 _initialPosition;

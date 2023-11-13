@@ -5,7 +5,7 @@ public class PlayerFightHandler : MonoBehaviour
 {
     private BaseShootingWeapon _currentBaseShootingWeapon;
     private bool _attacking;
-
+    private bool IsAimed = false;
     private void OnEnable()
         => GlobalEventsContainer.WeaponObjectAssign += AssignWeaponObject;
     
