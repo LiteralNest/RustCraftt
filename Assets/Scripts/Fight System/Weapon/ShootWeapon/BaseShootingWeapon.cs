@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.VFX;
 
 namespace Fight_System.Weapon.ShootWeapon
 {
@@ -15,7 +16,7 @@ namespace Fight_System.Weapon.ShootWeapon
         [SerializeField] protected WeaponSoundPlayer SoundPlayer;
         [SerializeField] protected Transform AmmoSpawnPoint;
         [SerializeField] protected GameObject ImpactEffect;
-        [SerializeField] protected GameObject FlameEffect;
+        [SerializeField] protected VisualEffect FlameEffect;
         [SerializeField] protected float FlameEffectDuration;
         [SerializeField] protected GameObject Decal;
         [SerializeField] protected LayerMask TargetMask;
@@ -98,9 +99,9 @@ namespace Fight_System.Weapon.ShootWeapon
 
         protected IEnumerator DisplayFlameEffect()
         {
-            FlameEffect.SetActive(true);
+            FlameEffect.Play();
             yield return new WaitForSeconds(FlameEffectDuration);
-            FlameEffect.SetActive(false);
+            FlameEffect.Stop();
         }
 
         protected IEnumerator WaitBetweenShootsRoutine()

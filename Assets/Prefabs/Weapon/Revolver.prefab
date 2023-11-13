@@ -230,7 +230,7 @@ MonoBehaviour:
   SoundPlayer: {fileID: 5255436541561584932}
   AmmoSpawnPoint: {fileID: 4189862163875063531}
   ImpactEffect: {fileID: 930967296589399707}
-  FlameEffect: {fileID: 7954134055356217819}
+  FlameEffect: {fileID: 2344932918277473083}
   FlameEffectDuration: 1
   Decal: {fileID: 1305036650871697919, guid: 74feb497a20face4e89facba0677d7ab, type: 3}
   TargetMask:
@@ -386,7 +386,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1512913237354902845
 Transform:
   m_ObjectHideFlags: 0
@@ -411,8 +411,8 @@ VisualEffect:
   m_GameObject: {fileID: 7954134055356217819}
   m_Enabled: 1
   m_Asset: {fileID: 8926484042661614526, guid: 21a21ef823a8d1646b5b2b9740c4163f, type: 3}
-  m_InitialEventName: OnPlay
-  m_InitialEventNameOverriden: 0
+  m_InitialEventName: 
+  m_InitialEventNameOverriden: 1
   m_StartSeed: 0
   m_ResetSeedOnPlay: 1
   m_AllowInstancing: 1
@@ -439,7 +439,10 @@ VisualEffect:
     m_NamedObject:
       m_Array: []
     m_Bool:
-      m_Array: []
+      m_Array:
+      - m_Value: 0
+        m_Name: Periodic
+        m_Overridden: 1
 --- !u!73398921 &5982361171892712714
 VFXRenderer:
   serializedVersion: 1
@@ -448,7 +451,7 @@ VFXRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7954134055356217819}
-  m_Enabled: 0
+  m_Enabled: 1
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1
