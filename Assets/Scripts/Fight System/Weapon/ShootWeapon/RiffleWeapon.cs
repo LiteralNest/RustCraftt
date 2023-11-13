@@ -28,8 +28,8 @@ namespace Fight_System.Weapon.ShootWeapon
 
             SoundPlayer.PlayShot();
             MinusAmmo();
-            Recoil.ApplyRecoil(Weapon.RecoilX, Weapon.RecoilY, Weapon.RecoilZ);
-            StartCoroutine(DisplayFlameEffect()); // Start the coroutine
+            AdjustRecoil();
+            StartCoroutine(DisplayFlameEffect());
             
             if (Physics.Raycast(AmmoSpawnPoint.position, AmmoSpawnPoint.forward, out var hit, Weapon.Range, TargetMask))
             {

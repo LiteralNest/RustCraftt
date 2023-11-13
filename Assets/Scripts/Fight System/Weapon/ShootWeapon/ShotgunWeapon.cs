@@ -42,7 +42,7 @@ namespace Fight_System.Weapon.ShootWeapon
 
             var spawnPoint = AmmoSpawnPoint.position;
             var shootDirection = transform.forward;
-
+            StartCoroutine(DisplayFlameEffect()); // Start the coroutine
             SpreadShots(spawnPoint, shootDirection, _weaponAim.IsAiming ? _spreadRadiusFocus : _spreadRadiusNoFocus);
             
             StartCoroutine(WaitBetweenShootsRoutine());
@@ -70,7 +70,7 @@ namespace Fight_System.Weapon.ShootWeapon
 
                 var shootRay = new Ray(spawnPoint, (spreadDirection + randomSpreadOffset3D).normalized);
 
-                Recoil.ApplyRecoil(Weapon.RecoilX, Weapon.RecoilY, Weapon.RecoilZ);
+                AdjustRecoil();
 
                 if (Physics.Raycast(shootRay, out var hit, Weapon.Range, TargetMask))
                 {

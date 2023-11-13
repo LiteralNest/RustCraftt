@@ -117,6 +117,25 @@ namespace Fight_System.Weapon.ShootWeapon
             WeaponAim.SetScope();
         }
 
+        protected void AdjustRecoil()
+        {
+            var recoilX = Weapon.RecoilX;
+            var recoilY = Weapon.RecoilY;
+            var recoilZ = Weapon.RecoilZ;
+
+            if (WeaponAim && WeaponAim.IsAiming) 
+            {
+                // Reduce recoil by half when aiming
+                recoilX /= 2f;
+                recoilY /= 2f;
+                recoilZ /= 2f;
+
+                Recoil.ApplyRecoil(recoilX, recoilY, recoilZ);
+            }
+            else
+                Recoil.ApplyRecoil(recoilX, recoilY, recoilZ);
+        }
+
         public void ResetRecoil()
         {
             Recoil.ResetRecoil();
