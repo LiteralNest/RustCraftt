@@ -126,9 +126,9 @@ namespace Fight_System.Weapon.ShootWeapon
             if (WeaponAim && WeaponAim.IsAiming) 
             {
                 // Reduce recoil by half when aiming
-                recoilX /= 2f;
-                recoilY /= 2f;
-                recoilZ /= 2f;
+                recoilX /= 4f;
+                recoilY /= 4f;
+                recoilZ /= 4f;
 
                 Recoil.ApplyRecoil(recoilX, recoilY, recoilZ);
             }
