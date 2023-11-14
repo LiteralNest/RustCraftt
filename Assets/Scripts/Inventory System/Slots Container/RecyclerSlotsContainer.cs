@@ -23,7 +23,7 @@ public class RecyclerSlotsContainer : SlotsContainer
 
     public void Init(Recycler recycler)
     {
-        Appear();
+        // Appear();
         _recycler = recycler;
     }
 

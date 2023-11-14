@@ -3,12 +3,12 @@ using UnityEngine.EventSystems;
 
 public class InventoryItemDisplayer : ItemDisplayer, IBeginDragHandler, IDragHandler, IEndDragHandler
 {
-    protected SlotsContainer _slotsContainer;
+    protected Storage _storage;
     
     public void OnBeginDrag(PointerEventData eventData)
     {
         if (!GlobalValues.CanDragInventoryItems) return;
-        _slotsContainer.ResetCell(PreviousCell.Index);
+        _storage.ResetItemServerRpc(PreviousCell.Index);
         PreviousCell.ResetItemWhileDrag();
         _countText.gameObject.SetActive(false);
         transform.SetParent(transform.root);
@@ -31,9 +31,9 @@ public class InventoryItemDisplayer : ItemDisplayer, IBeginDragHandler, IDragHan
         _itemIcon.raycastTarget = true;
     }
 
-    public void Init(SlotDisplayer slot, InventoryCell cell, SlotsContainer slotsContainer)
+    public void Init(SlotDisplayer slot, InventoryCell cell, Storage storage)
     {
-        _slotsContainer = slotsContainer;
+        _storage = storage;
         PreviousCell = slot;
 
         var cellTransform = slot.transform;
@@ -47,17 +47,17 @@ public class InventoryItemDisplayer : ItemDisplayer, IBeginDragHandler, IDragHan
     public override void SetNewCell(SlotDisplayer slotDisplayer)
     {
         base.SetNewCell(slotDisplayer);
-        _slotsContainer = slotDisplayer.Inventory;
-        if (!_slotsContainer) return;
-        _slotsContainer.AddCell(slotDisplayer.Index, InventoryCell);
-        GlobalEventsContainer.InventoryDataShouldBeSaved?.Invoke(_slotsContainer.Cells);
+        _storage = slotDisplayer.Inventory;
+        if (!_storage) return;
+        _storage.SetItemServerRpc(slotDisplayer.Index, InventoryCell.Item.Id, InventoryCell.Count);
+        GlobalEventsContainer.InventoryDataShouldBeSaved?.Invoke(_storage.Cells);
     }
 
     public override int StackCount(int addedCount, SlotDisplayer slotDisplayer)
     {
         var res = base.StackCount(addedCount, slotDisplayer);
-        _slotsContainer.AddCell(slotDisplayer.Index, InventoryCell);
-        GlobalEventsContainer.InventoryDataShouldBeSaved?.Invoke(_slotsContainer.Cells);
+        _storage.SetItemServerRpc(slotDisplayer.Index, InventoryCell.Item.Id, InventoryCell.Count);
+        GlobalEventsContainer.InventoryDataShouldBeSaved?.Invoke(_storage.Cells);
         RedisplayInventrory();
         return res;
     }

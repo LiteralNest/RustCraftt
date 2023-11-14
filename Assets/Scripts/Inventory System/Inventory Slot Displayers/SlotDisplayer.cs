@@ -10,18 +10,18 @@ public abstract class SlotDisplayer : MonoBehaviour, IDropHandler
     public int Index { get; private set; }
 
     public SlotsDisplayer InventorySlotsDisplayer { get; protected set; }
-    public SlotsContainer Inventory { get; protected set; }
+    public Storage Inventory { get; protected set; }
 
     protected abstract void Drop(PointerEventData eventData);
 
     public void OnDrop(PointerEventData eventData)
         => Drop(eventData);
 
-    public void Init(int index, SlotsDisplayer slotsDisplayer, SlotsContainer slotsContainer)
+    public void Init(int index, SlotsDisplayer slotsDisplayer, Storage targetStorage)
     {
         Index = index;
         InventorySlotsDisplayer = slotsDisplayer;
-        Inventory = slotsContainer;
+        Inventory = targetStorage;
         ItemDisplayer = null;
     }
 

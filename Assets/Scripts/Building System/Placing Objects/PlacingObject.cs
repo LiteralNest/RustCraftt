@@ -21,7 +21,7 @@ public class PlacingObject : BuildingStructure, IHammerInteractable
 
     public void PickUp()
     {
-        InventorySlotsContainer.singleton.AddItemToDesiredSlot(TargetItem, 1);
+        InventoryHandler.singleton.CharacterInventory.AddItemToDesiredSlotServerRpc(TargetItem.Id, 1);
         DestroyObjectServerRpc();
     }
     

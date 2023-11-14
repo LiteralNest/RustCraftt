@@ -61,7 +61,7 @@ public class BuildingBluePrintCell : MonoBehaviour
 
     public void CheckEnoughMaterials()
         => _enoughMaterials = InventoryHelper.EnoughMaterials(_targetBuildingStructure.GetPlacingRemovingCells(),
-            InventorySlotsContainer.singleton.Cells);
+            InventoryHandler.singleton.CharacterInventory.Cells);
 
     public void InitPlacedObject(GameObject target)
         => _bluePrint.InitPlacedObject(target.GetComponent<BuildingStructure>());
@@ -71,7 +71,7 @@ public class BuildingBluePrintCell : MonoBehaviour
         if (!CanBePlaced) return;
 
         foreach (var cell in _targetBuildingStructure.GetPlacingRemovingCells())
-            InventorySlotsContainer.singleton.RemoveItemFromDesiredSlot(cell.Item, cell.Count);
+            InventoryHandler.singleton.CharacterInventory.AddItemToDesiredSlotServerRpc(cell.Item.Id, cell.Count);
         BuildingsNetworkingSpawner.singleton.SpawnPrefServerRpc(_targetBuildingStructure.Id, transform.position,
             transform.rotation);
     }

@@ -24,7 +24,7 @@ public class ResourcesDropper : MonoBehaviour, IDropHandler
     public void OnDrop(PointerEventData eventData)
     {
         if (!InventoryItemDisplayer) return;
-        InventorySlotsContainer.singleton.RemoveItemFromDesiredSlot(InventoryItemDisplayer.InventoryCell.Item, InventoryItemDisplayer.InventoryCell.Count);
+        InventoryHandler.singleton.InventoryItemsContainer.RemoveItemCountServerRpc(InventoryItemDisplayer.InventoryCell.Item.Id, InventoryItemDisplayer.InventoryCell.Count);
         InstantiatingItemsPool.sigleton.SpawnDropableObjectServerRpc(InventoryItemDisplayer.InventoryCell.Item.Id, InventoryItemDisplayer.InventoryCell.Count, GetFrontCameraPos());
         Destroy(InventoryItemDisplayer.gameObject);
     }

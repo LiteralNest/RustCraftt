@@ -17,11 +17,14 @@ public class InventoryHandler : NetworkBehaviour
     [field: SerializeField] public InventorySlotsDisplayer InventorySlotsDisplayer { get; private set; }
     [field: SerializeField] public PlayerObjectsPlacer PlayerObjectsPlacer { get; private set; }
     [field: SerializeField] public BuildingChooser BuildingChooser { get; private set; }
-    [field: SerializeField] public CampFireSlotsContainer CampFireSlotsContainer { get; private set; }
     [field: SerializeField] public RecyclerSlotsContainer RecyclerSlotsContainer { get; private set; }
     [field: SerializeField] public InHandObjectsContainer InHandObjectsContainer { get; private set; }
     [field: SerializeField] public ArmorsContainer ArmorsContainer { get; private set; }
-
+    
+    [field:SerializeField] public InventoryItemsContainer InventoryItemsContainer { get; private set; }
+    [field:SerializeField] public SlotsDisplayer CampFireSlotsDisplayer { get; private set; }
+    [field:SerializeField] public Storage CharacterInventory { get; private set; }
+    
 
     [Header("UI")] [SerializeField] private GameObject _mainButtonsPanel;
     [SerializeField] private GameObject _armorPanel;

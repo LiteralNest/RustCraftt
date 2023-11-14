@@ -39,11 +39,5 @@ namespace ArmorSystem.UI
             InventoryHandler.singleton.ArmorsContainer.AssignItem(_defaultArmor.Id);
             _currentArmor = _defaultArmor;
         }
-
-        private void ReturnCellToInventory()
-        {
-            if (_currentArmor == null || _currentArmor.Id == _defaultArmor.Id) return;
-            Inventory.AddItemToDesiredSlot(_currentArmor, 1);
-        }
     }
 }

@@ -45,7 +45,7 @@ public class ConnectedStructure : MonoBehaviour
         if (InventoryHelper.EnoughMaterials(comparingCells, TargetClipBoards[0].Cells))
         {
             foreach(var cell in comparingCells)
-                InventoryHelper.RemoveItem(cell.Item, cell.Count, TargetClipBoards[0].Cells);
+                InventoryHelper.RemoveItem(cell.Item.Id, cell.Count, TargetClipBoards[0].Cells);
             return true;
         }
         return false;

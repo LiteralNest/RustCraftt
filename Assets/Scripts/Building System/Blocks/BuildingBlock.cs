@@ -103,13 +103,13 @@ public class BuildingBlock : NetworkBehaviour, IDamagable, IHammerInteractable
         _cellsForRepairing.Clear();
         foreach (var cell in GetNeededCellsForPlacing())
             _cellsForRepairing.Add(new InventoryCell( cell.Item, cell.Count / damagingPercent));
-        return InventorySlotsContainer.singleton.EnoughMaterials(_cellsForRepairing);
+        return InventoryHandler.singleton.CharacterInventory.EnoughMaterials(_cellsForRepairing);
     }
 
     public void Repair()
     {
         SetHpServerRpc(_startHp);
-        InventorySlotsContainer.singleton.RemoveItems(_cellsForRepairing);
+        InventoryHandler.singleton.CharacterInventory.RemoveItems(_cellsForRepairing);
         _cellsForRepairing.Clear();
     }
 
@@ -127,14 +127,14 @@ public class BuildingBlock : NetworkBehaviour, IDamagable, IHammerInteractable
         if(!MaxHp()) return false;
         int nextLevel = _currentLevel.Value + 1;
         if(nextLevel >= _levels.Count) return false;
-        if (!InventorySlotsContainer.singleton.EnoughMaterials(_levels[nextLevel].CellForPlace)) return false;
+        if (!InventoryHandler.singleton.CharacterInventory.EnoughMaterials(_levels[nextLevel].CellForPlace)) return false;
         return true;
     }
 
     public void Upgrade()
     {
         int nextLevel = _currentLevel.Value + 1;
-        InventorySlotsContainer.singleton.RemoveItems(_levels[nextLevel].CellForPlace);
+        InventoryHandler.singleton.CharacterInventory.RemoveItems(_levels[nextLevel].CellForPlace);
         SetLevelServerRpc((ushort)nextLevel);
     }
 

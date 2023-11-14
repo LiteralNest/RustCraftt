@@ -2,11 +2,12 @@ using UnityEngine;
 
 public class CampFireDisplayer : MonoBehaviour
 {
-    [Header("UI")] [SerializeField] private GameObject _turnOnButton;
+    [Header("Attached Scripts")] [SerializeField]
+    private SlotsDisplayer _slotsDisplayer;
+    
+    [Header("UI")] 
+    [SerializeField] private GameObject _turnOnButton;
     [SerializeField] private GameObject _turnOffButton;
-
-    [Header("Main Params")] [SerializeField]
-    private CampFireSlotsContainer _campFireSlotsContainer;
 
     public void DisplayButton(bool value)
     {
@@ -16,7 +17,8 @@ public class CampFireDisplayer : MonoBehaviour
 
     public void SetFlaming(bool value)
     {
-        _campFireSlotsContainer.CampFireHandler.TurnFlamingServerRpc(value);
-        DisplayButton(_campFireSlotsContainer.CampFireHandler.Flaming.Value);
+        var campfire = _slotsDisplayer.TargetStorage as CampFireHandler;
+        campfire.TurnFlamingServerRpc(value);
+        DisplayButton(campfire.Flaming.Value);
     }
 }

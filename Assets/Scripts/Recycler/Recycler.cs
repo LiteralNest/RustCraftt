@@ -63,7 +63,7 @@ public class Recycler : Storage
         foreach (var cell in item.Cells)
         {
             var rand = Random.Range(cell.ItemsRange.x, cell.ItemsRange.y);
-            var desiredCell = 5 + InventoryHelper.GetDesiredCellId(cell.ResultItem, rand, recyclingCells);
+            var desiredCell = 5 + InventoryHelper.GetDesiredCellId(cell.ResultItem.Id, rand, recyclingCells);
             if (desiredCell == -1)
             {
                 _recycling = false;

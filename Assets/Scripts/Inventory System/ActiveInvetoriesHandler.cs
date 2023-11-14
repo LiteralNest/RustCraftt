@@ -4,8 +4,8 @@ public class ActiveInvetoriesHandler : MonoBehaviour
 {
     public static ActiveInvetoriesHandler singleton { get; private set; }
 
-    [SerializeField] private SlotsContainer _playerInventory;
-    private SlotsContainer _activeInventory;
+    [SerializeField] private Storage _playerInventory;
+    private Storage _activeInventory;
 
     private void Awake()
         => singleton = this;
@@ -16,8 +16,8 @@ public class ActiveInvetoriesHandler : MonoBehaviour
     private void OnDisable()
         => GlobalEventsContainer.ShouldResetCurrentInventory -= ResetActiveInventory;
 
-    public void AddActiveInventory(SlotsContainer slotsContainer)
-        => _activeInventory = slotsContainer; 
+    public void AddActiveInventory(Storage storage)
+        => _activeInventory = storage; 
 
     private void ResetActiveInventory()
         => _activeInventory = null;
@@ -28,13 +28,13 @@ public class ActiveInvetoriesHandler : MonoBehaviour
         if (itemInventory == null || _activeInventory == null || _playerInventory == null) return;
         if (itemInventory == _playerInventory)
         {
-            _playerInventory.ResetCellAndSendData(itemDisplayer.PreviousCell.Index);
-            _activeInventory.AddItemToDesiredSlot(itemDisplayer.InventoryCell.Item, itemDisplayer.InventoryCell.Count);
+            _playerInventory.ResetItemServerRpc(itemDisplayer.PreviousCell.Index);
+            _activeInventory.AddItemToDesiredSlotServerRpc(itemDisplayer.InventoryCell.Item.Id, itemDisplayer.InventoryCell.Count);
         }
         else
         {
-            _activeInventory.ResetCellAndSendData(itemDisplayer.PreviousCell.Index);
-            _playerInventory.AddItemToDesiredSlot(itemDisplayer.InventoryCell.Item, itemDisplayer.InventoryCell.Count);
+            _activeInventory.ResetItemServerRpc(itemDisplayer.PreviousCell.Index);
+            _playerInventory.AddItemToDesiredSlotServerRpc(itemDisplayer.InventoryCell.Item.Id, itemDisplayer.InventoryCell.Count);
         }
         Destroy(itemDisplayer.gameObject);
     }
