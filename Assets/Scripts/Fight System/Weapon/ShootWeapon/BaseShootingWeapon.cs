@@ -31,6 +31,12 @@ namespace Fight_System.Weapon.ShootWeapon
         protected void Start()
             => canShoot = true;
 
+        private void Update()
+        {
+            // if(WeaponAim.IsAiming) Scope();
+            Recoil.UpdateRecoil(3f);
+        }
+
         protected bool CanShoot()
         {
             return canShoot && _timeBetweenShots <= 0 && currentAmmoCount > 0 && !_isReloading;

@@ -17,11 +17,7 @@ namespace Fight_System.Weapon.ShootWeapon
             currentAmmoCount = _startingAmmoCount;
         }
 
-        private void Update()
-        {
-            Recoil.UpdateRecoil(4f);
-        }
-
+     
         public override void Attack()
         {
             if (!CanShoot() || currentAmmoCount <= 0) return; 
