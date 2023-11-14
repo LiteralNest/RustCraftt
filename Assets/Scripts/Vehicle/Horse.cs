@@ -16,7 +16,6 @@ namespace Vehicle
 
         public void Move(Vector2 moveInput)
         {
-            Debug.Log("Move method called"); 
             float forwardMovement = Mathf.Clamp(moveInput.y, 0, 1f);
             var movement = new Vector3(0f, 0f, forwardMovement);
             var rotation = moveInput.x * RotationSpeed * Time.fixedDeltaTime;
