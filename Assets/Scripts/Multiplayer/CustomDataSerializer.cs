@@ -6,13 +6,14 @@ public static class CustomDataSerializer
 {
     public static void SetConvertedItemsList(List<InventoryCell> cells, NetworkList<Vector2> res)
     {
+        res.Clear();
         for (int i = 0; i < cells.Count; i++)
         {
             var cell = cells[i];
-            if (cell.Item == null)
-                res.Insert(0, new Vector2Int(cell.Item.Id, cell.Count));
+            if (cell.Item != null)
+                res.Add(new Vector2Int(cell.Item.Id, cell.Count));
             else
-                res.Insert(0,new Vector2Int(cell.Item.Id, cell.Count));
+                res.Add(new Vector2Int(-1, 0));
         }
     }
 

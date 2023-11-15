@@ -47,7 +47,7 @@ public abstract class SlotsDisplayer : MonoBehaviour
         for (int i = 0; i < cells.Count; i++)
         {
             if (!cells[i].Item) continue;
-            _cellDisplayers[i].SetItem(GetGeneratedItemDisplayer(cells[i], _cellDisplayers[i]));
+            _cellDisplayers[i].SetItem(GetGeneratedItemDisplayer(cells[i], _cellDisplayers[i]), false);
         }
     }
 

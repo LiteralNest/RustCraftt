@@ -44,19 +44,19 @@ public class InventoryItemDisplayer : ItemDisplayer, IBeginDragHandler, IDragHan
         DisplayData();
     }
 
-    public override void SetNewCell(SlotDisplayer slotDisplayer)
+    public override void SetNewCell(SlotDisplayer slotDisplayer, bool shouldSaveNetData)
     {
-        base.SetNewCell(slotDisplayer);
+        base.SetNewCell(slotDisplayer, shouldSaveNetData);
         _storage = slotDisplayer.Inventory;
         if (!_storage) return;
-        _storage.SetItemServerRpc(slotDisplayer.Index, InventoryCell.Item.Id, InventoryCell.Count);
+        _storage.SetItemServerRpc(slotDisplayer.Index, InventoryCell.Item.Id, InventoryCell.Count, shouldSaveNetData);
         GlobalEventsContainer.InventoryDataShouldBeSaved?.Invoke(_storage.Cells);
     }
 
     public override int StackCount(int addedCount, SlotDisplayer slotDisplayer)
     {
         var res = base.StackCount(addedCount, slotDisplayer);
-        _storage.SetItemServerRpc(slotDisplayer.Index, InventoryCell.Item.Id, InventoryCell.Count);
+        _storage.SetItemServerRpc(slotDisplayer.Index, InventoryCell.Item.Id, InventoryCell.Count, true);
         GlobalEventsContainer.InventoryDataShouldBeSaved?.Invoke(_storage.Cells);
         RedisplayInventrory();
         return res;

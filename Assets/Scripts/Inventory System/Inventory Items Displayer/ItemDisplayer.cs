@@ -46,7 +46,7 @@ public abstract class ItemDisplayer : MonoBehaviour
     public void SetPosition()
         => transform.position = PreviousCell.transform.position;
     
-    public virtual void SetNewCell(SlotDisplayer slotDisplayer)
+    public virtual void SetNewCell(SlotDisplayer slotDisplayer, bool shouldSaveNetData)
     {
         PreviousCell = slotDisplayer;
         var slotTransform = slotDisplayer.transform;

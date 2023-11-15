@@ -25,11 +25,11 @@ public abstract class SlotDisplayer : MonoBehaviour, IDropHandler
         ItemDisplayer = null;
     }
 
-    public void SetItem(ItemDisplayer itemDisplayer)
+    public void SetItem(ItemDisplayer itemDisplayer, bool shouldSaveNetData = true)
     {
         if (ItemDisplayer != null) Destroy(ItemDisplayer.gameObject);
         ItemDisplayer = itemDisplayer;
-        ItemDisplayer.SetNewCell(this);
+        ItemDisplayer.SetNewCell(this,shouldSaveNetData);
     }
 
     private void ResetItem()

@@ -63,11 +63,12 @@ public abstract class Storage : NetworkBehaviour
     }
 
     [ServerRpc(RequireOwnership = false)]
-    public void SetItemServerRpc(int cellId, int itemId, int count)
+    public void SetItemServerRpc(int cellId, int itemId, int count, bool shouldSaveNetData = true)
     {
         if (IsServer)
             _itemsNetData[cellId] = new Vector2Int(itemId, count);
-        ConvertWebData();
+        if(shouldSaveNetData)
+            ConvertWebData();
     }
 
     [ServerRpc(RequireOwnership = false)]
