@@ -1,7 +1,5 @@
-using System;
 using Player_Controller;
 using Unity.Netcode;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -10,7 +8,7 @@ namespace Vehicle
     public class HorseController : NetworkBehaviour
     {
         [SerializeField] private Horse _horse;
-        [SerializeField] private Vector3 _offset = new Vector3(0f, 0.5f, 0f);
+        [SerializeField] private Vector3 _offset = new Vector3(0f, 3f, 0f);
         [SerializeField] private PlayerInput _horseInput;
         
         public bool IsMoving { get; set; }

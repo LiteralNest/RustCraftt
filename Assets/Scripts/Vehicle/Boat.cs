@@ -49,20 +49,15 @@ namespace Vehicle
         public void Move(Vector2 moveInput)
         {
             float forwardMovement = Mathf.Clamp(moveInput.y, 0, 1f);
-            var movement = new Vector3(forwardMovement, 0f, 0f);
+            var movement = new Vector3(0f, 0f, forwardMovement);
             var rotation = moveInput.x * RotationSpeed * Time.fixedDeltaTime;
 
             transform.Rotate(0f, rotation, 0f);
 
             if (forwardMovement > 0)
             {
-                transform.Translate(-movement * MoveSpeed * Time.deltaTime, Space.Self);
+                transform.Translate(movement * MoveSpeed * Time.deltaTime, Space.Self);
             }
-        }
-
-        public Transform SitAtPlace()
-        {
-            return SitPlace;
         }
     }
 }
