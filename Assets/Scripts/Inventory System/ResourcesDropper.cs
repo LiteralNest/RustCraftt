@@ -1,3 +1,4 @@
+using Inventory_System.Inventory_Items_Displayer;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -5,7 +6,7 @@ public class ResourcesDropper : MonoBehaviour, IDropHandler
 {
     public static ResourcesDropper singleton { get; private set; }
 
-    public InventoryItemDisplayer InventoryItemDisplayer { get; set; }
+    public Inventory_System.Inventory_Items_Displayer.InventoryItemDisplayer InventoryItemDisplayer { get; set; }
 
     [SerializeField] private float _droppingOffset = 1;
     

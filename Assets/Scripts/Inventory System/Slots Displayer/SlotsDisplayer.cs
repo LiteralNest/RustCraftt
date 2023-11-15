@@ -6,9 +6,7 @@ public abstract class SlotsDisplayer : MonoBehaviour
 {
     public Storage TargetStorage { get; set; }
 
-    [Header("Start Init")] [SerializeField]
-    protected InventoryItemDisplayer _itemDisplayerPrefab;
-
+    [Header("Start Init")]
     [SerializeField] protected List<InventorySlotDisplayer> _cellDisplayers = new List<InventorySlotDisplayer>();
     
     public abstract void InitItems();
@@ -35,7 +33,7 @@ public abstract class SlotsDisplayer : MonoBehaviour
 
     private ItemDisplayer GetGeneratedItemDisplayer(InventoryCell cell, InventorySlotDisplayer slotDisplayer)
     {
-        var itemDisplayer = Instantiate(_itemDisplayerPrefab, slotDisplayer.transform);
+        var itemDisplayer = Instantiate(InventorySlotDisplayerSelector.singleton.GetDisplayerByType(cell.Item), slotDisplayer.transform);
         itemDisplayer.Init(slotDisplayer, cell, TargetStorage);
         return itemDisplayer;
     }

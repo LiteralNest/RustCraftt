@@ -1,3 +1,4 @@
+using Inventory_System.Inventory_Items_Displayer;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -16,7 +17,7 @@ namespace Fight_System.Weapon.ShootWeapon
         [Header("In Game Init")] 
         private readonly int _startingAmmoCount = 100;
 
-        private LongRangeWeaponInventoryItemDisplayer _inventoryItemDisplayer;
+        private LongRangeWeaponItemDisplayer _inventoryItemDisplayer;
         private Vector3[] _spreadOffsets;
 
         private void Start()

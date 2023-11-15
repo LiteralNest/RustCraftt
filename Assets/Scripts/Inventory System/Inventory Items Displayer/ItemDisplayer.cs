@@ -21,7 +21,7 @@ public abstract class ItemDisplayer : MonoBehaviour
         DisplayData();
     }
     
-    public void DisplayData()
+    public virtual void DisplayData()
     {
         if(InventoryCell.Item == null) return;
         _itemIcon.sprite = InventoryCell.Item.Icon;

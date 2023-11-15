@@ -26,7 +26,7 @@ public static class CustomDataSerializer
             if (cell.x == -1)
                 res.Add(new InventoryCell(null, 0));
             else
-                res.Add(new InventoryCell(ItemsContainer.singleton.GetItemById((int)cell.x), (int)cell.y));
+                res.Add(new InventoryCell(ItemFinder.singleton.GetItemById((int)cell.x), (int)cell.y));
         }
         
         return res;

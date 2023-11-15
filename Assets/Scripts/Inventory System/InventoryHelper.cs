@@ -28,7 +28,7 @@ public static class InventoryHelper
     public static void AddItemToDesiredSlot(int itemId, int count, List<InventoryCell> cells)
     {
         var cell = GetDesiredCell(itemId, count, cells);
-        cell.Item = ItemsContainer.singleton.GetItemById(itemId);
+        cell.Item = ItemFinder.singleton.GetItemById(itemId);
         cell.Count += count;
     }
     
