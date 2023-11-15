@@ -2,7 +2,7 @@ using ArmorSystem.Backend;
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "Item/Armor")]
-public class Armor : CraftingItem
+public class Armor : DamagableItem
 {
     [Header("Armor")]
     [SerializeField] private BodyPartType _bodyPartType;

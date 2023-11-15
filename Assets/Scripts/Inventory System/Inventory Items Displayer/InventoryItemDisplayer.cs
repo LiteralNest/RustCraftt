@@ -51,14 +51,14 @@ namespace Inventory_System.Inventory_Items_Displayer
             base.SetNewCell(slotDisplayer, shouldSaveNetData);
             _storage = slotDisplayer.Inventory;
             if (!_storage) return;
-            _storage.SetItemServerRpc(slotDisplayer.Index, InventoryCell.Item.Id, InventoryCell.Count, shouldSaveNetData);
+            _storage.SetItemServerRpc(slotDisplayer.Index, InventoryCell.Item.Id, InventoryCell.Count, InventoryCell.Hp, shouldSaveNetData);
             GlobalEventsContainer.InventoryDataShouldBeSaved?.Invoke(_storage.Cells);
         }
 
         public override int StackCount(int addedCount, SlotDisplayer slotDisplayer)
         {
             var res = base.StackCount(addedCount, slotDisplayer);
-            _storage.SetItemServerRpc(slotDisplayer.Index, InventoryCell.Item.Id, InventoryCell.Count, true);
+            _storage.SetItemServerRpc(slotDisplayer.Index, InventoryCell.Item.Id, InventoryCell.Count, InventoryCell.Hp);
             GlobalEventsContainer.InventoryDataShouldBeSaved?.Invoke(_storage.Cells);
             RedisplayInventrory();
             return res;

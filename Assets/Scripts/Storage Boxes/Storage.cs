@@ -5,7 +5,7 @@ using UnityEngine.Serialization;
 
 public abstract class Storage : NetworkBehaviour
 {
-    private NetworkList<Vector2> _itemsNetData;
+    private NetworkList<Vector3> _itemsNetData;
 
     [FormerlySerializedAs("_cells")] [SerializeField]
     public List<InventoryCell> Cells;
@@ -15,7 +15,7 @@ public abstract class Storage : NetworkBehaviour
     [Header("Test")] [SerializeField] private InventoryCell _testAddingCell;
 
     private void Awake()
-        => _itemsNetData = new NetworkList<Vector2>();
+        => _itemsNetData = new NetworkList<Vector3>();
 
     private void Start()
     {
@@ -58,17 +58,17 @@ public abstract class Storage : NetworkBehaviour
     public void ResetItemServerRpc(int id)
     {
         if (IsServer)
-            _itemsNetData[id] = new Vector2Int(-1, 0);
+            _itemsNetData[id] = new Vector3Int(-1, 0, -1);
         ConvertWebData();
     }
 
     [ServerRpc(RequireOwnership = false)]
-    public void SetItemServerRpc(int cellId, int itemId, int count, bool shouldSaveNetData = true)
+    public void SetItemServerRpc(int cellId, int itemId, int count, int hp = -1, bool shouldSaveNetData = true, bool shouldDisplay = true)
     {
         if (IsServer)
-            _itemsNetData[cellId] = new Vector2Int(itemId, count);
+            _itemsNetData[cellId] = new Vector3Int(itemId, count, hp);
         if(shouldSaveNetData)
-            ConvertWebData();
+            ConvertWebData(shouldDisplay);
     }
 
     [ServerRpc(RequireOwnership = false)]
@@ -76,8 +76,8 @@ public abstract class Storage : NetworkBehaviour
     {
         if (IsServer)
         {
-            _itemsNetData[cellId] = new Vector2Int(itemId, (int)_itemsNetData[cellId].y);
-            _itemsNetData[cellId] += new Vector2Int(0, count);
+            _itemsNetData[cellId] = new Vector3Int(itemId, (int)_itemsNetData[cellId].y);
+            _itemsNetData[cellId] += new Vector3Int(0, count);
         }
 
         ConvertWebData();
@@ -88,9 +88,9 @@ public abstract class Storage : NetworkBehaviour
     {
         if (IsServer)
         {
-            _itemsNetData[id] -= new Vector2Int(0, count);
+            _itemsNetData[id] -= new Vector3Int(0, count, -1);
             if (_itemsNetData[id].y <= 0)
-                _itemsNetData[id] = new Vector2Int(-1, 0);
+                _itemsNetData[id] = new Vector3Int(-1, 0, -1);
         }
 
         ConvertWebData();
@@ -123,17 +123,13 @@ public abstract class Storage : NetworkBehaviour
     public int GetItemCount(int id)
         => InventoryHelper.GetItemCount(id, Cells);
 
-    private void ConvertWebData()
+    private void ConvertWebData(bool shouldDisplayeCells = true)
     {
         Cells = CustomDataSerializer.GetConvertedCellsList(_itemsNetData);
         CheckCells();
         if (SlotsDisplayer == null) return;
-        SlotsDisplayer.DisplayCells();
-    }
-
-    private void ConvertWebData(NetworkListEvent<Vector2> changeEvent)
-    {
-        ConvertWebData();
+        if(shouldDisplayeCells)
+            SlotsDisplayer.DisplayCells();
     }
 
     public virtual bool CanAddItem(Item item)
@@ -152,7 +148,7 @@ public abstract class Storage : NetworkBehaviour
     private void DebugNetCells()
     {
         foreach (var cell in _itemsNetData)
-            Debug.Log("Id: " + cell.x + " Count: " + cell.y);
+            Debug.Log("Id: " + cell.x + " Count: " + cell.y + " HP: " + cell.z);
     }
 
     [ContextMenu("Test")]

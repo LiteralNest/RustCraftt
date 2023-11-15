@@ -1,10 +1,8 @@
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "Item/Tool")]
-public class Tool : CraftingItem
+public class Tool : DamagableItem
 {
-    [field: SerializeField] public int Hp { get; private set; }
-    
     public override void Click(QuickSlotDisplayer slotDisplayer, InventoryHandler handler)
     {
         base.Click(slotDisplayer, handler);

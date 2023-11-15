@@ -237,10 +237,10 @@ GameObject:
   - component: {fileID: 2381494402196696947}
   - component: {fileID: 7684361845689548401}
   - component: {fileID: 502894858361013865}
-  - component: {fileID: 264096252872701840}
+  - component: {fileID: 5913465673614204580}
   - component: {fileID: 1443582545473423536}
   m_Layer: 5
-  m_Name: Damagable Item Displayer 1
+  m_Name: Tool Item Displayer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -297,7 +297,7 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &264096252872701840
+--- !u!114 &5913465673614204580
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -306,13 +306,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 5171716880755440011}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9e5385811bbf41a428482c80866f0087, type: 3}
+  m_Script: {fileID: 11500000, guid: e0fa76be3d312f8408d75ba9b8cfdf11, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _countText: {fileID: 0}
   _itemIcon: {fileID: 8850549487105166724}
   _animator: {fileID: 502894858361013865}
-  _movingClip: {fileID: 7400000, guid: b23e277801fe0b741979fedfd3abe335, type: 2}
+  _movingClip: {fileID: 0}
+  _hpBar: {fileID: 8727271779365304679}
 --- !u!114 &1443582545473423536
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -331,7 +332,7 @@ MonoBehaviour:
   _onDoubleTap:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 264096252872701840}
+      - m_Target: {fileID: 5913465673614204580}
         m_TargetAssemblyTypeName: ItemDisplayer, Assembly-CSharp
         m_MethodName: MoveToOtherInventory
         m_Mode: 1
