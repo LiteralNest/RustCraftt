@@ -2216,7 +2216,6 @@ GameObject:
   m_Component:
   - component: {fileID: 6349935870654982802}
   - component: {fileID: 3746317939516822040}
-  - component: {fileID: 3957482385951624368}
   - component: {fileID: 7141929790208998001}
   m_Layer: 15
   m_Name: CampFire Inventory
@@ -2252,8 +2251,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9d9a39657460a2547af406459c627dd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _slotsContainer: {fileID: 3957482385951624368}
-  _itemDisplayerPrefab: {fileID: 2785422814213238586, guid: 002d21339cd3c4b44b1ddac59aa8e5b6, type: 3}
   _cellDisplayers:
   - {fileID: 265946054382927155}
   - {fileID: 97148251759095386}
@@ -2263,31 +2260,6 @@ MonoBehaviour:
   _quickSlotsDisplayer: {fileID: 6619159498466499290}
   _mainSlotsCount: 0
   _armorCellsCount: 0
---- !u!114 &3957482385951624368
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 402694151525734529}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 257978cb846e7134899d5346513e31c9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  <SlotsDisplayer>k__BackingField: {fileID: 3746317939516822040}
-  <Cells>k__BackingField:
-  - Item: {fileID: 0}
-    Count: 0
-  - Item: {fileID: 0}
-    Count: 0
-  - Item: {fileID: 0}
-    Count: 0
-  - Item: {fileID: 0}
-    Count: 0
-  - Item: {fileID: 0}
-    Count: 0
-  _campFireDisplayer: {fileID: 7141929790208998001}
 --- !u!114 &7141929790208998001
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2300,9 +2272,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7460314522c714846a98e8e9447edf85, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _slotsDisplayer: {fileID: 3746317939516822040}
   _turnOnButton: {fileID: 6670984555098226378}
   _turnOffButton: {fileID: 4901378877265421681}
-  _campFireSlotsContainer: {fileID: 3957482385951624368}
 --- !u!1 &425249980946178793
 GameObject:
   m_ObjectHideFlags: 0
@@ -2703,7 +2675,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _input: {fileID: 7329390832356083849}
-  _gameHUD: {fileID: 0}
+  _gameHUD: {fileID: 947395055184992422}
 --- !u!1 &470436740835574709
 GameObject:
   m_ObjectHideFlags: 0
@@ -6423,7 +6395,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 7090321956292487928}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: InventorySlotsDisplayer, Assembly-CSharp
         m_MethodName: DisplayQuickSlots
         m_Mode: 1
@@ -12177,6 +12149,7 @@ Transform:
   - {fileID: 783509586299745790}
   - {fileID: 6529421634409231889}
   - {fileID: 4492764604099277309}
+  - {fileID: 5954793237318513836}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
 --- !u!65 &5155884267220930911
@@ -12456,6 +12429,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 840cdcc70a1fee143bcc5a7f10c27063, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _colliders:
+  - {fileID: 5511061317855291483}
+  - {fileID: 5155884267220930911}
   ActiveItemId:
     m_InternalValue: 0
   _inHandObjectsContainer: {fileID: 470103304248853290}
@@ -12627,7 +12603,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a3cdb1a8c9106e941a7607040015b764, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _inventorySlotsContainer: {fileID: 2798667544723828066}
+  _inventorySlotsContainer: {fileID: 0}
   _objectsRayCaster: {fileID: 5538215080173942597}
 --- !u!114 &7278581159367419240
 MonoBehaviour:
@@ -20048,9 +20024,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 3385327417179132531}
-        m_TargetAssemblyTypeName: RecyclerSlotsContainer, Assembly-CSharp
-        m_MethodName: Turn
+      - m_Target: {fileID: 468158743827739002}
+        m_TargetAssemblyTypeName: RecyclerDisplayer, Assembly-CSharp
+        m_MethodName: SetTurned
         m_Mode: 6
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -20441,7 +20417,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 649124963461089317}
-  - component: {fileID: 6325019148786662960}
   - component: {fileID: 8976669236365155111}
   m_Layer: 15
   m_Name: LootBox Inventory
@@ -20465,53 +20440,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1073976444382258915}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &6325019148786662960
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3868883906912204139}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 79ee031677ca47e43a6111aa25475fe6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  <SlotsDisplayer>k__BackingField: {fileID: 8976669236365155111}
-  <Cells>k__BackingField:
-  - Item: {fileID: 0}
-    Count: 0
-  - Item: {fileID: 0}
-    Count: 0
-  - Item: {fileID: 0}
-    Count: 0
-  - Item: {fileID: 0}
-    Count: 0
-  - Item: {fileID: 0}
-    Count: 0
-  - Item: {fileID: 0}
-    Count: 0
-  - Item: {fileID: 0}
-    Count: 0
-  - Item: {fileID: 0}
-    Count: 0
-  - Item: {fileID: 0}
-    Count: 0
-  - Item: {fileID: 0}
-    Count: 0
-  - Item: {fileID: 0}
-    Count: 0
-  - Item: {fileID: 0}
-    Count: 0
-  - Item: {fileID: 0}
-    Count: 0
-  - Item: {fileID: 0}
-    Count: 0
-  - Item: {fileID: 0}
-    Count: 0
-  - Item: {fileID: 0}
-    Count: 0
-  _avaliableCells: []
 --- !u!114 &8976669236365155111
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -20524,8 +20452,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 27b2452a159531c428fc10eb4851c3e5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _slotsContainer: {fileID: 6325019148786662960}
-  _itemDisplayerPrefab: {fileID: 2785422814213238586, guid: 002d21339cd3c4b44b1ddac59aa8e5b6, type: 3}
   _cellDisplayers:
   - {fileID: 7149055332153935519}
   - {fileID: 8749267746509510959}
@@ -20661,7 +20587,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 845313733837019579}
-  - component: {fileID: 7722792179759809431}
   - component: {fileID: 6202778935547390316}
   m_Layer: 15
   m_Name: ShotGuns Inventory
@@ -20685,31 +20610,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1073976444382258915}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &7722792179759809431
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3935054796576185436}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 79ee031677ca47e43a6111aa25475fe6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  <SlotsDisplayer>k__BackingField: {fileID: 6202778935547390316}
-  <Cells>k__BackingField:
-  - Item: {fileID: 0}
-    Count: 0
-  - Item: {fileID: 0}
-    Count: 0
-  - Item: {fileID: 0}
-    Count: 0
-  - Item: {fileID: 0}
-    Count: 0
-  - Item: {fileID: 0}
-    Count: 0
-  _avaliableCells: []
 --- !u!114 &6202778935547390316
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -20722,8 +20622,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 27b2452a159531c428fc10eb4851c3e5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _slotsContainer: {fileID: 7722792179759809431}
-  _itemDisplayerPrefab: {fileID: 2785422814213238586, guid: 002d21339cd3c4b44b1ddac59aa8e5b6, type: 3}
   _cellDisplayers:
   - {fileID: 9213857425593422238}
   - {fileID: 2066212096337133499}
@@ -22572,7 +22470,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4655569259222527176}
-  - component: {fileID: 1009994045292498703}
   - component: {fileID: 4130789589656170864}
   m_Layer: 15
   m_Name: Clipboard Inventory
@@ -22596,37 +22493,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1073976444382258915}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1009994045292498703
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4265142846611065173}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 79ee031677ca47e43a6111aa25475fe6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  <SlotsDisplayer>k__BackingField: {fileID: 4130789589656170864}
-  <Cells>k__BackingField:
-  - Item: {fileID: 0}
-    Count: 0
-  - Item: {fileID: 0}
-    Count: 0
-  - Item: {fileID: 0}
-    Count: 0
-  - Item: {fileID: 0}
-    Count: 0
-  - Item: {fileID: 0}
-    Count: 0
-  - Item: {fileID: 0}
-    Count: 0
-  - Item: {fileID: 0}
-    Count: 0
-  - Item: {fileID: 0}
-    Count: 0
-  _avaliableCells: []
 --- !u!114 &4130789589656170864
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -22639,8 +22505,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 27b2452a159531c428fc10eb4851c3e5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _slotsContainer: {fileID: 1009994045292498703}
-  _itemDisplayerPrefab: {fileID: 2785422814213238586, guid: 002d21339cd3c4b44b1ddac59aa8e5b6, type: 3}
   _cellDisplayers:
   - {fileID: 547174163841351941}
   - {fileID: 7536193384031118266}
@@ -24500,6 +24364,220 @@ Transform:
   - {fileID: 2052127490465186246}
   m_Father: {fileID: 3473616547925080643}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &4729880379710207376
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5954793237318513836}
+  - component: {fileID: 2013276024286378747}
+  - component: {fileID: 2008585183341960447}
+  m_Layer: 15
+  m_Name: Character Inventory
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5954793237318513836
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4729880379710207376}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 4341349121896943449}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2013276024286378747
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4729880379710207376}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 40d6ae1f2198dc14fb283134a21fe5ec, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Cells:
+  - Item: {fileID: 0}
+    Count: 0
+    Hp: 0
+  - Item: {fileID: 0}
+    Count: 0
+    Hp: 0
+  - Item: {fileID: 0}
+    Count: 0
+    Hp: 0
+  - Item: {fileID: 0}
+    Count: 0
+    Hp: 0
+  - Item: {fileID: 0}
+    Count: 0
+    Hp: 0
+  - Item: {fileID: 0}
+    Count: 0
+    Hp: 0
+  - Item: {fileID: 0}
+    Count: 0
+    Hp: 0
+  - Item: {fileID: 0}
+    Count: 0
+    Hp: 0
+  - Item: {fileID: 0}
+    Count: 0
+    Hp: 0
+  - Item: {fileID: 0}
+    Count: 0
+    Hp: 0
+  - Item: {fileID: 0}
+    Count: 0
+    Hp: 0
+  - Item: {fileID: 0}
+    Count: 0
+    Hp: 0
+  - Item: {fileID: 0}
+    Count: 0
+    Hp: 0
+  - Item: {fileID: 0}
+    Count: 0
+    Hp: 0
+  - Item: {fileID: 0}
+    Count: 0
+    Hp: 0
+  - Item: {fileID: 0}
+    Count: 0
+    Hp: 0
+  - Item: {fileID: 0}
+    Count: 0
+    Hp: 0
+  - Item: {fileID: 0}
+    Count: 0
+    Hp: 0
+  - Item: {fileID: 0}
+    Count: 0
+    Hp: 0
+  - Item: {fileID: 0}
+    Count: 0
+    Hp: 0
+  - Item: {fileID: 0}
+    Count: 0
+    Hp: 0
+  - Item: {fileID: 0}
+    Count: 0
+    Hp: 0
+  - Item: {fileID: 0}
+    Count: 0
+    Hp: 0
+  - Item: {fileID: 0}
+    Count: 0
+    Hp: 0
+  - Item: {fileID: 0}
+    Count: 0
+    Hp: 0
+  - Item: {fileID: 0}
+    Count: 0
+    Hp: 0
+  - Item: {fileID: 0}
+    Count: 0
+    Hp: 0
+  - Item: {fileID: 0}
+    Count: 0
+    Hp: 0
+  - Item: {fileID: 0}
+    Count: 0
+    Hp: 0
+  - Item: {fileID: 0}
+    Count: 0
+    Hp: 0
+  - Item: {fileID: 0}
+    Count: 0
+    Hp: 0
+  - Item: {fileID: 0}
+    Count: 0
+    Hp: 0
+  - Item: {fileID: 0}
+    Count: 0
+    Hp: 0
+  - Item: {fileID: 0}
+    Count: 0
+    Hp: 0
+  - Item: {fileID: 0}
+    Count: 0
+    Hp: 0
+  - Item: {fileID: 0}
+    Count: 0
+    Hp: 0
+  - Item: {fileID: 0}
+    Count: 0
+    Hp: 0
+  _testAddingCell:
+    Item: {fileID: 0}
+    Count: 0
+    Hp: 0
+--- !u!114 &2008585183341960447
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4729880379710207376}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9d9a39657460a2547af406459c627dd8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _cellDisplayers:
+  - {fileID: 5381854182452714639}
+  - {fileID: 6284509717006108134}
+  - {fileID: 6108950395377679089}
+  - {fileID: 7739468080459257020}
+  - {fileID: 4782792456846504308}
+  - {fileID: 6213447662962711811}
+  - {fileID: 2677838073946520252}
+  - {fileID: 3112649371141636009}
+  - {fileID: 1737952953985508131}
+  - {fileID: 6664344973878822052}
+  - {fileID: 6265462202365385385}
+  - {fileID: 8377364700248860761}
+  - {fileID: 5228942256591988734}
+  - {fileID: 5011273734712191493}
+  - {fileID: 8213743097306764667}
+  - {fileID: 1695078374721331906}
+  - {fileID: 2819716094334694220}
+  - {fileID: 3897978373687619126}
+  - {fileID: 272942846093277473}
+  - {fileID: 7825459176990020388}
+  - {fileID: 5920369149894593121}
+  - {fileID: 9007865340168390433}
+  - {fileID: 824945783673774731}
+  - {fileID: 1115205249885159005}
+  - {fileID: 8935889120312119184}
+  - {fileID: 4296814367656631618}
+  - {fileID: 6778619032697430137}
+  - {fileID: 6479868000102817350}
+  - {fileID: 5842641327163488619}
+  - {fileID: 6579706736932279076}
+  - {fileID: 2832787346295151575}
+  - {fileID: 294042131137917731}
+  - {fileID: 10733862188923860}
+  - {fileID: 3120209463752109016}
+  - {fileID: 8558392104302315857}
+  - {fileID: 815889834228284066}
+  - {fileID: 1961917353782348615}
+  _quickSlotsDisplayer: {fileID: 6619159498466499290}
+  _mainSlotsCount: 30
+  _armorCellsCount: 7
 --- !u!1 &4733615529722071535
 GameObject:
   m_ObjectHideFlags: 0
@@ -30115,9 +30193,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 3385327417179132531}
-        m_TargetAssemblyTypeName: RecyclerSlotsContainer, Assembly-CSharp
-        m_MethodName: Turn
+      - m_Target: {fileID: 468158743827739002}
+        m_TargetAssemblyTypeName: RecyclerDisplayer, Assembly-CSharp
+        m_MethodName: SetTurned
         m_Mode: 6
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -32163,7 +32241,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7625037664847316993}
   - component: {fileID: 4041470148071503336}
-  - component: {fileID: 3385327417179132531}
+  - component: {fileID: 468158743827739002}
   m_Layer: 15
   m_Name: Recycler Inventory
   m_TagString: Untagged
@@ -32198,8 +32276,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9d9a39657460a2547af406459c627dd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _slotsContainer: {fileID: 3385327417179132531}
-  _itemDisplayerPrefab: {fileID: 2785422814213238586, guid: 002d21339cd3c4b44b1ddac59aa8e5b6, type: 3}
   _cellDisplayers:
   - {fileID: 6274358952879170007}
   - {fileID: 7984346581612736124}
@@ -32214,7 +32290,7 @@ MonoBehaviour:
   _quickSlotsDisplayer: {fileID: 6619159498466499290}
   _mainSlotsCount: 0
   _armorCellsCount: 0
---- !u!114 &3385327417179132531
+--- !u!114 &468158743827739002
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -32223,33 +32299,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 6354983013493375299}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5a6682c6be780eb4cb71b67fd904f1a1, type: 3}
+  m_Script: {fileID: 11500000, guid: 5d2aa499902ef964d9bca2aac20998e7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <SlotsDisplayer>k__BackingField: {fileID: 4041470148071503336}
-  <Cells>k__BackingField:
-  - Item: {fileID: 0}
-    Count: 0
-  - Item: {fileID: 0}
-    Count: 0
-  - Item: {fileID: 0}
-    Count: 0
-  - Item: {fileID: 0}
-    Count: 0
-  - Item: {fileID: 0}
-    Count: 0
-  - Item: {fileID: 0}
-    Count: 0
-  - Item: {fileID: 0}
-    Count: 0
-  - Item: {fileID: 0}
-    Count: 0
-  - Item: {fileID: 0}
-    Count: 0
-  - Item: {fileID: 0}
-    Count: 0
-  _activeButton: {fileID: 1188736219837173090}
-  _unactiveButton: {fileID: 1470621345530089242}
+  _slotsDisplayer: {fileID: 4041470148071503336}
+  _turnOnButton: {fileID: 1188736219837173090}
+  _turnOffButton: {fileID: 1470621345530089242}
 --- !u!1 &6368303497934328447
 GameObject:
   m_ObjectHideFlags: 0
@@ -36955,7 +37010,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7034739016189903795}
-  - component: {fileID: 7392378652260616693}
   - component: {fileID: 6854673301849909312}
   m_Layer: 15
   m_Name: Large Storage Inventory
@@ -36979,53 +37033,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1073976444382258915}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &7392378652260616693
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7368582233856218148}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 79ee031677ca47e43a6111aa25475fe6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  <SlotsDisplayer>k__BackingField: {fileID: 6854673301849909312}
-  <Cells>k__BackingField:
-  - Item: {fileID: 0}
-    Count: 0
-  - Item: {fileID: 0}
-    Count: 0
-  - Item: {fileID: 0}
-    Count: 0
-  - Item: {fileID: 0}
-    Count: 0
-  - Item: {fileID: 0}
-    Count: 0
-  - Item: {fileID: 0}
-    Count: 0
-  - Item: {fileID: 0}
-    Count: 0
-  - Item: {fileID: 0}
-    Count: 0
-  - Item: {fileID: 0}
-    Count: 0
-  - Item: {fileID: 0}
-    Count: 0
-  - Item: {fileID: 0}
-    Count: 0
-  - Item: {fileID: 0}
-    Count: 0
-  - Item: {fileID: 0}
-    Count: 0
-  - Item: {fileID: 0}
-    Count: 0
-  - Item: {fileID: 0}
-    Count: 0
-  - Item: {fileID: 0}
-    Count: 0
-  _avaliableCells: []
 --- !u!114 &6854673301849909312
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -37038,8 +37045,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 27b2452a159531c428fc10eb4851c3e5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _slotsContainer: {fileID: 7392378652260616693}
-  _itemDisplayerPrefab: {fileID: 2785422814213238586, guid: 002d21339cd3c4b44b1ddac59aa8e5b6, type: 3}
   _cellDisplayers:
   - {fileID: 1628965803598869677}
   - {fileID: 5879890355438434397}
@@ -43056,8 +43061,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6448753774248196059}
-  - component: {fileID: 2798667544723828066}
-  - component: {fileID: 7090321956292487928}
   - component: {fileID: 6619159498466499290}
   - component: {fileID: 3748402607460523165}
   - component: {fileID: 4672773180525723128}
@@ -43083,149 +43086,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1073976444382258915}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2798667544723828066
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8753626650549579395}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 051a542b5d07b1344a73b2ac29bc2b0a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  <SlotsDisplayer>k__BackingField: {fileID: 7090321956292487928}
-  <Cells>k__BackingField:
-  - Item: {fileID: 0}
-    Count: 0
-  - Item: {fileID: 0}
-    Count: 0
-  - Item: {fileID: 0}
-    Count: 0
-  - Item: {fileID: 0}
-    Count: 0
-  - Item: {fileID: 0}
-    Count: 0
-  - Item: {fileID: 0}
-    Count: 0
-  - Item: {fileID: 0}
-    Count: 0
-  - Item: {fileID: 0}
-    Count: 0
-  - Item: {fileID: 0}
-    Count: 0
-  - Item: {fileID: 0}
-    Count: 0
-  - Item: {fileID: 0}
-    Count: 0
-  - Item: {fileID: 0}
-    Count: 0
-  - Item: {fileID: 0}
-    Count: 0
-  - Item: {fileID: 0}
-    Count: 0
-  - Item: {fileID: 0}
-    Count: 0
-  - Item: {fileID: 0}
-    Count: 0
-  - Item: {fileID: 0}
-    Count: 0
-  - Item: {fileID: 0}
-    Count: 0
-  - Item: {fileID: 0}
-    Count: 0
-  - Item: {fileID: 0}
-    Count: 0
-  - Item: {fileID: 0}
-    Count: 0
-  - Item: {fileID: 0}
-    Count: 0
-  - Item: {fileID: 0}
-    Count: 0
-  - Item: {fileID: 0}
-    Count: 0
-  - Item: {fileID: 0}
-    Count: 0
-  - Item: {fileID: 0}
-    Count: 0
-  - Item: {fileID: 0}
-    Count: 0
-  - Item: {fileID: 0}
-    Count: 0
-  - Item: {fileID: 0}
-    Count: 0
-  - Item: {fileID: 0}
-    Count: 0
-  - Item: {fileID: 0}
-    Count: 0
-  - Item: {fileID: 0}
-    Count: 0
-  - Item: {fileID: 0}
-    Count: 0
-  - Item: {fileID: 0}
-    Count: 0
-  - Item: {fileID: 0}
-    Count: 0
-  - Item: {fileID: 0}
-    Count: 0
-  - Item: {fileID: 0}
-    Count: 0
---- !u!114 &7090321956292487928
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8753626650549579395}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9d9a39657460a2547af406459c627dd8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _slotsContainer: {fileID: 2798667544723828066}
-  _itemDisplayerPrefab: {fileID: 2785422814213238586, guid: 002d21339cd3c4b44b1ddac59aa8e5b6, type: 3}
-  _cellDisplayers:
-  - {fileID: 5381854182452714639}
-  - {fileID: 6284509717006108134}
-  - {fileID: 6108950395377679089}
-  - {fileID: 7739468080459257020}
-  - {fileID: 4782792456846504308}
-  - {fileID: 6213447662962711811}
-  - {fileID: 2677838073946520252}
-  - {fileID: 3112649371141636009}
-  - {fileID: 1737952953985508131}
-  - {fileID: 6664344973878822052}
-  - {fileID: 6265462202365385385}
-  - {fileID: 8377364700248860761}
-  - {fileID: 5228942256591988734}
-  - {fileID: 5011273734712191493}
-  - {fileID: 8213743097306764667}
-  - {fileID: 1695078374721331906}
-  - {fileID: 2819716094334694220}
-  - {fileID: 3897978373687619126}
-  - {fileID: 272942846093277473}
-  - {fileID: 7825459176990020388}
-  - {fileID: 5920369149894593121}
-  - {fileID: 9007865340168390433}
-  - {fileID: 824945783673774731}
-  - {fileID: 1115205249885159005}
-  - {fileID: 8935889120312119184}
-  - {fileID: 4296814367656631618}
-  - {fileID: 6778619032697430137}
-  - {fileID: 6479868000102817350}
-  - {fileID: 5842641327163488619}
-  - {fileID: 6579706736932279076}
-  - {fileID: 2832787346295151575}
-  - {fileID: 294042131137917731}
-  - {fileID: 10733862188923860}
-  - {fileID: 3120209463752109016}
-  - {fileID: 8558392104302315857}
-  - {fileID: 815889834228284066}
-  - {fileID: 1961917353782348615}
-  _quickSlotsDisplayer: {fileID: 6619159498466499290}
-  _mainSlotsCount: 30
-  _armorCellsCount: 7
 --- !u!114 &6619159498466499290
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -43238,7 +43098,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ece5017d6deacdb4882eff3c7fa00ab2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _itemDisplayerPrefab: {fileID: 2785422814213238586, guid: 002d21339cd3c4b44b1ddac59aa8e5b6, type: 3}
   _quickSlots:
   - {fileID: 646927774684457119}
   - {fileID: 6843219382828488421}
@@ -43260,18 +43119,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <PlayerNetCode>k__BackingField: {fileID: -5502007171107923210}
   <Stats>k__BackingField: {fileID: 4901743657664774041}
-  <LootboxSlotsContainer>k__BackingField: {fileID: 6325019148786662960}
-  <LargeStorageSlotsContainer>k__BackingField: {fileID: 7392378652260616693}
-  <ToolClipboardSlotsContainer>k__BackingField: {fileID: 1009994045292498703}
-  <ShotGunSlotsContainer>k__BackingField: {fileID: 7722792179759809431}
-  <InventorySlotsContainer>k__BackingField: {fileID: 2798667544723828066}
-  <InventorySlotsDisplayer>k__BackingField: {fileID: 7090321956292487928}
   <PlayerObjectsPlacer>k__BackingField: {fileID: 7278581159367419240}
   <BuildingChooser>k__BackingField: {fileID: 6207217001499837402}
-  <CampFireSlotsContainer>k__BackingField: {fileID: 3957482385951624368}
-  <RecyclerSlotsContainer>k__BackingField: {fileID: 3385327417179132531}
   <InHandObjectsContainer>k__BackingField: {fileID: 470103304248853290}
   <ArmorsContainer>k__BackingField: {fileID: 2310418435352806697}
+  <ShotGunSlotsDisplayer>k__BackingField: {fileID: 6202778935547390316}
+  <InventorySlotsDisplayer>k__BackingField: {fileID: 2008585183341960447}
+  <ToolClipboardSlotsDisplayer>k__BackingField: {fileID: 4130789589656170864}
+  <LargeStorageSlotsDisplayer>k__BackingField: {fileID: 6854673301849909312}
+  <LootBoxSlotsDisplayer>k__BackingField: {fileID: 8976669236365155111}
+  <CampFireSlotsDisplayer>k__BackingField: {fileID: 3746317939516822040}
+  <RecyclerSlotsDisplayer>k__BackingField: {fileID: 4041470148071503336}
+  <CharacterInventory>k__BackingField: {fileID: 2013276024286378747}
   _mainButtonsPanel: {fileID: 6183554210065211811}
   _armorPanel: {fileID: 2433807667144239521}
   _lootBoxPanel: {fileID: 1009716068827005142}
@@ -43293,7 +43152,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 874a9761069c424469fdce20e27f041f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _playerInventory: {fileID: 2798667544723828066}
+  _playerInventory: {fileID: 0}
 --- !u!1 &8757162545809416227
 GameObject:
   m_ObjectHideFlags: 0
