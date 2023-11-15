@@ -10,8 +10,9 @@ public class ToolClipboard : Storage, ILockable
     public override void Open(InventoryHandler handler)
     {
         if (_doorLocker != null && !_doorLocker.CanBeOpened(UserDataHandler.singleton.UserData.Id)) return;
-        handler.ToolClipboardSlotsContainer.InitCells(Cells, this);
+        SlotsDisplayer = handler.ToolClipboardSlotsDisplayer;
         handler.OpenClipBoardPanel();
+        base.Open(handler);
     }
 
     #region ILockable

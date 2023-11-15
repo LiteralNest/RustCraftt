@@ -43,10 +43,11 @@ public static class InventoryHelper
         return -1;
     }
     
-    public static int GetDesiredCellId(int itemId, int count, List<InventoryCell> cells)
+    public static int GetDesiredCellId(int itemId, List<InventoryCell> cells)
     {
         for (int i = 0; i < cells.Count; i++)
         {
+            if (cells[i].Item == null) continue;
             if(cells[i].Item.Id == itemId)
                 return i;
         }

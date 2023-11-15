@@ -29,7 +29,7 @@ public class Ore : NetworkBehaviour
     protected void AddResourcesToInventory()
     {
         foreach(var slot in _resourceSlots)
-            InventoryHandler.singleton.InventorySlotsContainer.AddItemToDesiredSlot(slot.Resource, Random.Range(slot.CountRange.x, slot.CountRange.y + 1));
+            InventoryHandler.singleton.CharacterInventory.AddItemToDesiredSlotServerRpc(slot.Resource.Id, Random.Range(slot.CountRange.x, slot.CountRange.y + 1));
     }
     
     private async void CheckHp()

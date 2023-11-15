@@ -14,44 +14,43 @@ public abstract class Storage : NetworkBehaviour
 
     [Header("Test")] [SerializeField] private InventoryCell _testAddingCell;
 
-    #region abstract
-
-    public virtual void InitBox()
-    {
-        SaveNetData();
-    }
-
-    public virtual void CheckCells()
-    {
-    }
-
-    public abstract void Open(InventoryHandler handler);
-
-    #endregion
-
-    #region virtual
-
-    protected virtual void Appear()
-        => ActiveInvetoriesHandler.singleton.AddActiveInventory(this);
-
-    #endregion
-
     private void Awake()
         => _itemsNetData = new NetworkList<Vector2>();
 
     private void Start()
     {
-        Appear();
         gameObject.tag = "LootBox";
     }
 
+    #region virtual
+
+    public virtual void InitBox()
+        => SaveNetData();
+
+    public virtual void CheckCells()
+    {
+    }
+
+    public virtual void Open(InventoryHandler handler)
+    {
+        Appear();
+        SlotsDisplayer.AssignStorage(this);
+        SlotsDisplayer.InitCells();
+        SlotsDisplayer.DisplayCells();
+    }
+
+    protected virtual void Appear()
+        => ActiveInvetoriesHandler.singleton.AddActiveInventory(this);
+
+    #endregion
+    
     public override void OnNetworkSpawn()
     {
         if (IsServer)
             InitBox();
         else
             ConvertWebData();
-        _itemsNetData.OnListChanged += ConvertWebData;
+        // _itemsNetData.OnListChanged += ConvertWebData;
         base.OnNetworkSpawn();
     }
 
@@ -70,15 +69,16 @@ public abstract class Storage : NetworkBehaviour
             _itemsNetData[cellId] = new Vector2Int(itemId, count);
         ConvertWebData();
     }
-    
+
     [ServerRpc(RequireOwnership = false)]
-    public void SetItemToCellServerRpc(int cellId, int itemId, int count)
+    public void AddItemCountServerRpc(int cellId, int itemId, int count)
     {
         if (IsServer)
         {
-            _itemsNetData[cellId] = new Vector2Int(itemId,  (int)_itemsNetData[cellId].y);
+            _itemsNetData[cellId] = new Vector2Int(itemId, (int)_itemsNetData[cellId].y);
             _itemsNetData[cellId] += new Vector2Int(0, count);
         }
+
         ConvertWebData();
     }
 
@@ -109,6 +109,7 @@ public abstract class Storage : NetworkBehaviour
             InventoryHelper.AddItemToDesiredSlot(itemId, count, Cells);
             SaveNetData();
         }
+
         ConvertWebData();
     }
 
@@ -125,6 +126,7 @@ public abstract class Storage : NetworkBehaviour
     {
         Cells = CustomDataSerializer.GetConvertedCellsList(_itemsNetData);
         CheckCells();
+        if (SlotsDisplayer == null) return;
         SlotsDisplayer.DisplayCells();
     }
 
@@ -135,6 +137,15 @@ public abstract class Storage : NetworkBehaviour
 
     public virtual bool CanAddItem(Item item)
         => true;
+
+    protected void RemoveItem(Item item, int count)
+    {
+        for (int i = 0; i < Cells.Count; i++)
+        {
+            if (Cells[i].Item == item)
+                RemoveItemCountServerRpc(i, count);
+        }
+    }
 
     [ContextMenu("DebugNetCells")]
     private void DebugNetCells()

@@ -29,8 +29,9 @@ namespace Items_System.GunTrap
 
         public override void Open(InventoryHandler handler)
         {
-            handler.ShotGunSlotsContainer.InitCells(Cells, this);
+            base.Open(handler);
             handler.OpenShotGunPanel();
+            SlotsDisplayer = handler.ShotGunSlotsDisplayer;
         }
     }
 }

@@ -9,22 +9,20 @@ public class InventoryHandler : NetworkBehaviour
 
     [field: SerializeField] public PlayerNetCode PlayerNetCode { get; private set; }
     [field: SerializeField] public CharacterStats Stats { get; private set; }
-    [field: SerializeField] public StorageSlotsContainer LootboxSlotsContainer { get; private set; }
-    [field: SerializeField] public StorageSlotsContainer LargeStorageSlotsContainer { get; private set; }
-    [field: SerializeField] public StorageSlotsContainer ToolClipboardSlotsContainer { get; private set; }
-    [field: SerializeField] public StorageSlotsContainer ShotGunSlotsContainer { get; private set; }
-    [field: SerializeField] public SlotsContainer InventorySlotsContainer { get; private set; }
-    [field: SerializeField] public InventorySlotsDisplayer InventorySlotsDisplayer { get; private set; }
     [field: SerializeField] public PlayerObjectsPlacer PlayerObjectsPlacer { get; private set; }
     [field: SerializeField] public BuildingChooser BuildingChooser { get; private set; }
-    [field: SerializeField] public RecyclerSlotsContainer RecyclerSlotsContainer { get; private set; }
     [field: SerializeField] public InHandObjectsContainer InHandObjectsContainer { get; private set; }
     [field: SerializeField] public ArmorsContainer ArmorsContainer { get; private set; }
-    
-    [field:SerializeField] public InventoryItemsContainer InventoryItemsContainer { get; private set; }
-    [field:SerializeField] public SlotsDisplayer CampFireSlotsDisplayer { get; private set; }
-    [field:SerializeField] public Storage CharacterInventory { get; private set; }
-    
+
+    [field: SerializeField] public SlotsDisplayer ShotGunSlotsDisplayer { get; private set; }
+    [field: SerializeField] public InventorySlotsDisplayer InventorySlotsDisplayer { get; private set; }
+    [field: SerializeField] public SlotsDisplayer ToolClipboardSlotsDisplayer { get; private set; }
+    [field: SerializeField] public SlotsDisplayer LargeStorageSlotsDisplayer { get; private set; }
+    [field: SerializeField] public SlotsDisplayer LootBoxSlotsDisplayer { get; private set; }
+    [field: SerializeField] public SlotsDisplayer CampFireSlotsDisplayer { get; private set; }
+    [field: SerializeField] public SlotsDisplayer RecyclerSlotsDisplayer { get; private set; }
+    [field: SerializeField] public Storage CharacterInventory { get; private set; }
+
 
     [Header("UI")] [SerializeField] private GameObject _mainButtonsPanel;
     [SerializeField] private GameObject _armorPanel;
@@ -54,7 +52,7 @@ public class InventoryHandler : NetworkBehaviour
     }
 
     public void DisplayInventoryCells()
-        => InventorySlotsDisplayer.DisplayCells();
+        => CharacterInventory.Open(this);
 
     public void OpenArmorPanel()
     {
@@ -106,7 +104,7 @@ public class InventoryHandler : NetworkBehaviour
         _shotGunPanel.SetActive(false);
         _largeStoragePanel.SetActive(true);
     }
-    
+
     public void OpenClipBoardPanel()
     {
         HandleInventory(true);

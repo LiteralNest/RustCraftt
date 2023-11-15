@@ -42,8 +42,7 @@ public class CampFireHandler : Storage
     {
         handler.OpenCampFirePanel();
         SlotsDisplayer = handler.CampFireSlotsDisplayer;
-        SlotsDisplayer.AssignStorage(this);
-        SlotsDisplayer.DisplayCells();
+        base.Open(handler);
     }
 
     private void TurnFire()
@@ -96,15 +95,6 @@ public class CampFireHandler : Storage
         StartCoroutine(RemoveFuel(fuelIds[0]));
     }
 
-    private void RemoveItem(Item item, int count)
-    {
-        for (int i = 0; i < Cells.Count; i++)
-        {
-            if (Cells[i].Item == item)
-                RemoveItemCountServerRpc(i, count);
-        }
-    }
-    
     private List<InventoryCell> GetFood()
     {
         List<InventoryCell> res = new List<InventoryCell>();
@@ -123,10 +113,8 @@ public class CampFireHandler : Storage
         var foodList = GetFood();
         if (foodList.Count == 0) return;
         var food = foodList[0].Item as CookingCharacterStatRiser;
-        var bindedCellItemId = 
-        var bindedCell = InventoryHelper.GetDesiredCell(food.CharacterStatRiserAfterCooking.Id, 1, Cells);
-        if (bindedCell == null) return;
-        StartCoroutine(Cook(food, bindedCell.Id));
+        var bindedCellItemId = InventoryHelper.GetDesiredCellId(food.CharacterStatRiserAfterCooking.Id, Cells);
+        StartCoroutine(Cook(food, bindedCellItemId));
     }
 
     private IEnumerator Cook(CookingCharacterStatRiser characterStatRiser, int bindedCellId)
@@ -136,7 +124,7 @@ public class CampFireHandler : Storage
         if (Flaming.Value)
         {
             RemoveItem(_currentlyCookingCharacterStatRiser, 1);
-            SetItemServerRpc(bindedCellId, characterStatRiser.CharacterStatRiserAfterCooking.Id, 1);
+            AddItemCountServerRpc(bindedCellId, characterStatRiser.CharacterStatRiserAfterCooking.Id, 1);
         }
 
         _currentlyCookingCharacterStatRiser = null;

@@ -11,7 +11,11 @@ public class LootBox : Storage
         => GenerateCells();
 
     public override void Open(InventoryHandler handler)
-        => OpenBox(handler);
+    { 
+        handler.OpenLootBoxPanel();
+        SlotsDisplayer = handler.LootBoxSlotsDisplayer;
+        base.Open(handler);
+    }
     
     public override void CheckCells()
     {
@@ -41,11 +45,5 @@ public class LootBox : Storage
             Cells[i].Count = Random.Range(set.Items[i].MinimalCount, set.Items[i].MaximalCount + 1);
         }
         SaveNetData();
-    }
-
-    private void OpenBox(InventoryHandler handler)
-    {
-        handler.OpenLootBoxPanel();
-        handler.LootboxSlotsContainer.InitCells(Cells, this);
     }
 }

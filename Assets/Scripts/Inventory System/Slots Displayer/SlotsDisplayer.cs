@@ -4,7 +4,7 @@ using UnityEngine;
 
 public abstract class SlotsDisplayer : MonoBehaviour
 {
-    [SerializeField] public Storage TargetStorage;
+    public Storage TargetStorage { get; set; }
 
     [Header("Start Init")] [SerializeField]
     protected InventoryItemDisplayer _itemDisplayerPrefab;
@@ -19,10 +19,9 @@ public abstract class SlotsDisplayer : MonoBehaviour
     private void Start()
     {
         InitItems();
-        InitCells();
     }
     
-    private void InitCells()
+    public void InitCells()
     {
         for (int i = 0; i < _cellDisplayers.Count; i++)
             _cellDisplayers[i].Init(i, this, TargetStorage);

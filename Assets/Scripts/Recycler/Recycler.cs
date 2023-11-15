@@ -1,10 +1,13 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Unity.Netcode;
 using UnityEngine;
 
 [RequireComponent(typeof(BoxCollider))]
 public class Recycler : Storage
 {
+    public NetworkVariable<bool> Turned = new NetworkVariable<bool>(false);
+
     [Header("Main Params")] [SerializeField]
     private float _recyclingTime = 1;
     
@@ -14,8 +17,6 @@ public class Recycler : Storage
     [Header("Audio")]
     [SerializeField] private AudioSource _source;
     
-    private RecyclerSlotsContainer _recyclerSlotsContainer;
-    private bool _turned;
     private bool _recycling;
 
     private void Start()
@@ -23,18 +24,17 @@ public class Recycler : Storage
 
     private void Update()
     {
-        if(!_turned) return;
+        if(!Turned.Value) return;
         TryRecycle();
     }
 
     public override void Open(InventoryHandler handler)
     {
-        handler.RecyclerSlotsContainer.InitCells(Cells);
-        _recyclerSlotsContainer = handler.RecyclerSlotsContainer;
         handler.OpenRecyclerPanel();
-        _recyclerSlotsContainer.Init(this);
+        SlotsDisplayer = handler.RecyclerSlotsDisplayer;
+        base.Open(handler);
     }
-
+    
     private RecyclingItem GetRecyclingItemById(int id)
     {
         foreach (var item in _avaliableItems)
@@ -63,7 +63,7 @@ public class Recycler : Storage
         foreach (var cell in item.Cells)
         {
             var rand = Random.Range(cell.ItemsRange.x, cell.ItemsRange.y);
-            var desiredCell = 5 + InventoryHelper.GetDesiredCellId(cell.ResultItem.Id, rand, recyclingCells);
+            var desiredCell = 5 + InventoryHelper.GetDesiredCellId(cell.ResultItem.Id, recyclingCells);
             if (desiredCell == -1)
             {
                 _recycling = false;
@@ -72,12 +72,12 @@ public class Recycler : Storage
             SetItemServerRpc(desiredCell, cell.ResultItem.Id, rand);
         }
         RemoveItem(item, 1);
-        _recyclerSlotsContainer.InitCells(Cells);
         _recycling = false;
     }
 
     private void TryRecycle()
     {
+        if(!IsServer) return;
         if(_recycling) return;
         var cells = Cells.GetRange(0, 5);
         foreach (var cell in cells)
@@ -87,18 +87,21 @@ public class Recycler : Storage
             _recycling = true;
             return;
         }
-        SetTurned(false);
+        SetTurnedServerRpc(false);
     }
 
-    public void SetTurned(bool value)
+    [ServerRpc(RequireOwnership = false)]
+    public void SetTurnedServerRpc(bool value)
     {
-        _turned = value;
+        if (IsServer)
+        {
+            Turned.Value = value;
+        }
         _source.Play();
         if (!value)
         {
             _source.Stop();
             _recycling = value;
         }
-        _recyclerSlotsContainer.DisplayButtons(value);
     }
 }
