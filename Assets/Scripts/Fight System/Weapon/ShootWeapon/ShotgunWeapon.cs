@@ -1,6 +1,5 @@
 using Inventory_System.Inventory_Items_Displayer;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace Fight_System.Weapon.ShootWeapon
 {
@@ -26,11 +25,7 @@ namespace Fight_System.Weapon.ShootWeapon
             canShoot = true;
             currentAmmoCount = _startingAmmoCount;
         }
-
-        private void Update()
-        {
-            Recoil.UpdateRecoil(2f);
-        }
+        
 
         [ContextMenu("Shot")]
         private void TestShot() => Attack();
@@ -43,9 +38,9 @@ namespace Fight_System.Weapon.ShootWeapon
 
             var spawnPoint = AmmoSpawnPoint.position;
             var shootDirection = transform.forward;
-
+            StartCoroutine(DisplayFlameEffect()); // Start the coroutine
             SpreadShots(spawnPoint, shootDirection, _weaponAim.IsAiming ? _spreadRadiusFocus : _spreadRadiusNoFocus);
-            
+            AdjustRecoil();
             StartCoroutine(WaitBetweenShootsRoutine());
         }
 
@@ -70,9 +65,7 @@ namespace Fight_System.Weapon.ShootWeapon
                 var randomSpreadOffset3D = new Vector3(randomSpreadOffset.x, randomSpreadOffset.y, 0f);
 
                 var shootRay = new Ray(spawnPoint, (spreadDirection + randomSpreadOffset3D).normalized);
-
-                Recoil.ApplyRecoil(Weapon.RecoilX, Weapon.RecoilY, Weapon.RecoilZ);
-
+                
                 if (Physics.Raycast(shootRay, out var hit, Weapon.Range, TargetMask))
                 {
                     TryDamage(hit);

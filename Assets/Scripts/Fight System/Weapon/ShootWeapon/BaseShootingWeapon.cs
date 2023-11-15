@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.VFX;
 
 namespace Fight_System.Weapon.ShootWeapon
 {
@@ -15,7 +16,7 @@ namespace Fight_System.Weapon.ShootWeapon
         [SerializeField] protected WeaponSoundPlayer SoundPlayer;
         [SerializeField] protected Transform AmmoSpawnPoint;
         [SerializeField] protected GameObject ImpactEffect;
-        [SerializeField] protected GameObject FlameEffect;
+        [SerializeField] protected VisualEffect FlameEffect;
         [SerializeField] protected float FlameEffectDuration;
         [SerializeField] protected GameObject Decal;
         [SerializeField] protected LayerMask TargetMask;
@@ -29,6 +30,12 @@ namespace Fight_System.Weapon.ShootWeapon
 
         protected void Start()
             => canShoot = true;
+
+        private void Update()
+        {
+            // if(WeaponAim.IsAiming) Scope();
+            Recoil.UpdateRecoil(3f);
+        }
 
         protected bool CanShoot()
         {
@@ -98,9 +105,9 @@ namespace Fight_System.Weapon.ShootWeapon
 
         protected IEnumerator DisplayFlameEffect()
         {
-            FlameEffect.SetActive(true);
+            FlameEffect.Play();
             yield return new WaitForSeconds(FlameEffectDuration);
-            FlameEffect.SetActive(false);
+            FlameEffect.Stop();
         }
 
         protected IEnumerator WaitBetweenShootsRoutine()
@@ -114,6 +121,30 @@ namespace Fight_System.Weapon.ShootWeapon
         {
             if(!WeaponAim) return;
             WeaponAim.SetScope();
+        }
+
+        protected void AdjustRecoil()
+        {
+            var recoilX = Weapon.RecoilX;
+            var recoilY = Weapon.RecoilY;
+            var recoilZ = Weapon.RecoilZ;
+
+            if (WeaponAim && WeaponAim.IsAiming) 
+            {
+                // Reduce recoil by half when aiming
+                recoilX /= 4f;
+                recoilY /= 4f;
+                recoilZ /= 4f;
+
+                Recoil.ApplyRecoil(recoilX, recoilY, recoilZ);
+            }
+            else
+                Recoil.ApplyRecoil(recoilX, recoilY, recoilZ);
+        }
+
+        public void ResetRecoil()
+        {
+            Recoil.ResetRecoil();
         }
     }
 }

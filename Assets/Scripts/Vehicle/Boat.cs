@@ -24,7 +24,7 @@ namespace Vehicle
         private void SetVehicleRbOnGround()
         {
             VehicleRb.drag = _originalRb;
-            VehicleRb.mass = 0f;
+            // VehicleRb.mass = 0f;
         }
         public void Float(float waveHeight, bool statement)
         {

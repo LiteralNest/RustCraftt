@@ -1,11 +1,14 @@
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Fight_System.Weapon.ShootWeapon
 {
     public class WeaponAim : MonoBehaviour
     {
         [SerializeField] private Transform _weaponAimPosition;
-        [SerializeField] private WeaponSway _sway;
+        [SerializeField] private WeaponSway _weaponSway;
+        [FormerlySerializedAs("_weaponAimSway")] [SerializeField] private AimSway _aimSway;
+        
         [SerializeField] private float _aimSpeed = 5f;
 
         private Transform _transform;
@@ -23,14 +26,12 @@ namespace Fight_System.Weapon.ShootWeapon
 
         private void SetOnAimPosition()
         {
-            //Right now doesn`t work. When implementing logic with UI buttons, SetOnAimPosition() must called in Update
-            // _transform.localPosition = Vector3.Lerp(_transform.localPosition, _weaponAimPosition.localPosition, Time.deltaTime * _aimSpeed);
-            // _transform.localRotation = Quaternion.Lerp(_transform.localRotation, _weaponAimPosition.localRotation, Time.deltaTime * _aimSpeed);
-            
             _transform.localPosition = _weaponAimPosition.localPosition;
             _transform.localRotation = _weaponAimPosition.localRotation;
+            
+            _weaponSway.enabled = false;
+            _aimSway.enabled = true;
 
-            _sway.enabled = false;
             IsAiming = true;
         }
 
@@ -39,7 +40,9 @@ namespace Fight_System.Weapon.ShootWeapon
             _transform.localPosition = _originalPosition;
             _transform.localRotation = _originalRotation;
 
-            _sway.enabled = true;
+            _weaponSway.enabled = true;
+            _aimSway.enabled = false;
+            
             IsAiming = false;
         }
 

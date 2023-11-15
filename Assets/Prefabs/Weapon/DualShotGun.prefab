@@ -165,7 +165,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &6408369540757439811
 Transform:
   m_ObjectHideFlags: 0
@@ -190,8 +190,8 @@ VisualEffect:
   m_GameObject: {fileID: 6079045093598624485}
   m_Enabled: 1
   m_Asset: {fileID: 8926484042661614526, guid: 21a21ef823a8d1646b5b2b9740c4163f, type: 3}
-  m_InitialEventName: OnPlay
-  m_InitialEventNameOverriden: 0
+  m_InitialEventName: 
+  m_InitialEventNameOverriden: 1
   m_StartSeed: 0
   m_ResetSeedOnPlay: 1
   m_AllowInstancing: 1
@@ -218,7 +218,10 @@ VisualEffect:
     m_NamedObject:
       m_Array: []
     m_Bool:
-      m_Array: []
+      m_Array:
+      - m_Value: 0
+        m_Name: Periodic
+        m_Overridden: 1
 --- !u!73398921 &2951459531304211790
 VFXRenderer:
   serializedVersion: 1
@@ -227,7 +230,7 @@ VFXRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6079045093598624485}
-  m_Enabled: 0
+  m_Enabled: 1
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1
@@ -274,6 +277,7 @@ GameObject:
   - component: {fileID: 2376439954373231195}
   - component: {fileID: 6991838979662379029}
   - component: {fileID: 47196937436495918}
+  - component: {fileID: 6286108350076164310}
   m_Layer: 0
   m_Name: DualShotGun
   m_TagString: Untagged
@@ -330,13 +334,13 @@ MonoBehaviour:
   SoundPlayer: {fileID: 3256413756294790555}
   AmmoSpawnPoint: {fileID: 5543256348078691673}
   ImpactEffect: {fileID: 4933617279253083442}
-  FlameEffect: {fileID: 6079045093598624485}
+  FlameEffect: {fileID: 5655447139047417293}
   FlameEffectDuration: 1
   Decal: {fileID: 1305036650871697919, guid: 74feb497a20face4e89facba0677d7ab, type: 3}
   TargetMask:
     serializedVersion: 2
     m_Bits: 1083211959
-  Weapon: {fileID: 11400000, guid: a4b678a2268fe46b38029350dd4df310, type: 2}
+  Weapon: {fileID: 11400000, guid: ff489915aee544cddbb847f9c5db7ac7, type: 2}
   _weaponAim: {fileID: 6991838979662379029}
   _pelletCount: 12
   _spreadRadiusNoFocus: 0.09
@@ -386,7 +390,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _weaponAimPosition: {fileID: 0}
-  _sway: {fileID: 2376439954373231195}
+  _weaponSway: {fileID: 2376439954373231195}
+  _aimSway: {fileID: 6286108350076164310}
   _aimSpeed: 5
 --- !u!82 &47196937436495918
 AudioSource:
@@ -484,3 +489,23 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &6286108350076164310
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7213947642032504677}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 20201d759c124bc29a8d028a4fc44575, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _swayAmount: 1
+  _maxSwayAmount: 0.14
+  _swayXBounds: 0.003
+  _swayYBounds: 0.003
+  _smoothFactor: 1
+  _rotationAmount: 3.5
+  _maxRotation: 6
+  _returnSpeed: 4
