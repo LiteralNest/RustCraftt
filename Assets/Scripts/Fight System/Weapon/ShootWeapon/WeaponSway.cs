@@ -18,7 +18,7 @@ namespace Fight_System.Weapon.ShootWeapon
         [SerializeField] private float _rotationAmount = 3.5f;
         [Header("Adjust how much the weapon sways")]
         [SerializeField] private float _maxRotation = 6.0f;
-        [Header("Maximum rotation amount")]
+        [Header("Return speed at previous position")]
         [SerializeField] private float _returnSpeed = 4f;
 
         private Vector3 _initialPosition;

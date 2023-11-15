@@ -15,6 +15,8 @@ namespace Fight_System.Weapon.ShootWeapon
 
         [Header("Smoothing factor for sway")]
         [SerializeField] private float _smoothFactor = 2f;
+        [Header("Return speed at previous position")]
+        [SerializeField] private float _returnSpeed = 4f;
 
         private Vector3 _initialPosition;
         private Vector2 _previousTouchPosition;
@@ -46,7 +48,7 @@ namespace Fight_System.Weapon.ShootWeapon
             else
             {
                 transform.localPosition =
-                    Vector3.Lerp(transform.localPosition, _initialPosition, Time.deltaTime * _smoothFactor);
+                    Vector3.Lerp(transform.localPosition, _initialPosition, Time.deltaTime * _returnSpeed);
             }
         }
     }

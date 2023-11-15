@@ -7,15 +7,10 @@ namespace Fight_System.Weapon.ShootWeapon
     {
         private Vector3 _currentRotation;
         private Quaternion _originalRotation;
-
-        private void Start()
-        {
-            _originalRotation = transform.localRotation;
-        }
-
-   
         public void ApplyRecoil(float recoilX, float recoilY, float recoilZ)
         {
+            _originalRotation = transform.localRotation;
+            
             _currentRotation += new Vector3(recoilX, recoilY, recoilZ);
             
             _currentRotation.x = Mathf.Clamp(_currentRotation.x, -3f, 3f);
@@ -23,8 +18,6 @@ namespace Fight_System.Weapon.ShootWeapon
             _currentRotation.z = Mathf.Clamp(_currentRotation.z, -5f, 5f);
             
             transform.localRotation = new Quaternion(_currentRotation.x, _currentRotation.y, _currentRotation.z, 0.5f);
-            
-            Debug.Log("x" +_currentRotation.x + " " + "y" + _currentRotation.y + " " + "z"+ _currentRotation.z);
         }
 
         public void UpdateRecoil(float returnSpeed)
