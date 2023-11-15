@@ -8,6 +8,8 @@ namespace Inventory_System.Inventory_Slot_Displayers
     {
         [SerializeField] private Image _hpBar;
         private DamagableItem _currentItem;
+        private int cellIndex;
+
         public override void DisplayData()
         {
             if (InventoryCell.Item == null) return;
@@ -15,27 +17,38 @@ namespace Inventory_System.Inventory_Slot_Displayers
             if (InventoryCell.Hp <= 0)
             {
                 InventoryCell.Hp = item.Hp;
-                _storage.SetItemServerRpc(PreviousCell.Index, InventoryCell.Item.Id, InventoryCell.Count, InventoryCell.Hp, true, false);
+                _storage.SetItemServerRpc(PreviousCell.Index, InventoryCell.Item.Id, InventoryCell.Count,
+                    InventoryCell.Hp, true, false);
             }
+
             _currentItem = item;
             DisplayBar(InventoryCell.Hp);
         }
-
+        
         public void DisplayBar(int hp)
             => _hpBar.fillAmount = (float)hp / _currentItem.Hp;
-        
-        public void MinusCurrentHp(int hp)
+
+        public override void MinusCurrentHp(int hp)
         {
             InventoryCell.Hp -= hp;
-            _storage.SetItemServerRpc(PreviousCell.Index, InventoryCell.Item.Id, InventoryCell.Count, InventoryCell.Hp, true, false);
-            DisplayBar(InventoryCell.Hp);
+
+            if (_storage != null)
+            {
+                InventoryHandler.singleton.CharacterInventory.SetItemServerRpc(cellIndex, InventoryCell.Item.Id,
+                    InventoryCell.Count, InventoryCell.Hp, true, false);
+                DisplayBar(InventoryCell.Hp);
+            }
         }
 
-        public void AddCurrentHp(int hp)
+        public override void AddCurrentHp(int hp)
         {
             InventoryCell.Hp += hp;
-            _storage.SetItemServerRpc(PreviousCell.Index, InventoryCell.Item.Id, InventoryCell.Count, InventoryCell.Hp, true, false);
-            DisplayBar(InventoryCell.Hp);
+            if (_storage != null)
+            {
+                InventoryHandler.singleton.CharacterInventory.SetItemServerRpc(PreviousCell.Index,
+                    InventoryCell.Item.Id, InventoryCell.Count, InventoryCell.Hp, true, false);
+                DisplayBar(InventoryCell.Hp);
+            }
         }
 
         [ContextMenu("Test Minusing Hp")]

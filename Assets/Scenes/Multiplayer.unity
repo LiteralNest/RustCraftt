@@ -1991,7 +1991,7 @@ GameObject:
   - component: {fileID: 594202890}
   - component: {fileID: 594202889}
   m_Layer: 0
-  m_Name: Inventory Cells Handler
+  m_Name: Inventory Cells Selector
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -9998,6 +9998,66 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 6656891269696423355, guid: 9f4077a86f5afe74eb65591607fdf1df, type: 3}
   m_PrefabInstance: {fileID: 2117362259}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &2119054742
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2119054745}
+  - component: {fileID: 2119054744}
+  - component: {fileID: 2119054743}
+  m_Layer: 0
+  m_Name: FireBase Logic
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &2119054743
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2119054742}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2f824835871ca7840afa90827906eff3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <UserData>k__BackingField:
+    Id: 0
+    Name: 
+--- !u!114 &2119054744
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2119054742}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 94c8a08f1208fcf4781296588415d50c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &2119054745
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2119054742}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 4227.5776, y: 1781.1173, z: -12.94605}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &2133985894
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -10663,3 +10723,4 @@ SceneRoots:
   - {fileID: 1204544167}
   - {fileID: 62664473}
   - {fileID: 781274952}
+  - {fileID: 2119054745}

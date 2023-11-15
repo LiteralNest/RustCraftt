@@ -34,5 +34,6 @@ public class QuickSlotDisplayer : MonoBehaviour
         if (cell == null) return;
         var item = cell.Item;
         item.Click(this, _inventoryHandler);
+        InventoryHandler.singleton.ActiveItemDisplayer = ItemDisplayer;
     }
 }

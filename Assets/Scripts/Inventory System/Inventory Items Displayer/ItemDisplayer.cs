@@ -15,6 +15,9 @@ public abstract class ItemDisplayer : MonoBehaviour
     public InventoryCell InventoryCell { get; protected set; }
     public SlotDisplayer PreviousCell { get; protected set; }
 
+    public virtual void MinusCurrentHp(int hp){}
+    public virtual void AddCurrentHp(int hp){}
+
     public void SetInventoryCell(InventoryCell inventoryCell)
     {
         InventoryCell = inventoryCell;
