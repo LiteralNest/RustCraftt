@@ -1,6 +1,4 @@
-using System;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace Vehicle
 {
@@ -48,8 +46,8 @@ namespace Vehicle
 
         public void Move(Vector2 moveInput)
         {
-            float forwardMovement = Mathf.Clamp(moveInput.y, 0, 1f);
-            var movement = new Vector3(0f, 0f, forwardMovement);
+            var forwardMovement = Mathf.Clamp(moveInput.y, 0, 1f);
+            var movement = new Vector3(forwardMovement,0f, 0f);
             var rotation = moveInput.x * RotationSpeed * Time.fixedDeltaTime;
 
             transform.Rotate(0f, rotation, 0f);
