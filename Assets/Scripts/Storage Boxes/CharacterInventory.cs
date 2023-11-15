@@ -1,3 +1,5 @@
+using Storage_Boxes;
+
 public class CharacterInventory : Storage
 {
     protected override void Appear()

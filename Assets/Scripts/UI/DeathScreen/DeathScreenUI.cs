@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Character_Stats;
+using PlayerDeathSystem;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -11,9 +12,6 @@ namespace UI.DeathScreen
     {
         [SerializeField] private UnityEngine.InputSystem.PlayerInput _input;
         [SerializeField] private GameObject _gameHUD;
-
-        private List<Transform> _spawnPoints = new List<Transform>();
-
         private void Awake()
         {
             gameObject.SetActive(false);
@@ -23,14 +21,14 @@ namespace UI.DeathScreen
         {
             _gameHUD.SetActive(false);
             _input.DeactivateInput();
-            _spawnPoints = CharacterSpawnManager.Instance.GetSpawnPoints();
         }
 
         public void Respawn()
         {
-            var selectedSpawnPoint = _spawnPoints[Random.Range(0, _spawnPoints.Count)];
+            var spawnPoints = PlayerRespawnManager.Instance.GetSpawnPoints();
+            var selectedSpawnPoint = spawnPoints[Random.Range(0, spawnPoints.Count)];
 
-            CharacterSpawnManager.Instance.OnSpawnPointSelected(selectedSpawnPoint.gameObject);
+            PlayerRespawnManager.Instance.OnSpawnPointSelected(selectedSpawnPoint.gameObject);
             CharacterStats.Singleton.ResetStatsToDefault();
             _input.ActivateInput();
             _gameHUD.SetActive(true);

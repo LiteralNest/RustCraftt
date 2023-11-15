@@ -1,3 +1,5 @@
+using Storage_Boxes;
+
 namespace Items_System.GunTrap
 {
     public class GunTrapAmmo : Storage

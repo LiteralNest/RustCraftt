@@ -27,10 +27,4 @@ public class ResourceOre : Ore
         MinusHpServerRpc();
         destroyed = _currentHp.Value <= 0;
     }
-
-    [ContextMenu("Test RPC")]
-    private void TestRpc()
-    {
-        MinusHpServerRpc();
-    }
 }

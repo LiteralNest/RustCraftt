@@ -1,25 +1,25 @@
- using System.Collections.Generic;
- using Player_Controller;
- using UnityEngine;
-using Random = UnityEngine.Random;
+using System.Collections.Generic;
+using Player_Controller;
+using UnityEngine;
+using UnityEngine.Serialization;
 
- namespace Character_Stats
+namespace PlayerDeathSystem
  {
-
-     public class CharacterSpawnManager : MonoBehaviour
+     public class PlayerRespawnManager : MonoBehaviour
      {
+         public static PlayerRespawnManager Instance { get; private set; }
+         
          [SerializeField] private int _numberOfSpawnPoints = 10;
-         [SerializeField] private GameObject _backpackPrefab;
+         [FormerlySerializedAs("_playersBackPackGenerator")] [SerializeField] private PlayerBackPackGenerator playerBackPackGenerator;
+
          private readonly List<Transform> _spawnPoints = new();
          private Transform _lastPlayerTransform;
-         
-         public static CharacterSpawnManager Instance { get; private set; }
 
          private void Awake()
          {
              Instance = this;
              GenerateSpawnPoints();
-             // GlobalEventsContainer.PlayerDied += OnPlayerDeath;
+             GlobalEventsContainer.PlayerDied += OnPlayerDeath;
          }
 
          private void GenerateSpawnPoints()
@@ -58,17 +58,15 @@ using Random = UnityEngine.Random;
          //Spawn lootbox on the place of death
          public void OnPlayerDeath()
          {
+             Time.timeScale = 1;
              _lastPlayerTransform = PlayerNetCode.Singleton.transform;
              var playerTransform = _lastPlayerTransform;
-
-             var cube = Instantiate(_backpackPrefab, playerTransform.position, playerTransform.rotation);
-
-             var cubeRigidbody = cube.GetComponent<Rigidbody>();
-             cubeRigidbody.isKinematic = true;
+             playerBackPackGenerator.GenerateBackPack(playerTransform);
          }
 
          public void RespawnPlayer(Transform respawnPoint)
          {
+             PlayerNetCode.Singleton.EnableColliders(true);
              var playerTransform = PlayerNetCode.Singleton.transform;
              playerTransform.position = respawnPoint.position;
 

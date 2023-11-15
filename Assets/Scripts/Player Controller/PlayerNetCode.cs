@@ -12,7 +12,10 @@ namespace Player_Controller
         public static PlayerNetCode Singleton { get; private set; }
     
         private NetworkVariable<ulong> _gettedClientId = new NetworkVariable<ulong>();
-    
+
+        [Header("Attached Components")] [SerializeField]
+        private List<Collider> _colliders;
+        
         [Header("In Hand Items")]
         public NetworkVariable<int> ActiveItemId = new NetworkVariable<int>();
         [SerializeField] private InHandObjectsContainer _inHandObjectsContainer;
@@ -32,13 +35,12 @@ namespace Player_Controller
         private void OnDisable()
             => GlobalEventsContainer.ShouldDisplayHandItem -= SendChangeInHandItem;
 
-        private void Start()
+        public void EnableColliders(bool value)
         {
-#if UNITY_SERVER
-        WebServerDataHandler.singleton.RegistrateNewUser();
-#endif
+            foreach (var collider in _colliders)
+                collider.enabled = value;
         }
-
+        
         public override void OnNetworkSpawn()
         {
             if (IsOwner)

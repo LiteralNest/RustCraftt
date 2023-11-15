@@ -1,15 +1,15 @@
+using Player_Controller;
 using Unity.Netcode;
 using UnityEngine;
 
-namespace Character_Stats
+namespace PlayerDeathSystem
 {
     public class PlayerDeath : NetworkBehaviour
     {
         [SerializeField] private CharacterStats _characterStats;
         [SerializeField] private GameObject _deathScreen;
         [SerializeField] private GameObject _knockDownScreen;
-        
-        
+
         private void Start()
         {
             GlobalEventsContainer.PlayerDied += OnPlayerDeath;
@@ -35,12 +35,10 @@ namespace Character_Stats
         }
         private void OnPlayerDeath()
         {
-            var healt = _characterStats.Health;
-            if (healt <= 0)
-            {
-                _knockDownScreen.SetActive(false);
-                _deathScreen.SetActive(true);
-            }
+            _knockDownScreen.SetActive(false);
+            _deathScreen.SetActive(true);
+            _deathScreen.SetActive(true);
+            PlayerNetCode.Singleton.EnableColliders(false);
         }
     }
 }

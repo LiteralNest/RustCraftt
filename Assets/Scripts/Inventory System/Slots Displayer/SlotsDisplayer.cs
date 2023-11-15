@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using ArmorSystem.UI;
+using Storage_Boxes;
 using UnityEngine;
 
 public abstract class SlotsDisplayer : MonoBehaviour
