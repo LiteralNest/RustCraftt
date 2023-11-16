@@ -58,11 +58,12 @@ namespace Storage_Boxes
         }
 
         [ServerRpc(RequireOwnership = false)]
-        public void ResetItemServerRpc(int id)
+        public void ResetItemServerRpc(int id, bool shouldConvertData = true)
         {
             if (IsServer)
                 ItemsNetData[id] = new Vector3Int(-1, 0, -1);
-            ConvertWebData();
+            if(shouldConvertData)
+                ConvertWebData();
         }
 
         [ServerRpc(RequireOwnership = false)]

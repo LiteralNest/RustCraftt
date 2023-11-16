@@ -15,6 +15,7 @@ public class MainUiHandler : MonoBehaviour
     [SerializeField] private GameObject _scopeButton;
     [SerializeField] private GameObject _throwingAimButton;
     [SerializeField] private GameObject _meleeThrowButton;
+    [SerializeField] private GameObject _throwExplosiveButton;
 
     private void OnEnable()
     {
@@ -30,7 +31,7 @@ public class MainUiHandler : MonoBehaviour
         GlobalEventsContainer.ShouldHandleScope += DisplayScope;
         GlobalEventsContainer.ShouldHandleScopeSpear += DisplayThrowingButton;
         GlobalEventsContainer.ThrowMeleeButtonActivated += ActivateMeleeThrowButton;
-
+        GlobalEventsContainer.ShouldDisplayThrowButton += ActivateThrowButton;
     }
 
     private void OnDisable()
@@ -47,6 +48,7 @@ public class MainUiHandler : MonoBehaviour
         GlobalEventsContainer.ShouldHandleScope -= DisplayScope;
         GlobalEventsContainer.ShouldHandleScopeSpear -= DisplayThrowingButton;
         GlobalEventsContainer.ThrowMeleeButtonActivated -= ActivateMeleeThrowButton;
+        GlobalEventsContainer.ShouldDisplayThrowButton -= ActivateThrowButton;
     }
 
     private void ActivateMeleeThrowButton(bool value)
@@ -57,11 +59,11 @@ public class MainUiHandler : MonoBehaviour
 
     private void DisplayThrowingButton(bool value)
         => _throwingAimButton.SetActive(value);
-    
+
     private void DisplayScope(bool value)
         => _scopeButton.SetActive(value);
 
-        private void DisplayBuildingStaffPanel(bool value)
+    private void DisplayBuildingStaffPanel(bool value)
         => _buildingStaffPanel.SetActive(value);
 
     private void DisplayBuildingChoosingPanel(bool value)
@@ -75,7 +77,7 @@ public class MainUiHandler : MonoBehaviour
 
     private async void ActivateGatherButtonActivated(bool value)
     {
-        if(value)
+        if (value)
             await Task.Delay(100);
         _gatherButton.SetActive(value);
     }
@@ -91,4 +93,7 @@ public class MainUiHandler : MonoBehaviour
 
     private void ActivatePlacingPanel(bool value)
         => _placingPanel.SetActive(value);
+
+    private void ActivateThrowButton(bool value)
+        => _throwExplosiveButton.SetActive(value);
 }

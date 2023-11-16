@@ -39,7 +39,9 @@ public static class GlobalEventsContainer
     public static Action<bool> ShouldHandleScope { get; set; }
     public static Action<bool> ShouldHandleScopeSpear { get; set; }
     
-    
+    public static Action<bool> ShouldDisplayThrowButton { get; set; }
+
+
     #region Building Hammer
 
     public static Action<bool> BuildingHammerActivated { get; set; }

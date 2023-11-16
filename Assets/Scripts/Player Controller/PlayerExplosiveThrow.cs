@@ -1,26 +1,36 @@
+using Multiplayer.Multiplay_Instances;
+using Unity.Netcode;
 using UnityEngine;
 
-public class PlayerExplosiveThrow : MonoBehaviour
+public class PlayerExplosiveThrow : NetworkBehaviour
 {
-    [SerializeField] private GameObject _explosivePrefab;
-    [SerializeField] private GameObject _landminePrefab;
+    public static PlayerExplosiveThrow singleton { get; private set; }
+    
     [SerializeField] private Transform _spawnPoint;
     [SerializeField] private float _throwForce = 10f;
 
-    private void SpawnAndThrowExplosive(GameObject obj)
-    {
-        var explosive = Instantiate(obj, _spawnPoint.position, Quaternion.identity);
-        var rb = explosive.GetComponent<Rigidbody>();
+    private int _currentId = -1;
+    
+    private void Awake()
+        => singleton = this;
 
+    public void SetCurrentId(int id)
+        => _currentId = id;
+
+    public void TryThrow()
+    {
+        if(_currentId == -1) return;
+        SpawnAndThrowExplosiveServerRpc(_spawnPoint.position);
+    } 
+    
+    [ServerRpc(RequireOwnership = false)]
+    private void SpawnAndThrowExplosiveServerRpc(Vector3 position)
+    {
+        if(!IsServer) return;
+        var obj = MultiplayObjectsPool.singleton.GetMultiplayInstanceIdById(_currentId).gameObject;
+        var explosive = Instantiate(obj, position, Quaternion.identity);
+        explosive.GetComponent<NetworkObject>().Spawn(true);
+        var rb = explosive.GetComponent<Rigidbody>();
         if (rb != null) rb.AddForce(transform.forward * _throwForce, ForceMode.Impulse);
     }
-
-    // private void OnGUI()
-    // {
-    //     if (GUI.Button(new Rect(Screen.width - 500, Screen.height / 2 - 25, 200, 100), "Explosive"))
-    //         SpawnAndThrowExplosive(_explosivePrefab);
-    //     
-    //     if (GUI.Button(new Rect(Screen.width - 500, Screen.height / 2 + 100, 200, 100), "Mine"))
-    //         SpawnAndThrowExplosive(_landminePrefab);
-    // }
 }

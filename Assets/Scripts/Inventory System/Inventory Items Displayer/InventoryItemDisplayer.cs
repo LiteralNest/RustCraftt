@@ -7,11 +7,11 @@ namespace Inventory_System.Inventory_Items_Displayer
     public class InventoryItemDisplayer : ItemDisplayer, IBeginDragHandler, IDragHandler, IEndDragHandler
     {
         protected Storage _storage;
-    
+        
         public void OnBeginDrag(PointerEventData eventData)
         {
             if (!GlobalValues.CanDragInventoryItems) return;
-            _storage.ResetItemServerRpc(PreviousCell.Index);
+            _storage.ResetItemServerRpc(PreviousCell.Index, false);
             PreviousCell.ResetItemWhileDrag();
             _countText.gameObject.SetActive(false);
             transform.SetParent(transform.root);
