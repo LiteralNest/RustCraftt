@@ -6,6 +6,7 @@ namespace Character_Stats
     public class CharacterHpHandler : NetworkBehaviour, IDamagable
     {
         [SerializeField] private CharacterStats _characterStats;
+        [SerializeField] private CameraShake _cameraShake;
 
         private ushort _defaultHp;
 
@@ -31,5 +32,11 @@ namespace Character_Stats
         }
         
         public void Destroy(){}
+
+        public void Shake()
+        {
+            if(!_cameraShake) return;
+            _cameraShake.StartShake(0.5f, 0.1f);
+        }
     }
 }

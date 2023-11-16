@@ -54,6 +54,11 @@ namespace AI
             Destroy(gameObject);
         }
 
+        public void Shake()
+        {
+            
+        }
+
         #endregion
     }
 }

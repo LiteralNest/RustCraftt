@@ -122,6 +122,11 @@ public class BuildingBlock : NetworkBehaviour, IDamagable, IHammerInteractable
     public void Destroy()
         => DestroyAsync();
 
+    public void Shake()
+    {
+        
+    }
+
     public bool CanBeUpgraded()
     {
         if(!MaxHp()) return false;

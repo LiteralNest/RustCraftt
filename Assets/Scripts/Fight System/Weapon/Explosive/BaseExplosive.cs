@@ -1,12 +1,18 @@
+using System.Threading.Tasks;
+using Unity.Netcode;
 using UnityEngine;
 
-public abstract class BaseExplosive : MonoBehaviour
+public abstract class BaseExplosive : NetworkBehaviour
 {
-    [SerializeField] protected float _explosionRadius = 5f;
-    [SerializeField] protected float _maxDamage = 50f;
-    
+    [Header("Attached Scripts")]
     [SerializeField] protected AudioSource _explosiveSource;
     [SerializeField] protected AudioClip _explosiveClip;
+    [SerializeField] private GameObject _model;
+    [SerializeField] private GameObject _explosionVfx;
+    
+    [Header("Main Params")]
+    [SerializeField] protected float _explosionRadius = 5f;
+    [SerializeField] protected float _maxDamage = 50f;
 
     [SerializeField] protected float shakeDuration = 0.5f;
     [SerializeField] protected float shakeMagnitude = 0.2f;
@@ -25,7 +31,7 @@ public abstract class BaseExplosive : MonoBehaviour
         _camera = Camera.main;
     }
 
-    protected void Explode()
+    private void DamageObjects()
     {
         if (_hasExploded) return;
         _hasExploded = true;
@@ -40,17 +46,14 @@ public abstract class BaseExplosive : MonoBehaviour
             var distance = Vector3.Distance(transform.position, _colliders[i].transform.position);
             var damage = Mathf.Lerp(_maxDamage, 0f, distance / _explosionRadius);
             damageable.GetDamage((int)damage);
+            damageable.Shake();
         }
-
-        PlaySound();
-        ShakeCamera();
-
-        Destroy(gameObject);
     }
 
-    protected void PlaySound()
+    private async Task PlaySound()
     {
-        _explosiveSource.PlayOneShot(_explosiveClip); 
+        _explosiveSource.PlayOneShot(_explosiveClip);
+        await Task.Delay((int)(_explosiveClip.length * 1000));
     }
 
     protected void ShakeCamera()
@@ -60,4 +63,19 @@ public abstract class BaseExplosive : MonoBehaviour
             _cameraShake.StartShake(shakeDuration, shakeMagnitude);
         }
     }
+    
+    private async void Explode()
+    {
+        _explosionVfx.SetActive(true);
+        DamageObjects();
+        _model.SetActive(false);
+        await PlaySound();
+        Destroy(gameObject);
+        if (IsServer)
+            GetComponent<NetworkObject>().Despawn();
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    protected void ExplodeServerRpc()
+        => Explode();
 }

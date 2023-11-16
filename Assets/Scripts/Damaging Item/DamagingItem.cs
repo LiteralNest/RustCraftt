@@ -50,7 +50,12 @@ public class DamagingItem : NetworkBehaviour, IDamagable
       _canGetDamage = false;
       EnableRenderers(false);
    }
-   
+
+   public void Shake()
+   {
+      
+   }
+
    [ServerRpc(RequireOwnership = false)]
    private void GetDamageServerRpc(int damage)
    {

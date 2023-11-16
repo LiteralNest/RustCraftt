@@ -74,7 +74,7 @@ namespace Player_Controller
     
         private async void AssignName()
         {
-            string name = await WebUserDataHandler.singleton.GetUserValueById(_playerId.Value);
+            string name = UserDataHandler.singleton.UserData.Name;
             foreach (var nickNameText in _nickNameTexts)
                 nickNameText.text = name;
         }

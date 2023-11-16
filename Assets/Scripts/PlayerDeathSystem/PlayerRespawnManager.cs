@@ -31,6 +31,7 @@ namespace PlayerDeathSystem
                  Vector3 randomSpawnPoint = new Vector3(Random.Range(-10f, 10f), 0f, Random.Range(-10f, 10f));
                  GameObject spawnPointObject = new GameObject("SpawnPoint" + i);
                  spawnPointObject.transform.position = randomSpawnPoint;
+                 spawnPointObject.transform.SetParent(transform);
                  _spawnPoints.Add(spawnPointObject.transform);
              }
          }
@@ -61,7 +62,7 @@ namespace PlayerDeathSystem
              Time.timeScale = 1;
              _lastPlayerTransform = PlayerNetCode.Singleton.transform;
              var playerTransform = _lastPlayerTransform;
-             playerBackPackGenerator.GenerateBackPack(playerTransform);
+             playerBackPackGenerator.GenerateBackPackServerRpc(playerTransform.position);
          }
 
          public void RespawnPlayer(Transform respawnPoint)

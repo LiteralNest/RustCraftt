@@ -1,15 +1,20 @@
+using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.Serialization;
 
 namespace PlayerDeathSystem
 {
-   public class PlayerBackPackGenerator : MonoBehaviour
+   public class PlayerBackPackGenerator : NetworkBehaviour
    {
       [FormerlySerializedAs("_backPackPref")] [SerializeField] private PlayerBackPack playerBackPackPref;
    
-      public void GenerateBackPack(Transform place)
+      [ServerRpc(RequireOwnership = false)]
+      public void GenerateBackPackServerRpc(Vector3 position)
       {
-         var backPack = Instantiate(playerBackPackPref, place.position, place.rotation); //Переписати під мультиплеєр
+         if(!IsServer) return;
+
+         var backPack = Instantiate(playerBackPackPref, position, Quaternion.identity);
+         backPack.GetComponent<NetworkObject>().Spawn();
          var playerInv = InventoryHandler.singleton.CharacterInventory;
          backPack.AssignCells(playerInv.ItemsNetData);
          playerInv.ResetItemsServerRpc();

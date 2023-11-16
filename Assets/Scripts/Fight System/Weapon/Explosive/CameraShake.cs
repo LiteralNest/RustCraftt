@@ -5,8 +5,8 @@ public class CameraShake : MonoBehaviour
     private Transform _transform;
     private Vector3 _originalPosition;
 
-    private float _shakeDuration = 1f;
-    private float _shakeMagnitude = 0.7f;
+    private float _shakeDuration;
+    private float _shakeMagnitude;
     private float _dampingSpeed = 1.0f;
 
     private void Awake()

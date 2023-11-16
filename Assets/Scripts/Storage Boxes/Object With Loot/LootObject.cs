@@ -33,4 +33,9 @@ public class LootObject : MonoBehaviour, IDamagable
     {
         
     }
+
+    public void Shake()
+    {
+        
+    }
 }

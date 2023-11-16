@@ -9,12 +9,7 @@ namespace Fight_System.Weapon.Explosive
             if (_hasExploded) return;
 
             if (collision.collider.CompareTag("Player"))
-            {
-                Debug.Log("Mine");
-                Explode();
-                PlaySound();
-                CharacterStats.Singleton.MinusStat(CharacterStatType.Health, _maxDamage);
-            }
+                ExplodeServerRpc();
         }
     }
 }
