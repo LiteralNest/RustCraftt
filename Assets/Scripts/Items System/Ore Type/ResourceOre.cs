@@ -23,7 +23,7 @@ public class ResourceOre : Ore
         if(!CanUseTool(targetTool)) return;
         AddResourcesToInventory();
         Instantiate(_vfxEffect, lastRayPos,  Quaternion.FromToRotation(Vector3.up, lastRayRot));
-        InventoryHandler.singleton.ActiveItemDisplayer.MinusCurrentHp(1);
+        InventoryHandler.singleton.ActiveSlotDisplayer.ItemDisplayer.MinusCurrentHp(5);
         MinusHpServerRpc();
         destroyed = _currentHp.Value <= 0;
     }

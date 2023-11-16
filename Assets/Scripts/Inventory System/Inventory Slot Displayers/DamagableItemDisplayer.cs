@@ -8,7 +8,6 @@ namespace Inventory_System.Inventory_Slot_Displayers
     {
         [SerializeField] private Image _hpBar;
         private DamagableItem _currentItem;
-        private int cellIndex;
 
         public override void DisplayData()
         {
@@ -24,7 +23,7 @@ namespace Inventory_System.Inventory_Slot_Displayers
             _currentItem = item;
             DisplayBar(InventoryCell.Hp);
         }
-        
+
         public void DisplayBar(int hp)
             => _hpBar.fillAmount = (float)hp / _currentItem.Hp;
 
@@ -32,13 +31,20 @@ namespace Inventory_System.Inventory_Slot_Displayers
         {
             InventoryCell.Hp -= hp;
 
-            if (_storage != null)
+            if (InventoryCell.Hp <= 0)
             {
-                InventoryHandler.singleton.CharacterInventory.SetItemServerRpc(cellIndex, InventoryCell.Item.Id,
-                    InventoryCell.Count, InventoryCell.Hp, true, false);
-                DisplayBar(InventoryCell.Hp);
+                InventoryHandler.singleton.CharacterInventory.ResetItemServerRpc(PreviousCell.Index);
+                return;
             }
+
+            InventoryHandler.singleton.CharacterInventory.SetItemServerRpc(PreviousCell.Index,
+                InventoryCell.Item.Id,
+                InventoryCell.Count, InventoryCell.Hp, true, false);
+            DisplayBar(InventoryCell.Hp);
         }
+
+        public override int GetCurrentHp()
+            => InventoryCell.Hp;
 
         public override void AddCurrentHp(int hp)
         {

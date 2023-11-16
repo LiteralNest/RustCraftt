@@ -18,6 +18,9 @@ public abstract class ItemDisplayer : MonoBehaviour
     public virtual void MinusCurrentHp(int hp){}
     public virtual void AddCurrentHp(int hp){}
 
+    public virtual int GetCurrentHp()
+        => 0;
+
     public void SetInventoryCell(InventoryCell inventoryCell)
     {
         InventoryCell = inventoryCell;

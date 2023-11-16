@@ -36,7 +36,7 @@ public class InventoryHandler : NetworkBehaviour
     [SerializeField] private GameObject _shotGunPanel;
 
     public Item ActiveItem { get; private set; }
-    public ItemDisplayer ActiveItemDisplayer { get; set; }
+    public SlotDisplayer ActiveSlotDisplayer { get; set; }
 
     public override void OnNetworkSpawn()
     {

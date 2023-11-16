@@ -86,6 +86,7 @@ public class PlayerResourcesGatherer : MonoBehaviour
     private void TryHit()
     {
         if (!_canHit) return;
+        if(InventoryHandler.singleton.ActiveSlotDisplayer.ItemDisplayer.GetCurrentHp() <= 0) return;
         Recover();
         var ore = _objectsRayCaster.TargetResourceOre;
         if (!ore) return;

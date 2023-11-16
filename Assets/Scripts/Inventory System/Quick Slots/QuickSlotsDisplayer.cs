@@ -30,6 +30,7 @@ public class QuickSlotsDisplayer : MonoBehaviour
         {
             if(slotDisplayers[i].ItemDisplayer == null) continue;
             var ItemDisplayer = GetGeneratedItemDisplayer(_quickSlots[i], slotDisplayers[i]);
+            _quickSlots[i].ConnectedSlotDisplayer = slotDisplayers[i];
             _quickSlots[i].AssignItemDisplayer(ItemDisplayer);
         }
     }

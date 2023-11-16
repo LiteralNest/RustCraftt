@@ -6,6 +6,7 @@ public class QuickSlotDisplayer : MonoBehaviour
 
     [Header("UI")] [SerializeField] private GameObject _activeFon;
 
+    public SlotDisplayer ConnectedSlotDisplayer { get; set; }
     public ItemDisplayer ItemDisplayer { get; private set; }
 
     public void ClearSlot()
@@ -13,6 +14,7 @@ public class QuickSlotDisplayer : MonoBehaviour
         if (!ItemDisplayer) return;
         Destroy(ItemDisplayer.gameObject);
         ItemDisplayer = null;
+        ConnectedSlotDisplayer = null;
     }
 
     public void AssignItemDisplayer(ItemDisplayer itemDisplayer)
@@ -34,6 +36,5 @@ public class QuickSlotDisplayer : MonoBehaviour
         if (cell == null) return;
         var item = cell.Item;
         item.Click(this, _inventoryHandler);
-        InventoryHandler.singleton.ActiveItemDisplayer = ItemDisplayer;
     }
 }
