@@ -1,3 +1,4 @@
+using System;
 using Player_Controller;
 using Unity.Netcode;
 using UnityEngine;
@@ -16,17 +17,23 @@ namespace Vehicle
         private bool _isNearVehicle = false;
         private bool _isSittingInVehicle;
         private bool _hasGainedHeight;
-
+        
         private PlayerController _playerController;
         private Vector2 _moveInput;
         private float _currentHeight;
         private RigidbodyConstraints _rbConstraints;
-        
+        private Quaternion _cachedCameraPosition;
 
         private void Awake()
         {
             _copterInput.enabled = false;
             _currentHeight = 0f;
+        }
+
+        private void Update()
+        {
+            if (_moveInput.x != 0) return;
+            _copter.Stabilize();
         }
 
         private void FixedUpdate()
@@ -76,6 +83,12 @@ namespace Vehicle
             }
         }
 
+        public void OnMove(InputAction.CallbackContext context)
+        {
+            _moveInput = context.ReadValue<Vector2>();
+            IsMoving = context.performed;
+        }
+
         private void OnHeightUp()
         {
             _copter.IncreaseHeight();
@@ -84,12 +97,6 @@ namespace Vehicle
         private void OnHeightDown()
         {
             _copter.DecreaseHeight();
-        }
-
-        public void OnMove(InputAction.CallbackContext context)
-        {
-            _moveInput = context.ReadValue<Vector2>();
-            IsMoving = context.performed;
         }
 
         private void OnCollisionEnter(Collision collision)
@@ -125,6 +132,8 @@ namespace Vehicle
             if (!IsServer) return;
             _isSittingInVehicle = true;
             
+            _cachedCameraPosition = _playerController.transform.rotation;
+            
             _playerController.GetComponent<NetworkObject>().TrySetParent(_copter.transform);
             _playerController.transform.position = _copter.transform.position + _offset;
             
@@ -144,6 +153,8 @@ namespace Vehicle
             var rb =_playerController.GetComponent<Rigidbody>();
             rb.constraints = _rbConstraints;
             rb.useGravity = true;
+            
+            _playerController.transform.rotation = _cachedCameraPosition;
             
             _playerController.enabled = true;
             _copterInput.enabled = false;

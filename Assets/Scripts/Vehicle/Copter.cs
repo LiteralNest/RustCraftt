@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Rendering.Universal;
 using UnityEngine.Serialization;
 
 namespace Vehicle
@@ -7,14 +8,19 @@ namespace Vehicle
     {
         [SerializeField] private float _pushForce = 100f;
         [SerializeField] private float _heightAdjustSpeed = 5f;
+        [SerializeField] private float _stabilizeSpeed = 10f;
+
 
         [Header("Angels")] 
         [SerializeField] private float _tiltAngleX;
+
         [SerializeField] private float _tiltAngelZ;
-        
+        [SerializeField] private float _tiltAngleY;
         private float _power;
         private float _tilt;
-        private float _currentHeight;
+
+
+        // private float _currentHeight;
         private bool _isGrounded;
 
         public void Push(Vector3 pushDirection)
@@ -22,6 +28,18 @@ namespace Vehicle
             VehicleRb.AddForce(pushDirection * _pushForce, ForceMode.Impulse);
         }
 
+        public void Stabilize()
+        {
+            
+            // Smoothly return to zero tilt on X and Z axes
+            var currentYRotation = transform.rotation.eulerAngles.y;
+            
+            _tilt = Mathf.Lerp(_tilt, 0f, Time.deltaTime * _stabilizeSpeed);
+
+
+            Quaternion targetRotation = Quaternion.Euler(-_tilt, currentYRotation, -_tilt);
+            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * _stabilizeSpeed);
+        }
         public void Move(Vector2 moveInput)
         {
             float forwardMovement = Mathf.Clamp(moveInput.y, 0, 1f);
@@ -29,7 +47,8 @@ namespace Vehicle
 
             var movement = new Vector3(0f, 0f, forwardMovement);
             var rotationX = sidewaysMovement * RotationSpeed * Time.fixedDeltaTime;
-            var rotationY = moveInput.y * RotationSpeed * Time.fixedDeltaTime;
+            
+            _tilt = Mathf.Lerp(_tilt, 0f, Time.deltaTime * 2f);
 
             if (_isGrounded)
             {
@@ -44,26 +63,37 @@ namespace Vehicle
             {
                 // Air movement logic
                 float forwardMovementAir = moveInput.y;
-                var movementAir = new Vector3(0f, 0f, forwardMovement);
+                
+                var movementAir = new Vector3(0f, 0f, forwardMovementAir);
+
+                _tilt = Mathf.Lerp(_tilt, 0f, Time.deltaTime * 2f);
                 // Tilt based on input direction
                 float tiltX = Mathf.Lerp(_tilt, forwardMovementAir * _tiltAngleX, Time.fixedDeltaTime);
                 float tiltZ = Mathf.Lerp(_tilt, sidewaysMovement * _tiltAngelZ, Time.fixedDeltaTime);
-
-                _tilt = Mathf.Lerp(_tilt, 0f, Time.deltaTime * 2f);
-                transform.Rotate(0f, rotationX, 0f, Space.Self);
-                if (movement.x != 0)
-                {
-                    transform.Rotate(tiltX, 0f, 0f, Space.Self);
-                }
+                float tiltY = Mathf.Lerp(_tilt, forwardMovementAir * _tiltAngleY, Time.fixedDeltaTime);
                 
-
-                if (forwardMovementAir != 0)
+                transform.Rotate(0f, rotationX, 0f, Space.Self);
+                
+                if (sidewaysMovement != 0)
+                {
+                    transform.Rotate(tiltX, 0f, tiltZ, Space.Self);
+                    Debug.Log("Rotate");
+                }
+            
+                
+                if (forwardMovementAir > 0)
                 {
                     // Translate forward based on y input
-                    transform.Rotate(0f, 0f, tiltZ);
+                    transform.Rotate(0, tiltY, 0f, Space.Self);
                     transform.Translate(movementAir * MoveSpeed * Time.deltaTime, Space.Self);
+                    Debug.Log("Forward");
                 }
-               
+                else if (forwardMovementAir < 0)
+                {
+                    transform.Rotate(0, -tiltY, 0f, Space.Self);
+                    transform.Translate(-movementAir * MoveSpeed * Time.deltaTime, Space.Self);
+                    Debug.Log("back");
+                }
             }
         }
 
@@ -73,7 +103,7 @@ namespace Vehicle
         {
             VehicleRb.isKinematic = true;
 
-            transform.Translate(Vector3.up * 5f);
+            transform.Translate(Vector3.up * 3f);
         }
 
         public void IncreaseHeight()
@@ -85,27 +115,27 @@ namespace Vehicle
         }
 
         public void DecreaseHeight()
-        {
-            transform.Translate(Vector3.down * _heightAdjustSpeed * Time.deltaTime);
+        { 
+            if (!_isGrounded) 
+                transform.Translate(Vector3.down * _heightAdjustSpeed * Time.deltaTime);
         }
 
-        private void OnCollisionEnter(Collision collision)
+        private void OnTriggerEnter(Collider other)
         {
-            if (collision.gameObject.CompareTag("Ground"))
+            if (other.gameObject.CompareTag("Ground"))
             {
-                Debug.Log("collision detected!");
                 _isGrounded = true;
                 VehicleRb.isKinematic = false;
             }
         }
 
-        private void OnCollisionExit(Collision collision)
+        private void OnTriggerExit(Collider other)
         {
-            if (collision.gameObject.CompareTag("Ground"))
+            if (other.gameObject.CompareTag("Ground"))
             {
                 _isGrounded = false;
                 VehicleRb.isKinematic = true;
-                Debug.Log("collision exit!");
+               
             }
         }
     }

@@ -31,6 +31,59 @@ Transform:
   m_Children: []
   m_Father: {fileID: 5037023581467626543}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &4955096471030263809
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4203020563776473970}
+  - component: {fileID: 4855000891796525315}
+  m_Layer: 0
+  m_Name: GroundCheker
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4203020563776473970
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4955096471030263809}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.143, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5037023581467626543}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &4855000891796525315
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4955096471030263809}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 3.7490103, y: 4.509984, z: 4.2362204}
+  m_Center: {x: -0.06133735, y: 1.4000788, z: -0.11123896}
 --- !u!1 &5725260192194851070
 GameObject:
   m_ObjectHideFlags: 0
@@ -100,6 +153,7 @@ Transform:
   - {fileID: 8459639140002371104}
   - {fileID: 85120589035118489}
   - {fileID: 1700907664330662731}
+  - {fileID: 4203020563776473970}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!54 &2016376666691477219
@@ -110,7 +164,7 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8571520942610131881}
   serializedVersion: 4
-  m_Mass: 300
+  m_Mass: 50
   m_Drag: 0
   m_AngularDrag: 0.05
   m_CenterOfMass: {x: 0, y: 0, z: 0}
@@ -163,12 +217,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   VehicleRb: {fileID: 2016376666691477219}
-  MoveSpeed: 5
-  RotationSpeed: 40
+  MoveSpeed: 10
+  RotationSpeed: 60
   SitPlace: {fileID: 85120589035118489}
-  _responsiveness: 500
-  _throttleAmount: 25
   _pushForce: 100
+  _heightAdjustSpeed: 5
+  _stabilizeSpeed: 5
+  _tiltAngleX: 6
+  _tiltAngelZ: 6
+  _tiltAngleY: 5
 --- !u!114 &2201661181583563680
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -182,7 +239,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _copter: {fileID: 2860795021908904951}
-  _offset: {x: 0, y: 0.5, z: 0}
+  _offset: {x: 0, y: 1.2, z: 0}
   _copterInput: {fileID: 2981253158775588936}
 --- !u!114 &4587411062432739263
 MonoBehaviour:
