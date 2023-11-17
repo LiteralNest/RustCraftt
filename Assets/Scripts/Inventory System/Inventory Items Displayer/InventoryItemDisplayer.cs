@@ -49,6 +49,8 @@ namespace Inventory_System.Inventory_Items_Displayer
 
         public override void SetNewCell(SlotDisplayer slotDisplayer, bool shouldSaveNetData)
         {
+            if(_storage)
+                _storage.ResetItemServerRpc(PreviousCell.Index, shouldSaveNetData);
             base.SetNewCell(slotDisplayer, shouldSaveNetData);
             _storage = slotDisplayer.Inventory;
             if (!_storage) return;

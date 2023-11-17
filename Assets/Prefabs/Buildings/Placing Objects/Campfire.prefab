@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 8729345033283500795}
   - component: {fileID: 9158152713484374393}
   - component: {fileID: 2960956340532359393}
-  m_Layer: 7
+  m_Layer: 0
   m_Name: Campfire
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -27,7 +27,7 @@ Transform:
   m_GameObject: {fileID: 6142230765172289684}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.49, z: 0}
+  m_LocalPosition: {x: 0, y: -1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -99,7 +99,7 @@ GameObject:
   - component: {fileID: 4352665622986602154}
   - component: {fileID: 8569014338111738669}
   - component: {fileID: 4613313815660969726}
-  m_Layer: 7
+  m_Layer: 0
   m_Name: Campfire
   m_TagString: CampFire
   m_Icon: {fileID: 0}
@@ -205,14 +205,23 @@ MonoBehaviour:
   Cells:
   - Item: {fileID: 0}
     Count: 0
+    Hp: 0
   - Item: {fileID: 0}
     Count: 0
+    Hp: 0
   - Item: {fileID: 0}
     Count: 0
+    Hp: 0
   - Item: {fileID: 0}
     Count: 0
+    Hp: 0
   - Item: {fileID: 0}
     Count: 0
+    Hp: 0
+  _testAddingCell:
+    Item: {fileID: 0}
+    Count: 0
+    Hp: 0
   _fireObject: {fileID: 5361097199258350177}
   _source: {fileID: 4613313815660969726}
 --- !u!54 &4352665622986602154
@@ -373,7 +382,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 638098698056312333, guid: 3b9486cb9c0cfc5438acfe51924f48ef, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.389
+      value: -0.88
       objectReference: {fileID: 0}
     - target: {fileID: 638098698056312333, guid: 3b9486cb9c0cfc5438acfe51924f48ef, type: 3}
       propertyPath: m_LocalPosition.z
@@ -417,7 +426,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9017099166791023436, guid: 3b9486cb9c0cfc5438acfe51924f48ef, type: 3}
       propertyPath: m_Layer
-      value: 7
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9017099166791023436, guid: 3b9486cb9c0cfc5438acfe51924f48ef, type: 3}
       propertyPath: m_IsActive

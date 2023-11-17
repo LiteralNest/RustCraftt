@@ -172,7 +172,7 @@ namespace Storage_Boxes
             for (int i = 0; i < Cells.Count; i++)
             {
                 if (Cells[i].Item == item)
-                    RemoveItemCountServerRpc(i, count);
+                    RemoveItemCountServerRpc(Cells[i].Item.Id, count);
             }
         }
 

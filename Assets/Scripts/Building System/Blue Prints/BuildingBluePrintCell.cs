@@ -84,7 +84,7 @@ public class BuildingBluePrintCell : MonoBehaviour
             return;
         }
 
-        if (other.CompareTag("ConnectingPoint") || other.CompareTag("ShelfZone")) return;
+        if (other.CompareTag("ConnectingPoint") || other.CompareTag("ShelfZone") || other.CompareTag("WorkBench")) return;
         if (_triggeredObjects.Contains(other.gameObject)) return;
         _triggeredObjects.Add(other.gameObject);
         CheckForAvailable();
@@ -92,7 +92,7 @@ public class BuildingBluePrintCell : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.CompareTag("ConnectingPoint") || other.CompareTag("ShelfZone")) return;
+        if (other.CompareTag("ConnectingPoint") || other.CompareTag("ShelfZone") || other.CompareTag("WorkBench")) return;
         if (!_triggeredObjects.Contains(other.gameObject)) return;
         _triggeredObjects.Remove(other.gameObject);
         CheckForAvailable();
