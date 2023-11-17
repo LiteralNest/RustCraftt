@@ -1,3 +1,4 @@
+using Crafting_System.Crafting_Slots;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -5,8 +6,7 @@ using UnityEngine.UI;
 [RequireComponent(typeof(CraftingItemDataTableSlotsContainer))]
 public class CraftingItemDataDisplayer : MonoBehaviour
 {
-    [Header("Attached Scripts")] [SerializeField]
-    private CraftingSlotsContainer _craftingSlotsContainer;
+    [Header("Attached Scripts")]
     [SerializeField] private CraftingItemDataTableSlotsContainer _slotsContainer;
     
     [Header("UI")]
@@ -21,9 +21,6 @@ public class CraftingItemDataDisplayer : MonoBehaviour
     {
         if (_slotsContainer == null)
             _slotsContainer = GetComponent<CraftingItemDataTableSlotsContainer>();
-        if (_craftingSlotsContainer == null)
-            _craftingSlotsContainer = FindObjectOfType<CraftingSlotsContainer>();
-        DisplayData(_craftingSlotsContainer.CraftingItems[0]);
     }
     
     public void DisplayData(CraftingItem item)
