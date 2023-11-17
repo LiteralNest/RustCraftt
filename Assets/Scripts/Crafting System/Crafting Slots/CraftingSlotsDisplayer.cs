@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Crafting_System.WorkBench;
 using UnityEngine;
 
 namespace Crafting_System.Crafting_Slots
@@ -7,9 +8,11 @@ namespace Crafting_System.Crafting_Slots
     {
         [Header("Attached Scripts")]
         [SerializeField] private CraftingItemDataDisplayer _craftingItemDataDisplayer;
-        [SerializeField]
-        private List<CraftingSlotTypeDisplayer> _slotTypeDisplayers = new List<CraftingSlotTypeDisplayer>();
+        [SerializeField] private CharacterWorkbenchesCatcher _characterWorkbenchesCatcher;
 
+        [Header("Main Params")]
+        [SerializeField] private List<CraftingSlotTypeDisplayer> _slotTypeDisplayers = new List<CraftingSlotTypeDisplayer>();
+        
         [Header("UI")] [SerializeField] private CraftingSlotDisplayer _craftingSlotPrefab;
         [SerializeField] private Transform _placeForSlots;
 
@@ -34,7 +37,7 @@ namespace Crafting_System.Crafting_Slots
         {
             List<CraftingItem> res = new List<CraftingItem>();
             foreach (var slot in ItemFinder.singleton.GetCraftingItems())
-                if (slot is T)
+                if (slot is T && _characterWorkbenchesCatcher.CurrentWorkBanchLevel >= slot.NeededWorkBanch)
                     res.Add(slot as CraftingItem);
             return res;
         }
@@ -57,6 +60,7 @@ namespace Crafting_System.Crafting_Slots
         public void DisplayFavourites(CraftingSlotTypeDisplayer displayer)
         {
             DisplayActives(displayer);
+            ClearPlace(_placeForSlots);
         }
 
         public void DisplayBuildings(CraftingSlotTypeDisplayer displayer)
