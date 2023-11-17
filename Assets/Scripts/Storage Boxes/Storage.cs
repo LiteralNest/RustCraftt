@@ -115,9 +115,14 @@ namespace Storage_Boxes
         {
             if (IsServer)
             {
-                ItemsNetData[id] -= new Vector3Int(0, count, -1);
-                if (ItemsNetData[id].y <= 0)
-                    ItemsNetData[id] = new Vector3Int(-1, 0, -1);
+                for (int i = 0; i < ItemsNetData.Count; i++)
+                {
+                    if (ItemsNetData[i].x == id)
+                        ItemsNetData[i] -= new Vector3Int(0, count, 0);
+                    if (ItemsNetData[i].y <= 0)
+                        ItemsNetData[i] = new Vector3Int(-1, 0, -1);
+                    
+                }
             }
 
             ConvertWebData();

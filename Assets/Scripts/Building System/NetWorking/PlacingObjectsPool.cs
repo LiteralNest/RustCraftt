@@ -31,8 +31,8 @@ public class PlacingObjectsPool : NetworkBehaviour
     {
         if (!IsServer) return;
         var obj = Instantiate(GetObjectById(id), pos, rot);
-        obj.NetworkObject.DontDestroyWithOwner = true;
         obj.NetworkObject.Spawn();
+        obj.NetworkObject.DontDestroyWithOwner = true;
     }
     
     [ServerRpc(RequireOwnership = false)]
