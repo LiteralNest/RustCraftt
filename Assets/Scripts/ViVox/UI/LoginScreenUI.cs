@@ -1,24 +1,27 @@
 ﻿using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.Android;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using System.Collections.Generic;
 using TMPro;
+using Unity.Services.Vivox;
+using VivoxUnity;
+using Web.User;
 
 public class LoginScreenUI : MonoBehaviour
 {
     private VivoxVoiceManager _vivoxVoiceManager;
-
-    public Button LoginButton;
     public TMP_InputField DisplayNameInput;
-    public GameObject LoginScreen;
 
     private int defaultMaxStringLength = 9;
     private int PermissionAskedCount = 0;
+
     #region Unity Callbacks
 
     private EventSystem _evtSystem;
+    
 
     private void Awake()
     {
@@ -30,32 +33,38 @@ public class LoginScreenUI : MonoBehaviour
 #if !(UNITY_STANDALONE || UNITY_IOS || UNITY_ANDROID || UNITY_STADIA)
         DisplayNameInput.interactable = false;
 #else
-        DisplayNameInput.onEndEdit.AddListener((string text) => { LoginToVivoxService(); });
+        // DisplayNameInput.onEndEdit.AddListener((string text) => { LoginToVivoxService(); });
 #endif
-        LoginButton.onClick.AddListener(() => { LoginToVivoxService(); });
+        // LoginToVivoxService();
+        //LoginButton.onClick.AddListener(() => { LoginToVivoxService(); });
 
         if (_vivoxVoiceManager.LoginState == VivoxUnity.LoginState.LoggedIn)
         {
             OnUserLoggedIn();
-            DisplayNameInput.text = _vivoxVoiceManager.LoginSession.Key.DisplayName;
+            // DisplayNameInput.text = _vivoxVoiceManager.LoginSession.Key.DisplayName;
         }
         else
         {
             OnUserLoggedOut();
-            var systInfoDeviceName = String.IsNullOrWhiteSpace(SystemInfo.deviceName) == false ? SystemInfo.deviceName : Environment.MachineName;
+            // var systInfoDeviceName = String.IsNullOrWhiteSpace(SystemInfo.deviceName) == false
+            //     ? SystemInfo.deviceName
+            //     : Environment.MachineName;
 
-            DisplayNameInput.text = Environment.MachineName.Substring(0, Math.Min(defaultMaxStringLength, Environment.MachineName.Length));
+            // DisplayNameInput.text = Environment.MachineName.Substring(0, Math.Min(defaultMaxStringLength, Environment.MachineName.Length));
         }
     }
 
+    private void Start()
+        => StartCoroutine(WaitForLogin());
+    
     private void OnDestroy()
     {
         _vivoxVoiceManager.OnUserLoggedInEvent -= OnUserLoggedIn;
         _vivoxVoiceManager.OnUserLoggedOutEvent -= OnUserLoggedOut;
 
-        LoginButton.onClick.RemoveAllListeners();
+        // LoginButton.onClick.RemoveAllListeners();
 #if UNITY_STANDALONE || UNITY_IOS || UNITY_ANDROID || UNITY_STADIA
-        DisplayNameInput.onEndEdit.RemoveAllListeners();
+        // DisplayNameInput.onEndEdit.RemoveAllListeners();
 #endif
     }
 
@@ -63,15 +72,20 @@ public class LoginScreenUI : MonoBehaviour
 
     private void ShowLoginUI()
     {
-        LoginScreen.SetActive(true);
-        LoginButton.interactable = true;
-        _evtSystem.SetSelectedGameObject(LoginButton.gameObject, null);
-
+        // LoginScreen.SetActive(true);
+        // LoginButton.interactable = true;
+        // _evtSystem.SetSelectedGameObject(LoginButton.gameObject, null);
     }
 
     private void HideLoginUI()
     {
-        LoginScreen.SetActive(false);
+        // LoginScreen.SetActive(false);
+    }
+
+    private IEnumerator WaitForLogin()
+    {
+        yield return new WaitForSeconds(2);
+        LoginToVivoxService();
     }
 
 #if (UNITY_ANDROID && !UNITY_EDITOR) || __ANDROID__
@@ -139,7 +153,8 @@ public class LoginScreenUI : MonoBehaviour
         return PermissionAskedCount == 1;
     }
 
-    private void LoginToVivoxService()
+    [ContextMenu("LoginToVivoxService")]
+    public void LoginToVivoxService()
     {
         if (IsMicPermissionGranted())
         {
@@ -164,14 +179,16 @@ public class LoginScreenUI : MonoBehaviour
 
     private void LoginToVivox()
     {
-        LoginButton.interactable = false;
+        // LoginButton.interactable = false;
 
-        if (string.IsNullOrEmpty(DisplayNameInput.text))
+        if (string.IsNullOrEmpty(UserDataHandler.singleton.UserData.Name))
         {
             Debug.LogError("Please enter a display name.");
             return;
         }
-        _vivoxVoiceManager.Login(DisplayNameInput.text);
+
+        // _vivoxVoiceManager.Login(DisplayNameInput.text);
+        _vivoxVoiceManager.Login(UserDataHandler.singleton.UserData.Name);
     }
 
     #region Vivox Callbacks

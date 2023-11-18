@@ -9,11 +9,13 @@ public class ServerSceneLoader : MonoBehaviour
 
     private void Start()
     {
+#if !UNITY_SERVER
         if (_shouldLoadHost)
         {
             NetworkManager.Singleton.StartHost();
             return;
         }
         _connectionManager.Connect();
+#endif
     }
 }

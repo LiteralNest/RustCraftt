@@ -1,5 +1,6 @@
+using Building_System.Upgrading;
+using Player_Controller;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 public class PlayerNetworkController : MonoBehaviour
 {
@@ -14,7 +15,6 @@ public class PlayerNetworkController : MonoBehaviour
     [SerializeField] private ObjectsRayCaster _objectsRayCaster;
     [SerializeField] private BuildingChooser _buildingChooser;
     [SerializeField] private BuildingDragger _buildingDragger;
-    [SerializeField] private BuildingUpgrader _buildingUpgrader;
     [SerializeField] private PlayerFightHandler _playerFightHandler;
     [SerializeField] private Camera _camera;
     [SerializeField] private AudioListener _listener;
@@ -22,9 +22,11 @@ public class PlayerNetworkController : MonoBehaviour
     [Header("Children")] 
     [SerializeField] private GameObject _characterStaff;
     [SerializeField] private GameObject _canvas;
+    [SerializeField] private GameObject _vivox;
 
     private void Start()
     {
+        _vivox.transform.SetParent(null);
         _canvas.transform.SetParent(null);
         if(!_playerNetCode.PlayerIsOwner())
             ClearObjects();
@@ -40,11 +42,11 @@ public class PlayerNetworkController : MonoBehaviour
         Destroy(_objectsRayCaster);
         Destroy(_buildingChooser);
         Destroy(_buildingDragger);
-        Destroy(_buildingUpgrader);
         Destroy(_playerFightHandler);
         _camera.enabled = false;
         _listener.enabled = false;
         Destroy(_canvas);
+        Destroy(_vivox);
         Destroy(_characterStaff);
     }
 }

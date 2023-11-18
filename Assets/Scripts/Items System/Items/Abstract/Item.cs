@@ -7,11 +7,10 @@ public abstract class Item : ScriptableObject
     [field: SerializeField] public Sprite Icon;
     [TextArea]
     [field: SerializeField] public string Description;
-    [field: SerializeField] public int TimeForCreating;
     [field: SerializeField] public int StackCount = 1000;
 
-    public virtual void Click(QuickSlotDisplayer slotDisplayer, InventoryHandler handler, out bool shouldMinus)
+    public virtual void Click(QuickSlotDisplayer quickSlotDisplayer, InventoryHandler handler)
     {
-        shouldMinus = false;
+        handler.ActiveSlotDisplayer = quickSlotDisplayer.ConnectedSlotDisplayer;
     }
 }

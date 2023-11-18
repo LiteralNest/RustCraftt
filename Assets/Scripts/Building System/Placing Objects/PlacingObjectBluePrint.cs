@@ -3,9 +3,8 @@ using UnityEngine;
 public class PlacingObjectBluePrint : BluePrint
 {
     public PlacingObject TargetPlacingObject;
-    private bool _rotatedSide;
 
-    private bool CanBePlaced()
+    protected virtual bool CanBePlaced()
     {
         foreach (var cell in BluePrintCells)
             if (!cell.CanBePlaced)
@@ -16,14 +15,14 @@ public class PlacingObjectBluePrint : BluePrint
     public override void Place()
     {
         if (!CanBePlaced()) return;
-        InventorySlotsContainer.singleton.RemoveItemFromDesiredSlot(TargetPlacingObject.TargetItem, 1);
+        InventoryHandler.singleton.CharacterInventory.RemoveItemCountServerRpc(TargetPlacingObject.TargetItem.Id, 1);
         PlacingObjectsPool.singleton.InstantiateObjectServerRpc(TargetPlacingObject.TargetItem.Id,
             transform.position,
             transform.rotation);
     }
 
-    public override BuildingStructure GetBuildingStructure()
-        => TargetPlacingObject;
+    public override void InitPlacedObject(BuildingStructure structure){}
+
 
     public void Rotate()
     {

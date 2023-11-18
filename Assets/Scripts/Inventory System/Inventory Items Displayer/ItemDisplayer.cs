@@ -1,22 +1,33 @@
+using System.Threading.Tasks;
 using TMPro;
 using UnityEngine;
-using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public abstract class ItemDisplayer : MonoBehaviour
 {
+    [Header("UI")]
     [SerializeField] protected TMP_Text _countText;
     [SerializeField] protected Image _itemIcon;
+    [Header("Animator")]
+    [SerializeField] protected Animator _animator;
+    [SerializeField] private AnimationClip _movingClip;
+    
     public InventoryCell InventoryCell { get; protected set; }
     public SlotDisplayer PreviousCell { get; protected set; }
-    
+
+    public virtual void MinusCurrentHp(int hp){}
+    public virtual void AddCurrentHp(int hp){}
+
+    public virtual int GetCurrentHp()
+        => 0;
+
     public void SetInventoryCell(InventoryCell inventoryCell)
     {
         InventoryCell = inventoryCell;
         DisplayData();
     }
     
-    public void DisplayData()
+    public virtual void DisplayData()
     {
         if(InventoryCell.Item == null) return;
         _itemIcon.sprite = InventoryCell.Item.Icon;
@@ -41,11 +52,18 @@ public abstract class ItemDisplayer : MonoBehaviour
     public void SetPosition()
         => transform.position = PreviousCell.transform.position;
     
-    public virtual void SetNewCell(SlotDisplayer slotDisplayer)
+    public virtual void SetNewCell(SlotDisplayer slotDisplayer, bool shouldSaveNetData)
     {
         PreviousCell = slotDisplayer;
         var slotTransform = slotDisplayer.transform;
         transform.SetParent(slotTransform);
         SetPosition();
+    }
+
+    public async void MoveToOtherInventory()
+    {
+        _animator.SetTrigger("Moving");
+        await Task.Delay((int)(_movingClip.length * 1000));
+        ActiveInvetoriesHandler.singleton.HandleCell(this);
     }
 }

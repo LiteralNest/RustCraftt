@@ -1,3 +1,4 @@
+using Storage_Boxes;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -10,32 +11,35 @@ public abstract class SlotDisplayer : MonoBehaviour, IDropHandler
     public int Index { get; private set; }
 
     public SlotsDisplayer InventorySlotsDisplayer { get; protected set; }
-    public SlotsContainer Inventory { get; protected set; }
+    public Storage Inventory { get; protected set; }
 
     protected abstract void Drop(PointerEventData eventData);
 
     public void OnDrop(PointerEventData eventData)
         => Drop(eventData);
 
-    public void Init(int index, SlotsDisplayer slotsDisplayer, SlotsContainer slotsContainer)
+    public void Init(int index, SlotsDisplayer slotsDisplayer, Storage targetStorage)
     {
         Index = index;
         InventorySlotsDisplayer = slotsDisplayer;
-        Inventory = slotsContainer;
+        Inventory = targetStorage;
         ItemDisplayer = null;
     }
 
-    public void SetItem(ItemDisplayer itemDisplayer)
+    public void SetItem(ItemDisplayer itemDisplayer, bool shouldSaveNetData = true)
     {
         if (ItemDisplayer != null) Destroy(ItemDisplayer.gameObject);
         ItemDisplayer = itemDisplayer;
-        ItemDisplayer.SetNewCell(this);
+        ItemDisplayer.SetNewCell(this,shouldSaveNetData);
     }
 
-    public void ResetItem()
+    private void ResetItem()
     {
         ItemDisplayer = null;
     }
+
+    public virtual void ResetItemWhileDrag()
+        => ItemDisplayer = null;
 
     private void ClearPlace(Transform place)
     {
@@ -75,7 +79,7 @@ public abstract class SlotDisplayer : MonoBehaviour, IDropHandler
         SetItem(itemDisplayer);
     }
 
-    protected bool TrySetItem(ItemDisplayer itemDisplayer)
+    protected virtual bool TrySetItem(ItemDisplayer itemDisplayer)
     {
         if (!CanSetSlot) return false;
         if (!Inventory.CanAddItem(itemDisplayer.InventoryCell.Item)) return false;

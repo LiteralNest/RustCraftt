@@ -8,7 +8,7 @@ public class DamagingItem : NetworkBehaviour, IDamagable
    [SerializeField] private NetworkVariable<int> _currentHp = new(50, NetworkVariableReadPermission.Everyone,
       NetworkVariableWritePermission.Owner);
    [SerializeField] private float _spawningYOffset = 1f;
-   [SerializeField] private List<LootBarrelCell> _loot = new List<LootBarrelCell>();
+   [SerializeField] private List<LootCell> _loot = new List<LootCell>();
 
    [SerializeField] private List<Renderer> _renderers;
    [SerializeField] private BoxCollider _boxCollider;
@@ -30,7 +30,7 @@ public class DamagingItem : NetworkBehaviour, IDamagable
       };
    }
 
-   private void SpawnLootCell(LootBarrelCell cell)
+   private void SpawnLootCell(LootCell cell)
    {
       int rand = Random.Range(cell.MinimalCount, cell.MaximalCount);
       var fixedPos = transform.position;
@@ -38,7 +38,7 @@ public class DamagingItem : NetworkBehaviour, IDamagable
       InstantiatingItemsPool.sigleton.SpawnObjectServerRpc(cell.Item.Id, rand, fixedPos);
    }
    
-   private void Destroy()
+   public void Destroy()
    {
       if (IsServer)
       {
@@ -50,7 +50,12 @@ public class DamagingItem : NetworkBehaviour, IDamagable
       _canGetDamage = false;
       EnableRenderers(false);
    }
-   
+
+   public void Shake()
+   {
+      
+   }
+
    [ServerRpc(RequireOwnership = false)]
    private void GetDamageServerRpc(int damage)
    {

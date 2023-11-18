@@ -21,8 +21,6 @@ namespace DayDuration
         [SerializeField] private AnimationCurve _lightChangeCurve;
         [SerializeField] private float _maxSunlightIntensity;
         [SerializeField] private float _maxMoonlightIntensity;
-        //For displaying actual time due to daytime changes
-        [SerializeField] private TextMeshProUGUI _timeText;
 
         private DateTime _currentTime;
         private TimeSpan _sunriseTime;
@@ -44,11 +42,6 @@ namespace DayDuration
         private void UpdateTimeOfDay()
         {
             _currentTime = _currentTime.AddSeconds(Time.deltaTime * _timeMultiplier);
-
-            if (_timeText != null)
-            {
-                _timeText.text = _currentTime.ToString("hh:mm");
-            }
         }
 
         private void RotateSunAndMoon()

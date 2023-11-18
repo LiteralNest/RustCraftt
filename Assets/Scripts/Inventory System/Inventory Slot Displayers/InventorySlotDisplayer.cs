@@ -1,3 +1,4 @@
+using Inventory_System.Inventory_Items_Displayer;
 using UnityEngine.EventSystems;
 
 public class InventorySlotDisplayer : SlotDisplayer

@@ -1,18 +1,17 @@
-using System.Collections;
-using System.Collections.Generic;
+using Storage_Boxes;
 using UnityEngine;
 
 public class PlayerItemsPickuper : MonoBehaviour
 {
     [Header("Attached Scripts")]
-    [SerializeField] private InventorySlotsContainer _inventorySlotsContainer;
+    [SerializeField] private Storage _inventorySlotsContainer;
     [SerializeField] private ObjectsRayCaster _objectsRayCaster;
 
     public void PickUp()
     {
         var item = _objectsRayCaster.LootingItem;
         if (item == null) return;
-        // _inventorySlotsContainer.AddItemToDesiredSlot(item.Item, item.Count);
+        _inventorySlotsContainer.AddItemToDesiredSlotServerRpc(item.ItemId.Value, item.Count.Value);
         Destroy(item.gameObject);
     }
 }

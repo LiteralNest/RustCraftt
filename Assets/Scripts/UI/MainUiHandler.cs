@@ -3,70 +3,71 @@ using UnityEngine;
 
 public class MainUiHandler : MonoBehaviour
 {
-    [SerializeField] private GameObject _attackButton;
+    public static MainUiHandler singleton { get; private set; }
+
+    [SerializeField] private GameObject _buildingStaffPanel;
+    [Space] [Space] [SerializeField] private GameObject _attackButton;
     [SerializeField] private GameObject _gatherButton;
     [SerializeField] private GameObject _buildingButton;
     [SerializeField] private GameObject _buildingChoosingPanel;
-    [SerializeField] private GameObject _buildingStaffPanel;
     [SerializeField] private GameObject _upgradeButton;
     [SerializeField] private GameObject _pickUpButton;
     [SerializeField] private GameObject _reloadingButton;
     [SerializeField] private GameObject _placingPanel;
+    [SerializeField] private GameObject _scopeButton;
+
+    [SerializeField] private GameObject _meleeThrowButton;
+    [SerializeField] private GameObject _throwExplosiveButton;
 
     private void OnEnable()
     {
-        GlobalEventsContainer.ShouldDisplayBuildingStaff += DisplayBuildingStaffPanel;
-        GlobalEventsContainer.ShouldDisplayBuildingChoosePanel += DisplayBuildingChoosingPanel;
-        GlobalEventsContainer.BluePrintActiveSelfSet += ActivateBuildingButton;
         GlobalEventsContainer.BuildingHammerActivated += ActivateUpgradeButton;
-        GlobalEventsContainer.GatherButtonActivated += ActivateGatherButtonActivated;
-        GlobalEventsContainer.AttackButtonActivated += ActivateAttackButton;
-        GlobalEventsContainer.PickUpButtonActivated += ActivatePickupButton;
-        GlobalEventsContainer.ShouldDisplayReloadingButton += ActivateReloadingButton;
-        GlobalEventsContainer.ShouldDisplayPlacingPanel += ActivatePlacingPanel;
+        GlobalEventsContainer.ShouldDisplayThrowButton += ActivateThrowButton;
     }
 
     private void OnDisable()
     {
-        GlobalEventsContainer.ShouldDisplayBuildingStaff -= DisplayBuildingStaffPanel;
-        GlobalEventsContainer.ShouldDisplayBuildingChoosePanel -= DisplayBuildingChoosingPanel;
-        GlobalEventsContainer.BluePrintActiveSelfSet -= ActivateBuildingButton;
         GlobalEventsContainer.BuildingHammerActivated -= ActivateUpgradeButton;
-        GlobalEventsContainer.GatherButtonActivated -= ActivateGatherButtonActivated;
-        GlobalEventsContainer.AttackButtonActivated -= ActivateAttackButton;
-        GlobalEventsContainer.PickUpButtonActivated -= ActivatePickupButton;
-        GlobalEventsContainer.ShouldDisplayReloadingButton -= ActivateReloadingButton;
-        GlobalEventsContainer.ShouldDisplayPlacingPanel -= ActivatePlacingPanel;
+        GlobalEventsContainer.ShouldDisplayThrowButton -= ActivateThrowButton;
     }
 
-    private void DisplayBuildingStaffPanel(bool value)
+    private void Awake()
+        => singleton = this;
+
+    public void ActivateMeleeThrowButton(bool value)
+        => _meleeThrowButton.SetActive(value);
+
+
+    public void ActivateScope(bool value)
+        => _scopeButton.SetActive(value);
+
+    public void ActivateBuildingStaffPanel(bool value)
         => _buildingStaffPanel.SetActive(value);
 
-    private void DisplayBuildingChoosingPanel(bool value)
+    public void ActivateBuildingChoosingPanel(bool value)
         => _buildingChoosingPanel.SetActive(value);
 
-    private void ActivateBuildingButton(bool value)
+    public void ActivateBuildingButton(bool value)
         => _buildingButton.SetActive(value);
 
-    private void ActivateUpgradeButton(bool value)
+    public void ActivateUpgradeButton(bool value)
         => _upgradeButton.SetActive(value);
 
-    private async void ActivateGatherButtonActivated(bool value)
-    {
-        if(value)
-            await Task.Delay(100);
-        _gatherButton.SetActive(value);
-    }
+    public async void ActivateGatherButton(bool value)
+        => _gatherButton.SetActive(value);
 
-    private void ActivateAttackButton(bool value)
+    public void ActivateAttackButton(bool value)
         => _attackButton.SetActive(value);
 
-    private void ActivatePickupButton(bool value)
+    public void ActivatePickupButton(bool value)
         => _pickUpButton.SetActive(value);
 
-    private void ActivateReloadingButton(bool value)
+    public void ActivateReloadingButton(bool value)
         => _reloadingButton.SetActive(value);
 
-    private void ActivatePlacingPanel(bool value)
+    public void ActivatePlacingPanel(bool value)
         => _placingPanel.SetActive(value);
+
+    public void ActivateThrowButton(bool value)
+        => _throwExplosiveButton.SetActive(value);
 }

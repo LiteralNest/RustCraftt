@@ -1,44 +1,47 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Items_System.Ore_Type;
 using Unity.Netcode;
 using UnityEngine;
 
 public class Ore : NetworkBehaviour
 {
     [Header("Start init")]
-    [SerializeField] protected ushort _hp = 100;
-    [SerializeField] protected NetworkVariable<ushort> _currentHp = new(100, NetworkVariableReadPermission.Everyone,
+    [SerializeField] protected int _hp = 100;
+    [SerializeField] protected NetworkVariable<int> _currentHp = new(100, NetworkVariableReadPermission.Everyone,
         NetworkVariableWritePermission.Owner);
     
     [SerializeField] private float _recoveringSpeed;
-    public Resource TargetResource => _targetResource;
-    [SerializeField] protected Resource _targetResource;
-    [SerializeField] protected Vector2Int _addingCount = new Vector2Int(1,2);
-    [SerializeField] private List<Renderer> _renderers;
+    [SerializeField] protected List<OreSlot> _resourceSlots = new List<OreSlot>();
+    [SerializeField] private List<GameObject> _renderers;
 
     public bool Recovering { get; protected set; } = false;
 
     protected void Start()
     {
         _currentHp.Value = _hp;
-        _currentHp.OnValueChanged += (ushort prevValue, ushort newValue) =>
+        _currentHp.OnValueChanged += (int prevValue, int newValue) =>
         {
             CheckHp();
         };
     }
     
-    private async void CheckHp()
+    protected void AddResourcesToInventory()
     {
-        if (_currentHp.Value > 0) return;
-        await Destroy();
-        if(NetworkManager.Singleton.IsServer)
-            _currentHp.Value = _hp;
+        foreach(var slot in _resourceSlots)
+            InventoryHandler.singleton.CharacterInventory.AddItemToDesiredSlotServerRpc(slot.Resource.Id, Random.Range(slot.CountRange.x, slot.CountRange.y + 1));
     }
     
-    private void TurnRenderers(bool value)
+    private void CheckHp()
+    {
+        if (_currentHp.Value > 0) return;
+        DestroyObject();
+    }
+    
+    protected void TurnRenderers(bool value)
     {
         foreach (var renderer in _renderers)
-            renderer.enabled = value;
+            renderer.SetActive(value);
     }
     
     private async Task Recover()
@@ -48,16 +51,22 @@ public class Ore : NetworkBehaviour
         Recovering = false;
         TurnRenderers(true);
     }
+
+    protected virtual void DestroyObject()
+        => Destroy();
     
     protected async Task Destroy()
     {
         TurnRenderers(false);
         await Recover();
+        if(NetworkManager.Singleton.IsServer)
+            _currentHp.Value = _hp;
     }
     
     [ServerRpc(RequireOwnership = false)]
     public void MinusHpServerRpc()
     {
+        if (_currentHp.Value <= 0) return;
         _currentHp.Value--;
     }
 }

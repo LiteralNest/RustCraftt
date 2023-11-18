@@ -1,10 +1,11 @@
+using Fight_System.Weapon.ShootWeapon;
 using UnityEngine;
 
 public class PlayerFightHandler : MonoBehaviour
 {
-    private WeaponObject _currentWeaponObject;
+    private BaseShootingWeapon _currentBaseShootingWeapon;
     private bool _attacking;
-
+    private bool IsAimed = false;
     private void OnEnable()
         => GlobalEventsContainer.WeaponObjectAssign += AssignWeaponObject;
     
@@ -13,24 +14,44 @@ public class PlayerFightHandler : MonoBehaviour
     
     private void Update()
     {
-        if(!_attacking || _currentWeaponObject == null) return;
+        if(!_attacking || _currentBaseShootingWeapon == null) return;
+
+        if (_currentBaseShootingWeapon.IsSingle)
+        {
+            _currentBaseShootingWeapon.Attack();
+            SetAttacking(false);
+        }
+        else
+        {
+            _currentBaseShootingWeapon.Attack();
+        }
     }
 
-    private void AssignWeaponObject(WeaponObject value)
+    private void AssignWeaponObject(BaseShootingWeapon value)
     {
-        _currentWeaponObject = value;
-        
+        _currentBaseShootingWeapon = value;
     }
 
     public void SetAttacking(bool value)
     {
-        _currentWeaponObject.Attack(value);
+        if(!_currentBaseShootingWeapon) return;
         _attacking = value;
+        if (value == false)
+        {
+            _currentBaseShootingWeapon.ResetRecoil();
+        }
     }
 
     public void Reload()
     {
-        _currentWeaponObject.Reload();
-        GlobalEventsContainer.ShouldDisplayReloadingButton?.Invoke(false);
+        if(!_currentBaseShootingWeapon) return;
+        _currentBaseShootingWeapon.Reload();
+        MainUiHandler.singleton.ActivateReloadingButton(false);
+    }
+
+    public void Scope()
+    {
+        if(!_currentBaseShootingWeapon) return;
+        _currentBaseShootingWeapon.Scope();
     }
 }

@@ -16,7 +16,7 @@ public class BuildingChooser : MonoBehaviour
     {
         var instance = Instantiate(buildingBluePrint);
         _buildingDragger.SetCurrentPref(instance);
-        GlobalEventsContainer.ShouldDisplayBuildingChoosePanel?.Invoke(false);
-        GlobalEventsContainer.ShouldDisplayBuildingStaff?.Invoke(true);
+        MainUiHandler.singleton.ActivateBuildingChoosingPanel(false);
+        MainUiHandler.singleton.ActivateBuildingStaffPanel(true);
     }
 }

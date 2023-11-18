@@ -5,11 +5,10 @@ public class Building : CraftingItem
 {
     [SerializeField] private PlacingObjectBluePrint _targetBluePrint;
     
-    public override void Click(QuickSlotDisplayer slotDisplayer, InventoryHandler handler, out bool shouldMinus)
+    public override void Click(QuickSlotDisplayer slotDisplayer, InventoryHandler handler)
     {
-        base.Click(slotDisplayer, handler, out shouldMinus);
-        shouldMinus = false;
+        base.Click(slotDisplayer,handler);
         handler.PlayerObjectsPlacer.SetCurrentPref(_targetBluePrint);
-        GlobalEventsContainer.ShouldDisplayPlacingPanel?.Invoke(true);
+        MainUiHandler.singleton.ActivatePlacingPanel(true);
     }
 }

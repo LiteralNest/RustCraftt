@@ -1,8 +1,8 @@
 public class Weapon : Tool
 {
-    public override void Click(QuickSlotDisplayer slotDisplayer, InventoryHandler handler, out bool shouldMinus)
+    public override void Click(QuickSlotDisplayer slotDisplayer, InventoryHandler handler)
     {
-        base.Click(slotDisplayer, handler, out shouldMinus);
-        GlobalEventsContainer.AttackButtonActivated?.Invoke(true);
+        base.Click(slotDisplayer, handler);
+        MainUiHandler.singleton.ActivateAttackButton(true);
     }
 }

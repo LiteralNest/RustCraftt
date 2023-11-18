@@ -3,7 +3,6 @@ using UnityEngine;
 
 public class QuickSlotsDisplayer : MonoBehaviour
 {
-    [SerializeField] private ItemDisplayer _itemDisplayerPrefab;
     [SerializeField] private List<QuickSlotDisplayer> _quickSlots = new List<QuickSlotDisplayer>();
 
     private void Start()
@@ -18,7 +17,7 @@ public class QuickSlotsDisplayer : MonoBehaviour
     private ItemDisplayer GetGeneratedItemDisplayer(QuickSlotDisplayer quickSlotDisplayer, SlotDisplayer slotDisplayer)
     {
         var slotTransform = quickSlotDisplayer.transform;
-        var instance = Instantiate(_itemDisplayerPrefab, slotTransform.position, slotTransform.rotation, slotTransform);
+        var instance = Instantiate(InventorySlotDisplayerSelector.singleton.GetDisplayerByType(slotDisplayer.ItemDisplayer.InventoryCell.Item), slotTransform.position, slotTransform.rotation, slotTransform);
         instance.SetInventoryCell(slotDisplayer.ItemDisplayer.InventoryCell);
         // instance.SetNewCell(slotDisplayer);
         return instance;
@@ -31,6 +30,7 @@ public class QuickSlotsDisplayer : MonoBehaviour
         {
             if(slotDisplayers[i].ItemDisplayer == null) continue;
             var ItemDisplayer = GetGeneratedItemDisplayer(_quickSlots[i], slotDisplayers[i]);
+            _quickSlots[i].ConnectedSlotDisplayer = slotDisplayers[i];
             _quickSlots[i].AssignItemDisplayer(ItemDisplayer);
         }
     }

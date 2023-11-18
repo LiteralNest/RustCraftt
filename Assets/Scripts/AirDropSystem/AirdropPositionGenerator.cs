@@ -1,9 +1,10 @@
 using System.Collections.Generic;
+using Unity.Netcode;
 using UnityEngine;
 
 namespace AirDropSystem
 {
-    public class AirdropPositionGenerator : MonoBehaviour
+    public class AirdropPositionGenerator : NetworkBehaviour
     {
         [SerializeField] private GameObject _airdropPrefab;
         [SerializeField] private MapSizeGetter _mapSizeGetter;
@@ -17,9 +18,18 @@ namespace AirDropSystem
 
         private void SpawnAirdrop(Vector3 spawnPoint)
         {
-            Instantiate(_airdropPrefab, spawnPoint, Quaternion.identity);
+            var instacne = Instantiate(_airdropPrefab, spawnPoint, Quaternion.identity);
+            instacne.GetComponent<NetworkObject>().Spawn();
         }
 
+    [ContextMenu("Spawn AirDrop")]
+        [ServerRpc(RequireOwnership = false)]
+        private void SpawnAirDropServerRpc()
+        {
+            if(!IsServer) return;
+            CalculateAndSpawn();
+        }
+   
         private void CalculateAndSpawn()
         {
             var randomEdge1 = Random.Range(0, 4);
@@ -84,7 +94,7 @@ namespace AirDropSystem
 
             spawnPoint = new Vector3(spawnPoint.x, _spawnZoneOffsetY, spawnPoint.z);
             _spawnPoint = spawnPoint;
-            
+
             return spawnPoint;
         }
 
@@ -94,15 +104,7 @@ namespace AirDropSystem
 
         #region UnityEditorTest
 
-        private void OnGUI()
-        {
-            if (GUI.Button(new Rect(Screen.width / 2 - 50, Screen.height / 2 - 15, 400, 160), "Generate Airdrop"))
-            {
-                CalculateAndSpawn();
-            }
-        }
-
-        private void OnDrawGizmos()
+        private void OnDrawGizmosSelected()
         {
             var halfWidth = _mapSizeGetter.MapWidth * _mapSizeGetter.BlockSize / 2;
             var halfHeight = _mapSizeGetter.MapHeight * _mapSizeGetter.BlockSize / 2;
@@ -120,12 +122,12 @@ namespace AirDropSystem
 
             Gizmos.color = Color.yellow;
             Gizmos.DrawWireSphere(_point2, 10f);
-        
+
             Gizmos.color = Color.magenta;
             Gizmos.DrawWireSphere(_spawnPoint, 10f);
         }
 
         #endregion
-    }
 #endif
+    }
 }

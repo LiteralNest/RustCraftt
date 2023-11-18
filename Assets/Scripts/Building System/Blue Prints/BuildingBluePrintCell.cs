@@ -1,18 +1,22 @@
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody), typeof(BoxCollider))]
 public class BuildingBluePrintCell : MonoBehaviour
 {
-    [Header("Start Init")]
-    [SerializeField] private BluePrint _bluePrint;
+    [Header("Start Init")] [SerializeField]
+    private BluePrint _bluePrint;
+
     [SerializeField] private BuildingStructure _targetBuildingStructure;
     [Header("Materials")] [SerializeField] private Material _negativeMaterial;
     [SerializeField] private Material _normalMaterial;
-    [SerializeField] private Renderer _renderer;
+    [SerializeField] private List<Renderer> _renderers;
 
-    [SerializeField] private List<GameObject> _triggeredObjects = new List<GameObject>();
+    private List<GameObject> _triggeredObjects = new List<GameObject>();
     public bool CanBePlaced { get; private set; }
+
+    public bool OnFrontOfPlayer { get; set; }
 
     private bool _enoughMaterials;
 
@@ -26,7 +30,13 @@ public class BuildingBluePrintCell : MonoBehaviour
         => CheckEnoughMaterials();
 
     private void SetMaterial(Material material)
-        => _renderer.material = material;
+    {
+        foreach (var renderer in _renderers)
+            renderer.sharedMaterial = material;
+    }
+
+    public virtual bool CanBePlace()
+        => !(!_enoughMaterials || _triggeredObjects.Count > 0 || OnFrontOfPlayer);
 
     private void SetCanBePlaced(bool value)
     {
@@ -39,7 +49,8 @@ public class BuildingBluePrintCell : MonoBehaviour
 
     public void CheckForAvailable()
     {
-        if (/*!_enoughMaterials ||*/ _triggeredObjects.Count > 0 || _bluePrint.OnFrontOfPlayer)
+        CheckEnoughMaterials();
+        if (!CanBePlace())
         {
             SetCanBePlaced(false);
             return;
@@ -49,23 +60,31 @@ public class BuildingBluePrintCell : MonoBehaviour
     }
 
     public void CheckEnoughMaterials()
-    {
-        _enoughMaterials = InventorySlotsContainer.singleton.EnoughMaterials(_targetBuildingStructure.GetPlacingRemovingCells());
-    }
+        => _enoughMaterials = InventoryHelper.EnoughMaterials(_targetBuildingStructure.GetPlacingRemovingCells(),
+            InventoryHandler.singleton.CharacterInventory.Cells);
+
+    public void InitPlacedObject(GameObject target)
+        => _bluePrint.InitPlacedObject(target.GetComponent<BuildingStructure>());
 
     public void TryPlace()
     {
         if (!CanBePlaced) return;
-        // var cells = _targetBuildingStructure.GetPlacingRemovingCells();
-        // foreach (var cell in cells)
-        //     InventorySlotsContainer.singleton.RemoveItemFromDesiredSlot(cell.Item, cell.Count);
+
+        foreach (var cell in _targetBuildingStructure.GetPlacingRemovingCells())
+            InventoryHandler.singleton.CharacterInventory.AddItemToDesiredSlotServerRpc(cell.Item.Id, cell.Count);
         BuildingsNetworkingSpawner.singleton.SpawnPrefServerRpc(_targetBuildingStructure.Id, transform.position,
             transform.rotation);
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("ConnectingPoint")) return;
+        if (other.CompareTag("NoBuild"))
+        {
+            SetCanBePlaced(false);
+            return;
+        }
+
+        if (other.CompareTag("ConnectingPoint") || other.CompareTag("ShelfZone") || other.CompareTag("WorkBench")) return;
         if (_triggeredObjects.Contains(other.gameObject)) return;
         _triggeredObjects.Add(other.gameObject);
         CheckForAvailable();
@@ -73,7 +92,7 @@ public class BuildingBluePrintCell : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.CompareTag("ConnectingPoint")) return;
+        if (other.CompareTag("ConnectingPoint") || other.CompareTag("ShelfZone") || other.CompareTag("WorkBench")) return;
         if (!_triggeredObjects.Contains(other.gameObject)) return;
         _triggeredObjects.Remove(other.gameObject);
         CheckForAvailable();

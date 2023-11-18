@@ -1,5 +1,6 @@
 using System.Threading.Tasks;
 using UnityEngine;
+using Web.User;
 
 [RequireComponent(typeof(ObjectsRayCaster))]
 public class PlayerResourcesGatherer : MonoBehaviour
@@ -79,7 +80,7 @@ public class PlayerResourcesGatherer : MonoBehaviour
     {
         var door = _objectsRayCaster.DoorHandler;
         if (!door) return;
-        door.Open();
+        door.Open(UserDataHandler.singleton.UserData.Id);
     }
     
     private void TryHit()
@@ -88,8 +89,10 @@ public class PlayerResourcesGatherer : MonoBehaviour
         Recover();
         var ore = _objectsRayCaster.TargetResourceOre;
         if (!ore) return;
+        if(!(ore is GatheringOre))
+            if(InventoryHandler.singleton.ActiveSlotDisplayer.ItemDisplayer.GetCurrentHp() <= 0) return;
         StartedGather = true;
-        ore.MinusHp(_inventoryHandler.ActiveItem, out bool destroyed);
+        ore.MinusHp(_inventoryHandler.ActiveItem, out bool destroyed, _objectsRayCaster.LastRaycastedPosition, _objectsRayCaster.LastRayCastedRotation);
         _audioSource.PlayOneShot(ore.GatheringClip);
         if (!destroyed) return;
         StopGathering();
@@ -102,7 +105,7 @@ public class PlayerResourcesGatherer : MonoBehaviour
         chest.Open(_inventoryHandler);
         return true;
     }
-    
+
     public void TryGather()
     {
         if(TryOpenChest()) return;
@@ -129,7 +132,7 @@ public class PlayerResourcesGatherer : MonoBehaviour
     {
         var lootingItem = _objectsRayCaster.LootingItem;
         if(!lootingItem) return;
-        _inventoryHandler.InventorySlotsContainer.AddItemToDesiredSlot(lootingItem.Item, lootingItem.Count.Value);
+        _inventoryHandler.CharacterInventory.AddItemToDesiredSlotServerRpc(lootingItem.ItemId.Value, lootingItem.Count.Value);
         lootingItem.PickUpServerRpc();
     }
 }
