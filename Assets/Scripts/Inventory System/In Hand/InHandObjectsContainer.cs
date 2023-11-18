@@ -3,18 +3,29 @@ using UnityEngine;
 
 public class InHandObjectsContainer : MonoBehaviour
 {
-    public static InHandObjectsContainer singleton { get; private set; }
-    
     [SerializeField] private List<InHandObjectCell> _inHandObjects;
     [SerializeField] private PlayerNetCode _playerNetCode;
-    
+    [SerializeField] private GameObject _defaultHands;
     private InHandObjectCell _currentCell;
 
-    private void Awake()
-        => singleton = this;
+    private void OnEnable()
+    {
+        GlobalEventsContainer.ShouldHandleAttacking += HandleAttacking;
+        GlobalEventsContainer.ShouldHandleWalk += SetWalk;
+        GlobalEventsContainer.ShouldHandleRun += SetRun;
+    }
+    
+    private void OnDisable()
+    {
+        GlobalEventsContainer.ShouldHandleAttacking -= HandleAttacking;
+        GlobalEventsContainer.ShouldHandleWalk -= SetWalk;
+        GlobalEventsContainer.ShouldHandleRun -= SetRun;
+    }
     
     private void Start()
     {
+        if(_playerNetCode.IsOwner)
+            _defaultHands.SetActive(false);
         TurnOffObject();
     }
 
@@ -29,6 +40,7 @@ public class InHandObjectsContainer : MonoBehaviour
     
     public void DisplayItems(int itemId)
     {
+        _defaultHands.SetActive(false);
         bool isOwner = _playerNetCode.PlayerIsOwner();
         foreach (var obj in _inHandObjects)
         {
@@ -55,8 +67,9 @@ public class InHandObjectsContainer : MonoBehaviour
         _currentCell.SetRun(value);
     }
 
-    public void HandleAttacking(bool attack)
+    private void HandleAttacking(bool attack)
     {
+        if(!_playerNetCode.IsOwner) return;
         if(_currentCell == null) return;
         _currentCell.HandleAttacking(attack);
     }

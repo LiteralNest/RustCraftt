@@ -67,10 +67,12 @@ public class Recycler : MonoBehaviour
     {
         await Task.Delay((int)(_recyclingTime * 1000));
         if(!_recycling) return;
+        List<InventoryCell> recyclingCells = new List<InventoryCell>();
+        recyclingCells = _cells.GetRange(5, 5);
         foreach (var cell in item.Cells)
         {
             var rand = Random.Range(cell.ItemsRange.x, cell.ItemsRange.y);
-            var desiredCell = InventoryHelper.GetDesiredCell(cell.ResultItem, rand, _cells);
+            var desiredCell = InventoryHelper.GetDesiredCell(cell.ResultItem, rand, recyclingCells);
             if (desiredCell == null)
             {
                 _recycling = false;
@@ -87,11 +89,12 @@ public class Recycler : MonoBehaviour
     private void TryRecycle()
     {
         if(_recycling) return;
-        _recycling = true;
-        foreach (var cell in _cells)
+        var cells = _cells.GetRange(0, 5);
+        foreach (var cell in cells)
         {
             if (!cell.Item || !GetRecyclingItemById(cell.Item.Id)) continue;
             RecycleItem(GetRecyclingItemById(cell.Item.Id));
+            _recycling = true;
         }
     }
 

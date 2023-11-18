@@ -13,7 +13,7 @@ public class BuildingStructure : MonoBehaviour
     {
         List<InventoryCell> res = new List<InventoryCell>();
         foreach (var block in _blocks)
-            res.AddRange(block.NeededCellsForPlace);
+            res.AddRange(block.GetNeededCellsForPlace());
         return res;
     }
 }

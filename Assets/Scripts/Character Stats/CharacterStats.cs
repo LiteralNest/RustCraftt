@@ -83,8 +83,8 @@ public class CharacterStats : MonoBehaviour
             _statsDisplayer.DisplayHp((int)Health);
             if (Health <= 0)
             {
-               GlobalEventsContainer.PlayerDied?.Invoke();
-               _statsDisplayer.DisplayDeathMessage("You died!", Color.red);
+               // GlobalEventsContainer.PlayerDied?.Invoke();
+               // _statsDisplayer.DisplayDeathMessage("You died!", Color.red);
             }
             break;
          case CharacterStatType.Food:
@@ -92,8 +92,8 @@ public class CharacterStats : MonoBehaviour
             _statsDisplayer.DisplayFood((int)Food);
             if (Food <= 0)
             {
-               GlobalEventsContainer.PlayerDied?.Invoke();
-               _statsDisplayer.DisplayDeathMessage("You died!", Color.green);
+               // GlobalEventsContainer.PlayerDied?.Invoke();
+               // _statsDisplayer.DisplayDeathMessage("You died!", Color.green);
             }
             break;
          case CharacterStatType.Water:
@@ -101,8 +101,8 @@ public class CharacterStats : MonoBehaviour
             _statsDisplayer.DisplayWater((int)Water);
             if (Water <= 0)
             {
-               GlobalEventsContainer.PlayerDied?.Invoke();
-               _statsDisplayer.DisplayDeathMessage("You died!", Color.blue);
+               // GlobalEventsContainer.PlayerDied?.Invoke();
+               // _statsDisplayer.DisplayDeathMessage("You died!", Color.blue);
             }
             break;
       }

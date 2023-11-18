@@ -3,8 +3,8 @@ using UnityEngine;
 [System.Serializable]
 public class InventoryCell
 {
-   [field:SerializeField] public Item Item { get; set; }
-   [field:SerializeField] public int Count { get; set; }
+   public Item Item;
+   public int Count;
 
    public InventoryCell(InventoryCell cell)
    {

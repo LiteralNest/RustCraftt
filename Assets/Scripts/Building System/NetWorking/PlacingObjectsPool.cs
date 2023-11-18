@@ -22,7 +22,7 @@ public class PlacingObjectsPool : NetworkBehaviour
         return null;
     }
 
-    [ServerRpc]
+    [ServerRpc(RequireOwnership = false)]
     public void InstantiateObjectServerRpc(int id, Vector3 pos, Quaternion rot)
     {
         if (!IsServer) return;

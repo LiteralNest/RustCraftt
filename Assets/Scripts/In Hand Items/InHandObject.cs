@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class InHandObject : MonoBehaviour
@@ -5,6 +6,10 @@ public class InHandObject : MonoBehaviour
     [Header("Attached Scripts")]
     [SerializeField] private Animator _animator;
 
+    [Header("Start Init")] [SerializeField]
+    private List<Renderer> _renderers;
+    [SerializeField] private List<GameObject> _activatingObjects;
+    
     [Header("Animator States")]
     [SerializeField] private string _attackIndex = "Attacking";
     [SerializeField] private string _walkIndex = "Walking";
@@ -28,5 +33,13 @@ public class InHandObject : MonoBehaviour
     {
         if(!_animator) return;
         _animator.SetBool(_attackIndex, attack);
+    }
+
+    public void DisplayRenderers(bool value)
+    {
+        foreach(var renderer in _renderers)
+            renderer.enabled = value;
+        foreach(var activatingObject in _activatingObjects)
+            activatingObject.SetActive(value);
     }
 }

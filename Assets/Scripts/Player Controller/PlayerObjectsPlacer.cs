@@ -18,21 +18,21 @@ public class PlayerObjectsPlacer : MonoBehaviour
 
     private void TryMoveBuildingObject()
     {
-        if (!_targetBluePrint.TryGetObjectCoords(_targetCamera, out var coords))
+        if (!_targetBluePrint.TryGetObjectCoords(_targetCamera, out var coords, out var rotation))
         {
-            _targetBluePrint.SetCanBePlaced(false);
+            _targetBluePrint.SetOnFrontOfPlayer(true);
             _targetBluePrint.transform.position = GetFrontOfCameraPosition();
             return;
         }
 
-        _targetBluePrint.SetCanBePlaced(true);
+        _targetBluePrint.SetOnFrontOfPlayer(false);
         _targetBluePrint.transform.position = coords;
     }
 
     public void Place()
     {
         if (_targetBluePrint == null) return;
-        _targetBluePrint.TryPlace();
+        _targetBluePrint.Place();
         GlobalEventsContainer.ShouldDisplayPlacingPanel?.Invoke(false);
         ClearCurrentPref();
     }
