@@ -5,7 +5,6 @@ public class GatheringOre : Ore
 {
     private void Start()
     {
-        base.Start();
         gameObject.tag = "Gathering";
     }
 
