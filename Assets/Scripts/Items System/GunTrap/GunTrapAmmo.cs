@@ -32,7 +32,7 @@ namespace Items_System.GunTrap
         public override void Open(InventoryHandler handler)
         {
             base.Open(handler);
-            handler.OpenShotGunPanel();
+            handler.InventoryPanelsDisplayer.OpenShotGunPanel();
             SlotsDisplayer = handler.ShotGunSlotsDisplayer;
         }
     }

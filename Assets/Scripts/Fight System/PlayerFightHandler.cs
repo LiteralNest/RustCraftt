@@ -44,7 +44,7 @@ public class PlayerFightHandler : MonoBehaviour
     public void Reload()
     {
         _currentBaseShootingWeapon.Reload();
-        GlobalEventsContainer.ShouldDisplayReloadingButton?.Invoke(false);
+        MainUiHandler.singleton.ActivateReloadingButton(false);
     }
 
     public void Scope()

@@ -31,7 +31,7 @@ public class Recycler : Storage
 
     public override void Open(InventoryHandler handler)
     {
-        handler.OpenRecyclerPanel();
+        handler.InventoryPanelsDisplayer.OpenRecyclerPanel();
         SlotsDisplayer = handler.RecyclerSlotsDisplayer;
         base.Open(handler);
     }

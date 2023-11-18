@@ -13,7 +13,7 @@ public class LootBox : Storage
 
     public override void Open(InventoryHandler handler)
     { 
-        handler.OpenLootBoxPanel();
+        handler.InventoryPanelsDisplayer.OpenLootBoxPanel();
         SlotsDisplayer = handler.LootBoxSlotsDisplayer;
         base.Open(handler);
     }

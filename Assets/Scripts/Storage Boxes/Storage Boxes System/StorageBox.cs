@@ -12,7 +12,7 @@ public class StorageBox : Storage, ILockable
     {
         if (_doorLocker != null && !_doorLocker.CanBeOpened(UserDataHandler.singleton.UserData.Id)) return;
         SlotsDisplayer = handler.LargeStorageSlotsDisplayer;
-        handler.OpenLargeChestPanel();
+        handler.InventoryPanelsDisplayer.OpenLargeChestPanel();
         base.Open(handler);
     }
 

@@ -95,7 +95,7 @@ public class ObjectsRayCaster : MonoBehaviour
         {
             if (OreReady(ore))
             {
-                GlobalEventsContainer.GatherButtonActivated?.Invoke(true);
+                MainUiHandler.singleton.ActivateGatherButton(true);
                 TargetResourceOre = ore;
                 SetLootText("Obtain");
                 return;
@@ -118,8 +118,8 @@ public class ObjectsRayCaster : MonoBehaviour
             _targetBlock = null;
         }
 
-        GlobalEventsContainer.GatherButtonActivated?.Invoke(false);
-        GlobalEventsContainer.PickUpButtonActivated?.Invoke(false);
+        MainUiHandler.singleton.ActivateGatherButton(false);
+        MainUiHandler.singleton.ActivatePickupButton(false);
         SetLootText("", false);
 
         SetLootButton("", false);
@@ -130,7 +130,7 @@ public class ObjectsRayCaster : MonoBehaviour
         {
             LootingItem = lootingItem;
             SetLootButton("Gather");
-            GlobalEventsContainer.PickUpButtonActivated?.Invoke(true);
+            MainUiHandler.singleton.ActivatePickupButton(true);
             return;
         }
 

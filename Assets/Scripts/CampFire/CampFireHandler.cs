@@ -41,7 +41,7 @@ public class CampFireHandler : Storage
 
     public override void Open(InventoryHandler handler)
     {
-        handler.OpenCampFirePanel();
+        handler.InventoryPanelsDisplayer.OpenCampFirePanel();
         SlotsDisplayer = handler.CampFireSlotsDisplayer;
         base.Open(handler);
     }

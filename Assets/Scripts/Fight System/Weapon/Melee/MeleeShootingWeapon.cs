@@ -5,19 +5,19 @@ using UnityEngine.InputSystem;
 
 public class MeleeShootingWeapon : MonoBehaviour
 {
-    [Header("ThrowingObject")] 
-    [SerializeField] private GameObject _spearInHands;
+    [Header("ThrowingObject")] [SerializeField]
+    private GameObject _spearInHands;
 
-    [Header("Physics")]
-    [SerializeField] private float _throwForce = 40f;
+    [Header("Physics")] [SerializeField] private float _throwForce = 40f;
     [SerializeField] private float _lerpSpeed = 2f;
     [SerializeField] private Transform _spawnPoint;
     [SerializeField] private Collider _spearCollider;
     [SerializeField] private Rigidbody _rb;
     [SerializeField] private LayerMask _layerMask;
 
-    [Header("VisualEffects")] 
-    [SerializeField] private WeaponSoundPlayer _soundPlayer;
+    [Header("VisualEffects")] [SerializeField]
+    private WeaponSoundPlayer _soundPlayer;
+
     [SerializeField] private GameObject _impactEffect;
 
     public bool IsInThrowingPosition { get; private set; }
@@ -40,7 +40,7 @@ public class MeleeShootingWeapon : MonoBehaviour
     public void ThrowSpearByPhysic()
     {
         ThrowSpear();
-        
+
         if (_rotateInFixedUpdate)
         {
             var velocity = _rb.velocity.normalized;
@@ -64,14 +64,13 @@ public class MeleeShootingWeapon : MonoBehaviour
         IsInThrowingPosition = true;
         _spearCollider.enabled = true;
         _rb.useGravity = true;
-        
     }
 
 
     private void OnDisable()
     {
         GlobalEventsContainer.WeaponMeleeObjectAssign?.Invoke(this);
-        GlobalEventsContainer.ThrowMeleeButtonActivated?.Invoke(false);
+        MainUiHandler.singleton.ActivateMeleeThrowButton(false);
     }
 
     private void ThrowSpear()
@@ -81,10 +80,9 @@ public class MeleeShootingWeapon : MonoBehaviour
 
         _rb.isKinematic = false;
         _rb.useGravity = true;
-        
+
         _direction = _spawnPoint.forward * _throwForce;
-        
-        Debug.Log("Force applied: " + _direction);
+
         _rb.AddForce(_direction.normalized * _throwForce, ForceMode.Impulse);
 
         _rotateInFixedUpdate = true;
@@ -101,17 +99,7 @@ public class MeleeShootingWeapon : MonoBehaviour
         transform.position = other.contacts[0].point;
         transform.SetParent(other.transform);
     }
-
-
-    // private void OnDrawGizmos()
-    // {
-    //     {
-    //         Gizmos.color = Color.red;
-    //         Gizmos.DrawRay(_spawnPoint.forward, _direction * _throwForce);
-    //     }
-    // }
-    // public void Attack(bool value)
-    // {
-    //     GlobalEventsContainer.ShouldHandleAttacking?.Invoke(value);
-    // }
+    
+    public void Attack(bool value)
+        => GlobalEventsContainer.ShouldHandleAttacking?.Invoke(value);
 }

@@ -12,15 +12,11 @@ public class InHandObjectsContainer : NetworkBehaviour
     private void OnEnable()
     {
         GlobalEventsContainer.ShouldHandleAttacking += HandleAttacking;
-        GlobalEventsContainer.ShouldHandleWalk += SetWalk;
-        GlobalEventsContainer.ShouldHandleRun += SetRun;
     }
 
     private void OnDisable()
     {
         GlobalEventsContainer.ShouldHandleAttacking -= HandleAttacking;
-        GlobalEventsContainer.ShouldHandleWalk -= SetWalk;
-        GlobalEventsContainer.ShouldHandleRun -= SetRun;
     }
 
     public override void OnNetworkSpawn()

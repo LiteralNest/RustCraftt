@@ -12,7 +12,7 @@ public class ToolClipboard : Storage, ILockable
     {
         if (_doorLocker != null && !_doorLocker.CanBeOpened(UserDataHandler.singleton.UserData.Id)) return;
         SlotsDisplayer = handler.ToolClipboardSlotsDisplayer;
-        handler.OpenClipBoardPanel();
+        handler.InventoryPanelsDisplayer.OpenClipBoardPanel();
         base.Open(handler);
     }
 

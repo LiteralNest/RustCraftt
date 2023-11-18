@@ -70,7 +70,7 @@ public abstract class BaseExplosive : NetworkBehaviour
         DamageObjects();
         _model.SetActive(false);
         await PlaySound();
-        Destroy(gameObject);
+        //Destroy(gameObject);
         if (IsServer)
             GetComponent<NetworkObject>().Despawn();
     }

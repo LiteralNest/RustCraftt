@@ -44,15 +44,14 @@ namespace Fight_System.Weapon.ShootWeapon
 
         private void OnEnable()
         {
-            GlobalEventsContainer.ShouldHandleScope?.Invoke(true);
+            MainUiHandler.singleton.ActivateScope(true);
             GlobalEventsContainer.WeaponObjectAssign?.Invoke(this);
         }
 
         private void OnDisable()
         {
-            GlobalEventsContainer.ShouldHandleScope?.Invoke(false);
-            GlobalEventsContainer.ShouldDisplayReloadingButton?.Invoke(false);
-            GlobalEventsContainer.AttackButtonActivated?.Invoke(false);
+            MainUiHandler.singleton.ActivateScope(false);
+            MainUiHandler.singleton.ActivateBuildingButton(false);
             GlobalEventsContainer.WeaponObjectAssign?.Invoke(null);
         }
 
@@ -95,7 +94,7 @@ namespace Fight_System.Weapon.ShootWeapon
 
         protected void MinusAmmo()
         {
-            GlobalEventsContainer.ShouldDisplayReloadingButton?.Invoke(true);
+            MainUiHandler.singleton.ActivateReloadingButton(true);
             currentAmmoCount--;
             if (currentAmmoCount <= 0)
             {

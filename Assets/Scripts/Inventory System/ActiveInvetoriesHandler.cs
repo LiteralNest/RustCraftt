@@ -11,12 +11,6 @@ public class ActiveInvetoriesHandler : MonoBehaviour
     private void Awake()
         => singleton = this;
 
-    private void OnEnable()
-        => GlobalEventsContainer.ShouldResetCurrentInventory += ResetActiveInventory;
-
-    private void OnDisable()
-        => GlobalEventsContainer.ShouldResetCurrentInventory -= ResetActiveInventory;
-
     public void AddActiveInventory(Storage storage)
         => _activeInventory = storage; 
 

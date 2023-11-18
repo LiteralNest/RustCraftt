@@ -3,8 +3,9 @@ using UnityEngine;
 public class BuildingDragger : MonoBehaviour
 {
     [SerializeField] private Camera _targetCamera;
-    [SerializeField] private BluePrint _currentPref;
     [SerializeField] private float _distance = 5f;
+    
+    private BluePrint _currentPref;
 
     private void Update()
     {
@@ -39,7 +40,7 @@ public class BuildingDragger : MonoBehaviour
     {
         if(_currentPref == null) return;
         Destroy(_currentPref.gameObject);
-        GlobalEventsContainer.ShouldDisplayBuildingStaff?.Invoke(false);
+        MainUiHandler.singleton.ActivateBuildingStaffPanel(false);
         _currentPref = null;
     }
     

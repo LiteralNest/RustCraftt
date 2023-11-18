@@ -6,10 +6,10 @@ using UnityEngine;
 public abstract class SlotsDisplayer : MonoBehaviour
 {
     public Storage TargetStorage { get; set; }
-
-    [Header("Start Init")]
-    [SerializeField] protected List<InventorySlotDisplayer> _cellDisplayers = new List<InventorySlotDisplayer>();
     
+    [Header("Start Init")] [SerializeField]
+    protected List<InventorySlotDisplayer> _cellDisplayers = new List<InventorySlotDisplayer>();
+
     public abstract void InitItems();
 
     public virtual List<ArmorSlotDisplayer> GetArmorSlots()
@@ -19,7 +19,7 @@ public abstract class SlotsDisplayer : MonoBehaviour
     {
         InitItems();
     }
-    
+
     public void InitCells()
     {
         for (int i = 0; i < _cellDisplayers.Count; i++)
@@ -34,11 +34,12 @@ public abstract class SlotsDisplayer : MonoBehaviour
 
     private ItemDisplayer GetGeneratedItemDisplayer(InventoryCell cell, InventorySlotDisplayer slotDisplayer)
     {
-        var itemDisplayer = Instantiate(InventorySlotDisplayerSelector.singleton.GetDisplayerByType(cell.Item), slotDisplayer.transform);
+        var itemDisplayer = Instantiate(InventorySlotDisplayerSelector.singleton.GetDisplayerByType(cell.Item),
+            slotDisplayer.transform);
         itemDisplayer.Init(slotDisplayer, cell, TargetStorage);
         return itemDisplayer;
     }
-    
+
     public virtual void DisplayCells()
     {
         ResetCells();

@@ -9,6 +9,6 @@ public class Building : CraftingItem
     {
         base.Click(slotDisplayer,handler);
         handler.PlayerObjectsPlacer.SetCurrentPref(_targetBluePrint);
-        GlobalEventsContainer.ShouldDisplayPlacingPanel?.Invoke(true);
+        MainUiHandler.singleton.ActivatePlacingPanel(true);
     }
 }
