@@ -111,13 +111,13 @@ namespace Storage_Boxes
         }
 
         [ServerRpc(RequireOwnership = false)]
-        public void RemoveItemCountServerRpc(int id, int count)
+        public void RemoveItemCountServerRpc(int itemId, int count)
         {
             if (IsServer)
             {
                 for (int i = 0; i < ItemsNetData.Count; i++)
                 {
-                    if (ItemsNetData[i].x == id)
+                    if (ItemsNetData[i].x == itemId)
                         ItemsNetData[i] -= new Vector3Int(0, count, 0);
                     if (ItemsNetData[i].y <= 0)
                         ItemsNetData[i] = new Vector3Int(-1, 0, -1);

@@ -1,57 +1,41 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Serialization;
-using UnityEngine.UI;
 
 public class Technology : MonoBehaviour
 {
-    [SerializeField] private Item _item;
-    [SerializeField] public int Cost;
-    [SerializeField] private Image _image;
+    [Header("Attached Components")] [SerializeField]
+    private Item _scrap;
 
-    [SerializeField] private Technology[] _unlockedTech;
-    [SerializeField] public bool isResearched;
-    [SerializeField] private PlayerScrapTest _scrapTest; //TEST
+    [SerializeField] private TechnologyUI _technologyUI;
+    [field:SerializeField] public int Cost { get; private set; }
 
-    public bool IsResearched => isResearched;
-    public string TechName { get; private set; }
-    public string TechDescription { get; private set; }
-    public Sprite TechImage { get; private set; }
+    [SerializeField] private List<Technology> _unlockingTech = new List<Technology>();
+    [field: SerializeField] public Item Item { get; private set; }
+    [SerializeField] private bool _isActive;
+    [field: SerializeField] public bool IsResearched { get; private set; }
 
-    private int _currentResourceAmount;
-    
     private void Awake()
-    {
-        _currentResourceAmount = _scrapTest.Scrap;
+        => _technologyUI.DisplayTech(this);
 
-        TechName = _item.Name;
-        TechDescription = _item.Description;
-        TechImage = _item.Icon;
-        _image.sprite = TechImage;
-    }
-    
-    public void Research()
+    private void UnlockTechs()
     {
-        if (!isResearched)
-        {
-            if (CanResearch() && _currentResourceAmount >= Cost)
-            {
-                _currentResourceAmount -= Cost;
-                isResearched = true;
-                Debug.Log("Reserched");
-            }
-        }
+        foreach (var tech in _unlockingTech)
+            tech._isActive = true;
     }
 
     public bool CanResearch()
     {
-        foreach (var tech in _unlockedTech)
-        {
-            if (!tech.IsResearched)
-            {
-                return false;
-            }
-        }
-     
-        return true;
+        if (!_isActive) return false;
+        return InventoryHandler.singleton.CharacterInventory.GetItemCount(_scrap.Id) >= Cost;
+    }
+
+    public void Research()
+    {
+        if (IsResearched || !CanResearch()) return;
+        InventoryHandler.singleton.CharacterInventory.RemoveItemCountServerRpc(_scrap.Id, Cost);
+        IsResearched = true;
+        _technologyUI.UnlockTech();
+        UnlockTechs();
     }
 }
