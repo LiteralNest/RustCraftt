@@ -3,34 +3,25 @@ using UnityEngine;
 public class PlayerSpearThrowing : MonoBehaviour
 {
     private MeleeShootingWeapon _meleeShootingWeapon;
-    private bool _attacking;
 
     private void OnEnable()
         => GlobalEventsContainer.WeaponMeleeObjectAssign += AssignMeleeWeaponObject;
-    
+
     private void OnDisable()
         => GlobalEventsContainer.WeaponMeleeObjectAssign -= AssignMeleeWeaponObject;
-    
-    private void Update()
-    {
-        if (!_attacking || _meleeShootingWeapon == null) return;
-        _meleeShootingWeapon.ThrowSpearByPhysic();
-            
-    }
 
     private void AssignMeleeWeaponObject(MeleeShootingWeapon value)
-    {
-        _meleeShootingWeapon = value;
-    }
+        => _meleeShootingWeapon = value;
+
     public void SetAttacking(bool value)
     {
-        _attacking = value;
+        if(!_meleeShootingWeapon) return;
+        _meleeShootingWeapon.Attack(value);
     }
 
-    public void SetOnThrowPosition()
+    public void Scope(bool value)
     {
-        _meleeShootingWeapon.SetThrowingPosition();
+        if(!_meleeShootingWeapon) return;
+        _meleeShootingWeapon.SetThrowingPosition(value);
     }
-    
-    
 }

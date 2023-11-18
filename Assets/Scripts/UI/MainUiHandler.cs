@@ -15,32 +15,28 @@ public class MainUiHandler : MonoBehaviour
     [SerializeField] private GameObject _reloadingButton;
     [SerializeField] private GameObject _placingPanel;
     [SerializeField] private GameObject _scopeButton;
-    [SerializeField] private GameObject _throwingAimButton;
+
     [SerializeField] private GameObject _meleeThrowButton;
     [SerializeField] private GameObject _throwExplosiveButton;
 
-      private void OnEnable()
+    private void OnEnable()
     {
         GlobalEventsContainer.BuildingHammerActivated += ActivateUpgradeButton;
         GlobalEventsContainer.ShouldDisplayThrowButton += ActivateThrowButton;
     }
+
     private void OnDisable()
     {
         GlobalEventsContainer.BuildingHammerActivated -= ActivateUpgradeButton;
         GlobalEventsContainer.ShouldDisplayThrowButton -= ActivateThrowButton;
     }
-    
+
     private void Awake()
         => singleton = this;
 
     public void ActivateMeleeThrowButton(bool value)
-    {
-        _meleeThrowButton.SetActive(value);
-        Debug.Log("Attack");
-    }
+        => _meleeThrowButton.SetActive(value);
 
-    public void ActivateThrowingButton(bool value)
-        => _throwingAimButton.SetActive(value);
 
     public void ActivateScope(bool value)
         => _scopeButton.SetActive(value);

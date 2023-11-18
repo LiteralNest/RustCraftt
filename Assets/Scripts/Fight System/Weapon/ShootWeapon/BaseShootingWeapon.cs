@@ -52,6 +52,7 @@ namespace Fight_System.Weapon.ShootWeapon
         {
             MainUiHandler.singleton.ActivateScope(false);
             MainUiHandler.singleton.ActivateBuildingButton(false);
+            MainUiHandler.singleton.ActivateReloadingButton(false);
             GlobalEventsContainer.WeaponObjectAssign?.Invoke(null);
         }
 

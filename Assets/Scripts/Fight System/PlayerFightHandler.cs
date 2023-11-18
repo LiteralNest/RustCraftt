@@ -34,6 +34,7 @@ public class PlayerFightHandler : MonoBehaviour
 
     public void SetAttacking(bool value)
     {
+        if(!_currentBaseShootingWeapon) return;
         _attacking = value;
         if (value == false)
         {
@@ -43,12 +44,14 @@ public class PlayerFightHandler : MonoBehaviour
 
     public void Reload()
     {
+        if(!_currentBaseShootingWeapon) return;
         _currentBaseShootingWeapon.Reload();
         MainUiHandler.singleton.ActivateReloadingButton(false);
     }
 
     public void Scope()
     {
+        if(!_currentBaseShootingWeapon) return;
         _currentBaseShootingWeapon.Scope();
     }
 }
