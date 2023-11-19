@@ -10,8 +10,7 @@ public class ResourceOre : Ore
     
     private void Start()
     {
-        base.Start(); 
-        gameObject.tag = "Ore";
+         gameObject.tag = "Ore";
     }
     private bool CanUseTool(Item tool)
         => _toolsForGathering.Contains(tool);

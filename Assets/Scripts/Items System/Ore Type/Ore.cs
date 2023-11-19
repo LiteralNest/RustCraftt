@@ -17,13 +17,14 @@ public class Ore : NetworkBehaviour
 
     public bool Recovering { get; protected set; } = false;
 
-    protected void Start()
+    public override void OnNetworkSpawn()
     {
         _currentHp.Value = _hp;
         _currentHp.OnValueChanged += (int prevValue, int newValue) =>
         {
             CheckHp();
         };
+        base.OnNetworkSpawn();
     }
     
     protected void AddResourcesToInventory()

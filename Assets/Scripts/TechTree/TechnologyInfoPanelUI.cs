@@ -2,41 +2,52 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-   public class TechnologyInfoPanelUI : MonoBehaviour
-   {
-       [SerializeField] private TextMeshProUGUI _techNameText;
-       [SerializeField] private TextMeshProUGUI _techDescriptionText;
-       [SerializeField] private TextMeshProUGUI _techCostText;
-       [SerializeField] private Button _researchButton;
-       [SerializeField] private GameObject _infoPanel;
+namespace TechTree
+{
+    public class TechnologyInfoPanelUI : MonoBehaviour
+    {
+        [Header("Attached Scritps")]
+        [SerializeField] private TechnologiesContainer _technologiesContainer;
+       
+        [Header("UI")]
+        [SerializeField] private TMP_Text _techNameText;
+        [SerializeField] private TMP_Text _techDescriptionText;
+        [SerializeField] private TMP_Text _techCostText;
+        [SerializeField] private Image _techImage;
+        [SerializeField] private Button _researchButton;
+        [SerializeField] private GameObject _infoPanel;
 
-       private Technology _currentTechnology;
+        private Technology _currentTechnology;
 
-       private void Start()
-       {
-           _researchButton.onClick.AddListener(ResearchTechnology);
-       }
+        private void Start()
+        {
+            _researchButton.onClick.AddListener(ResearchTechnology);
+        }
 
-       public void ShowTechnologyInfo(Technology technology)
-       {
-           _currentTechnology = technology;
+        public void ShowTechnologyInfo(Technology technology, TechnologyUI technologyUI)
+        {
+            _technologiesContainer.DeselectTechnologies();
+            technologyUI.Select(true);
+            _currentTechnology = technology;
 
-           _techNameText.text = technology.TechName;
-           _techDescriptionText.text = technology.TechDescription;
-           _techCostText.text = "Cost: " + technology.Cost; 
+            _techImage.sprite = technology.Item.Icon;
+            _techNameText.text = technology.Item.Name;
+            _techDescriptionText.text = technology.Item.Description;
+            _techCostText.text = "x" + technology.Cost; 
            
-           _researchButton.interactable = !technology.IsResearched && technology.CanResearch();
+            _researchButton.interactable = !technology.IsResearched && technology.CanResearch();
 
-           _infoPanel.SetActive(true); 
-       }
+            _infoPanel.SetActive(true); 
+        }
 
-       private void ResearchTechnology()
-       {
-           if (_currentTechnology != null)
-           {
-               _currentTechnology.Research();
-               _researchButton.interactable = false;
-               _infoPanel.SetActive(false);
-           }
-       }
-   }
+        private void ResearchTechnology()
+        {
+            if (_currentTechnology != null)
+            {
+                _currentTechnology.Research();
+                _researchButton.interactable = false;
+                _infoPanel.SetActive(false);
+            }
+        }
+    }
+}

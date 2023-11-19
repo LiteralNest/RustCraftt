@@ -1,4 +1,5 @@
 using System;
+using Unity.Netcode;
 using UnityEngine;
 
 public class WeaponThrower : MonoBehaviour
@@ -26,6 +27,7 @@ public class WeaponThrower : MonoBehaviour
     private void SpawnSpear(Transform spawnPoint)
     {
         _target = Instantiate(_targetPref, spawnPoint.position, spawnPoint.rotation);
+        _target.GetComponent<NetworkObject>().Spawn();
         //Дописати неткод
     }
     
