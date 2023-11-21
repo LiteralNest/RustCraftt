@@ -3,9 +3,9 @@ using UnityEngine;
 public class TemperatureZone : MonoBehaviour
 {
     [SerializeField] private SphereCollider _sphereCollider;
-    public float temperatureStep = 2f;
-    public float maxTemperature = 0f;
-    public float minTemperature = -16f;
+    public float temperatureStep = 5f;
+    public float maxTemperature = -25f;
+    public float minTemperature = 0f;
     public float alpha = 0.5f;
     public bool showTemperatures = true;
 
@@ -13,6 +13,7 @@ public class TemperatureZone : MonoBehaviour
     {
         var sphereRadius = GetComponent<SphereCollider>().radius;
         var normalizedDistance = Vector3.Distance(position, transform.position) / sphereRadius;
+        
         return Mathf.Lerp(minTemperature, maxTemperature, normalizedDistance);
     }
     private void OnDrawGizmos()

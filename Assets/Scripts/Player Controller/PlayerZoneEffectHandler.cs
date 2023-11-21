@@ -1,5 +1,3 @@
-// PlayerZoneEffectHandler.cs
-
 using EnvironmentEffectsSystem.Effects;
 using UnityEngine;
 
@@ -7,7 +5,8 @@ namespace Player_Controller
 {
     public class PlayerZoneEffectHandler : MonoBehaviour
     {
-        private RadiationEffect _currentEffect;
+        private ColdEffect _currentColdEffect;
+        private RadiationEffect _currentRadiationEffect;
         private CharacterStats _characterStats;
 
         private void Start()
@@ -17,38 +16,41 @@ namespace Player_Controller
 
         private void OnTriggerEnter(Collider other)
         {
-            RadiationEffect effect = null;
-
             if (other.CompareTag("ColdEnvironment"))
             {
-                //add cold effect
+                var coldEffect = other.GetComponent<ColdEffect>();
+                var temperatureZone = other.GetComponent<TemperatureZone>();
                 
-                // effect = other.GetComponent<RadiationEffect>();
-                // if (effect != null)
-                // {
-                //     _currentEffect = effect;
-                //     _currentEffect.SetCharacterStats(_characterStats);
-                //     _currentEffect.OnEnter();
-                // }
+                if (coldEffect != null)
+                {
+                    _currentColdEffect = coldEffect;
+                    _currentColdEffect.SetCharacterStats(_characterStats);
+                    _currentColdEffect.OnEnter(temperatureZone);
+                }
             }
             else if (other.CompareTag("RadioactiveEnvironment"))
             {
-                effect = other.GetComponent<RadiationEffect>();
-                if (effect != null)
+                RadiationEffect radiationEffect = other.GetComponent<RadiationEffect>();
+                if (radiationEffect != null)
                 {
-                    _currentEffect = effect;
-                    _currentEffect.SetCharacterStats(_characterStats);
-                    _currentEffect.OnEnter();
+                    _currentRadiationEffect = radiationEffect;
+                    _currentRadiationEffect.SetCharacterStats(_characterStats);
+                    _currentRadiationEffect.OnEnter();
                 }
             }
         }
 
         private void OnTriggerExit(Collider other)
         {
-            if (_currentEffect != null && _currentEffect.MatchesTrigger(other))
+            if (_currentColdEffect != null && _currentColdEffect.MatchesTrigger(other))
             {
-                _currentEffect.OnExit();
-                _currentEffect = null;
+                _currentColdEffect.OnExit();
+                _currentColdEffect = null;
+            }
+            else if (_currentRadiationEffect != null && _currentRadiationEffect.MatchesTrigger(other))
+            {
+                _currentRadiationEffect.OnExit();
+                _currentRadiationEffect = null;
             }
         }
     }
