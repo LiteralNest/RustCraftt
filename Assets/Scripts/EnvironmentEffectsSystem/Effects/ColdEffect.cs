@@ -30,6 +30,11 @@ namespace EnvironmentEffectsSystem.Effects
             Debug.Log("Entered Cold Zone");
         }
 
+        public void OnEnter(Collider other)
+        {
+            throw new System.NotImplementedException();
+        }
+
         public void OnExit()
         {
             _isEntering = false;

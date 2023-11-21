@@ -1,16 +1,15 @@
+// PlayerZoneEffectHandler.cs
+
 using EnvironmentEffectsSystem.Effects;
-using SurroundingEffectsSystem;
 using UnityEngine;
 
 namespace Player_Controller
 {
     public class PlayerZoneEffectHandler : MonoBehaviour
     {
-        private IEnvironmentEffect _currentEffect;
+        private RadiationEffect _currentEffect;
         private CharacterStats _characterStats;
 
-        [SerializeField] private ColdEffect _coldEffect;
-        
         private void Start()
         {
             _characterStats = CharacterStats.Singleton;
@@ -18,27 +17,26 @@ namespace Player_Controller
 
         private void OnTriggerEnter(Collider other)
         {
-            IEnvironmentEffect effect = null;
+            RadiationEffect effect = null;
 
             if (other.CompareTag("ColdEnvironment"))
             {
-                effect = _coldEffect;
+                Debug.Log("Entered Cold Zone");
             }
-            // else if (other.CompareTag("RadioactiveEnvironment"))
-            // {
-            //     effect = new RadiationEffect(_characterStats);
-            // }
-
-            if (effect != null && effect != _currentEffect)
+            else if (other.CompareTag("RadioactiveEnvironment"))
             {
-                effect.OnEnter();
-                _currentEffect = effect;
+                effect = other.GetComponent<RadiationEffect>();
+                if (effect != null)
+                {
+                    _currentEffect = effect;
+                    _currentEffect.SetCharacterStats(_characterStats);
+                    _currentEffect.OnEnter();
+                }
             }
         }
 
         private void OnTriggerExit(Collider other)
         {
-           
             if (_currentEffect != null && _currentEffect.MatchesTrigger(other))
             {
                 _currentEffect.OnExit();
