@@ -21,7 +21,15 @@ namespace Player_Controller
 
             if (other.CompareTag("ColdEnvironment"))
             {
-                Debug.Log("Entered Cold Zone");
+                //add cold effect
+                
+                // effect = other.GetComponent<RadiationEffect>();
+                // if (effect != null)
+                // {
+                //     _currentEffect = effect;
+                //     _currentEffect.SetCharacterStats(_characterStats);
+                //     _currentEffect.OnEnter();
+                // }
             }
             else if (other.CompareTag("RadioactiveEnvironment"))
             {
