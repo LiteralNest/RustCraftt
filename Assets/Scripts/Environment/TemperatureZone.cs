@@ -11,10 +11,17 @@ public class TemperatureZone : MonoBehaviour
 
     public float GetTemperatureAtPosition(Vector3 position)
     {
-        var sphereRadius = GetComponent<SphereCollider>().radius;
-        var normalizedDistance = Vector3.Distance(position, transform.position) / sphereRadius;
+        var distance = Vector3.Distance(position, transform.position);
         
-        return Mathf.Lerp(minTemperature, maxTemperature, normalizedDistance);
+        return Mathf.Lerp(minTemperature, maxTemperature, NormalizeBetweenZeroAndOne(distance));
+    }
+    private float NormalizeBetweenZeroAndOne(float value)
+    {
+        float minValue = 0.0f;
+        float maxValue = _sphereCollider.radius;
+        value = Mathf.Clamp(value, minValue, maxValue);
+        float normalizedValue = (value - minValue) / (maxValue - minValue);
+        return normalizedValue;
     }
     private void OnDrawGizmos()
     {

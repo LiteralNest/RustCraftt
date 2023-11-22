@@ -1,72 +1,79 @@
 using System.Collections;
 using UnityEngine;
 
-namespace EnvironmentEffectsSystem.Effects
+public class ColdEffect : MonoBehaviour
 {
-    public class ColdEffect : MonoBehaviour
+    [SerializeField] private TemperatureZone _temperatureZone;
+    [SerializeField] private float _coldDecreaseInterval = 3f;
+
+    private CharacterStats _characterStats;
+    private bool _isEffectActive = false;
+
+    public bool MatchesTrigger(Collider other) => other.CompareTag("ColdEnvironment");
+
+    private void ActivateEffect()
     {
-        [SerializeField] private float _coldEffectValue = 10f;
-        [SerializeField] private float _temperatureDecreaseRate = 1f;
-        [SerializeField] private float _temperatureDecreaseInterval = 2f;
-        [SerializeField] private float _coldEffectInterval = 2f;
+        _isEffectActive = true;
+    }
 
-        private float _currentTemperature;
-        private CharacterStats _characterStats;
+    public void SetCharacterStats(CharacterStats characterStats)
+    {
+        _characterStats = characterStats;
+    }
 
-        private bool _isEntering;
-        private bool _isEffectActive;
+    public void OnEnter(Transform playerPosition)
+    {
+        Debug.Log("Entered Cold Zone");
+        ActivateEffect();
+        StartCoroutine(ApplyEffectCoroutine(playerPosition));
+    }
 
-        public bool MatchesTrigger(Collider other) => other.CompareTag("RadioactiveEnvironment");
+    public void OnStay(Transform playerPosition)
+    {
+        Debug.Log("Stayed Cold Zone");
+        Debug.Log("Player Position: " + playerPosition);
+        float temperature = _temperatureZone.GetTemperatureAtPosition(playerPosition.position);
+        Debug.Log("Temperature: " + temperature);
+        ApplyColdEffect(temperature);
+    }
 
-        public void SetCharacterStats(CharacterStats characterStats)
+    public void OnExit(Transform player)
+    {
+        Debug.Log("Exited Cold Zone");
+        _isEffectActive = false;
+        // _playerPosition = Vector3.zero;
+        StopCoroutine(ApplyEffectCoroutine(player));
+    }
+
+    private void ApplyColdEffect(float temperature)
+    {
+        if (_isEffectActive)
         {
-            _characterStats = characterStats;
-        }
-
-        public void OnEnter(TemperatureZone temperatureZone)
-        {
-            _isEntering = true;
-            _isEffectActive = true;
-
-            StartCoroutine(EffectByTimeRoutine(temperatureZone));
-            Debug.Log("Entered Cold Zone");
-        }
-
-        public void OnExit()
-        {
-            _isEntering = false;
-            _isEffectActive = false;
-            
-            StartCoroutine(DecreaseEffectOverTime());
-            Debug.Log("Exited Cold Zone");
-        }
-
-        private IEnumerator EffectByTimeRoutine(TemperatureZone temperatureZone)
-        {
-            while (_isEntering)
+            if (temperature < -15f)
             {
-                _currentTemperature = temperatureZone.GetTemperatureAtPosition(transform.position);
-                Debug.Log($"temperature: {_currentTemperature}ºC");
-                // currentTemperature -= _coldEffectValue;
-
-                if (_isEffectActive && _currentTemperature < -10f)
-                {
-                    _characterStats.MinusStat(CharacterStatType.Health, 1);
-                }
-
-                Debug.Log($"Current Temperature: {_currentTemperature}");
-                yield return new WaitForSeconds(_coldEffectInterval);
+                DealDamage(2f);
+            }
+            else if (temperature < -10f)
+            {
+                DealDamage(1f);
             }
         }
+    }
 
-        private IEnumerator DecreaseEffectOverTime()
+    private void DealDamage(float damageAmount)
+    {
+        if (_characterStats != null)
         {
-            while (!_isEntering && _currentTemperature < 0f)
-            {
-                _currentTemperature -= _temperatureDecreaseRate;
-                Debug.Log($"Current Temperature: {_currentTemperature}");
-                yield return new WaitForSeconds(_temperatureDecreaseInterval);
-            }
+            _characterStats.MinusStat(CharacterStatType.Health, damageAmount);
+        }
+    }
+
+    private IEnumerator ApplyEffectCoroutine(Transform player)
+    {
+        while (_isEffectActive)
+        {
+            OnStay(player);
+            yield return new WaitForSeconds(_coldDecreaseInterval);
         }
     }
 }

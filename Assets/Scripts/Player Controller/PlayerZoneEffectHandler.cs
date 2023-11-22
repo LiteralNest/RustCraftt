@@ -18,17 +18,15 @@ namespace Player_Controller
         {
             if (other.CompareTag("ColdEnvironment"))
             {
-                var coldEffect = other.GetComponent<ColdEffect>();
-                var temperatureZone = other.GetComponent<TemperatureZone>();
-                
+                ColdEffect coldEffect = other.GetComponent<ColdEffect>();
                 if (coldEffect != null)
                 {
                     _currentColdEffect = coldEffect;
                     _currentColdEffect.SetCharacterStats(_characterStats);
-                    _currentColdEffect.OnEnter(temperatureZone);
+                    _currentColdEffect.OnEnter(transform);
                 }
             }
-            else if (other.CompareTag("RadioactiveEnvironment"))
+            if (other.CompareTag("RadioactiveEnvironment"))
             {
                 RadiationEffect radiationEffect = other.GetComponent<RadiationEffect>();
                 if (radiationEffect != null)
@@ -40,14 +38,22 @@ namespace Player_Controller
             }
         }
 
+        // private void OnTriggerStay(Collider other)
+        // {
+        //     if (_currentColdEffect != null && _currentColdEffect.MatchesTrigger(other))
+        //     {
+        //         _currentColdEffect.OnStay();
+        //     }
+        // }
+
         private void OnTriggerExit(Collider other)
         {
             if (_currentColdEffect != null && _currentColdEffect.MatchesTrigger(other))
             {
-                _currentColdEffect.OnExit();
+                _currentColdEffect.OnExit(transform);
                 _currentColdEffect = null;
             }
-            else if (_currentRadiationEffect != null && _currentRadiationEffect.MatchesTrigger(other))
+            if (_currentRadiationEffect != null && _currentRadiationEffect.MatchesTrigger(other))
             {
                 _currentRadiationEffect.OnExit();
                 _currentRadiationEffect = null;
