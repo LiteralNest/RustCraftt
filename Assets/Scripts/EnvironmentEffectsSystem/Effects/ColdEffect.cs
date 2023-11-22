@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class ColdEffect : MonoBehaviour
 {
+    [SerializeField] private SphereCollider _sphereCollider;
     [SerializeField] private TemperatureZone _temperatureZone;
     [SerializeField] private float _coldDecreaseInterval = 3f;
 
@@ -11,11 +12,11 @@ public class ColdEffect : MonoBehaviour
 
     public bool MatchesTrigger(Collider other) => other.CompareTag("ColdEnvironment");
 
-    private void ActivateEffect()
+    public void ActivateEffect()
     {
         _isEffectActive = true;
     }
-
+    
     public void SetCharacterStats(CharacterStats characterStats)
     {
         _characterStats = characterStats;
@@ -28,12 +29,10 @@ public class ColdEffect : MonoBehaviour
         StartCoroutine(ApplyEffectCoroutine(playerPosition));
     }
 
-    public void OnStay(Transform playerPosition)
+    private void OnStay(Transform playerPosition)
     {
         Debug.Log("Stayed Cold Zone");
-        Debug.Log("Player Position: " + playerPosition);
         float temperature = _temperatureZone.GetTemperatureAtPosition(playerPosition.position);
-        Debug.Log("Temperature: " + temperature);
         ApplyColdEffect(temperature);
     }
 
@@ -41,7 +40,6 @@ public class ColdEffect : MonoBehaviour
     {
         Debug.Log("Exited Cold Zone");
         _isEffectActive = false;
-        // _playerPosition = Vector3.zero;
         StopCoroutine(ApplyEffectCoroutine(player));
     }
 
@@ -49,16 +47,21 @@ public class ColdEffect : MonoBehaviour
     {
         if (_isEffectActive)
         {
+            Debug.Log("Current Temperature: " + temperature);
+
             if (temperature < -15f)
             {
                 DealDamage(2f);
+                Debug.Log("Dealing 2 damage due to extreme cold.");
             }
             else if (temperature < -10f)
             {
                 DealDamage(1f);
+                Debug.Log("Dealing 1 damage due to cold.");
             }
         }
     }
+
 
     private void DealDamage(float damageAmount)
     {
@@ -75,5 +78,16 @@ public class ColdEffect : MonoBehaviour
             OnStay(player);
             yield return new WaitForSeconds(_coldDecreaseInterval);
         }
+    }
+
+
+    public float GetColdZoneRadius()
+    {
+        if (_sphereCollider != null)
+        {
+            return _sphereCollider.radius;
+        }
+
+        return 0f;
     }
 }

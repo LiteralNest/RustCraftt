@@ -1259,6 +1259,36 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 712124b6f716d5342bbe7aafbace55e7, type: 3}
+--- !u!1 &283389934 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 278706188137795146, guid: 0b023ff3cd4d245a59cbb8f258423d5e, type: 3}
+  m_PrefabInstance: {fileID: 4743674405693079322}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &283389935 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7472233271492716730, guid: 0b023ff3cd4d245a59cbb8f258423d5e, type: 3}
+  m_PrefabInstance: {fileID: 4743674405693079322}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 283389934}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ca4ec5a12dc0460fa512d39751ca0bb5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &283389938
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 283389934}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 34c982c84936450ba885d80724da8588, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _temperatureZone: {fileID: 283389935}
+  _warmIncreaseInterval: 3
 --- !u!1 &288255771
 GameObject:
   m_ObjectHideFlags: 0
@@ -6745,11 +6775,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _sphereCollider: {fileID: 1535226425}
-  temperatureStep: 5
-  maxTemperature: 0
-  minTemperature: -25
-  alpha: 0.5
-  showTemperatures: 1
+  _temperatureStep: 5
+  _minTemperature: 0
+  _maxTemperature: -25
+  _showTemperatures: 1
+  _alpha: 0.5
+  _minTemperatureColor: {r: 0, g: 0, b: 1, a: 1}
+  _maxTemperatureColor: {r: 1, g: 0, b: 0, a: 1}
 --- !u!135 &1535226425
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -6798,6 +6830,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9732af2e9c7c4162ac1fa6c78f8a39e3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _sphereCollider: {fileID: 0}
   _temperatureZone: {fileID: 1535226424}
   _coldDecreaseInterval: 3
 --- !u!4 &1535389562 stripped
@@ -9048,6 +9081,74 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 272976cae090f524ca64d8ef40172687, type: 3}
+--- !u!1001 &4743674405693079322
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 278706188137795146, guid: 0b023ff3cd4d245a59cbb8f258423d5e, type: 3}
+      propertyPath: m_Name
+      value: Bonfire
+      objectReference: {fileID: 0}
+    - target: {fileID: 396820997398165542, guid: 0b023ff3cd4d245a59cbb8f258423d5e, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.35
+      objectReference: {fileID: 0}
+    - target: {fileID: 396820997398165542, guid: 0b023ff3cd4d245a59cbb8f258423d5e, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -13.75
+      objectReference: {fileID: 0}
+    - target: {fileID: 396820997398165542, guid: 0b023ff3cd4d245a59cbb8f258423d5e, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -43.58
+      objectReference: {fileID: 0}
+    - target: {fileID: 396820997398165542, guid: 0b023ff3cd4d245a59cbb8f258423d5e, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 396820997398165542, guid: 0b023ff3cd4d245a59cbb8f258423d5e, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 396820997398165542, guid: 0b023ff3cd4d245a59cbb8f258423d5e, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 396820997398165542, guid: 0b023ff3cd4d245a59cbb8f258423d5e, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 396820997398165542, guid: 0b023ff3cd4d245a59cbb8f258423d5e, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 396820997398165542, guid: 0b023ff3cd4d245a59cbb8f258423d5e, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 396820997398165542, guid: 0b023ff3cd4d245a59cbb8f258423d5e, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7472233271492716730, guid: 0b023ff3cd4d245a59cbb8f258423d5e, type: 3}
+      propertyPath: maxTemperature
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7472233271492716730, guid: 0b023ff3cd4d245a59cbb8f258423d5e, type: 3}
+      propertyPath: minTemperature
+      value: 25
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 278706188137795146, guid: 0b023ff3cd4d245a59cbb8f258423d5e, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 283389938}
+  m_SourcePrefab: {fileID: 100100000, guid: 0b023ff3cd4d245a59cbb8f258423d5e, type: 3}
 --- !u!1001 &5473345886704776216
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -9221,3 +9322,4 @@ SceneRoots:
   - {fileID: 402131323}
   - {fileID: 1560277860}
   - {fileID: 1535226426}
+  - {fileID: 4743674405693079322}

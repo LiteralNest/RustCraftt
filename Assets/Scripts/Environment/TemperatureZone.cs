@@ -1,20 +1,26 @@
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class TemperatureZone : MonoBehaviour
 {
     [SerializeField] private SphereCollider _sphereCollider;
-    public float temperatureStep = 5f;
-    public float maxTemperature = -25f;
-    public float minTemperature = 0f;
-    public float alpha = 0.5f;
-    public bool showTemperatures = true;
+    [SerializeField] private float _temperatureStep = 5f;
+    [SerializeField] private float _minTemperature = -25f;
+    [SerializeField] private float _maxTemperature = 0f;
+
+    [Header("Draw in Editor")]
+    [SerializeField] private bool _showTemperatures = true;
+    [SerializeField] private float _alpha = 0.5f;
+    [SerializeField] private Color _minTemperatureColor = Color.blue;
+    [SerializeField] private Color _maxTemperatureColor = Color.red;
 
     public float GetTemperatureAtPosition(Vector3 position)
     {
         var distance = Vector3.Distance(position, transform.position);
-        
-        return Mathf.Lerp(minTemperature, maxTemperature, NormalizeBetweenZeroAndOne(distance));
+
+        return Mathf.Lerp(_maxTemperature, _minTemperature, NormalizeBetweenZeroAndOne(distance));
     }
+
     private float NormalizeBetweenZeroAndOne(float value)
     {
         float minValue = 0.0f;
@@ -23,32 +29,31 @@ public class TemperatureZone : MonoBehaviour
         float normalizedValue = (value - minValue) / (maxValue - minValue);
         return normalizedValue;
     }
+
     private void OnDrawGizmos()
     {
-        if (!showTemperatures)
+        if (!_showTemperatures)
             return;
-        
-        
+
         var maxRadius = _sphereCollider.radius;
-        
-        var numberOfSpheres = Mathf.CeilToInt(maxRadius / temperatureStep);
-        
+
+        var numberOfSpheres = Mathf.CeilToInt(maxRadius / _temperatureStep);
+
         float step = maxRadius / numberOfSpheres;
 
         for (var i = 0; i < numberOfSpheres; i++)
         {
             var currentRadius = maxRadius - i * step;
-            
+
             var normalizedDistance = currentRadius / maxRadius;
-            
-            var sphereColor = Color.Lerp(Color.blue, Color.red, normalizedDistance);
-            
-            sphereColor.a = alpha;
-            
+
+            var sphereColor = Color.Lerp(_minTemperatureColor, _maxTemperatureColor, normalizedDistance);
+
+            sphereColor.a = _alpha;
+
             Gizmos.color = sphereColor;
 
-            var lerp = Mathf.Lerp(minTemperature, maxTemperature, normalizedDistance);
-
+            var lerp = Mathf.Lerp(_maxTemperature, _minTemperature, normalizedDistance);
 
             Gizmos.DrawSphere(transform.position, currentRadius);
         }
