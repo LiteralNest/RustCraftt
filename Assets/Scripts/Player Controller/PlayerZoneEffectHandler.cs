@@ -10,9 +10,11 @@ namespace Player_Controller
         private RadiationEffect _currentRadiationEffect;
         private CharacterStats _characterStats;
 
+        private PlayerResistParams _resist;
         private void Start()
         {
             _characterStats = CharacterStats.Singleton;
+            _resist = GetComponent<PlayerResistParams>();
         }
 
         private void OnTriggerEnter(Collider other)
@@ -24,7 +26,7 @@ namespace Player_Controller
                 {
                     _currentColdEffect = coldEffect;
                     _currentColdEffect.SetCharacterStats(_characterStats);
-                    _currentColdEffect.OnEnter(transform);
+                    _currentColdEffect.OnEnter(transform, _resist.ColdResist);
                 }
             }
             else if (other.CompareTag("WarmEnvironment"))
@@ -35,7 +37,7 @@ namespace Player_Controller
                     // Stop the cold effect if it's active
                     if (_currentColdEffect != null)
                     {
-                        _currentColdEffect.OnExit(transform);
+                        _currentColdEffect.OnExit(transform, _resist.ColdResist);
                     }
 
                     _currentWarmEffect = warmEffect;
@@ -50,7 +52,7 @@ namespace Player_Controller
                 {
                     _currentRadiationEffect = radiationEffect;
                     _currentRadiationEffect.SetCharacterStats(_characterStats);
-                    _currentRadiationEffect.OnEnter();
+                    _currentRadiationEffect.OnEnter(_resist.RadiationResist);
                 }
             }
         }
@@ -66,18 +68,18 @@ namespace Player_Controller
                 {
                     Debug.Log("Exited Warm Zone, returning to Cold Zone");
                     _currentColdEffect.SetCharacterStats(_characterStats);
-                    _currentColdEffect.OnEnter(transform);
+                    _currentColdEffect.OnEnter(transform, _resist.ColdResist);
                 }
 
                 _currentWarmEffect = null;
             }
             else if (_currentColdEffect != null && _currentColdEffect.MatchesTrigger(other))
             {
-                _currentColdEffect.OnExit(transform);
+                _currentColdEffect.OnExit(transform, _resist.ColdResist);
             }
             else if (_currentRadiationEffect != null && _currentRadiationEffect.MatchesTrigger(other))
             {
-                _currentRadiationEffect.OnExit();
+                _currentRadiationEffect.OnExit(_resist.RadiationResist);
                 _currentRadiationEffect = null;
             }
         }

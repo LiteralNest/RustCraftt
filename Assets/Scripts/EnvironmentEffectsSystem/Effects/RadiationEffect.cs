@@ -25,22 +25,24 @@ namespace EnvironmentEffectsSystem.Effects
             _characterStats = characterStats;
         }
 
-        public void OnEnter()
+        public void OnEnter(float resist)
         {
             Debug.Log("Entered Radiation Zone");
+            GlobalEventsContainer.RadiationStarted?.Invoke();
             _isEffectActive = true;
             _isEnteringZone = true;
             
-            StartCoroutine(EffectByTime());
+            StartCoroutine(EffectByTime(resist));
         }
 
-        public void OnExit()
+        public void OnExit(float resist)
         {
             Debug.Log("Exited Radiation Zone");
+            GlobalEventsContainer.RadiationEnded?.Invoke();
             _isEnteringZone = false;
             _isEffectActive = false;
             
-            StartCoroutine(DecreaseEffectOverTime());
+            StartCoroutine(DecreaseEffectOverTime(resist));
 
             if (_currentRadiationLevel == 0)
             {
@@ -49,7 +51,7 @@ namespace EnvironmentEffectsSystem.Effects
         }
         
 
-        private IEnumerator EffectByTime()
+        private IEnumerator EffectByTime(float resist)
         {
             while (_isEffectActive)
             {
@@ -57,7 +59,7 @@ namespace EnvironmentEffectsSystem.Effects
 
                 if (_isEnteringZone && _characterStats != null && _currentRadiationLevel >= RadiationCritLevel)
                 {
-                    _characterStats.MinusStat(CharacterStatType.Health, Random.Range(7, 11));
+                    _characterStats.MinusStat(CharacterStatType.Health, Random.Range(7, 11) * resist);
                 }
 
                 Debug.Log($"Current Radiation Level: {_currentRadiationLevel}");
@@ -65,7 +67,7 @@ namespace EnvironmentEffectsSystem.Effects
             }
         }
 
-        public IEnumerator DecreaseEffectOverTime()
+        public IEnumerator DecreaseEffectOverTime(float resist)
         {
             while (!_isEnteringZone && _currentRadiationLevel > 0f)
             {
@@ -73,7 +75,7 @@ namespace EnvironmentEffectsSystem.Effects
 
                 if (!_isEnteringZone && _currentRadiationLevel >= RadiationCritLevel / 2)
                 {
-                    _characterStats.MinusStat(CharacterStatType.Health, Random.Range(3, 6));
+                    _characterStats.MinusStat(CharacterStatType.Health, Random.Range(3, 6) * resist);
                 }
 
                 Debug.Log($"Current Radiation Level: {_currentRadiationLevel}");

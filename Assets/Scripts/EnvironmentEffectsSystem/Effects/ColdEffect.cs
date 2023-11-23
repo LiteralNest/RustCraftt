@@ -3,7 +3,6 @@ using UnityEngine;
 
 public class ColdEffect : MonoBehaviour
 {
-    [SerializeField] private SphereCollider _sphereCollider;
     [SerializeField] private TemperatureZone _temperatureZone;
     [SerializeField] private float _coldDecreaseInterval = 3f;
 
@@ -12,7 +11,7 @@ public class ColdEffect : MonoBehaviour
 
     public bool MatchesTrigger(Collider other) => other.CompareTag("ColdEnvironment");
 
-    public void ActivateEffect()
+    private void ActivateEffect()
     {
         _isEffectActive = true;
     }
@@ -22,28 +21,28 @@ public class ColdEffect : MonoBehaviour
         _characterStats = characterStats;
     }
 
-    public void OnEnter(Transform playerPosition)
+    public void OnEnter(Transform playerPosition,float resist)
     {
         Debug.Log("Entered Cold Zone");
         ActivateEffect();
-        StartCoroutine(ApplyEffectCoroutine(playerPosition));
+        StartCoroutine(ApplyEffectCoroutine(playerPosition, resist));
     }
 
-    private void OnStay(Transform playerPosition)
+    private void OnStay(Transform playerPosition, float resist)
     {
         Debug.Log("Stayed Cold Zone");
         float temperature = _temperatureZone.GetTemperatureAtPosition(playerPosition.position);
-        ApplyColdEffect(temperature);
+        ApplyColdEffect(temperature, resist);
     }
 
-    public void OnExit(Transform player)
+    public void OnExit(Transform player, float resist)
     {
         Debug.Log("Exited Cold Zone");
         _isEffectActive = false;
-        StopCoroutine(ApplyEffectCoroutine(player));
+        StopCoroutine(ApplyEffectCoroutine(player, resist));
     }
 
-    private void ApplyColdEffect(float temperature)
+    private void ApplyColdEffect(float temperature, float resist)
     {
         if (_isEffectActive)
         {
@@ -51,43 +50,33 @@ public class ColdEffect : MonoBehaviour
 
             if (temperature < -15f)
             {
-                DealDamage(2f);
+                GlobalEventsContainer.CriticalTemperatureReached?.Invoke();
+                DealDamage(4f, resist);
                 Debug.Log("Dealing 2 damage due to extreme cold.");
             }
             else if (temperature < -10f)
             {
-                DealDamage(1f);
+                DealDamage(2f, resist);
                 Debug.Log("Dealing 1 damage due to cold.");
             }
         }
     }
 
 
-    private void DealDamage(float damageAmount)
+    private void DealDamage(float damageAmount, float resist)
     {
         if (_characterStats != null)
         {
-            _characterStats.MinusStat(CharacterStatType.Health, damageAmount);
+            _characterStats.MinusStat(CharacterStatType.Health, damageAmount * resist);
         }
     }
 
-    private IEnumerator ApplyEffectCoroutine(Transform player)
+    private IEnumerator ApplyEffectCoroutine(Transform player, float resist)
     {
         while (_isEffectActive)
         {
-            OnStay(player);
+            OnStay(player, resist);
             yield return new WaitForSeconds(_coldDecreaseInterval);
         }
-    }
-
-
-    public float GetColdZoneRadius()
-    {
-        if (_sphereCollider != null)
-        {
-            return _sphereCollider.radius;
-        }
-
-        return 0f;
     }
 }

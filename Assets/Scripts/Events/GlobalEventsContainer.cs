@@ -15,7 +15,7 @@ public static class GlobalEventsContainer
     public static Action<MeleeShootingWeapon> WeaponMeleeObjectAssign { get; set; }
     public static Action<ResourceGatheringObject> ResourceGatheringObjectAssign { get; set; }
 
-    #region Temperature & Rafiation
+    #region Temperature & Radiation
 
     public static Action CriticalTemperatureReached { get; set; }
     public static Action RadiationStarted { get; set; }
