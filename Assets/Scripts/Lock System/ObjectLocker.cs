@@ -1,6 +1,5 @@
 using Unity.Netcode;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace Lock_System
 {
@@ -26,7 +25,7 @@ namespace Lock_System
                 Destroy(gameObject);
             }
             
-            else if (!other.CompareTag("CodeLock"))
+            else if (!other.CompareTag("CodeLocker"))
             {
                 var codeLocker = other.GetComponent<CodeLocker>();
                 if (codeLocker == null) return;
