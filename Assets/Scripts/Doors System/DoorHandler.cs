@@ -7,6 +7,7 @@ public class DoorHandler : NetworkBehaviour, ILockable
     [SerializeField] private Transform _mainTransform;
     [SerializeField] private Animator _anim;
     private KeyLocker _doorLocker;
+    private CodeLocker _codeLocker;
     private static readonly int Opened = Animator.StringToHash("Opened");
 
     private void Start()
@@ -20,8 +21,13 @@ public class DoorHandler : NetworkBehaviour, ILockable
 
     #region ILockable
 
-    public void Lock(KeyLocker locker)
+    public void LockByKey(KeyLocker locker)
         => _doorLocker = locker;
+
+    public void LockByCode(CodeLocker locker)
+    {
+        _codeLocker = locker;
+    }
 
     public Transform GetParent()
         => _mainTransform;

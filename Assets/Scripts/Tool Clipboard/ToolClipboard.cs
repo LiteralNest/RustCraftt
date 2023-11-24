@@ -7,6 +7,7 @@ public class ToolClipboard : Storage, ILockable
 {
     [SerializeField] private Transform _mainTransform;
     private KeyLocker _doorLocker;
+    private CodeLocker _codeLocker;
     
     public override void Open(InventoryHandler handler)
     {
@@ -18,8 +19,13 @@ public class ToolClipboard : Storage, ILockable
 
     #region ILockable
     
-    public void Lock(KeyLocker locker)
+    public void LockByKey(KeyLocker locker)
         => _doorLocker = locker;
+
+    public void LockByCode(CodeLocker locker)
+    {
+        _codeLocker = locker;
+    }
 
     public Transform GetParent()
         => _mainTransform;

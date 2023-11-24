@@ -11,19 +11,36 @@ namespace Lock_System
 
         private void OnTriggerEnter(Collider other)
         {
-            if(!other.CompareTag("Lock")) return;
+            if (other.CompareTag("Lock"))
+            {
+                var keyLocker = other.GetComponent<KeyLocker>();
+                if (keyLocker == null) return;
 
-            var keyLocker = other.GetComponent<KeyLocker>();
-            if(keyLocker == null) return;
+                var lockable = LocakableObject.GetComponent<ILockable>();
+                if (lockable == null || lockable.Locked) return;
+
+                TargetLock = other.transform;
+                TargetLock.GetComponent<NetworkObject>().TrySetParent(lockable.GetParent());
+                var locker = other.GetComponent<KeyLocker>();
+                lockable.LockByKey(locker);
+                Destroy(gameObject);
+            }
             
-            var lockable = LocakableObject.GetComponent<ILockable>();
-            if(lockable == null || lockable.Locked) return;
+            else if (!other.CompareTag("CodeLock"))
+            {
+                var codeLocker = other.GetComponent<CodeLocker>();
+                if (codeLocker == null) return;
 
-            TargetLock = other.transform;
-            TargetLock.GetComponent<NetworkObject>().TrySetParent(lockable.GetParent());
-            var locker = other.GetComponent<KeyLocker>();
-            lockable.Lock(locker);
-            Destroy(gameObject);
+                var lockable = LocakableObject.GetComponent<ILockable>();
+                if (lockable == null || lockable.Locked) return;
+
+                TargetLock = other.transform;
+                TargetLock.GetComponent<NetworkObject>().TrySetParent(lockable.GetParent());
+                var locker = other.GetComponent<CodeLocker>();
+                lockable.LockByCode(locker);
+                Destroy(gameObject);
+            }
+            
         }
     }
 }
