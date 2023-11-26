@@ -1,41 +1,71 @@
 using System.Collections;
-using SurroundingEffectsSystem;
 using UnityEngine;
 
-namespace EnvironmentEffectsSystem.Effects
+public class WarmEffect : MonoBehaviour
 {
-    public class WarmEffect //: IEnvironmentEffect
+    [SerializeField] private TemperatureZone _temperatureZone;
+    [SerializeField] private float _warmIncreaseInterval = 3f;
+
+    private CharacterStats _characterStats;
+    private bool _isEffectActive = false;
+
+    public bool MatchesTrigger(Collider other) => other.CompareTag("WarmEnvironment");
+
+    public void ActivateEffect()
     {
-        private CharacterStats _characterStats;
+        _isEffectActive = true;
+    }
+    
+    public void SetCharacterStats(CharacterStats characterStats)
+    {
+        _characterStats = characterStats;
+    }
 
-        public WarmEffect(CharacterStats characterStats)
-        {
-            _characterStats = characterStats;
-        }
+    public void OnEnter(Transform playerPosition)
+    {
+        Debug.Log("Entered Warm Zone");
+        ActivateEffect();
+        StartCoroutine(ApplyEffectCoroutine(playerPosition));
+    }
 
-        public bool MatchesTrigger(Collider other)
-        {
-            return other.CompareTag("WarmEnvironment");
-        }
+    public void OnStay(Transform playerPosition)
+    {
+        Debug.Log("Stayed Warm Zone");
+        float temperature = _temperatureZone.GetTemperatureAtPosition(playerPosition.position);
+        ApplyWarmEffect(temperature);
+    }
 
-        public void OnEnter()
-        {
-           
-        }
+    public void OnExit(Transform player)
+    {
+        Debug.Log("Exited Warm Zone");
+        _isEffectActive = false;
+        StopCoroutine(ApplyEffectCoroutine(player));
+    }
 
-        public void OnExit()
+    private void ApplyWarmEffect(float temperature)
+    {
+        if (_isEffectActive)
         {
-            
-        }
+            Debug.Log("Current Temperature: " + temperature);
 
-        public IEnumerator EffectByTime(Collider collider)
-        {
-            throw new System.NotImplementedException();
+            // Adjust the temperature thresholds as needed
+            if (temperature > 20f)
+            {
+                Debug.Log("Healing 2 health due to extreme warmth.");
+            }
+            else if (temperature > 10f)
+            {
+                Debug.Log("Healing 1 health due to warmth.");
+            }
         }
-        
-        public IEnumerator DecreaseEffectOverTime()
+    }
+    
+    private IEnumerator ApplyEffectCoroutine(Transform player)
+    {
+        while (_isEffectActive)
         {
-            yield return null;
+            OnStay(player);
+            yield return new WaitForSeconds(_warmIncreaseInterval);
         }
     }
 }
