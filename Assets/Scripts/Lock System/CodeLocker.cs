@@ -7,8 +7,11 @@ public class CodeLocker : NetworkBehaviour
     [SerializeField] private GameObject _codeUI;
     public int Password { get; private set; }
 
-    private readonly NetworkList<int> _registeredPlayerIds = new();
-    
+    private NetworkList<int> _registeredPlayerIds;
+
+    private void Awake()
+        => _registeredPlayerIds = new NetworkList<int>();
+
     public void OnPlayerApproach(int playerId)
     {
         if (_registeredPlayerIds.Count == 0)
@@ -33,7 +36,7 @@ public class CodeLocker : NetworkBehaviour
             }
         }
     }
-    
+
     public void RegistrateCode(int playerId, int password)
     {
         int realPlayerId = UserDataHandler.singleton.UserData.Id;
@@ -49,17 +52,17 @@ public class CodeLocker : NetworkBehaviour
             Debug.Log($"Incorrect player ID: {playerId}");
         }
     }
-    
+
     public bool CanBeOpened(int playerId, int enteredPassword)
     {
         return _registeredPlayerIds.Contains(playerId) && enteredPassword == Password;
     }
-    
+
     private int GetEnteredPassword()
     {
-        return Password; 
+        return Password;
     }
-    
+
     public void OnEnteredPassword(string enteredPassword)
     {
         if (int.TryParse(enteredPassword, out var parsedPassword))
@@ -72,5 +75,17 @@ public class CodeLocker : NetworkBehaviour
         {
             Debug.LogError("Invalid password format!");
         }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (!other.CompareTag("Player")) return;
+        OnPlayerApproach(UserDataHandler.singleton.UserData.Id);
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (!other.CompareTag("Player")) return;
+        _codeUI.SetActive(false);
     }
 }
