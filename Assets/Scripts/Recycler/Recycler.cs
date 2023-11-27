@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Storage_Boxes;
+using Storage_System;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -11,13 +11,11 @@ public class Recycler : Storage
 
     [Header("Main Params")] [SerializeField]
     private float _recyclingTime = 1;
-    
-    [Header("Cells")]
-    [SerializeField] private List<RecyclingItem> _avaliableItems = new List<RecyclingItem>();
 
-    [Header("Audio")]
-    [SerializeField] private AudioSource _source;
-    
+    [Header("Cells")] [SerializeField] private List<RecyclingItem> _avaliableItems = new List<RecyclingItem>();
+
+    [Header("Audio")] [SerializeField] private AudioSource _source;
+
     private bool _recycling;
 
     private void Start()
@@ -25,7 +23,7 @@ public class Recycler : Storage
 
     private void Update()
     {
-        if(!Turned.Value) return;
+        if (!Turned.Value) return;
         TryRecycle();
     }
 
@@ -35,7 +33,7 @@ public class Recycler : Storage
         SlotsDisplayer = handler.RecyclerSlotsDisplayer;
         base.Open(handler);
     }
-    
+
     private RecyclingItem GetRecyclingItemById(int id)
     {
         foreach (var item in _avaliableItems)
@@ -43,51 +41,53 @@ public class Recycler : Storage
             if (item.Id == id)
                 return item;
         }
+
         return null;
     }
-    
-    private void RemoveItem(Item item, int count)
-    {
-        for (int i = 0; i < Cells.Count; i++)
-        {
-            if(Cells[i].Item == item)
-                RemoveItem(i, count);
-        }
-    }
-    
+
     private async void RecycleItem(RecyclingItem item)
     {
         await Task.Delay((int)(_recyclingTime * 1000));
-        if(!_recycling) return;
-        List<InventoryCell> recyclingCells = new List<InventoryCell>();
-        recyclingCells = Cells.GetRange(5, 5);
+        if (!_recycling) return;
+        List<CustomSendingInventoryDataCell> recyclingCells = new List<CustomSendingInventoryDataCell>();
+        for (int i = 5; i < 10; i++)
+        {
+            recyclingCells.Add(new CustomSendingInventoryDataCell(ItemsNetData.Value.Cells[i]));
+        }
+
         foreach (var cell in item.Cells)
         {
             var rand = Random.Range(cell.ItemsRange.x, cell.ItemsRange.y);
-            var desiredCell = 5 + InventoryHelper.GetDesiredCellId(cell.ResultItem.Id, recyclingCells);
-            if (desiredCell == -1)
+            var desiredCellId = 5 + InventoryHelper.GetDesiredCellId(cell.ResultItem.Id, rand, ItemsNetData);
+            if (desiredCellId == -1)
             {
                 _recycling = false;
                 return;
             }
-            SetItemServerRpc(desiredCell, cell.ResultItem.Id, rand);
+            SetItemServerRpc(desiredCellId, new CustomSendingInventoryDataCell(cell.ResultItem.Id, rand, -1));
         }
+
         RemoveItem(item, 1);
         _recycling = false;
     }
 
     private void TryRecycle()
     {
-        if(!IsServer) return;
-        if(_recycling) return;
-        var cells = Cells.GetRange(0, 5);
+        if (!IsServer) return;
+        if (_recycling) return;
+        List<CustomSendingInventoryDataCell> cells = new List<CustomSendingInventoryDataCell>();
+        for (int i = 0; i < 5; i++)
+        {
+            cells.Add(new CustomSendingInventoryDataCell(ItemsNetData.Value.Cells[i]));
+        }
         foreach (var cell in cells)
         {
-            if (!cell.Item || !GetRecyclingItemById(cell.Item.Id)) continue;
-            RecycleItem(GetRecyclingItemById(cell.Item.Id));
+            if (cell.Id == -1 || !GetRecyclingItemById(cell.Id)) continue;
+            RecycleItem(GetRecyclingItemById(cell.Id));
             _recycling = true;
             return;
         }
+
         SetTurnedServerRpc(false);
     }
 
@@ -98,6 +98,7 @@ public class Recycler : Storage
         {
             Turned.Value = value;
         }
+
         _source.Play();
         if (!value)
         {

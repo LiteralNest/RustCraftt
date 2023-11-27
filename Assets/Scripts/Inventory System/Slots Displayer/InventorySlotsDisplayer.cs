@@ -20,14 +20,14 @@ public class InventorySlotsDisplayer : SlotsDisplayer
     public override List<ArmorSlotDisplayer> GetArmorSlots()
     {
         var res = new List<ArmorSlotDisplayer>();
-        for (int i = _mainSlotsCount; i < _cellDisplayers.Count; i++)
-            res.Add(_cellDisplayers[i] as ArmorSlotDisplayer);
+        for (int i = _mainSlotsCount; i < CellDisplayers.Count; i++)
+            res.Add(CellDisplayers[i] as ArmorSlotDisplayer);
         return res;
     }
 
     public override void InitItems()
     {
-        foreach (var cell in _cellDisplayers)
+        foreach (var cell in CellDisplayers)
         {
             cell.CanSetSlot = true;
         }
@@ -36,7 +36,7 @@ public class InventorySlotsDisplayer : SlotsDisplayer
     public List<SlotDisplayer> GetQuickSlots()
     {
         List<SlotDisplayer> res = new List<SlotDisplayer>();
-        foreach (var slotDisplayer in _cellDisplayers)
+        foreach (var slotDisplayer in CellDisplayers)
         {
             if (slotDisplayer.IsQuickSlot)
                 res.Add(slotDisplayer);
@@ -50,7 +50,7 @@ public class InventorySlotsDisplayer : SlotsDisplayer
 
     public void ResetCells()
     {
-        foreach (var cell in _cellDisplayers)
+        foreach (var cell in CellDisplayers)
             cell.DestroyItem();
     }
 

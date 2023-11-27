@@ -42,10 +42,10 @@ public class ConnectedStructure : MonoBehaviour
     private bool ThereIsEnoughMaterials(List<InventoryCell> comparingCells)
     {
         if (TargetClipBoards.Count == 0) return false;
-        if (InventoryHelper.EnoughMaterials(comparingCells, TargetClipBoards[0].Cells))
+        if (InventoryHelper.EnoughMaterials(comparingCells, TargetClipBoards[0].ItemsNetData))
         {
             foreach(var cell in comparingCells)
-                InventoryHelper.RemoveItem(cell.Item.Id, cell.Count, TargetClipBoards[0].Cells);
+                InventoryHelper.RemoveItemCount(cell.Item.Id, cell.Count, TargetClipBoards[0].ItemsNetData);
             return true;
         }
         return false;

@@ -1,5 +1,5 @@
 using System.Threading.Tasks;
-using Storage_Boxes;
+using Storage_System;
 using UnityEngine.EventSystems;
 
 namespace Inventory_System.Inventory_Items_Displayer
@@ -11,7 +11,7 @@ namespace Inventory_System.Inventory_Items_Displayer
         public void OnBeginDrag(PointerEventData eventData)
         {
             if (!GlobalValues.CanDragInventoryItems) return;
-            _storage.ResetItemServerRpc(PreviousCell.Index, false);
+            _storage.ResetItemServerRpc(PreviousCell.Index);
             PreviousCell.ResetItemWhileDrag();
             _countText.gameObject.SetActive(false);
             transform.SetParent(transform.root);
@@ -47,20 +47,20 @@ namespace Inventory_System.Inventory_Items_Displayer
             DisplayData();
         }
 
-        public override void SetNewCell(SlotDisplayer slotDisplayer, bool shouldSaveNetData)
+        public override void SetNewCell(SlotDisplayer slotDisplayer)
         {
             if(_storage)
-                _storage.ResetItemServerRpc(PreviousCell.Index, shouldSaveNetData);
-            base.SetNewCell(slotDisplayer, shouldSaveNetData);
+                _storage.ResetItemServerRpc(PreviousCell.Index);
+            base.SetNewCell(slotDisplayer);
             _storage = slotDisplayer.Inventory;
             if (!_storage) return;
-            _storage.SetItemServerRpc(slotDisplayer.Index, InventoryCell.Item.Id, InventoryCell.Count, InventoryCell.Hp, shouldSaveNetData);
+            _storage.SetItemServerRpc(slotDisplayer.Index, new CustomSendingInventoryDataCell(InventoryCell.Item.Id, InventoryCell.Count, InventoryCell.Hp));
         }
 
         public override int StackCount(int addedCount, SlotDisplayer slotDisplayer)
         {
             var res = base.StackCount(addedCount, slotDisplayer);
-            _storage.SetItemServerRpc(slotDisplayer.Index, InventoryCell.Item.Id, InventoryCell.Count, InventoryCell.Hp);
+            _storage.SetItemServerRpc(slotDisplayer.Index, new CustomSendingInventoryDataCell(InventoryCell.Item.Id, InventoryCell.Count, InventoryCell.Hp));
             RedisplayInventrory();
             return res;
         }

@@ -1,14 +1,15 @@
 using System.Collections.Generic;
 using ArmorSystem.UI;
-using Storage_Boxes;
+using Storage_System;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public abstract class SlotsDisplayer : MonoBehaviour
 {
-    public Storage TargetStorage { get; set; }
+    public Storage TargetStorage { get; private set; }
     
-    [Header("Start Init")] [SerializeField]
-    protected List<InventorySlotDisplayer> _cellDisplayers = new List<InventorySlotDisplayer>();
+    [FormerlySerializedAs("_cellDisplayers")] [Header("Start Init")] [SerializeField]
+    public List<InventorySlotDisplayer> CellDisplayers = new List<InventorySlotDisplayer>();
 
     public abstract void InitItems();
 
@@ -22,13 +23,13 @@ public abstract class SlotsDisplayer : MonoBehaviour
 
     public void InitCells()
     {
-        for (int i = 0; i < _cellDisplayers.Count; i++)
-            _cellDisplayers[i].Init(i, this, TargetStorage);
+        for (int i = 0; i < CellDisplayers.Count; i++)
+            CellDisplayers[i].Init(i, this, TargetStorage);
     }
 
     public void ResetCells()
     {
-        foreach (var cell in _cellDisplayers)
+        foreach (var cell in CellDisplayers)
             cell.DestroyItem();
     }
 
@@ -43,11 +44,13 @@ public abstract class SlotsDisplayer : MonoBehaviour
     public virtual void DisplayCells()
     {
         ResetCells();
-        var cells = TargetStorage.Cells;
-        for (int i = 0; i < cells.Count; i++)
+        var cells = TargetStorage.ItemsNetData.Value.Cells;
+        for (int i = 0; i < cells.Length; i++)
         {
-            if (!cells[i].Item) continue;
-            _cellDisplayers[i].SetItem(GetGeneratedItemDisplayer(cells[i], _cellDisplayers[i]), false);
+            if (cells[i].Id == -1) continue;
+            var item = ItemFinder.singleton.GetItemById(cells[i].Id);
+            var inventoryCell = new InventoryCell(item, cells[i].Count, cells[i].Hp);
+            CellDisplayers[i].SetItem(GetGeneratedItemDisplayer(inventoryCell, CellDisplayers[i]));
         }
     }
 

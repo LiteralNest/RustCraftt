@@ -1,7 +1,7 @@
 using ArmorSystem.Backend;
 using Inventory_System;
 using Player_Controller;
-using Storage_Boxes;
+using Storage_System;
 using Unity.Netcode;
 using UnityEngine;
 

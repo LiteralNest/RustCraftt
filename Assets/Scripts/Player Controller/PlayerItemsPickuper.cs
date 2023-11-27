@@ -1,4 +1,4 @@
-using Storage_Boxes;
+using Storage_System;
 using UnityEngine;
 
 public class PlayerItemsPickuper : MonoBehaviour

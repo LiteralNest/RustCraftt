@@ -1,4 +1,4 @@
-using Storage_Boxes;
+using Storage_System;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -26,11 +26,11 @@ public abstract class SlotDisplayer : MonoBehaviour, IDropHandler
         ItemDisplayer = null;
     }
 
-    public void SetItem(ItemDisplayer itemDisplayer, bool shouldSaveNetData = true)
+    public void SetItem(ItemDisplayer itemDisplayer)
     {
         if (ItemDisplayer != null) Destroy(ItemDisplayer.gameObject);
         ItemDisplayer = itemDisplayer;
-        ItemDisplayer.SetNewCell(this,shouldSaveNetData);
+        ItemDisplayer.SetNewCell(this);
     }
 
     private void ResetItem()

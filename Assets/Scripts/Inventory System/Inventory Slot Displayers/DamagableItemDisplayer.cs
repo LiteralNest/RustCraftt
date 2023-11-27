@@ -1,4 +1,5 @@
 using Inventory_System.Inventory_Items_Displayer;
+using Storage_System;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -16,8 +17,10 @@ namespace Inventory_System.Inventory_Slot_Displayers
             if (InventoryCell.Hp <= 0)
             {
                 InventoryCell.Hp = item.Hp;
-                _storage.SetItemServerRpc(PreviousCell.Index, InventoryCell.Item.Id, InventoryCell.Count,
-                    InventoryCell.Hp, true, false);
+                InventoryHandler.singleton.CharacterInventory.SetItemServerRpc(PreviousCell.Index,
+                    new CustomSendingInventoryDataCell(InventoryCell.Item.Id, InventoryCell.Count,
+                        InventoryCell.Hp));
+                DisplayBar(InventoryCell.Hp);
             }
 
             _currentItem = item;
@@ -38,8 +41,8 @@ namespace Inventory_System.Inventory_Slot_Displayers
             }
 
             InventoryHandler.singleton.CharacterInventory.SetItemServerRpc(PreviousCell.Index,
-                InventoryCell.Item.Id,
-                InventoryCell.Count, InventoryCell.Hp, true, false);
+                new CustomSendingInventoryDataCell(InventoryCell.Item.Id, InventoryCell.Count,
+                    InventoryCell.Hp));
             DisplayBar(InventoryCell.Hp);
         }
 
@@ -52,7 +55,8 @@ namespace Inventory_System.Inventory_Slot_Displayers
             if (_storage != null)
             {
                 InventoryHandler.singleton.CharacterInventory.SetItemServerRpc(PreviousCell.Index,
-                    InventoryCell.Item.Id, InventoryCell.Count, InventoryCell.Hp, true, false);
+                    new CustomSendingInventoryDataCell(InventoryCell.Item.Id, InventoryCell.Count,
+                        InventoryCell.Hp));
                 DisplayBar(InventoryCell.Hp);
             }
         }

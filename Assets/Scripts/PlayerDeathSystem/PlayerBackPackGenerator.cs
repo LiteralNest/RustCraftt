@@ -16,7 +16,7 @@ namespace PlayerDeathSystem
          var backPack = Instantiate(playerBackPackPref, position, Quaternion.identity);
          backPack.GetComponent<NetworkObject>().Spawn();
          var playerInv = InventoryHandler.singleton.CharacterInventory;
-         backPack.AssignCells(playerInv.ItemsNetData);
+         backPack.AssignCells(playerInv.ItemsNetData.Value);
          playerInv.ResetItemsServerRpc();
       }
    }

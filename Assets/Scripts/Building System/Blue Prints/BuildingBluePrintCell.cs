@@ -61,7 +61,7 @@ public class BuildingBluePrintCell : MonoBehaviour
 
     public void CheckEnoughMaterials()
         => _enoughMaterials = InventoryHelper.EnoughMaterials(_targetBuildingStructure.GetPlacingRemovingCells(),
-            InventoryHandler.singleton.CharacterInventory.Cells);
+            InventoryHandler.singleton.CharacterInventory.ItemsNetData);
 
     public void InitPlacedObject(GameObject target)
         => _bluePrint.InitPlacedObject(target.GetComponent<BuildingStructure>());

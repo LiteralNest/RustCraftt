@@ -1,6 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
-using Storage_Boxes;
+using Storage_System;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -52,9 +52,11 @@ public class CampFireHandler : Storage
     private List<int> GetFuel()
     {
         List<int> res = new List<int>();
-        for (int i = 0; i < Cells.Count; i++)
+        var cells = ItemsNetData.Value.Cells;
+        for (int i = 0; i < cells.Length; i++)
         {
-            if (Cells[i].Item is Fuel && Cells[i].Count > 0)
+            var item = ItemFinder.singleton.GetItemById(cells[i].Id);
+            if (item is Fuel && cells[i].Count > 0)
                 res.Add(i);
         }
 
@@ -64,7 +66,9 @@ public class CampFireHandler : Storage
     private IEnumerator RemoveFuel(int cellId)
     {
         RemoveItem(cellId, 1);
-        var currentFuel = Cells[cellId].Item as Fuel;
+        var cells = ItemsNetData.Value.Cells;
+        var item = ItemFinder.singleton.GetItemById(cells[cellId].Id);
+        var currentFuel = item as Fuel;
         yield return new WaitForSeconds(currentFuel.BurningTime);
         if (Flaming.Value)
         {
@@ -99,10 +103,11 @@ public class CampFireHandler : Storage
     private List<InventoryCell> GetFood()
     {
         List<InventoryCell> res = new List<InventoryCell>();
-        foreach (var cell in Cells)
+        foreach (var cell in ItemsNetData.Value.Cells)
         {
-            if (cell.Item is CookingCharacterStatRiser)
-                res.Add(cell);
+            var item = ItemFinder.singleton.GetItemById(cell.Id);
+            if (item is CookingCharacterStatRiser)
+                res.Add(new InventoryCell(item, cell.Count));
         }
         return res;
     }
@@ -114,7 +119,7 @@ public class CampFireHandler : Storage
         var foodList = GetFood();
         if (foodList.Count == 0) return;
         var food = foodList[0].Item as CookingCharacterStatRiser;
-        var bindedCellItemId = InventoryHelper.GetDesiredCellId(food.CharacterStatRiserAfterCooking.Id, Cells);
+        var bindedCellItemId = InventoryHelper.GetDesiredCellId(food.CharacterStatRiserAfterCooking.Id, 1, ItemsNetData);
         StartCoroutine(Cook(food, bindedCellItemId));
     }
 
