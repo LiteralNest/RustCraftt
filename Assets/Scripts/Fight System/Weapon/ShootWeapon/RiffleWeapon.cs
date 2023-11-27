@@ -11,10 +11,10 @@ namespace Fight_System.Weapon.ShootWeapon
 
         private LongRangeWeaponItemDisplayer _inventoryItemDisplayer;
         
-        private void Start()
+        private new void Start()
         {
+            base.Start();
             Reload();
-            canShoot = true;
             currentAmmoCount = _startingAmmoCount;
         }
 

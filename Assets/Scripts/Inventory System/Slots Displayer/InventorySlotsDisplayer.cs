@@ -48,12 +48,6 @@ public class InventorySlotsDisplayer : SlotsDisplayer
     public void DisplayQuickSlots()
         => _quickSlotsDisplayer.AssignSlots(GetQuickSlots());
 
-    public void ResetCells()
-    {
-        foreach (var cell in CellDisplayers)
-            cell.DestroyItem();
-    }
-
     private async void DisplayQuickCells()
     {
         await Task.Delay(100);

@@ -31,8 +31,8 @@ public class PlacingObjectsPool : NetworkBehaviour
     {
         if (!IsServer) return;
         var obj = Instantiate(GetObjectById(id), pos, rot);
-        obj.NetworkObject.Spawn();
-        obj.NetworkObject.DontDestroyWithOwner = true;
+        obj.NetObject.Spawn();
+        obj.NetObject.DontDestroyWithOwner = true;
     }
     
     [ServerRpc(RequireOwnership = false)]
@@ -41,7 +41,7 @@ public class PlacingObjectsPool : NetworkBehaviour
         if (!IsServer) return;
         var obj = Instantiate(GetObjectById(id), pos, rot);
         obj.GetComponent<KeyLocker>().RegistrateKey(playerId);
-        obj.NetworkObject.DontDestroyWithOwner = true;
-        obj.NetworkObject.Spawn();
+        obj.NetObject.DontDestroyWithOwner = true;
+        obj.NetObject.Spawn();
     }
 }

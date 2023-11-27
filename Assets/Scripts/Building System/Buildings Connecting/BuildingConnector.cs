@@ -49,7 +49,7 @@ public abstract class BuildingConnector : MonoBehaviour
     }
 
     [ServerRpc(RequireOwnership = false)]
-    private async void ConnectBlocks()
+    private void ConnectBlocks()
     {
         ConnectStructures();
     }

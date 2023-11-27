@@ -22,11 +22,4 @@ public class PlacingObjectBluePrint : BluePrint
     }
 
     public override void InitPlacedObject(BuildingStructure structure){}
-
-
-    public void Rotate()
-    {
-        transform.eulerAngles += new Vector3(0, 90, 0);
-        _rotatedSide = !_rotatedSide;
-    }
 }

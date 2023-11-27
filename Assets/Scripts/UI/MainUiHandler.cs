@@ -53,7 +53,7 @@ public class MainUiHandler : MonoBehaviour
     public void ActivateUpgradeButton(bool value)
         => _upgradeButton.SetActive(value);
 
-    public async void ActivateGatherButton(bool value)
+    public void ActivateGatherButton(bool value)
         => _gatherButton.SetActive(value);
 
     public void ActivateAttackButton(bool value)

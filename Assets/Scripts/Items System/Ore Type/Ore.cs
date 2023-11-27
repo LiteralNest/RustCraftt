@@ -1,5 +1,5 @@
+using System.Collections;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using Items_System.Ore_Type;
 using Unity.Netcode;
 using UnityEngine;
@@ -45,21 +45,21 @@ public class Ore : NetworkBehaviour
             renderer.SetActive(value);
     }
     
-    private async Task Recover()
+    private IEnumerator Recover()
     {
         Recovering = true;
-        await Task.Delay((int)(_recoveringSpeed * 1000));
+        yield return new WaitForSeconds(_recoveringSpeed);
         Recovering = false;
         TurnRenderers(true);
     }
 
     protected virtual void DestroyObject()
-        => Destroy();
+        => StartCoroutine( Destroy());
     
-    protected async Task Destroy()
+    protected IEnumerator Destroy()
     {
-        TurnRenderers(false);
-        await Recover();
+       TurnRenderers(false);
+       yield return Recover();
         if(NetworkManager.Singleton.IsServer)
             _currentHp.Value = _hp;
     }

@@ -12,7 +12,6 @@ public class CraftingQueueSlotFunctional : MonoBehaviour
     public bool Creating { get; private set; }
     private CraftingQueue _queue;
     
-    private bool _stopCreating = false;
     private CraftingItem _craftingItem;
     private int _count;
 
@@ -49,8 +48,7 @@ public class CraftingQueueSlotFunctional : MonoBehaviour
     
     public void Delete(bool shouldRecoverData = false)
     {
-        _stopCreating = true;
-       Destroy(_currentSlotDisplayer.gameObject); 
+        Destroy(_currentSlotDisplayer.gameObject); 
         _queue.DisplayAlert(false);
         _queue.DeleteCell(this);
         if (shouldRecoverData)

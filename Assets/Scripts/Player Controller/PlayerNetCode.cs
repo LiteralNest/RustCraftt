@@ -72,7 +72,7 @@ namespace Player_Controller
             _armorsContainer.DisplayArmor(ActiveArmorId.Value);
         }
     
-        private async void AssignName()
+        private void AssignName()
         {
             string name = UserDataHandler.singleton.UserData.Name;
             foreach (var nickNameText in _nickNameTexts)

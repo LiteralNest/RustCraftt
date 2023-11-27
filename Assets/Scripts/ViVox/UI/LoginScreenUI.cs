@@ -14,8 +14,7 @@ public class LoginScreenUI : MonoBehaviour
 {
     private VivoxVoiceManager _vivoxVoiceManager;
     public TMP_InputField DisplayNameInput;
-
-    private int defaultMaxStringLength = 9;
+    
     private int PermissionAskedCount = 0;
 
     #region Unity Callbacks

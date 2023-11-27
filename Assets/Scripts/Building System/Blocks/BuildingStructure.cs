@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class BuildingStructure : NetworkBehaviour
 {
-    [field: SerializeField] public NetworkObject NetworkObject { get; private set; }
+    [field: SerializeField] public NetworkObject NetObject { get; private set; }
     [field: SerializeField] public int Id { get; private set; }
     [field: SerializeField] public Vector3 StructureSize { get; private set; } = Vector3.one;
     public List<BuildingBlock> Blocks => _blocks;

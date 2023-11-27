@@ -18,7 +18,6 @@ public class CharacterStats : MonoBehaviour
    private float _initialHealth;
    private float _initialFood;
    private float _initialWater;
-   private float _minussingValueOxygen = 10f;
 
    private bool _minus;
    private bool _plus;

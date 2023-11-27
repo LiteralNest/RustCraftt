@@ -20,14 +20,12 @@ namespace Vehicle
         
         private PlayerController _playerController;
         private Vector2 _moveInput;
-        private float _currentHeight;
         private RigidbodyConstraints _rbConstraints;
         private Quaternion _cachedCameraPosition;
 
         private void Awake()
         {
             _copterInput.enabled = false;
-            _currentHeight = 0f;
         }
 
         private void Update()

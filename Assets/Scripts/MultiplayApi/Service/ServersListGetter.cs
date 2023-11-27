@@ -6,7 +6,7 @@ public class ServersListGetter : MonoBehaviour
 {
    [SerializeField] private ConnectionManager _connectionManager;
 
-   private async void GetServersList()
+   private void GetServersList()
    {
       ServerData[] serverData = new ServerData[10];
       Debug.Log("ServersGetted");

@@ -19,7 +19,7 @@ namespace Fight_System.Weapon.ShootWeapon
         private LongRangeWeaponItemDisplayer _inventoryItemDisplayer;
         private Vector3[] _spreadOffsets;
 
-        private void Start()
+        private new void Start()
         {
             Reload();
             canShoot = true;

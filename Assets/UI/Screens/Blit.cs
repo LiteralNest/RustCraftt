@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
 
@@ -27,8 +28,10 @@ Can then Enqueue the pass manually via https://gist.github.com/Cyanilux/8fb33535
 as a workaround for 2D Renderer not supporting features (prior to 2021.2). Uncomment if needed.
 */
 //	[CreateAssetMenu(menuName = "Cyan/Blit")] 
+	[Obsolete("Obsolete")]
 	public class Blit : ScriptableRendererFeature {
 
+		[Obsolete("Obsolete")]
 		public class BlitPass : ScriptableRenderPass {
 
 			public Material blitMaterial = null;

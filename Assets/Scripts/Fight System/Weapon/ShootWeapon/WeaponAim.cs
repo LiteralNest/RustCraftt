@@ -8,8 +8,6 @@ namespace Fight_System.Weapon.ShootWeapon
         [SerializeField] private Transform _weaponAimPosition;
         [SerializeField] private WeaponSway _weaponSway;
         [FormerlySerializedAs("_weaponAimSway")] [SerializeField] private AimSway _aimSway;
-        
-        [SerializeField] private float _aimSpeed = 5f;
 
         private Transform _transform;
         private Vector3 _originalPosition;

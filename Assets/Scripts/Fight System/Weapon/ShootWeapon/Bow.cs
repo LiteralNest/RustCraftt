@@ -13,7 +13,6 @@ namespace Fight_System.Weapon.ShootWeapon
         private Vector3 _force;
         protected new void Start()
         {
-            base.Start();
             currentAmmoCount = 100;
 
             // Instantiate arrow at the start
