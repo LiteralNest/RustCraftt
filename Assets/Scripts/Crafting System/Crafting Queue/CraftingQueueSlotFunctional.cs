@@ -70,7 +70,7 @@ public class CraftingQueueSlotFunctional : MonoBehaviour
                 _queue.DisplayAlert(_craftingItem, _count, i);
             }
 
-            InventoryHandler.singleton.CharacterInventory.AddItemToDesiredSlotServerRpc(_craftingItem.Id, 1);
+            InventoryHandler.singleton.CharacterInventory.AddCraftedItem(_craftingItem.Id, 1);
             _count--;
             _currentSlotDisplayer.DisplayCountText(_count);
         }

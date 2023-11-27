@@ -10,6 +10,6 @@ public class Medicine : CraftingItem
     {
         base.Click(slotDisplayer, handler);
         handler.Stats.PlusStat(CharacterStatType.Health, _addingValue);
-        InventoryHandler.singleton.CharacterInventory.RemoveItemCountServerRpc(Id, 1);
+        InventoryHandler.singleton.CharacterInventory.RemoveItem(Id, 1);
     }
 }

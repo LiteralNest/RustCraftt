@@ -1,4 +1,4 @@
-using System.Threading.Tasks;
+using Unity.Netcode;
 using UnityEngine;
 
 public class MainUiHandler : MonoBehaviour
@@ -31,7 +31,7 @@ public class MainUiHandler : MonoBehaviour
         GlobalEventsContainer.ShouldDisplayThrowButton -= ActivateThrowButton;
     }
 
-    private void Awake()
+    public void AssignSingleton()
         => singleton = this;
 
     public void ActivateMeleeThrowButton(bool value)

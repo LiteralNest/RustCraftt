@@ -71,7 +71,7 @@ public class BuildingBluePrintCell : MonoBehaviour
         if (!CanBePlaced) return;
 
         foreach (var cell in _targetBuildingStructure.GetPlacingRemovingCells())
-            InventoryHandler.singleton.CharacterInventory.AddItemToDesiredSlotServerRpc(cell.Item.Id, cell.Count);
+            InventoryHandler.singleton.CharacterInventory.AddItemToDesiredSlotServerRpc((ushort)cell.Item.Id, (ushort)cell.Count);
         BuildingsNetworkingSpawner.singleton.SpawnPrefServerRpc(_targetBuildingStructure.Id, transform.position,
             transform.rotation);
     }

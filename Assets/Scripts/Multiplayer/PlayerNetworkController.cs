@@ -1,14 +1,14 @@
+using System.Collections.Generic;
 using Building_System.Upgrading;
 using Player_Controller;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class PlayerNetworkController : MonoBehaviour
 {
-    [Header("NetCode")] 
-    [SerializeField] private PlayerNetCode _playerNetCode;
+    [Header("NetCode")] [SerializeField] private PlayerNetCode _playerNetCode;
 
-    [Header("Scripts")]
-    [SerializeField] private PlayerController _playerController;
+    [Header("Scripts")] [SerializeField] private PlayerController _playerController;
     [SerializeField] private PlayerJumper _playerJumper;
     [SerializeField] private PlayerSitter _playerSitter;
     [SerializeField] private PlayerResourcesGatherer _playerResourcesGatherer;
@@ -18,8 +18,11 @@ public class PlayerNetworkController : MonoBehaviour
     [SerializeField] private PlayerFightHandler _playerFightHandler;
     [SerializeField] private Camera _camera;
     [SerializeField] private AudioListener _listener;
+    [SerializeField] private MainUiHandler _mainUiHandler;
 
-    [Header("Children")] 
+    [FormerlySerializedAs("_disablingObjects")] [Header("Children")] [SerializeField]
+    private List<GameObject> _body = new List<GameObject>();
+
     [SerializeField] private GameObject _characterStaff;
     [SerializeField] private GameObject _canvas;
     [SerializeField] private GameObject _vivox;
@@ -28,9 +31,20 @@ public class PlayerNetworkController : MonoBehaviour
     {
         _vivox.transform.SetParent(null);
         _canvas.transform.SetParent(null);
-        if(!_playerNetCode.PlayerIsOwner())
+        if (!_playerNetCode.PlayerIsOwner())
             ClearObjects();
+        else
+        {
+            DisableBody();
+            _mainUiHandler.AssignSingleton();
+        }
         Destroy(this);
+    }
+
+    private void DisableBody()
+    {
+        foreach (var part in _body)
+            part.SetActive(false);
     }
 
     private void ClearObjects()

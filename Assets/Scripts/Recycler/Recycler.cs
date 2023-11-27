@@ -51,7 +51,7 @@ public class Recycler : Storage
         for (int i = 0; i < Cells.Count; i++)
         {
             if(Cells[i].Item == item)
-                RemoveItemCountServerRpc(i, count);
+                RemoveItem(i, count);
         }
     }
     

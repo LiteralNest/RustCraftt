@@ -1,5 +1,5 @@
+using System.Collections;
 using System.Collections.Generic;
-using Player_Controller;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -18,7 +18,10 @@ namespace Storage_Boxes
         [Header("Test")] [SerializeField] private InventoryCell _testAddingCell;
 
         private void Awake()
-            => ItemsNetData = new NetworkList<Vector3>();
+        {
+            ItemsNetData = new NetworkList<Vector3>(new List<Vector3>(), NetworkVariableReadPermission.Everyone,
+                NetworkVariableWritePermission.Server);
+        }
 
         private void Start()
         {
@@ -45,16 +48,24 @@ namespace Storage_Boxes
         protected virtual void Appear()
             => ActiveInvetoriesHandler.singleton.AddActiveInventory(this);
 
+        protected virtual void DoAfterRemovingItem(InventoryCell cell)
+        {
+        }
+
+        protected virtual void DoAfterAddingItem(InventoryCell cell)
+        {
+        }
+
         #endregion
 
         public override void OnNetworkSpawn()
         {
+            base.OnNetworkSpawn();
             if (IsServer)
                 InitBox();
             else
                 ConvertWebData();
-            // _itemsNetData.OnListChanged += ConvertWebData;
-            base.OnNetworkSpawn();
+            // ItemsNetData.OnListChanged += Test;
         }
 
         [ServerRpc(RequireOwnership = false)]
@@ -62,7 +73,7 @@ namespace Storage_Boxes
         {
             if (IsServer)
                 ItemsNetData[id] = new Vector3Int(-1, 0, -1);
-            if(shouldConvertData)
+            if (shouldConvertData)
                 ConvertWebData();
         }
 
@@ -81,7 +92,7 @@ namespace Storage_Boxes
             if (IsServer)
                 ItemsNetData.Clear();
         }
-        
+
         public void AssignCells(NetworkList<Vector3> inputList)
         {
             ItemsNetData = inputList;
@@ -98,32 +109,39 @@ namespace Storage_Boxes
                 ConvertWebData(shouldDisplay);
         }
 
-        [ServerRpc(RequireOwnership = false)]
-        public void AddItemCountServerRpc(int cellId, int itemId, int count)
+        public void AddItem(int cellId, int itemId, int count)
         {
-            if (IsServer)
-            {
-                ItemsNetData[cellId] = new Vector3Int(itemId, (int)ItemsNetData[cellId].y);
-                ItemsNetData[cellId] += new Vector3Int(0, count);
-            }
+            AddItemCountServerRpc(cellId, itemId, count);
+            DoAfterAddingItem(new InventoryCell(ItemFinder.singleton.GetItemById(itemId), count));
+        }
+
+        [ServerRpc(RequireOwnership = false)]
+        private void AddItemCountServerRpc(int cellId, int itemId, int count)
+        {
+            ItemsNetData[cellId] = new Vector3Int(itemId, (int)ItemsNetData[cellId].y);
+            ItemsNetData[cellId] += new Vector3Int(0, count);
 
             ConvertWebData();
         }
 
-        [ServerRpc(RequireOwnership = false)]
-        public void RemoveItemCountServerRpc(int itemId, int count)
+        public void RemoveItem(int itemId, int count)
         {
-            if (IsServer)
+            RemoveItemCountServerRpc(itemId, count);
+            DoAfterRemovingItem(new InventoryCell(ItemFinder.singleton.GetItemById(itemId), count));
+        }
+
+        [ServerRpc(RequireOwnership = false)]
+        private void RemoveItemCountServerRpc(int itemId, int count)
+        {
+            for (int i = 0; i < ItemsNetData.Count; i++)
             {
-                for (int i = 0; i < ItemsNetData.Count; i++)
-                {
-                    if (ItemsNetData[i].x == itemId)
-                        ItemsNetData[i] -= new Vector3Int(0, count, 0);
-                    if (ItemsNetData[i].y <= 0)
-                        ItemsNetData[i] = new Vector3Int(-1, 0, -1);
-                    
-                }
+                if (ItemsNetData[i].x == itemId)
+                    ItemsNetData[i] -= new Vector3Int(0, count, 0);
+                if (ItemsNetData[i].y <= 0)
+                    ItemsNetData[i] = new Vector3Int(-1, 0, -1);
             }
+
+            DoAfterRemovingItem(new InventoryCell(ItemFinder.singleton.GetItemById(itemId), count));
 
             ConvertWebData();
         }
@@ -134,8 +152,20 @@ namespace Storage_Boxes
                 RemoveItemCountServerRpc(cell.Item.Id, cell.Count);
         }
 
+        private IEnumerator AddItemToServerWithRoutine(int itemId, int count)
+        {
+            yield return new WaitForSeconds(0.2f);
+            AddItemToDesiredSlotServerRpc((ushort)itemId, (ushort)count);
+        }
+
+        public void AddCraftedItem(int itemId, int count)
+        {
+            StartCoroutine(AddItemToServerWithRoutine(itemId, count));
+            DoAfterAddingItem(new InventoryCell(ItemFinder.singleton.GetItemById(itemId), count));
+        }
+
         [ServerRpc(RequireOwnership = false)]
-        public void AddItemToDesiredSlotServerRpc(int itemId, int count)
+        public void AddItemToDesiredSlotServerRpc(ushort itemId, ushort count)
         {
             if (IsServer)
             {
@@ -185,6 +215,6 @@ namespace Storage_Boxes
 
         [ContextMenu("Test")]
         private void AddTestCell()
-            => AddItemToDesiredSlotServerRpc(_testAddingCell.Item.Id, _testAddingCell.Count);
+            => AddItemToDesiredSlotServerRpc((ushort)_testAddingCell.Item.Id, (ushort)_testAddingCell.Count);
     }
 }

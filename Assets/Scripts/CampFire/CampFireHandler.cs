@@ -63,7 +63,7 @@ public class CampFireHandler : Storage
 
     private IEnumerator RemoveFuel(int cellId)
     {
-        RemoveItemCountServerRpc(cellId, 1);
+        RemoveItem(cellId, 1);
         var currentFuel = Cells[cellId].Item as Fuel;
         yield return new WaitForSeconds(currentFuel.BurningTime);
         if (Flaming.Value)
@@ -125,7 +125,7 @@ public class CampFireHandler : Storage
         if (Flaming.Value)
         {
             RemoveItem(_currentlyCookingCharacterStatRiser, 1);
-            AddItemCountServerRpc(bindedCellId, characterStatRiser.CharacterStatRiserAfterCooking.Id, 1);
+            AddItem(bindedCellId, characterStatRiser.CharacterStatRiserAfterCooking.Id, 1);
         }
 
         _currentlyCookingCharacterStatRiser = null;

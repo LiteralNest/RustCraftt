@@ -12,7 +12,7 @@ public class ThrowingWeapon : MonoBehaviour
 
     public void Throw(float force)
     {
-        InventoryHandler.singleton.CharacterInventory.RemoveItemCountServerRpc(
+        InventoryHandler.singleton.CharacterInventory.RemoveItem(
             InventoryHandler.singleton.ActiveSlotDisplayer.ItemDisplayer.InventoryCell.Item.Id, 1);
 
         _rb.AddForce(Camera.main.transform.forward * force, ForceMode.Impulse);

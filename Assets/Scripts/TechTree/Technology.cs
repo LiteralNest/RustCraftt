@@ -33,7 +33,7 @@ public class Technology : MonoBehaviour
     public void Research()
     {
         if (IsResearched || !CanResearch()) return;
-        InventoryHandler.singleton.CharacterInventory.RemoveItemCountServerRpc(_scrap.Id, Cost);
+        InventoryHandler.singleton.CharacterInventory.RemoveItem(_scrap.Id, Cost);
         IsResearched = true;
         _technologyUI.UnlockTech();
         UnlockTechs();

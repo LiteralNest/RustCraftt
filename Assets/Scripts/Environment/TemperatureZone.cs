@@ -30,7 +30,7 @@ public class TemperatureZone : MonoBehaviour
         return normalizedValue;
     }
 
-    private void OnDrawGizmos()
+    private void OnDrawGizmosSelected()
     {
         if (!_showTemperatures)
             return;

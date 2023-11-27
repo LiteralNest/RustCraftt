@@ -15,7 +15,7 @@ public class PlacingObjectBluePrint : BluePrint
     public override void Place()
     {
         if (!CanBePlaced()) return;
-        InventoryHandler.singleton.CharacterInventory.RemoveItemCountServerRpc(TargetPlacingObject.TargetItem.Id, 1);
+        InventoryHandler.singleton.CharacterInventory.RemoveItem(TargetPlacingObject.TargetItem.Id, 1);
         PlacingObjectsPool.singleton.InstantiateObjectServerRpc(TargetPlacingObject.TargetItem.Id,
             transform.position,
             transform.rotation);

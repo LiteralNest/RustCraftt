@@ -10,6 +10,6 @@ public class CharacterStatRiser : Resource
     {
         base.Click(slotDisplayer, handler);
         handler.Stats.PlusStat(_statType, _addingValue);
-        InventoryHandler.singleton.CharacterInventory.RemoveItemCountServerRpc(Id, 1);
+        InventoryHandler.singleton.CharacterInventory.RemoveItem(Id, 1);
     }
 }
