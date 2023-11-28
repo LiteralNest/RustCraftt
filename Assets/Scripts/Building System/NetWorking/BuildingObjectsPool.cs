@@ -1,19 +1,23 @@
 using System.Collections.Generic;
+using Building_System.Blocks;
 using Unity.Netcode;
 using UnityEngine;
 
-public class BuildingObjectsPool : MonoBehaviour
+namespace Building_System.NetWorking
 {
-    [SerializeField] private List<BuildingStructure> _objectsPool = new List<BuildingStructure>();
-
-    public NetworkObject GetObjectByPoolId(int id)
+    public class BuildingObjectsPool : MonoBehaviour
     {
-        foreach (var obj in _objectsPool)
+        [SerializeField] private List<BuildingStructure> _objectsPool = new List<BuildingStructure>();
+
+        public NetworkObject GetObjectByPoolId(int id)
         {
-            if (obj.Id == id)
-                return obj.NetObject;
+            foreach (var obj in _objectsPool)
+            {
+                if (obj.Id == id)
+                    return obj.NetObject;
+            }
+            Debug.LogError("Can't find object with id: " + id);
+            return null;
         }
-        Debug.LogError("Can't find object with id: " + id);
-        return null;
     }
 }

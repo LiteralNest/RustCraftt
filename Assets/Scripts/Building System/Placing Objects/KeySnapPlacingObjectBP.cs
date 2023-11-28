@@ -1,27 +1,32 @@
+using Building_System.Blocks;
+using Building_System.NetWorking;
 using Lock_System;
 using UnityEngine;
 using Web.User;
 
-public class KeySnapPlacingObjectBP : SnapPlacingObjectBP
+namespace Building_System.Placing_Objects
 {
-    public override void InitPlacedObject(BuildingStructure structure)
+    public class KeySnapPlacingObjectBP : SnapPlacingObjectBP
     {
-        var locker = structure.GetComponent<KeyLocker>();
-        if (!locker)
+        public override void InitPlacedObject(BuildingStructure structure)
         {
-            Debug.LogError("Can't load KeyLocker!");
-            return;
+            var locker = structure.GetComponent<KeyLocker>();
+            if (!locker)
+            {
+                Debug.LogError("Can't load KeyLocker!");
+                return;
+            }
+
+            locker.RegistrateKey(UserDataHandler.singleton.UserData.Id);
         }
 
-        locker.RegistrateKey(UserDataHandler.singleton.UserData.Id);
-    }
-
-    public override void Place()
-    {
-        if (!CanBePlaced()) return;
-        PlacingObjectsPool.singleton.InstantiateObjectServerRpc(TargetPlacingObject.TargetItem.Id,
-            transform.position,
-            transform.rotation, 
-            UserDataHandler.singleton.UserData.Id);
+        public override void Place()
+        {
+            if (!CanBePlaced()) return;
+            PlacingObjectsPool.singleton.InstantiateObjectServerRpc(TargetPlacingObject.TargetItem.Id,
+                transform.position,
+                transform.rotation, 
+                UserDataHandler.singleton.UserData.Id);
+        }
     }
 }

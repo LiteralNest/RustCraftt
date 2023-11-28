@@ -1,13 +1,17 @@
+using Building_System.Placing_Objects.ClipBoard;
 using UnityEngine;
 
-public class ClipBoardBluePrintCell : BuildingBluePrintCell
+namespace Building_System.Blue_Prints
 {
-    [SerializeField] private ClipBoardTrigger _clipBoardTrigger; 
-    public override bool CanBePlace()
+    public class ClipBoardBluePrintCell : BuildingBluePrintCell
     {
-        if (_clipBoardTrigger.IsInsideOtherClipBoard) return false;
-        return base.CanBePlace();
-    }
+        [SerializeField] private ClipBoardTrigger _clipBoardTrigger; 
+        public override bool CanBePlace()
+        {
+            if (_clipBoardTrigger.IsInsideOtherClipBoard) return false;
+            return base.CanBePlace();
+        }
 
    
+    }
 }

@@ -131,15 +131,15 @@ namespace Inventory_System
             
             for (int i = 0; i < inputSlots.Count; i++)
             {
-                var slot = cells[i];
-                if (slot.Id == -1) continue;
+                var neededSlot = inputSlots[i];
+                if (neededSlot.Item == null) continue;
                 for (int j = 0; j < cells.Length; j++)
                 {
-                    var cell = cells[j];
-                    if (cell.Id == -1) continue;
-                    if (cell.Id == slot.Id && cell.Count >= slot.Count)
+                    var inventorySlot = cells[j];
+                    if (inventorySlot.Id == -1) continue;
+                    if (inventorySlot.Id == neededSlot.Item.Id && inventorySlot.Count >= neededSlot.Count)
                     {
-                        MinusCellCount(j, slot.Count, cachedData);
+                        MinusCellCount(j, neededSlot.Count, cachedData);
                         inputSlots.RemoveAt(i);
                         i--;
                         if (inputSlots.Count == 0) return true;

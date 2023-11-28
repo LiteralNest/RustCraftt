@@ -1,14 +1,17 @@
 using UnityEngine;
 
-[System.Serializable]
-public class BuildingRendererSlot
+namespace Building_System
 {
-    public Renderer Renderer { get; private set; }
-    public Material ReservedMaterial { get; private set; }
-
-    public BuildingRendererSlot(Renderer renderer, Material reservedMaterial)
+    [System.Serializable]
+    public class BuildingRendererSlot
     {
-        Renderer = renderer;
-        ReservedMaterial = reservedMaterial;
+        public Renderer Renderer { get; private set; }
+        public Material ReservedMaterial { get; private set; }
+
+        public BuildingRendererSlot(Renderer renderer, Material reservedMaterial)
+        {
+            Renderer = renderer;
+            ReservedMaterial = reservedMaterial;
+        }
     }
 }

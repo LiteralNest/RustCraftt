@@ -1,3 +1,4 @@
+using Building_System.Placing_Objects;
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "Item/Building")]

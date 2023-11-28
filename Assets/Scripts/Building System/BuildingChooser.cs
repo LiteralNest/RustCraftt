@@ -1,22 +1,26 @@
+using Building_System.Blue_Prints;
 using UnityEngine;
 
-[RequireComponent(typeof(BuildingDragger))]
-public class BuildingChooser : MonoBehaviour
+namespace Building_System
 {
-    [Header("Attached scripts")] [SerializeField]
-    private BuildingDragger _buildingDragger;
-
-    private void Start()
+    [RequireComponent(typeof(BuildingDragger))]
+    public class BuildingChooser : MonoBehaviour
     {
-        if (_buildingDragger == null)
-            _buildingDragger = GetComponent<BuildingDragger>();
-    }
+        [Header("Attached scripts")] [SerializeField]
+        private BuildingDragger _buildingDragger;
 
-    public void ChooseBuilding(BluePrint buildingBluePrint)
-    {
-        var instance = Instantiate(buildingBluePrint);
-        _buildingDragger.SetCurrentPref(instance);
-        MainUiHandler.singleton.ActivateBuildingChoosingPanel(false);
-        MainUiHandler.singleton.ActivateBuildingStaffPanel(true);
+        private void Start()
+        {
+            if (_buildingDragger == null)
+                _buildingDragger = GetComponent<BuildingDragger>();
+        }
+
+        public void ChooseBuilding(BluePrint buildingBluePrint)
+        {
+            var instance = Instantiate(buildingBluePrint);
+            _buildingDragger.SetCurrentPref(instance);
+            MainUiHandler.singleton.ActivateBuildingChoosingPanel(false);
+            MainUiHandler.singleton.ActivateBuildingStaffPanel(true);
+        }
     }
 }
