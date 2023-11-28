@@ -61,9 +61,9 @@ namespace Inventory_System
         }
 
         public static void MinusCellCount(int cellId, int count,
-            NetworkVariable<CustomSendingInventoryData> data)
+           NetworkVariable<CustomSendingInventoryData> data)
         {
-            var cells = data.Value.Cells;
+            var cells = GetNewGeneratedArray(data.Value.Cells);
             cells[cellId].Count -= count;
             if (cells[cellId].Count <= 0)
                 cells[cellId] = new CustomSendingInventoryDataCell(-1, 0, -1);
@@ -86,7 +86,6 @@ namespace Inventory_System
                     if (cachedCount <= 0) break;
                 }
             }
-
             data.Value = new CustomSendingInventoryData(cachedData.Value.Cells);
         }
 
@@ -115,8 +114,43 @@ namespace Inventory_System
 
         public static void AddItemToDesiredSlot(int itemId, int count, NetworkVariable<CustomSendingInventoryData> data)
         {
-            var cellId = GetDesiredCellId(itemId, count, data);
-            AddCountToCell(cellId, itemId, count, data);
+            var cachedCount = count;
+            var cells = data.Value.Cells;
+            for (int i = 0; i < cells.Length; i++)
+            {
+                if(cells[i].Id == -1) continue;
+                var item = ItemFinder.singleton.GetItemById(cells[i].Id);
+                if(cells[i].Id != itemId || cells[i].Count >= item.StackCount) continue;
+                int sum = cells[i].Count + cachedCount;
+                if (sum > item.StackCount)
+                {
+                    var addingCount = item.StackCount - cells[i].Count;
+                    AddCountToCell(i, itemId, addingCount, data);
+                    cachedCount -= addingCount;
+                }
+                else if (sum < item.StackCount)
+                {
+                    AddCountToCell(i, itemId, cachedCount, data);
+                    cachedCount = 0;
+                }
+                if(cachedCount <= 0) break;
+            }
+            while (cachedCount > 0)
+            {
+                var cellId = GetFreeCellId(data);
+                if(cellId == -1) break;
+                var item = ItemFinder.singleton.GetItemById(itemId);
+                if (item.StackCount > cachedCount)
+                {
+                    SetItem(cellId, new CustomSendingInventoryDataCell(itemId, count, -1), data);
+                    cachedCount = 0;
+                }
+                else
+                {
+                    SetItem(cellId, new CustomSendingInventoryDataCell(itemId, item.StackCount, -1), data);
+                    cachedCount -= item.StackCount;
+                }
+            }
         }
 
         public static bool EnoughMaterials(List<InventoryCell> inputSlots,

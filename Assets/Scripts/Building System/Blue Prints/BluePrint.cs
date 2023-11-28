@@ -7,16 +7,15 @@ namespace Building_System.Blue_Prints
 {
     public abstract class BluePrint : MonoBehaviour
     {
-        [Header("Main Params")]
-        [SerializeField] protected Vector3Int _buildingSize = new Vector3Int(1, 1, 1);
-        [Header("Renderers")]
-        public List<BuildingBluePrintCell> BluePrintCells = new List<BuildingBluePrintCell>();
-        [Header("Layers")] 
-        [SerializeField] protected LayerMask _targetMask;
+        [Header("Main Params")] [SerializeField]
+        protected Vector3Int _buildingSize = new Vector3Int(1, 1, 1);
+
+        [Header("Renderers")] public List<BuildingBluePrintCell> BluePrintCells = new List<BuildingBluePrintCell>();
+        [Header("Layers")] [SerializeField] protected LayerMask _targetMask;
         [SerializeField] protected List<string> _placingTags = new List<string>();
-        
+
         protected bool _rotatedSide;
-    
+
         #region Abstract
 
         public abstract void Place();
@@ -25,14 +24,26 @@ namespace Building_System.Blue_Prints
 
         #endregion
 
-        private void FixedUpdate()
+        private void OnEnable()
+            => GlobalEventsContainer.InventoryDataChanged += CheckMaterials;
+
+        private void OnDisable()
+            => GlobalEventsContainer.InventoryDataChanged -= CheckMaterials;
+
+        private void Start()
         {
-            foreach(var cell in BluePrintCells)
+            CheckMaterials();
+        }
+
+        private void CheckMaterials()
+        {
+            foreach (var cell in BluePrintCells)
                 cell.EnoughMaterials = EnoughMaterials();
         }
 
 
-        public virtual bool TryGetObjectCoords(Camera targetCamera, out Vector3 coords, out Quaternion rotation, out bool shouldRotate)
+        public virtual bool TryGetObjectCoords(Camera targetCamera, out Vector3 coords, out Quaternion rotation,
+            out bool shouldRotate)
         {
             shouldRotate = false;
             Vector3 rayOrigin = targetCamera.transform.position;
@@ -58,7 +69,7 @@ namespace Building_System.Blue_Prints
                     x = Mathf.RoundToInt(hit.point.x + hit.normal.x / (2 / structureSize.x));
                     z = Mathf.RoundToInt(hit.point.z + hit.normal.z / (2 / structureSize.z));
                 }
-            
+
                 coords = new Vector3(x, y, z);
                 return true;
             }
@@ -80,7 +91,7 @@ namespace Building_System.Blue_Prints
                 cells.AddRange(cell.TargetBuildingStructure.GetPlacingRemovingCells());
             return InventoryHelper.EnoughMaterials(cells, InventoryHandler.singleton.CharacterInventory.ItemsNetData);
         }
-        
+
         public void SetOnFrontOfPlayer(bool value)
         {
             foreach (var cell in BluePrintCells)

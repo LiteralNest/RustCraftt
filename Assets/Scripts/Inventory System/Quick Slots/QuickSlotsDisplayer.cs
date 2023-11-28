@@ -4,7 +4,8 @@ using UnityEngine;
 public class QuickSlotsDisplayer : MonoBehaviour
 {
     [SerializeField] private List<QuickSlotDisplayer> _quickSlots = new List<QuickSlotDisplayer>();
-
+    
+    
     private void Start()
         => ClearSlots();
     

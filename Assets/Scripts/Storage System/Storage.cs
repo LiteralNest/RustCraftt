@@ -90,7 +90,11 @@ namespace Storage_System
         {
             for (int i = 0; i < ItemsNetData.Value.Cells.Length; i++)
             {
-                InventoryHelper.MinusCellCount(i, count, ItemsNetData);
+                if (ItemsNetData.Value.Cells[i].Id == itemId)
+                {
+                    InventoryHelper.MinusCellCount(i, count, ItemsNetData);
+                    return;
+                }
             }
 
             DoAfterRemovingItem(new InventoryCell(ItemFinder.singleton.GetItemById(itemId), count));
@@ -108,6 +112,7 @@ namespace Storage_System
         {
             if (IsServer)
                 InventoryHelper.AddItemToDesiredSlot(itemId, count, ItemsNetData);
+            DoAfterAddingItem(new InventoryCell(ItemFinder.singleton.GetItemById(itemId), count));
         }
 
         private IEnumerator AddItemToServerWithRoutine(int itemId, int count)
@@ -119,7 +124,6 @@ namespace Storage_System
         public void AddCraftedItem(int itemId, int count)
         {
             StartCoroutine(AddItemToServerWithRoutine(itemId, count));
-            DoAfterAddingItem(new InventoryCell(ItemFinder.singleton.GetItemById(itemId), count));
         }
 
         public bool EnoughMaterials(List<InventoryCell> inputCells)
