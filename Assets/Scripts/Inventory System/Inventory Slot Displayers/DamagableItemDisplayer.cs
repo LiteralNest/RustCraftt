@@ -14,6 +14,7 @@ namespace Inventory_System.Inventory_Slot_Displayers
         {
             if (InventoryCell.Item == null) return;
             var item = InventoryCell.Item as DamagableItem;
+            _currentItem = item;
             if (InventoryCell.Hp <= 0)
             {
                 InventoryCell.Hp = item.Hp;
@@ -22,8 +23,6 @@ namespace Inventory_System.Inventory_Slot_Displayers
                         InventoryCell.Hp));
                 DisplayBar(InventoryCell.Hp);
             }
-
-            _currentItem = item;
             DisplayBar(InventoryCell.Hp);
         }
 

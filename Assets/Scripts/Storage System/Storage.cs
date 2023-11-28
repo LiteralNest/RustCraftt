@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Inventory_System;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -7,21 +8,22 @@ namespace Storage_System
 {
     public abstract class Storage : NetworkBehaviour
     {
-       [field:SerializeField] public NetworkVariable<CustomSendingInventoryData> ItemsNetData { get; set; } = new();
-       [field:SerializeField] public SlotsDisplayer SlotsDisplayer { get; set; }
+        [field: SerializeField] public NetworkVariable<CustomSendingInventoryData> ItemsNetData { get; set; } = new();
+        [field: SerializeField] public SlotsDisplayer SlotsDisplayer { get; set; }
 
         [Header("Test")] [SerializeField] private InventoryCell _testAddingCell;
 
 
         protected void Awake()
         {
-            if(SlotsDisplayer == null)
+            if (SlotsDisplayer == null)
                 SlotsDisplayer = GetComponent<SlotsDisplayer>();
             gameObject.tag = "LootBox";
         }
 
         public override void OnNetworkSpawn()
         {
+            base.OnNetworkSpawn();
             if (IsServer)
             {
                 if (ItemsNetData.Value.Cells.Length == 0)
@@ -32,7 +34,13 @@ namespace Storage_System
                     ResetItemsServerRpc();
                 }
             }
-            base.OnNetworkSpawn();
+            
+            ItemsNetData.OnValueChanged +=
+                (CustomSendingInventoryData prevValue, CustomSendingInventoryData nextValue) =>
+                {
+                    Debug.Log("Received " + nextValue.Cells.Length + " cells");
+                };
+           
         }
 
         #region virtual
@@ -68,7 +76,7 @@ namespace Storage_System
             if (IsServer)
                 InventoryHelper.ResetItems(ItemsNetData);
         }
-        
+
         [ServerRpc(RequireOwnership = false)]
         public void ResetItemServerRpc(int id)
         {
@@ -95,13 +103,6 @@ namespace Storage_System
             DoAfterAddingItem(new InventoryCell(ItemFinder.singleton.GetItemById(itemId), count));
         }
 
-        [ServerRpc(RequireOwnership = false)]
-        private void AddItemCountServerRpc(CustomSendingInventoryDataCell cell)
-        {
-            if (IsServer)
-                InventoryHelper.AddCell(cell, ItemsNetData);
-        }
-
         public void RemoveItem(int itemId, int count)
         {
             RemoveItemCountServerRpc(itemId, count);
@@ -124,6 +125,14 @@ namespace Storage_System
             foreach (var cell in cells)
                 RemoveItemCountServerRpc(cell.Item.Id, cell.Count);
         }
+        
+
+        [ServerRpc(RequireOwnership = false)]
+        public void AddItemToDesiredSlotServerRpc(int itemId, int count)
+        {
+            if (IsServer)
+                InventoryHelper.AddItemToDesiredSlot(itemId, count, ItemsNetData);
+        }
 
         private IEnumerator AddItemToServerWithRoutine(int itemId, int count)
         {
@@ -137,31 +146,23 @@ namespace Storage_System
             DoAfterAddingItem(new InventoryCell(ItemFinder.singleton.GetItemById(itemId), count));
         }
 
-        [ServerRpc(RequireOwnership = false)]
-        public void AddItemToDesiredSlotServerRpc(int itemId, int count)
-        {
-            if (IsServer)
-                InventoryHelper.AddItemToDesiredSlot(itemId, count, ItemsNetData);
-        }
-
-
         public bool EnoughMaterials(List<InventoryCell> inputCells)
             => InventoryHelper.EnoughMaterials(inputCells, ItemsNetData);
 
         public int GetItemCount(int id)
             => InventoryHelper.GetItemCount(id, ItemsNetData);
-        
 
         public virtual bool CanAddItem(Item item)
             => true;
 
         protected void RemoveItem(Item item, int count)
-        {
-            InventoryHelper.RemoveItemCount(item.Id, count, ItemsNetData);
-        }
-        
+            => InventoryHelper.RemoveItemCount(item.Id, count, ItemsNetData);
+
         [ContextMenu("Test")]
         private void AddTestCell()
-            => AddItemToDesiredSlotServerRpc(_testAddingCell.Item.Id, _testAddingCell.Count);
+        {
+            if(!IsServer) return;
+            AddItemToDesiredSlotServerRpc(1, 1);
+        }
     }
 }

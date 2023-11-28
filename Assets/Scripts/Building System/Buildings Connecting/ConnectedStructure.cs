@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Inventory_System;
 using UnityEngine;
 
 public class ConnectedStructure : MonoBehaviour

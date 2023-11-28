@@ -13,7 +13,8 @@ namespace Inventory_System.Inventory_Items_Displayer
             if (!GlobalValues.CanDragInventoryItems) return;
             _storage.ResetItemServerRpc(PreviousCell.Index);
             PreviousCell.ResetItemWhileDrag();
-            _countText.gameObject.SetActive(false);
+            if(_countText != null)
+                _countText.gameObject.SetActive(false);
             transform.SetParent(transform.root);
             ResourcesDropper.singleton.InventoryItemDisplayer = this;
             _itemIcon.raycastTarget = false;
@@ -28,7 +29,8 @@ namespace Inventory_System.Inventory_Items_Displayer
         public void OnEndDrag(PointerEventData eventData)
         {
             if (!GlobalValues.CanDragInventoryItems) return;
-            _countText.gameObject.SetActive(true);
+            if(_countText != null)
+                _countText.gameObject.SetActive(true);
             transform.position = PreviousCell.transform.position;
             transform.SetParent(PreviousCell.transform);
             _itemIcon.raycastTarget = true;
