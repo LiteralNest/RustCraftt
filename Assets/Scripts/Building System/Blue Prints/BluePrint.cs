@@ -7,13 +7,10 @@ namespace Building_System.Blue_Prints
 {
     public abstract class BluePrint : MonoBehaviour
     {
-        [Header("Main Params")] [SerializeField]
-        protected Vector3Int _buildingSize = new Vector3Int(1, 1, 1);
-
         [Header("Renderers")] public List<BuildingBluePrintCell> BluePrintCells = new List<BuildingBluePrintCell>();
         [Header("Layers")] [SerializeField] protected LayerMask _targetMask;
         [SerializeField] protected List<string> _placingTags = new List<string>();
-
+        [field: SerializeField] public Vector3 StructureSize { get; private set; } = Vector3.one;
         protected bool _rotatedSide;
 
         #region Abstract
@@ -41,7 +38,7 @@ namespace Building_System.Blue_Prints
                 cell.EnoughMaterials = EnoughMaterials();
         }
 
-
+        
         public virtual bool TryGetObjectCoords(Camera targetCamera, out Vector3 coords, out Quaternion rotation,
             out bool shouldRotate)
         {
@@ -54,22 +51,21 @@ namespace Building_System.Blue_Prints
             if (Physics.Raycast(rayOrigin, rayDirection, out hit, Mathf.Infinity, _targetMask))
             {
                 if (!_placingTags.Contains(hit.collider.tag)) return false;
+                
                 int x, y, z;
-                var structureSize = _buildingSize;
-
-                y = Mathf.RoundToInt(hit.point.y + hit.normal.y / (2 / structureSize.y));
-
+                y = Mathf.RoundToInt(hit.point.y + hit.normal.y / 2);
+                
                 if (_rotatedSide)
                 {
-                    x = Mathf.RoundToInt(hit.point.x + hit.normal.x / (2 / structureSize.z));
-                    z = Mathf.RoundToInt(hit.point.z + hit.normal.z / (2 / structureSize.x));
+                    x = Mathf.RoundToInt(hit.point.x + hit.normal.x / 2);
+                    z = Mathf.RoundToInt(hit.point.z + hit.normal.z / 2);
                 }
                 else
                 {
-                    x = Mathf.RoundToInt(hit.point.x + hit.normal.x / (2 / structureSize.x));
-                    z = Mathf.RoundToInt(hit.point.z + hit.normal.z / (2 / structureSize.z));
+                    x = Mathf.RoundToInt(hit.point.x + hit.normal.x / 2);
+                    z = Mathf.RoundToInt(hit.point.z + hit.normal.z / 2);
                 }
-
+                
                 coords = new Vector3(x, y, z);
                 return true;
             }

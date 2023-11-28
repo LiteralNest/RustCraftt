@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Building_System.Buildings_Connecting;
@@ -73,18 +74,18 @@ namespace Building_System.Blocks
             }
         }
 
-        private async void DestroyAsync()
+        private IEnumerator DestroyRoutine()
         {
             //Потрібно щоб OnTriggerExit зчитався
             transform.position = new Vector3(1000000, 1000000, 1000000);
-            await Task.Delay(1000);
-            if(gameObject == null) return;
+            yield return new WaitForSeconds(_destroyingTime);
+            if(gameObject == null) yield break;
             var networkObj = GetComponent<NetworkObject>();
             if (networkObj != null)
                 networkObj.Despawn();
             Destroy(gameObject);
         }
-
+        
         private bool MaxHp()
             => _hp.Value >= _startHp;
     
@@ -123,7 +124,7 @@ namespace Building_System.Blocks
         }
 
         public void Destroy()
-            => DestroyAsync();
+            => StartCoroutine(DestroyRoutine());
 
         public void Shake()
         {

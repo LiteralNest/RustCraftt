@@ -1,6 +1,7 @@
 using Inventory_System.Inventory_Items_Displayer;
 using Storage_System;
 using UnityEngine;
+using UnityEngine.InputSystem.WebGL;
 using UnityEngine.UI;
 
 namespace Inventory_System.Inventory_Slot_Displayers
@@ -8,6 +9,7 @@ namespace Inventory_System.Inventory_Slot_Displayers
     public class DamagableItemDisplayer : InventoryItemDisplayer
     {
         [SerializeField] private Image _hpBar;
+        [SerializeField] private GameObject _hpBarParent;
         private DamagableItem _currentItem;
 
         public override void DisplayData()
@@ -15,22 +17,34 @@ namespace Inventory_System.Inventory_Slot_Displayers
             if (InventoryCell.Item == null) return;
             var item = InventoryCell.Item as DamagableItem;
             _currentItem = item;
+            InventoryCell.Hp = item.Hp;
             if (InventoryCell.Hp <= 0)
             {
-                InventoryCell.Hp = item.Hp;
-                InventoryHandler.singleton.CharacterInventory.SetItemServerRpc(PreviousCell.Index,
-                    new CustomSendingInventoryDataCell(InventoryCell.Item.Id, InventoryCell.Count,
-                        InventoryCell.Hp));
+                if (PreviousCell != null)
+                {
+                    InventoryHandler.singleton.CharacterInventory.SetItemServerRpc(PreviousCell.Index,
+                        new CustomSendingInventoryDataCell(InventoryCell.Item.Id, InventoryCell.Count,
+                            InventoryCell.Hp));
+                }
                 DisplayBar(InventoryCell.Hp);
             }
             DisplayBar(InventoryCell.Hp);
         }
 
         public void DisplayBar(int hp)
-            => _hpBar.fillAmount = (float)hp / _currentItem.Hp;
+        {
+            if(_currentItem.Hp <= 0)
+            {
+                _hpBarParent.SetActive(false);
+                return;
+            }
+            _hpBar.fillAmount = (float)hp / _currentItem.Hp;
+        }
 
         public override void MinusCurrentHp(int hp)
         {
+            var item = InventoryCell.Item as Tool;
+            if(item.Hp <= 0) return;
             InventoryCell.Hp -= hp;
 
             if (InventoryCell.Hp <= 0)
