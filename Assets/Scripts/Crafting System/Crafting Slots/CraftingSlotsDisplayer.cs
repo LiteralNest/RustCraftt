@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Crafting_System.WorkBench;
+using Items_System.Items;
 using UnityEngine;
 
 namespace Crafting_System.Crafting_Slots
@@ -74,6 +75,7 @@ namespace Crafting_System.Crafting_Slots
             DisplayActives(displayer);
             var slots = GetSlots<Tool>();
             slots = GetFilteredListUsingIgnore<Weapon>(slots);
+            slots = GetFilteredListUsingIgnore<Explosion>(slots);
             DisplaySlots(slots);
         }
 
@@ -92,7 +94,10 @@ namespace Crafting_System.Crafting_Slots
         public void DisplayWeapons(CraftingSlotTypeDisplayer displayer)
         {
             DisplayActives(displayer);
-            DisplaySlots(GetSlots<Weapon>());
+            var slots = GetSlots<Weapon>();
+            var explosionSlots = GetSlots<Explosion>();
+            slots.AddRange(explosionSlots);
+            DisplaySlots(slots);
         }
 
         public void DisplayAmmo(CraftingSlotTypeDisplayer displayer)
