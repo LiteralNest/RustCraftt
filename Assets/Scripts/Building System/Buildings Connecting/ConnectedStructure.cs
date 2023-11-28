@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Building_System.Blocks;
 using Inventory_System;
 using UnityEngine;
+using System.Collections;
 
 namespace Building_System.Buildings_Connecting
 {
@@ -17,7 +18,7 @@ namespace Building_System.Buildings_Connecting
 
         private void Start()
         {
-            DecayAsync();
+            StartCoroutine(DecayRoutine());
         }
     
         private void GetBlock(List<BuildingBlock> _blocks)
@@ -65,11 +66,11 @@ namespace Building_System.Buildings_Connecting
             }
         }
 
-        private async void DecayAsync()
+        private IEnumerator DecayRoutine()
         {
-            while (true)
+            while(true)
             {
-                await Task.Delay((int)(_decayingIterationTime * 1000));
+                yield return new WaitForSeconds(_decayingIterationTime);
                 Decay();
             }
         }

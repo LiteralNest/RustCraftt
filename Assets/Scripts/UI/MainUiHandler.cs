@@ -10,8 +10,6 @@ public class MainUiHandler : MonoBehaviour
     [SerializeField] private GameObject _gatherButton;
     [SerializeField] private GameObject _buildingButton;
     [SerializeField] private GameObject _buildingChoosingPanel;
-    [SerializeField] private GameObject _upgradeButton;
-    [SerializeField] private GameObject _pickUpButton;
     [SerializeField] private GameObject _reloadingButton;
     [SerializeField] private GameObject _placingPanel;
     [SerializeField] private GameObject _scopeButton;
@@ -21,13 +19,11 @@ public class MainUiHandler : MonoBehaviour
 
     private void OnEnable()
     {
-        GlobalEventsContainer.BuildingHammerActivated += ActivateUpgradeButton;
         GlobalEventsContainer.ShouldDisplayThrowButton += ActivateThrowButton;
     }
 
     private void OnDisable()
     {
-        GlobalEventsContainer.BuildingHammerActivated -= ActivateUpgradeButton;
         GlobalEventsContainer.ShouldDisplayThrowButton -= ActivateThrowButton;
     }
 
@@ -49,18 +45,12 @@ public class MainUiHandler : MonoBehaviour
 
     public void ActivateBuildingButton(bool value)
         => _buildingButton.SetActive(value);
-
-    public void ActivateUpgradeButton(bool value)
-        => _upgradeButton.SetActive(value);
-
+    
     public void ActivateGatherButton(bool value)
         => _gatherButton.SetActive(value);
 
     public void ActivateAttackButton(bool value)
         => _attackButton.SetActive(value);
-
-    public void ActivatePickupButton(bool value)
-        => _pickUpButton.SetActive(value);
 
     public void ActivateReloadingButton(bool value)
         => _reloadingButton.SetActive(value);

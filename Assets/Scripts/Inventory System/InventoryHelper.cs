@@ -143,6 +143,7 @@ namespace Inventory_System
                         inputSlots.RemoveAt(i);
                         i--;
                         if (inputSlots.Count == 0) return true;
+                        break;
                     }
                 }
             }

@@ -120,7 +120,6 @@ public class ObjectsRayCaster : MonoBehaviour
         }
 
         MainUiHandler.singleton.ActivateGatherButton(false);
-        MainUiHandler.singleton.ActivatePickupButton(false);
         SetLootText("", false);
 
         SetLootButton("", false);
@@ -131,7 +130,6 @@ public class ObjectsRayCaster : MonoBehaviour
         {
             LootingItem = lootingItem;
             SetLootButton("Gather");
-            MainUiHandler.singleton.ActivatePickupButton(true);
             return;
         }
 
