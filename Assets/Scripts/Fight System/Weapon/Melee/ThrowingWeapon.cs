@@ -36,6 +36,5 @@ public class ThrowingWeapon : MonoBehaviour
         _rb.isKinematic = true;
 
         transform.position = other.contacts[0].point;
-        transform.SetParent(other.transform);
     }
 }

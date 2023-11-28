@@ -15,7 +15,8 @@ public abstract class SlotsDisplayer : MonoBehaviour
 
     public virtual List<ArmorSlotDisplayer> GetArmorSlots()
         => null;
-
+    
+    
     private void Start()
     {
         InitItems();

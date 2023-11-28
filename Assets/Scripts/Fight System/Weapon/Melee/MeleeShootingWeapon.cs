@@ -4,7 +4,7 @@ public class MeleeShootingWeapon : MonoBehaviour
 {
     [Header("ThrowingObject")] 
     [SerializeField] private WeaponThrower _weaponThrower;
-    
+    [SerializeField] private GameObject _mainObj;
     private Vector3 _direction;
     private bool _wasScoped;
     
@@ -24,6 +24,7 @@ public class MeleeShootingWeapon : MonoBehaviour
     public void SetThrowingPosition(bool value)
     {
         _wasScoped = true;
+        _mainObj.SetActive(false);
         _weaponThrower.gameObject.SetActive(value);
         if(value) return;
         _weaponThrower.ThrowSpear();

@@ -16,6 +16,7 @@ namespace Building_System.Buildings_Connecting
       private void SetNewClipBoard(ConnectedStructure structure)
       {
          structure.TargetClipBoards.Add(_clipboard);
+         _clipboard.Structure = structure;
          _currentStructure = structure;
          _placingObject.GetComponent<NetworkObject>().TrySetParent(_currentStructure.transform);
       }
