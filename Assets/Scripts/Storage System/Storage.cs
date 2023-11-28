@@ -85,6 +85,15 @@ namespace Storage_System
             DoAfterRemovingItem(new InventoryCell(ItemFinder.singleton.GetItemById(itemId), count));
         }
 
+
+        [ServerRpc(RequireOwnership = false)]
+        public void RemoveItemCountFromSlotServerRpc(int slotId, int itemId, int count)
+        {
+            if(!IsServer) return;
+            InventoryHelper.MinusCellCount(slotId, count, ItemsNetData);
+            DoAfterRemovingItem(new InventoryCell(ItemFinder.singleton.GetItemById(itemId), count));
+        }
+        
         [ServerRpc(RequireOwnership = false)]
         protected void RemoveItemCountServerRpc(int itemId, int count)
         {

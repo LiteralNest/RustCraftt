@@ -16,11 +16,13 @@ public class InHandObjectsContainer : NetworkBehaviour
     private void OnEnable()
     {
         GlobalEventsContainer.ShouldHandleAttacking += HandleAttacking;
+        GlobalEventsContainer.OnCurrentItemDeleted += ResetCurrentCell;
     }
 
     private void OnDisable()
     {
         GlobalEventsContainer.ShouldHandleAttacking -= HandleAttacking;
+        GlobalEventsContainer.OnCurrentItemDeleted -= ResetCurrentCell;
     }
 
     public override void OnNetworkSpawn()
@@ -29,6 +31,12 @@ public class InHandObjectsContainer : NetworkBehaviour
         SetDefaultHands();
     }
 
+    private void ResetCurrentCell()
+    { 
+        SetDefaultHands();
+        _currentCell = null;
+    }
+    
     public void DisplayItems(int itemId)
     {
         bool isOwner = _playerNetCode.PlayerIsOwner();

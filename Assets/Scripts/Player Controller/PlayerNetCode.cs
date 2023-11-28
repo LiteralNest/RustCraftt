@@ -16,8 +16,9 @@ namespace Player_Controller
         [Header("Attached Components")] [SerializeField]
         private List<Collider> _colliders;
         
+
+        public NetworkVariable<int> ActiveItemId { get; set; } = new NetworkVariable<int>();
         [Header("In Hand Items")]
-        public NetworkVariable<int> ActiveItemId = new NetworkVariable<int>();
         [SerializeField] private InHandObjectsContainer _inHandObjectsContainer;
 
         [Header("Armor")]
@@ -95,6 +96,7 @@ namespace Player_Controller
         [ServerRpc(RequireOwnership = false)]
         public void ChangeInHandItemServerRpc(int itemId, ulong clientId)
         {
+            ActiveItemId.Value = -1;
             ActiveItemId.Value = itemId;
             _gettedClientId.Value = clientId;
         }

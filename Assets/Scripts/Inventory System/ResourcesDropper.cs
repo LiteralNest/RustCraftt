@@ -6,7 +6,7 @@ public class ResourcesDropper : MonoBehaviour, IDropHandler
 {
     public static ResourcesDropper singleton { get; private set; }
 
-    public Inventory_System.Inventory_Items_Displayer.InventoryItemDisplayer InventoryItemDisplayer { get; set; }
+    public InventoryItemDisplayer InventoryItemDisplayer { get; set; }
 
     [SerializeField] private float _droppingOffset = 1;
     
@@ -25,7 +25,10 @@ public class ResourcesDropper : MonoBehaviour, IDropHandler
     public void OnDrop(PointerEventData eventData)
     {
         if (!InventoryItemDisplayer) return;
-        InventoryHandler.singleton.CharacterInventory.RemoveItem(InventoryItemDisplayer.InventoryCell.Item.Id, InventoryItemDisplayer.InventoryCell.Count);
+        if(InventoryHandler.singleton.ActiveSlotDisplayer.Index == InventoryItemDisplayer.PreviousCell.Index)
+            GlobalEventsContainer.OnCurrentItemDeleted?.Invoke();
+        var cell = InventoryItemDisplayer.PreviousCell;
+        InventoryHandler.singleton.CharacterInventory.RemoveItemCountFromSlotServerRpc(cell.Index, InventoryItemDisplayer.InventoryCell.Item.Id, InventoryItemDisplayer.InventoryCell.Count);
         InstantiatingItemsPool.sigleton.SpawnDropableObjectServerRpc(InventoryItemDisplayer.InventoryCell.Item.Id, InventoryItemDisplayer.InventoryCell.Count, GetFrontCameraPos());
         Destroy(InventoryItemDisplayer.gameObject);
     }

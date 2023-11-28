@@ -17,9 +17,10 @@ namespace Inventory_System.Inventory_Slot_Displayers
             if (InventoryCell.Item == null) return;
             var item = InventoryCell.Item as DamagableItem;
             _currentItem = item;
-            InventoryCell.Hp = item.Hp;
+        
             if (InventoryCell.Hp <= 0)
             {
+                InventoryCell.Hp = item.Hp;
                 if (PreviousCell != null)
                 {
                     InventoryHandler.singleton.CharacterInventory.SetItemServerRpc(PreviousCell.Index,
@@ -49,7 +50,9 @@ namespace Inventory_System.Inventory_Slot_Displayers
 
             if (InventoryCell.Hp <= 0)
             {
-                InventoryHandler.singleton.CharacterInventory.ResetItemServerRpc(PreviousCell.Index);
+                if(InventoryHandler.singleton.ActiveSlotDisplayer.Index == PreviousCell.Index)
+                    GlobalEventsContainer.OnCurrentItemDeleted?.Invoke();
+                InventoryHandler.singleton.CharacterInventory.RemoveItemCountFromSlotServerRpc(PreviousCell.Index, InventoryCell.Item.Id, InventoryCell.Count);
                 return;
             }
 

@@ -8,9 +8,8 @@ using UnityEngine;
 public class InventoryHandler : NetworkBehaviour
 {
     public static InventoryHandler singleton { get; set; }
-
+    
     [field: SerializeField] public InventoryPanelsDisplayer InventoryPanelsDisplayer { get; private set; }
-
     [field: SerializeField] public PlayerNetCode PlayerNetCode { get; private set; }
     [field: SerializeField] public CharacterStats Stats { get; private set; }
     [field: SerializeField] public PlayerObjectsPlacer PlayerObjectsPlacer { get; private set; }
@@ -25,6 +24,8 @@ public class InventoryHandler : NetworkBehaviour
     [field: SerializeField] public SlotsDisplayer RecyclerSlotsDisplayer { get; private set; }
     [field: SerializeField] public Storage CharacterInventory { get; private set; }
 
+    
+    
     public Item ActiveItem { get; private set; }
     public SlotDisplayer ActiveSlotDisplayer { get; set; }
 
@@ -40,4 +41,10 @@ public class InventoryHandler : NetworkBehaviour
 
     public void SetActiveItem(Item item)
         => ActiveItem = item;
+
+    public void RemoveActiveSlotDisplayer()
+    {
+        var cell = ActiveSlotDisplayer.ItemDisplayer.InventoryCell;
+        CharacterInventory.RemoveItemCountFromSlotServerRpc(ActiveSlotDisplayer.Index, cell.Item.Id, cell.Count);
+    }
 }

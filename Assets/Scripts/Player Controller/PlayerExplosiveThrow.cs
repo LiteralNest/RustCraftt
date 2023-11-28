@@ -21,6 +21,7 @@ public class PlayerExplosiveThrow : NetworkBehaviour
     {
         if(_currentId == -1) return;
         SpawnAndThrowExplosiveServerRpc(_spawnPoint.position);
+        InventoryHandler.singleton.RemoveActiveSlotDisplayer();
     } 
     
     [ServerRpc(RequireOwnership = false)]
