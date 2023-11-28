@@ -7,8 +7,12 @@ public class InHandObjectsContainer : NetworkBehaviour
 {
     [SerializeField] private List<InHandObjectCell> _inHandObjects;
     [SerializeField] private PlayerNetCode _playerNetCode;
+    [SerializeField] private InHandObject _defaultHands;
     private InHandObjectCell _currentCell;
 
+    private void Awake()
+        => AssignDefaultHands();
+    
     private void OnEnable()
     {
         GlobalEventsContainer.ShouldHandleAttacking += HandleAttacking;
@@ -62,5 +66,15 @@ public class InHandObjectsContainer : NetworkBehaviour
         if (!_playerNetCode.IsOwner) return;
         if (_currentCell == null) return;
         _currentCell.HandleAttacking(attack);
+    }
+    
+    [ContextMenu("Set Default Hands")]
+    private void AssignDefaultHands()
+    {
+        foreach (var cell in _inHandObjects)
+        {
+            if (cell.ThirdPersonObject != null) continue;
+            cell.ThirdPersonObject = _defaultHands;
+        }
     }
 }

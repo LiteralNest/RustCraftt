@@ -9,38 +9,14 @@ namespace Storage_System
     public abstract class Storage : NetworkBehaviour
     {
         [field: SerializeField] public NetworkVariable<CustomSendingInventoryData> ItemsNetData { get; set; } = new();
-        [field: SerializeField] public SlotsDisplayer SlotsDisplayer { get; set; }
+        public SlotsDisplayer SlotsDisplayer { get; set; }
 
         [Header("Test")] [SerializeField] private InventoryCell _testAddingCell;
 
 
         protected void Awake()
         {
-            if (SlotsDisplayer == null)
-                SlotsDisplayer = GetComponent<SlotsDisplayer>();
             gameObject.tag = "LootBox";
-        }
-
-        public override void OnNetworkSpawn()
-        {
-            base.OnNetworkSpawn();
-            if (IsServer)
-            {
-                if (ItemsNetData.Value.Cells.Length == 0)
-                {
-                    ItemsNetData.Value =
-                        new CustomSendingInventoryData(
-                            new CustomSendingInventoryDataCell[SlotsDisplayer.CellDisplayers.Count]);
-                    ResetItemsServerRpc();
-                }
-            }
-            
-            ItemsNetData.OnValueChanged +=
-                (CustomSendingInventoryData prevValue, CustomSendingInventoryData nextValue) =>
-                {
-                    Debug.Log("Received " + nextValue.Cells.Length + " cells");
-                };
-           
         }
 
         #region virtual

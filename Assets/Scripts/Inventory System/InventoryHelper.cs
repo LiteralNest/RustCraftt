@@ -6,14 +6,15 @@ namespace Inventory_System
 {
     public static class InventoryHelper
     {
-        private static CustomSendingInventoryDataCell[] GetNewGeneratedArray(CustomSendingInventoryDataCell[] inputArray)
+        private static CustomSendingInventoryDataCell[] GetNewGeneratedArray(
+            CustomSendingInventoryDataCell[] inputArray)
         {
             var res = new CustomSendingInventoryDataCell[inputArray.Length];
             for (int i = 0; i < inputArray.Length; i++)
                 res[i] = new CustomSendingInventoryDataCell(inputArray[i].Id, inputArray[i].Count, inputArray[i].Hp);
             return res;
         }
-        
+
         public static void ResetCell(int cellId, NetworkVariable<CustomSendingInventoryData> data)
         {
             var cells = data.Value.Cells;
@@ -118,18 +119,19 @@ namespace Inventory_System
             AddCountToCell(cellId, itemId, count, data);
         }
 
-        public static bool EnoughMaterials(List<InventoryCell> inputSlots, NetworkVariable<CustomSendingInventoryData> data)
+        public static bool EnoughMaterials(List<InventoryCell> inputSlots,
+            NetworkVariable<CustomSendingInventoryData> data)
         {
-            List<CustomSendingInventoryDataCell> dataCells = new List<CustomSendingInventoryDataCell>();
-            foreach (var cell in inputSlots)
+            NetworkVariable<CustomSendingInventoryData> cachedData =
+                new NetworkVariable<CustomSendingInventoryData>();
+            cachedData.Value = new CustomSendingInventoryData(GetNewGeneratedArray(data.Value.Cells));
+            for (int i = 0; i < data.Value.Cells.Length; i++)
+                cachedData.Value.Cells[i] = new CustomSendingInventoryDataCell(data.Value.Cells[i].Id, data.Value.Cells[i].Count, -1);
+            var cells = cachedData.Value.Cells;
+            
+            for (int i = 0; i < inputSlots.Count; i++)
             {
-                dataCells.Add(new CustomSendingInventoryDataCell(cell.Item.Id, cell.Count, cell.Hp));
-            }
-
-            var cells = data.Value.Cells;
-            for (int i = 0; i < dataCells.Count; i++)
-            {
-                var slot = dataCells[i];
+                var slot = cells[i];
                 if (slot.Id == -1) continue;
                 for (int j = 0; j < cells.Length; j++)
                 {
@@ -137,15 +139,15 @@ namespace Inventory_System
                     if (cell.Id == -1) continue;
                     if (cell.Id == slot.Id && cell.Count >= slot.Count)
                     {
-                        MinusCellCount(j, slot.Count, data);
-                        dataCells.Remove(slot);
+                        MinusCellCount(j, slot.Count, cachedData);
+                        inputSlots.RemoveAt(i);
                         i--;
-                        if (dataCells.Count == 0) return true;
+                        if (inputSlots.Count == 0) return true;
                     }
                 }
             }
 
-            if (dataCells.Count == 0) return true;
+            if (inputSlots.Count == 0) return true;
             return false;
         }
 

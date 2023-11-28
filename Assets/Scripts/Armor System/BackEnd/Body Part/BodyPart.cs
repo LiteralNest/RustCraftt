@@ -25,7 +25,11 @@ namespace ArmorSystem.Backend
         public void AssignMaterial(Material assigningMaterial)
         {
             foreach (var renderer in _targetRenderers)
+            {
+                if(renderer.sharedMaterial == null) continue;
                 renderer.sharedMaterial = assigningMaterial;
+            }
+          
         }
 
         public void ReturnToDefault()

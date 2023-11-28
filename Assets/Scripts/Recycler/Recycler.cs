@@ -18,7 +18,7 @@ public class Recycler : Storage
     [Header("Audio")] [SerializeField] private AudioSource _source;
 
     private bool _recycling;
-
+ 
     private void Start()
         => gameObject.tag = "Recycler";
 
