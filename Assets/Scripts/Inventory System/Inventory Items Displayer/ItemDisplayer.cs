@@ -30,6 +30,8 @@ public abstract class ItemDisplayer : MonoBehaviour
     public virtual void DisplayData()
     {
         if(InventoryCell.Item == null) return;
+        if(InventoryCell.Item.StackCount == 1)
+            _countText.gameObject.SetActive(false);
         _itemIcon.sprite = InventoryCell.Item.Icon;
         _countText.text = InventoryCell.Count.ToString();
     }
