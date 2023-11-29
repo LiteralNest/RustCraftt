@@ -69,8 +69,11 @@ namespace Storage_System
         public void SetItemServerRpc(int cellId, CustomSendingInventoryDataCell dataCell)
         {
             if (IsServer)
-                InventoryHelper.SetItem(cellId, dataCell, ItemsNetData);
+                SetItem(cellId, dataCell);
         }
+
+        protected virtual void SetItem(int cellId, CustomSendingInventoryDataCell dataCell)
+            => InventoryHelper.SetItem(cellId, dataCell, ItemsNetData);
 
         public void AddItem(int cellId, int itemId, int count)
         {
@@ -89,11 +92,11 @@ namespace Storage_System
         [ServerRpc(RequireOwnership = false)]
         public void RemoveItemCountFromSlotServerRpc(int slotId, int itemId, int count)
         {
-            if(!IsServer) return;
+            if (!IsServer) return;
             InventoryHelper.MinusCellCount(slotId, count, ItemsNetData);
             DoAfterRemovingItem(new InventoryCell(ItemFinder.singleton.GetItemById(itemId), count));
         }
-        
+
         [ServerRpc(RequireOwnership = false)]
         protected void RemoveItemCountServerRpc(int itemId, int count)
         {
@@ -114,7 +117,7 @@ namespace Storage_System
             foreach (var cell in cells)
                 RemoveItemCountServerRpc(cell.Item.Id, cell.Count);
         }
-        
+
 
         [ServerRpc(RequireOwnership = false)]
         public void AddItemToDesiredSlotServerRpc(int itemId, int count)
@@ -150,7 +153,7 @@ namespace Storage_System
         [ContextMenu("Test")]
         private void AddTestCell()
         {
-            if(!IsServer) return;
+            if (!IsServer) return;
             AddItemToDesiredSlotServerRpc(1, 1);
         }
     }

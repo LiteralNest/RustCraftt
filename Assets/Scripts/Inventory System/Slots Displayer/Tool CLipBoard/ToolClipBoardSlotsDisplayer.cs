@@ -38,12 +38,17 @@ namespace Inventory_System.Slots_Displayer.Tool_CLipBoard
             _timeText.text = "Protected for " + days + "d " + hours + "h";
         }
 
-        public override void DisplayCells()
+        public void DisplayRemainingTime()
         {
-            base.DisplayCells();
             var storage = TargetStorage as ToolClipboard;
             DisplayTime(storage.GetAvaliableMinutes());
             _cellsDisplayer.DisplayCells(storage.GetNeededResourcesForDay());
+        }
+        
+        public override void DisplayCells()
+        {
+            base.DisplayCells();
+            DisplayRemainingTime();
         }
     }
 }

@@ -1,10 +1,9 @@
 using System.Collections.Generic;
 using Building_System.Blocks;
-using Building_System.Buildings_Connecting;
+using Inventory_System.Slots_Displayer.Tool_CLipBoard;
 using Lock_System;
 using Storage_System;
 using UnityEngine;
-using UnityEngine.Serialization;
 using Web.User;
 
 public class ToolClipboard : Storage, ILockable
@@ -24,6 +23,13 @@ public class ToolClipboard : Storage, ILockable
         base.Open(handler);
     }
 
+    protected override void SetItem(int cellId, CustomSendingInventoryDataCell dataCell)
+    {
+        base.SetItem(cellId, dataCell);
+        var slotsDisplayer = SlotsDisplayer as ToolClipBoardSlotsDisplayer;
+        slotsDisplayer.DisplayRemainingTime();
+    }
+    
 
     #region Counting Remaining Time
 
