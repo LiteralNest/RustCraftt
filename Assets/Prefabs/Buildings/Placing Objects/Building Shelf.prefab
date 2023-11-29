@@ -150,6 +150,7 @@ MonoBehaviour:
     Count: 0
     Hp: 0
   _mainTransform: {fileID: 9061259593266501156}
+  _connectedBlocks: []
 --- !u!65 &3521277971360400870
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -181,6 +182,8 @@ GameObject:
   m_Component:
   - component: {fileID: 2326122542474874061}
   - component: {fileID: 5536863207399911105}
+  - component: {fileID: 7005970574466392281}
+  - component: {fileID: 353935945845894647}
   m_Layer: 7
   m_Name: ShelfTrigger
   m_TagString: ShelfZone
@@ -224,6 +227,46 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 31, y: 100, z: 31}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!54 &7005970574466392281
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1653298237848866994}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
+--- !u!114 &353935945845894647
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1653298237848866994}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d46c3a9d5997659478e1562c9795a4ec, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _toolClipboard: {fileID: 1063824517634686699}
 --- !u!1 &4606221132684281437
 GameObject:
   m_ObjectHideFlags: 0

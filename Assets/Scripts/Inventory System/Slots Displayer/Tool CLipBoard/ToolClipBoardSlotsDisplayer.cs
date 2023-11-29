@@ -42,9 +42,8 @@ namespace Inventory_System.Slots_Displayer.Tool_CLipBoard
         {
             base.DisplayCells();
             var storage = TargetStorage as ToolClipboard;
-            if(storage.Structure == null) return;
-            DisplayTime(storage.Structure.GetAvaliableMinutes());
-            _cellsDisplayer.DisplayCells(storage.Structure.GetNeededResourcesForDay());
+            DisplayTime(storage.GetAvaliableMinutes());
+            _cellsDisplayer.DisplayCells(storage.GetNeededResourcesForDay());
         }
     }
 }
