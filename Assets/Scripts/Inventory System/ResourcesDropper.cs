@@ -22,11 +22,18 @@ public class ResourcesDropper : MonoBehaviour, IDropHandler
         return cameraPosition + (cameraForward * _droppingOffset);
     }
     
+    private void TryResetInHandItem()
+    {
+        if (InventoryHandler.singleton.ActiveSlotDisplayer == null) return;
+        if (InventoryItemDisplayer.PreviousCell == null) return;
+        if(InventoryHandler.singleton.ActiveSlotDisplayer.Index == InventoryItemDisplayer.PreviousCell.Index)
+            GlobalEventsContainer.OnCurrentItemDeleted?.Invoke();
+    }
+    
     public void OnDrop(PointerEventData eventData)
     {
         if (!InventoryItemDisplayer) return;
-        if(InventoryHandler.singleton.ActiveSlotDisplayer.Index == InventoryItemDisplayer.PreviousCell.Index)
-            GlobalEventsContainer.OnCurrentItemDeleted?.Invoke();
+        TryResetInHandItem();
         var cell = InventoryItemDisplayer.PreviousCell;
         InventoryHandler.singleton.CharacterInventory.RemoveItemCountFromSlotServerRpc(cell.Index, InventoryItemDisplayer.InventoryCell.Item.Id, InventoryItemDisplayer.InventoryCell.Count);
         InstantiatingItemsPool.sigleton.SpawnDropableObjectServerRpc(InventoryItemDisplayer.InventoryCell.Item.Id, InventoryItemDisplayer.InventoryCell.Count, GetFrontCameraPos());
