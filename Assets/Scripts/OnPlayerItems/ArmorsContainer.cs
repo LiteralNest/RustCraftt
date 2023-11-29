@@ -16,7 +16,7 @@ namespace ArmorSystem.Backend
             _playerNetCode.ActiveArmorId.Value = itemId;
         }
         
-        public void DisplayArmor(int targetArmorId)
+        public void DisplayArmor(int targetArmorId, PlayerNetCode netCode)
         {
             foreach (var armor in _armorCells)
             {
@@ -25,7 +25,7 @@ namespace ArmorSystem.Backend
                     armor.PutOff();
                     continue;
                 }
-                armor.PutOnArmor();
+                armor.PutOnArmor(netCode);
             }
  
         }

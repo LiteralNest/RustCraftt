@@ -61,7 +61,7 @@ namespace Player_Controller
             ActiveArmorId.OnValueChanged += (int prevValue, int newValue) =>
             {
                 if (GetClientId() != _gettedClientId.Value) return;
-                _armorsContainer.DisplayArmor(ActiveArmorId.Value);
+                _armorsContainer.DisplayArmor(ActiveArmorId.Value, this);
             };
         
             _playerId.OnValueChanged += (int prevValue, int newValue) =>
@@ -70,7 +70,7 @@ namespace Player_Controller
             };
         
             _inHandObjectsContainer.DisplayItems(ActiveItemId.Value);
-            _armorsContainer.DisplayArmor(ActiveArmorId.Value);
+            _armorsContainer.DisplayArmor(ActiveArmorId.Value, this);
         }
     
         private void AssignName()

@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using Player_Controller;
 using UnityEngine;
 
 namespace ArmorSystem.Backend
@@ -13,15 +15,27 @@ namespace ArmorSystem.Backend
         [SerializeField] protected Armor _armor;
         public Armor Armor => _armor;
         [SerializeField] protected Material _targetMaterial;
-        [SerializeField] protected GameObject _targetObject;
+        [SerializeField] protected List<GameObject> _targetObjects;
+        [SerializeField] protected List<GameObject> _inventoryObjects;
 
-        public virtual void PutOnArmor()
-            => _dressedArmorsHandler.DressArmor(_bodyPartType, _armor);
-
-        public virtual void PutOff()
+        public virtual void PutOnArmor(PlayerNetCode netCode)
         {
-            if(_targetObject)
-                _targetObject.SetActive(false);
+            if (!netCode.IsOwner)
+            {
+                foreach(var slot in _targetObjects)
+                    slot.SetActive(true);
+            }
+            foreach(var slot in _inventoryObjects)
+                slot.SetActive(true);
+            _dressedArmorsHandler.DressArmor(_bodyPartType, _armor);
+        }
+
+        public void PutOff()
+        {
+            foreach(var targetObject in _targetObjects)
+                targetObject.SetActive(false);
+            foreach(var slot in _inventoryObjects)
+                slot.SetActive(false);
         }
     }
 }

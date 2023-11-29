@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Player_Controller;
 using UnityEngine;
 
 namespace ArmorSystem.Backend
@@ -24,7 +25,7 @@ namespace ArmorSystem.Backend
                     slot.Armor = armor;
                 return;
             }
-            var dressedSlot= GetDressedSlotByPart(bodyPartType);
+            var dressedSlot = GetDressedSlotByPart(bodyPartType);
             dressedSlot.Armor = armor;
         }
     }
