@@ -3,6 +3,7 @@ using Storage_System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Serialization;
+using Vehicle;
 
 public class ObjectsRayCaster : MonoBehaviour
 {
@@ -181,6 +182,12 @@ public class ObjectsRayCaster : MonoBehaviour
             return;
         }
 
+        if(TryRaycast("Vehicle", _maxOpeningDistance, out IVehicleController vehicleHandler, _defaultMask))
+        {
+            InventoryHandler.singleton.VehiclesController.SetVehiclesController = vehicleHandler;
+            return;
+        }
+        
         TryRayCastOre();
     }
 }

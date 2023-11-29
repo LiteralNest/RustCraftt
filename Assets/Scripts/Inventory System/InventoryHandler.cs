@@ -4,6 +4,7 @@ using Player_Controller;
 using Storage_System;
 using Unity.Netcode;
 using UnityEngine;
+using Vehicle;
 
 public class InventoryHandler : NetworkBehaviour
 {
@@ -24,7 +25,7 @@ public class InventoryHandler : NetworkBehaviour
     [field: SerializeField] public SlotsDisplayer RecyclerSlotsDisplayer { get; private set; }
     [field: SerializeField] public Storage CharacterInventory { get; private set; }
 
-    
+    [field:SerializeField] public VehiclesController VehiclesController { get; private set; }
     
     public Item ActiveItem { get; private set; }
     public SlotDisplayer ActiveSlotDisplayer { get; set; }

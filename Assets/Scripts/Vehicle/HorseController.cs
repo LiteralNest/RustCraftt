@@ -5,7 +5,7 @@ using UnityEngine.InputSystem;
 
 namespace Vehicle
 {
-    public class HorseController : NetworkBehaviour
+    public class HorseController : NetworkBehaviour, IVehicleController
     {
         [SerializeField] private Horse _horse;
         [SerializeField] private Vector3 _offset = new Vector3(0f, 3f, 0f);
@@ -15,7 +15,6 @@ namespace Vehicle
         private bool _isNearHorse = false;
         private bool _isSittingOnHorse;
         
-        private PlayerController _playerController;
         private Vector2 _moveInput;
         private RigidbodyConstraints _rbConstraints;
         
@@ -30,30 +29,6 @@ namespace Vehicle
                 _horse.Move(_moveInput);
             }
         }
-        private void OnGUI()
-        {
-            if (!_isSittingOnHorse)
-            {
-                if (_isNearHorse && _playerController != null)
-                {
-                    if (GUI.Button(new Rect(Screen.width / 2 - 50, Screen.height / 2 + 75, 200, 100), "Siton horse"))
-                    {
-                        SitOnHorse();
-                    }
-                }
-            }
-            else if (_isSittingOnHorse)
-            {
-                if (GUI.Button(new Rect(Screen.width / 2 - 100, Screen.height / 2 + 100, 200, 100), "Stand from horse"))
-                {
-                    StandUpFromHorse();
-                }
-                if (GUI.Button(new Rect(Screen.width / 2 - 50, Screen.height / 2 + 50, 200, 100), "Stand from horse"))
-                {
-                    _horse.Jump();
-                }
-            }
-        }
 
         #region InputMap
         public void OnMove(InputAction.CallbackContext context)
@@ -63,77 +38,73 @@ namespace Vehicle
         }
         #endregion
 
-        #region Trigger
-
-        private void OnTriggerEnter(Collider other)
-        {
-            if(other.CompareTag("Ground"))
-                _horse.Jump();
-        }
-
-        private void OnTriggerExit(Collider other)
-        {
-            //
-            // var ground = other.CompareTag("Ground");
-            // if (ground)
-            //     ground = false;
-        }
-
-        #endregion
-        #region Colision
-        private void OnCollisionEnter(Collision collision)
-        {
-            if (collision.gameObject.CompareTag("Player"))
-            {
-                _isNearHorse = true;
-                _playerController = collision.gameObject.GetComponent<PlayerController>();
-            }
-        }
-
-        private void OnCollisionExit(Collision collision)
-        {
-            if (collision.gameObject.CompareTag("Player"))
-            {
-                _isNearHorse = false;
-                _playerController = null;
-            }
-        }
-        #endregion
-        #region InteractionWithVehiclce
-        private void SitOnHorse()
-        {
-            if (!IsServer) return;
-            _isSittingOnHorse = true;
-            
-            _playerController.GetComponent<NetworkObject>().TrySetParent(_horse.transform);
-            _playerController.transform.position = _horse.transform.position + _offset;
-            _rbConstraints = _playerController.GetComponent<Rigidbody>().constraints;
-            
-            SetPlayerPhysicOnHorse();
-            
-            _playerController.enabled = false;
-            _horseInput.enabled = true;
-        }
-        private void StandUpFromHorse()
-        {
-            if (!IsServer) return;
-            _isSittingOnHorse = false;
-            _playerController.GetComponent<NetworkObject>().TryRemoveParent(true);
-            var rb =_playerController.GetComponent<Rigidbody>();
-            rb.constraints = _rbConstraints;
-            rb.useGravity = true;
-            
-            _playerController.enabled = true;
-            _horseInput.enabled = false;
-        }
 
         private void SetPlayerPhysicOnHorse()
         {
-            var rb =_playerController.GetComponent<Rigidbody>();
+            var rb =  PlayerNetCode.Singleton.GetComponent<Rigidbody>();
             rb.constraints = RigidbodyConstraints.FreezeAll;
             rb.useGravity = true;
         }
+
+        #region IVehicleController
+
+        public bool CanBePushed()
+            => false;
+
+        public void Push()
+        {}
+
+        public bool CanStand()
+            => _isSittingOnHorse;
+
+        public void StandUp()
+        {
+            if (!IsServer) return;
+            _isSittingOnHorse = false;
+            var player = PlayerNetCode.Singleton;
+            player.GetComponent<NetworkObject>().TryRemoveParent(true);
+            var rb =player.GetComponent<Rigidbody>();
+            rb.constraints = _rbConstraints;
+            rb.useGravity = true;
+            
+            player.GetComponent<PlayerController>().enabled = true;
+            _horseInput.enabled = false;
+        }
+
+        public bool CanSit()
+            => !_isSittingOnHorse;
+
+        public void SitIn()
+        {
+            if (!IsServer) return;
+            _isSittingOnHorse = true;
+
+            var player = PlayerNetCode.Singleton;
+            player.GetComponent<NetworkObject>().TrySetParent(_horse.transform);
+            player.transform.position = _horse.transform.position + _offset;
+            _rbConstraints = player.GetComponent<Rigidbody>().constraints;
+            
+            SetPlayerPhysicOnHorse();
+            
+            player.GetComponent<PlayerController>().enabled = false;
+            _horseInput.enabled = true;
+        }
+
+        public bool CanMoveUp()
+            => false;
+        public void MoveUp()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public bool CanMoveDown()
+            => false;
+
+        public void MoveDown()
+        {
+            throw new System.NotImplementedException();
+        }
+
         #endregion
-     
     }
 }

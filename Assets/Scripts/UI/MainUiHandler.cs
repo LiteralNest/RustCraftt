@@ -13,6 +13,7 @@ public class MainUiHandler : MonoBehaviour
     [SerializeField] private GameObject _reloadingButton;
     [SerializeField] private GameObject _placingPanel;
     [SerializeField] private GameObject _scopeButton;
+    [SerializeField] private GameObject _sitAndStandPanel;
 
     [SerializeField] private GameObject _meleeThrowButton;
     [SerializeField] private GameObject _throwExplosiveButton;
@@ -45,7 +46,7 @@ public class MainUiHandler : MonoBehaviour
 
     public void ActivateBuildingButton(bool value)
         => _buildingButton.SetActive(value);
-    
+
     public void ActivateGatherButton(bool value)
         => _gatherButton.SetActive(value);
 
@@ -60,4 +61,7 @@ public class MainUiHandler : MonoBehaviour
 
     public void ActivateThrowButton(bool value)
         => _throwExplosiveButton.SetActive(value);
+
+    public void ActivateSitAndStandPanel(bool value)
+        => _sitAndStandPanel.SetActive(value);
 }

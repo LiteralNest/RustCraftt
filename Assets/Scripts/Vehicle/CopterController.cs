@@ -1,32 +1,26 @@
-using System;
 using Player_Controller;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.Serialization;
 
 namespace Vehicle
 {
-    public class CopterController : NetworkBehaviour
+    public class CopterController : NetworkBehaviour, IVehicleController
     {
         [SerializeField] private Copter _copter;
         [SerializeField] private Vector3 _offset = new Vector3(0f, 2f, 0f);
         [SerializeField] private PlayerInput _copterInput;
-        
+
         public bool IsMoving { get; set; }
-        private bool _isNearVehicle = false;
         private bool _isSittingInVehicle;
         private bool _hasGainedHeight;
         
-        private PlayerController _playerController;
         private Vector2 _moveInput;
         private RigidbodyConstraints _rbConstraints;
         private Quaternion _cachedCameraPosition;
 
         private void Awake()
-        {
-            _copterInput.enabled = false;
-        }
+            => _copterInput.enabled = false;
 
         private void Update()
         {
@@ -36,50 +30,74 @@ namespace Vehicle
 
         private void FixedUpdate()
         {
-            if (IsMoving)
-            {
-                _copter.Move(_moveInput);
-            }
+            if (!IsMoving) return;
+            _copter.Move(_moveInput);
         }
 
-        private void OnGUI()
+        #region IVehicleController
+
+        public bool CanBePushed() => false;
+
+        public void Push()
         {
-            if (!_isSittingInVehicle)
-            {
-                if (_isNearVehicle && _playerController != null)
-                {
-                    if (GUI.Button(new Rect(Screen.width / 2 - 50, Screen.height / 2 - 25, 200, 100), "Push Boat"))
-                    {
-                        PushVehicle();
-                    }
-                    if (GUI.Button(new Rect(Screen.width / 2 - 50, Screen.height / 2 + 75, 200, 100), "Sit in Boat"))
-                    {
-                        SitInVehicle();
-                    }
-                }
-            }
-            else if (_isSittingInVehicle)
-            {
-                if (GUI.Button(new Rect(Screen.width / 2 - 50, Screen.height / 2 + 75, 200, 100), "Stand from boat"))
-                {
-                    StandUpFromVehicle();
-                }
-
-                // Add buttons for height adjustment in the center-right position
-                float buttonWidth = 150f;
-                float buttonHeight = 150f;
-
-                if (GUI.Button(new Rect(Screen.width - buttonWidth - 10, Screen.height / 2 - buttonHeight / 2, buttonWidth, buttonHeight), "Up"))
-                {
-                    OnHeightUp();
-                }
-
-                if (GUI.Button(new Rect(Screen.width - buttonWidth - 10, Screen.height / 2 + buttonHeight / 2 + 20, buttonWidth, buttonHeight), "Down"))
-                {
-                    OnHeightDown();
-                }
-            }
         }
+
+        public bool CanStand() => _isSittingInVehicle;
+
+        public void StandUp()
+        {
+            _isSittingInVehicle = false;
+            var player = PlayerNetCode.Singleton;
+            player.GetComponent<NetworkObject>().TryRemoveParent(true);
+
+            var rb = player.GetComponent<Rigidbody>();
+            rb.constraints = _rbConstraints;
+            rb.useGravity = true;
+
+            player.transform.rotation = _cachedCameraPosition;
+
+            player.GetComponent<PlayerController>().enabled = true;
+            _copterInput.enabled = false;
+        }
+
+        public bool CanSit() => !_isSittingInVehicle;
+
+        private void SetPlayerPhysicInVehicle()
+        {
+            var player = PlayerNetCode.Singleton;
+            var rb = player.GetComponent<Rigidbody>();
+            rb.constraints = RigidbodyConstraints.FreezeAll;
+            rb.useGravity = true;
+        }
+
+        public void SitIn()
+        {
+            _isSittingInVehicle = true;
+
+            var player = PlayerNetCode.Singleton;
+            
+            _cachedCameraPosition = player.transform.rotation;
+            player.GetComponent<NetworkObject>().TrySetParent(_copter.transform);
+            player.transform.position = _copter.transform.position + _offset;
+
+            _rbConstraints = player.GetComponent<Rigidbody>().constraints;
+            SetPlayerPhysicInVehicle();
+
+            player.GetComponent<PlayerController>().enabled = false;
+            _copterInput.enabled = true;
+        }
+
+        public bool CanMoveUp() => _isSittingInVehicle;
+
+        public void MoveUp()
+            => _copter.IncreaseHeight();
+
+        public bool CanMoveDown() => _isSittingInVehicle;
+        
+        public void MoveDown()
+            => _copter.DecreaseHeight();
+
+        #endregion
 
         public void OnMove(InputAction.CallbackContext context)
         {
@@ -87,82 +105,14 @@ namespace Vehicle
             IsMoving = context.performed;
         }
 
-        private void OnHeightUp()
-        {
-            _copter.IncreaseHeight();
-        }
-
-        private void OnHeightDown()
-        {
-            _copter.DecreaseHeight();
-        }
-
-        private void OnCollisionEnter(Collision collision)
-        {
-            if (collision.gameObject.CompareTag("Player"))
-            {
-                _isNearVehicle = true;
-                _playerController = collision.gameObject.GetComponent<PlayerController>();
-            }
-        }
-
-        private void OnCollisionExit(Collision collision)
-        {
-            if (collision.gameObject.CompareTag("Player"))
-            {
-                _isNearVehicle = false;
-                _playerController = null;
-            }
-        }
-        
-        private void PushVehicle()
-        {
-            if (_playerController != null)
-            {
-                Vector3 pushDirection = (_playerController.transform.forward).normalized;
-                
-                _copter.Push(pushDirection);
-            }
-        }
-
-        private void SitInVehicle()
-        {
-            if (!IsServer) return;
-            _isSittingInVehicle = true;
-            
-            _cachedCameraPosition = _playerController.transform.rotation;
-            
-            _playerController.GetComponent<NetworkObject>().TrySetParent(_copter.transform);
-            _playerController.transform.position = _copter.transform.position + _offset;
-            
-            _rbConstraints = _playerController.GetComponent<Rigidbody>().constraints;
-            SetPlayerPhysicInVehicle();
-            
-            _playerController.enabled = false;
-            _copterInput.enabled = true;
-        }
-
-        private void StandUpFromVehicle()
-        {
-            if (!IsServer) return;
-            _isSittingInVehicle = false;
-            _playerController.GetComponent<NetworkObject>().TryRemoveParent(true);
-            
-            var rb =_playerController.GetComponent<Rigidbody>();
-            rb.constraints = _rbConstraints;
-            rb.useGravity = true;
-            
-            _playerController.transform.rotation = _cachedCameraPosition;
-            
-            _playerController.enabled = true;
-            _copterInput.enabled = false;
-        }
-
-        private void SetPlayerPhysicInVehicle()
-        {
-            var rb =_playerController.GetComponent<Rigidbody>();
-            rb.constraints = RigidbodyConstraints.FreezeAll;
-            rb.useGravity = true;
-        }
+        // private void PushVehicle()
+        // {
+        //     if (_playerController != null)
+        //     {
+        //         Vector3 pushDirection = (_playerController.transform.forward).normalized;
+        //
+        //         _copter.Push(pushDirection);
+        //     }
+        // }
     }
 }

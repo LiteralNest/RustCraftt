@@ -5,7 +5,7 @@ using UnityEngine.InputSystem;
 
 namespace Vehicle
 {
-    public class BoatController : NetworkBehaviour
+    public class BoatController : NetworkBehaviour, IVehicleController
     {
         [SerializeField] private Boat _boat;
         [SerializeField] private Vector3 _offset = new Vector3(0f, 0.5f, 0f);
@@ -13,10 +13,10 @@ namespace Vehicle
         public bool IsMoving { get; set; }
         private bool _isNearBoat = false;
         private bool _isSittingInBoat;
-        
-        private PlayerController _playerController;
+
         private Vector2 _moveInput;
         private RigidbodyConstraints _rbConstraints;
+
         private void Awake()
         {
             _boatInput.enabled = false;
@@ -30,103 +30,81 @@ namespace Vehicle
             }
         }
 
-        private void OnGUI()
-        {
-            if (!_isSittingInBoat)
-            {
-                if (_isNearBoat && _playerController != null)
-                {
-                    if (GUI.Button(new Rect(Screen.width / 2 - 50, Screen.height / 2 - 25, 200, 100), "Push Boat"))
-                    {
-                        PushBoat();
-                    }
-                    if (GUI.Button(new Rect(Screen.width / 2 - 50, Screen.height / 2 + 75, 200, 100), "Sit in Boat"))
-                    {
-                        SitInBoat();
-                    }
-                }
-            }
-            else if (_isSittingInBoat)
-            {
-                if (GUI.Button(new Rect(Screen.width / 2 - 50, Screen.height / 2 + 75, 200, 100), "Stand from boat"))
-                {
-                    StandUpFromBoat();
-                }
-            }
-        }
-
         public void OnMove(InputAction.CallbackContext context)
         {
             _moveInput = context.ReadValue<Vector2>();
             IsMoving = context.performed;
         }
 
-        #region InteractionWithBoat
 
-        private void OnCollisionEnter(Collision collision)
+        private void SetPlayerPhysicInBoat()
         {
-            if (collision.gameObject.CompareTag("Player"))
-            {
-                _isNearBoat = true;
-                _playerController = collision.gameObject.GetComponent<PlayerController>();
-                
-            }
+            var rb = PlayerNetCode.Singleton.GetComponent<Rigidbody>();
+            rb.constraints = RigidbodyConstraints.FreezeAll;
+            rb.useGravity = true;
         }
 
-        private void OnCollisionExit(Collision collision)
-        {
-            if (collision.gameObject.CompareTag("Player"))
-            {
-                _isNearBoat = false;
-                _playerController = null;
-            }
-        }
+        public bool CanBePushed()
+            => true;
 
-        private void PushBoat()
+        public void Push()
         {
-            if (_playerController != null)
+            var player = PlayerNetCode.Singleton;
+            if (player != null)
             {
-                Vector3 pushDirection = (_playerController.transform.forward).normalized;
-                
+                Vector3 pushDirection = (player.transform.forward).normalized;
+
                 _boat.Push(pushDirection);
             }
         }
 
-        #endregion
+        public bool CanStand()
+            => _isSittingInBoat;
 
-        private void SitInBoat()
-        {
-            if (!IsServer) return;
-            _isSittingInBoat = true;
-            
-            _playerController.GetComponent<NetworkObject>().TrySetParent(_boat.transform);
-            _playerController.transform.position = _boat.transform.position + _offset;
-            _rbConstraints = _playerController.GetComponent<Rigidbody>().constraints;
-            
-            SetPlayerPhysicInBoat();
-            
-            _playerController.enabled = false;
-            _boatInput.enabled = true;
-        }
-
-        private void StandUpFromBoat()
+        public void StandUp()
         {
             if (!IsServer) return;
             _isSittingInBoat = false;
-            _playerController.GetComponent<NetworkObject>().TryRemoveParent(true);
-            var rb =_playerController.GetComponent<Rigidbody>();
+            var player = PlayerNetCode.Singleton;
+            player.GetComponent<NetworkObject>().TryRemoveParent(true);
+            var rb = player.GetComponent<Rigidbody>();
             rb.constraints = _rbConstraints;
             rb.useGravity = true;
-            
-            _playerController.enabled = true;
+
             _boatInput.enabled = false;
         }
 
-        private void SetPlayerPhysicInBoat()
+        public bool CanSit()
+            => !_isSittingInBoat;
+
+        public void SitIn()
         {
-            var rb =_playerController.GetComponent<Rigidbody>();
-            rb.constraints = RigidbodyConstraints.FreezeAll;
-            rb.useGravity = true;
+            if (!IsServer) return;
+            _isSittingInBoat = true;
+            var player = PlayerNetCode.Singleton;
+            player.GetComponent<NetworkObject>().TrySetParent(_boat.transform);
+            player.transform.position = _boat.transform.position + _offset;
+            _rbConstraints = player.GetComponent<Rigidbody>().constraints;
+
+            SetPlayerPhysicInBoat();
+            player.GetComponent<PlayerController>().enabled = false;
+            _boatInput.enabled = true;
+        }
+
+        public bool CanMoveUp()
+            => false;
+
+        public void MoveUp()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public bool CanMoveDown()
+            => false;
+
+        public void MoveDown()
+        {
+            throw new System.NotImplementedException();
         }
     }
 }
