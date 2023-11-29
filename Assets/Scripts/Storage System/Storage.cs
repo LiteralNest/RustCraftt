@@ -12,7 +12,7 @@ namespace Storage_System
         public SlotsDisplayer SlotsDisplayer { get; set; }
 
         [Header("Test")] [SerializeField] private InventoryCell _testAddingCell;
-
+        [field: SerializeField] public int MainSlotsCount;
 
         protected void Awake()
         {
@@ -123,7 +123,7 @@ namespace Storage_System
         public void AddItemToDesiredSlotServerRpc(int itemId, int count)
         {
             if (IsServer)
-                InventoryHelper.AddItemToDesiredSlot(itemId, count, ItemsNetData);
+                InventoryHelper.AddItemToDesiredSlot(itemId, count, ItemsNetData, MainSlotsCount);
             DoAfterAddingItem(new InventoryCell(ItemFinder.singleton.GetItemById(itemId), count));
         }
 

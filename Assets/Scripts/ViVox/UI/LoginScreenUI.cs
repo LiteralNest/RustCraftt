@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using UnityEngine;
 using UnityEngine.Android;
 using UnityEngine.EventSystems;
-using UnityEngine.UI;
-using System.Collections.Generic;
 using TMPro;
-using Unity.Services.Vivox;
-using VivoxUnity;
 using Web.User;
 
 public class LoginScreenUI : MonoBehaviour

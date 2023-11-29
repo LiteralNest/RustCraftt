@@ -1,7 +1,11 @@
+using UnityEngine;
+
 namespace Storage_System
 {
     public class CharacterInventory : Storage
     {
+
+        
         protected override void Appear()
         {
         }

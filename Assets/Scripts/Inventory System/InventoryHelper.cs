@@ -89,9 +89,10 @@ namespace Inventory_System
             data.Value = new CustomSendingInventoryData(cachedData.Value.Cells);
         }
 
-        private static int GetFreeCellId(NetworkVariable<CustomSendingInventoryData> data)
+        private static int GetFreeCellId(NetworkVariable<CustomSendingInventoryData> data, int mainSlotsCount = 0)
         {
-            for (int i = 0; i < data.Value.Cells.Length; i++)
+            if(mainSlotsCount == 0) mainSlotsCount = data.Value.Cells.Length;
+            for (int i = 0; i < mainSlotsCount; i++)
             {
                 if (data.Value.Cells[i].Id == -1)
                     return i;
@@ -112,11 +113,12 @@ namespace Inventory_System
             return GetFreeCellId(data);
         }
 
-        public static void AddItemToDesiredSlot(int itemId, int count, NetworkVariable<CustomSendingInventoryData> data)
+        public static void AddItemToDesiredSlot(int itemId, int count, NetworkVariable<CustomSendingInventoryData> data, int mainSlotsCount)
         {
             var cachedCount = count;
+            if(mainSlotsCount == 0) mainSlotsCount = data.Value.Cells.Length;
             var cells = data.Value.Cells;
-            for (int i = 0; i < cells.Length; i++)
+            for (int i = 0; i < mainSlotsCount; i++)
             {
                 if(cells[i].Id == -1) continue;
                 var item = ItemFinder.singleton.GetItemById(cells[i].Id);
@@ -137,17 +139,17 @@ namespace Inventory_System
             }
             while (cachedCount > 0)
             {
-                var cellId = GetFreeCellId(data);
+                var cellId = GetFreeCellId(data, mainSlotsCount);
                 if(cellId == -1) break;
                 var item = ItemFinder.singleton.GetItemById(itemId);
                 if (item.StackCount > cachedCount)
                 {
-                    SetItem(cellId, new CustomSendingInventoryDataCell(itemId, count, -1), data);
+                    SetItem(cellId, new CustomSendingInventoryDataCell(itemId, count, 100), data);
                     cachedCount = 0;
                 }
                 else
                 {
-                    SetItem(cellId, new CustomSendingInventoryDataCell(itemId, item.StackCount, -1), data);
+                    SetItem(cellId, new CustomSendingInventoryDataCell(itemId, item.StackCount, 100), data);
                     cachedCount -= item.StackCount;
                 }
             }
