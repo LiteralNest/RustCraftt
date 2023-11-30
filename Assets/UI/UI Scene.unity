@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657874, g: 0.49641275, b: 0.5748172, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -51358,7 +51358,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _targetCamera: {fileID: 3745558345645011392}
-  _currentPref: {fileID: 0}
   _distance: 5
 --- !u!114 &67471422920212679
 MonoBehaviour:
@@ -52972,10 +52971,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 49a7f48031fedca46ab20bafc7085c1c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  <InventoryPanelsDisplayer>k__BackingField: {fileID: 0}
   <PlayerNetCode>k__BackingField: {fileID: 3721364865024298185}
   <Stats>k__BackingField: {fileID: 4901743657984502182}
   <PlayerObjectsPlacer>k__BackingField: {fileID: 7278581158510818135}
-  <BuildingChooser>k__BackingField: {fileID: 6207217002524218853}
   <InHandObjectsContainer>k__BackingField: {fileID: 0}
   <ArmorsContainer>k__BackingField: {fileID: 0}
   <ShotGunSlotsDisplayer>k__BackingField: {fileID: 0}
@@ -52986,15 +52985,6 @@ MonoBehaviour:
   <CampFireSlotsDisplayer>k__BackingField: {fileID: 0}
   <RecyclerSlotsDisplayer>k__BackingField: {fileID: 0}
   <CharacterInventory>k__BackingField: {fileID: 0}
-  _mainButtonsPanel: {fileID: 1381974793085465032}
-  _armorPanel: {fileID: 2043788967405141456}
-  _lootBoxPanel: {fileID: 0}
-  _largeStoragePanel: {fileID: 0}
-  _inventoryPanel: {fileID: 1780746530764642920}
-  _campFirePanel: {fileID: 0}
-  _recyclerPanel: {fileID: 0}
-  _toolClipboardPanel: {fileID: 0}
-  _shotGunPanel: {fileID: 0}
 --- !u!114 &730688186665682502
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -59907,6 +59897,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 840cdcc70a1fee143bcc5a7f10c27063, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _colliders: []
   ActiveItemId:
     m_InternalValue: 0
   _inHandObjectsContainer: {fileID: 435786282569997347}
@@ -62811,7 +62802,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ece5017d6deacdb4882eff3c7fa00ab2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _itemDisplayerPrefab: {fileID: 2785422814213238586, guid: 002d21339cd3c4b44b1ddac59aa8e5b6, type: 3}
   _quickSlots:
   - {fileID: 7200506597140729378}
   - {fileID: 2535405407333254665}
@@ -63626,17 +63616,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b94f5874f3749d242a29ba7b3a09b3dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _spearInHands: {fileID: 0}
-  _throwForce: 40
-  _lerpSpeed: 2
-  _spawnPoint: {fileID: 0}
-  _spearCollider: {fileID: 0}
-  _rb: {fileID: 0}
-  _layerMask:
-    serializedVersion: 2
-    m_Bits: 0
-  _soundPlayer: {fileID: 0}
-  _impactEffect: {fileID: 0}
+  _weaponThrower: {fileID: 0}
 --- !u!137 &5305580344426225096
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 0
@@ -63739,18 +63719,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d1b194e97dcddee47a8aca7f154f5c9f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _buildingStaffPanel: {fileID: 582105475271610361}
   _attackButton: {fileID: 6443056041301430130}
   _gatherButton: {fileID: 4699299631959701275}
   _buildingButton: {fileID: 1012186538811537170}
   _buildingChoosingPanel: {fileID: 449733703613853859}
-  _buildingStaffPanel: {fileID: 582105475271610361}
   _upgradeButton: {fileID: 4991367853209930438}
   _pickUpButton: {fileID: 8236617374120701219}
   _reloadingButton: {fileID: 7958135933136233467}
   _placingPanel: {fileID: 4217750492469187686}
   _scopeButton: {fileID: 0}
-  _throwingAimButton: {fileID: 0}
   _meleeThrowButton: {fileID: 0}
+  _throwExplosiveButton: {fileID: 0}
 --- !u!222 &5408566927095018600
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -69835,7 +69815,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -4.48584, y: -3.20607}
+  m_AnchoredPosition: {x: -4.48584, y: -3.2060547}
   m_SizeDelta: {x: 8.9714, y: 6.4042}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!4 &8086720572632574119
