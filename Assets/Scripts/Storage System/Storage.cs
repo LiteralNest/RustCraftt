@@ -74,13 +74,7 @@ namespace Storage_System
 
         protected virtual void SetItem(int cellId, CustomSendingInventoryDataCell dataCell)
             => InventoryHelper.SetItem(cellId, dataCell, ItemsNetData);
-
-        public void AddItem(int cellId, int itemId, int count)
-        {
-            Item item = ItemFinder.singleton.GetItemById(itemId);
-            InventoryHelper.SetItem(cellId, new CustomSendingInventoryDataCell(item.Id, count, -1), ItemsNetData);
-            DoAfterAddingItem(new InventoryCell(ItemFinder.singleton.GetItemById(itemId), count));
-        }
+        
 
         public void RemoveItem(int itemId, int count)
         {
@@ -144,7 +138,7 @@ namespace Storage_System
         public int GetItemCount(int id)
             => InventoryHelper.GetItemCount(id, ItemsNetData);
 
-        public virtual bool CanAddItem(Item item)
+        public virtual bool CanAddItem(Item item, int cellId)
             => true;
 
         protected void RemoveItem(Item item, int count)

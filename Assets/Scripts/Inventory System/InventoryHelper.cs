@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using UnityEngine;
 using Storage_System;
 using Unity.Netcode;
 
@@ -61,7 +62,7 @@ namespace Inventory_System
         }
 
         public static void MinusCellCount(int cellId, int count,
-           NetworkVariable<CustomSendingInventoryData> data)
+            NetworkVariable<CustomSendingInventoryData> data)
         {
             var cells = GetNewGeneratedArray(data.Value.Cells);
             cells[cellId].Count -= count;
@@ -86,12 +87,13 @@ namespace Inventory_System
                     if (cachedCount <= 0) break;
                 }
             }
+
             data.Value = new CustomSendingInventoryData(cachedData.Value.Cells);
         }
 
         private static int GetFreeCellId(NetworkVariable<CustomSendingInventoryData> data, int mainSlotsCount = 0)
         {
-            if(mainSlotsCount == 0) mainSlotsCount = data.Value.Cells.Length;
+            if (mainSlotsCount == 0) mainSlotsCount = data.Value.Cells.Length;
             for (int i = 0; i < mainSlotsCount; i++)
             {
                 if (data.Value.Cells[i].Id == -1)
@@ -101,9 +103,11 @@ namespace Inventory_System
             return -1;
         }
 
-        public static int GetDesiredCellId(int itemId, int count, NetworkVariable<CustomSendingInventoryData> data)
+        public static int GetDesiredCellId(int itemId, int count, NetworkVariable<CustomSendingInventoryData> data,
+            Vector2Int range = default)
         {
-            for (int i = 0; i < data.Value.Cells.Length; i++)
+            if (range == default) range = new Vector2Int(0, data.Value.Cells.Length);
+            for (int i = range.x; i < range.y; i++)
             {
                 if (data.Value.Cells[i].Id != itemId) continue;
                 if (data.Value.Cells[i].Count >= count)
@@ -113,16 +117,17 @@ namespace Inventory_System
             return GetFreeCellId(data);
         }
 
-        public static void AddItemToDesiredSlot(int itemId, int count, NetworkVariable<CustomSendingInventoryData> data, int mainSlotsCount)
+        public static void AddItemToDesiredSlot(int itemId, int count, NetworkVariable<CustomSendingInventoryData> data,
+            int mainSlotsCount)
         {
             var cachedCount = count;
-            if(mainSlotsCount == 0) mainSlotsCount = data.Value.Cells.Length;
+            if (mainSlotsCount == 0) mainSlotsCount = data.Value.Cells.Length;
             var cells = data.Value.Cells;
             for (int i = 0; i < mainSlotsCount; i++)
             {
-                if(cells[i].Id == -1) continue;
+                if (cells[i].Id == -1) continue;
                 var item = ItemFinder.singleton.GetItemById(cells[i].Id);
-                if(cells[i].Id != itemId || cells[i].Count >= item.StackCount) continue;
+                if (cells[i].Id != itemId || cells[i].Count >= item.StackCount) continue;
                 int sum = cells[i].Count + cachedCount;
                 if (sum > item.StackCount)
                 {
@@ -135,12 +140,14 @@ namespace Inventory_System
                     AddCountToCell(i, itemId, cachedCount, data);
                     cachedCount = 0;
                 }
-                if(cachedCount <= 0) break;
+
+                if (cachedCount <= 0) break;
             }
+
             while (cachedCount > 0)
             {
                 var cellId = GetFreeCellId(data, mainSlotsCount);
-                if(cellId == -1) break;
+                if (cellId == -1) break;
                 var item = ItemFinder.singleton.GetItemById(itemId);
                 if (item.StackCount > cachedCount)
                 {
@@ -162,9 +169,10 @@ namespace Inventory_System
                 new NetworkVariable<CustomSendingInventoryData>();
             cachedData.Value = new CustomSendingInventoryData(GetNewGeneratedArray(data.Value.Cells));
             for (int i = 0; i < data.Value.Cells.Length; i++)
-                cachedData.Value.Cells[i] = new CustomSendingInventoryDataCell(data.Value.Cells[i].Id, data.Value.Cells[i].Count, -1);
+                cachedData.Value.Cells[i] =
+                    new CustomSendingInventoryDataCell(data.Value.Cells[i].Id, data.Value.Cells[i].Count, -1);
             var cells = cachedData.Value.Cells;
-            
+
             for (int i = 0; i < inputSlots.Count; i++)
             {
                 var neededSlot = inputSlots[i];

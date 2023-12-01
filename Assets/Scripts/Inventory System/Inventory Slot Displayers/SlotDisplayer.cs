@@ -82,7 +82,7 @@ public abstract class SlotDisplayer : MonoBehaviour, IDropHandler
     protected virtual bool TrySetItem(ItemDisplayer itemDisplayer)
     {
         if (!CanSetSlot) return false;
-        if (!Inventory.CanAddItem(itemDisplayer.InventoryCell.Item)) return false;
+        if (!Inventory.CanAddItem(itemDisplayer.InventoryCell.Item, Index)) return false;
         if (CheckForFree(itemDisplayer)) return true;
         if (TryStack(itemDisplayer.InventoryCell, out bool wasStacking)) return true;
         if (wasStacking) return false;

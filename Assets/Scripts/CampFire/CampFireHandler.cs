@@ -4,6 +4,7 @@ using Inventory_System;
 using Storage_System;
 using Unity.Netcode;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class CampFireHandler : Storage
 {
@@ -14,20 +15,28 @@ public class CampFireHandler : Storage
     [Header("Main Params")] [SerializeField]
     private GameObject _fireObject;
 
-    [Header("Sound")] 
-    [SerializeField] private AudioSource _source;
+    [Header("Range")] [SerializeField] private Vector2Int _fuelSlotsRange;
+    [SerializeField] private Vector2Int _inputSlotsRange;
+    [SerializeField] private Vector2Int _outputSlotsRange;
+
+    [Header("Sound")] [SerializeField] private AudioSource _source;
 
     private CookingCharacterStatRiser _currentlyCookingCharacterStatRiser;
 
     private void Start()
         => gameObject.tag = "CampFire";
 
-    public override bool CanAddItem(Item item)
+    private bool IsInRange(int value, Vector2 range)
+        => value >= range.x && value < range.y;
+
+    public override bool CanAddItem(Item item, int index)
     {
-        if(item is CharacterStatRiser || item is CookingCharacterStatRiser) return true;
+        if (IsInRange(index, _outputSlotsRange)) return false;
+        if (IsInRange(index, _fuelSlotsRange) && item is Fuel) return true;
+        if (IsInRange(index, _inputSlotsRange) && item is CookingCharacterStatRiser) return true;
         return false;
     }
-    
+
     public override void OnNetworkSpawn()
     {
         Flaming.OnValueChanged += (bool prevValue, bool newValue) => { TurnFire(); };
@@ -50,32 +59,33 @@ public class CampFireHandler : Storage
     private void TurnFire()
         => _fireObject.SetActive(Flaming.Value);
 
-    private List<int> GetFuel()
+    private List<Fuel> GetFuel()
     {
-        List<int> res = new List<int>();
+        List<Fuel> res = new List<Fuel>();
         var cells = ItemsNetData.Value.Cells;
-        for (int i = 0; i < cells.Length; i++)
+        for (int i = _fuelSlotsRange.x; i < _fuelSlotsRange.y; i++)
         {
+            if (cells[i].Id == -1) continue;
             var item = ItemFinder.singleton.GetItemById(cells[i].Id);
             if (item is Fuel && cells[i].Count > 0)
-                res.Add(i);
+                res.Add(item as Fuel);
         }
 
         return res;
     }
 
-    private IEnumerator RemoveFuel(int cellId)
+    private IEnumerator RemoveFuel(Fuel fuel)
     {
-        RemoveItem(cellId, 1);
         var cells = ItemsNetData.Value.Cells;
-        var item = ItemFinder.singleton.GetItemById(cells[cellId].Id);
-        var currentFuel = item as Fuel;
-        yield return new WaitForSeconds(currentFuel.BurningTime);
+        RemoveItemCountServerRpc(fuel.Id, 1);
+        SlotsDisplayer.DisplayCells();
+
+        yield return new WaitForSeconds(fuel.BurningTime);
         if (Flaming.Value)
         {
-            var fuel = GetFuel();
-            if (fuel.Count != 0)
-                StartCoroutine(RemoveFuel(fuel[0]));
+            var fuelList = GetFuel();
+            if (fuelList.Count != 0)
+                StartCoroutine(RemoveFuel(fuelList[0]));
             else
                 TurnFlamingServerRpc(false);
         }
@@ -84,12 +94,12 @@ public class CampFireHandler : Storage
     [ServerRpc(RequireOwnership = false)]
     public void TurnFlamingServerRpc(bool value)
     {
-        List<int> fuelIds = new List<int>();
+        List<Fuel> items = new List<Fuel>();
         Flaming.Value = value;
         if (value)
         {
-            fuelIds = GetFuel();
-            if (fuelIds.Count == 0) return;
+            items = GetFuel();
+            if (items.Count == 0) return;
         }
         else
         {
@@ -98,18 +108,21 @@ public class CampFireHandler : Storage
         }
 
         _source.Play();
-        StartCoroutine(RemoveFuel(fuelIds[0]));
+        StartCoroutine(RemoveFuel(items[0]));
     }
 
-    private List<InventoryCell> GetFood()
+    private List<InventoryCell> GetCookingMaterials()
     {
         List<InventoryCell> res = new List<InventoryCell>();
-        foreach (var cell in ItemsNetData.Value.Cells)
+        var cells = ItemsNetData.Value.Cells;
+        for (int i = _inputSlotsRange.x; i < _inputSlotsRange.y; i++)
         {
-            var item = ItemFinder.singleton.GetItemById(cell.Id);
+            if (cells[i].Id == -1) continue;
+            var item = ItemFinder.singleton.GetItemById(cells[i].Id);
             if (item is CookingCharacterStatRiser)
-                res.Add(new InventoryCell(item, cell.Count));
+                res.Add(new InventoryCell(item, cells[i].Count));
         }
+
         return res;
     }
 
@@ -117,10 +130,11 @@ public class CampFireHandler : Storage
     {
         if (!Flaming.Value) return;
         if (_currentlyCookingCharacterStatRiser != null) return;
-        var foodList = GetFood();
+        var foodList = GetCookingMaterials();
         if (foodList.Count == 0) return;
         var food = foodList[0].Item as CookingCharacterStatRiser;
-        var bindedCellItemId = InventoryHelper.GetDesiredCellId(food.CharacterStatRiserAfterCooking.Id, 1, ItemsNetData);
+        var bindedCellItemId = InventoryHelper.GetDesiredCellId(food.CharacterStatRiserAfterCooking.Id, 1, ItemsNetData,
+            _outputSlotsRange);
         StartCoroutine(Cook(food, bindedCellItemId));
     }
 
@@ -130,8 +144,8 @@ public class CampFireHandler : Storage
         yield return new WaitForSeconds(characterStatRiser.CookingTime);
         if (Flaming.Value)
         {
-            RemoveItem(_currentlyCookingCharacterStatRiser, 1);
-            AddItem(bindedCellId, characterStatRiser.CharacterStatRiserAfterCooking.Id, 1);
+            RemoveItemCountServerRpc(_currentlyCookingCharacterStatRiser.Id, 1);
+            AddItemToDesiredSlotServerRpc(characterStatRiser.CharacterStatRiserAfterCooking.Id, 1);
         }
 
         _currentlyCookingCharacterStatRiser = null;
