@@ -1,3 +1,4 @@
+using Animation_System;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -8,10 +9,7 @@ namespace Player_Controller
     {
         [Header("Attached Scripts")]
         [SerializeField] private InHandObjectsContainer _inHandObjectsContainer;
-    
-        [Header("Animators")]
-        [SerializeField] private Animator _handsAnimator;
-        [SerializeField] private Animator _legsAnimator;
+        [SerializeField] private CharacterAnimationsHandler _characterAnimationsHandler;
     
         [Header("Move")]
         [SerializeField] private NetworkVariable<float> _movingSpeed = new(5, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
@@ -99,28 +97,27 @@ namespace Player_Controller
             Vector3 movement = new Vector3(_move.x, 0f, _move.y);
             if (movement != Vector3.zero)
             {
-                _legsAnimator.SetBool("Walking", true);
-                _inHandObjectsContainer.SetWalk(true);
+                _characterAnimationsHandler.SetWalk();
                 transform.Translate(movement * _currentMovingSpeed * Time.deltaTime, Space.Self);
                 return;
             }
 
             _inHandObjectsContainer.SetWalk(false);
-            _legsAnimator.SetBool("Walking", false);
+            _characterAnimationsHandler.SetIdle();
         }
 
         public void StartRunning()
         {
             _inHandObjectsContainer.SetRun(true);
-            _legsAnimator.SetBool("Running", true);
+            _characterAnimationsHandler.SetWalk();
             _ifRunning = true;
             _currentMovingSpeed *= _runningKoef;
         }
 
         public void StopRunning()
         {
+            _characterAnimationsHandler.SetIdle();
             _inHandObjectsContainer.SetRun(false);
-            _legsAnimator.SetBool("Running", false);
             _ifRunning = false;
             _currentMovingSpeed = _movingSpeed.Value;
         }

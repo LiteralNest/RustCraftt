@@ -21,8 +21,8 @@ public class PlayerNetworkController : MonoBehaviour
     [SerializeField] private AudioListener _listener;
     [SerializeField] private MainUiHandler _mainUiHandler;
 
-    [FormerlySerializedAs("_disablingObjects")] [Header("Children")] [SerializeField]
-    private List<GameObject> _body = new List<GameObject>();
+  [Header("Children")] [SerializeField]
+    private List<Renderer> _body = new List<Renderer>();
 
     [SerializeField] private GameObject _characterStaff;
     [SerializeField] private GameObject _canvas;
@@ -36,16 +36,16 @@ public class PlayerNetworkController : MonoBehaviour
             ClearObjects();
         else
         {
-            DisableBody();
+            SetBody(false);
             _mainUiHandler.AssignSingleton();
         }
         Destroy(this);
     }
 
-    private void DisableBody()
+    private void SetBody(bool value)
     {
         foreach (var part in _body)
-            part.SetActive(false);
+            part.enabled = value;
     }
 
     private void ClearObjects()

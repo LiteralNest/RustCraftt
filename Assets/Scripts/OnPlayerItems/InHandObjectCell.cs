@@ -8,28 +8,27 @@ public class InHandObjectCell
     [field: SerializeField] public InHandObject FirstPersonObject { get; set; }
     [field: SerializeField] public InHandObject ThirdPersonObject { get; set; }
 
+    private void DisplayInHandItem(bool fpValue, bool tpValue)
+    {
+        if (FirstPersonObject != null)
+            FirstPersonObject.DisplayRenderers(fpValue);
+        if (ThirdPersonObject != null)
+            ThirdPersonObject.DisplayRenderers(tpValue);
+    }
+
     public void ActivateInHandObject(bool isOwner, bool shouldActivate = true)
     {
         if (!shouldActivate)
         {
-            if (FirstPersonObject != null)
-                FirstPersonObject.DisplayRenderers(false);
-            if (ThirdPersonObject != null)
-                ThirdPersonObject.DisplayRenderers(false);
+            DisplayInHandItem(false, false);
             return;
         }
 
         if (isOwner)
-        {
-            FirstPersonObject.DisplayRenderers(true);
-            ThirdPersonObject.DisplayRenderers(false);
-        }
+            DisplayInHandItem(true, false);
         else
-        {
-            FirstPersonObject.DisplayRenderers(false);
-            ThirdPersonObject.DisplayRenderers(true);
+            DisplayInHandItem(false, true);
         }
-    }
 
     public void SetWalk(bool value)
     {
