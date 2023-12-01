@@ -21,6 +21,7 @@ namespace Inventory_System
         [SerializeField] private GameObject _recyclerPanel;
         [SerializeField] private GameObject _toolClipboardPanel;
         [SerializeField] private GameObject _shotGunPanel;
+        [SerializeField] private GameObject _backPackPanel;
 
         private void Awake()
             => singleton = this;
@@ -36,56 +37,76 @@ namespace Inventory_System
             GlobalValues.CanLookAround = !isOpen;
         }
 
-        public void ClosePanels()
+        public void ResetInventories()
         {
             _armorPanel.SetActive(false);
             _lootBoxPanel.SetActive(false);
             _largeStoragePanel.SetActive(false);
-            _inventoryPanel.SetActive(false);
             _campFirePanel.SetActive(false);
             _recyclerPanel.SetActive(false);
             _toolClipboardPanel.SetActive(false);
             _shotGunPanel.SetActive(false);
+            _backPackPanel.SetActive(false);
+        }
+        
+        public void ClosePanels()
+        {
+            _inventoryPanel.SetActive(false);
+            ResetInventories();
         }
 
         public void OpenArmorPanel()
         {
+            ResetInventories();
             HandleInventory(true);
             _armorPanel.SetActive(true);
         }
 
         public void OpenLootBoxPanel()
         {
+            ResetInventories();
             HandleInventory(true);
             _lootBoxPanel.SetActive(true);
         }
 
         public void OpenLargeChestPanel()
         {
+            ResetInventories();
             HandleInventory(true);
             _largeStoragePanel.SetActive(true);
         }
 
         public void OpenCampFirePanel()
         {
+            ResetInventories();
             HandleInventory(true);
             _campFirePanel.SetActive(true);
         }
 
+        public void OpenBackPackPanel()
+        {
+            ResetInventories();
+            HandleInventory(true);
+            _backPackPanel.SetActive(true);
+        }
+        
         public void OpenRecyclerPanel()
         {
+            ResetInventories();
             HandleInventory(true);
             _recyclerPanel.SetActive(true);
         }
 
         public void OpenClipBoardPanel()
         {
+            ResetInventories();
             HandleInventory(true);
             _toolClipboardPanel.SetActive(true);
         }
 
         public void OpenShotGunPanel()
         {
+            ResetInventories();
             HandleInventory(true);
             _shotGunPanel.SetActive(true);
         }

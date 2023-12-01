@@ -62,7 +62,8 @@ namespace PlayerDeathSystem
              Time.timeScale = 1;
              _lastPlayerTransform = PlayerNetCode.Singleton.transform;
              var playerTransform = _lastPlayerTransform;
-             playerBackPackGenerator.GenerateBackPackServerRpc(playerTransform.position);
+             playerBackPackGenerator.GenerateBackPackServerRpc(playerTransform.position, InventoryHandler.singleton.CharacterInventory.ItemsNetData.Value);
+             InventoryHandler.singleton.CharacterInventory.ResetItemsServerRpc();
          }
 
          public void RespawnPlayer(Transform respawnPoint)
