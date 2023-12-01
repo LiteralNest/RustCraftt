@@ -115,7 +115,7 @@ public class PlayerResourcesGatherer : MonoBehaviour
 
     public void TryOpenCampFire()
     {
-        var campfire = _objectsRayCaster.CampFireHandler;
+        var campfire = _objectsRayCaster.Smelter;
         if(!campfire) return;
         campfire.Open(_inventoryHandler);
     }

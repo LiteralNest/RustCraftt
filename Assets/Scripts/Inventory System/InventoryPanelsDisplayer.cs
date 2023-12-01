@@ -18,6 +18,7 @@ namespace Inventory_System
         [SerializeField] private GameObject _lootBoxPanel;
         [SerializeField] private GameObject _largeStoragePanel;
         [SerializeField] private GameObject _campFirePanel;
+        [SerializeField] private GameObject _furnacePanel;
         [SerializeField] private GameObject _recyclerPanel;
         [SerializeField] private GameObject _toolClipboardPanel;
         [SerializeField] private GameObject _shotGunPanel;
@@ -109,6 +110,13 @@ namespace Inventory_System
             ResetInventories();
             HandleInventory(true);
             _shotGunPanel.SetActive(true);
+        }
+
+        public void OpenFurnacePanel()
+        {
+            ResetInventories();
+            HandleInventory(true);
+            _furnacePanel.SetActive(true);
         }
     }
 }

@@ -1,3 +1,4 @@
+using Items_System.Items.Abstract;
 using UnityEngine;
 
 [System.Serializable]

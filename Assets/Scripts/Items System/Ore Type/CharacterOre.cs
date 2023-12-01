@@ -1,12 +1,15 @@
 using UnityEngine;
 
-public class CharacterOre : ResourceOre
+namespace Items_System.Ore_Type
 {
-    [SerializeField] private GameObject _activatingObject;
-    
-    protected override void DestroyObject()
+    public class CharacterOre : ResourceOre
     {
-        TurnRenderers(false);
-        _activatingObject.SetActive(true);
+        [SerializeField] private GameObject _activatingObject;
+    
+        protected override void DestroyObject()
+        {
+            TurnRenderers(false);
+            _activatingObject.SetActive(true);
+        }
     }
 }

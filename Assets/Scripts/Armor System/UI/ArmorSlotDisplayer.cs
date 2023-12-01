@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using ArmorSystem.Backend;
+using Items_System.Items;
 using UnityEngine;
 
 namespace ArmorSystem.UI

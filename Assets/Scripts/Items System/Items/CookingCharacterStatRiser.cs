@@ -1,10 +1,13 @@
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "Item/Cooking Food")]
-public class CookingCharacterStatRiser : CharacterStatRiser
+namespace Items_System.Items
 {
-    [Header("Cooking food")]
-    [SerializeField] private float _cookingTime;
-    public float CookingTime => _cookingTime;
-    [field: SerializeField] public CharacterStatRiser CharacterStatRiserAfterCooking { get; private set; }
+    [CreateAssetMenu(menuName = "Item/Cooking Food")]
+    public class CookingCharacterStatRiser : CharacterStatRiser
+    {
+        [Header("Cooking food")]
+        [SerializeField] private float _cookingTime;
+        public float CookingTime => _cookingTime;
+        [field: SerializeField] public CharacterStatRiser CharacterStatRiserAfterCooking { get; private set; }
+    }
 }

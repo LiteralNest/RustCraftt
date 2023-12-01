@@ -1,3 +1,5 @@
+using Items_System.Items.Abstract;
+
 [System.Serializable]
 public class InventoryCell
 {

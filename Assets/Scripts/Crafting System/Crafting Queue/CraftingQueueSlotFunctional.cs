@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Items_System.Items.Abstract;
 using UnityEngine;
 
 public class CraftingQueueSlotFunctional : MonoBehaviour

@@ -1,4 +1,7 @@
 using Building_System.Blocks;
+using Items_System;
+using Items_System.Ore_Type;
+using MeltingSystem;
 using Storage_System;
 using TMPro;
 using UnityEngine;
@@ -27,7 +30,7 @@ public class ObjectsRayCaster : MonoBehaviour
     public GatheringOre TargetGathering { get; private set; }
     public Storage TargetBox { get; private set; }
     public LootingItem LootingItem { get; private set; }
-    public CampFireHandler CampFireHandler { get; private set; }
+    public Smelter Smelter { get; private set; }
     public Recycler RecyclerHandler { get; private set; }
     public DoorHandler DoorHandler { get; private set; }
     private BuildingBlock _targetBlock;
@@ -47,7 +50,7 @@ public class ObjectsRayCaster : MonoBehaviour
         TargetGathering = null;
         TargetBox = null;
         LootingItem = null;
-        CampFireHandler = null;
+        Smelter = null;
         RecyclerHandler = null;
         DoorHandler = null;
     }
@@ -161,9 +164,9 @@ public class ObjectsRayCaster : MonoBehaviour
             return;
         }
 
-        if (TryRaycast("CampFire", _maxOpeningDistance, out CampFireHandler campFireHandler, _defaultMask))
+        if (TryRaycast("CampFire", _maxOpeningDistance, out Smelter campFireHandler, _defaultMask))
         {
-            CampFireHandler = campFireHandler;
+            Smelter = campFireHandler;
             SetLootButton("Open");
             return;
         }

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Items_System.Items.Abstract;
 using UnityEngine;
 
 public class CraftingQueue : MonoBehaviour

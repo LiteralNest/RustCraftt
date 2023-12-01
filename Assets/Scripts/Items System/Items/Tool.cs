@@ -1,13 +1,16 @@
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "Item/Tool")]
-public class Tool : DamagableItem
+namespace Items_System.Items
 {
-    public override void Click(QuickSlotDisplayer slotDisplayer, InventoryHandler handler)
+    [CreateAssetMenu(menuName = "Item/Tool")]
+    public class Tool : DamagableItem
     {
-        base.Click(slotDisplayer, handler);
-        handler.SetActiveItem(this);
-        GlobalEventsContainer.ShouldDisplayHandItem?.Invoke(slotDisplayer.ItemDisplayer.InventoryCell.Item.Id,
-            handler.PlayerNetCode.GetClientId());
+        public override void Click(QuickSlotDisplayer slotDisplayer, InventoryHandler handler)
+        {
+            base.Click(slotDisplayer, handler);
+            handler.SetActiveItem(this);
+            GlobalEventsContainer.ShouldDisplayHandItem?.Invoke(slotDisplayer.ItemDisplayer.InventoryCell.Item.Id,
+                handler.PlayerNetCode.GetClientId());
+        }
     }
 }

@@ -1,4 +1,9 @@
-public class DamagableItem : CraftingItem
+using Items_System.Items.Abstract;
+
+namespace Items_System.Items
 {
-    public int Hp;
+    public class DamagableItem : CraftingItem
+    {
+        public int Hp;
+    }
 }

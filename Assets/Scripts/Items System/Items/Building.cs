@@ -1,15 +1,19 @@
 using Building_System.Placing_Objects;
+using Items_System.Items.Abstract;
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "Item/Building")]
-public class Building : CraftingItem
+namespace Items_System.Items
 {
-    [SerializeField] private PlacingObjectBluePrint _targetBluePrint;
-    
-    public override void Click(QuickSlotDisplayer slotDisplayer, InventoryHandler handler)
+    [CreateAssetMenu(menuName = "Item/Building")]
+    public class Building : CraftingItem
     {
-        base.Click(slotDisplayer,handler);
-        handler.PlayerObjectsPlacer.SetCurrentPref(_targetBluePrint);
-        MainUiHandler.singleton.ActivatePlacingPanel(true);
+        [SerializeField] private PlacingObjectBluePrint _targetBluePrint;
+    
+        public override void Click(QuickSlotDisplayer slotDisplayer, InventoryHandler handler)
+        {
+            base.Click(slotDisplayer,handler);
+            handler.PlayerObjectsPlacer.SetCurrentPref(_targetBluePrint);
+            MainUiHandler.singleton.ActivatePlacingPanel(true);
+        }
     }
 }

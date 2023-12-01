@@ -91,10 +91,10 @@ namespace Inventory_System
             data.Value = new CustomSendingInventoryData(cachedData.Value.Cells);
         }
 
-        private static int GetFreeCellId(NetworkVariable<CustomSendingInventoryData> data, int mainSlotsCount = 0)
+        private static int GetFreeCellId(NetworkVariable<CustomSendingInventoryData> data, Vector2Int range = default)
         {
-            if (mainSlotsCount == 0) mainSlotsCount = data.Value.Cells.Length;
-            for (int i = 0; i < mainSlotsCount; i++)
+            if(range == default) range = new Vector2Int(0, data.Value.Cells.Length);
+            for (int i = range.x; i < range.y; i++)
             {
                 if (data.Value.Cells[i].Id == -1)
                     return i;
@@ -118,12 +118,12 @@ namespace Inventory_System
         }
 
         public static void AddItemToDesiredSlot(int itemId, int count, NetworkVariable<CustomSendingInventoryData> data,
-            int mainSlotsCount)
+            Vector2Int range)
         {
             var cachedCount = count;
-            if (mainSlotsCount == 0) mainSlotsCount = data.Value.Cells.Length;
+            if (range == Vector2Int.one) range.y = data.Value.Cells.Length;
             var cells = data.Value.Cells;
-            for (int i = 0; i < mainSlotsCount; i++)
+            for (int i = range.x; i < range.y; i++)
             {
                 if (cells[i].Id == -1) continue;
                 var item = ItemFinder.singleton.GetItemById(cells[i].Id);
@@ -146,7 +146,7 @@ namespace Inventory_System
 
             while (cachedCount > 0)
             {
-                var cellId = GetFreeCellId(data, mainSlotsCount);
+                var cellId = GetFreeCellId(data, range);
                 if (cellId == -1) break;
                 var item = ItemFinder.singleton.GetItemById(itemId);
                 if (item.StackCount > cachedCount)

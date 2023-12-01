@@ -1,6 +1,8 @@
 using System.Collections.Generic;
 using Crafting_System.WorkBench;
 using Items_System.Items;
+using Items_System.Items.Abstract;
+using Items_System.Items.Weapon;
 using UnityEngine;
 
 namespace Crafting_System.Crafting_Slots

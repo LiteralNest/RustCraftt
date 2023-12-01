@@ -1,5 +1,8 @@
 using Inventory_System.Inventory_Items_Displayer;
 using Inventory_System.Inventory_Slot_Displayers;
+using Items_System.Items;
+using Items_System.Items.Abstract;
+using Items_System.Items.Weapon;
 using UnityEngine;
 using UnityEngine.Serialization;
 

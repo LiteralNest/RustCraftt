@@ -1,30 +1,33 @@
 using Unity.Netcode;
 using UnityEngine;
 
-[RequireComponent(typeof(BoxCollider), typeof(Rigidbody))]
-public class LootingItem : NetworkBehaviour
+namespace Items_System
 {
-    public NetworkVariable<int> ItemId = new(0, NetworkVariableReadPermission.Everyone,
-        NetworkVariableWritePermission.Owner);
-    public NetworkVariable<int> Count = new(0, NetworkVariableReadPermission.Everyone,
-        NetworkVariableWritePermission.Owner);
-
-    private void Start()
-        => gameObject.tag = "LootingItem";
-
-    public void SetCell(InventoryCell cell)
+    [RequireComponent(typeof(BoxCollider), typeof(Rigidbody))]
+    public class LootingItem : NetworkBehaviour
     {
-        Count.Value = cell.Count;
-        ItemId.Value = cell.Item.Id;
-    }
-    
-    [ServerRpc(RequireOwnership = false)]
-    public void PickUpServerRpc()
-    {
-        if (IsServer)
+        public NetworkVariable<int> ItemId = new(0, NetworkVariableReadPermission.Everyone,
+            NetworkVariableWritePermission.Owner);
+        public NetworkVariable<int> Count = new(0, NetworkVariableReadPermission.Everyone,
+            NetworkVariableWritePermission.Owner);
+
+        private void Start()
+            => gameObject.tag = "LootingItem";
+
+        public void SetCell(InventoryCell cell)
         {
-           GetComponent<NetworkObject>().Despawn();
+            Count.Value = cell.Count;
+            ItemId.Value = cell.Item.Id;
         }
-        Destroy(gameObject);
+    
+        [ServerRpc(RequireOwnership = false)]
+        public void PickUpServerRpc()
+        {
+            if (IsServer)
+            {
+                GetComponent<NetworkObject>().Despawn();
+            }
+            Destroy(gameObject);
+        }
     }
 }

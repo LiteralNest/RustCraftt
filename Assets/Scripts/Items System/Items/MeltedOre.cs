@@ -3,9 +3,9 @@ using UnityEngine;
 
 namespace Items_System.Items
 {
-    [CreateAssetMenu(menuName = "Item/Resource")]
-    public class Resource : Item
+    [CreateAssetMenu(menuName = "Item/Melted Ore")]
+    public class MeltedOre : Item
     {
-    
+      
     }
 }

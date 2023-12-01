@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using Inventory_System;
+using Items_System.Items.Abstract;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -114,10 +115,16 @@ namespace Storage_System
 
 
         [ServerRpc(RequireOwnership = false)]
-        public void AddItemToDesiredSlotServerRpc(int itemId, int count)
+        public void AddItemToDesiredSlotServerRpc(int itemId, int count, Vector2Int range = default)
         {
             if (IsServer)
-                InventoryHelper.AddItemToDesiredSlot(itemId, count, ItemsNetData, MainSlotsCount);
+            {
+                if(range == default)
+                    InventoryHelper.AddItemToDesiredSlot(itemId, count, ItemsNetData, new Vector2Int(0, MainSlotsCount));
+                else
+                    InventoryHelper.AddItemToDesiredSlot(itemId, count, ItemsNetData, range);
+            }
+               
             DoAfterAddingItem(new InventoryCell(ItemFinder.singleton.GetItemById(itemId), count));
         }
 

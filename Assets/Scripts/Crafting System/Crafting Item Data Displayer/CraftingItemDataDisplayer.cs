@@ -1,4 +1,5 @@
 using Crafting_System.Crafting_Slots;
+using Items_System.Items.Abstract;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;

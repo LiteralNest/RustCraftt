@@ -1,15 +1,19 @@
+using Items_System.Items.Abstract;
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "Item/Medicine")]
-public class Medicine : CraftingItem
+namespace Items_System.Items
 {
-    [Header("Medicine")]
-    [SerializeField] private int _addingValue;
-    
-    public override void Click(QuickSlotDisplayer slotDisplayer, InventoryHandler handler)
+    [CreateAssetMenu(menuName = "Item/Medicine")]
+    public class Medicine : CraftingItem
     {
-        base.Click(slotDisplayer, handler);
-        handler.Stats.PlusStat(CharacterStatType.Health, _addingValue);
-        InventoryHandler.singleton.CharacterInventory.RemoveItem(Id, 1);
+        [Header("Medicine")]
+        [SerializeField] private int _addingValue;
+    
+        public override void Click(QuickSlotDisplayer slotDisplayer, InventoryHandler handler)
+        {
+            base.Click(slotDisplayer, handler);
+            handler.Stats.PlusStat(CharacterStatType.Health, _addingValue);
+            InventoryHandler.singleton.CharacterInventory.RemoveItem(Id, 1);
+        }
     }
 }
