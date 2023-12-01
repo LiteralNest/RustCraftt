@@ -66,7 +66,7 @@ public abstract class SlotDisplayer : MonoBehaviour, IDropHandler
         wasStacking = false;
         if (cell.Item == null || cell.Item != ItemDisplayer.InventoryCell.Item) return false;
         wasStacking = true;
-        var res = ItemDisplayer.StackCount(cell.Count, this);
+        var res = ItemDisplayer.StackCount(cell);
         if (res > 0) return false;
         DestroyItem();
         return true;

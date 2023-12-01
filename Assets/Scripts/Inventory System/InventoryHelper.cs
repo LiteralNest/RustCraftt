@@ -48,19 +48,6 @@ namespace Inventory_System
             data.Value = new CustomSendingInventoryData(cells);
         }
 
-        public static void AddCell(CustomSendingInventoryDataCell dataCell,
-            NetworkVariable<CustomSendingInventoryData> data)
-        {
-            var cells = data.Value.Cells;
-            for (int i = 0; i < cells.Length; i++)
-            {
-                if (cells[i].Id == -1)
-                    cells[i] = dataCell;
-            }
-
-            data.Value = new CustomSendingInventoryData(cells);
-        }
-
         public static void MinusCellCount(int cellId, int count,
             NetworkVariable<CustomSendingInventoryData> data)
         {
