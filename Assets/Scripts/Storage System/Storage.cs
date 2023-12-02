@@ -155,7 +155,7 @@ namespace Storage_System
         private void AddTestCell()
         {
             if (!IsServer) return;
-            AddItemToDesiredSlotServerRpc(1, 1);
+            AddItemToDesiredSlotServerRpc(_testAddingCell.Item.Id, _testAddingCell.Count);
         }
     }
 }
