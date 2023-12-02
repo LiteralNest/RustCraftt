@@ -1,8 +1,12 @@
 using System.Collections.Generic;
+using System.Linq;
+using AuthorizationSystem;
 using Building_System.Blocks;
 using Inventory_System.Slots_Displayer.Tool_CLipBoard;
 using Lock_System;
+using Multiplayer.CustomData;
 using Storage_System;
+using Unity.Netcode;
 using UnityEngine;
 using Web.User;
 
@@ -12,8 +16,9 @@ public class ToolClipboard : Storage, ILockable
     private KeyLocker _doorLocker;
     private CodeLocker _codeLocker;
 
-   [SerializeField] private List<BuildingBlock> _connectedBlocks = new List<BuildingBlock>();
+    [SerializeField] private List<BuildingBlock> _connectedBlocks = new List<BuildingBlock>();
     public List<BuildingBlock> ConnectedBlocks => _connectedBlocks;
+    [SerializeField] private NetworkVariable<AuthorizedUsersData> _authorizedIds = new();
 
     public override void Open(InventoryHandler handler)
     {
@@ -29,7 +34,7 @@ public class ToolClipboard : Storage, ILockable
         var slotsDisplayer = SlotsDisplayer as ToolClipBoardSlotsDisplayer;
         slotsDisplayer.DisplayRemainingTime();
     }
-    
+
 
     #region Counting Remaining Time
 
@@ -160,8 +165,27 @@ public class ToolClipboard : Storage, ILockable
     public Transform GetParent()
         => _mainTransform;
 
-    public bool Locked
-        => _doorLocker != null || _codeLocker != null;
+    public bool IsLocked()
+    {
+        if(_doorLocker == null && _codeLocker == null) return false;
+    }
+    => _doorLocker != null || _codeLocker != null;
+    
+    
+    
+    public bool IsAutorized(int value)
+    {
+        var helper = new AuthorizationHelper();
+        return helper.IsAuthorized(value, _authorizedIds);
+    }
 
+    [ServerRpc(RequireOwnership = false)]
+    public void AuthorizeServerRpc(int id)
+    {
+        if(!IsServer) return;
+        var helper = new AuthorizationHelper();
+        helper.Authorize(id, _authorizedIds);
+    }
+    
     #endregion
 }

@@ -7,6 +7,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.Serialization;
 using Vehicle;
+using Web.User;
 
 public class ObjectsRayCaster : MonoBehaviour
 {
@@ -33,6 +34,7 @@ public class ObjectsRayCaster : MonoBehaviour
     public Smelter Smelter { get; private set; }
     public Recycler RecyclerHandler { get; private set; }
     public DoorHandler DoorHandler { get; private set; }
+    public ToolClipboard ToolClipboard { get; private set; }
     private BuildingBlock _targetBlock;
     public bool CanRayCastOre { get; set; }
 
@@ -53,6 +55,7 @@ public class ObjectsRayCaster : MonoBehaviour
         Smelter = null;
         RecyclerHandler = null;
         DoorHandler = null;
+        ToolClipboard = null;
     }
 
     private bool TryRaycast<T>(string tag, float hitDistance, out T target, LayerMask layer)
@@ -156,7 +159,17 @@ public class ObjectsRayCaster : MonoBehaviour
                 return;
             }
         }
-
+        
+        if (TryRaycast("LootBox", _maxOpeningDistance, out ToolClipboard clipboard, _defaultMask))
+        {
+            ToolClipboard = clipboard;
+            if (!clipboard.IsAutorized(UserDataHandler.singleton.UserData.Id))
+            {
+                SetLootButton("Authorize");
+                return;
+            }
+        }
+        
         if (TryRaycast("LootBox", _maxOpeningDistance, out Storage lootbox, _defaultMask))
         {
             TargetBox = lootbox;

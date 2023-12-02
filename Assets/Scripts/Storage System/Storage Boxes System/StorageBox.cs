@@ -36,9 +36,9 @@ namespace Storage_System.Storage_Boxes_System
         public Transform GetParent()
             => _lockingParrent;
 
-        public bool Locked
+        public bool IsLocked
             => _doorLocker != null;
-
+        
         #endregion
     }
 }

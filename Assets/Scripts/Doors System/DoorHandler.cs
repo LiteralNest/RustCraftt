@@ -32,7 +32,7 @@ public class DoorHandler : NetworkBehaviour, ILockable
     public Transform GetParent()
         => _mainTransform;
 
-    public bool Locked
+    public bool IsLocked
         => _doorLocker != null;
 
     #endregion

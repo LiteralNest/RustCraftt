@@ -97,6 +97,14 @@ public class PlayerResourcesGatherer : MonoBehaviour
         StopGathering();
     }
 
+    private bool TryAuthorizeClipboard()
+    {
+        var clipboard = _objectsRayCaster.ToolClipboard;
+        if(!clipboard) return false;
+        clipboard.AuthorizeServerRpc(UserDataHandler.singleton.UserData.Id);
+        return true;
+    }
+
     private bool TryOpenChest()
     {
         var chest = _objectsRayCaster.TargetBox;
@@ -107,6 +115,7 @@ public class PlayerResourcesGatherer : MonoBehaviour
 
     public void TryGather()
     {
+        if(TryAuthorizeClipboard()) return;
         if(TryOpenChest()) return;
         var ore = _objectsRayCaster.TargetGathering;
         if(!ore) return;

@@ -16,7 +16,7 @@ namespace Lock_System
                 if (keyLocker == null) return;
 
                 var lockable = LocakableObject.GetComponent<ILockable>();
-                if (lockable == null || lockable.Locked) return;
+                if (lockable == null || lockable.IsLocked) return;
 
                 TargetLock = other.transform;
                 TargetLock.GetComponent<NetworkObject>().TrySetParent(lockable.GetParent());
@@ -31,7 +31,7 @@ namespace Lock_System
                 if (codeLocker == null) return;
 
                 var lockable = LocakableObject.GetComponent<ILockable>();
-                if (lockable == null || lockable.Locked) return;
+                if (lockable == null || lockable.IsLocked) return;
 
                 TargetLock = other.transform;
                 TargetLock.GetComponent<NetworkObject>().TrySetParent(lockable.GetParent());
