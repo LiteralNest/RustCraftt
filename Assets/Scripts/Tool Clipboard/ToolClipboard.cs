@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Linq;
 using AuthorizationSystem;
 using Building_System.Blocks;
 using Inventory_System.Slots_Displayer.Tool_CLipBoard;
@@ -13,16 +12,20 @@ using Web.User;
 public class ToolClipboard : Storage, ILockable
 {
     [SerializeField] private Transform _mainTransform;
-    private KeyLocker _doorLocker;
-    private CodeLocker _codeLocker;
+    private Locker _targetLocker;
 
     [SerializeField] private List<BuildingBlock> _connectedBlocks = new List<BuildingBlock>();
     public List<BuildingBlock> ConnectedBlocks => _connectedBlocks;
     [SerializeField] private NetworkVariable<AuthorizedUsersData> _authorizedIds = new();
+    private bool _isLocked;
 
     public override void Open(InventoryHandler handler)
     {
-        if (_doorLocker != null && !_doorLocker.CanBeOpened(UserDataHandler.singleton.UserData.Id)) return;
+        if (_targetLocker != null && !_targetLocker.CanBeOpened(UserDataHandler.singleton.UserData.Id))
+        {
+            _targetLocker.Open();
+            return;
+        }
         SlotsDisplayer = handler.ToolClipboardSlotsDisplayer;
         handler.InventoryPanelsDisplayer.OpenClipBoardPanel();
         base.Open(handler);
@@ -154,25 +157,18 @@ public class ToolClipboard : Storage, ILockable
 
     #region ILockable
 
-    public void LockByKey(KeyLocker locker)
-        => _doorLocker = locker;
-
-    public void LockByCode(CodeLocker locker)
-    {
-        _codeLocker = locker;
-    }
-
+    public void Lock(Locker locker)
+        => _targetLocker = locker;
+    
     public Transform GetParent()
         => _mainTransform;
-
+    
     public bool IsLocked()
     {
-        if(_doorLocker == null && _codeLocker == null) return false;
+        if(_targetLocker == null) return false;
+        return _targetLocker.IsLocked();
     }
-    => _doorLocker != null || _codeLocker != null;
-    
-    
-    
+
     public bool IsAutorized(int value)
     {
         var helper = new AuthorizationHelper();
@@ -182,10 +178,15 @@ public class ToolClipboard : Storage, ILockable
     [ServerRpc(RequireOwnership = false)]
     public void AuthorizeServerRpc(int id)
     {
-        if(!IsServer) return;
+        if (_targetLocker != null && !_targetLocker.CanBeOpened(UserDataHandler.singleton.UserData.Id))
+        {
+            _targetLocker.Open();
+            return;
+        }
+        if (!IsServer) return;
         var helper = new AuthorizationHelper();
         helper.Authorize(id, _authorizedIds);
     }
-    
+
     #endregion
 }

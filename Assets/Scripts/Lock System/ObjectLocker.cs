@@ -16,12 +16,13 @@ namespace Lock_System
                 if (keyLocker == null) return;
 
                 var lockable = LocakableObject.GetComponent<ILockable>();
-                if (lockable == null || lockable.IsLocked) return;
+                if (lockable == null || lockable.IsLocked()) return;
 
                 TargetLock = other.transform;
                 TargetLock.GetComponent<NetworkObject>().TrySetParent(lockable.GetParent());
                 var locker = other.GetComponent<KeyLocker>();
-                lockable.LockByKey(locker);
+                lockable.Lock(locker);
+                locker.TargetLockable = lockable;
                 Destroy(gameObject);
             }
             
@@ -31,15 +32,15 @@ namespace Lock_System
                 if (codeLocker == null) return;
 
                 var lockable = LocakableObject.GetComponent<ILockable>();
-                if (lockable == null || lockable.IsLocked) return;
+                if (lockable == null || lockable.IsLocked()) return;
 
                 TargetLock = other.transform;
                 TargetLock.GetComponent<NetworkObject>().TrySetParent(lockable.GetParent());
                 var locker = other.GetComponent<CodeLocker>();
-                lockable.LockByCode(locker);
+                lockable.Lock(locker);
+                locker.TargetLockable = lockable;
                 Destroy(gameObject);
             }
-            
         }
     }
 }

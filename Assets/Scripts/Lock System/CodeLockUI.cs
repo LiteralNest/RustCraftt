@@ -1,3 +1,4 @@
+using Lock_System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -46,7 +47,6 @@ public class CodeLockUI : MonoBehaviour
         if (_currentPassword.Length == 4)
         {
             _codeLocker.OnEnteredPassword(_currentPassword);
-            _codeLocker.OnPlayerApproach(UserDataHandler.singleton.UserData.Id);
             _currentPassword = "";
         }
     }

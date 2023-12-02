@@ -1,91 +1,73 @@
-using UnityEngine;
+using AuthorizationSystem;
+using Multiplayer.CustomData;
 using Unity.Netcode;
+using UnityEngine;
 using Web.User;
 
-public class CodeLocker : NetworkBehaviour
+namespace Lock_System
 {
-    [SerializeField] private GameObject _codeUI;
-    public int Password { get; private set; }
-
-    private NetworkList<int> _registeredPlayerIds;
-
-    private void Awake()
-        => _registeredPlayerIds = new NetworkList<int>();
-
-    public void OnPlayerApproach(int playerId)
+    public class CodeLocker : Locker
     {
-        if (_registeredPlayerIds.Count == 0)
+        [SerializeField] private GameObject _codeUI;
+        [SerializeField] private NetworkVariable<AuthorizedUsersData> _authorizedIds = new();
+        [field: SerializeField] public NetworkVariable<int> Password { get; private set; } = new NetworkVariable<int>();
+
+        public override bool CanBeOpened(int value)
         {
-            _codeUI.SetActive(true);
-            int enteredPassword = GetEnteredPassword();
-            RegistrateCode(playerId, enteredPassword);
+            AuthorizationHelper helper = new AuthorizationHelper();
+            if (!helper.IsAuthorized(value, _authorizedIds))
+                if (Password.Value != value)
+                    return false;
+            return true;
         }
-        else
+
+        public override void Init(int userId)
+            => Open();
+
+        public override bool IsLocked()
+            => Password.Value != 0;
+
+        [ServerRpc(RequireOwnership = false)]
+        private void SetPasswordServerRpc(int password)
         {
-            if (!_registeredPlayerIds.Contains(playerId))
+            if (!IsServer) return;
+            Password.Value = password;
+        }
+
+        [ServerRpc(RequireOwnership = false)]
+        private void RegistrateUserServerRpc(int userId)
+        {
+            if (!IsServer) return;
+            var helper = new AuthorizationHelper();
+            helper.Authorize(userId, _authorizedIds);
+        }
+
+        public override void Open()
+            => _codeUI.SetActive(true);
+
+        public void OnEnteredPassword(string enteredPassword)
+        {
+            if (int.TryParse(enteredPassword, out var parsedPassword))
             {
-                int enteredPassword = GetEnteredPassword();
-                if (CanBeOpened(playerId, enteredPassword))
+                if (Password.Value == 0)
                 {
-                    RegistrateCode(playerId, enteredPassword);
+                    SetPasswordServerRpc(parsedPassword);
+                    RegistrateUserServerRpc(UserDataHandler.singleton.UserData.Id);
+                    _codeUI.SetActive(false);
                 }
                 else
                 {
-                    // Incorrect password logic
+                    if (parsedPassword == Password.Value)
+                    {
+                        RegistrateUserServerRpc(UserDataHandler.singleton.UserData.Id);
+                        _codeUI.SetActive(false);
+                    }
                 }
             }
+            else
+            {
+                Debug.LogError("Invalid password format!");
+            }
         }
-    }
-
-    public void RegistrateCode(int playerId, int password)
-    {
-        int realPlayerId = UserDataHandler.singleton.UserData.Id;
-
-        if (realPlayerId == playerId)
-        {
-            _registeredPlayerIds.Add(playerId);
-            Password = password;
-            Debug.Log($"Code registered for player {playerId}: {password}");
-        }
-        else
-        {
-            Debug.Log($"Incorrect player ID: {playerId}");
-        }
-    }
-
-    public bool CanBeOpened(int playerId, int enteredPassword)
-    {
-        return _registeredPlayerIds.Contains(playerId) && enteredPassword == Password;
-    }
-
-    private int GetEnteredPassword()
-    {
-        return Password;
-    }
-
-    public void OnEnteredPassword(string enteredPassword)
-    {
-        if (int.TryParse(enteredPassword, out var parsedPassword))
-        {
-            Password = parsedPassword;
-            _codeUI.SetActive(false);
-            Debug.Log($"Entered password set: {Password}");
-        }
-        else
-        {
-            Debug.LogError("Invalid password format!");
-        }
-    }
-
-    private void OnTriggerEnter(Collider other)
-    {
-        if (!other.CompareTag("Player")) return;
-        OnPlayerApproach(UserDataHandler.singleton.UserData.Id);
-    }
-
-    private void OnTriggerExit(Collider other)
-    {
-        if (!other.CompareTag("Player")) return;
-        _codeUI.SetActive(false);
     }
 }

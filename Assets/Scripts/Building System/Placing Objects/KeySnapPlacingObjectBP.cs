@@ -10,14 +10,13 @@ namespace Building_System.Placing_Objects
     {
         public override void InitPlacedObject(BuildingStructure structure)
         {
-            var locker = structure.GetComponent<KeyLocker>();
+            var locker = structure.GetComponent<Locker>();
             if (!locker)
             {
                 Debug.LogError("Can't load KeyLocker!");
                 return;
             }
-
-            locker.RegistrateKey(UserDataHandler.singleton.UserData.Id);
+            locker.Init(UserDataHandler.singleton.UserData.Id);
         }
 
         public override void Place()

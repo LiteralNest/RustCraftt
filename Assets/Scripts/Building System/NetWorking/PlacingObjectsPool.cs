@@ -43,7 +43,7 @@ namespace Building_System.NetWorking
         {
             if (!IsServer) return;
             var obj = Instantiate(GetObjectById(id), pos, rot);
-            obj.GetComponent<KeyLocker>().RegistrateKey(playerId);
+            obj.GetComponent<Locker>().Init(playerId);
             obj.NetObject.DontDestroyWithOwner = true;
             obj.NetObject.Spawn();
         }
