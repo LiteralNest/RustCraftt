@@ -20,7 +20,7 @@ namespace Building_System.Placing_Objects
             {
                 if (!_placingTags.Contains(hit.collider.tag)) return false;
                 coords = hit.collider.transform.position;
-                rotation = Quaternion.FromToRotation(Vector3.up, hit.normal);
+                rotation = hit.collider.transform.rotation;
                 return true;
             }
 

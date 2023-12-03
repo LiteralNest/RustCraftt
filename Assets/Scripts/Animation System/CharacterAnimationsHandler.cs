@@ -6,9 +6,12 @@ namespace Animation_System
     public class CharacterAnimationsHandler : MonoBehaviour
     {
         [Header("Animations")] 
-        [SerializeField] private string _idleAnimationKey;
-        [SerializeField] private string _walkAnimationKey;
-        [SerializeField] private string _swimAnimationKey;
+        [SerializeField] private string _idleAnimationKey = "Idle";
+        [SerializeField] private string _walkAnimationKey = "Walk";
+        [SerializeField] private string _swimAnimationKey = "Swim";
+        [SerializeField] private string _jumpAnimKey = "Jump";
+        [SerializeField] private string _knockDownAnim = "KnockDown";
+        [SerializeField] private string _fallAnim = "Fall";
 
         [Header("Animators")] 
         [SerializeField] private List<Animator> _animators = new List<Animator>();
@@ -18,6 +21,9 @@ namespace Animation_System
             anim.SetBool(_idleAnimationKey, _idleAnimationKey == key);
             anim.SetBool(_walkAnimationKey, _walkAnimationKey == key);
             anim.SetBool(_swimAnimationKey, _swimAnimationKey == key);
+            anim.SetBool(_jumpAnimKey, _jumpAnimKey == key);
+            anim.SetBool(_knockDownAnim, _knockDownAnim == key);
+            anim.SetBool(_fallAnim, _fallAnim == key);
         }
         
         private void SetAnimation(string animationKey)
@@ -38,5 +44,17 @@ namespace Animation_System
         [ContextMenu("Set Swim")]
         public void SetSwim()
             => SetAnimation(_swimAnimationKey);
+
+        [ContextMenu("Jump")]
+        public void SetJump()
+            => SetAnimation(_jumpAnimKey);
+        
+        [ContextMenu("Knock Down")]
+        public void SetKnockDown()
+            => SetAnimation(_knockDownAnim);
+        
+        [ContextMenu("Fall")]
+        public void SetFall()
+            => SetAnimation(_fallAnim);
     }
 }
