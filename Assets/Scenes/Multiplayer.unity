@@ -4627,7 +4627,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &838283525
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6498,7 +6498,7 @@ MonoBehaviour:
   NetworkConfig:
     ProtocolVersion: 0
     NetworkTransport: {fileID: 1252824274}
-    PlayerPrefab: {fileID: 2441425697621568629, guid: 3f040898d4ce003488a7f50f13766922, type: 3}
+    PlayerPrefab: {fileID: 3006806031753592539, guid: 66660259052c8c24582e2398a3df9b35, type: 3}
     Prefabs:
       NetworkPrefabsLists:
       - {fileID: 11400000, guid: 8f237cfc77fa05c498a6761ff0934835, type: 2}
@@ -8242,6 +8242,7 @@ GameObject:
   - component: {fileID: 1792856231}
   - component: {fileID: 1792856232}
   - component: {fileID: 1792856233}
+  - component: {fileID: 1792856234}
   m_Layer: 0
   m_Name: Networking Objects Spawner
   m_TagString: Untagged
@@ -8403,6 +8404,20 @@ MonoBehaviour:
   _animalIds:
   - {fileID: 1146461667328349701, guid: 7ac838cf1e5149f49bb37ed1aacb5a78, type: 3}
   - {fileID: 3156508327373491697, guid: d9e2f39fffb6a8b4186fd897f2059ca9, type: 3}
+--- !u!114 &1792856234
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1792856224}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1b43385f13bd8624d911be27e04be2f4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _playerNetCodePref: {fileID: -5502007171107923210, guid: 3f040898d4ce003488a7f50f13766922, type: 3}
+  _sleepPref: {fileID: 5560165741251752003, guid: 5c76136cab67a484a90b6fdf9c8877c9, type: 3}
 --- !u!4 &1800450011 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1288299358769663234, guid: 2bfac63785a5b437696f22def5defbbb, type: 3}

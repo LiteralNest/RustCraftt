@@ -1,44 +1,49 @@
 using System.Collections.Generic;
-using Building_System;
-using Building_System.Upgrading;
 using Player_Controller;
+using Unity.Netcode;
 using UnityEngine;
-using UnityEngine.Serialization;
+using Web.User;
 
 public class PlayerNetworkController : MonoBehaviour
 {
-    [Header("NetCode")] [SerializeField] private PlayerNetCode _playerNetCode;
-
-    [Header("Scripts")] [SerializeField] private PlayerController _playerController;
-    [SerializeField] private PlayerJumper _playerJumper;
-    [SerializeField] private PlayerSitter _playerSitter;
-    [SerializeField] private PlayerResourcesGatherer _playerResourcesGatherer;
-    [SerializeField] private ObjectsRayCaster _objectsRayCaster;
-    [SerializeField] private BuildingChooser _buildingChooser;
-    [SerializeField] private BuildingDragger _buildingDragger;
-    [SerializeField] private PlayerFightHandler _playerFightHandler;
-    [SerializeField] private Camera _camera;
-    [SerializeField] private AudioListener _listener;
+    [Header("NetCode")] 
+    [SerializeField] private PlayerNetCode _playerNetCode;
+    [SerializeField] private List<Behaviour> _monos = new List<Behaviour>();
     [SerializeField] private MainUiHandler _mainUiHandler;
-
-  [Header("Children")] [SerializeField]
-    private List<Renderer> _body = new List<Renderer>();
-
+    
+    [Header("Children")] 
+    [SerializeField] private List<Renderer> _body = new List<Renderer>();
     [SerializeField] private GameObject _characterStaff;
     [SerializeField] private GameObject _canvas;
     [SerializeField] private GameObject _vivox;
 
-    private void Start()
+    private void Awake()
     {
+        foreach (var mono in _monos)
+            mono.enabled = false;
+        _mainUiHandler.enabled = false;
+        _canvas.SetActive(false);
+        _vivox.SetActive(false);
+    }
+    
+    public void Start()
+    {
+        _canvas.SetActive(true);
+        _vivox.SetActive(true);
         _vivox.transform.SetParent(null);
         _canvas.transform.SetParent(null);
-        if (!_playerNetCode.PlayerIsOwner())
+        if (!_playerNetCode.IsOwner)
+        {
+            EnableMonos(false);
             ClearObjects();
+        }
         else
         {
             SetBody(false);
+            EnableMonos(true);
             _mainUiHandler.AssignSingleton();
         }
+
         Destroy(this);
     }
 
@@ -48,18 +53,15 @@ public class PlayerNetworkController : MonoBehaviour
             part.enabled = value;
     }
 
+    private void EnableMonos(bool value)
+    {
+        foreach (var mono in _monos)
+            mono.enabled = value;
+    }
+    
     private void ClearObjects()
     {
-        Destroy(_playerController);
-        Destroy(_playerJumper);
-        Destroy(_playerSitter);
-        Destroy(_playerResourcesGatherer);
-        Destroy(_objectsRayCaster);
-        Destroy(_buildingChooser);
-        Destroy(_buildingDragger);
-        Destroy(_playerFightHandler);
-        _camera.enabled = false;
-        _listener.enabled = false;
+        EnableMonos(false);
         Destroy(_canvas);
         Destroy(_vivox);
         Destroy(_characterStaff);

@@ -36,7 +36,8 @@ namespace Vehicle
         {
             if (_vehicleController == null)
             {
-                MainUiHandler.singleton.ActivateSitAndStandPanel(true);
+                if(MainUiHandler.singleton != null)
+                    MainUiHandler.singleton.ActivateSitAndStandPanel(true);
                 return;
             }
             MainUiHandler.singleton.ActivateSitAndStandPanel(false);

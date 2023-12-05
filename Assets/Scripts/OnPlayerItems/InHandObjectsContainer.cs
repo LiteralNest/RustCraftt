@@ -39,7 +39,7 @@ public class InHandObjectsContainer : NetworkBehaviour
     
     public void DisplayItems(int itemId)
     {
-        bool isOwner = _playerNetCode.PlayerIsOwner();
+        bool isOwner = _playerNetCode.IsOwner;
         foreach (var obj in _inHandObjects)
             obj.ActivateInHandObject(isOwner, false);
 

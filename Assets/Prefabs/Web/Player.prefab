@@ -12395,6 +12395,7 @@ MonoBehaviour:
   _nickNameTexts:
   - {fileID: 4041613132748880987}
   - {fileID: 288299665580591281}
+  _playerNetworkController: {fileID: 1707071653376519926}
 --- !u!114 &8624086197897355627
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12582,17 +12583,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _playerNetCode: {fileID: -5502007171107923210}
-  _playerController: {fileID: 8624086197897355627}
-  _playerJumper: {fileID: 2115686004867581448}
-  _playerSitter: {fileID: 5624260414466233215}
-  _playerResourcesGatherer: {fileID: 7740005035847538642}
-  _objectsRayCaster: {fileID: 5538215080173942597}
-  _buildingChooser: {fileID: 6207217001499837402}
-  _buildingDragger: {fileID: 63447646871411618}
-  _playerFightHandler: {fileID: 9138900656108926211}
+  _monos:
+  - {fileID: 8624086197897355627}
+  - {fileID: 2115686004867581448}
+  - {fileID: 5624260414466233215}
+  - {fileID: 7740005035847538642}
+  - {fileID: 5538215080173942597}
+  - {fileID: 6207217001499837402}
+  - {fileID: 63447646871411618}
+  - {fileID: 9138900656108926211}
+  - {fileID: 1266549637348103939}
+  - {fileID: 3745558344891033599}
+  _mainUiHandler: {fileID: 5400991398971725136}
+  _gameObjects: []
   _camera: {fileID: 3745558344891033599}
   _listener: {fileID: 1266549637348103939}
-  _mainUiHandler: {fileID: 5400991398971725136}
   _body:
   - {fileID: 1128752710889453121}
   - {fileID: 5655759713986144714}
@@ -21999,7 +22004,7 @@ GameObject:
   - component: {fileID: 5400991398971725136}
   m_Layer: 15
   m_Name: Canvas
-  m_TagString: Untagged
+  m_TagString: Canvas
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -45574,6 +45579,9 @@ MonoBehaviour:
   _idleAnimationKey: Idle
   _walkAnimationKey: Walk
   _swimAnimationKey: Swim
+  _jumpAnimKey: Jump
+  _knockDownAnim: KnockDown
+  _fallAnim: Fall
   _animators:
   - {fileID: 8556536734294827699}
   - {fileID: 3907616338520299463}
