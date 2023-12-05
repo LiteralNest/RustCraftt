@@ -10,7 +10,6 @@ namespace PlayerDeathSystem
          public static PlayerRespawnManager Instance { get; private set; }
          
          [SerializeField] private int _numberOfSpawnPoints = 10;
-         [FormerlySerializedAs("_playersBackPackGenerator")] [SerializeField] private PlayerBackPackGenerator playerBackPackGenerator;
 
          private readonly List<Transform> _spawnPoints = new();
          private Transform _lastPlayerTransform;
