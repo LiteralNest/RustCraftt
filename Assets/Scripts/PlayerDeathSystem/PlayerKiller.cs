@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using Animation_System;
 using Multiplayer.PlayerSpawning;
 using Player_Controller;
 using Storage_System;
@@ -15,9 +16,9 @@ namespace PlayerDeathSystem
         [SerializeField] private CharacterInventory _characterInventory;
         [SerializeField] private List<Behaviour> _removingComponents;
         [SerializeField] private List<GameObject> _removingObjects;
-        [SerializeField] private Transform _characterView;
+        [SerializeField] private CharacterAnimationsHandler _animationsHandler;
 
-        [SerializeField] private PlayerCorpesHanler _playerCorpesHanler;
+        [SerializeField] private PlayerCorpesHanler _playerCorpesHanler; 
 
         private NetworkVariable<int> _userId = new(-1, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
         public int UserId => _userId.Value;
@@ -39,7 +40,7 @@ namespace PlayerDeathSystem
         private void DieClientRpc()
         {
             _playerCorpesHanler.AssignCorpes(_characterInventory.ItemsNetData.Value);
-            
+            _animationsHandler.SetDeath();
             if(IsOwner)
                 MainUiHandler.Singleton.DisplayDeathScreen(true);
             

@@ -12,6 +12,7 @@ namespace Animation_System
         [SerializeField] private string _jumpAnimKey = "Jump";
         [SerializeField] private string _knockDownAnim = "KnockDown";
         [SerializeField] private string _fallAnim = "Fall";
+        [SerializeField] private string _deathAnim = "Death";
 
         [Header("Animators")] 
         [SerializeField] private List<Animator> _animators = new List<Animator>();
@@ -24,6 +25,7 @@ namespace Animation_System
             anim.SetBool(_jumpAnimKey, _jumpAnimKey == key);
             anim.SetBool(_knockDownAnim, _knockDownAnim == key);
             anim.SetBool(_fallAnim, _fallAnim == key);
+            anim.SetBool(_deathAnim, _deathAnim == key); 
         }
         
         private void SetAnimation(string animationKey)
@@ -56,5 +58,9 @@ namespace Animation_System
         [ContextMenu("Fall")]
         public void SetFall()
             => SetAnimation(_fallAnim);
+        
+        [ContextMenu("Death")]
+        public void SetDeath()
+            => SetAnimation(_deathAnim);
     }
 }
