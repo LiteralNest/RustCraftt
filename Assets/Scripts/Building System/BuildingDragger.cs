@@ -43,7 +43,7 @@ namespace Building_System
         {
             if(_currentPref == null) return;
             Destroy(_currentPref.gameObject);
-            MainUiHandler.singleton.ActivateBuildingStaffPanel(false);
+            CharacterUIHandler.singleton.ActivateBuildingStaffPanel(false);
             _currentPref = null;
         }
     

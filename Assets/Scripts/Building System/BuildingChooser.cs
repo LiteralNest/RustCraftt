@@ -19,8 +19,8 @@ namespace Building_System
         {
             var instance = Instantiate(buildingBluePrint);
             _buildingDragger.SetCurrentPref(instance);
-            MainUiHandler.singleton.ActivateBuildingChoosingPanel(false);
-            MainUiHandler.singleton.ActivateBuildingStaffPanel(true);
+            CharacterUIHandler.singleton.ActivateBuildingChoosingPanel(false);
+            CharacterUIHandler.singleton.ActivateBuildingStaffPanel(true);
         }
     }
 }

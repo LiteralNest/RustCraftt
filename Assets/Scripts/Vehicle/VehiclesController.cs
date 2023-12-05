@@ -36,11 +36,11 @@ namespace Vehicle
         {
             if (_vehicleController == null)
             {
-                if(MainUiHandler.singleton != null)
-                    MainUiHandler.singleton.ActivateSitAndStandPanel(true);
+                if(CharacterUIHandler.singleton != null)
+                    CharacterUIHandler.singleton.ActivateSitAndStandPanel(true);
                 return;
             }
-            MainUiHandler.singleton.ActivateSitAndStandPanel(false);
+            CharacterUIHandler.singleton.ActivateSitAndStandPanel(false);
             TrySetButtonValue(_vehicleController.CanBePushed(), _pushButton);
             TrySetButtonValue(_vehicleController.CanStand(), _standUpButton);
             TrySetButtonValue(_vehicleController.CanSit(), _sitInButton);

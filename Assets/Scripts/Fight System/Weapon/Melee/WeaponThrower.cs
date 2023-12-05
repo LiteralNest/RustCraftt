@@ -15,12 +15,12 @@ public class WeaponThrower : MonoBehaviour
 
     private void OnEnable()
     {
-        MainUiHandler.singleton.ActivateAttackButton(false);
+        CharacterUIHandler.singleton.ActivateAttackButton(false);
     }
 
     private void OnDisable()
     {
-        MainUiHandler.singleton.ActivateMeleeThrowButton(false);
+        CharacterUIHandler.singleton.ActivateMeleeThrowButton(false);
         GlobalEventsContainer.WeaponMeleeObjectAssign?.Invoke(null);
     }
     

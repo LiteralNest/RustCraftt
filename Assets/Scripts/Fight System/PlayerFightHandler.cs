@@ -45,7 +45,7 @@ public class PlayerFightHandler : MonoBehaviour
     {
         if(!_currentBaseShootingWeapon) return;
         _currentBaseShootingWeapon.Reload();
-        MainUiHandler.singleton.ActivateReloadingButton(false);
+        CharacterUIHandler.singleton.ActivateReloadingButton(false);
     }
 
     public void Scope()

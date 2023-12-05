@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using Player_Controller;
 using Unity.Netcode;
 using UnityEngine;
+using UnityEngine.Serialization;
 using Web.User;
 
 public class PlayerNetworkController : MonoBehaviour
@@ -9,7 +10,7 @@ public class PlayerNetworkController : MonoBehaviour
     [Header("NetCode")] 
     [SerializeField] private PlayerNetCode _playerNetCode;
     [SerializeField] private List<Behaviour> _monos = new List<Behaviour>();
-    [SerializeField] private MainUiHandler _mainUiHandler;
+    [FormerlySerializedAs("_mainUiHandler")] [SerializeField] private CharacterUIHandler characterUIHandler;
     
     [Header("Children")] 
     [SerializeField] private List<Renderer> _body = new List<Renderer>();
@@ -21,7 +22,7 @@ public class PlayerNetworkController : MonoBehaviour
     {
         foreach (var mono in _monos)
             mono.enabled = false;
-        _mainUiHandler.enabled = false;
+        characterUIHandler.enabled = false;
         _canvas.SetActive(false);
         _vivox.SetActive(false);
     }
@@ -41,7 +42,7 @@ public class PlayerNetworkController : MonoBehaviour
         {
             SetBody(false);
             EnableMonos(true);
-            _mainUiHandler.AssignSingleton();
+            characterUIHandler.AssignSingleton();
         }
 
         Destroy(this);

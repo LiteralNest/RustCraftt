@@ -1,17 +1,7 @@
-using Building_System.NetWorking;
-
 namespace Storage_System
 {
     public class CharacterInventory : Storage
     {
-
-        public override void OnNetworkDespawn()
-        {
-            
-            PlayerStaffSpawner.Singleton.SpawnSleepServerRpc(transform.position, transform.rotation);
-        }
-
-        
         protected override void Appear()
         {
         }

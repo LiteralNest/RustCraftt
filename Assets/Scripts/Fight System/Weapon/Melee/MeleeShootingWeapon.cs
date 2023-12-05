@@ -10,14 +10,14 @@ public class MeleeShootingWeapon : MonoBehaviour
     
     private void OnEnable()
     {
-        MainUiHandler.singleton.ActivateMeleeThrowButton(true);
+        CharacterUIHandler.singleton.ActivateMeleeThrowButton(true);
         GlobalEventsContainer.WeaponMeleeObjectAssign?.Invoke(this);
     }
 
     private void OnDisable()
     {
         if(_wasScoped) return;
-        MainUiHandler.singleton.ActivateMeleeThrowButton(false);
+        CharacterUIHandler.singleton.ActivateMeleeThrowButton(false);
         GlobalEventsContainer.WeaponMeleeObjectAssign?.Invoke(null);
     }
     

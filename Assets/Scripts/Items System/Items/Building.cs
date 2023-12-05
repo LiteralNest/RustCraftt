@@ -13,7 +13,7 @@ namespace Items_System.Items
         {
             base.Click(slotDisplayer,handler);
             handler.PlayerObjectsPlacer.SetCurrentPref(_targetBluePrint);
-            MainUiHandler.singleton.ActivatePlacingPanel(true);
+            CharacterUIHandler.singleton.ActivatePlacingPanel(true);
         }
     }
 }

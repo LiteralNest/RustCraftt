@@ -5,7 +5,7 @@ namespace Items_System.Items.Weapon
         public override void Click(QuickSlotDisplayer slotDisplayer, InventoryHandler handler)
         {
             base.Click(slotDisplayer, handler);
-            MainUiHandler.singleton.ActivateAttackButton(true);
+            CharacterUIHandler.singleton.ActivateAttackButton(true);
         }
     }
 }

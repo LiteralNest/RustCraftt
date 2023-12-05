@@ -3,8 +3,8 @@ using UnityEngine;
 public class BluePrintObject : MonoBehaviour
 {
     private void OnEnable()
-        => MainUiHandler.singleton.ActivateBuildingButton(true);
+        => CharacterUIHandler.singleton.ActivateBuildingButton(true);
 
     private void OnDisable()
-        => MainUiHandler.singleton.ActivateBuildingButton(false);
+        => CharacterUIHandler.singleton.ActivateBuildingButton(false);
 }

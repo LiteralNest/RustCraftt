@@ -36,7 +36,7 @@ public class PlayerObjectsPlacer : MonoBehaviour
     {
         if (_targetBluePrint == null) return;
         _targetBluePrint.Place();
-        MainUiHandler.singleton.ActivatePlacingPanel(false);
+        CharacterUIHandler.singleton.ActivatePlacingPanel(false);
         ClearCurrentPref();
     }
 
@@ -44,7 +44,7 @@ public class PlayerObjectsPlacer : MonoBehaviour
     {
         if (_targetBluePrint == null) return;
         Destroy(_targetBluePrint.gameObject);
-        MainUiHandler.singleton.ActivateBuildingStaffPanel(false);
+        CharacterUIHandler.singleton.ActivateBuildingStaffPanel(false);
         _targetBluePrint = null;
     }
 
@@ -63,7 +63,7 @@ public class PlayerObjectsPlacer : MonoBehaviour
     public void Reset()
     {
         ClearCurrentPref();
-        MainUiHandler.singleton.ActivateBuildingStaffPanel(false);
-        MainUiHandler.singleton.ActivatePlacingPanel(false);
+        CharacterUIHandler.singleton.ActivateBuildingStaffPanel(false);
+        CharacterUIHandler.singleton.ActivatePlacingPanel(false);
     }
 }
