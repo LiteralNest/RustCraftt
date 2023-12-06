@@ -1,4 +1,5 @@
 using System.Collections;
+using Alerts_System.Alerts;
 using UnityEngine;
 
 public class ColdEffect : MonoBehaviour
@@ -23,21 +24,20 @@ public class ColdEffect : MonoBehaviour
 
     public void OnEnter(Transform playerPosition,float resist)
     {
-        Debug.Log("Entered Cold Zone");
         ActivateEffect();
         StartCoroutine(ApplyEffectCoroutine(playerPosition, resist));
     }
 
     private void OnStay(Transform playerPosition, float resist)
     {
-        Debug.Log("Stayed Cold Zone");
         float temperature = _temperatureZone.GetTemperatureAtPosition(playerPosition.position);
+        if(temperature < 0)
+            AlertsDisplayer.Singleton.DisplayTooColdAlert((int)temperature);
         ApplyColdEffect(temperature, resist);
     }
 
     public void OnExit(Transform player, float resist)
     {
-        Debug.Log("Exited Cold Zone");
         _isEffectActive = false;
         StopCoroutine(ApplyEffectCoroutine(player, resist));
     }
@@ -46,18 +46,14 @@ public class ColdEffect : MonoBehaviour
     {
         if (_isEffectActive)
         {
-            Debug.Log("Current Temperature: " + temperature);
-
             if (temperature < -15f)
             {
                 GlobalEventsContainer.CriticalTemperatureReached?.Invoke();
                 DealDamage(4f, resist);
-                Debug.Log("Dealing 2 damage due to extreme cold.");
             }
             else if (temperature < -10f)
             {
                 DealDamage(2f, resist);
-                Debug.Log("Dealing 1 damage due to cold.");
             }
         }
     }

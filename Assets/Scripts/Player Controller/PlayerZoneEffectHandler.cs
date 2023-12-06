@@ -9,12 +9,14 @@ namespace Player_Controller
         private WarmEffect _currentWarmEffect;
         private RadiationEffect _currentRadiationEffect;
         private CharacterStats _characterStats;
-
         private PlayerResistParams _resist;
+        
+        private void Awake()
+        => _resist = GetComponent<PlayerResistParams>();
+        
         private void Start()
         {
             _characterStats = CharacterStats.Singleton;
-            _resist = GetComponent<PlayerResistParams>();
         }
 
         private void OnTriggerEnter(Collider other)

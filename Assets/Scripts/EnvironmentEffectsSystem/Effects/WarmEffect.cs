@@ -1,4 +1,5 @@
 using System.Collections;
+using Alerts_System.Alerts;
 using UnityEngine;
 
 public class WarmEffect : MonoBehaviour
@@ -23,21 +24,25 @@ public class WarmEffect : MonoBehaviour
 
     public void OnEnter(Transform playerPosition)
     {
-        Debug.Log("Entered Warm Zone");
         ActivateEffect();
         StartCoroutine(ApplyEffectCoroutine(playerPosition));
     }
 
     public void OnStay(Transform playerPosition)
     {
-        Debug.Log("Stayed Warm Zone");
         float temperature = _temperatureZone.GetTemperatureAtPosition(playerPosition.position);
+        if (temperature > 20)
+        {
+            AlertsDisplayer.Singleton.DisplayTooHotAlert((int)temperature);
+            AlertsDisplayer.Singleton.DisplayTooColdAlert((int)temperature, false);
+        }
+        else
+            AlertsDisplayer.Singleton.DisplayTooColdAlert((int)temperature, false);
         ApplyWarmEffect(temperature);
     }
 
     public void OnExit(Transform player)
     {
-        Debug.Log("Exited Warm Zone");
         _isEffectActive = false;
         StopCoroutine(ApplyEffectCoroutine(player));
     }
@@ -46,9 +51,6 @@ public class WarmEffect : MonoBehaviour
     {
         if (_isEffectActive)
         {
-            Debug.Log("Current Temperature: " + temperature);
-
-            // Adjust the temperature thresholds as needed
             if (temperature > 20f)
             {
                 Debug.Log("Healing 2 health due to extreme warmth.");

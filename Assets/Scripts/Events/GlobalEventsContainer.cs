@@ -30,7 +30,6 @@ public static class GlobalEventsContainer
 
     #endregion
 
-
     #region Handle
 
     public static Action<bool> ShouldHandleAttacking { get; set; }
@@ -38,7 +37,6 @@ public static class GlobalEventsContainer
     public static Action<bool> ShouldDisplayThrowButton { get; set; }
 
     #endregion
-
 
     #region Building Hammer
 

@@ -1,4 +1,5 @@
 using System.Collections;
+using Alerts_System.Alerts;
 using UnityEngine;
 
 namespace EnvironmentEffectsSystem.Effects
@@ -56,7 +57,7 @@ namespace EnvironmentEffectsSystem.Effects
             while (_isEffectActive)
             {
                 _currentRadiationLevel += _radiationEffectValue;
-
+                AlertsDisplayer.Singleton.DisplayRadiationAlert((int)_currentRadiationLevel);
                 if (_isEnteringZone && _characterStats != null && _currentRadiationLevel >= RadiationCritLevel)
                 {
                     _characterStats.MinusStat(CharacterStatType.Health, Random.Range(7, 11) * resist);
@@ -81,6 +82,7 @@ namespace EnvironmentEffectsSystem.Effects
                 Debug.Log($"Current Radiation Level: {_currentRadiationLevel}");
                 yield return new WaitForSeconds(_radiationDecreaseInterval);
             }
+            AlertsDisplayer.Singleton.DisplayRadiationAlert((int)_currentRadiationLevel, false);
         }
     }
 }
