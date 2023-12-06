@@ -22,14 +22,6 @@ public static class GlobalEventsContainer
 
     #endregion
 
-    #region Player
-
-    public static Action PlayerDied { get; set; }
-    public static Action PlayerKnockDowned { get; set; }
-    public static Action PlayerSpawned { get; set; }
-
-    #endregion
-
     #region Handle
 
     public static Action<bool> ShouldHandleAttacking { get; set; }

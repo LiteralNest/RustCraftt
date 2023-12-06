@@ -17,7 +17,7 @@ namespace EnvironmentEffectsSystem.Effects
         private CharacterStats _characterStats;
         private bool _isEffectActive = false;
         private bool _isEnteringZone = false;
-
+ 
 
         public bool MatchesTrigger(Collider other) => other.CompareTag("RadioactiveEnvironment");
 

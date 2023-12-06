@@ -14,7 +14,7 @@ public class TemperatureZone : MonoBehaviour
     [SerializeField] private Color _minTemperatureColor = Color.blue;
     [SerializeField] private Color _maxTemperatureColor = Color.red;
 
-    public float GetTemperatureAtPosition(Vector3 position)
+    public float GetTemperatureAtPosition(Vector3 position)  
     {
         var distance = Vector3.Distance(position, transform.position);
 

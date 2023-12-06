@@ -93,7 +93,6 @@ public class CharacterStats : MonoBehaviour
          case CharacterStatType.Health:
             Health = GetSubstractedStat(Health, value);
             _statsDisplayer.DisplayHp((int)Health);
-            PlayerHealthStatus();
             break;
          case CharacterStatType.Food:
             Food = GetSubstractedStat(Food, value);
@@ -129,19 +128,4 @@ public class CharacterStats : MonoBehaviour
    {
       _OxygenPanel.SetActive(state);
    }
-   
-   private void PlayerHealthStatus()
-   {
-      switch (Health)
-      {
-         case <= 5 and > 0:
-            PlayerKnockDowned();
-            break;
-         case <= 0:
-            PlayerDead();
-            break;
-      }
-   }
-   private void PlayerDead() => GlobalEventsContainer.PlayerDied?.Invoke();
-   private void PlayerKnockDowned() => GlobalEventsContainer.PlayerKnockDowned?.Invoke();
 }

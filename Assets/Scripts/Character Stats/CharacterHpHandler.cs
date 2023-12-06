@@ -1,3 +1,4 @@
+using PlayerDeathSystem;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -38,6 +39,8 @@ namespace Character_Stats
         {
             if (_characterStats == null) return;
             _characterStats.MinusStat(CharacterStatType.Health, damage);
+            if(IsOwner && _characterStats.Health <= 0)
+                PlayerKnockDowner.Singleton.KnockDownServerRpc();
         }
 
         [ServerRpc(RequireOwnership = false)]
@@ -45,6 +48,7 @@ namespace Character_Stats
         {
             if (!IsServer) return;
             _currentHp.Value -= damageAmount;
+
             //if(characterId != GetComponent<NetworkObject>().NetworkObjectId) return;
             // if (_characterStats == null) return;
             // _characterStats.MinusStat(CharacterStatType.Health, damageAmount);

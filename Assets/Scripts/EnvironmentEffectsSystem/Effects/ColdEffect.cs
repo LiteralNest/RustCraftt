@@ -15,6 +15,7 @@ public class ColdEffect : MonoBehaviour
     private void ActivateEffect()
     {
         _isEffectActive = true;
+        
     }
     
     public void SetCharacterStats(CharacterStats characterStats)
@@ -24,7 +25,7 @@ public class ColdEffect : MonoBehaviour
 
     public void OnEnter(Transform playerPosition,float resist)
     {
-        ActivateEffect();
+        ActivateEffect(); 
         StartCoroutine(ApplyEffectCoroutine(playerPosition, resist));
     }
 
