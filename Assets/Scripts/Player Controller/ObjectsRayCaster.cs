@@ -1,4 +1,5 @@
 using Building_System.Blocks;
+using Crafting_System.WorkBench;
 using Items_System;
 using Items_System.Ore_Type;
 using MeltingSystem;
@@ -35,6 +36,7 @@ public class ObjectsRayCaster : MonoBehaviour
     public Recycler RecyclerHandler { get; private set; }
     public DoorHandler DoorHandler { get; private set; }
     public ToolClipboard ToolClipboard { get; private set; }
+    public WorkBench WorkBench { get; private set; }
     private BuildingBlock _targetBlock;
     public bool CanRayCastOre { get; set; }
 
@@ -56,6 +58,7 @@ public class ObjectsRayCaster : MonoBehaviour
         RecyclerHandler = null;
         DoorHandler = null;
         ToolClipboard = null;
+        WorkBench = null;
     }
 
     private bool TryRaycast<T>(string tag, float hitDistance, out T target, LayerMask layer)
@@ -201,6 +204,13 @@ public class ObjectsRayCaster : MonoBehaviour
         if(TryRaycast("Vehicle", _maxOpeningDistance, out IVehicleController vehicleHandler, _defaultMask))
         {
             InventoryHandler.singleton.VehiclesController.SetVehiclesController = vehicleHandler;
+            return;
+        }
+        
+        if(TryRaycast("WorkBench", _maxOpeningDistance, out WorkBench workBench, _defaultMask))
+        {
+            WorkBench = workBench;
+            SetLootButton("Open");
             return;
         }
         

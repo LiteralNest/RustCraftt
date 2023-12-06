@@ -23,6 +23,7 @@ namespace Inventory_System
         [SerializeField] private GameObject _toolClipboardPanel;
         [SerializeField] private GameObject _shotGunPanel;
         [SerializeField] private GameObject _backPackPanel;
+        [SerializeField] private GameObject _workbenchPanel;
 
         private void Awake()
             => singleton = this;
@@ -77,6 +78,13 @@ namespace Inventory_System
             _largeStoragePanel.SetActive(true);
         }
 
+        public void OpenWorkbenchPanel()
+        {
+            ResetInventories();
+            HandleInventory(true);
+            _workbenchPanel.SetActive(true);
+        }
+        
         public void OpenCampFirePanel()
         {
             ResetInventories();

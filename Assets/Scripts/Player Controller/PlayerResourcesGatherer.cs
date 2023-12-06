@@ -67,6 +67,7 @@ public class PlayerResourcesGatherer : MonoBehaviour
 
     public void TryDoGathering()
     {
+        TryOpenWorkBench();
         TryHit();
         TryOpenChest();
         TryGather();
@@ -76,6 +77,13 @@ public class PlayerResourcesGatherer : MonoBehaviour
         TryOpenDoor();
     }
 
+    private void TryOpenWorkBench()
+    {
+        var bench = _objectsRayCaster.WorkBench;
+        if (!bench) return;
+        bench.Open();
+    }
+    
     private void TryOpenDoor()
     {
         var door = _objectsRayCaster.DoorHandler;

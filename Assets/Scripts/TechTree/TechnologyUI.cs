@@ -1,18 +1,20 @@
 using TechTree;
 using UnityEngine;
-using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 public class TechnologyUI : MonoBehaviour
 {
     [Header("UI")] 
+    [SerializeField] private Image _fon;
     [SerializeField] private Image _techImage;
     [SerializeField] private TechnologyInfoPanelUI _infoPanel;
     [SerializeField] private Button _researchButton;
     [Space][Space]
     [SerializeField] private GameObject _lockedPanel;
-    [SerializeField] private GameObject _selectedFon;
-    [SerializeField] private GameObject _unlockedPanel;
+
+    [SerializeField] private Color _selectedColor;
+    [SerializeField] private Color _unselectedColor;
+    [SerializeField] private Color _researchedColor;
 
     private Technology _technology;
     
@@ -29,10 +31,15 @@ public class TechnologyUI : MonoBehaviour
 
     public void UnlockTech()
     {
+        _fon.color = _unselectedColor;
         _lockedPanel.SetActive(false);
-        _unlockedPanel.SetActive(true);
     }
 
     public void Select(bool value)
-        => _selectedFon.SetActive(value);
+    {
+        if(value)
+            _fon.color = _selectedColor;
+        else
+            _fon.color = _unselectedColor;
+    }
 }
