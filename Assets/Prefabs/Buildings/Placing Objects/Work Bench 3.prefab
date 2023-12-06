@@ -10,10 +10,10 @@ GameObject:
   m_Component:
   - component: {fileID: 2640902857290151529}
   - component: {fileID: 5407972632360450387}
-  - component: {fileID: 8185353212109193604}
   - component: {fileID: 605996996459358686}
   - component: {fileID: 6538463785893922614}
   - component: {fileID: -3581144071646366290}
+  - component: {fileID: 5580151759119603019}
   m_Layer: 0
   m_Name: Work Bench 3
   m_TagString: WorkBench
@@ -57,27 +57,6 @@ MonoBehaviour:
   SpawnWithObservers: 1
   DontDestroyWithOwner: 1
   AutoObjectParentSync: 1
---- !u!65 &8185353212109193604
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1753254728725339502}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 1
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 8, y: 8, z: 8}
-  m_Center: {x: 0, y: 0.97313404, z: 0}
 --- !u!114 &605996996459358686
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -135,9 +114,29 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <NetObject>k__BackingField: {fileID: 5407972632360450387}
   <Id>k__BackingField: 0
-  <StructureSize>k__BackingField: {x: 1, y: 1, z: 1}
   _blocks: []
   <TargetItem>k__BackingField: {fileID: 11400000, guid: 10f541cf84ee06c4f8b017a8ca53ef8e, type: 2}
+--- !u!65 &5580151759119603019
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1753254728725339502}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.9210742, y: 1.9873371, z: 1.9173932}
+  m_Center: {x: 0.034997582, y: 0.47721863, z: 0.091415286}
 --- !u!1 &3121757616497683328
 GameObject:
   m_ObjectHideFlags: 0
@@ -149,10 +148,11 @@ GameObject:
   - component: {fileID: 3804886324126112637}
   - component: {fileID: 7262186148091240187}
   - component: {fileID: 1732662291821749154}
-  - component: {fileID: 3621271078992266719}
-  m_Layer: 0
-  m_Name: Model
-  m_TagString: Untagged
+  - component: {fileID: 7733569657868736919}
+  - component: {fileID: 8453049544461918040}
+  m_Layer: 6
+  m_Name: Zone
+  m_TagString: WorkBench
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -222,7 +222,7 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &3621271078992266719
+--- !u!65 &7733569657868736919
 BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -237,9 +237,22 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 2.2358963, y: 1.8880353, z: 0.94435126}
-  m_Center: {x: 0.03499753, y: 0.9440175, z: 0.091415316}
+  m_Size: {x: 8, y: 8, z: 8}
+  m_Center: {x: 0, y: 0.97313404, z: 0}
+--- !u!114 &8453049544461918040
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3121757616497683328}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d92648ad59a27fd4abaae7ce27e02936, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <TargetWorkBench>k__BackingField: {fileID: 605996996459358686}

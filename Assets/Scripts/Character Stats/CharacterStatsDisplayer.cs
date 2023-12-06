@@ -1,4 +1,5 @@
 using System.Threading.Tasks;
+using Alerts_System.Alerts;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -30,14 +31,30 @@ public class CharacterStatsDisplayer : MonoBehaviour
 
     public void DisplayFood(int food)
     {
-        _foodText.text = food.ToString();
-        _foodFill.fillAmount = (float)food / 100;
+        float fixedfood = food;
+        if (food < 0)
+        {
+            fixedfood = 0;
+            AlertsDisplayer.Singleton.DisplayStarvingAlert(true);
+        }
+        else
+            AlertsDisplayer.Singleton.DisplayStarvingAlert(false);
+        _foodText.text = fixedfood.ToString();
+        _foodFill.fillAmount = fixedfood / 100;
     }
 
     public void DisplayWater(int water)
-    {
-        _waterText.text = water.ToString();
-        _waterFill.fillAmount = (float)water / 100;
+    {  
+        float fixedwater = water;
+        if (water < 0)
+        {
+            AlertsDisplayer.Singleton.DisplayDehydratedAlert(true);
+            fixedwater = 0;
+        }
+        else
+            AlertsDisplayer.Singleton.DisplayDehydratedAlert(false);
+        _waterText.text = fixedwater.ToString();
+        _waterFill.fillAmount = fixedwater / 100;
     }
 
 

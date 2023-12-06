@@ -17,6 +17,7 @@ public class ToolClipboard : Storage, ILockable
     [SerializeField] private List<BuildingBlock> _connectedBlocks = new List<BuildingBlock>();
     public List<BuildingBlock> ConnectedBlocks => _connectedBlocks;
     [SerializeField] private NetworkVariable<AuthorizedUsersData> _authorizedIds = new();
+    public AuthorizedUsersData AuthorizedIds => _authorizedIds.Value;
     private bool _isLocked;
 
     public override void Open(InventoryHandler handler)

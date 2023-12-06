@@ -7,7 +7,7 @@ namespace Tool_Clipboard
     public class ShelfZoneHandler : MonoBehaviour
     {
         [SerializeField] private ToolClipboard _toolClipboard;
-        
+        public ToolClipboard ToolClipboard => _toolClipboard;
         private void Awake()
         {
             GetComponent<BoxCollider>().isTrigger = true;

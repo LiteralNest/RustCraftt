@@ -1,3 +1,4 @@
+using Alerts_System.Alerts.Alerts;
 using UnityEngine;
 
 namespace Alerts_System.Alerts
@@ -12,6 +13,11 @@ namespace Alerts_System.Alerts
         [SerializeField] private OtherEffectsAlertDisplayer _poisonAlert;
         [SerializeField] private OtherEffectsAlertDisplayer _comfortAlert;
         [SerializeField] private OtherEffectsAlertDisplayer _bleedAlert;
+        [SerializeField] private OtherEffectsAlertDisplayer _starvingAlert;
+        [SerializeField] private OtherEffectsAlertDisplayer _dehydratedAlert;
+        [SerializeField] private WorkBenchAlert _workBenchAlert;
+        [SerializeField] private OtherEffectsAlertDisplayer _buildingBlockedAlert;
+        [SerializeField] private OtherEffectsAlertDisplayer _buildingUnblockedAlert;
 
         private void Awake()
             => Singleton = this;
@@ -42,5 +48,23 @@ namespace Alerts_System.Alerts
 
         public void DisplayBleedAlert(bool value)
             => _bleedAlert.gameObject.SetActive(value);
+        
+        public void DisplayStarvingAlert(bool value)
+            => _starvingAlert.gameObject.SetActive(value);
+
+        public void DisplayDehydratedAlert(bool value)
+            => _dehydratedAlert.gameObject.SetActive(value);
+
+        public void DisplayWorkBenchAlert(int workBenchLevel, bool value)
+        {
+            _workBenchAlert.gameObject.SetActive(value);
+            _workBenchAlert.Init(workBenchLevel);
+        }
+        
+        public void DisplayBuildingBlockedAlert(bool value)
+            => _buildingBlockedAlert.gameObject.SetActive(value);
+        
+        public void DisplayBuildingUnblockedAlert(bool value)
+            => _buildingUnblockedAlert.gameObject.SetActive(value);
     }
 }
