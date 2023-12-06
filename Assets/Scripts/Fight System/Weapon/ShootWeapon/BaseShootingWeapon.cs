@@ -8,7 +8,7 @@ namespace Fight_System.Weapon.ShootWeapon
     public abstract class BaseShootingWeapon : MonoBehaviour, IWeapon
     {
         [SerializeField] protected WeaponAim WeaponAim;
-        [SerializeField] private bool canBeReloaded = false; //to show in editor for debug
+        [SerializeField] private bool canBeReloaded = false;
 
         [Header("Shooting Mode")] [SerializeField]
         private bool _isSingle;
@@ -26,7 +26,7 @@ namespace Fight_System.Weapon.ShootWeapon
         public bool IsSingle => _isSingle;
         protected int currentAmmoCount;
         protected bool canShoot;
-        private float _timeBetweenShots = 0f; // Variable to handle shots between shoots
+        private float _timeBetweenShots = 0f;
         private bool _isReloading = false;
 
         protected void Start()
@@ -34,7 +34,6 @@ namespace Fight_System.Weapon.ShootWeapon
 
         private void Update()
         {
-            // if(WeaponAim.IsAiming) Scope();
             Recoil.UpdateRecoil(3f);
         }
 
@@ -46,11 +45,14 @@ namespace Fight_System.Weapon.ShootWeapon
         private void OnEnable()
         {
             CharacterUIHandler.singleton.ActivateScope(true);
+            TryDisplayReload();
             GlobalEventsContainer.WeaponObjectAssign?.Invoke(this);
+            GlobalEventsContainer.InventoryDataChanged += TryDisplayReload;
         }
 
         private void OnDisable()
         {
+            GlobalEventsContainer.InventoryDataChanged -= TryDisplayReload;
             CharacterUIHandler.singleton.ActivateScope(false);
             CharacterUIHandler.singleton.ActivateBuildingButton(false);
             CharacterUIHandler.singleton.ActivateReloadingButton(false);
@@ -67,15 +69,22 @@ namespace Fight_System.Weapon.ShootWeapon
 
         public virtual void Reload()
         {
-            if (_isReloading) return; // Don't initiate another reload while already reloading.
+            if (_isReloading) return;
             _isReloading = true;
-            StartCoroutine(ReloadCoroutine());
+            var addingAmmo = InventoryHandler.singleton.CharacterInventory.GetItemCount(Weapon.Ammo.Id);
+            if (addingAmmo <= 0)
+                return;
+            if (addingAmmo > Weapon.MagazineCount)
+                addingAmmo = Weapon.MagazineCount;
+            StartCoroutine(ReloadCoroutine(addingAmmo));
         }
 
-        private IEnumerator ReloadCoroutine()
+        private IEnumerator ReloadCoroutine(int count)
         {
-            yield return new WaitForSeconds(1f); // Simulate 1 second reload time
-            currentAmmoCount = Weapon.MagazineCount;
+            yield return new WaitForSeconds(1f);
+            currentAmmoCount = count;
+            InventoryHandler.singleton.CharacterInventory.RemoveItem(Weapon.Ammo.Id, count);
+            CharacterUIHandler.singleton.ActivateAttackButton(true);
             _isReloading = false;
         }
 
@@ -95,14 +104,19 @@ namespace Fight_System.Weapon.ShootWeapon
             Destroy(decalObj, 5);
         }
 
+        private void TryDisplayReload()
+        {
+            var addingAmmo = InventoryHandler.singleton.CharacterInventory.GetItemCount(Weapon.Ammo.Id);
+            if (addingAmmo <= 0) return;
+            CharacterUIHandler.singleton.ActivateReloadingButton(true);
+        }
+
         protected void MinusAmmo()
         {
-            CharacterUIHandler.singleton.ActivateReloadingButton(true);
+            TryDisplayReload();
             currentAmmoCount--;
             if (currentAmmoCount <= 0)
-            {
-                Reload();
-            }
+                CharacterUIHandler.singleton.ActivateAttackButton(false);
         }
 
         protected IEnumerator DisplayFlameEffect()
@@ -121,7 +135,7 @@ namespace Fight_System.Weapon.ShootWeapon
 
         public void Scope()
         {
-            if(!WeaponAim) return;
+            if (!WeaponAim) return;
             WeaponAim.SetScope();
         }
 
@@ -131,7 +145,7 @@ namespace Fight_System.Weapon.ShootWeapon
             var recoilY = Weapon.RecoilY;
             var recoilZ = Weapon.RecoilZ;
 
-            if (WeaponAim && WeaponAim.IsAiming) 
+            if (WeaponAim && WeaponAim.IsAiming)
             {
                 // Reduce recoil by half when aiming
                 recoilX /= 4f;

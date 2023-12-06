@@ -18,13 +18,6 @@ namespace Fight_System.Weapon.ShootWeapon
 
         private LongRangeWeaponItemDisplayer _inventoryItemDisplayer;
         private Vector3[] _spreadOffsets;
-
-        private new void Start()
-        {
-            Reload();
-            canShoot = true;
-            currentAmmoCount = _startingAmmoCount;
-        }
         
 
         [ContextMenu("Shot")]

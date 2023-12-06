@@ -10,15 +10,7 @@ namespace Fight_System.Weapon.ShootWeapon
         private int _startingAmmoCount = 100;
 
         private LongRangeWeaponItemDisplayer _inventoryItemDisplayer;
-        
-        private new void Start()
-        {
-            base.Start();
-            Reload();
-            currentAmmoCount = _startingAmmoCount;
-        }
 
-     
         public override void Attack()
         {
             if (!CanShoot() || currentAmmoCount <= 0) return; 
