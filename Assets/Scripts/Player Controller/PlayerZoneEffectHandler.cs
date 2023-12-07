@@ -1,3 +1,4 @@
+using Character_Stats;
 using EnvironmentEffectsSystem.Effects;
 using UnityEngine;
 

@@ -24,33 +24,48 @@ namespace Alerts_System.Alerts
 
         public void DisplayRadiationAlert(int value, bool shouldDisplay = true)
         {
+            if (_radiationAlert == null) return;
             _radiationAlert.gameObject.SetActive(shouldDisplay);
             _radiationAlert.Init(value);
         }
 
         public void DisplayTooHotAlert(int value, bool shouldDisplay = true)
         {
+            if (_tooHotAlert == null) return;
             _tooHotAlert.gameObject.SetActive(shouldDisplay);
             _tooHotAlert.Init(value);
         }
 
         public void DisplayTooColdAlert(int value, bool shouldDisplay = true)
         {
+            if (_tooColdAlert == null) return;
             _tooColdAlert.gameObject.SetActive(shouldDisplay);
             _tooColdAlert.Init(value);
         }
 
         public void DisplayComfortAlert(bool value)
-            => _comfortAlert.gameObject.SetActive(value);
-        
+        {
+            if (_comfortAlert == null) return;
+            _comfortAlert.gameObject.SetActive(value);
+        }
+
         public void DisplayPoisonAlert(bool value)
-            => _poisonAlert.gameObject.SetActive(value);
+        {
+            if (_poisonAlert == null) return;
+            _poisonAlert.gameObject.SetActive(value);
+        }
 
         public void DisplayBleedAlert(bool value)
-            => _bleedAlert.gameObject.SetActive(value);
-        
+        {
+            if (_bleedAlert == null) return;
+            _bleedAlert.gameObject.SetActive(value);
+        }
+
         public void DisplayStarvingAlert(bool value)
-            => _starvingAlert.gameObject.SetActive(value);
+        {
+            if (_starvingAlert == null) return;
+            _starvingAlert.gameObject.SetActive(value);
+        }
 
         public void DisplayDehydratedAlert(bool value)
             => _dehydratedAlert.gameObject.SetActive(value);
@@ -60,11 +75,17 @@ namespace Alerts_System.Alerts
             _workBenchAlert.gameObject.SetActive(value);
             _workBenchAlert.Init(workBenchLevel);
         }
-        
+
         public void DisplayBuildingBlockedAlert(bool value)
-            => _buildingBlockedAlert.gameObject.SetActive(value);
-        
+        {
+            if (_buildingBlockedAlert == null) return;
+            _buildingBlockedAlert.gameObject.SetActive(value);
+        }
+
         public void DisplayBuildingUnblockedAlert(bool value)
-            => _buildingUnblockedAlert.gameObject.SetActive(value);
+        {
+            if (_buildingUnblockedAlert == null) return;
+            _buildingUnblockedAlert.gameObject.SetActive(value);
+        }
     }
 }

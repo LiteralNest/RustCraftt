@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections;
+using Character_Stats;
 
 namespace SurroundingEffectsSystem
 {

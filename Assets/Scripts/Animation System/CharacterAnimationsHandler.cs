@@ -12,7 +12,7 @@ namespace Animation_System
         [SerializeField] private string _jumpAnimKey = "Jump";
         [SerializeField] private string _knockDownAnim = "KnockDown";
         [SerializeField] private string _fallAnim = "Fall";
-        [SerializeField] private string _deathAnim = "Death";
+        [SerializeField] private string _deathAnim = "Dead";
 
         [Header("Animators")] 
         [SerializeField] private List<Animator> _animators = new List<Animator>();

@@ -18,8 +18,12 @@ namespace Character_Stats
         public override void OnNetworkSpawn()
         {
             base.OnNetworkSpawn();
-            _currentHp.Value = (int)_characterStats.Health;
-            _currentHp.OnValueChanged += (int prevValue, int newValue) => DisplayDamage(newValue);
+            if (IsOwner)
+            {
+                _currentHp.Value = (int)_characterStats.Health;
+                _characterStats.AssignHp(_currentHp.Value);
+                _currentHp.OnValueChanged += (int prevValue, int newValue) => DisplayDamage(newValue);
+            }
         }
 
         private void Awake()

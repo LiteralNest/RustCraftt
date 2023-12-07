@@ -88,20 +88,25 @@ namespace Fight_System.Weapon.ShootWeapon
             _isReloading = false;
         }
 
-        protected void TryDamage(RaycastHit hit)
+        protected bool TryDamage(RaycastHit hit)
         {
             if (hit.transform.TryGetComponent<IDamagable>(out var damagableObj))
             {
                 damagableObj.GetDamage((int)(Weapon.Damage * Weapon.Ammo.MultiplyKoef));
+                return true;
             }
+
+            return false;
         }
 
-        protected void DisplayHit(RaycastHit hit)
+        protected bool DisplayHit(RaycastHit hit)
         {
+            if(hit.transform.GetComponent<Collider>().isTrigger) return false;
             var fire = Instantiate(ImpactEffect, hit.point, Quaternion.LookRotation(hit.normal));
             Destroy(fire, 2f);
             var decalObj = Instantiate(Decal, hit.point, Quaternion.LookRotation(hit.normal));
             Destroy(decalObj, 5);
+            return true;
         }
 
         private void TryDisplayReload()

@@ -15,7 +15,6 @@ namespace Player_Controller
 
         [Header("Attached Components")] [SerializeField]
         private List<Collider> _colliders;
-
         public NetworkVariable<int> ActiveItemId { get; set; } = new NetworkVariable<int>();
 
         [Header("In Hand Items")] [SerializeField]
@@ -29,11 +28,9 @@ namespace Player_Controller
         [Header("NickName")] [SerializeField] private NetworkVariable<int> _playerId = new(-1,
             NetworkVariableReadPermission.Everyone,
             NetworkVariableWritePermission.Owner);
-
+        
         [SerializeField] private List<TMP_Text> _nickNameTexts = new List<TMP_Text>();
-
-
-        [SerializeField] private PlayerNetworkController _playerNetworkController;
+  
 
         private void OnEnable()
             => GlobalEventsContainer.ShouldDisplayHandItem += SendChangeInHandItem;

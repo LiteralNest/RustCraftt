@@ -1,5 +1,6 @@
 using System.Collections;
 using Alerts_System.Alerts;
+using Character_Stats;
 using UnityEngine;
 
 namespace EnvironmentEffectsSystem.Effects

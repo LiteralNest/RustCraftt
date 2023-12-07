@@ -1,4 +1,6 @@
+using System.Threading.Tasks;
 using ArmorSystem.Backend;
+using Character_Stats;
 using Inventory_System;
 using Items_System.Items.Abstract;
 using Player_Controller;
@@ -33,13 +35,13 @@ public class InventoryHandler : NetworkBehaviour
     public Item ActiveItem { get; private set; }
     public SlotDisplayer ActiveSlotDisplayer { get; set; }
 
-    public override void OnNetworkSpawn()
+    private async void Start()
     {
-        if (IsOwner)
-            singleton = this;
-        base.OnNetworkSpawn();
+        await Task.Delay(1000);
+        if(!IsOwner) return;
+        singleton = this;
     }
-
+    
     public void DisplayInventoryCells()
         => CharacterInventory.Open(this);
 
