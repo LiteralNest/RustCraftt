@@ -1,3 +1,4 @@
+using Animation_System;
 using UI;
 using Unity.Netcode;
 using UnityEngine;
@@ -9,6 +10,7 @@ namespace PlayerDeathSystem
         public static PlayerKnockDowner Singleton { get; private set; }
 
         [SerializeField] private PlayerCorpesHanler _playerCorpesHanler;
+        [SerializeField] private CharacterAnimationsHandler _characterAnimationsHandler;
 
         public override void OnNetworkSpawn()
         {
@@ -31,11 +33,11 @@ namespace PlayerDeathSystem
         {
             if (IsOwner)
                 MainUiHandler.Singleton.DisplayKnockDownScreen(true);
-            _playerCorpesHanler.AssignKnockDown();
+            _characterAnimationsHandler.SetKnockDown();
         }
 
         [ContextMenu("KnockDown")]
-        private void KnockDown()
+        private void KnockDown() 
         {
             KnockDownServerRpc();
         }
@@ -54,13 +56,12 @@ namespace PlayerDeathSystem
         [ClientRpc]
         private void StandUpClientRpc()
         {
+            _characterAnimationsHandler.SetIdle();
             if (IsOwner) 
             {
                 MainUiHandler.Singleton.DisplayKnockDownScreen(false);
                 CharacterStats.Singleton.PlusStat(CharacterStatType.Health, 10);
             }
-              
-            _playerCorpesHanler.ReturnToDefaultPosition();
         }
 
         [ContextMenu("StandUp")]

@@ -56,7 +56,7 @@ namespace Items_System.GunTrap
             if (!hit.collider.CompareTag("Player")) return;
             var hpHandler = hit.collider.GetComponent<CharacterHpHandler>();
             if(!hpHandler) return;
-            hpHandler.GetDamage((int)_damageAmount);
+            hpHandler.GetDamageServerRpc((int)_damageAmount);
             _audioSource.PlayOneShot(_shotClip);
             _ammo.RemoveAmmo();
             StartCoroutine(ShowEffectsRoutine());

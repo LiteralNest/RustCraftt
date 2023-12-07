@@ -15,6 +15,7 @@ public class WarmEffect : MonoBehaviour
     public void ActivateEffect()
     {
         _isEffectActive = true;
+        
     }
     
     public void SetCharacterStats(CharacterStats characterStats)
