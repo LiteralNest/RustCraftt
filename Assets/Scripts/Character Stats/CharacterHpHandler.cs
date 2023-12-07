@@ -37,6 +37,7 @@ namespace Character_Stats
         public void GetDamageServerRpc(int damageAmount)
         {
             if (!IsServer) return;
+                Debug.Log("Getted damage: " + damageAmount);
             _currentHp.Value -= damageAmount;
         }
         
