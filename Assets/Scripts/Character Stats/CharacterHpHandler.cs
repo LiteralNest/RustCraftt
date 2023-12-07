@@ -12,27 +12,29 @@ namespace Character_Stats
 
         private NetworkVariable<int> _currentHp = new(100, NetworkVariableReadPermission.Everyone,
             NetworkVariableWritePermission.Server);
-        
-        public ushort Hp => (ushort)_currentHp.Value;
+
+        public NetworkVariable<bool> WasKnockedDown { get; set; }= new(false, NetworkVariableReadPermission.Everyone,
+            NetworkVariableWritePermission.Server);
+        public int Hp => _currentHp.Value;
+
 
         private async void Start()
         {
             await Task.Delay(1000);
             if (IsOwner)
             {
-                _currentHp.Value = 100;
                 _characterStats.AssignHp(_currentHp.Value);
                 _currentHp.OnValueChanged += (int prevValue, int newValue) => DisplayDamage();
             }
         }
-        
-
         private void DisplayDamage()
         {
             if (_characterStats == null) return;
-            if(!IsOwner) return;
+            if (!IsOwner) return;
             _characterStats.DisplayHp(_currentHp.Value);
             if(Hp <= 0)
+                PlayerKiller.Singleton.DieServerRpc();
+            else if (Hp <= 5)
                 PlayerKnockDowner.Singleton.KnockDownServerRpc();
         }
 
@@ -42,15 +44,36 @@ namespace Character_Stats
             if (!IsServer) return;
             _currentHp.Value = value;
         }
+
+        [ServerRpc(RequireOwnership = false)]
+        public void SetKnockedDownServerRpc(bool value)
+        {
+            WasKnockedDown.Value = value;
+        }
         
         [ServerRpc(RequireOwnership = false)]
         public void GetDamageServerRpc(int damageAmount)
         {
             if (!IsServer) return;
-            Debug.Log("Getted damage: " + damageAmount);
-            _currentHp.Value -= damageAmount;
+            if (!WasKnockedDown.Value)
+            {
+                if (_currentHp.Value - damageAmount < 5)
+                {
+                    _currentHp.Value = 5; 
+                    WasKnockedDown.Value = true;
+                }
+                else
+                    _currentHp.Value -= damageAmount;
+            }
+            else
+            {
+                if(_currentHp.Value - damageAmount < 0)
+                    _currentHp.Value = 0;
+                else
+                    _currentHp.Value -= damageAmount;
+            }
         }
-        
+
         public void Shake()
         {
             if (!_cameraShake) return;

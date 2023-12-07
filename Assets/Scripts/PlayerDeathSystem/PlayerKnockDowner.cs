@@ -1,6 +1,7 @@
 using System.Threading.Tasks;
 using Animation_System;
 using Character_Stats;
+using Player_Controller;
 using UI;
 using Unity.Netcode;
 using UnityEngine;
@@ -11,7 +12,7 @@ namespace PlayerDeathSystem
     {
         public static PlayerKnockDowner Singleton { get; private set; }
 
-        [SerializeField] private PlayerCorpesHanler _playerCorpesHanler;
+        [SerializeField] private CharacterHpHandler _characterHpHandler;
         [SerializeField] private CharacterAnimationsHandler _characterAnimationsHandler;
 
         private async void Start()
@@ -20,7 +21,7 @@ namespace PlayerDeathSystem
             if (!IsOwner) return;
             Singleton = this;
         }
-        
+
         #region KnockDown
 
         [ServerRpc(RequireOwnership = false)]
@@ -34,12 +35,16 @@ namespace PlayerDeathSystem
         private void KnockDownClientRpc()
         {
             if (IsOwner)
+            {
+                GetComponent<PlayerController>().enabled = false;
                 MainUiHandler.Singleton.DisplayKnockDownScreen(true);
+            }
+
             _characterAnimationsHandler.SetKnockDown();
         }
 
         [ContextMenu("KnockDown")]
-        private void KnockDown() 
+        private void KnockDown()
         {
             KnockDownServerRpc();
         }
@@ -59,8 +64,10 @@ namespace PlayerDeathSystem
         private void StandUpClientRpc()
         {
             _characterAnimationsHandler.SetIdle();
-            if (IsOwner) 
+            if (IsOwner)
             {
+                _characterHpHandler.SetKnockedDownServerRpc(false);
+                GetComponent<PlayerController>().enabled = true;
                 MainUiHandler.Singleton.DisplayKnockDownScreen(false);
                 CharacterStats.Singleton.PlusStat(CharacterStatType.Health, 10);
             }

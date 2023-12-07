@@ -20,17 +20,21 @@ namespace Sound_System
         }
         
         [ServerRpc(RequireOwnership = false)]
-        private void PlayOneShotServerRpc(int soundId, float volume)
+        private void PlayOneShotServerRpc(int soundId)
         {
             if (!IsServer) return;
-            PlayOneShotClientRpc(soundId, volume);
+            PlayOneShotClientRpc(soundId);
         }
 
         [ClientRpc]
-        private void PlayOneShotClientRpc(int soundId, float volume)
+        private void PlayOneShotClientRpc(int soundId)
         {
-            _audioSource.volume = volume;
-            _audioSource.PlayOneShot(_soundSlots[soundId].Clip);
+            foreach (var slot in _soundSlots)
+            {
+                if(slot.Id != soundId) continue;
+                _audioSource.volume = slot.Volume;
+                _audioSource.PlayOneShot(slot.Clip);
+            }
         }
 
         public void PlayHit(AudioClip clip)
@@ -38,7 +42,7 @@ namespace Sound_System
             foreach (var slot in _soundSlots)
             {
                 if(slot.Clip != clip) continue;
-                PlayOneShotServerRpc(slot.Id, slot.Volume);
+                PlayOneShotServerRpc(slot.Id);
             }
         }
     }

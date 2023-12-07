@@ -31,7 +31,7 @@ namespace PlayerDeathSystem
         }
 
         [ServerRpc(RequireOwnership = false)]
-        public void RemoveMainComponentsServerRpc()
+        public void DieServerRpc()
         {
             if(!IsServer) return;
             DieClientRpc();
@@ -63,7 +63,7 @@ namespace PlayerDeathSystem
         [ContextMenu("Die")]
         private void Die()
         {
-            RemoveMainComponentsServerRpc();
+            DieServerRpc();
         }
     }
 }

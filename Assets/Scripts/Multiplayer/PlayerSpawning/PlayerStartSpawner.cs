@@ -23,30 +23,26 @@ namespace Multiplayer.PlayerSpawning
 
         public void Respawn(int userId, Vector3 spawnPoint)
         {
+            if (!IsOwner) return;
+            if (_userId.Value != userId) return;
             var point = PlayerSpawnManager.Singleton.GetRandomSpawnPoint();
             if (spawnPoint == new Vector3(0, -1000000, 0))
                 point = spawnPoint;
-            if (!IsOwner) return;
-            if (_userId.Value != userId) return;
             PlayerStaffSpawner.Singleton.SpawnPlayerServerRpc(point, Quaternion.identity, _userId.Value,
                 GetComponent<NetworkObject>().OwnerClientId);
         }
-
-        [ServerRpc(RequireOwnership = false)] 
-        public void RespawnServerRpc(Vector3 spawnPoint)
+        
+        public void Respawn(Vector3 spawnPoint)
         {
-            if (!IsServer) return;
-            TryRespawnClientRpc(spawnPoint);
-        }
-
-        [ClientRpc]
-        private void TryRespawnClientRpc(Vector3 spawnPoint)
-        {
-            if (!IsOwner) return;
             List<PlayerStartSpawner> players = FindObjectsOfType<PlayerStartSpawner>().ToList();
             foreach (var player in players)
+            {
+                if(!player.IsOwner) continue;
                 player.Respawn(UserDataHandler.singleton.UserData.Id, spawnPoint);
+            }
+          
         }
+        
 
         public override void OnNetworkDespawn()
         {
@@ -56,7 +52,7 @@ namespace Multiplayer.PlayerSpawning
             foreach (var player in players)
             {
                 if (player.UserId != _userId.Value) continue;
-                player.RemoveMainComponentsServerRpc();
+                player.DieServerRpc();
             }
         }
     }

@@ -12,7 +12,7 @@ namespace UI.DeathScreen
             var playerKillers = FindObjectsOfType<PlayerStartSpawner>().ToList();
             foreach (var playerKiller in playerKillers)
             { 
-                playerKiller.RespawnServerRpc(new Vector3(0, 1000000, 0));
+                playerKiller.Respawn(new Vector3(0, 1000000, 0));
             }
         }
         
@@ -22,7 +22,7 @@ namespace UI.DeathScreen
             var playerKillers = FindObjectsOfType<PlayerStartSpawner>().ToList();
             foreach (var playerKiller in playerKillers)
             { 
-                playerKiller.RespawnServerRpc(coordinates);
+                playerKiller.Respawn(coordinates);
             }
         }
     }

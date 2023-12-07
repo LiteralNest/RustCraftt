@@ -16,7 +16,11 @@ namespace DamageSystem
         [SerializeField] private BodyPartType _partType = BodyPartType.None;
 
         public ushort GetHp()
-            => _characterHpHandler.Hp;
+        {
+            if(_characterHpHandler.Hp <= 0)
+                return 0;
+            return (ushort)_characterHpHandler.Hp;
+        }
 
         public int GetMaxHp() => 100;
 
