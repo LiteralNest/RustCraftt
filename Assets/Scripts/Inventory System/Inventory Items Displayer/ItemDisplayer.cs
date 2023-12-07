@@ -16,7 +16,8 @@ public abstract class ItemDisplayer : MonoBehaviour
     public SlotDisplayer PreviousCell { get; protected set; }
 
     public virtual void MinusCurrentHp(int hp){}
-    public virtual void AddCurrentHp(int hp){}
+    public virtual void MinusCurrentAmmo(int value){}
+    public virtual void SetCurrentAmmo(int value){}
 
     public virtual int GetCurrentHp()
         => 0;

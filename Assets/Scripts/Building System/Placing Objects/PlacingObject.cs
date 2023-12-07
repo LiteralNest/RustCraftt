@@ -25,7 +25,7 @@ namespace Building_System.Placing_Objects
 
         public void PickUp()
         {
-            InventoryHandler.singleton.CharacterInventory.AddItemToDesiredSlotServerRpc((ushort)TargetItem.Id, 1);
+            InventoryHandler.singleton.CharacterInventory.AddItemToDesiredSlotServerRpc(TargetItem.Id, 1, 0);
             DestroyObjectServerRpc();
         }
     

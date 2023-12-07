@@ -50,7 +50,7 @@ public abstract class SlotsDisplayer : MonoBehaviour
         {
             if (cells[i].Id == -1) continue;
             var item = ItemFinder.singleton.GetItemById(cells[i].Id);
-            var inventoryCell = new InventoryCell(item, cells[i].Count, cells[i].Hp);
+            var inventoryCell = new InventoryCell(item, cells[i].Count, cells[i].Hp, cells[i].Ammo);
             CellDisplayers[i].SetItem(GetGeneratedItemDisplayer(inventoryCell, CellDisplayers[i]));
         }
     }

@@ -12,7 +12,7 @@ namespace Items_System.GunTrap
             foreach (var cell in ItemsNetData.Value.Cells)
                 if (cell.Id != -1 && cell.Count > 0)
                     return cell;
-            return new CustomSendingInventoryDataCell(-1, 0, -1);
+            return new CustomSendingInventoryDataCell(-1, 0, -1, 0);
         }
 
         private int GetCellWithAmmoId()

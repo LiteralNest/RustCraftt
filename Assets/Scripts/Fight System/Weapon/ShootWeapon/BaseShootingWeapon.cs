@@ -25,6 +25,7 @@ namespace Fight_System.Weapon.ShootWeapon
 
         public bool IsSingle => _isSingle;
         protected int currentAmmoCount;
+        public int CurrentAmmoCount => currentAmmoCount;
         protected bool canShoot;
         private float _timeBetweenShots = 0f;
         private bool _isReloading = false;
@@ -84,6 +85,7 @@ namespace Fight_System.Weapon.ShootWeapon
             yield return new WaitForSeconds(1f);
             currentAmmoCount = count;
             InventoryHandler.singleton.CharacterInventory.RemoveItem(Weapon.Ammo.Id, count);
+            InventoryHandler.singleton.ActiveSlotDisplayer.ItemDisplayer.SetCurrentAmmo(currentAmmoCount);
             CharacterUIHandler.singleton.ActivateAttackButton(true);
             _isReloading = false;
         }
@@ -101,7 +103,7 @@ namespace Fight_System.Weapon.ShootWeapon
 
         protected bool DisplayHit(RaycastHit hit)
         {
-            if(hit.transform.GetComponent<Collider>().isTrigger) return false;
+            if (hit.transform.GetComponent<Collider>().isTrigger) return false;
             var fire = Instantiate(ImpactEffect, hit.point, Quaternion.LookRotation(hit.normal));
             Destroy(fire, 2f);
             var decalObj = Instantiate(Decal, hit.point, Quaternion.LookRotation(hit.normal));
@@ -120,6 +122,7 @@ namespace Fight_System.Weapon.ShootWeapon
         {
             TryDisplayReload();
             currentAmmoCount--;
+            InventoryHandler.singleton.ActiveSlotDisplayer.ItemDisplayer.MinusCurrentAmmo(1);
             if (currentAmmoCount <= 0)
                 CharacterUIHandler.singleton.ActivateAttackButton(false);
         }

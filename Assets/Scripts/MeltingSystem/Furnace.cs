@@ -62,7 +62,7 @@ namespace MeltingSystem
             if (Flaming.Value)
             {
                 RemoveItemCountServerRpc(_currentMeltingOre.Id, 1);
-                AddItemToDesiredSlotServerRpc(meltingOre.Result.Id, 1, _outputSlotsRange);
+                AddItemToDesiredSlotServerRpc(meltingOre.Result.Id, 1,0, _outputSlotsRange);
             }
 
             _currentMeltingOre = null;

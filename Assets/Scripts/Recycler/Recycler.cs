@@ -66,7 +66,7 @@ public class Recycler : Storage
                 _recycling = false;
                 return;
             }
-            SetItemServerRpc(desiredCellId, new CustomSendingInventoryDataCell(cell.ResultItem.Id, rand, -1));
+            SetItemServerRpc(desiredCellId, new CustomSendingInventoryDataCell(cell.ResultItem.Id, rand, -1, 0));
         }
 
         RemoveItem(item, 1);

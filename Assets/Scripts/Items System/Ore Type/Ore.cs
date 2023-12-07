@@ -31,7 +31,7 @@ namespace Items_System.Ore_Type
         protected void AddResourcesToInventory()
         {
             foreach(var slot in _resourceSlots)
-                InventoryHandler.singleton.CharacterInventory.AddItemToDesiredSlotServerRpc((ushort)slot.Resource.Id, (ushort)Random.Range(slot.CountRange.x, slot.CountRange.y + 1));
+                InventoryHandler.singleton.CharacterInventory.AddItemToDesiredSlotServerRpc(slot.Resource.Id, Random.Range(slot.CountRange.x, slot.CountRange.y + 1), 0);
         }
     
         private void CheckHp()

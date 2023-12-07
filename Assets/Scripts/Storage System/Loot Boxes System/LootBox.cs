@@ -21,11 +21,6 @@ namespace Storage_System.Loot_Boxes_System
             SlotsDisplayer = handler.LootBoxSlotsDisplayer;
             base.Open(handler);
         }
-    
-        public override void CheckCells()
-        {
-            CheckCellsServerRpc();
-        }
 
         [ServerRpc(RequireOwnership = false)]
         private void CheckCellsServerRpc()
@@ -47,7 +42,7 @@ namespace Storage_System.Loot_Boxes_System
             var set = GetRandomSet();
             for (int i = 0; i < set.Items.Count; i++)
             {
-                SetItemServerRpc(i, new CustomSendingInventoryDataCell(set.Items[i].Item.Id, Random.Range(set.Items[i].MinimalCount, set.Items[i].MaximalCount + 1), 100));
+                SetItemServerRpc(i, new CustomSendingInventoryDataCell(set.Items[i].Item.Id, Random.Range(set.Items[i].MinimalCount, set.Items[i].MaximalCount + 1), 100, 0));
             }
         }
     }

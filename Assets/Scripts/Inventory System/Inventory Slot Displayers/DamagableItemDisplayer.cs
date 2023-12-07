@@ -2,7 +2,6 @@ using Inventory_System.Inventory_Items_Displayer;
 using Items_System.Items;
 using Storage_System;
 using UnityEngine;
-using UnityEngine.InputSystem.WebGL;
 using UnityEngine.UI;
 
 namespace Inventory_System.Inventory_Slot_Displayers
@@ -26,7 +25,7 @@ namespace Inventory_System.Inventory_Slot_Displayers
                 {
                     InventoryHandler.singleton.CharacterInventory.SetItemServerRpc(PreviousCell.Index,
                         new CustomSendingInventoryDataCell(InventoryCell.Item.Id, InventoryCell.Count,
-                            InventoryCell.Hp));
+                            InventoryCell.Hp, InventoryCell.Ammo));
                 }
                 DisplayBar(InventoryCell.Hp);
             }
@@ -59,24 +58,12 @@ namespace Inventory_System.Inventory_Slot_Displayers
 
             InventoryHandler.singleton.CharacterInventory.SetItemServerRpc(PreviousCell.Index,
                 new CustomSendingInventoryDataCell(InventoryCell.Item.Id, InventoryCell.Count,
-                    InventoryCell.Hp));
+                    InventoryCell.Hp, InventoryCell.Ammo));
             DisplayBar(InventoryCell.Hp);
         }
 
         public override int GetCurrentHp()
             => InventoryCell.Hp;
-
-        public override void AddCurrentHp(int hp)
-        {
-            InventoryCell.Hp += hp;
-            if (_storage != null)
-            {
-                InventoryHandler.singleton.CharacterInventory.SetItemServerRpc(PreviousCell.Index,
-                    new CustomSendingInventoryDataCell(InventoryCell.Item.Id, InventoryCell.Count,
-                        InventoryCell.Hp));
-                DisplayBar(InventoryCell.Hp);
-            }
-        }
 
         [ContextMenu("Test Minusing Hp")]
         private void Test()

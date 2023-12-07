@@ -32,7 +32,7 @@ namespace ArmorSystem.Backend
             }
 
             if (_cachedArmorId != 101 && _cachedArmorId != 0)
-                InventoryHandler.singleton.CharacterInventory.AddItemToDesiredSlotServerRpc(_cachedArmorId, 1);
+                InventoryHandler.singleton.CharacterInventory.AddItemToDesiredSlotServerRpc(_cachedArmorId, 1, 0);
 
             _cachedArmorId = targetArmorId;
         }

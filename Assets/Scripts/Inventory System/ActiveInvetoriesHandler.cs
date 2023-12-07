@@ -24,12 +24,12 @@ public class ActiveInvetoriesHandler : MonoBehaviour
         if (itemInventory == _playerInventory)
         {
             _playerInventory.ResetItemServerRpc(itemDisplayer.PreviousCell.Index);
-            _activeInventory.AddItemToDesiredSlotServerRpc((ushort)itemDisplayer.InventoryCell.Item.Id, (ushort)itemDisplayer.InventoryCell.Count);
+            _activeInventory.AddItemToDesiredSlotServerRpc(itemDisplayer.InventoryCell.Item.Id, itemDisplayer.InventoryCell.Count, itemDisplayer.InventoryCell.Ammo);
         }
         else
         {
             _activeInventory.ResetItemServerRpc(itemDisplayer.PreviousCell.Index);
-            _playerInventory.AddItemToDesiredSlotServerRpc((ushort)itemDisplayer.InventoryCell.Item.Id, (ushort)itemDisplayer.InventoryCell.Count);
+            _playerInventory.AddItemToDesiredSlotServerRpc(itemDisplayer.InventoryCell.Item.Id, itemDisplayer.InventoryCell.Count, itemDisplayer.InventoryCell.Ammo);
         }
         Destroy(itemDisplayer.gameObject);
     }

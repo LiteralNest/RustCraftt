@@ -36,7 +36,7 @@ namespace Inventory_System.Inventory_Items_Displayer
                 _storage.ResetItemServerRpc(PreviousCell.Index);
             else
                 _storage.SetItemServerRpc(PreviousCell.Index,
-                    new CustomSendingInventoryDataCell(InventoryCell.Item.Id, InventoryCell.Count, InventoryCell.Hp));
+                    new CustomSendingInventoryDataCell(InventoryCell.Item.Id, InventoryCell.Count, InventoryCell.Hp, InventoryCell.Ammo));
             transform.SetParent(PreviousCell.transform);
             _itemIcon.raycastTarget = true;
         }
@@ -62,14 +62,14 @@ namespace Inventory_System.Inventory_Items_Displayer
             _storage = slotDisplayer.Inventory;
             if (!_storage) return;
             _storage.SetItemServerRpc(slotDisplayer.Index,
-                new CustomSendingInventoryDataCell(InventoryCell.Item.Id, InventoryCell.Count, InventoryCell.Hp));
+                new CustomSendingInventoryDataCell(InventoryCell.Item.Id, InventoryCell.Count, InventoryCell.Hp, InventoryCell.Ammo));
         }
 
         public override int StackCount(InventoryCell cell)
         {
             var res = base.StackCount(cell);
             _storage.SetItemServerRpc(PreviousCell.Index,
-                new CustomSendingInventoryDataCell(InventoryCell.Item.Id, InventoryCell.Count, InventoryCell.Hp));
+                new CustomSendingInventoryDataCell(InventoryCell.Item.Id, InventoryCell.Count, InventoryCell.Hp, InventoryCell.Ammo));
             RedisplayInventrory();
             return res;
         }

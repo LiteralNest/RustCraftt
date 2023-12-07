@@ -18,10 +18,6 @@ namespace Storage_System.Storage_Boxes_System
             base.Open(handler);
         }
 
-        public override void CheckCells()
-        {
-        }
-    
         #region ILockable
 
         public void Lock(Locker locker)

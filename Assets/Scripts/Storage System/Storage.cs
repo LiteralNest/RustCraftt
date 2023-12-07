@@ -21,11 +21,7 @@ namespace Storage_System
         }
 
         #region virtual
-
-        public virtual void CheckCells()
-        {
-        }
-
+        
         public virtual void Open(InventoryHandler handler)
         {
             Appear();
@@ -75,7 +71,7 @@ namespace Storage_System
 
         protected virtual void SetItem(int cellId, CustomSendingInventoryDataCell dataCell)
             => InventoryHelper.SetItem(cellId, dataCell, ItemsNetData);
-        
+
 
         public void RemoveItem(int itemId, int count)
         {
@@ -115,28 +111,29 @@ namespace Storage_System
 
 
         [ServerRpc(RequireOwnership = false)]
-        public void AddItemToDesiredSlotServerRpc(int itemId, int count, Vector2Int range = default)
+        public void AddItemToDesiredSlotServerRpc(int itemId, int count, int ammo, Vector2Int range = default)
         {
             if (IsServer)
             {
-                if(range == default)
-                    InventoryHelper.AddItemToDesiredSlot(itemId, count, ItemsNetData, new Vector2Int(0, MainSlotsCount));
+                if (range == default)
+                    InventoryHelper.AddItemToDesiredSlot(itemId, count, ammo, ItemsNetData,
+                        new Vector2Int(0, MainSlotsCount));
                 else
-                    InventoryHelper.AddItemToDesiredSlot(itemId, count, ItemsNetData, range);
+                    InventoryHelper.AddItemToDesiredSlot(itemId, count, ammo, ItemsNetData, range);
             }
-               
+
             DoAfterAddingItem(new InventoryCell(ItemFinder.singleton.GetItemById(itemId), count));
         }
 
-        private IEnumerator AddItemToServerWithRoutine(int itemId, int count)
+        private IEnumerator AddItemToServerWithRoutine(int itemId, int count, int ammo)
         {
             yield return new WaitForSeconds(0.2f);
-            AddItemToDesiredSlotServerRpc((ushort)itemId, (ushort)count);
+            AddItemToDesiredSlotServerRpc(itemId, count, ammo);
         }
 
-        public void AddCraftedItem(int itemId, int count)
+        public void AddCraftedItem(int itemId, int count, int ammo)
         {
-            StartCoroutine(AddItemToServerWithRoutine(itemId, count));
+            StartCoroutine(AddItemToServerWithRoutine(itemId, count, ammo));
         }
 
         public bool EnoughMaterials(List<InventoryCell> inputCells)
@@ -155,7 +152,7 @@ namespace Storage_System
         private void AddTestCell()
         {
             if (!IsServer) return;
-            AddItemToDesiredSlotServerRpc(_testAddingCell.Item.Id, _testAddingCell.Count);
+            AddItemToDesiredSlotServerRpc(_testAddingCell.Item.Id, _testAddingCell.Count, 0);
         }
     }
 }

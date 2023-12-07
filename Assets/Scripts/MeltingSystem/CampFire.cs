@@ -63,7 +63,7 @@ namespace MeltingSystem
             if (Flaming.Value)
             {
                 RemoveItemCountServerRpc(_currentlyCookingCharacterStatRiser.Id, 1);
-                AddItemToDesiredSlotServerRpc(characterStatRiser.CharacterStatRiserAfterCooking.Id, 1, _outputSlotsRange);
+                AddItemToDesiredSlotServerRpc(characterStatRiser.CharacterStatRiserAfterCooking.Id, 1, 0,_outputSlotsRange);
             }
 
             _currentlyCookingCharacterStatRiser = null;
