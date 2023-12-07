@@ -18,8 +18,7 @@ namespace DamageSystem
         public ushort GetHp()
             => _characterHpHandler.Hp;
 
-        public int GetMaxHp()
-            => _characterHpHandler.DefaultHp;
+        public int GetMaxHp() => 100;
 
         public void GetDamage(int damage)
         {

@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using Animation_System;
 using Character_Stats;
 using UI;
@@ -13,13 +14,13 @@ namespace PlayerDeathSystem
         [SerializeField] private PlayerCorpesHanler _playerCorpesHanler;
         [SerializeField] private CharacterAnimationsHandler _characterAnimationsHandler;
 
-        public override void OnNetworkSpawn()
+        private async void Start()
         {
-            base.OnNetworkSpawn();
+            await Task.Delay(1000);
             if (!IsOwner) return;
             Singleton = this;
         }
-
+        
         #region KnockDown
 
         [ServerRpc(RequireOwnership = false)]

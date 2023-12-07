@@ -31,7 +31,7 @@ namespace Fight_System.Weapon.ShootWeapon
                     hitDisplayed = DisplayHit(hit);
                 if (!damaged)
                     damaged = TryDamage(hit);
-                if(damaged) return;
+                if(damaged) break;
             }
 
             StartCoroutine(WaitBetweenShootsRoutine());

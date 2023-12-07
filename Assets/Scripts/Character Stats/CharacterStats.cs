@@ -7,8 +7,7 @@ namespace Character_Stats
         public static CharacterStats Singleton { get; private set; }
 
         [SerializeField] private CharacterStatsDisplayer _statsDisplayer;
-
-        [field: SerializeField] public float Health { get; private set; }
+        [SerializeField] private CharacterHpHandler _hpHandler;
         [field: SerializeField] public float Food { get; private set; }
         [field: SerializeField] public float Water { get; private set; }
         [field: SerializeField] public float Oxygen { get; private set; }
@@ -27,14 +26,17 @@ namespace Character_Stats
         }
 
         private void Start()
-            => _statsDisplayer.DisplayHp((int)Health);
+            => _statsDisplayer.DisplayHp(_hpHandler.Hp);
 
         public void AssignHp(int value)
         {
-            Health = value;
+            _hpHandler.AssignHpServerRpc(value);
             _statsDisplayer.DisplayHp(value);
         }
 
+        public void DisplayHp(int value)
+            => _statsDisplayer.DisplayHp(value);
+        
         private float GetAddedStat(float stat, float addingValue)
         {
             float res = stat + addingValue;
@@ -48,9 +50,7 @@ namespace Character_Stats
             switch (type)
             {
                 case CharacterStatType.Health:
-                    Health = GetAddedStat(Health, value);
-                    if (_statsDisplayer != null)
-                        _statsDisplayer.DisplayHp((int)Health);
+                    _hpHandler.GetDamageServerRpc((int)value);
                     break;
                 case CharacterStatType.Food:
                     Food = GetAddedStat(Food, value);
@@ -83,8 +83,7 @@ namespace Character_Stats
             switch (type)
             {
                 case CharacterStatType.Health:
-                    Health = GetSubstractedStat(Health, value);
-                    _statsDisplayer.DisplayHp((int)Health);
+                    _hpHandler.GetDamageServerRpc((int)value);
                     break;
                 case CharacterStatType.Food:
                     Food = GetSubstractedStat(Food, value);

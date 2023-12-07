@@ -1,7 +1,7 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Unity.Netcode;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace Sound_System
 {
@@ -11,10 +11,10 @@ namespace Sound_System
         
         [SerializeField] private AudioSource _audioSource;
         [SerializeField] private List<SoundSLot> _soundSlots = new List<SoundSLot>();
-
-        public override void OnNetworkSpawn()
+        
+        private async void Start()
         {
-            base.OnNetworkSpawn();
+            await Task.Delay(1000);
             if(!IsOwner) return;
             Singleton = this;
         }

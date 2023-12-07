@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using PlayerDeathSystem;
 using Unity.Netcode;
 using UnityEngine;
@@ -9,39 +10,44 @@ namespace Character_Stats
         [SerializeField] private CharacterStats _characterStats;
         [SerializeField] private CameraShake _cameraShake;
 
-        private NetworkVariable<int> _currentHp = new(50, NetworkVariableReadPermission.Everyone,
+        private NetworkVariable<int> _currentHp = new(100, NetworkVariableReadPermission.Everyone,
             NetworkVariableWritePermission.Server);
+        
+        public ushort Hp => (ushort)_currentHp.Value;
 
-        private ushort _defaultHp;
-        public ushort DefaultHp => _defaultHp;
-        public ushort Hp => (ushort)_characterStats.Health;
-        public override void OnNetworkSpawn()
+        private async void Start()
         {
-            base.OnNetworkSpawn();
+            await Task.Delay(1000);
             if (IsOwner)
             {
-                _currentHp.Value = (int)_characterStats.Health;
+                _currentHp.Value = 100;
                 _characterStats.AssignHp(_currentHp.Value);
-                _currentHp.OnValueChanged += (int prevValue, int newValue) => DisplayDamage(newValue);
+                _currentHp.OnValueChanged += (int prevValue, int newValue) => DisplayDamage();
             }
         }
+        
 
-        private void Awake()
-            => _defaultHp = (ushort)_characterStats.Health;
-
-        private void DisplayDamage(int damage)
+        private void DisplayDamage()
         {
             if (_characterStats == null) return;
-            _characterStats.MinusStat(CharacterStatType.Health, damage);
-            if(IsOwner && _characterStats.Health <= 0)
+            if(!IsOwner) return;
+            _characterStats.DisplayHp(_currentHp.Value);
+            if(Hp <= 0)
                 PlayerKnockDowner.Singleton.KnockDownServerRpc();
         }
 
         [ServerRpc(RequireOwnership = false)]
+        public void AssignHpServerRpc(int value)
+        {
+            if (!IsServer) return;
+            _currentHp.Value = value;
+        }
+        
+        [ServerRpc(RequireOwnership = false)]
         public void GetDamageServerRpc(int damageAmount)
         {
             if (!IsServer) return;
-                Debug.Log("Getted damage: " + damageAmount);
+            Debug.Log("Getted damage: " + damageAmount);
             _currentHp.Value -= damageAmount;
         }
         

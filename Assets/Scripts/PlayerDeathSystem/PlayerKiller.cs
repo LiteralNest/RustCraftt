@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Player_Controller;
 using Storage_System;
 using UI;
@@ -20,17 +21,12 @@ namespace PlayerDeathSystem
 
         private NetworkVariable<int> _userId = new(-1, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
         public int UserId => _userId.Value;
-        
-        public override void OnNetworkSpawn()
+
+        private async void Start()
         {
-            base.OnNetworkSpawn();
-            if(!IsOwner) return;
-            Singleton = this;
-        }
-        
-        private void Start()
-        {
+            await Task.Delay(1000);
             if (!IsOwner) return;
+            Singleton = this;
             _userId.Value = UserDataHandler.singleton.UserData.Id;
         }
 
