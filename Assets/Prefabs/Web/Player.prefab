@@ -13711,8 +13711,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _audioSource: {fileID: 2926654359359091872}
-  _hitClip: {fileID: 8300000, guid: 037eb53ad3009cc418e4ff2f6fb6566d, type: 3}
-  _headShotClip: {fileID: 8300000, guid: 34e6746572b2c9d409366b58f4c3cab3, type: 3}
+  _soundSlots:
+  - Id: 1
+    Volume: 1
+    Clip: {fileID: 8300000, guid: 037eb53ad3009cc418e4ff2f6fb6566d, type: 3}
+  - Id: 1
+    Volume: 1
+    Clip: {fileID: 8300000, guid: 34e6746572b2c9d409366b58f4c3cab3, type: 3}
 --- !u!114 &7329390832356083849
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -19697,6 +19702,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _characterHpHandler: {fileID: 1816369662541527775}
   _gettingDamageKoef: 1
+  _hitSound: {fileID: 0}
   _partType: 3
 --- !u!65 &2615179687698465436
 BoxCollider:
@@ -23978,6 +23984,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _characterHpHandler: {fileID: 1816369662541527775}
   _gettingDamageKoef: 2
+  _hitSound: {fileID: 0}
   _partType: 1
 --- !u!65 &3844849892097418277
 BoxCollider:
@@ -26811,6 +26818,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _characterHpHandler: {fileID: 1816369662541527775}
   _gettingDamageKoef: 1
+  _hitSound: {fileID: 0}
   _partType: 3
 --- !u!65 &3201307043884672124
 BoxCollider:
@@ -28622,6 +28630,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _characterHpHandler: {fileID: 1816369662541527775}
   _gettingDamageKoef: 1
+  _hitSound: {fileID: 0}
   _partType: 4
 --- !u!1 &4611170958614205413
 GameObject:
@@ -47394,6 +47403,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _characterHpHandler: {fileID: 1816369662541527775}
   _gettingDamageKoef: 1
+  _hitSound: {fileID: 0}
   _partType: 4
 --- !u!65 &180885157764892738
 BoxCollider:
@@ -51083,6 +51093,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _characterHpHandler: {fileID: 1816369662541527775}
   _gettingDamageKoef: 1
+  _hitSound: {fileID: 0}
   _partType: 4
 --- !u!65 &8892958396725609764
 BoxCollider:

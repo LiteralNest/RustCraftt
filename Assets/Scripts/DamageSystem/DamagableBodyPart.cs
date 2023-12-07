@@ -12,7 +12,7 @@ namespace DamageSystem
 
         [Header("Main Parameters")] [Range(0, 2)] [SerializeField]
         private float _gettingDamageKoef = 1;
-
+        [SerializeField] private AudioClip _hitSound;
         [SerializeField] private BodyPartType _partType = BodyPartType.None;
 
         public ushort GetHp()
@@ -23,10 +23,7 @@ namespace DamageSystem
 
         public void GetDamage(int damage)
         {
-            if (_partType == BodyPartType.Head)
-                PlayerSoundsPlayer.Singleton.PlayHeadShotSound();
-            else
-                PlayerSoundsPlayer.Singleton.PlayHitSound();
+            PlayerSoundsPlayer.Singleton.PlayHit(_hitSound);
             _characterHpHandler.GetDamageServerRpc(
                 (int)(damage * _gettingDamageKoef)); //Додати переввірку на резіст броні
         }

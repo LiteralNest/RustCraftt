@@ -1,5 +1,7 @@
+using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Sound_System
 {
@@ -7,12 +9,8 @@ namespace Sound_System
     {
         public static PlayerSoundsPlayer Singleton { get; private set; }
         
-        [Header("Attached Components")] [SerializeField]
-        private AudioSource _audioSource;
-
-        [Header("Audio Clips")] [SerializeField]
-        private AudioClip _hitClip;
-        [SerializeField] private AudioClip _headShotClip;
+        [SerializeField] private AudioSource _audioSource;
+        [SerializeField] private List<SoundSLot> _soundSlots = new List<SoundSLot>();
 
         public override void OnNetworkSpawn()
         {
@@ -22,25 +20,26 @@ namespace Sound_System
         }
         
         [ServerRpc(RequireOwnership = false)]
-        private void PlayOneShotServerRpc(int soundId)
+        private void PlayOneShotServerRpc(int soundId, float volume)
         {
             if (!IsServer) return;
-            PlayOneShotClientRpc(soundId);
+            PlayOneShotClientRpc(soundId, volume);
         }
 
         [ClientRpc]
-        private void PlayOneShotClientRpc(int soundId)
+        private void PlayOneShotClientRpc(int soundId, float volume)
         {
-            if(soundId == 1)
-                _audioSource.PlayOneShot(_hitClip);
-            else if(soundId == 2)
-                _audioSource.PlayOneShot(_headShotClip);
+            _audioSource.volume = volume;
+            _audioSource.PlayOneShot(_soundSlots[soundId].Clip);
         }
-        
-        public void PlayHitSound()
-            => PlayOneShotServerRpc(1);
-        
-        public void PlayHeadShotSound()
-            => PlayOneShotServerRpc(2);
+
+        public void PlayHit(AudioClip clip)
+        {
+            foreach (var slot in _soundSlots)
+            {
+                if(slot.Clip != clip) continue;
+                PlayOneShotServerRpc(slot.Id, slot.Volume);
+            }
+        }
     }
 }
