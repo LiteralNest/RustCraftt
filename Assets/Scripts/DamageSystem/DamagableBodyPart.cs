@@ -1,5 +1,6 @@
 using ArmorSystem.Backend;
 using Character_Stats;
+using Sound_System;
 using UnityEngine;
 
 namespace DamageSystem
@@ -7,7 +8,7 @@ namespace DamageSystem
     public class DamagableBodyPart : MonoBehaviour, IDamagable
     {
         [Header("Attached Scripts")] [SerializeField]
-        private CharacterHpHandler _characterHpHandler; 
+        private CharacterHpHandler _characterHpHandler;
 
         [Header("Main Parameters")] [Range(0, 2)] [SerializeField]
         private float _gettingDamageKoef = 1;
@@ -21,7 +22,14 @@ namespace DamageSystem
             => _characterHpHandler.DefaultHp;
 
         public void GetDamage(int damage)
-            => _characterHpHandler.GetDamageServerRpc((int)(damage * _gettingDamageKoef)); //Додати переввірку на резіст броні
+        {
+            if (_partType == BodyPartType.Head)
+                PlayerSoundsPlayer.Singleton.PlayHeadShotSound();
+            else
+                PlayerSoundsPlayer.Singleton.PlayHitSound();
+            _characterHpHandler.GetDamageServerRpc(
+                (int)(damage * _gettingDamageKoef)); //Додати переввірку на резіст броні
+        }
 
         public void Destroy()
         {
