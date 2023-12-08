@@ -3,10 +3,13 @@ using UnityEngine;
 
 namespace Lock_System
 {
-    public class ObjectLocker : MonoBehaviour
+    public class ObjectLocker : NetworkBehaviour
     {
         public GameObject LocakableObject;
         public Transform TargetLock { get; private set; }
+
+        [SerializeField] private KeyLocker _keyLocker;
+        [SerializeField] private CodeLocker _codeLocker;
 
         private void OnTriggerEnter(Collider other)
         {
@@ -18,11 +21,12 @@ namespace Lock_System
                 var lockable = LocakableObject.GetComponent<ILockable>();
                 if (lockable == null || lockable.IsLocked()) return;
 
-                TargetLock = other.transform;
-                TargetLock.GetComponent<NetworkObject>().TrySetParent(lockable.GetParent());
-                var locker = other.GetComponent<KeyLocker>();
-                lockable.Lock(locker);
-                locker.TargetLockable = lockable;
+                _keyLocker.gameObject.SetActive(true);
+                TargetLock = _keyLocker.transform;
+                
+                lockable.Lock(_keyLocker);
+                _keyLocker.TargetLockable = lockable;
+                
                 Destroy(gameObject);
             }
             
@@ -34,11 +38,10 @@ namespace Lock_System
                 var lockable = LocakableObject.GetComponent<ILockable>();
                 if (lockable == null || lockable.IsLocked()) return;
 
-                TargetLock = other.transform;
-                TargetLock.GetComponent<NetworkObject>().TrySetParent(lockable.GetParent());
-                var locker = other.GetComponent<CodeLocker>();
-                lockable.Lock(locker);
-                locker.TargetLockable = lockable;
+                TargetLock = _codeLocker.transform;
+                
+                lockable.Lock(_codeLocker);
+                _codeLocker.TargetLockable = lockable;
                 Destroy(gameObject);
             }
         }

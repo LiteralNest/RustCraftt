@@ -56,7 +56,8 @@ public class PlayerEffectsHandler : MonoBehaviour
         if (!other.CompareTag("ShelfZone")) return;
         if (!isEntering)
         { 
-            StopCoroutine(_checkClipBoardCoroutine);
+            if(_checkClipBoardCoroutine != null)
+                StopCoroutine(_checkClipBoardCoroutine);
             AlertsDisplayer.Singleton.DisplayBuildingBlockedAlert(false);
             AlertsDisplayer.Singleton.DisplayBuildingUnblockedAlert(false);
             return;

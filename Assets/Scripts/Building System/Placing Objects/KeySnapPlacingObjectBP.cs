@@ -22,10 +22,9 @@ namespace Building_System.Placing_Objects
         public override void Place()
         {
             if (!CanBePlaced()) return;
-            PlacingObjectsPool.singleton.InstantiateObjectServerRpc(TargetPlacingObject.TargetItem.Id,
-                transform.position,
-                transform.rotation, 
-                UserDataHandler.singleton.UserData.Id);
+            InventoryHandler.singleton.CharacterInventory.RemoveItem(TargetPlacingObject.TargetItem.Id, 1);
+            var instance = Instantiate(TargetPlacingObject, transform.position, transform.rotation);
+            instance.GetComponent<Locker>().Init(UserDataHandler.singleton.UserData.Id);
         }
     }
 }

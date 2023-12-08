@@ -13,6 +13,8 @@ namespace Items_System.Items.Abstract
 
         public virtual void Click(QuickSlotDisplayer quickSlotDisplayer, InventoryHandler handler)
         {
+            GlobalEventsContainer.ShouldDisplayHandItem?.Invoke(-1,
+                handler.PlayerNetCode.GetClientId());
             handler.ActiveSlotDisplayer = quickSlotDisplayer.ConnectedSlotDisplayer;
         }
     }

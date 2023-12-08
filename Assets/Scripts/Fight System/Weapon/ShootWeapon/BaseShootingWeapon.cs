@@ -55,7 +55,6 @@ namespace Fight_System.Weapon.ShootWeapon
         {
             GlobalEventsContainer.InventoryDataChanged -= TryDisplayReload;
             CharacterUIHandler.singleton.ActivateScope(false);
-            CharacterUIHandler.singleton.ActivateBuildingButton(false);
             CharacterUIHandler.singleton.ActivateReloadingButton(false);
             CharacterUIHandler.singleton.ActivateAttackButton(false);
             GlobalEventsContainer.WeaponObjectAssign?.Invoke(null);

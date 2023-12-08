@@ -6,5 +6,8 @@ public class BluePrintObject : MonoBehaviour
         => CharacterUIHandler.singleton.ActivateBuildingButton(true);
 
     private void OnDisable()
-        => CharacterUIHandler.singleton.ActivateBuildingButton(false);
+    {
+        CharacterUIHandler.singleton.ActivateBuildingButton(false);
+        CharacterUIHandler.singleton.ActivateBuildingChoosingPanel(false);
+    }
 }
