@@ -11,7 +11,6 @@ using Web.User;
 
 public class ToolClipboard : Storage, ILockable
 {
-    [SerializeField] private Transform _mainTransform;
     private Locker _targetLocker;
 
     [SerializeField] private List<BuildingBlock> _connectedBlocks = new List<BuildingBlock>();
@@ -161,8 +160,6 @@ public class ToolClipboard : Storage, ILockable
     public void Lock(Locker locker)
         => _targetLocker = locker;
     
-    public Transform GetParent()
-        => _mainTransform;
     
     public bool IsLocked()
     {

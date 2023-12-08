@@ -16,8 +16,13 @@ namespace Lock_System
         {
             AuthorizationHelper helper = new AuthorizationHelper();
             if (!helper.IsAuthorized(value, _authorizedIds))
+            {
                 if (Password.Value != value)
+                {
+                    _codeUI.SetActive(true);
                     return false;
+                }
+            }
             return true;
         }
 

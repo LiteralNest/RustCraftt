@@ -6,8 +6,6 @@ namespace Storage_System.Storage_Boxes_System
 {
     public class StorageBox : Storage, ILockable
     {
-        [SerializeField] private Transform _lockingParrent;
-
         private Locker _locker;
         
         public override void Open(InventoryHandler handler)
@@ -22,10 +20,7 @@ namespace Storage_System.Storage_Boxes_System
 
         public void Lock(Locker locker)
             => _locker = locker;
-
-        public Transform GetParent()
-            => _lockingParrent;
-
+        
         bool ILockable.IsLocked()
             => _locker != null;
 

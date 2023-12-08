@@ -24,7 +24,6 @@ namespace Building_System.Placing_Objects
             if (!CanBePlaced()) return;
             InventoryHandler.singleton.CharacterInventory.RemoveItem(TargetPlacingObject.TargetItem.Id, 1);
             var instance = Instantiate(TargetPlacingObject, transform.position, transform.rotation);
-            instance.GetComponent<Locker>().Init(UserDataHandler.singleton.UserData.Id);
         }
     }
 }
