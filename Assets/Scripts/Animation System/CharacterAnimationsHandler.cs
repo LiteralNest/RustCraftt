@@ -1,66 +1,44 @@
 using System.Collections.Generic;
+using Unity.Netcode;
 using UnityEngine;
 
 namespace Animation_System
 {
-    public class CharacterAnimationsHandler : MonoBehaviour
+    public class CharacterAnimationsHandler : NetworkBehaviour
     {
-        [Header("Animations")] 
-        [SerializeField] private string _idleAnimationKey = "Idle";
-        [SerializeField] private string _walkAnimationKey = "Walk";
-        [SerializeField] private string _swimAnimationKey = "Swim";
-        [SerializeField] private string _jumpAnimKey = "Jump";
-        [SerializeField] private string _knockDownAnim = "KnockDown";
-        [SerializeField] private string _fallAnim = "Fall";
-        [SerializeField] private string _deathAnim = "Dead";
+        [Header("Animations")] [SerializeField]
+        private List<CharacterAnimationSlot> _keys = new List<CharacterAnimationSlot>();
 
-        [Header("Animators")] 
-        [SerializeField] private List<Animator> _animators = new List<Animator>();
+        [Header("Animators")] [SerializeField] private List<Animator> _animators = new List<Animator>();
 
-        private void SetKey(string key, Animator anim)
+
+        public void SetAnimation(int num)
         {
-            anim.SetBool(_idleAnimationKey, _idleAnimationKey == key);
-            anim.SetBool(_walkAnimationKey, _walkAnimationKey == key);
-            anim.SetBool(_swimAnimationKey, _swimAnimationKey == key);
-            anim.SetBool(_jumpAnimKey, _jumpAnimKey == key);
-            anim.SetBool(_knockDownAnim, _knockDownAnim == key);
-            anim.SetBool(_fallAnim, _fallAnim == key);
-            anim.SetBool(_deathAnim, _deathAnim == key); 
-        }
-        
-        private void SetAnimation(string animationKey)
-        {
+            var changingSlot = _keys[num];
             foreach (var anim in _animators)
-                SetKey(animationKey, anim);
+            {
+                foreach (var slot in _keys)
+                {
+                    if(slot.Key == changingSlot.Key || slot.Type == AnimationType.Trigger) continue;
+                    anim.SetBool(slot.Key, false);
+                }
 
+                if (changingSlot.Type == AnimationType.Bool)
+                    anim.SetBool(changingSlot.Key, true);
+                else if (changingSlot.Type == AnimationType.Trigger)
+                    anim.SetTrigger(changingSlot.Key);
+            }
         }
-        
-        [ContextMenu("Set Idle")]
-        public void SetIdle()
-            => SetAnimation(_idleAnimationKey);
-        
-        [ContextMenu("Set Walk")]
-        public void SetWalk()
-            => SetAnimation(_walkAnimationKey);
-        
-        [ContextMenu("Set Swim")]
-        public void SetSwim()
-            => SetAnimation(_swimAnimationKey);
 
-        [ContextMenu("Jump")]
-        public void SetJump()
-            => SetAnimation(_jumpAnimKey);
-        
-        [ContextMenu("Knock Down")]
-        public void SetKnockDown()
-            => SetAnimation(_knockDownAnim);
-        
-        [ContextMenu("Fall")]
-        public void SetFall()
-            => SetAnimation(_fallAnim);
-        
-        [ContextMenu("Death")]
-        public void SetDeath()
-            => SetAnimation(_deathAnim);
+        public int GetAnimationNum(string key)
+        {
+            for (int i = 0; i < _keys.Count; i++)
+            {
+                if (_keys[i].Key != key) continue;
+                return i;
+            }
+            Debug.LogError("Can't find animation: " + key);
+            return 0;
+        }
     }
 }

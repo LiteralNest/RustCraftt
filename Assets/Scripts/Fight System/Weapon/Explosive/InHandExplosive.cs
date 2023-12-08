@@ -6,12 +6,12 @@ public class InHandExplosive : MonoBehaviour
     private void OnEnable()
     {
         PlayerExplosiveThrow.singleton.SetCurrentId(GetComponent<MultiplayInstanceId>().Id);
-        GlobalEventsContainer.ShouldDisplayThrowButton?.Invoke(true);
+        CharacterUIHandler.singleton.ActivateThrowButton(true);
     }
 
     private void OnDisable()
     {
         PlayerExplosiveThrow.singleton.SetCurrentId(-1);
-        GlobalEventsContainer.ShouldDisplayThrowButton?.Invoke(false);
+        CharacterUIHandler.singleton.ActivateThrowButton(false);
     }
 }

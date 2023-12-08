@@ -1,14 +1,18 @@
 using System.Collections.Generic;
+using System.Collections;
+using System.Linq;
+using Animation_System;
+using Multiplayer.PlayerSpawning;
 using Player_Controller;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.Serialization;
-using Web.User;
 
 public class PlayerNetworkController : MonoBehaviour
 {
     [Header("NetCode")] 
     [SerializeField] private PlayerNetCode _playerNetCode;
+    [SerializeField] private CharacterAnimationsHandler _characterAnimationsHandler;
     [SerializeField] private List<Behaviour> _monos = new List<Behaviour>();
     [FormerlySerializedAs("_mainUiHandler")] [SerializeField] private CharacterUIHandler characterUIHandler;
     
@@ -27,6 +31,21 @@ public class PlayerNetworkController : MonoBehaviour
         _vivox.SetActive(false);
     }
     
+    private IEnumerator Destroy()
+    {
+        yield return new WaitForSeconds(1);
+        var players = FindObjectsOfType<PlayerStartSpawner>().ToList();
+        foreach (var player in players)
+        {
+            if (GetComponent<NetworkObject>().OwnerClientId == player.GetComponent<NetworkObject>().OwnerClientId)
+            {
+                player.AnimationsManager.CharacterAnimationsHandler = _characterAnimationsHandler;
+            }
+        }
+
+        Destroy(this);
+    }
+
     public void Start()
     {
         _canvas.SetActive(true);
@@ -45,7 +64,7 @@ public class PlayerNetworkController : MonoBehaviour
             characterUIHandler.AssignSingleton();
         }
 
-        Destroy(this);
+        StartCoroutine(Destroy());
     }
 
     private void SetBody(bool value)

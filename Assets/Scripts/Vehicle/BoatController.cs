@@ -11,7 +11,6 @@ namespace Vehicle
         [SerializeField] private Vector3 _offset = new Vector3(0f, 0.5f, 0f);
         [SerializeField] private PlayerInput _boatInput;
         public bool IsMoving { get; set; }
-        private bool _isNearBoat = false;
         private bool _isSittingInBoat;
 
         private Vector2 _moveInput;

@@ -25,8 +25,6 @@ public static class GlobalEventsContainer
     #region Handle
 
     public static Action<bool> ShouldHandleAttacking { get; set; }
-    public static Action<bool> ShouldHandleScopeSpear { get; set; }
-    public static Action<bool> ShouldDisplayThrowButton { get; set; }
 
     #endregion
 

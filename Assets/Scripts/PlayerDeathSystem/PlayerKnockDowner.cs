@@ -40,7 +40,7 @@ namespace PlayerDeathSystem
                 MainUiHandler.Singleton.DisplayKnockDownScreen(true);
             }
 
-            _characterAnimationsHandler.SetKnockDown();
+            // _characterAnimationsHandler.SetKnockDown();
         }
 
         [ContextMenu("KnockDown")]
@@ -63,7 +63,7 @@ namespace PlayerDeathSystem
         [ClientRpc]
         private void StandUpClientRpc()
         {
-            _characterAnimationsHandler.SetIdle();
+            // _characterAnimationsHandler.SetIdle();
             if (IsOwner)
             {
                 _characterHpHandler.SetKnockedDownServerRpc(false);

@@ -97,26 +97,26 @@ namespace Player_Controller
             Vector3 movement = new Vector3(_move.x, 0f, _move.y);
             if (movement != Vector3.zero)
             {
-                _characterAnimationsHandler.SetWalk();
+                // _characterAnimationsHandler.SetWalk();
                 transform.Translate(movement * _currentMovingSpeed * Time.deltaTime, Space.Self);
                 return;
             }
 
             _inHandObjectsContainer.SetWalk(false);
-            _characterAnimationsHandler.SetIdle();
+            // _characterAnimationsHandler.SetIdle();
         }
 
         public void StartRunning()
         {
             _inHandObjectsContainer.SetRun(true);
-            _characterAnimationsHandler.SetWalk();
+            // _characterAnimationsHandler.SetWalk();
             _ifRunning = true;
             _currentMovingSpeed *= _runningKoef;
         }
 
         public void StopRunning()
         {
-            _characterAnimationsHandler.SetIdle();
+            // _characterAnimationsHandler.SetIdle();
             _inHandObjectsContainer.SetRun(false);
             _ifRunning = false;
             _currentMovingSpeed = _movingSpeed.Value;

@@ -2969,8 +2969,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4128061673005275591}
   - component: {fileID: 8498297981587487948}
-  - component: {fileID: 8385481058602186165}
-  - component: {fileID: 5556819289263000128}
   m_Layer: 15
   m_Name: BluePrint
   m_TagString: Untagged
@@ -3006,48 +3004,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fd18f1623cafcc342824303799eb2e6c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _animator: {fileID: 8385481058602186165}
+  _animator: {fileID: 0}
   _renderers: []
   _activatingObjects:
   - {fileID: 6719567244056224462}
   _attackIndex: Attacking
   _walkIndex: Walking
   _runIndex: Running
---- !u!95 &8385481058602186165
-Animator:
-  serializedVersion: 5
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 433937216322070687}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 7063b01d6955be7459e85632aa2a804c, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
---- !u!114 &5556819289263000128
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 433937216322070687}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ad8deae8091111f4eb30a56c1f4e0d3e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  TransitionStateInfoList: []
-  m_Animator: {fileID: 8385481058602186165}
 --- !u!1 &436930944033105437
 GameObject:
   m_ObjectHideFlags: 0
@@ -4102,7 +4065,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1593917833468040987}
   - component: {fileID: 3907616338520299463}
-  - component: {fileID: 4027364121129444029}
   m_Layer: 0
   m_Name: Hands
   m_TagString: Untagged
@@ -4148,20 +4110,6 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &4027364121129444029
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 618365890153947889}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ad8deae8091111f4eb30a56c1f4e0d3e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  TransitionStateInfoList: []
-  m_Animator: {fileID: 3907616338520299463}
 --- !u!1 &618558615662320261
 GameObject:
   m_ObjectHideFlags: 0
@@ -4649,79 +4597,104 @@ MonoBehaviour:
       - Id: -1
         Count: 0
         Hp: -1
+        Ammo: 0
       - Id: -1
         Count: 0
         Hp: -1
+        Ammo: 0
       - Id: -1
         Count: 0
         Hp: -1
+        Ammo: 0
       - Id: -1
         Count: 0
         Hp: -1
+        Ammo: 0
       - Id: -1
         Count: 0
         Hp: -1
+        Ammo: 0
       - Id: -1
         Count: 0
         Hp: -1
+        Ammo: 0
       - Id: -1
         Count: 0
         Hp: -1
+        Ammo: 0
       - Id: -1
         Count: 0
         Hp: -1
+        Ammo: 0
       - Id: -1
         Count: 0
         Hp: -1
+        Ammo: 0
       - Id: -1
         Count: 0
         Hp: -1
+        Ammo: 0
       - Id: -1
         Count: 0
         Hp: -1
+        Ammo: 0
       - Id: -1
         Count: 0
         Hp: -1
+        Ammo: 0
       - Id: -1
         Count: 0
         Hp: -1
+        Ammo: 0
       - Id: -1
         Count: 0
         Hp: -1
+        Ammo: 0
       - Id: -1
         Count: 0
         Hp: -1
+        Ammo: 0
       - Id: -1
         Count: 0
         Hp: -1
+        Ammo: 0
       - Id: -1
         Count: 0
         Hp: -1
+        Ammo: 0
       - Id: -1
         Count: 0
         Hp: -1
+        Ammo: 0
       - Id: -1
         Count: 0
         Hp: -1
+        Ammo: 0
       - Id: -1
         Count: 0
         Hp: -1
+        Ammo: 0
       - Id: -1
         Count: 0
         Hp: -1
+        Ammo: 0
       - Id: -1
         Count: 0
         Hp: -1
+        Ammo: 0
       - Id: -1
         Count: 0
         Hp: -1
+        Ammo: 0
       - Id: -1
         Count: 0
         Hp: -1
+        Ammo: 0
   _testAddingCell:
     Item: {fileID: 0}
     Count: 0
     Hp: 0
+    Ammo: 0
   MainSlotsCount: 24
 --- !u!65 &949765003185811225
 BoxCollider:
@@ -11775,13 +11748,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b1c29a04e524da644bfbd149c0aeb8f6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _idleAnimationKey: Idle
-  _walkAnimationKey: Walk
-  _swimAnimationKey: Swim
-  _jumpAnimKey: Jump
-  _knockDownAnim: KnockDown
-  _fallAnim: Fall
-  _deathAnim: Dead
+  _keys: []
   _animators:
   - {fileID: 8989197453964032196}
   - {fileID: 1374682666547782542}
@@ -14034,7 +14001,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _playerNetCode: {fileID: -5502007171107923210}
+  _characterAnimationsHandler: {fileID: 6475546315911883724}
   _monos:
+  - {fileID: 228275790847561711}
   - {fileID: 8624086197897355627}
   - {fileID: 2115686004867581448}
   - {fileID: 5624260414466233215}
@@ -29635,118 +29604,156 @@ MonoBehaviour:
       - Id: -1
         Count: 0
         Hp: -1
+        Ammo: 0
       - Id: -1
         Count: 0
         Hp: -1
+        Ammo: 0
       - Id: -1
         Count: 0
         Hp: -1
+        Ammo: 0
       - Id: -1
         Count: 0
         Hp: -1
+        Ammo: 0
       - Id: -1
         Count: 0
         Hp: -1
+        Ammo: 0
       - Id: -1
         Count: 0
         Hp: -1
+        Ammo: 0
       - Id: -1
         Count: 0
         Hp: -1
+        Ammo: 0
       - Id: -1
         Count: 0
         Hp: -1
+        Ammo: 0
       - Id: -1
         Count: 0
         Hp: -1
+        Ammo: 0
       - Id: -1
         Count: 0
         Hp: -1
+        Ammo: 0
       - Id: -1
         Count: 0
         Hp: -1
+        Ammo: 0
       - Id: -1
         Count: 0
         Hp: -1
+        Ammo: 0
       - Id: -1
         Count: 0
         Hp: -1
+        Ammo: 0
       - Id: -1
         Count: 0
         Hp: -1
+        Ammo: 0
       - Id: -1
         Count: 0
         Hp: -1
+        Ammo: 0
       - Id: -1
         Count: 0
         Hp: -1
+        Ammo: 0
       - Id: -1
         Count: 0
         Hp: -1
+        Ammo: 0
       - Id: -1
         Count: 0
         Hp: -1
+        Ammo: 0
       - Id: -1
         Count: 0
         Hp: -1
+        Ammo: 0
       - Id: -1
         Count: 0
         Hp: -1
+        Ammo: 0
       - Id: -1
         Count: 0
         Hp: -1
+        Ammo: 0
       - Id: -1
         Count: 0
         Hp: -1
+        Ammo: 0
       - Id: -1
         Count: 0
         Hp: -1
+        Ammo: 0
       - Id: -1
         Count: 0
         Hp: -1
+        Ammo: 0
       - Id: -1
         Count: 0
         Hp: -1
+        Ammo: 0
       - Id: -1
         Count: 0
         Hp: -1
+        Ammo: 0
       - Id: -1
         Count: 0
         Hp: -1
+        Ammo: 0
       - Id: -1
         Count: 0
         Hp: -1
+        Ammo: 0
       - Id: -1
         Count: 0
         Hp: -1
+        Ammo: 0
       - Id: -1
         Count: 0
         Hp: -1
+        Ammo: 0
       - Id: -1
         Count: 0
         Hp: -1
+        Ammo: 0
       - Id: -1
         Count: 0
         Hp: -1
+        Ammo: 0
       - Id: -1
         Count: 0
         Hp: -1
+        Ammo: 0
       - Id: -1
         Count: 0
         Hp: -1
+        Ammo: 0
       - Id: -1
         Count: 0
         Hp: -1
+        Ammo: 0
       - Id: -1
         Count: 0
         Hp: -1
+        Ammo: 0
       - Id: -1
         Count: 0
         Hp: -1
+        Ammo: 0
   _testAddingCell:
     Item: {fileID: 0}
     Count: 0
     Hp: 0
+    Ammo: 0
   MainSlotsCount: 24
 --- !u!114 &2008585183341960447
 MonoBehaviour:
@@ -36620,7 +36627,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 929829628405111230}
-  - component: {fileID: 9046220375019675977}
   m_Layer: 15
   m_Name: ForeArm.R.002_end
   m_TagString: Untagged
@@ -36645,18 +36651,6 @@ Transform:
   - {fileID: 352048383893014194}
   m_Father: {fileID: 90946649038028456}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &9046220375019675977
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5913427076038667379}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6caa89caa7414ca08f373e9b7ff3b064, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &5917489346364250836
 GameObject:
   m_ObjectHideFlags: 0
@@ -42342,7 +42336,6 @@ GameObject:
   - component: {fileID: 5006004226537026691}
   - component: {fileID: 5753710234498886342}
   - component: {fileID: 5268612984177121748}
-  - component: {fileID: 4753636479192731154}
   m_Layer: 0
   m_Name: C4
   m_TagString: Untagged
@@ -42438,20 +42431,6 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &4753636479192731154
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6951200708470055612}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ad8deae8091111f4eb30a56c1f4e0d3e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  TransitionStateInfoList: []
-  m_Animator: {fileID: 5268612984177121748}
 --- !u!1 &6958240321169546265
 GameObject:
   m_ObjectHideFlags: 0
@@ -48036,7 +48015,6 @@ GameObject:
   m_Component:
   - component: {fileID: 8784360286403449467}
   - component: {fileID: 3849328753067930972}
-  - component: {fileID: 7852683473153644075}
   m_Layer: 0
   m_Name: Legs
   m_TagString: Untagged
@@ -48082,20 +48060,6 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &7852683473153644075
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7896385144323835261}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ad8deae8091111f4eb30a56c1f4e0d3e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  TransitionStateInfoList: []
-  m_Animator: {fileID: 3849328753067930972}
 --- !u!1 &7902858118390392617
 GameObject:
   m_ObjectHideFlags: 0
@@ -53142,7 +53106,6 @@ GameObject:
   m_Component:
   - component: {fileID: 3486531048203584284}
   - component: {fileID: 3772973233802304267}
-  - component: {fileID: 2755077554839876808}
   m_Layer: 0
   m_Name: Body
   m_TagString: Untagged
@@ -53188,20 +53151,6 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &2755077554839876808
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8659255900263721472}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ad8deae8091111f4eb30a56c1f4e0d3e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  TransitionStateInfoList: []
-  m_Animator: {fileID: 3772973233802304267}
 --- !u!1 &8685419651745676679
 GameObject:
   m_ObjectHideFlags: 0
@@ -54744,13 +54693,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b1c29a04e524da644bfbd149c0aeb8f6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _idleAnimationKey: Idle
-  _walkAnimationKey: Walk
-  _swimAnimationKey: Swim
-  _jumpAnimKey: Jump
-  _knockDownAnim: KnockDown
-  _fallAnim: Fall
-  _deathAnim: Dead
+  _keys:
+  - Key: Idle
+    Type: 0
+  - Key: Walk
+    Type: 0
+  - Key: Swim
+    Type: 0
+  - Key: Jump
+    Type: 1
+  - Key: KnockDown
+    Type: 1
+  - Key: Fall
+    Type: 1
+  - Key: Dead
+    Type: 1
   _animators:
   - {fileID: 3772973233802304267}
   - {fileID: 3907616338520299463}

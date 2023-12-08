@@ -18,8 +18,6 @@ namespace UI.DeathScreen
         [SerializeField] private TMP_Text _reviveChanceText;
         [SerializeField] private Image _reviveProgressBar;
         private Transform _transform;
-    
-        private float _movementSpeed = 1f;
 
         private int _currentDeathTimer;
         

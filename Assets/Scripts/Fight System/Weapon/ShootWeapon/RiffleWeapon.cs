@@ -6,8 +6,6 @@ namespace Fight_System.Weapon.ShootWeapon
     [RequireComponent(typeof(WeaponSoundPlayer))]
     public class RiffleWeapon : BaseShootingWeapon
     {
-        [Header("In Game Init")] private int _startingAmmoCount = 100;
-
         private LongRangeWeaponItemDisplayer _inventoryItemDisplayer;
 
         public override void Attack()

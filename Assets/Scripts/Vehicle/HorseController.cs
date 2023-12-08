@@ -12,7 +12,6 @@ namespace Vehicle
         [SerializeField] private PlayerInput _horseInput;
         
         public bool IsMoving { get; set; }
-        private bool _isNearHorse = false;
         private bool _isSittingOnHorse;
         
         private Vector2 _moveInput;

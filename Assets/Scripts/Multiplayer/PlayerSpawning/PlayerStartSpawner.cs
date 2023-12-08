@@ -1,5 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
+using Animation_System;
 using Building_System.NetWorking;
 using PlayerDeathSystem;
 using Unity.Netcode;
@@ -10,15 +12,22 @@ namespace Multiplayer.PlayerSpawning
 {
     public class PlayerStartSpawner : NetworkBehaviour
     {
+        public static PlayerStartSpawner Singleton { get; private set; }
+        
         private NetworkVariable<int> _userId = new(-1, NetworkVariableReadPermission.Everyone,
             NetworkVariableWritePermission.Owner);
 
-        private void Start()
+       [field:SerializeField] public AnimationsManager AnimationsManager { get; private set; }
+        
+        private async void Start()
         {
             if (!IsOwner) return;
             _userId.Value = UserDataHandler.singleton.UserData.Id;
             PlayerStaffSpawner.Singleton.SpawnPlayerServerRpc(PlayerSpawnManager.Singleton.GetRandomSpawnPoint(),
                 Quaternion.identity, _userId.Value, GetComponent<NetworkObject>().OwnerClientId);
+            await Task.Delay(900);
+            if(!IsOwner) return;
+            Singleton = this;
         }
 
         public void Respawn(int userId, Vector3 spawnPoint)
@@ -43,7 +52,6 @@ namespace Multiplayer.PlayerSpawning
           
         }
         
-
         public override void OnNetworkDespawn()
         {
             base.OnNetworkDespawn();

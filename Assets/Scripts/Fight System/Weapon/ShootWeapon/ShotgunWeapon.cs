@@ -13,9 +13,6 @@ namespace Fight_System.Weapon.ShootWeapon
         [SerializeField] private float _spreadRadiusNoFocus = 0.5f;
         [SerializeField] private float _spreadRadiusFocus = 0.1f;
 
-        [Header("In Game Init")] 
-        private readonly int _startingAmmoCount = 100;
-
         private LongRangeWeaponItemDisplayer _inventoryItemDisplayer;
         private Vector3[] _spreadOffsets;
         

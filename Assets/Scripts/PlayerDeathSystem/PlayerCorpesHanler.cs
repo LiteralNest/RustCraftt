@@ -21,7 +21,7 @@ namespace PlayerDeathSystem
       public void AssignCorpes(CustomSendingInventoryData data)
       {
          ChangeBodyPosition();
-         _bodyAnimationsHandler.SetDeath();
+         // _bodyAnimationsHandler.SetDeath();
          if(!IsServer) return;
          _corpesObject.AssignCells(data);
       }

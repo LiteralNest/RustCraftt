@@ -16,16 +16,7 @@ public class CharacterUIHandler : MonoBehaviour
 
     [SerializeField] private GameObject _meleeThrowButton;
     [SerializeField] private GameObject _throwExplosiveButton;
-
-    private void OnEnable()
-    {
-        GlobalEventsContainer.ShouldDisplayThrowButton += ActivateThrowButton;
-    }
-
-    private void OnDisable()
-    {
-        GlobalEventsContainer.ShouldDisplayThrowButton -= ActivateThrowButton;
-    }
+    
 
     public void AssignSingleton()
         => singleton = this;
