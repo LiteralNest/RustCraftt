@@ -28,7 +28,6 @@ public abstract class SlotsDisplayer : MonoBehaviour
 
     public void ResetCells()
     {
-        Debug.Log(gameObject.name);
         foreach (var cell in CellDisplayers)
             cell.DestroyItem();
     }

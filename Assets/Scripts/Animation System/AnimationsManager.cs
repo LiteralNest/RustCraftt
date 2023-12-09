@@ -33,7 +33,10 @@ namespace Animation_System
         }
 
         private void SetAnimation(string value)
-            => SetAnimationServerRpc(CharacterAnimationsHandler.GetAnimationNum(value));
+        {
+            if (CharacterAnimationsHandler == null) return;
+            SetAnimationServerRpc(CharacterAnimationsHandler.GetAnimationNum(value));
+        }
 
         [ContextMenu("Set Walk")]
         public void SetWalk()

@@ -9,12 +9,11 @@ namespace Storage_System.Loot_Boxes_System
     public class LootBox : Storage
     {
         [SerializeField] private List<LootBoxGeneratingSet> _setsPool = new List<LootBoxGeneratingSet>();
-        
-        public override void OnNetworkSpawn()
+
+        private async void Start()
         {
-            base.OnNetworkSpawn();
-            if(!IsServer) return;
-            Debug.Log("Generating cells...");
+            await Task.Delay(2000); //Server Waits 2 seconds
+            if (!IsServer) return;
             GenerateCells();
         }
 
@@ -27,7 +26,7 @@ namespace Storage_System.Loot_Boxes_System
         [ServerRpc(RequireOwnership = false)]
         private void CheckCellsServerRpc()
         {
-            if(!IsServer) return;
+            if (!IsServer) return;
             var cells = ItemsNetData.Value.Cells;
             foreach (var cell in cells)
                 if (cell.Id != -1)
@@ -35,14 +34,13 @@ namespace Storage_System.Loot_Boxes_System
             GetComponent<NetworkObject>().Despawn();
             Destroy(gameObject);
         }
-    
+
         private LootBoxGeneratingSet GetRandomSet()
             => _setsPool[Random.Range(0, _setsPool.Count)];
-        
+
         [ContextMenu("Generate Cells")]
-        private async void GenerateCells()
+        private void GenerateCells()
         {
-            await Task.Delay(2000); //Server Waits 2 seconds
             var set = GetRandomSet();
             for (int i = 0; i < set.Items.Count; i++)
             {
@@ -50,6 +48,7 @@ namespace Storage_System.Loot_Boxes_System
                 AddItemToDesiredSlotServerRpc(set.Items[i].Item.Id, rand, 0);
                 Debug.Log("Item id: " + set.Items[i].Item.Id + "; Count: " + rand);
             }
+
             Debug.Log("Cells generated!");
         }
     }

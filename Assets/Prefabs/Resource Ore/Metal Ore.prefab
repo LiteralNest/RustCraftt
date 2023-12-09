@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &8794021445112095676
+--- !u!1 &4200097235142479523
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,43 +8,43 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 5550289486082858485}
-  - component: {fileID: 1048669610387770165}
-  - component: {fileID: 617987114578736242}
-  - component: {fileID: 3702465312786772055}
-  - component: {fileID: 4162269913019797340}
-  - component: {fileID: -6681453573836393987}
-  - component: {fileID: 3258186825618776581}
+  - component: {fileID: 6104215736683397034}
+  - component: {fileID: 939544926237879927}
+  - component: {fileID: 4339304756583655365}
+  - component: {fileID: 1588882311752055850}
+  - component: {fileID: 6037840669567533676}
+  - component: {fileID: 6828520085098013963}
+  - component: {fileID: 4012791832347464923}
   m_Layer: 0
-  m_Name: Stone Ore
+  m_Name: Metal Ore
   m_TagString: Ore
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &5550289486082858485
+--- !u!4 &6104215736683397034
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8794021445112095676}
+  m_GameObject: {fileID: 4200097235142479523}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 14.209543, y: -11.5, z: -7.1245394}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 5650309218455522466}
+  - {fileID: 2925446386833342774}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!65 &1048669610387770165
+--- !u!65 &939544926237879927
 BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8794021445112095676}
+  m_GameObject: {fileID: 4200097235142479523}
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
@@ -59,13 +59,13 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 0.9689448, z: 1}
   m_Center: {x: 0, y: 0.49065387, z: 0}
---- !u!114 &617987114578736242
+--- !u!114 &4339304756583655365
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8794021445112095676}
+  m_GameObject: {fileID: 4200097235142479523}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 498418d17b4745e44ac6f127b34160bd, type: 3}
@@ -76,22 +76,22 @@ MonoBehaviour:
     m_InternalValue: 100
   _recoveringSpeed: 60
   _resourceSlots:
-  - Resource: {fileID: 11400000, guid: 28bd3b93ac23fe14db313f2088d450df, type: 2}
+  - Resource: {fileID: 11400000, guid: 45734024b8d2b634498c38c57d815802, type: 2}
     CountRange: {x: 5, y: 10}
   _renderers:
-  - {fileID: 4981613272699000344}
+  - {fileID: 2581289714280995724}
   _toolsForGathering:
   - {fileID: 11400000, guid: c4791c33b05b3154992749c0dd27fc49, type: 2}
   - {fileID: 11400000, guid: 8bc7510edb9a77849bfde540a467b694, type: 2}
   <GatheringClip>k__BackingField: {fileID: 8300000, guid: 5b629d5f309986141adc4ef0a0b8c904, type: 3}
   _vfxEffect: {fileID: 4632445484063412082, guid: 755b1b2f4928f1f4ca8bdea71a7fc0c6, type: 3}
---- !u!114 &3702465312786772055
+--- !u!114 &1588882311752055850
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8794021445112095676}
+  m_GameObject: {fileID: 4200097235142479523}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
@@ -105,13 +105,13 @@ MonoBehaviour:
   SpawnWithObservers: 1
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
---- !u!114 &4162269913019797340
+--- !u!114 &6037840669567533676
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8794021445112095676}
+  m_GameObject: {fileID: 4200097235142479523}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e96cb6065543e43c4a752faaa1468eb1, type: 3}
@@ -135,13 +135,13 @@ MonoBehaviour:
   InLocalSpace: 0
   Interpolate: 1
   SlerpPosition: 0
---- !u!54 &-6681453573836393987
+--- !u!54 &6828520085098013963
 Rigidbody:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8794021445112095676}
+  m_GameObject: {fileID: 4200097235142479523}
   serializedVersion: 4
   m_Mass: 10000
   m_Drag: 0
@@ -162,13 +162,13 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!82 &3258186825618776581
+--- !u!82 &4012791832347464923
 AudioSource:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8794021445112095676}
+  m_GameObject: {fileID: 4200097235142479523}
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
@@ -258,13 +258,13 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!1001 &5324195053849373513
+--- !u!1001 &3392332572202346205
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
     serializedVersion: 3
-    m_TransformParent: {fileID: 5550289486082858485}
+    m_TransformParent: {fileID: 6104215736683397034}
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: e6b7604694c910848b278f8716791d0b, type: 3}
       propertyPath: m_LocalPosition.x
@@ -309,7 +309,7 @@ PrefabInstance:
     - target: {fileID: -7511558181221131132, guid: e6b7604694c910848b278f8716791d0b, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: c76a934e784fe91479031561f193f6e9, type: 2}
+      objectReference: {fileID: 2100000, guid: 4401b891b609a29429d1102f36576f93, type: 2}
     - target: {fileID: 919132149155446097, guid: e6b7604694c910848b278f8716791d0b, type: 3}
       propertyPath: m_Name
       value: RockWithOre
@@ -319,13 +319,13 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e6b7604694c910848b278f8716791d0b, type: 3}
---- !u!1 &4981613272699000344 stripped
+--- !u!1 &2581289714280995724 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: e6b7604694c910848b278f8716791d0b, type: 3}
-  m_PrefabInstance: {fileID: 5324195053849373513}
+  m_PrefabInstance: {fileID: 3392332572202346205}
   m_PrefabAsset: {fileID: 0}
---- !u!4 &5650309218455522466 stripped
+--- !u!4 &2925446386833342774 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: e6b7604694c910848b278f8716791d0b, type: 3}
-  m_PrefabInstance: {fileID: 5324195053849373513}
+  m_PrefabInstance: {fileID: 3392332572202346205}
   m_PrefabAsset: {fileID: 0}
