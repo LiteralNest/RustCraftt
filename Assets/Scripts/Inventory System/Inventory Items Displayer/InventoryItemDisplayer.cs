@@ -32,11 +32,11 @@ namespace Inventory_System.Inventory_Items_Displayer
             if (_countText != null)
                 _countText.gameObject.SetActive(true);
             transform.position = PreviousCell.transform.position;
-            if (InventoryCell.Count == 0)
-                _storage.ResetItemServerRpc(PreviousCell.Index);
-            else
-                _storage.SetItemServerRpc(PreviousCell.Index,
-                    new CustomSendingInventoryDataCell(InventoryCell.Item.Id, InventoryCell.Count, InventoryCell.Hp, InventoryCell.Ammo));
+            // if (InventoryCell.Count == 0)
+            //     _storage.ResetItemServerRpc(PreviousCell.Index);
+            // else
+            //     _storage.SetItemServerRpc(PreviousCell.Index,
+            //         new CustomSendingInventoryDataCell(InventoryCell.Item.Id, InventoryCell.Count, InventoryCell.Hp, InventoryCell.Ammo));
             transform.SetParent(PreviousCell.transform);
             _itemIcon.raycastTarget = true;
         }
@@ -58,21 +58,6 @@ namespace Inventory_System.Inventory_Items_Displayer
         {
             base.SetNewCell(slotDisplayer);
             _storage = slotDisplayer.Inventory;
-        }
-
-        public override int StackCount(InventoryCell cell)
-        {
-            var res = base.StackCount(cell);
-            _storage.SetItemServerRpc(PreviousCell.Index,
-                new CustomSendingInventoryDataCell(InventoryCell.Item.Id, InventoryCell.Count, InventoryCell.Hp, InventoryCell.Ammo));
-            RedisplayInventrory();
-            return res;
-        }
-
-        private async void RedisplayInventrory()
-        {
-            await Task.Delay(100);
-            GlobalEventsContainer.ShouldDisplayInventoryCells?.Invoke();
         }
     }
 }

@@ -10,7 +10,7 @@ namespace Storage_System
     public abstract class Storage : NetworkBehaviour
     {
         [field: SerializeField] public NetworkVariable<CustomSendingInventoryData> ItemsNetData { get; set; } = new();
-        [field:SerializeField] public SlotsDisplayer SlotsDisplayer { get; set; }
+        [field: SerializeField] public SlotsDisplayer SlotsDisplayer { get; set; }
         [SerializeField] private GameObject _ui;
 
         [Header("Test")] [SerializeField] private InventoryCell _testAddingCell;
@@ -55,7 +55,7 @@ namespace Storage_System
             base.OnNetworkSpawn();
             ItemsNetData.OnValueChanged += (oldValue, newValue) =>
             {
-                if(SlotsDisplayer != null)
+                if (SlotsDisplayer != null)
                     SlotsDisplayer.DisplayCells();
             };
         }
@@ -74,6 +74,14 @@ namespace Storage_System
         }
 
         [ServerRpc(RequireOwnership = false)]
+        public void SetItemAndResetCellServerRpc(int addingCellId, CustomSendingInventoryDataCell dataCell,
+            int resetingCellId)
+        {
+            if (!IsServer) return;
+            InventoryHelper.SetItemAndResetCell(addingCellId, dataCell, resetingCellId, ItemsNetData);
+        }
+
+        [ServerRpc(RequireOwnership = false)]
         public void SetItemServerRpc(int cellId, CustomSendingInventoryDataCell dataCell)
         {
             if (IsServer)
@@ -82,13 +90,13 @@ namespace Storage_System
 
         protected virtual void SetItem(int cellId, CustomSendingInventoryDataCell dataCell)
             => InventoryHelper.SetItem(cellId, dataCell, ItemsNetData);
-        
+
         public void RemoveItem(int itemId, int count)
         {
             RemoveItemCountServerRpc(itemId, count);
             DoAfterRemovingItem(new InventoryCell(ItemFinder.singleton.GetItemById(itemId), count));
         }
-        
+
         [ServerRpc(RequireOwnership = false)]
         public void RemoveItemCountFromSlotServerRpc(int slotId, int itemId, int count)
         {
@@ -156,7 +164,7 @@ namespace Storage_System
 
         protected void RemoveItem(Item item, int count)
             => InventoryHelper.RemoveItemCount(item.Id, count, ItemsNetData);
-        
+
         [ContextMenu("Test")]
         private void AddTestCell()
         {

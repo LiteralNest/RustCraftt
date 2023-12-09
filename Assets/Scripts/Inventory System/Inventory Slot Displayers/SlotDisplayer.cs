@@ -71,14 +71,15 @@ public abstract class SlotDisplayer : MonoBehaviour, IDropHandler
         return true;
     }
 
-    private bool TryStack(InventoryCell cell, out bool wasStacking)
+    private bool TryStack(ItemDisplayer displayer, out bool wasStacking)
     {
+        var cell = displayer.InventoryCell;
         wasStacking = false;
         if (cell.Item == null || cell.Item != ItemDisplayer.InventoryCell.Item) return false;
         wasStacking = true;
-        var res = ItemDisplayer.StackCount(cell);
+        var res = ItemDisplayer.StackCount(displayer);
         if (res > 0) return false;
-        DestroyItem();
+        // DestroyItem();
         return true;
     }
 
@@ -95,7 +96,7 @@ public abstract class SlotDisplayer : MonoBehaviour, IDropHandler
         Debug.Log(gameObject.name);
         if (!Inventory.CanAddItem(itemDisplayer.InventoryCell.Item, Index)) return false;
         if (CheckForFree(itemDisplayer)) return true;
-        if (TryStack(itemDisplayer.InventoryCell, out bool wasStacking)) return true;
+        if (TryStack(itemDisplayer, out bool wasStacking)) return true;
         if (wasStacking) return false;
         Swap(itemDisplayer);
         return true;

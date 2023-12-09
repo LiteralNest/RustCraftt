@@ -17,10 +17,4 @@ public class InventorySlotDisplayer : SlotDisplayer
 
         itemDisplayer.SetPosition();
     }
-
-    public override void Swap(ItemDisplayer itemDisplayer)
-    {
-        base.Swap(itemDisplayer);
-        GlobalEventsContainer.ShouldDisplayInventoryCells?.Invoke();
-    }
 }

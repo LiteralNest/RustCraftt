@@ -12,14 +12,15 @@ namespace Inventory_System
         {
             var res = new CustomSendingInventoryDataCell[inputArray.Length];
             for (int i = 0; i < inputArray.Length; i++)
-                res[i] = new CustomSendingInventoryDataCell(inputArray[i].Id, inputArray[i].Count, inputArray[i].Hp, inputArray[i].Ammo);
+                res[i] = new CustomSendingInventoryDataCell(inputArray[i].Id, inputArray[i].Count, inputArray[i].Hp,
+                    inputArray[i].Ammo);
             return res;
         }
 
         public static void ResetCell(int cellId, NetworkVariable<CustomSendingInventoryData> data)
         {
             var cells = GetNewGeneratedArray(data.Value.Cells);
-            
+
             cells[cellId] = new CustomSendingInventoryDataCell(-1, 0, -1, 0);
             data.Value = new CustomSendingInventoryData(cells);
         }
@@ -46,6 +47,16 @@ namespace Inventory_System
         {
             var cells = GetNewGeneratedArray(data.Value.Cells);
             cells[cellId] = dataCell;
+            data.Value = new CustomSendingInventoryData(cells);
+        }
+
+        public static void SetItemAndResetCell(int addingCellId, CustomSendingInventoryDataCell dataCell,
+            int resetingCellId,
+            NetworkVariable<CustomSendingInventoryData> data)
+        {
+            var cells = GetNewGeneratedArray(data.Value.Cells);
+            cells[resetingCellId] = new CustomSendingInventoryDataCell(-1, 0, -1, 0);
+            cells[addingCellId] = dataCell;
             data.Value = new CustomSendingInventoryData(cells);
         }
 
@@ -81,7 +92,7 @@ namespace Inventory_System
 
         private static int GetFreeCellId(NetworkVariable<CustomSendingInventoryData> data, Vector2Int range = default)
         {
-            if(range == default) range = new Vector2Int(0, data.Value.Cells.Length);
+            if (range == default) range = new Vector2Int(0, data.Value.Cells.Length);
             for (int i = range.x; i < range.y; i++)
             {
                 if (data.Value.Cells[i].Id == -1)
@@ -105,7 +116,8 @@ namespace Inventory_System
             return GetFreeCellId(data);
         }
 
-        public static void AddItemToDesiredSlot(int itemId, int count, int ammo, NetworkVariable<CustomSendingInventoryData> data,
+        public static void AddItemToDesiredSlot(int itemId, int count, int ammo,
+            NetworkVariable<CustomSendingInventoryData> data,
             Vector2Int range)
         {
             var cachedCount = count;
