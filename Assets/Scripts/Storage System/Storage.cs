@@ -10,7 +10,8 @@ namespace Storage_System
     public abstract class Storage : NetworkBehaviour
     {
         [field: SerializeField] public NetworkVariable<CustomSendingInventoryData> ItemsNetData { get; set; } = new();
-        public SlotsDisplayer SlotsDisplayer { get; set; }
+        [field:SerializeField] public SlotsDisplayer SlotsDisplayer { get; set; }
+        [SerializeField] private GameObject _ui;
 
         [Header("Test")] [SerializeField] private InventoryCell _testAddingCell;
         [field: SerializeField] public int MainSlotsCount;
@@ -18,15 +19,17 @@ namespace Storage_System
         protected void Awake()
         {
             gameObject.tag = "LootBox";
+            SlotsDisplayer.InitCells();
         }
 
         #region virtual
-        
+
         public virtual void Open(InventoryHandler handler)
         {
+            handler.InventoryPanelsDisplayer.OpenLootBoxPanel();
+            InventoryHandler.singleton.InventoryPanelsDisplayer.OpenInventory();
             Appear();
-            SlotsDisplayer.AssignStorage(this);
-            SlotsDisplayer.InitCells();
+            _ui.SetActive(true);
             SlotsDisplayer.DisplayCells();
         }
 
@@ -43,11 +46,20 @@ namespace Storage_System
 
         protected virtual void DoAfterResetItem()
         {
-            
         }
-        
+
         #endregion
 
+
+        public override void OnNetworkSpawn()
+        {
+            base.OnNetworkSpawn();
+            ItemsNetData.OnValueChanged += (oldValue, newValue) =>
+            {
+                if(SlotsDisplayer != null)
+                    SlotsDisplayer.DisplayCells();
+            };
+        }
 
         [ServerRpc(RequireOwnership = false)]
         public void ResetItemServerRpc(int id)
@@ -71,15 +83,13 @@ namespace Storage_System
 
         protected virtual void SetItem(int cellId, CustomSendingInventoryDataCell dataCell)
             => InventoryHelper.SetItem(cellId, dataCell, ItemsNetData);
-
-
+        
         public void RemoveItem(int itemId, int count)
         {
             RemoveItemCountServerRpc(itemId, count);
             DoAfterRemovingItem(new InventoryCell(ItemFinder.singleton.GetItemById(itemId), count));
         }
-
-
+        
         [ServerRpc(RequireOwnership = false)]
         public void RemoveItemCountFromSlotServerRpc(int slotId, int itemId, int count)
         {
@@ -147,7 +157,7 @@ namespace Storage_System
 
         protected void RemoveItem(Item item, int count)
             => InventoryHelper.RemoveItemCount(item.Id, count, ItemsNetData);
-
+        
         [ContextMenu("Test")]
         private void AddTestCell()
         {

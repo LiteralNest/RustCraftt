@@ -1,5 +1,4 @@
 using Lock_System;
-using UnityEngine;
 using Web.User;
 
 namespace Storage_System.Storage_Boxes_System
@@ -11,8 +10,6 @@ namespace Storage_System.Storage_Boxes_System
         public override void Open(InventoryHandler handler)
         {
             if (_locker != null && !_locker.CanBeOpened(UserDataHandler.singleton.UserData.Id)) return;
-            SlotsDisplayer = handler.LargeStorageSlotsDisplayer;
-            handler.InventoryPanelsDisplayer.OpenLargeChestPanel();
             base.Open(handler);
         }
 

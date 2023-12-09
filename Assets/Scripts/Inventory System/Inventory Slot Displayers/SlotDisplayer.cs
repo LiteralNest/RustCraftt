@@ -26,11 +26,21 @@ public abstract class SlotDisplayer : MonoBehaviour, IDropHandler
         ItemDisplayer = null;
     }
 
-    public void SetItem(ItemDisplayer itemDisplayer)
+    public void DisplayItem(ItemDisplayer itemDisplayer)
     {
         if (ItemDisplayer != null) Destroy(ItemDisplayer.gameObject);
         ItemDisplayer = itemDisplayer;
         ItemDisplayer.SetNewCell(this);
+    }
+    
+    private void SetItem(ItemDisplayer itemDisplayer)
+    {
+        if (ItemDisplayer != null) Destroy(ItemDisplayer.gameObject);
+        itemDisplayer.PreviousCell.Inventory.ResetItemServerRpc(itemDisplayer.PreviousCell.Index);
+        ItemDisplayer = itemDisplayer;
+        ItemDisplayer.SetNewCell(this);
+        var cell = ItemDisplayer.InventoryCell;
+        Inventory.SetItemServerRpc(Index, new CustomSendingInventoryDataCell(cell.Item.Id, cell.Count, cell.Hp, cell.Ammo));
     }
 
     private void ResetItem()
@@ -53,7 +63,7 @@ public abstract class SlotDisplayer : MonoBehaviour, IDropHandler
             ClearPlace(transform);
         ResetItem();
     }
-
+    
     private bool CheckForFree(ItemDisplayer itemDisplayer)
     {
         if (ItemDisplayer) return false;
@@ -82,6 +92,7 @@ public abstract class SlotDisplayer : MonoBehaviour, IDropHandler
     protected virtual bool TrySetItem(ItemDisplayer itemDisplayer)
     {
         if (!CanSetSlot) return false;
+        Debug.Log(gameObject.name);
         if (!Inventory.CanAddItem(itemDisplayer.InventoryCell.Item, Index)) return false;
         if (CheckForFree(itemDisplayer)) return true;
         if (TryStack(itemDisplayer.InventoryCell, out bool wasStacking)) return true;

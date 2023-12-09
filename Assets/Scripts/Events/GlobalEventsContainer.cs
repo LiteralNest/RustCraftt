@@ -3,6 +3,8 @@ using Fight_System.Weapon.ShootWeapon;
 
 public static class GlobalEventsContainer
 {
+    public static Action InventoryClosed { get; set; }
+    
     public static Action<InventoryCell> OnInventoryItemAdded { get; set; }
     public static Action<InventoryCell> OnInventoryItemRemoved { get; set; }
     public static Action ShouldDisplayInventoryCells { get; set; }

@@ -11,18 +11,6 @@ public class InventorySlotsDisplayer : SlotsDisplayer
     [SerializeField] private int _mainSlotsCount;
     [SerializeField] private int _armorCellsCount;
 
-    private void OnEnable()
-    {
-        GlobalEventsContainer.ShouldDisplayInventoryCells += DisplayCells;
-        GlobalEventsContainer.InventoryDataChanged += DisplayCells;
-    }
-
-    private void OnDisable()
-    {
-        GlobalEventsContainer.ShouldDisplayInventoryCells -= DisplayCells;
-        GlobalEventsContainer.InventoryDataChanged -= DisplayCells;
-    }
-
     public override List<ArmorSlotDisplayer> GetArmorSlots()
     {
         var res = new List<ArmorSlotDisplayer>();

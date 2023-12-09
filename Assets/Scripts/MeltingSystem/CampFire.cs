@@ -18,13 +18,6 @@ namespace MeltingSystem
             if (IsInRange(index, _inputSlotsRange) && item is CookingCharacterStatRiser) return true;
             return false;
         }
-        
-        public override void Open(InventoryHandler handler)
-        {
-            handler.InventoryPanelsDisplayer.OpenCampFirePanel();
-            SlotsDisplayer = handler.CampFireSlotsDisplayer;
-            base.Open(handler);
-        }
 
         protected override void Cook()
         {

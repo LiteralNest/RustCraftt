@@ -51,7 +51,6 @@ public class PlayerNetworkController : MonoBehaviour
         _canvas.SetActive(true);
         _vivox.SetActive(true);
         _vivox.transform.SetParent(null);
-        _canvas.transform.SetParent(null);
         if (!_playerNetCode.IsOwner)
         {
             EnableMonos(false);

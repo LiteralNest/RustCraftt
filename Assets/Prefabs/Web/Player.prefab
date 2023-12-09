@@ -2804,6 +2804,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 27b2452a159531c428fc10eb4851c3e5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  <TargetStorage>k__BackingField: {fileID: 0}
   CellDisplayers:
   - {fileID: 5001037978158632191}
   - {fileID: 4223376875347229795}
@@ -4560,7 +4561,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &5893740239569026862
 Transform:
   m_ObjectHideFlags: 0
@@ -4690,6 +4691,8 @@ MonoBehaviour:
         Count: 0
         Hp: -1
         Ammo: 0
+  <SlotsDisplayer>k__BackingField: {fileID: 0}
+  _ui: {fileID: 0}
   _testAddingCell:
     Item: {fileID: 0}
     Count: 0
@@ -10914,6 +10917,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 1666652446290917863}
   - {fileID: 6412154117299798842}
   - {fileID: 5014274770914564502}
   - {fileID: 2796244779562527574}
@@ -10923,7 +10927,6 @@ Transform:
   - {fileID: 5663251422154097518}
   - {fileID: 5639397067750878215}
   - {fileID: 1073976444382258915}
-  - {fileID: 5209551699533633660}
   m_Father: {fileID: 4341349121896943449}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1893541426498980568
@@ -13505,6 +13508,7 @@ Transform:
   m_Children:
   - {fileID: 6850470578334157086}
   - {fileID: 5954793237318513836}
+  - {fileID: 5209551699533633660}
   - {fileID: 8086720571742289560}
   - {fileID: 783509586299745790}
   - {fileID: 6529421634409231889}
@@ -14016,7 +14020,6 @@ MonoBehaviour:
   - {fileID: 3745558344891033599}
   - {fileID: 7329390832356083849}
   - {fileID: 228275790847561711}
-  - {fileID: 2008585183341960447}
   characterUIHandler: {fileID: 7195869979005267107}
   _body:
   - {fileID: 1128752710889453121}
@@ -23217,6 +23220,92 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!1 &3646920960592865289
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1666652446290917863}
+  - component: {fileID: 1495841363957076521}
+  m_Layer: 15
+  m_Name: Inventory Slots Displayer
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1666652446290917863
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3646920960592865289}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8086720571742289560}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1495841363957076521
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3646920960592865289}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9d9a39657460a2547af406459c627dd8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <TargetStorage>k__BackingField: {fileID: 2013276024286378747}
+  CellDisplayers:
+  - {fileID: 151654472675689003}
+  - {fileID: 549259099774011603}
+  - {fileID: 260713521588604682}
+  - {fileID: 739690692760550778}
+  - {fileID: 411951775696843960}
+  - {fileID: 6213447662962711811}
+  - {fileID: 2677838073946520252}
+  - {fileID: 3112649371141636009}
+  - {fileID: 1737952953985508131}
+  - {fileID: 6664344973878822052}
+  - {fileID: 6265462202365385385}
+  - {fileID: 8377364700248860761}
+  - {fileID: 5228942256591988734}
+  - {fileID: 5011273734712191493}
+  - {fileID: 8213743097306764667}
+  - {fileID: 1695078374721331906}
+  - {fileID: 2819716094334694220}
+  - {fileID: 3897978373687619126}
+  - {fileID: 272942846093277473}
+  - {fileID: 7825459176990020388}
+  - {fileID: 5920369149894593121}
+  - {fileID: 9007865340168390433}
+  - {fileID: 824945783673774731}
+  - {fileID: 1115205249885159005}
+  - {fileID: 8935889120312119184}
+  - {fileID: 4296814367656631618}
+  - {fileID: 6778619032697430137}
+  - {fileID: 6479868000102817350}
+  - {fileID: 5842641327163488619}
+  - {fileID: 6579706736932279076}
+  - {fileID: 2832787346295151575}
+  - {fileID: 294042131137917731}
+  - {fileID: 10733862188923860}
+  - {fileID: 3120209463752109016}
+  - {fileID: 8558392104302315857}
+  - {fileID: 815889834228284066}
+  - {fileID: 1961917353782348615}
+  _quickSlotsDisplayer: {fileID: 2535056151590139969}
+  _mainSlotsCount: 30
+  _armorCellsCount: 7
 --- !u!1 &3647201534969269264
 GameObject:
   m_ObjectHideFlags: 0
@@ -24514,6 +24603,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 27b2452a159531c428fc10eb4851c3e5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  <TargetStorage>k__BackingField: {fileID: 0}
   CellDisplayers:
   - {fileID: 8182137397122457822}
   - {fileID: 5817137583805838101}
@@ -25036,6 +25126,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 27b2452a159531c428fc10eb4851c3e5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  <TargetStorage>k__BackingField: {fileID: 0}
   CellDisplayers:
   - {fileID: 557629560765358226}
   - {fileID: 470509268797313326}
@@ -25451,7 +25542,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 4973856403603329485}
-  m_Father: {fileID: 8086720571742289560}
+  m_Father: {fileID: 4341349121896943449}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -26788,6 +26879,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 45cef3fb055d7bd4d92a15a9b773fb28, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  <TargetStorage>k__BackingField: {fileID: 0}
   CellDisplayers:
   - {fileID: 4602940787927092171}
   - {fileID: 5802752161807501334}
@@ -27437,7 +27529,7 @@ MonoBehaviour:
   <InHandObjectsContainer>k__BackingField: {fileID: 470103304248853290}
   <ArmorsContainer>k__BackingField: {fileID: 2310418435352806697}
   <ShotGunSlotsDisplayer>k__BackingField: {fileID: 6202778935547390316}
-  <InventorySlotsDisplayer>k__BackingField: {fileID: 2008585183341960447}
+  <InventorySlotsDisplayer>k__BackingField: {fileID: 0}
   <ToolClipboardSlotsDisplayer>k__BackingField: {fileID: 2859004924913827112}
   <LargeStorageSlotsDisplayer>k__BackingField: {fileID: 6854673301849909312}
   <LootBoxSlotsDisplayer>k__BackingField: {fileID: 8976669236365155111}
@@ -28989,7 +29081,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 2008585183341960447}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: InventorySlotsDisplayer, Assembly-CSharp
         m_MethodName: DisplayQuickSlots
         m_Mode: 1
@@ -29690,7 +29782,6 @@ GameObject:
   m_Component:
   - component: {fileID: 5954793237318513836}
   - component: {fileID: 2013276024286378747}
-  - component: {fileID: 2008585183341960447}
   m_Layer: 15
   m_Name: Character Inventory
   m_TagString: Untagged
@@ -29876,65 +29967,14 @@ MonoBehaviour:
         Count: 0
         Hp: -1
         Ammo: 0
+  <SlotsDisplayer>k__BackingField: {fileID: 1495841363957076521}
+  _ui: {fileID: 4032723929099019756}
   _testAddingCell:
     Item: {fileID: 0}
     Count: 0
     Hp: 0
     Ammo: 0
   MainSlotsCount: 24
---- !u!114 &2008585183341960447
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4729880379710207376}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9d9a39657460a2547af406459c627dd8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  CellDisplayers:
-  - {fileID: 151654472675689003}
-  - {fileID: 549259099774011603}
-  - {fileID: 260713521588604682}
-  - {fileID: 739690692760550778}
-  - {fileID: 411951775696843960}
-  - {fileID: 6213447662962711811}
-  - {fileID: 2677838073946520252}
-  - {fileID: 3112649371141636009}
-  - {fileID: 1737952953985508131}
-  - {fileID: 6664344973878822052}
-  - {fileID: 6265462202365385385}
-  - {fileID: 8377364700248860761}
-  - {fileID: 5228942256591988734}
-  - {fileID: 5011273734712191493}
-  - {fileID: 8213743097306764667}
-  - {fileID: 1695078374721331906}
-  - {fileID: 2819716094334694220}
-  - {fileID: 3897978373687619126}
-  - {fileID: 272942846093277473}
-  - {fileID: 7825459176990020388}
-  - {fileID: 5920369149894593121}
-  - {fileID: 9007865340168390433}
-  - {fileID: 824945783673774731}
-  - {fileID: 1115205249885159005}
-  - {fileID: 8935889120312119184}
-  - {fileID: 4296814367656631618}
-  - {fileID: 6778619032697430137}
-  - {fileID: 6479868000102817350}
-  - {fileID: 5842641327163488619}
-  - {fileID: 6579706736932279076}
-  - {fileID: 2832787346295151575}
-  - {fileID: 294042131137917731}
-  - {fileID: 10733862188923860}
-  - {fileID: 3120209463752109016}
-  - {fileID: 8558392104302315857}
-  - {fileID: 815889834228284066}
-  - {fileID: 1961917353782348615}
-  _quickSlotsDisplayer: {fileID: 2535056151590139969}
-  _mainSlotsCount: 30
-  _armorCellsCount: 7
 --- !u!1 &4730561963397762290
 GameObject:
   m_ObjectHideFlags: 0
@@ -31177,7 +31217,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &2046825063601473565
 RectTransform:
   m_ObjectHideFlags: 0
@@ -39276,6 +39316,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 27b2452a159531c428fc10eb4851c3e5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  <TargetStorage>k__BackingField: {fileID: 0}
   CellDisplayers:
   - {fileID: 4694126991047913036}
   - {fileID: 2900367875315860831}
@@ -43778,6 +43819,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 27b2452a159531c428fc10eb4851c3e5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  <TargetStorage>k__BackingField: {fileID: 0}
   CellDisplayers:
   - {fileID: 7263335278464978657}
   - {fileID: 4260438390524722711}
@@ -44872,6 +44914,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 27b2452a159531c428fc10eb4851c3e5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  <TargetStorage>k__BackingField: {fileID: 0}
   CellDisplayers:
   - {fileID: 3735398539186931813}
   - {fileID: 2884467193300662486}
@@ -45771,6 +45814,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 27b2452a159531c428fc10eb4851c3e5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  <TargetStorage>k__BackingField: {fileID: 0}
   CellDisplayers:
   - {fileID: 4021300667534341575}
   - {fileID: 3519122917004681949}
@@ -52543,7 +52587,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &6961641844606783213
 RectTransform:
   m_ObjectHideFlags: 0
@@ -54262,7 +54306,7 @@ MonoBehaviour:
   m_BlockingObjects: 0
   m_BlockingMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 1083277559
 --- !u!222 &6078366130445257915
 CanvasRenderer:
   m_ObjectHideFlags: 0

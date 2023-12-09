@@ -33,6 +33,8 @@ namespace Inventory_System
         
         public void HandleInventory(bool isOpen)
         {
+            if(!isOpen)
+                GlobalEventsContainer.InventoryClosed?.Invoke();
             _mainButtonsPanel.SetActive(!isOpen);
             _inventoryPanel.SetActive(isOpen);
             GlobalValues.CanDragInventoryItems = isOpen;
@@ -57,6 +59,12 @@ namespace Inventory_System
             ResetInventories();
         }
 
+        public void OpenInventory()
+        {
+            ResetInventories();
+            HandleInventory(true);
+        }
+        
         public void OpenArmorPanel()
         {
             ResetInventories();

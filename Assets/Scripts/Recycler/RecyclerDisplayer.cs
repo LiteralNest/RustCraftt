@@ -17,7 +17,7 @@ public class RecyclerDisplayer : MonoBehaviour
 
     public void SetTurned(bool value)
     {
-        var recycler = _slotsDisplayer.TargetStorage as Recycler;
+        var recycler = _slotsDisplayer.TargetStorage as Recycler.Recycler;
         recycler.SetTurnedServerRpc(value);
         DisplayButton(recycler.Turned.Value);
     }

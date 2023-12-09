@@ -26,8 +26,6 @@ public class ToolClipboard : Storage, ILockable
             _targetLocker.Open();
             return;
         }
-        SlotsDisplayer = handler.ToolClipboardSlotsDisplayer;
-        handler.InventoryPanelsDisplayer.OpenClipBoardPanel();
         base.Open(handler);
     }
 

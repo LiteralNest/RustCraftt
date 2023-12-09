@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -12,6 +13,8 @@ namespace Storage_System.Loot_Boxes_System
         public override void OnNetworkSpawn()
         {
             base.OnNetworkSpawn();
+            if(!IsServer) return;
+            Debug.Log("Generating cells...");
             GenerateCells();
         }
 
@@ -19,13 +22,6 @@ namespace Storage_System.Loot_Boxes_System
         {
             base.DoAfterResetItem();
             CheckCellsServerRpc();
-        }
-        
-        public override void Open(InventoryHandler handler)
-        {
-            SlotsDisplayer = handler.LootBoxSlotsDisplayer;
-            base.Open(handler);
-            handler.InventoryPanelsDisplayer.OpenLootBoxPanel();
         }
 
         [ServerRpc(RequireOwnership = false)]
@@ -36,21 +32,25 @@ namespace Storage_System.Loot_Boxes_System
             foreach (var cell in cells)
                 if (cell.Id != -1)
                     return;
-            InventoryHandler.singleton.InventoryPanelsDisplayer.OpenLootBoxPanel(false);
             GetComponent<NetworkObject>().Despawn();
             Destroy(gameObject);
         }
     
         private LootBoxGeneratingSet GetRandomSet()
             => _setsPool[Random.Range(0, _setsPool.Count)];
-    
-        private void GenerateCells()
+        
+        [ContextMenu("Generate Cells")]
+        private async void GenerateCells()
         {
+            await Task.Delay(2000); //Server Waits 2 seconds
             var set = GetRandomSet();
             for (int i = 0; i < set.Items.Count; i++)
             {
-                AddItemToDesiredSlotServerRpc(set.Items[i].Item.Id, Random.Range(set.Items[i].MinimalCount, set.Items[i].MaximalCount + 1), 0);
+                var rand = Random.Range(set.Items[i].MinimalCount, set.Items[i].MaximalCount + 1);
+                AddItemToDesiredSlotServerRpc(set.Items[i].Item.Id, rand, 0);
+                Debug.Log("Item id: " + set.Items[i].Item.Id + "; Count: " + rand);
             }
+            Debug.Log("Cells generated!");
         }
     }
 }

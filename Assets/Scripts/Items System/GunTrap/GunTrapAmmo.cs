@@ -30,12 +30,5 @@ namespace Items_System.GunTrap
             var cellId = GetCellWithAmmoId();
             RemoveItemCountServerRpc(cellId, 1);
         }
-
-        public override void Open(InventoryHandler handler)
-        {
-            base.Open(handler);
-            handler.InventoryPanelsDisplayer.OpenShotGunPanel();
-            SlotsDisplayer = handler.ShotGunSlotsDisplayer;
-        }
     }
 }

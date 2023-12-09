@@ -17,14 +17,7 @@ namespace MeltingSystem
             if (IsInRange(index, _inputSlotsRange) && item is MeltingOre) return true;
             return false;
         }
-        
-        public override void Open(InventoryHandler handler)
-        {
-            handler.InventoryPanelsDisplayer.OpenFurnacePanel();
-            SlotsDisplayer = handler.FurnaceSlotsDiaplayer;
-            base.Open(handler);
-        }
-        
+
         protected override void Cook()
         {
             TryCook();

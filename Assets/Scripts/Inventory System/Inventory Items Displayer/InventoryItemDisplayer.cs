@@ -1,6 +1,6 @@
 using System.Threading.Tasks;
 using Storage_System;
-using UnityEditor.Experimental.GraphView;
+using UI;
 using UnityEngine.EventSystems;
 
 namespace Inventory_System.Inventory_Items_Displayer
@@ -15,7 +15,7 @@ namespace Inventory_System.Inventory_Items_Displayer
             PreviousCell.ResetItemWhileDrag();
             if (_countText != null)
                 _countText.gameObject.SetActive(false);
-            transform.SetParent(transform.root);
+            transform.SetParent(PlaceForInventoryItems.Singleton.transform);
             ResourcesDropper.singleton.InventoryItemDisplayer = this;
             _itemIcon.raycastTarget = false;
         }
@@ -56,13 +56,8 @@ namespace Inventory_System.Inventory_Items_Displayer
 
         public override void SetNewCell(SlotDisplayer slotDisplayer)
         {
-            if (_storage)
-                _storage.ResetItemServerRpc(PreviousCell.Index);
             base.SetNewCell(slotDisplayer);
             _storage = slotDisplayer.Inventory;
-            if (!_storage) return;
-            _storage.SetItemServerRpc(slotDisplayer.Index,
-                new CustomSendingInventoryDataCell(InventoryCell.Item.Id, InventoryCell.Count, InventoryCell.Hp, InventoryCell.Ammo));
         }
 
         public override int StackCount(InventoryCell cell)

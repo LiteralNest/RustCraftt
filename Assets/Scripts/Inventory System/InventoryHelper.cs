@@ -18,7 +18,8 @@ namespace Inventory_System
 
         public static void ResetCell(int cellId, NetworkVariable<CustomSendingInventoryData> data)
         {
-            var cells = data.Value.Cells;
+            var cells = GetNewGeneratedArray(data.Value.Cells);
+            
             cells[cellId] = new CustomSendingInventoryDataCell(-1, 0, -1, 0);
             data.Value = new CustomSendingInventoryData(cells);
         }

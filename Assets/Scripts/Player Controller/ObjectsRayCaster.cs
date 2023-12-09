@@ -33,7 +33,7 @@ public class ObjectsRayCaster : MonoBehaviour
     public Storage TargetBox { get; private set; }
     public LootingItem LootingItem { get; private set; }
     public Smelter Smelter { get; private set; }
-    public Recycler RecyclerHandler { get; private set; }
+    public Recycler.Recycler RecyclerHandler { get; private set; }
     public DoorHandler DoorHandler { get; private set; }
     public ToolClipboard ToolClipboard { get; private set; }
     public WorkBench WorkBench { get; private set; }
@@ -129,7 +129,8 @@ public class ObjectsRayCaster : MonoBehaviour
             _targetBlock = null;
         }
 
-        CharacterUIHandler.singleton.ActivateGatherButton(false);
+        if(CharacterUIHandler.singleton != null)
+            CharacterUIHandler.singleton.ActivateGatherButton(false);
         SetLootText("", false);
 
         SetLootButton("", false);
@@ -187,7 +188,7 @@ public class ObjectsRayCaster : MonoBehaviour
             return;
         }
 
-        if (TryRaycast("Recycler", _maxOpeningDistance, out Recycler recycler, _defaultMask))
+        if (TryRaycast("Recycler", _maxOpeningDistance, out Recycler.Recycler recycler, _defaultMask))
         {
             RecyclerHandler = recycler;
             SetLootButton("Open");

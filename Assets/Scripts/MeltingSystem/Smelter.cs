@@ -22,7 +22,11 @@ namespace MeltingSystem
         [SerializeField] protected Vector2Int _inputSlotsRange;
         [SerializeField] protected Vector2Int _outputSlotsRange;
 
-        [Header("Sound")] [SerializeField] private AudioSource _source;
+        [Header("Sound")] 
+        [SerializeField] private AudioSource _source;
+
+        [Header("UI")] [SerializeField] private GameObject _turnOnPanel;
+        [SerializeField] private GameObject _turnOffPanel;
          
         private void Start()
             => gameObject.tag = "CampFire";
@@ -32,8 +36,8 @@ namespace MeltingSystem
 
         public override void OnNetworkSpawn()
         {
-            Flaming.OnValueChanged += (bool prevValue, bool newValue) => { TurnFire(); };
-            TurnFire();
+            Flaming.OnValueChanged += (bool prevValue, bool newValue) => { TurnFire(newValue); };
+            TurnFire(Flaming.Value);
             base.OnNetworkSpawn();
         }
 
@@ -42,8 +46,12 @@ namespace MeltingSystem
             Cook();
         }
 
-        private void TurnFire()
-            => _fireObject.SetActive(Flaming.Value);
+        private void TurnFire(bool value)
+        {
+            _turnOnPanel.SetActive(!value);
+            _turnOffPanel.SetActive(value);
+            _fireObject.SetActive(value);
+        }
 
         private List<Fuel> GetFuel()
         {

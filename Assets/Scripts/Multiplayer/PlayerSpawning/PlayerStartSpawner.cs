@@ -52,16 +52,16 @@ namespace Multiplayer.PlayerSpawning
           
         }
         
-        public override void OnNetworkDespawn()
-        {
-            base.OnNetworkDespawn();
-            if (!IsServer) return;
-            List<PlayerKiller> players = FindObjectsOfType<PlayerKiller>().ToList();
-            foreach (var player in players)
-            {
-                if (player.UserId != _userId.Value) continue;
-                player.DieServerRpc();
-            }
-        }
+        // public override void OnNetworkDespawn()
+        // {
+        //     base.OnNetworkDespawn();
+        //     if (!IsServer) return;
+        //     List<PlayerKiller> players = FindObjectsOfType<PlayerKiller>().ToList();
+        //     foreach (var player in players)
+        //     {
+        //         if (player.UserId != _userId.Value) continue;
+        //         player.DieServerRpc();
+        //     }
+        // }
     }
 }

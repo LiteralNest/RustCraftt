@@ -6,7 +6,7 @@ using UnityEngine.Serialization;
 
 public abstract class SlotsDisplayer : MonoBehaviour
 {
-    public Storage TargetStorage { get; private set; }
+   [field:SerializeField] public Storage TargetStorage { get; private set; }
     
     [FormerlySerializedAs("_cellDisplayers")] [Header("Start Init")] [SerializeField]
     public List<InventorySlotDisplayer> CellDisplayers = new List<InventorySlotDisplayer>();
@@ -15,9 +15,7 @@ public abstract class SlotsDisplayer : MonoBehaviour
 
     public virtual List<ArmorSlotDisplayer> GetArmorSlots()
         => null;
-    
-    
-    private void Start()
+    private void Awake()
     {
         InitItems();
     }
@@ -30,6 +28,7 @@ public abstract class SlotsDisplayer : MonoBehaviour
 
     public void ResetCells()
     {
+        Debug.Log(gameObject.name);
         foreach (var cell in CellDisplayers)
             cell.DestroyItem();
     }
@@ -51,10 +50,7 @@ public abstract class SlotsDisplayer : MonoBehaviour
             if (cells[i].Id == -1) continue;
             var item = ItemFinder.singleton.GetItemById(cells[i].Id);
             var inventoryCell = new InventoryCell(item, cells[i].Count, cells[i].Hp, cells[i].Ammo);
-            CellDisplayers[i].SetItem(GetGeneratedItemDisplayer(inventoryCell, CellDisplayers[i]));
+            CellDisplayers[i].DisplayItem(GetGeneratedItemDisplayer(inventoryCell, CellDisplayers[i]));
         }
     }
-
-    public void AssignStorage(Storage storage)
-        => TargetStorage = storage;
 }
