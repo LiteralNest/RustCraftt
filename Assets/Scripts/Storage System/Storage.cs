@@ -26,7 +26,6 @@ namespace Storage_System
 
         public virtual void Open(InventoryHandler handler)
         {
-            handler.InventoryPanelsDisplayer.OpenLootBoxPanel();
             InventoryHandler.singleton.InventoryPanelsDisplayer.OpenInventory();
             Appear();
             _ui.SetActive(true);
