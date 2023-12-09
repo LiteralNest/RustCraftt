@@ -41,20 +41,20 @@ namespace Storage_System
         {
         }
 
+        protected virtual void DoAfterResetItem()
+        {
+            
+        }
+        
         #endregion
 
-        [ServerRpc(RequireOwnership = false)]
-        public void ResetItemsServerRpc()
-        {
-            if (IsServer)
-                InventoryHelper.ResetItems(ItemsNetData);
-        }
 
         [ServerRpc(RequireOwnership = false)]
         public void ResetItemServerRpc(int id)
         {
             if (IsServer)
                 InventoryHelper.ResetCell(id, ItemsNetData);
+            DoAfterResetItem();
         }
 
         public void AssignCells(CustomSendingInventoryData inputList)

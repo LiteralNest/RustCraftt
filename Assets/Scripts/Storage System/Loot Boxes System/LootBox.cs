@@ -8,18 +8,24 @@ namespace Storage_System.Loot_Boxes_System
     public class LootBox : Storage
     {
         [SerializeField] private List<LootBoxGeneratingSet> _setsPool = new List<LootBoxGeneratingSet>();
-
-        private void Start()
+        
+        public override void OnNetworkSpawn()
         {
+            base.OnNetworkSpawn();
             GenerateCells();
         }
-        
 
+        protected override void DoAfterResetItem()
+        {
+            base.DoAfterResetItem();
+            CheckCellsServerRpc();
+        }
+        
         public override void Open(InventoryHandler handler)
-        { 
-            handler.InventoryPanelsDisplayer.OpenLootBoxPanel();
+        {
             SlotsDisplayer = handler.LootBoxSlotsDisplayer;
             base.Open(handler);
+            handler.InventoryPanelsDisplayer.OpenLootBoxPanel();
         }
 
         [ServerRpc(RequireOwnership = false)]
@@ -30,6 +36,7 @@ namespace Storage_System.Loot_Boxes_System
             foreach (var cell in cells)
                 if (cell.Id != -1)
                     return;
+            InventoryHandler.singleton.InventoryPanelsDisplayer.OpenLootBoxPanel(false);
             GetComponent<NetworkObject>().Despawn();
             Destroy(gameObject);
         }
@@ -42,7 +49,7 @@ namespace Storage_System.Loot_Boxes_System
             var set = GetRandomSet();
             for (int i = 0; i < set.Items.Count; i++)
             {
-                SetItemServerRpc(i, new CustomSendingInventoryDataCell(set.Items[i].Item.Id, Random.Range(set.Items[i].MinimalCount, set.Items[i].MaximalCount + 1), 100, 0));
+                AddItemToDesiredSlotServerRpc(set.Items[i].Item.Id, Random.Range(set.Items[i].MinimalCount, set.Items[i].MaximalCount + 1), 0);
             }
         }
     }

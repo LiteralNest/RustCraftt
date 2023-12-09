@@ -64,11 +64,12 @@ namespace Inventory_System
             _armorPanel.SetActive(true);
         }
 
-        public void OpenLootBoxPanel()
+        public void OpenLootBoxPanel(bool value = true)
         {
-            ResetInventories();
-            HandleInventory(true);
-            _lootBoxPanel.SetActive(true);
+            if(value)
+                ResetInventories();
+            HandleInventory(value);
+            _lootBoxPanel.SetActive(value);
         }
 
         public void OpenLargeChestPanel()
