@@ -6,9 +6,7 @@ namespace Lock_System
    public abstract class Locker : NetworkBehaviour
    {
       [field: SerializeField] public GameObject Model { get; private set; }
-      
-      public ILockable TargetLockable { get; set; }
-      
+
       public abstract bool CanBeOpened(int value);
       public virtual bool IsLocked() => true;
       public virtual void Open() {}

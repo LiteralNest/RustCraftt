@@ -6,7 +6,6 @@ namespace Lock_System
 {
     public class ObjectLocker : NetworkBehaviour
     {
-        public GameObject LocakableObject;
         [SerializeField] private KeyLocker _keyLocker;
         [SerializeField] private CodeLocker _codeLocker;
         [SerializeField] private MonoBehaviour _lockable;
@@ -25,7 +24,7 @@ namespace Lock_System
 
         private void DisplayCurrentLock(int id)
         {
-            var lockable = LocakableObject.GetComponent<ILockable>();
+            var lockable = _lockable.GetComponent<ILockable>();
             if (id == 1)
             {
                 lockable.Lock(_keyLocker);
@@ -61,27 +60,25 @@ namespace Lock_System
         {
             if (other.CompareTag("Lock"))
             {
-                var lockable = LocakableObject.GetComponent<ILockable>();
+                var lockable = _lockable.GetComponent<ILockable>();
                 if (lockable == null || lockable.IsLocked()) return;
                 
                 Destroy(other.gameObject);
                 LockServerRpc(UserDataHandler.singleton.UserData.Id, 1);
 
                 lockable.Lock(_keyLocker);
-                _keyLocker.TargetLockable = lockable;
                 gameObject.tag = "Untagged";
             }
-
+ 
             else if (other.CompareTag("CodeLocker"))
             {
-                var lockable = LocakableObject.GetComponent<ILockable>();
+                var lockable = _lockable.GetComponent<ILockable>();
                 if (lockable == null || lockable.IsLocked()) return;
                 
                 Destroy(other.gameObject);
                 LockServerRpc(UserDataHandler.singleton.UserData.Id, 2);
 
                 lockable.Lock(_codeLocker);
-                _codeLocker.TargetLockable = lockable;
                 gameObject.tag = "Untagged";
             }
         }
