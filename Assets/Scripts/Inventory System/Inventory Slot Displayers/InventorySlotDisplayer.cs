@@ -7,14 +7,12 @@ public class InventorySlotDisplayer : SlotDisplayer
     protected override void Drop(PointerEventData eventData)
     {
         var itemDisplayer = eventData.pointerDrag.GetComponent<InventoryItemDisplayer>();
-        Storage cachedStorage = itemDisplayer.PreviousCell.Inventory;
-        int cachedIndex = itemDisplayer.PreviousCell.Index;
         if (TrySetItem(itemDisplayer))
         {
-            cachedStorage.ResetItemServerRpc(cachedIndex);
+            if(itemDisplayer != null)
+                Destroy(itemDisplayer.gameObject);
             return;
         }
-
         itemDisplayer.SetPosition();
     }
 }

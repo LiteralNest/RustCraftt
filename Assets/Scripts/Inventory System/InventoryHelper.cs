@@ -50,6 +50,25 @@ namespace Inventory_System
             data.Value = new CustomSendingInventoryData(cells);
         }
 
+        public static void SwapCells(int cellId1, Storage storage1, int cellId2, Storage storage2)
+        {
+            var cells1 = GetNewGeneratedArray(storage1.ItemsNetData.Value.Cells);
+            var cells2 = GetNewGeneratedArray(storage2.ItemsNetData.Value.Cells);
+
+            if (storage1 == storage2)
+            {
+                cells1[cellId1] = cells2[cellId2];
+                cells1[cellId2] = cells2[cellId1];
+                storage1.ItemsNetData.Value = new CustomSendingInventoryData(cells1);
+            }
+            else
+            {
+                (cells1[cellId1], cells2[cellId2]) = (cells2[cellId2], cells1[cellId1]);
+                storage1.ItemsNetData.Value = new CustomSendingInventoryData(cells1);
+                storage2.ItemsNetData.Value = new CustomSendingInventoryData(cells2);
+            }
+        }
+
         public static void SetItemAndResetCell(int addingCellId, CustomSendingInventoryDataCell dataCell,
             int resetingCellId,
             NetworkVariable<CustomSendingInventoryData> data)

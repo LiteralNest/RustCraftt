@@ -1,3 +1,4 @@
+using Inventory_System;
 using Storage_System;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -32,7 +33,7 @@ public abstract class SlotDisplayer : MonoBehaviour, IDropHandler
         ItemDisplayer = itemDisplayer;
         ItemDisplayer.SetNewCell(this);
     }
-    
+
     private void SetItem(ItemDisplayer itemDisplayer)
     {
         if (ItemDisplayer != null) Destroy(ItemDisplayer.gameObject);
@@ -40,7 +41,8 @@ public abstract class SlotDisplayer : MonoBehaviour, IDropHandler
         ItemDisplayer = itemDisplayer;
         ItemDisplayer.SetNewCell(this);
         var cell = ItemDisplayer.InventoryCell;
-        Inventory.SetItemServerRpc(Index, new CustomSendingInventoryDataCell(cell.Item.Id, cell.Count, cell.Hp, cell.Ammo));
+        Inventory.SetItemServerRpc(Index,
+            new CustomSendingInventoryDataCell(cell.Item.Id, cell.Count, cell.Hp, cell.Ammo));
     }
 
     private void ResetItem()
@@ -63,7 +65,7 @@ public abstract class SlotDisplayer : MonoBehaviour, IDropHandler
             ClearPlace(transform);
         ResetItem();
     }
-    
+
     private bool CheckForFree(ItemDisplayer itemDisplayer)
     {
         if (ItemDisplayer) return false;
@@ -79,15 +81,12 @@ public abstract class SlotDisplayer : MonoBehaviour, IDropHandler
         wasStacking = true;
         var res = ItemDisplayer.StackCount(displayer);
         if (res > 0) return false;
-        // DestroyItem();
         return true;
     }
 
-    public virtual void Swap(ItemDisplayer itemDisplayer)
+    private void Swap(ItemDisplayer itemDisplayer)
     {
-        var prevCell = itemDisplayer.PreviousCell;
-        prevCell.SetItem(ItemDisplayer);
-        SetItem(itemDisplayer);
+        InventoryHelper.SwapCells(Index, Inventory, itemDisplayer.PreviousCell.Index, itemDisplayer.PreviousCell.Inventory);
     }
 
     protected virtual bool TrySetItem(ItemDisplayer itemDisplayer)

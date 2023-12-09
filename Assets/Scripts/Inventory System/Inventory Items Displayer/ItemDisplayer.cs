@@ -45,7 +45,7 @@ public abstract class ItemDisplayer : MonoBehaviour
         _countText.text = InventoryCell.Count.ToString();
     }
 
-    public virtual int StackCount(ItemDisplayer displayer)
+    public int StackCount(ItemDisplayer displayer)
     {
         var cell = displayer.InventoryCell;
         var currentItemCount = InventoryCell.Count;
@@ -56,7 +56,6 @@ public abstract class ItemDisplayer : MonoBehaviour
             PreviousCell.Inventory.SetItemAndResetCellServerRpc(PreviousCell.Index,
                 new CustomSendingInventoryDataCell(InventoryCell.Item.Id, InventoryCell.Count, InventoryCell.Hp,
                     InventoryCell.Ammo), displayer.PreviousCell.Index);
-            Destroy(displayer.gameObject);
             return 0;
         }
 
