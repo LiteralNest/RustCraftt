@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using ArmorSystem.Backend;
 using TMPro;
 using Unity.Netcode;
@@ -44,17 +45,9 @@ namespace Player_Controller
                 collider.enabled = value;
         }
 
-        public override void OnNetworkSpawn()
+        private async void Start()
         {
-            if (IsOwner)
-            {
-                Singleton = this;
-                _playerId.Value = UserDataHandler.singleton.UserData.Id;
-            }
-
-            _gettedClientId.Value = GetClientId();
-            AssignName();
-
+            await Task.Delay(1000);
             ActiveItemId.OnValueChanged += (int prevValue, int newValue) =>
             {
                 if (GetClientId() != _gettedClientId.Value) return;
@@ -68,6 +61,18 @@ namespace Player_Controller
             };
 
             _playerId.OnValueChanged += (int prevValue, int newValue) => { AssignName(); };
+        }
+        
+        public override void OnNetworkSpawn()
+        {
+            if (IsOwner)
+            {
+                Singleton = this;
+                _playerId.Value = UserDataHandler.singleton.UserData.Id;
+            }
+
+            _gettedClientId.Value = GetClientId();
+            AssignName();
 
             _inHandObjectsContainer.DisplayItems(ActiveItemId.Value);
             _armorsContainer.DisplayArmor(ActiveArmorId.Value, this);
