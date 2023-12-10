@@ -125,7 +125,6 @@ public class ObjectsRayCaster : MonoBehaviour
         objectHpDisplayer.DisableBuildingPanel();
         if (_targetBlock != null)
         {
-            _targetBlock.CurrentBlock.TurnOutline(false);
             _targetBlock = null;
         }
 
@@ -149,7 +148,6 @@ public class ObjectsRayCaster : MonoBehaviour
             if (block != null)
             {
                 _targetBlock = block;
-                _targetBlock.CurrentBlock.TurnOutline(true);
                 objectHpDisplayer.DisplayObjectHp(_targetBlock);
             }
         }
