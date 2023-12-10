@@ -48,7 +48,7 @@ GameObject:
   - component: {fileID: 6921639965935579815}
   m_Layer: 0
   m_Name: Boat
-  m_TagString: Boat
+  m_TagString: Vehicle
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -131,12 +131,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   VehicleRb: {fileID: 5804164441601376887}
-  SitPlace: {fileID: 1288299358769663234}
   MoveSpeed: 5
   RotationSpeed: 40
+  SitPlace: {fileID: 1288299358769663234}
   _pushForce: 5
   _depthBeforeSubmerged: 1
-  _displacementAmount: 1.09
+  _displacementAmount: 1.25
 --- !u!114 &3867364107936202290
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -200,12 +200,12 @@ MonoBehaviour:
   - m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 3867364107936202290}
-        m_TargetAssemblyTypeName: 
-        m_MethodName: 
-        m_Mode: 1
+        m_TargetAssemblyTypeName: Vehicle.BoatController, Assembly-CSharp
+        m_MethodName: OnMove
+        m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: 
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
