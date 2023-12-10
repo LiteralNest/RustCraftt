@@ -75713,8 +75713,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 361095649653043183}
-  - component: {fileID: 9042797036220039051}
-  - component: {fileID: 6525384497732726174}
   m_Layer: 0
   m_Name: Terrain
   m_TagString: Untagged
@@ -75743,93 +75741,6 @@ Transform:
   - {fileID: 6527517831198794992}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &9042797036220039051
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8333413228245935248}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 25141c187244c4ac7ae374b0cdf77e17, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _chunkPrefab: {fileID: 4865084684550561675, guid: e6114b1390002a94d8a4a75b25aa98aa, type: 3}
-  _generator: {fileID: 6525384497732726174}
-  _mapTexture: {fileID: 2800000, guid: 3a3747f29226f41acb5d6235d484bbd5, type: 3}
-  _biomeTexture2D: {fileID: 2800000, guid: ac1b7a5ae607844fe825b6eeaf16f38f, type: 3}
-  _scaleFactor: 7
---- !u!114 &6525384497732726174
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8333413228245935248}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 359a5e942b59e403f81adb02171e275e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  biomes:
-  - Color: {r: 0.2, g: 1, b: 0, a: 0}
-    BlockType: 3
-    SpawnablePrefabs:
-    - Prefab: {fileID: 5474001812520990889, guid: 9f4077a86f5afe74eb65591607fdf1df, type: 3}
-      SpawnChance: 0.0015
-    - Prefab: {fileID: 8485051789952913583, guid: 27396e9fcf18f8347b1e2e672a0c9959, type: 3}
-      SpawnChance: 0.003
-    - Prefab: {fileID: 1949381223726819479, guid: e58731dc29cb1e1418ac1c0e39d70d2d, type: 3}
-      SpawnChance: 0.1
-    - Prefab: {fileID: 8776373995493184547, guid: 272976cae090f524ca64d8ef40172687, type: 3}
-      SpawnChance: 0.0015
-    - Prefab: {fileID: 2403729830370048598, guid: cce5cf845628e6b4e9630dca0a43d4a6, type: 3}
-      SpawnChance: 0.00075
-    - Prefab: {fileID: 8224838688375217736, guid: e5a1877a636476a4699bfd295bb17dbf, type: 3}
-      SpawnChance: 0.00075
-    - Prefab: {fileID: 4200097235142479523, guid: 1662f49a1b41b0f4a948cd49b57a6978, type: 3}
-      SpawnChance: 0.00015
-    - Prefab: {fileID: 8794021445112095676, guid: 2ff8862545a21d14ab427cd9984e1bb9, type: 3}
-      SpawnChance: 0.00015
-    - Prefab: {fileID: 3227693731726334905, guid: fec02e829da0a6e43a37a6a03e282240, type: 3}
-      SpawnChance: 0.00015
-    - Prefab: {fileID: 0}
-      SpawnChance: 0.75
-  - Color: {r: 1, g: 0, b: 0, a: 0}
-    BlockType: 6
-    SpawnablePrefabs:
-    - Prefab: {fileID: 8282219300173943812, guid: 72bcc58ff1978044aa19f8d03619aaf9, type: 3}
-      SpawnChance: 0.003
-    - Prefab: {fileID: 1398681081928938817, guid: b42f692dc91d1c543856dbb1259fb065, type: 3}
-      SpawnChance: 0.05
-    - Prefab: {fileID: 4200097235142479523, guid: 1662f49a1b41b0f4a948cd49b57a6978, type: 3}
-      SpawnChance: 0.0002
-    - Prefab: {fileID: 8794021445112095676, guid: 2ff8862545a21d14ab427cd9984e1bb9, type: 3}
-      SpawnChance: 0.0002
-    - Prefab: {fileID: 3227693731726334905, guid: fec02e829da0a6e43a37a6a03e282240, type: 3}
-      SpawnChance: 0.0002
-    - Prefab: {fileID: 0}
-      SpawnChance: 0.8
-  - Color: {r: 0, g: 1, b: 1, a: 0}
-    BlockType: 9
-    SpawnablePrefabs:
-    - Prefab: {fileID: 476050005394333884, guid: 8e3f35981ba09d7458d08784a5e2505f, type: 3}
-      SpawnChance: 0.003
-    - Prefab: {fileID: 5028780839076914290, guid: bd0952c884d9dc542b436582ea9f1723, type: 3}
-      SpawnChance: 0.05
-    - Prefab: {fileID: 4200097235142479523, guid: 1662f49a1b41b0f4a948cd49b57a6978, type: 3}
-      SpawnChance: 0.0002
-    - Prefab: {fileID: 8794021445112095676, guid: 2ff8862545a21d14ab427cd9984e1bb9, type: 3}
-      SpawnChance: 0.0002
-    - Prefab: {fileID: 3227693731726334905, guid: fec02e829da0a6e43a37a6a03e282240, type: 3}
-      SpawnChance: 0.0002
-    - Prefab: {fileID: 0}
-      SpawnChance: 0.8
-  - Color: {r: 0, g: 0, b: 0, a: 0}
-    BlockType: 5
-    SpawnablePrefabs: []
-  _objectOffset: 0.5
 --- !u!1 &8336670770857457080
 GameObject:
   m_ObjectHideFlags: 0

@@ -19,15 +19,7 @@ public class InventoryHandler : NetworkBehaviour
     [field: SerializeField] public PlayerObjectsPlacer PlayerObjectsPlacer { get; private set; }
     [field: SerializeField] public InHandObjectsContainer InHandObjectsContainer { get; private set; }
     [field: SerializeField] public ArmorsContainer ArmorsContainer { get; private set; }
-    [field: SerializeField] public SlotsDisplayer ShotGunSlotsDisplayer { get; private set; }
-    [field: SerializeField] public InventorySlotsDisplayer InventorySlotsDisplayer { get; private set; }
-    [field: SerializeField] public SlotsDisplayer ToolClipboardSlotsDisplayer { get; private set; }
-    [field: SerializeField] public SlotsDisplayer LargeStorageSlotsDisplayer { get; private set; }
-    [field: SerializeField] public SlotsDisplayer LootBoxSlotsDisplayer { get; private set; }
-    [field: SerializeField] public SlotsDisplayer CampFireSlotsDisplayer { get; private set; }
-    [field: SerializeField] public SlotsDisplayer FurnaceSlotsDiaplayer { get; private set; }
-    [field: SerializeField] public SlotsDisplayer RecyclerSlotsDisplayer { get; private set; }
-    [field: SerializeField] public SlotsDisplayer BackPackSlotsDisplayer { get; private set; }
+
     [field: SerializeField] public Storage CharacterInventory { get; private set; }
 
     [field: SerializeField] public VehiclesController VehiclesController { get; private set; }
