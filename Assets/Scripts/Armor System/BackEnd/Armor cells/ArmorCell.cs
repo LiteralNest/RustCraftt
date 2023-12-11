@@ -9,6 +9,7 @@ namespace ArmorSystem.Backend
     {
         [Header("Attached scripts")]
         [SerializeField] protected DressedArmorsHandler _dressedArmorsHandler;
+        [SerializeField] protected ArmorsContainer _armorsContainer;
         [SerializeField] protected BodyPartsDisplayer _bodyPartsDisplayer;
         [SerializeField] protected BodyPartType _bodyPartType;
         
@@ -21,6 +22,12 @@ namespace ArmorSystem.Backend
 
         public virtual void PutOnArmor(PlayerNetCode netCode)
         {
+            DisplayObjects(netCode);
+            _dressedArmorsHandler.DressArmor(_bodyPartType, _armor);
+        }
+
+        public void DisplayObjects(PlayerNetCode netCode)
+        {
             if (!netCode.IsOwner)
             {
                 foreach(var slot in _targetObjects)
@@ -28,15 +35,14 @@ namespace ArmorSystem.Backend
             }
             foreach(var slot in _inventoryObjects)
                 slot.SetActive(true);
-            _dressedArmorsHandler.DressArmor(_bodyPartType, _armor);
         }
 
-        public void PutOff()
+        public virtual void PutOff()
         {
-            foreach(var targetObject in _targetObjects)
-                targetObject.SetActive(false);
-            foreach(var slot in _inventoryObjects)
-                slot.SetActive(false);
+            // foreach(var targetObject in _targetObjects)
+            //     targetObject.SetActive(false);
+            // foreach(var slot in _inventoryObjects)
+            //     slot.SetActive(false);
         }
     }
 }

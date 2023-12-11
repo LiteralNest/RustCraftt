@@ -7,7 +7,7 @@ public class CharacterViewingPanel : MonoBehaviour, IPointerDownHandler, IDragHa
     private Vector2 lastTouchPosition;
  
      [SerializeField]
-     private float rotationSpeed = 1.0f;
+     private float rotationSpeed = 0.1f;
 
      [SerializeField] private Transform _rotationTarget;
 

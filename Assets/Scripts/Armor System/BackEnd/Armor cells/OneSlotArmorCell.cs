@@ -6,9 +6,9 @@ namespace ArmorSystem.Backend
     {
         public override void PutOnArmor(PlayerNetCode netCode)
         {
-            base.PutOnArmor( netCode);
+            base.PutOnArmor(netCode);
+            _armorsContainer.DisplayDefaultArmor(netCode);
             _bodyPartsDisplayer.DressArmor(_bodyPartType, _targetMaterial);
-            _bodyPartsDisplayer.ReturnArmorsToDefault(_bodyPartType);
         }
     }
 }

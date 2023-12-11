@@ -9,7 +9,7 @@ namespace ArmorSystem.UI
     {
         [SerializeField] private List<BodyPartType> _bodyPartTypes;
         private Armor _defaultArmor;
-        [SerializeField] private Armor _currentArmor;
+        private Armor _currentArmor;
 
         private void Start()
             => _defaultArmor = _currentArmor;

@@ -8,16 +8,19 @@ namespace ArmorSystem.Backend
     public class ArmorsContainer : NetworkBehaviour
     {
         [SerializeField] private PlayerNetCode _playerNetCode;
-
+        [SerializeField] private ArmorCell _defaulArmorCell;
         [SerializeField] private List<ArmorCell> _armorCells = new List<ArmorCell>();
-
-        private int _cachedArmorId;
-
+        
         public void AssignItem(int itemId)
         {
             _playerNetCode.ActiveArmorId.Value = itemId;
         }
 
+        public void DisplayDefaultArmor(PlayerNetCode netCode)
+        {
+            _defaulArmorCell.DisplayObjects(netCode);
+        }
+        
         public void DisplayArmor(int targetArmorId, PlayerNetCode netCode)
         {
             foreach (var armor in _armorCells)
@@ -30,11 +33,6 @@ namespace ArmorSystem.Backend
 
                 armor.PutOnArmor(netCode);
             }
-
-            if (_cachedArmorId != 101 && _cachedArmorId != 0)
-                InventoryHandler.singleton.CharacterInventory.AddItemToDesiredSlotServerRpc(_cachedArmorId, 1, 0);
-
-            _cachedArmorId = targetArmorId;
         }
     }
 }
