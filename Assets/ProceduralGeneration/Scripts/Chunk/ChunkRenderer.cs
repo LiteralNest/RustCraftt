@@ -9,9 +9,9 @@ namespace Chunk
   [RequireComponent(typeof(MeshFilter), typeof(MeshRenderer))]
   public class ChunkRenderer : MonoBehaviour
   {
-    public const int ChunkWidth = 50;
+    public const int ChunkWidth = 60;
     public const int ChunkWidthSq = ChunkWidth * ChunkWidth;
-    public const int ChunkHeight = 60;
+    public const int ChunkHeight = 100;
     public const float BlockScale = 1f;
     public const int UvResolution = 1024;
 
