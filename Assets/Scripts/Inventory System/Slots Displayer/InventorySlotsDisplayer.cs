@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using ArmorSystem.UI;
+using Armor_System.UI;
 using UnityEngine;
 
 public class InventorySlotsDisplayer : SlotsDisplayer

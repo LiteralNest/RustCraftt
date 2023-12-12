@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Player_Controller;
+using UI;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -10,29 +11,48 @@ namespace ArmorSystem.Backend
         [SerializeField] private PlayerNetCode _playerNetCode;
         [SerializeField] private ArmorCell _defaulArmorCell;
         [SerializeField] private List<ArmorCell> _armorCells = new List<ArmorCell>();
+        [SerializeField] private ResistsDisplayer _resistsDisplayer;
         
         public void AssignItem(int itemId)
         {
+            _playerNetCode.ActiveArmorId.Value = -1;
             _playerNetCode.ActiveArmorId.Value = itemId;
         }
 
-        public void DisplayDefaultArmor(PlayerNetCode netCode)
+        public void DisplayDefaultMaterials()
         {
-            _defaulArmorCell.DisplayObjects(netCode);
+            _defaulArmorCell.PutOnArmor(_playerNetCode);
         }
         
-        public void DisplayArmor(int targetArmorId, PlayerNetCode netCode)
+        public void DisplayDefaultArmor()
+        {
+            _defaulArmorCell.DisplayObjects(_playerNetCode);
+        }
+
+        public void PutOffItem(int armorId)
         {
             foreach (var armor in _armorCells)
             {
-                if (armor.Armor.Id != targetArmorId)
+                if (armor.Armor.Id == armorId)
                 {
                     armor.PutOff();
-                    continue;
+                    if(_resistsDisplayer != null)
+                        _resistsDisplayer.DisplayValues();
+                    return;
                 }
+            }
+        }
 
+        public void DisplayArmor(int targetArmorId, PlayerNetCode netCode)
+        {
+            if(targetArmorId == - 1) return;
+            foreach (var armor in _armorCells)
+            {
+                if (armor.Armor.Id != targetArmorId) continue;
                 armor.PutOnArmor(netCode);
             }
+            if(_resistsDisplayer != null)
+                _resistsDisplayer.DisplayValues();
         }
     }
 }

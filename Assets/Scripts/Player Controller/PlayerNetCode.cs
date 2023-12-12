@@ -39,12 +39,6 @@ namespace Player_Controller
         private void OnDisable()
             => GlobalEventsContainer.ShouldDisplayHandItem -= SendChangeInHandItem;
 
-        public void EnableColliders(bool value)
-        {
-            foreach (var collider in _colliders)
-                collider.enabled = value;
-        }
-
         private async void Start()
         {
             await Task.Delay(1000);

@@ -1,4 +1,5 @@
 using Inventory_System;
+using Inventory_System.Inventory_Items_Displayer;
 using Storage_System;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -14,7 +15,17 @@ public abstract class SlotDisplayer : MonoBehaviour, IDropHandler
     public SlotsDisplayer InventorySlotsDisplayer { get; protected set; }
     public Storage Inventory { get; protected set; }
 
-    protected abstract void Drop(PointerEventData eventData);
+    protected virtual void Drop(PointerEventData eventData)
+    {
+        var itemDisplayer = eventData.pointerDrag.GetComponent<InventoryItemDisplayer>();
+        if (TrySetItem(itemDisplayer))
+        {
+            if(itemDisplayer != null)
+                Destroy(itemDisplayer.gameObject);
+            return;
+        }
+        itemDisplayer.SetPosition();
+    }
 
     public void OnDrop(PointerEventData eventData)
         => Drop(eventData);
@@ -86,7 +97,8 @@ public abstract class SlotDisplayer : MonoBehaviour, IDropHandler
 
     private void Swap(ItemDisplayer itemDisplayer)
     {
-        InventoryHelper.SwapCells(Index, Inventory, itemDisplayer.PreviousCell.Index, itemDisplayer.PreviousCell.Inventory);
+        InventoryHelper.SwapCells(Index, Inventory, itemDisplayer.PreviousCell.Index,
+            itemDisplayer.PreviousCell.Inventory);
     }
 
     protected virtual bool TrySetItem(ItemDisplayer itemDisplayer)
