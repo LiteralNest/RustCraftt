@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using Chunk;
 using ProceduralGeneration.Scripts.BlockTypeUI;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 namespace Generator
 {
@@ -139,7 +140,11 @@ namespace Generator
         }
 
         private void CheckInput()
-        {
+        {  
+            if (EventSystem.current.IsPointerOverGameObject())
+            {
+                return;
+            }
             if (Input.GetMouseButtonUp(0) || Input.GetMouseButtonUp(1))
             {
                 var isDestroying = Input.GetMouseButtonUp(0);
