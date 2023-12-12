@@ -1,9 +1,12 @@
+using Player_Controller;
 using UnityEngine;
 
 namespace Vehicle
 {
     public class VehiclesController : MonoBehaviour
     {
+        [Header("Attached Components")]
+        [SerializeField] private PlayerNetCode _playerNetCode;
         [Header("UI")] 
         [SerializeField] private GameObject _sitInButton;
         [SerializeField] private GameObject _standUpButton;
@@ -49,18 +52,18 @@ namespace Vehicle
         }
 
         public void Push()
-            => _vehicleController.Push();
+            => _vehicleController.Push(_playerNetCode);
         
         public void StandUp()
-            => _vehicleController.StandUp();
+            => _vehicleController.StandUp(_playerNetCode);
         
         public void SitIn()
-            => _vehicleController.SitIn();
+            => _vehicleController.SitIn(_playerNetCode);
         
         public void MoveUp()
-            => _vehicleController.MoveUp();
+            => _vehicleController.MoveUp(_playerNetCode);
         
         public void MoveDown()
-            => _vehicleController.MoveDown();
+            => _vehicleController.MoveDown(_playerNetCode);
     }
 }

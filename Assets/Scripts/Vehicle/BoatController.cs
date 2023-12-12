@@ -36,9 +36,9 @@ namespace Vehicle
         }
 
 
-        private void SetPlayerPhysicInBoat()
+        private void SetPlayerPhysicInBoat(PlayerNetCode playerNetCode)
         {
-            var rb = PlayerNetCode.Singleton.GetComponent<Rigidbody>();
+            var rb = playerNetCode.GetComponent<Rigidbody>();
             rb.constraints = RigidbodyConstraints.FreezeAll;
             rb.useGravity = true;
         }
@@ -46,9 +46,9 @@ namespace Vehicle
         public bool CanBePushed()
             => true;
 
-        public void Push()
+        public void Push(PlayerNetCode playerNetCode)
         {
-            var player = PlayerNetCode.Singleton;
+            var player = playerNetCode;
             if (player != null)
             {
                 Vector3 pushDirection = (player.transform.forward).normalized;
@@ -60,11 +60,11 @@ namespace Vehicle
         public bool CanStand()
             => _isSittingInBoat;
 
-        public void StandUp()
+        public void StandUp(PlayerNetCode playerNetCode)
         {
             if (!IsServer) return;
             _isSittingInBoat = false;
-            var player = PlayerNetCode.Singleton;
+            var player = playerNetCode;
             player.GetComponent<NetworkObject>().TryRemoveParent(true);
             var rb = player.GetComponent<Rigidbody>();
             rb.constraints = _rbConstraints;
@@ -76,16 +76,16 @@ namespace Vehicle
         public bool CanSit()
             => !_isSittingInBoat;
 
-        public void SitIn()
+        public void SitIn(PlayerNetCode playerNetCode)
         {
             if (!IsServer) return;
             _isSittingInBoat = true;
-            var player = PlayerNetCode.Singleton;
+            var player = playerNetCode;
             player.GetComponent<NetworkObject>().TrySetParent(_boat.transform);
             player.transform.position = _boat.transform.position + _offset;
             _rbConstraints = player.GetComponent<Rigidbody>().constraints;
 
-            SetPlayerPhysicInBoat();
+            SetPlayerPhysicInBoat(playerNetCode);
             player.GetComponent<PlayerController>().enabled = false;
             _boatInput.enabled = true;
         }
@@ -93,7 +93,7 @@ namespace Vehicle
         public bool CanMoveUp()
             => false;
 
-        public void MoveUp()
+        public void MoveUp(PlayerNetCode playerNetCode)
         {
             throw new System.NotImplementedException();
         }
@@ -101,7 +101,7 @@ namespace Vehicle
         public bool CanMoveDown()
             => false;
 
-        public void MoveDown()
+        public void MoveDown(PlayerNetCode playerNetCode)
         {
             throw new System.NotImplementedException();
         }
