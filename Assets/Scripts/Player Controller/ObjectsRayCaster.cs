@@ -27,7 +27,7 @@ public class ObjectsRayCaster : MonoBehaviour
 
     [Header("Layers")] [SerializeField] private LayerMask _defaultMask;
     [SerializeField] private LayerMask _blockMask;
-
+    [SerializeField] private VehiclesController _vehiclesController;
     public ResourceOre TargetResourceOre { get; private set; }
     public GatheringOre TargetGathering { get; private set; }
     public Storage TargetBox { get; private set; }
@@ -50,6 +50,7 @@ public class ObjectsRayCaster : MonoBehaviour
 
     private void ResetTargets()
     {
+        _vehiclesController.SetVehicleController(null);
         TargetResourceOre = null;
         TargetGathering = null;
         TargetBox = null;
@@ -202,7 +203,13 @@ public class ObjectsRayCaster : MonoBehaviour
 
         if(TryRaycast("Vehicle", _maxOpeningDistance, out IVehicleController vehicleHandler, _defaultMask))
         {
-            InventoryHandler.singleton.VehiclesController.SetVehiclesController = vehicleHandler;
+            _vehiclesController.SetVehicleController(vehicleHandler);
+            return;
+        }
+        
+        if(TryRaycast("Boat", _maxOpeningDistance, out IVehicleController boatHandler, _defaultMask))
+        {
+            _vehiclesController.SetVehicleController(boatHandler);
             return;
         }
         
