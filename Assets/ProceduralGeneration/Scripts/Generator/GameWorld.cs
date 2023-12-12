@@ -152,7 +152,8 @@ namespace Generator
                     }
                     else
                     {
-                        blockCenter = hitInfo.point + hitInfo.normal * ChunkRenderer.BlockScale / 2; // world coordinates
+                        blockCenter =
+                            hitInfo.point + hitInfo.normal * ChunkRenderer.BlockScale / 2; // world coordinates
                     }
 
                     var blockWorldPosition = Vector3Int.FloorToInt(blockCenter / ChunkRenderer.BlockScale);
