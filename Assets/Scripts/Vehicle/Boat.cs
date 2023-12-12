@@ -23,6 +23,7 @@ namespace Vehicle
         {
             VehicleRb.drag = _originalRb;
         }
+        
         public void Float(float waveHeight, bool statement)
         {
             IsFloating = statement;
@@ -53,7 +54,7 @@ namespace Vehicle
 
             if (forwardMovement > 0)
             {
-                transform.Translate(movement * MoveSpeed * Time.deltaTime, Space.Self);
+                transform.Translate(transform.forward * movement.x * MoveSpeed * Time.deltaTime, Space.World);
             }
         }
     }

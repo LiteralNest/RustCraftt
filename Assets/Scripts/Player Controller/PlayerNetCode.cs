@@ -16,6 +16,7 @@ namespace Player_Controller
 
         [Header("Attached Components")] [SerializeField]
         private List<Collider> _colliders;
+
         public NetworkVariable<int> ActiveItemId { get; set; } = new NetworkVariable<int>();
 
         [Header("In Hand Items")] [SerializeField]
@@ -29,9 +30,10 @@ namespace Player_Controller
         [Header("NickName")] [SerializeField] private NetworkVariable<int> _playerId = new(-1,
             NetworkVariableReadPermission.Everyone,
             NetworkVariableWritePermission.Owner);
-        
+
         [SerializeField] private List<TMP_Text> _nickNameTexts = new List<TMP_Text>();
-  
+
+        private RigidbodyConstraints _cachedConstraints;
 
         private void OnEnable()
             => GlobalEventsContainer.ShouldDisplayHandItem += SendChangeInHandItem;
@@ -39,15 +41,12 @@ namespace Player_Controller
         private void OnDisable()
             => GlobalEventsContainer.ShouldDisplayHandItem -= SendChangeInHandItem;
 
-        public void EnableColliders(bool value)
-        {
-            foreach (var collider in _colliders)
-                collider.enabled = value;
-        }
-
         private async void Start()
         {
             await Task.Delay(1000);
+            if (IsOwner)
+                Singleton = this;
+
             ActiveItemId.OnValueChanged += (int prevValue, int newValue) =>
             {
                 if (GetClientId() != _gettedClientId.Value) return;
@@ -62,7 +61,7 @@ namespace Player_Controller
 
             _playerId.OnValueChanged += (int prevValue, int newValue) => { AssignName(); };
         }
-        
+
         public override void OnNetworkSpawn()
         {
             if (IsOwner)
@@ -84,7 +83,7 @@ namespace Player_Controller
             foreach (var nickNameText in _nickNameTexts)
                 nickNameText.text = name;
         }
-        
+
         public ulong GetClientId()
             => OwnerClientId;
 
@@ -100,6 +99,32 @@ namespace Player_Controller
             ActiveItemId.Value = -1;
             ActiveItemId.Value = itemId;
             _gettedClientId.Value = clientId;
+        }
+
+        [ClientRpc]
+        public void FreezeControllerClientRpc()
+        {
+            var rb = GetComponent<Rigidbody>();
+            _cachedConstraints = rb.constraints;
+            rb.constraints = RigidbodyConstraints.FreezeAll;
+            rb.useGravity = true;
+            GetComponent<PlayerController>().enabled = false;
+        }
+
+        [ClientRpc]
+        public void UnFreezeControllerClientRpc()
+        {
+            var rb = GetComponent<Rigidbody>();
+            rb.constraints = _cachedConstraints;
+            rb.useGravity = true;
+            GetComponent<PlayerController>().enabled = true;
+        }
+        
+        [ClientRpc]
+        public void ChangePositionClientRpc(Vector3 position)
+        {
+            if(!IsOwner) return;
+            transform.position = position;
         }
     }
 }

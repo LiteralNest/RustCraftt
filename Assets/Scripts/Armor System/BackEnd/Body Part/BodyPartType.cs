@@ -7,6 +7,7 @@ namespace ArmorSystem.Backend
         Body,
         Hands,
         Legs,
+        Dress,
         All
     }
 }

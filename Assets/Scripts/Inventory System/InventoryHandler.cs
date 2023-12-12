@@ -22,8 +22,6 @@ public class InventoryHandler : NetworkBehaviour
 
     [field: SerializeField] public Storage CharacterInventory { get; private set; }
 
-    [field: SerializeField] public VehiclesController VehiclesController { get; private set; }
-
     public Item ActiveItem { get; private set; }
     public SlotDisplayer ActiveSlotDisplayer { get; set; }
 

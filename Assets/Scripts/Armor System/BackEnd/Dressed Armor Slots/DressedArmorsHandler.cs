@@ -8,7 +8,7 @@ namespace ArmorSystem.Backend
     public class DressedArmorsHandler : MonoBehaviour
     {
         [SerializeField] private List<DressedArmorSlot> _slots = new List<DressedArmorSlot>();
-
+        
         private DressedArmorSlot GetDressedSlotByPart(BodyPartType partType)
         {
            foreach(var slot in _slots)

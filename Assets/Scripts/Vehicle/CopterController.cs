@@ -38,16 +38,16 @@ namespace Vehicle
 
         public bool CanBePushed() => false;
 
-        public void Push()
+        public void Push(PlayerNetCode playerNetCode)
         {
         }
 
         public bool CanStand() => _isSittingInVehicle;
 
-        public void StandUp()
+        public void StandUp(PlayerNetCode playerNetCode)
         {
             _isSittingInVehicle = false;
-            var player = PlayerNetCode.Singleton;
+            var player = playerNetCode;
             player.GetComponent<NetworkObject>().TryRemoveParent(true);
 
             var rb = player.GetComponent<Rigidbody>();
@@ -62,26 +62,26 @@ namespace Vehicle
 
         public bool CanSit() => !_isSittingInVehicle;
 
-        private void SetPlayerPhysicInVehicle()
+        private void SetPlayerPhysicInVehicle(PlayerNetCode playerNetCode)
         {
-            var player = PlayerNetCode.Singleton;
+            var player = playerNetCode;
             var rb = player.GetComponent<Rigidbody>();
             rb.constraints = RigidbodyConstraints.FreezeAll;
             rb.useGravity = true;
         }
 
-        public void SitIn()
+        public void SitIn(PlayerNetCode playerNetCode)
         {
             _isSittingInVehicle = true;
 
-            var player = PlayerNetCode.Singleton;
+            var player = playerNetCode;
             
             _cachedCameraPosition = player.transform.rotation;
             player.GetComponent<NetworkObject>().TrySetParent(_copter.transform);
             player.transform.position = _copter.transform.position + _offset;
 
             _rbConstraints = player.GetComponent<Rigidbody>().constraints;
-            SetPlayerPhysicInVehicle();
+            SetPlayerPhysicInVehicle(playerNetCode);
 
             player.GetComponent<PlayerController>().enabled = false;
             _copterInput.enabled = true;
@@ -89,12 +89,12 @@ namespace Vehicle
 
         public bool CanMoveUp() => _isSittingInVehicle;
 
-        public void MoveUp()
+        public void MoveUp(PlayerNetCode playerNetCode)
             => _copter.IncreaseHeight();
 
         public bool CanMoveDown() => _isSittingInVehicle;
         
-        public void MoveDown()
+        public void MoveDown(PlayerNetCode playerNetCode)
             => _copter.DecreaseHeight();
 
         #endregion

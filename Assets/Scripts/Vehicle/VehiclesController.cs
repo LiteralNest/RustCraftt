@@ -1,9 +1,12 @@
+using Player_Controller;
 using UnityEngine;
 
 namespace Vehicle
 {
     public class VehiclesController : MonoBehaviour
     {
+        [Header("Attached Components")]
+        [SerializeField] private PlayerNetCode _playerNetCode;
         [Header("UI")] 
         [SerializeField] private GameObject _sitInButton;
         [SerializeField] private GameObject _standUpButton;
@@ -11,16 +14,34 @@ namespace Vehicle
         [SerializeField] private GameObject _moveUpButton;
         [SerializeField] private GameObject _moveDownButton;
 
+        private IVehicleController _sittingInVehicle;
         private IVehicleController _vehicleController;
-        public IVehicleController SetVehiclesController
-        {
-            set => _vehicleController = value;
-        }
         
         private void Start()
+            => ResetButtons();
+
+        private void Update()
+        {
+            if(_sittingInVehicle != null)
+                TrySetButtonValue(_sittingInVehicle.CanStand(), _standUpButton);
+            else
+                TrySetButtonValue(false, _standUpButton);
+        }
+        
+        public void SetVehicleController(IVehicleController value)
+        { 
+            _vehicleController = value;
+            if (_vehicleController == null)
+                ResetButtons();
+            else
+                TrySetButtons();
+            if(CharacterUIHandler.singleton != null)
+                CharacterUIHandler.singleton.ActivateSitAndStandPanel(_vehicleController == null);
+        }
+        
+        private void ResetButtons()
         {
             _sitInButton.SetActive(false);
-            _standUpButton.SetActive(false);
             _pushButton.SetActive(false);
             _moveUpButton.SetActive(false);
             _moveDownButton.SetActive(false);
@@ -32,15 +53,8 @@ namespace Vehicle
                 target.SetActive(value);
         }
         
-        private void Update()
+        private void TrySetButtons()
         {
-            if (_vehicleController == null)
-            {
-                if(CharacterUIHandler.singleton != null)
-                    CharacterUIHandler.singleton.ActivateSitAndStandPanel(true);
-                return;
-            }
-            CharacterUIHandler.singleton.ActivateSitAndStandPanel(false);
             TrySetButtonValue(_vehicleController.CanBePushed(), _pushButton);
             TrySetButtonValue(_vehicleController.CanStand(), _standUpButton);
             TrySetButtonValue(_vehicleController.CanSit(), _sitInButton);
@@ -49,18 +63,21 @@ namespace Vehicle
         }
 
         public void Push()
-            => _vehicleController.Push();
+            => _vehicleController.Push(_playerNetCode);
         
         public void StandUp()
-            => _vehicleController.StandUp();
-        
+            => _sittingInVehicle.StandUp(_playerNetCode);
+
         public void SitIn()
-            => _vehicleController.SitIn();
-        
+        {
+            _sittingInVehicle = _vehicleController;
+            _vehicleController.SitIn(_playerNetCode);
+        }
+
         public void MoveUp()
-            => _vehicleController.MoveUp();
+            => _vehicleController.MoveUp(_playerNetCode);
         
         public void MoveDown()
-            => _vehicleController.MoveDown();
+            => _vehicleController.MoveDown(_playerNetCode);
     }
 }

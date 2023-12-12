@@ -21,6 +21,7 @@ namespace ArmorSystem.Backend
             foreach (var bodyPart in _bodyParts)
             {
                 if (bodyPart.BodyPartType != bodyPartType) continue;
+                if(material == null) continue;
                 bodyPart.AssignMaterial(material);
             }
         }
