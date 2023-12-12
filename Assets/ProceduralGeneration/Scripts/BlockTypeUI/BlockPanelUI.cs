@@ -20,12 +20,26 @@ namespace ProceduralGeneration.Scripts.BlockTypeUI
             }
         }
 
+        private void Update()
+        {
+            for (int i = 1; i <= 9; i++)
+            {
+                if (Input.GetKeyDown(i.ToString()))
+                {
+                    SelectBlock(i - 1); 
+                }
+            }
+        }
+
         private void OnBlockButtonClick(int blockIndex)
         {
-            _blockButtons[selectedBlockIndex].interactable = true;
+            SelectBlock(blockIndex);
+        }
 
-            selectedBlockIndex = blockIndex;
-            
+        private void SelectBlock(int blockIndex)
+        {
+            _blockButtons[selectedBlockIndex].interactable = true;
+            selectedBlockIndex = Mathf.Clamp(blockIndex, 0, _blockTypes.Length - 1);
             _blockButtons[selectedBlockIndex].interactable = false;
         }
 
