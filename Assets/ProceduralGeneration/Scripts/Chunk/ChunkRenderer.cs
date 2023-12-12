@@ -62,10 +62,10 @@ namespace Chunk
     }
 
   
-    public void SpawnBlock(Vector3Int blockPosition)
+    public void SpawnBlock(Vector3Int blockPosition, BlockType blockType)
     {
       var index = blockPosition.x + blockPosition.y * ChunkWidthSq + blockPosition.z * ChunkWidth;
-      ChunkData.Blocks[index] = BlockType.Grass;
+      ChunkData.Blocks[index] = blockType;
       RegenerateMesh();
     }
     public void DestroyBlock(Vector3Int blockPosition)

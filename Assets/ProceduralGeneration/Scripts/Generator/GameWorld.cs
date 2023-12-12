@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Chunk;
+using ProceduralGeneration.Scripts.BlockTypeUI;
 using UnityEngine;
 
 namespace Generator
@@ -9,6 +10,7 @@ namespace Generator
         public Dictionary<Vector2Int, ChunkData> ChunkDatas = new Dictionary<Vector2Int, ChunkData>(); // Cordinates of chunk
 
         [SerializeField] private ChunkRenderer _chunkPrefab;
+        [SerializeField] private BlockPanelUI _blockPanelUI;
         [SerializeField] private TerrainGenerator _generator;
         [SerializeField] private Texture2D _mapTexture;
         [SerializeField] private Texture2D _biomeTexture2D;
@@ -169,7 +171,8 @@ namespace Generator
                         }
                         else
                         {
-                            chunkData.Renderer.SpawnBlock(blockWorldPosition - chunkOrigin);
+                            var selectedBlockInfo = _blockPanelUI.GetSelectedBlockType();
+                            chunkData.Renderer.SpawnBlock(blockWorldPosition - chunkOrigin, selectedBlockInfo);
                         }
                     }
                 }
