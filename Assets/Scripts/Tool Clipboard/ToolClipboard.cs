@@ -41,7 +41,7 @@ namespace Tool_Clipboard
 
         public void OpenInventory()
         {
-            InventoryHandler.singleton.InventoryPanelsDisplayer.OpenInventory(false);
+            InventoryHandler.singleton.InventoryPanelsDisplayer.OpenInventory();
             SlotsDisplayer.DisplayCells();
         }
 

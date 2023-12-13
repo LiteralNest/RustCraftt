@@ -45,11 +45,11 @@ namespace Inventory_System
             ResetInventories();
         }
 
-        public void OpenInventory(bool shouldOpenInventoryView = true)
+        public void OpenInventory()
         {
             ResetInventories();
             HandleInventory(true);
-            _characterPreview.SetActive(shouldOpenInventoryView);
+            _characterPreview.SetActive(false);
         }
 
         public void OpenWorkbenchPanel()

@@ -1,14 +1,15 @@
+using Storage_System.Vehicles;
 using UnityEngine;
-using UnityEngine.Rendering.Universal;
-using UnityEngine.Serialization;
 
 namespace Vehicle
 {
     public class Copter : BaseVehicle
     {
+        [Header("Attached Components")]
+        [SerializeField] private FuelStorage _fuelStorage;
+        
         [Header("Main Parameters")] [SerializeField]
         private float _heightAdjustSpeed = 5f;
-
         [SerializeField] private float _stabilizeSpeed = 10f;
 
         [Header("Angels")] [SerializeField] private float _tiltAngleX;
@@ -23,10 +24,19 @@ namespace Vehicle
 
         private void Update()
         {
+
             if (MovingUp)
+            {
+                if(!_fuelStorage.FuelAvailable()) return;
                 IncreaseHeight();
+            }
+         
             else if (MovingDown)
+            {
+                if(!_fuelStorage.FuelAvailable()) return;
                 DecreaseHeight();
+            }
+             
         }
 
         public void Stabilize()
@@ -39,6 +49,8 @@ namespace Vehicle
 
         public void Move(Vector2 moveInput)
         {
+            if(_isGrounded) return;
+            if(!_fuelStorage.FuelAvailable()) return;
             float forwardMovement = Mathf.Clamp(moveInput.y, 0, 1f);
             float sidewaysMovement = moveInput.x;
 
@@ -120,6 +132,7 @@ namespace Vehicle
             {
                 _isGrounded = true;
                 VehicleRb.isKinematic = false;
+                _fuelStorage.StopMoving();
             }
         }
 
@@ -129,6 +142,7 @@ namespace Vehicle
             {
                 _isGrounded = false;
                 VehicleRb.isKinematic = true;
+                _fuelStorage.StartMoving();
             }
         }
     }

@@ -11,12 +11,7 @@ namespace Player_Controller
     public class PlayerNetCode : NetworkBehaviour
     {
         public static PlayerNetCode Singleton { get; private set; }
-
-        private NetworkVariable<ulong> _gettedClientId = new NetworkVariable<ulong>();
-
-        [Header("Attached Components")] [SerializeField]
-        private List<Collider> _colliders;
-
+        
         public NetworkVariable<int> ActiveItemId { get; set; } = new NetworkVariable<int>();
 
         [Header("In Hand Items")] [SerializeField]
@@ -45,36 +40,33 @@ namespace Player_Controller
         {
             await Task.Delay(1000);
             if (IsOwner)
-                Singleton = this;
-
-            ActiveItemId.OnValueChanged += (int prevValue, int newValue) =>
             {
-                if (GetClientId() != _gettedClientId.Value) return;
-                _inHandObjectsContainer.DisplayItems(ActiveItemId.Value);
-            };
-
-            ActiveArmorId.OnValueChanged += (int prevValue, int newValue) =>
-            {
-                if (GetClientId() != _gettedClientId.Value) return;
-                _armorsContainer.DisplayArmor(ActiveArmorId.Value, this);
-            };
-
-            _playerId.OnValueChanged += (int prevValue, int newValue) => { AssignName(); };
+                _playerId.Value = UserDataHandler.singleton.UserData.Id;
+                 Singleton = this;
+            }
+               
         }
 
         public override void OnNetworkSpawn()
         {
-            if (IsOwner)
+            ActiveItemId.OnValueChanged += (int prevValue, int newValue) =>
             {
-                Singleton = this;
-                _playerId.Value = UserDataHandler.singleton.UserData.Id;
-            }
+                _inHandObjectsContainer.DisplayItems(ActiveItemId.Value);
+            };
+            
+            _inHandObjectsContainer.DisplayItems(ActiveItemId.Value);
 
-            _gettedClientId.Value = GetClientId();
+            ActiveArmorId.OnValueChanged += (int prevValue, int newValue) =>
+            {
+                _armorsContainer.DisplayArmor(ActiveArmorId.Value, this);
+            };
+
+            _armorsContainer.DisplayArmor(ActiveArmorId.Value, this);
+            
+            _playerId.OnValueChanged += (int prevValue, int newValue) => { AssignName(); };
+            
             AssignName();
 
-            _inHandObjectsContainer.DisplayItems(ActiveItemId.Value);
-            _armorsContainer.DisplayArmor(ActiveArmorId.Value, this);
         }
 
         private void AssignName()
@@ -98,7 +90,6 @@ namespace Player_Controller
         {
             ActiveItemId.Value = -1;
             ActiveItemId.Value = itemId;
-            _gettedClientId.Value = clientId;
         }
 
         [ClientRpc]

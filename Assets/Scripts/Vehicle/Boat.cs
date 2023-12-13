@@ -1,10 +1,14 @@
+using Storage_System.Vehicles;
 using UnityEngine;
 
 namespace Vehicle
 {
     public class Boat : BaseVehicle
     {
+        [Header("Attached Components")]
+        [SerializeField] private FuelStorage _fuelStorage;
         
+        [Header("Main Parameters")]
         [SerializeField] private float _pushForce = 100f;
         [SerializeField] private float _depthBeforeSubmerged = 1f;
         [SerializeField] private float _displacementAmount = 1.09f;
@@ -46,6 +50,7 @@ namespace Vehicle
 
         public void Move(Vector2 moveInput)
         {
+            if(!_fuelStorage.FuelAvailable()) return;
             var forwardMovement = Mathf.Clamp(moveInput.y, 0, 1f);
             var movement = new Vector3(forwardMovement,0f, 0f);
             var rotation = moveInput.x * RotationSpeed * Time.fixedDeltaTime;
