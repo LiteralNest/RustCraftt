@@ -518,7 +518,7 @@ MonoBehaviour:
   _generator: {fileID: 323314522}
   _mapTexture: {fileID: 2800000, guid: 3a3747f29226f41acb5d6235d484bbd5, type: 3}
   _biomeTexture2D: {fileID: 2800000, guid: ac1b7a5ae607844fe825b6eeaf16f38f, type: 3}
-  _scaleFactor: 3
+  _scaleFactor: 1
 --- !u!4 &323314521
 Transform:
   m_ObjectHideFlags: 0
@@ -548,7 +548,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   biomes:
   - Color: {r: 0.2, g: 1, b: 0, a: 0}
-    BlockType: 3
+    MainBlockType: 3
+    SecondaryBlockType: 2
+    AdditionalBlockType: 1
+    AdditionalBlockHeightRange: 2
     SpawnablePrefabs:
     - Prefab: {fileID: 5474001812520990889, guid: 9f4077a86f5afe74eb65591607fdf1df, type: 3}
       SpawnChance: 0.0015
@@ -571,7 +574,10 @@ MonoBehaviour:
     - Prefab: {fileID: 0}
       SpawnChance: 0.75
   - Color: {r: 1, g: 0, b: 0, a: 0}
-    BlockType: 6
+    MainBlockType: 6
+    SecondaryBlockType: 6
+    AdditionalBlockType: 1
+    AdditionalBlockHeightRange: 2
     SpawnablePrefabs:
     - Prefab: {fileID: 8282219300173943812, guid: 72bcc58ff1978044aa19f8d03619aaf9, type: 3}
       SpawnChance: 0.003
@@ -586,7 +592,10 @@ MonoBehaviour:
     - Prefab: {fileID: 0}
       SpawnChance: 0.8
   - Color: {r: 0, g: 1, b: 1, a: 0}
-    BlockType: 9
+    MainBlockType: 9
+    SecondaryBlockType: 2
+    AdditionalBlockType: 1
+    AdditionalBlockHeightRange: 2
     SpawnablePrefabs:
     - Prefab: {fileID: 476050005394333884, guid: 8e3f35981ba09d7458d08784a5e2505f, type: 3}
       SpawnChance: 0.003
@@ -601,7 +610,10 @@ MonoBehaviour:
     - Prefab: {fileID: 0}
       SpawnChance: 0.8
   - Color: {r: 0, g: 0, b: 0, a: 0}
-    BlockType: 5
+    MainBlockType: 5
+    SecondaryBlockType: 1
+    AdditionalBlockType: 0
+    AdditionalBlockHeightRange: 0
     SpawnablePrefabs: []
   _objectOffset: 0.5
 --- !u!1 &330585543
