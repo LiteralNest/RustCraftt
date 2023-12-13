@@ -6,7 +6,7 @@ namespace Multiplayer.CustomData
     public struct AuthorizedUsersData : INetworkSerializable
     {
         public int[] AuthorizedIds;
-        
+
         public void NetworkSerialize<T>(BufferSerializer<T> serializer) where T : IReaderWriter
         {
             serializer.SerializeValue(ref AuthorizedIds);

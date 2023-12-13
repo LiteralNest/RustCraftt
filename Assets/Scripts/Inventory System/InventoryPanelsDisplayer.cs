@@ -12,6 +12,7 @@ namespace Inventory_System
         [Header("UI")] 
         [SerializeField] private GameObject _mainButtonsPanel;
         [SerializeField] private GameObject _inventoryPanel;
+        [SerializeField] private GameObject _characterPreview;
         [Space]
         [Space]
         [SerializeField] private GameObject _backPackPanel;
@@ -44,10 +45,11 @@ namespace Inventory_System
             ResetInventories();
         }
 
-        public void OpenInventory()
+        public void OpenInventory(bool shouldOpenInventoryView = true)
         {
             ResetInventories();
             HandleInventory(true);
+            _characterPreview.SetActive(shouldOpenInventoryView);
         }
 
         public void OpenWorkbenchPanel()

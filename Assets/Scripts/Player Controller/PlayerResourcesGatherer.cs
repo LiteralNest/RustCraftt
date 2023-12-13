@@ -121,7 +121,7 @@ public class PlayerResourcesGatherer : MonoBehaviour
         return true;
     }
 
-    public void TryGather()
+    private void TryGather()
     {
         if(TryAuthorizeClipboard()) return;
         if(TryOpenChest()) return;
@@ -130,21 +130,21 @@ public class PlayerResourcesGatherer : MonoBehaviour
         ore.Gather();
     }
 
-    public void TryOpenCampFire()
+    private void TryOpenCampFire()
     {
         var campfire = _objectsRayCaster.Smelter;
         if(!campfire) return;
         campfire.Open(_inventoryHandler);
     }
 
-    public void TryOpenRecycler()
+    private void TryOpenRecycler()
     {
         var recylcer = _objectsRayCaster.RecyclerHandler;
         if(!recylcer) return;
         recylcer.Open(_inventoryHandler);
     }
 
-    public void TryPickUp()
+    private void TryPickUp()
     {
         var lootingItem = _objectsRayCaster.LootingItem;
         if(!lootingItem) return;

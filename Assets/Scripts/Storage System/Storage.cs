@@ -11,7 +11,7 @@ namespace Storage_System
     {
         [field: SerializeField] public NetworkVariable<CustomSendingInventoryData> ItemsNetData { get; set; } = new();
         [field: SerializeField] public SlotsDisplayer SlotsDisplayer { get; set; }
-        [SerializeField] private GameObject _ui;
+        [SerializeField] protected GameObject _ui;
 
         [Header("Test")] [SerializeField] private InventoryCell _testAddingCell;
         [field: SerializeField] public int MainSlotsCount;

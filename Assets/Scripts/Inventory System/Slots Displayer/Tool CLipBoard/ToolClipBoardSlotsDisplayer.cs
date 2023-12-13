@@ -1,4 +1,5 @@
 using TMPro;
+using Tool_Clipboard;
 using UnityEngine;
 
 namespace Inventory_System.Slots_Displayer.Tool_CLipBoard
