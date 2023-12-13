@@ -14,9 +14,9 @@ namespace Vehicle
         public void SitIn(PlayerNetCode playerNetCode);
 
         public bool CanMoveUp();
-        public void MoveUp(PlayerNetCode playerNetCode);
+        public void HandleMovingDown(bool value);
         
         public bool CanMoveDown();
-        public void MoveDown(PlayerNetCode playerNetCode);
+        public void HandleMovingUp(bool value);
     }
 }

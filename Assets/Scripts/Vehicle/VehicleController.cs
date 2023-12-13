@@ -15,15 +15,15 @@ namespace Vehicle
         [SerializeField] private PlayerInput _input;
 
         protected bool IsMoving { get; set; }
-        
+
         protected Vector2 MoveInput;
-        
+
         public void OnMove(InputAction.CallbackContext context)
         {
             IsMoving = true;
             MoveInput = context.ReadValue<Vector2>();
         }
-        
+
         [ClientRpc]
         private void AssignCurrentPlayerClientRpc(ulong playerId)
         {
@@ -63,14 +63,14 @@ namespace Vehicle
         [ClientRpc]
         private void ResetPlayerClientRpc()
             => _currentPlayer = null;
-        
+
         private void ResetPlayer()
         {
             if (_currentPlayer == null) return;
             _currentPlayer.GetComponent<NetworkObject>().TryRemoveParent();
             ResetPlayerClientRpc();
         }
-        
+
         [ServerRpc(RequireOwnership = false)]
         private void StandUpServerRpc(ulong playerId)
         {
@@ -78,7 +78,7 @@ namespace Vehicle
             _currentPlayer.UnFreezeControllerClientRpc();
             ResetPlayer();
         }
-        
+
         #region IVehicleController
 
         public virtual bool CanBePushed()
@@ -110,16 +110,14 @@ namespace Vehicle
         public virtual bool CanMoveUp()
             => false;
 
-        public virtual void MoveUp(PlayerNetCode playerNetCode)
+        public virtual void HandleMovingDown(bool value)
         {
-  
         }
 
         public virtual bool CanMoveDown()
             => false;
 
-        public
-            virtual void MoveDown(PlayerNetCode playerNetCode)
+        public virtual void HandleMovingUp(bool value)
         {
         }
 

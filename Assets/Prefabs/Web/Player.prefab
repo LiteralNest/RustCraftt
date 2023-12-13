@@ -15052,7 +15052,7 @@ GameObject:
   - component: {fileID: 1138694904355852745}
   - component: {fileID: 3335211694767981160}
   - component: {fileID: 8741794276471468718}
-  - component: {fileID: 8275987210406590004}
+  - component: {fileID: 1191218415257832021}
   m_Layer: 15
   m_Name: Up
   m_TagString: Untagged
@@ -15117,7 +15117,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &8275987210406590004
+--- !u!114 &1191218415257832021
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -15126,45 +15126,31 @@ MonoBehaviour:
   m_GameObject: {fileID: 2950129775468476307}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Script: {fileID: 11500000, guid: a69f81a08f2265b4a9f1d6ad63278638, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Navigation:
-    m_Mode: 3
-    m_WrapAround: 0
-    m_SelectOnUp: {fileID: 0}
-    m_SelectOnDown: {fileID: 0}
-    m_SelectOnLeft: {fileID: 0}
-    m_SelectOnRight: {fileID: 0}
-  m_Transition: 1
-  m_Colors:
-    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
-    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
-    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
-    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
-    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
-    m_ColorMultiplier: 1
-    m_FadeDuration: 0.1
-  m_SpriteState:
-    m_HighlightedSprite: {fileID: 0}
-    m_PressedSprite: {fileID: 0}
-    m_SelectedSprite: {fileID: 0}
-    m_DisabledSprite: {fileID: 0}
-  m_AnimationTriggers:
-    m_NormalTrigger: Normal
-    m_HighlightedTrigger: Highlighted
-    m_PressedTrigger: Pressed
-    m_SelectedTrigger: Selected
-    m_DisabledTrigger: Disabled
-  m_Interactable: 1
-  m_TargetGraphic: {fileID: 8741794276471468718}
-  m_OnClick:
+  _pointerDown:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 8410748254329700983}
         m_TargetAssemblyTypeName: Vehicle.VehiclesController, Assembly-CSharp
-        m_MethodName: MoveUp
-        m_Mode: 1
+        m_MethodName: HandleMoveUp
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
+  _pointerClicked:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 8410748254329700983}
+        m_TargetAssemblyTypeName: Vehicle.VehiclesController, Assembly-CSharp
+        m_MethodName: HandleMoveUp
+        m_Mode: 6
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -23089,7 +23075,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4669186732561868352}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.7692953, y: 0.7692951, z: 0.76929504}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -30667,6 +30653,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _playerNetCode: {fileID: -5502007171107923210}
+  _uiHandler: {fileID: 2039781522216002660}
   _sitInButton: {fileID: 8953527719397313655}
   _standUpButton: {fileID: 4058398571306139675}
   _pushButton: {fileID: 8850506101485577186}
@@ -31926,7 +31913,6 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 7443739641109879638}
   - {fileID: 247319193721360951}
   - {fileID: 4287358666912933629}
   - {fileID: 1768873623385148641}
@@ -31940,6 +31926,7 @@ RectTransform:
   - {fileID: 6842945250100279658}
   - {fileID: 2046825063601473565}
   - {fileID: 8175139506545450121}
+  - {fileID: 7443739641109879638}
   m_Father: {fileID: 7297306746281903266}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -34887,7 +34874,7 @@ GameObject:
   - component: {fileID: 2901808971473968264}
   - component: {fileID: 4290435729451390339}
   - component: {fileID: 8322751106613973997}
-  - component: {fileID: 3733363214840476726}
+  - component: {fileID: 1290269012395813678}
   m_Layer: 15
   m_Name: Down
   m_TagString: Untagged
@@ -34952,7 +34939,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &3733363214840476726
+--- !u!114 &1290269012395813678
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -34961,45 +34948,31 @@ MonoBehaviour:
   m_GameObject: {fileID: 6947275393653549576}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Script: {fileID: 11500000, guid: a69f81a08f2265b4a9f1d6ad63278638, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Navigation:
-    m_Mode: 3
-    m_WrapAround: 0
-    m_SelectOnUp: {fileID: 0}
-    m_SelectOnDown: {fileID: 0}
-    m_SelectOnLeft: {fileID: 0}
-    m_SelectOnRight: {fileID: 0}
-  m_Transition: 1
-  m_Colors:
-    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
-    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
-    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
-    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
-    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
-    m_ColorMultiplier: 1
-    m_FadeDuration: 0.1
-  m_SpriteState:
-    m_HighlightedSprite: {fileID: 0}
-    m_PressedSprite: {fileID: 0}
-    m_SelectedSprite: {fileID: 0}
-    m_DisabledSprite: {fileID: 0}
-  m_AnimationTriggers:
-    m_NormalTrigger: Normal
-    m_HighlightedTrigger: Highlighted
-    m_PressedTrigger: Pressed
-    m_SelectedTrigger: Selected
-    m_DisabledTrigger: Disabled
-  m_Interactable: 1
-  m_TargetGraphic: {fileID: 8322751106613973997}
-  m_OnClick:
+  _pointerDown:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 8410748254329700983}
         m_TargetAssemblyTypeName: Vehicle.VehiclesController, Assembly-CSharp
-        m_MethodName: MoveDown
-        m_Mode: 1
+        m_MethodName: HandleMoveDown
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
+  _pointerClicked:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 8410748254329700983}
+        m_TargetAssemblyTypeName: Vehicle.VehiclesController, Assembly-CSharp
+        m_MethodName: HandleMoveDown
+        m_Mode: 6
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -40043,7 +40016,8 @@ MonoBehaviour:
   _reloadingButton: {fileID: 7039893087790888195}
   _placingPanel: {fileID: 270296948653531768}
   _scopeButton: {fileID: 3732653515715404401}
-  _sitAndStandPanel: {fileID: 6768293819319322947}
+  _vehicleIgnoringPanels:
+  - {fileID: 6768293819319322947}
   _meleeThrowButton: {fileID: 8812693208932736776}
   _throwExplosiveButton: {fileID: 8179665900931857237}
 --- !u!1 &8345004078952974358

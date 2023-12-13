@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class CharacterUIHandler : MonoBehaviour
@@ -12,7 +13,8 @@ public class CharacterUIHandler : MonoBehaviour
     [SerializeField] private GameObject _reloadingButton;
     [SerializeField] private GameObject _placingPanel;
     [SerializeField] private GameObject _scopeButton;
-    [SerializeField] private GameObject _sitAndStandPanel;
+    
+    [SerializeField] private List<GameObject> _vehicleIgnoringPanels = new List<GameObject>();
 
     [SerializeField] private GameObject _meleeThrowButton;
     [SerializeField] private GameObject _throwExplosiveButton;
@@ -52,6 +54,9 @@ public class CharacterUIHandler : MonoBehaviour
     public void ActivateThrowButton(bool value)
         => _throwExplosiveButton.SetActive(value);
 
-    public void ActivateSitAndStandPanel(bool value)
-        => _sitAndStandPanel.SetActive(value);
+    public void HandleIgnoringVehiclePanels(bool value)
+    {
+        foreach (var panel in _vehicleIgnoringPanels)
+            panel.SetActive(value);
+    }
 }

@@ -46,6 +46,7 @@ GameObject:
   - component: {fileID: 3867364107936202290}
   - component: {fileID: 8747892899584033798}
   - component: {fileID: 6921639965935579815}
+  - component: {fileID: 7759087801613623780}
   m_Layer: 0
   m_Name: Boat
   m_TagString: Boat
@@ -131,8 +132,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   VehicleRb: {fileID: 5804164441601376887}
-  MoveSpeed: 5
-  RotationSpeed: 40
+  MoveSpeed: 4
+  RotationSpeed: 75
   SitPlace: {fileID: 1288299358769663234}
   _pushForce: 5
   _depthBeforeSubmerged: 1
@@ -234,6 +235,36 @@ MonoBehaviour:
   m_DefaultActionMap: Vehicle
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
+--- !u!114 &7759087801613623780
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4895301550270722600}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: df2868252ab5c4d1da357e8f11f1b524, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SyncPositionX: 1
+  SyncPositionY: 1
+  SyncPositionZ: 1
+  SyncRotAngleX: 1
+  SyncRotAngleY: 1
+  SyncRotAngleZ: 1
+  SyncScaleX: 0
+  SyncScaleY: 0
+  SyncScaleZ: 0
+  PositionThreshold: 0.001
+  RotAngleThreshold: 0.01
+  ScaleThreshold: 0.01
+  UseQuaternionSynchronization: 0
+  UseQuaternionCompression: 0
+  UseHalfFloatPrecision: 0
+  InLocalSpace: 0
+  Interpolate: 1
+  SlerpPosition: 0
 --- !u!1 &6399215863279173596
 GameObject:
   m_ObjectHideFlags: 0
