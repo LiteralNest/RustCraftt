@@ -1,3 +1,4 @@
+using Building_System;
 using Building_System.Blocks;
 using Crafting_System.WorkBench;
 using Items_System;
@@ -38,6 +39,7 @@ public class ObjectsRayCaster : MonoBehaviour
     public DoorHandler DoorHandler { get; private set; }
     public ToolClipboard ToolClipboard { get; private set; }
     public WorkBench WorkBench { get; private set; }
+    public HammerInteractable TargetClipboardInteractable { get; private set; }
     private BuildingBlock _targetBlock;
     public bool CanRayCastOre { get; set; }
 
@@ -61,6 +63,7 @@ public class ObjectsRayCaster : MonoBehaviour
         DoorHandler = null;
         ToolClipboard = null;
         WorkBench = null;
+        TargetClipboardInteractable = null;
     }
 
     private bool TryRaycast<T>(string tag, float hitDistance, out T target, LayerMask layer)
@@ -154,6 +157,11 @@ public class ObjectsRayCaster : MonoBehaviour
             }
         }
 
+        if (TryRaycast("ClipBoardIteractable", _maxOpeningDistance, out HammerInteractable clipboardInteractable, _blockMask))
+        {
+            TargetClipboardInteractable = clipboardInteractable;
+        }
+
         if (TryRaycast("Gathering", _maxGatheringDistance, out GatheringOre item, _defaultMask))
         {
             if (OreReady(item))
@@ -220,7 +228,7 @@ public class ObjectsRayCaster : MonoBehaviour
             SetLootButton("Open");
             return;
         }
-        
+
         TryRayCastOre();
     }
 }
