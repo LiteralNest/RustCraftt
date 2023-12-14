@@ -7,12 +7,6 @@ namespace Vehicle
         public bool CanBePushed();
         public void Push(PlayerNetCode playerNetCode);
 
-        public bool CanStand();
-        public void StandUp(PlayerNetCode playerNetCode);
-
-        public bool CanSit();
-        public void SitIn(PlayerNetCode playerNetCode);
-
         public bool CanMoveUp();
         public void HandleMovingDown(bool value);
         

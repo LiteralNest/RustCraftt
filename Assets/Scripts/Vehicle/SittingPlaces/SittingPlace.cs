@@ -3,9 +3,9 @@ using Player_Controller;
 using Unity.Netcode;
 using UnityEngine;
 
-namespace Vehicle
+namespace Vehicle.SittingPlaces
 {
-    public class SittingPlace : NetworkBehaviour
+    public abstract class SittingPlace : NetworkBehaviour
     {
         [SerializeField] private NetworkObject _networkObject;
         [SerializeField] private Transform _standingPoint;
@@ -57,14 +57,10 @@ namespace Vehicle
         private void ResetPlayerClientRpc()
             => _currentPlayer = null;
 
-        public void SitIn(PlayerNetCode playerNetCode)
-        {
-            SitServerRpc(playerNetCode.NetworkObjectId);
-            // _input.enabled = true;
-        }
+        public virtual void SitIn(PlayerNetCode playerNetCode)
+            => SitServerRpc(playerNetCode.NetworkObjectId);
 
         #endregion
-
 
         #region StandUp
 
@@ -78,7 +74,8 @@ namespace Vehicle
             _currentPlayer.ChangePositionClientRpc(_standingPoint.position);
             ResetPlayerClientRpc();
         }
-
+        
+        protected virtual void ResetInput(){}
 
         [ServerRpc(RequireOwnership = false)]
         private void StandUpServerRpc(ulong playerId)
@@ -89,19 +86,17 @@ namespace Vehicle
         }
 
         public virtual void StandUp(PlayerNetCode playerNetCode)
-        {
-            StandUpServerRpc(playerNetCode.NetworkObjectId);
-            // _input.enabled = false;
-        }
+            => StandUpServerRpc(playerNetCode.NetworkObjectId);
 
         #endregion
 
         private void OnTriggerExit(Collider other)
         {
             if (!other.CompareTag("Player")) return;
-            if(_currentPlayer == null) return;
-            if(_currentPlayer.NetworkObjectId != other.GetComponent<PlayerNetCode>().NetworkObjectId) return;
+            if (_currentPlayer == null) return;
+            if (_currentPlayer.NetworkObjectId != other.GetComponent<PlayerNetCode>().NetworkObjectId) return;
             ResetPlayerClientRpc();
+            ResetInput();
         }
     }
 }

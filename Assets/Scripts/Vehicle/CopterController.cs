@@ -30,12 +30,6 @@ namespace Vehicle
         public override bool CanMoveDown()
             => true;
 
-        public override void StandUp(PlayerNetCode playerNetCode)
-        {
-            base.StandUp(playerNetCode);
-            _copter.ReturnKinematic();
-        }
-
         public override void HandleMovingUp(bool value)
             => _copter.MovingUp = value;
     }

@@ -8,9 +8,11 @@ using Player_Controller;
 using Storage_System;
 using TMPro;
 using Tool_Clipboard;
+using UI;
 using UnityEngine;
 using UnityEngine.Serialization;
 using Vehicle;
+using Vehicle.SittingPlaces;
 using Web.User;
 
 public class ObjectsRayCaster : MonoBehaviour

@@ -1,4 +1,5 @@
 using Player_Controller;
+using UI;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -46,30 +47,10 @@ namespace Vehicle
         private void TrySetButtons()
         {
             TrySetButtonValue(_vehicleController.CanBePushed(), _pushButton);
-            TrySetButtonValue(_vehicleController.CanStand(), _standUpButton);
-            TrySetButtonValue(_vehicleController.CanSit(), _sitInButton);
         }
 
         public void Push()
             => _vehicleController.Push(_playerNetCode);
-
-        public void StandUp()
-        {
-            _uiHandler.HandleIgnoringVehiclePanels(true);
-            _sittingInVehicle.StandUp(_playerNetCode);
-            TrySetButtonValue(_sittingInVehicle.CanStand(), _standUpButton);
-            TrySetButtonValue(false, _moveUpButton);
-            TrySetButtonValue(false, _moveDownButton);
-        }
-
-        public void SitIn()
-        {
-            _uiHandler.HandleIgnoringVehiclePanels(false);
-            _sittingInVehicle = _vehicleController;
-            _vehicleController.SitIn(_playerNetCode);
-            TrySetButtonValue(_sittingInVehicle.CanMoveUp(), _moveUpButton);
-            TrySetButtonValue(_sittingInVehicle.CanMoveDown(), _moveDownButton);
-        }
         
         public void HandleMoveUp(bool value)
             => _sittingInVehicle.HandleMovingUp(value);
