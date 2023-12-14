@@ -9,7 +9,7 @@ namespace ProceduralGeneration.Scripts.Mesh
     public class BlockPositionSaver : MonoBehaviour
     {
         [SerializeField] private GameWorld _gameWorld;
-        [SerializeField] private string _directorySavePath = "Assets/ProceduralGeneration/GeneratedMeshes/";
+        [SerializeField] private string _directorySavePath = "Assets/ProceduralGeneration/GeneratedMesh/";
         [SerializeField] private string _folderSavePath = "Position";
 
         [ContextMenu("Save")]
