@@ -4,6 +4,7 @@ using Crafting_System.WorkBench;
 using Items_System;
 using Items_System.Ore_Type;
 using MeltingSystem;
+using Player_Controller;
 using Storage_System;
 using TMPro;
 using Tool_Clipboard;
@@ -17,6 +18,7 @@ public class ObjectsRayCaster : MonoBehaviour
     [FormerlySerializedAs("_buildingDataDisplayer")] [Header("Attached scripts")] [SerializeField]
     private ObjectHpDisplayer objectHpDisplayer;
 
+    [SerializeField] private PlayerNetCode _playerNetCode;
     [Header("UI")] [SerializeField] private GameObject _pointPanel;
     [SerializeField] private TMP_Text _obtainText;
     [SerializeField] private GameObject _lootButton;
@@ -29,7 +31,7 @@ public class ObjectsRayCaster : MonoBehaviour
 
     [Header("Layers")] [SerializeField] private LayerMask _defaultMask;
     [SerializeField] private LayerMask _blockMask;
-    [SerializeField] private VehiclesController _vehiclesController;
+
     public ResourceOre TargetResourceOre { get; private set; }
     public GatheringOre TargetGathering { get; private set; }
     public Storage TargetBox { get; private set; }
@@ -40,6 +42,7 @@ public class ObjectsRayCaster : MonoBehaviour
     public ToolClipboard ToolClipboard { get; private set; }
     public WorkBench WorkBench { get; private set; }
     public HammerInteractable TargetClipboardInteractable { get; private set; }
+    public SittingPlace TargetSittingPlace { get; private set; }
     private BuildingBlock _targetBlock;
     public bool CanRayCastOre { get; set; }
 
@@ -53,7 +56,6 @@ public class ObjectsRayCaster : MonoBehaviour
 
     private void ResetTargets()
     {
-        _vehiclesController.SetVehicleController(null);
         TargetResourceOre = null;
         TargetGathering = null;
         TargetBox = null;
@@ -64,6 +66,7 @@ public class ObjectsRayCaster : MonoBehaviour
         ToolClipboard = null;
         WorkBench = null;
         TargetClipboardInteractable = null;
+        TargetSittingPlace = null;
     }
 
     private bool TryRaycast<T>(string tag, float hitDistance, out T target, LayerMask layer)
@@ -133,7 +136,7 @@ public class ObjectsRayCaster : MonoBehaviour
             _targetBlock = null;
         }
 
-        if(CharacterUIHandler.singleton != null)
+        if (CharacterUIHandler.singleton != null)
             CharacterUIHandler.singleton.ActivateGatherButton(false);
         SetLootText("", false);
 
@@ -157,7 +160,8 @@ public class ObjectsRayCaster : MonoBehaviour
             }
         }
 
-        if (TryRaycast("ClipBoardIteractable", _maxOpeningDistance, out HammerInteractable clipboardInteractable, _blockMask))
+        if (TryRaycast("ClipBoardIteractable", _maxOpeningDistance, out HammerInteractable clipboardInteractable,
+                _blockMask))
         {
             TargetClipboardInteractable = clipboardInteractable;
         }
@@ -171,7 +175,7 @@ public class ObjectsRayCaster : MonoBehaviour
                 return;
             }
         }
-        
+
         if (TryRaycast("LootBox", _maxOpeningDistance, out ToolClipboard clipboard, _defaultMask))
         {
             ToolClipboard = clipboard;
@@ -181,7 +185,7 @@ public class ObjectsRayCaster : MonoBehaviour
                 return;
             }
         }
-        
+
         if (TryRaycast("LootBox", _maxOpeningDistance, out Storage lootbox, _defaultMask))
         {
             TargetBox = lootbox;
@@ -210,22 +214,20 @@ public class ObjectsRayCaster : MonoBehaviour
             return;
         }
 
-        if(TryRaycast("Vehicle", _maxOpeningDistance, out IVehicleController vehicleHandler, _defaultMask))
-        {
-            _vehiclesController.SetVehicleController(vehicleHandler);
-            return;
-        }
-        
-        if(TryRaycast("Boat", _maxOpeningDistance, out IVehicleController boatHandler, _defaultMask))
-        {
-            _vehiclesController.SetVehicleController(boatHandler);
-            return;
-        }
-        
-        if(TryRaycast("WorkBench", _maxOpeningDistance, out WorkBench workBench, _defaultMask))
+        if (TryRaycast("WorkBench", _maxOpeningDistance, out WorkBench workBench, _defaultMask))
         {
             WorkBench = workBench;
             SetLootButton("Open");
+            return;
+        }
+
+        if (TryRaycast("SitPlace", _maxOpeningDistance, out SittingPlace place, _defaultMask))
+        {
+            TargetSittingPlace = place;
+            if (place.CanSit())
+                SetLootButton("Sit");
+            else if (place.CanStand(_playerNetCode))
+                SetLootButton("Stand");
             return;
         }
 

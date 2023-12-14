@@ -1,4 +1,5 @@
 using System.Threading.Tasks;
+using Player_Controller;
 using UnityEngine;
 using Web.User;
 
@@ -6,6 +7,7 @@ using Web.User;
 public class PlayerResourcesGatherer : MonoBehaviour
 {
     [Header("Attached Scripts")]
+    [SerializeField] private PlayerNetCode _playerNetCode;
     [SerializeField] private InventoryHandler _inventoryHandler;
     [SerializeField] private ObjectsRayCaster _objectsRayCaster;
     [SerializeField] private AudioSource _audioSource;
@@ -67,6 +69,7 @@ public class PlayerResourcesGatherer : MonoBehaviour
 
     public void TryDoGathering()
     {
+        TrySit();
         TryOpenWorkBench();
         TryHit();
         TryOpenChest();
@@ -103,6 +106,17 @@ public class PlayerResourcesGatherer : MonoBehaviour
         _audioSource.PlayOneShot(ore.GatheringClip);
         if (!destroyed) return;
         StopGathering();
+    }
+
+    private bool TrySit()
+    {
+        var place = _objectsRayCaster.TargetSittingPlace;
+        if(!place) return false;
+        if(place.CanSit())
+            place.SitIn(_playerNetCode);
+        else if(place.CanStand(_playerNetCode))
+            place.StandUp(_playerNetCode);
+        return true;
     }
 
     private bool TryAuthorizeClipboard()

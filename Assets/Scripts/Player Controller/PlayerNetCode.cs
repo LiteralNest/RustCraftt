@@ -12,22 +12,25 @@ namespace Player_Controller
     {
         public static PlayerNetCode Singleton { get; private set; }
         
-        public NetworkVariable<int> ActiveItemId { get; set; } = new NetworkVariable<int>();
+        [Header("Attached Components")]
+        [SerializeField] private Collider _collider;
+        
+        [Header("In Hand Items")] 
+        [SerializeField] private InHandObjectsContainer _inHandObjectsContainer;
 
-        [Header("In Hand Items")] [SerializeField]
-        private InHandObjectsContainer _inHandObjectsContainer;
-
-        [Header("Armor")] public NetworkVariable<int> ActiveArmorId = new(101, NetworkVariableReadPermission.Everyone,
+        [Header("Armor")] 
+        public NetworkVariable<int> ActiveArmorId = new(101, NetworkVariableReadPermission.Everyone,
             NetworkVariableWritePermission.Owner);
-
         [SerializeField] private ArmorsContainer _armorsContainer;
 
-        [Header("NickName")] [SerializeField] private NetworkVariable<int> _playerId = new(-1,
+        [Header("NickName")] 
+        [SerializeField] private NetworkVariable<int> _playerId = new(-1,
             NetworkVariableReadPermission.Everyone,
             NetworkVariableWritePermission.Owner);
-
         [SerializeField] private List<TMP_Text> _nickNameTexts = new List<TMP_Text>();
-
+        
+        public NetworkVariable<int> ActiveItemId { get; set; } = new NetworkVariable<int>();
+        
         private RigidbodyConstraints _cachedConstraints;
 
         private void OnEnable()
@@ -93,22 +96,24 @@ namespace Player_Controller
         }
 
         [ClientRpc]
-        public void FreezeControllerClientRpc()
+        public void SitClientRpc()
         {
             var rb = GetComponent<Rigidbody>();
             _cachedConstraints = rb.constraints;
             rb.constraints = RigidbodyConstraints.FreezeAll;
             rb.useGravity = true;
             GetComponent<PlayerController>().enabled = false;
+            _collider.enabled = false;
         }
 
         [ClientRpc]
-        public void UnFreezeControllerClientRpc()
+        public void StandClientRpc()
         {
             var rb = GetComponent<Rigidbody>();
             rb.constraints = _cachedConstraints;
             rb.useGravity = true;
             GetComponent<PlayerController>().enabled = true;
+            _collider.enabled = true;
         }
         
         [ClientRpc]

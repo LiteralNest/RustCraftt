@@ -52,30 +52,18 @@ namespace Vehicle
             }
         }
 
-        [ServerRpc(RequireOwnership = false)]
-        private void SitServerRpc(ulong playerId)
-        {
-            if (!IsServer) return;
-            SetPlayer(playerId);
-            _currentPlayer.FreezeControllerClientRpc();
-        }
-
-        [ClientRpc]
-        private void ResetPlayerClientRpc()
-            => _currentPlayer = null;
-
         private void ResetPlayer()
         {
             if (_currentPlayer == null) return;
             _currentPlayer.GetComponent<NetworkObject>().TryRemoveParent();
-            ResetPlayerClientRpc();
+            //ResetPlayerClientRpc();
         }
 
         [ServerRpc(RequireOwnership = false)]
         private void StandUpServerRpc(ulong playerId)
         {
             if (!IsServer) return;
-            _currentPlayer.UnFreezeControllerClientRpc();
+            _currentPlayer.StandClientRpc();
             ResetPlayer();
         }
 
@@ -103,7 +91,7 @@ namespace Vehicle
 
         public virtual void SitIn(PlayerNetCode playerNetCode)
         {
-            SitServerRpc(playerNetCode.NetworkObjectId);
+            //SitServerRpc(playerNetCode.NetworkObjectId);
             _input.enabled = true;
         }
 
