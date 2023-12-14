@@ -20,6 +20,9 @@ public class ObjectsRayCaster : MonoBehaviour
     [FormerlySerializedAs("_buildingDataDisplayer")] [Header("Attached scripts")] [SerializeField]
     private ObjectHpDisplayer objectHpDisplayer;
 
+    [SerializeField] private VehiclesController _vehiclesController;
+
+
     [SerializeField] private PlayerNetCode _playerNetCode;
     [Header("UI")] [SerializeField] private GameObject _pointPanel;
     [SerializeField] private TMP_Text _obtainText;
@@ -69,6 +72,7 @@ public class ObjectsRayCaster : MonoBehaviour
         WorkBench = null;
         TargetClipboardInteractable = null;
         TargetSittingPlace = null;
+        _vehiclesController.SetVehicleController(null);
     }
 
     private bool TryRaycast<T>(string tag, float hitDistance, out T target, LayerMask layer)
@@ -230,6 +234,12 @@ public class ObjectsRayCaster : MonoBehaviour
                 SetLootButton("Sit");
             else if (place.CanStand(_playerNetCode))
                 SetLootButton("Stand");
+            return;
+        }
+
+        if (TryRaycast("Vehicle", _maxOpeningDistance, out VehicleController vehicle, _defaultMask))
+        {
+            _vehiclesController.SetVehicleController(vehicle);
             return;
         }
 

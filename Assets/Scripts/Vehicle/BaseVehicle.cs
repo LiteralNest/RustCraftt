@@ -7,6 +7,5 @@ namespace Vehicle
         [SerializeField] protected Rigidbody VehicleRb;
         [SerializeField] protected float MoveSpeed = 5f;
         [SerializeField] protected float RotationSpeed = 40f;
-        [SerializeField] private Transform SitPlace;
     }
 }

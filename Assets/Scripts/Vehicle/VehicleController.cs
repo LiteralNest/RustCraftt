@@ -1,6 +1,3 @@
-using System.Linq;
-using System.Threading.Tasks;
-using Building_System.NetWorking;
 using Player_Controller;
 using Unity.Netcode;
 using UnityEngine;
@@ -10,12 +7,21 @@ namespace Vehicle
 {
     public class VehicleController : NetworkBehaviour, IVehicleController
     {
-        [SerializeField] protected Vector3 _offset = new Vector3(0f, 3f, 0f);
         [SerializeField] private PlayerInput _input;
 
         protected bool IsMoving { get; set; }
-
+        public bool EngineTurnedOn { get; set; }
         protected Vector2 MoveInput;
+
+        public virtual bool EnoughFuel()
+            => false;
+
+        public virtual bool HasEngine()
+            => false;
+
+        public virtual void TurnOff()
+        {
+        }
 
         public void OnMove(InputAction.CallbackContext context)
         {

@@ -18,6 +18,6 @@ namespace UI
         
         [ContextMenu("DisplayKnockDownScreen")]
         public void DisplayKnockDownScreen(bool value)
-            => _knockDownPanel.SetActive(value);
+            => _knockDownPanel.SetActive(value); 
     }
 }

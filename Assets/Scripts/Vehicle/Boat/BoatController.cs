@@ -7,6 +7,12 @@ namespace Vehicle
     {
         [SerializeField] private Boat _boat;
 
+        public override bool EnoughFuel()
+            => _boat.FuelStorage.FuelAvailable();
+
+        public override bool HasEngine()
+            => true;
+
         private void FixedUpdate()
         {
             if (IsMoving && _boat.IsFloating)
@@ -14,7 +20,7 @@ namespace Vehicle
                 _boat.Move(MoveInput);
             }
         }
-        
+
         public override bool CanBePushed()
             => true;
 

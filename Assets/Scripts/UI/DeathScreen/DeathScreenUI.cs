@@ -1,6 +1,7 @@
 using System.Linq;
 using Multiplayer.PlayerSpawning;
 using UnityEngine;
+using UI;
 
 namespace UI.DeathScreen
 {

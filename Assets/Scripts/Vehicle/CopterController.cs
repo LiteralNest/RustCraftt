@@ -1,7 +1,4 @@
-using Player_Controller;
-using Unity.Netcode;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 namespace Vehicle
 {
@@ -9,6 +6,12 @@ namespace Vehicle
     {
         [SerializeField] private Copter _copter;
 
+        public override bool EnoughFuel()
+            => _copter.FuelStorage.FuelAvailable();
+        
+        public override bool HasEngine()
+            => true;
+        
         private void Update()
         {
             if (MoveInput.x != 0) return;
@@ -21,6 +24,11 @@ namespace Vehicle
             _copter.Move(MoveInput);
         }
 
+        public override void TurnOff()
+        {
+            _copter.ReturnKinematic();
+        }
+        
         public override bool CanMoveUp()
             => true;
 

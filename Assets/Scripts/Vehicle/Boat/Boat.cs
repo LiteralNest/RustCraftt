@@ -7,7 +7,7 @@ namespace Vehicle
     {
         [Header("Attached Components")]
         [SerializeField] private FuelStorage _fuelStorage;
-        
+        public FuelStorage FuelStorage => _fuelStorage;
         [Header("Main Parameters")]
         [SerializeField] private float _pushForce = 100f;
         [SerializeField] private float _depthBeforeSubmerged = 1f;

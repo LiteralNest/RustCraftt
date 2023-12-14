@@ -15,6 +15,7 @@ namespace UI
         [SerializeField] private GameObject _reloadingButton;
         [SerializeField] private GameObject _placingPanel;
         [SerializeField] private GameObject _scopeButton;
+        [SerializeField] private GameObject _joystick;
     
         [SerializeField] private List<GameObject> _vehicleIgnoringPanels = new List<GameObject>();
 
@@ -57,6 +58,9 @@ namespace UI
         public void ActivateThrowButton(bool value)
             => _throwExplosiveButton.SetActive(value);
 
+        public void HandleJoystick(bool value)
+            => _joystick.SetActive(value);
+        
         public void HandleIgnoringVehiclePanels(bool value)
         {
             foreach (var panel in _vehicleIgnoringPanels)

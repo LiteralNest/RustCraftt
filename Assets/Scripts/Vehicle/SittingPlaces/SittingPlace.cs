@@ -90,7 +90,7 @@ namespace Vehicle.SittingPlaces
 
         #endregion
 
-        private void OnTriggerExit(Collider other)
+        protected virtual void TriggerExited(Collider other)
         {
             if (!other.CompareTag("Player")) return;
             if (_currentPlayer == null) return;
@@ -98,5 +98,8 @@ namespace Vehicle.SittingPlaces
             ResetPlayerClientRpc();
             ResetInput();
         }
+
+        private void OnTriggerExit(Collider other)
+            => TriggerExited(other);
     }
 }

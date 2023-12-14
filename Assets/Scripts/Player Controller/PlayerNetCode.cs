@@ -4,6 +4,7 @@ using ArmorSystem.Backend;
 using TMPro;
 using Unity.Netcode;
 using UnityEngine;
+using Vehicle;
 using Web.User;
 
 namespace Player_Controller
@@ -14,7 +15,7 @@ namespace Player_Controller
         
         [Header("Attached Components")]
         [SerializeField] private Collider _collider;
-        
+        [field:SerializeField] public VehiclesController VehiclesController { get; private set; }
         [Header("In Hand Items")] 
         [SerializeField] private InHandObjectsContainer _inHandObjectsContainer;
 
