@@ -10,7 +10,7 @@ namespace Mesh
         [Header("Prefab Settings")] 
         public string _savingPrefName = "Terrain";
         [SerializeField] private string _directoryPath = "Assets/";
-        [SerializeField] private string _folderName = "GeneratedMeshes";
+        [SerializeField] private string _folderName = "GeneratedMeshes/";
 
         [SerializeField] private Transform _targetMesh;
 
@@ -75,7 +75,7 @@ namespace Mesh
             {
                 foreach (var blockPosition in blockPositionSaver)
                 {
-                    blockPosition.SaveTopBlockPositions();
+                    blockPosition.SaveTopBlockPositionsToJson();
                 }
                 
             }
