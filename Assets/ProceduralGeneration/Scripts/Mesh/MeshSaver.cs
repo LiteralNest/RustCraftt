@@ -1,6 +1,5 @@
-#if UNITY_EDITOR
-
 using System.IO;
+using ProceduralGeneration.Scripts.Mesh;
 using UnityEditor;
 using UnityEngine;
 
@@ -60,7 +59,6 @@ namespace Mesh
                     continue;
                 }
             
-            
                 UnityEngine.Mesh meshToSave = Instantiate(child.GetComponent<MeshFilter>().sharedMesh);
                 SaveMesh(meshToSave, savingPath, "Meshes", "Mesh" + i);
                 child.GetComponent<MeshCollider>().sharedMesh = meshToSave;
@@ -71,9 +69,16 @@ namespace Mesh
             string path = savingPath + "/" + _savingPrefName + ".prefab";
             PrefabUtility.SaveAsPrefabAsset(_targetMesh.gameObject, path);
             Debug.Log("Prefab saved at: " + path);
+            
+            BlockPositionSaver[] blockPositionSaver = FindObjectsOfType<BlockPositionSaver>();
+            if (blockPositionSaver != null)
+            {
+                foreach (var blockPosition in blockPositionSaver)
+                {
+                    blockPosition.SaveTopBlockPositions();
+                }
+                
+            }
         }
     }
 }
-
-
-#endif
