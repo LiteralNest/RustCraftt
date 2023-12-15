@@ -16,13 +16,15 @@ namespace Generator
         [SerializeField] private Texture2D _mapTexture;
         [SerializeField] private Texture2D _biomeTexture2D;
         [SerializeField] private int _scaleFactor;
-
+        
         private Camera _mainCamera;
         private Vector2Int _currentPlayerChunk;
         private float[,] _fixedMapData;
         private Color[,] _fixedBiomeData;
 
         private Vector2Int _worldSize;
+        private Vector3Int _previousPlayerWorldPosition;
+        [SerializeField] private Character _playerCharacter;
 
         private void InitWorldSize()
         {
@@ -42,14 +44,41 @@ namespace Generator
 
         private void Update()
         {
-            var playerWorldPosition = Vector3Int.FloorToInt(_mainCamera.transform.position / ChunkRenderer.BlockScale);
-            Vector2Int playerChunk = GetChunkContainingBlock(playerWorldPosition);
-            if (playerChunk != _currentPlayerChunk)
+            var playerWorldPosition = Vector3Int.FloorToInt(_mainCamera.transform.position);
+            // Vector2Int playerChunk = GetChunkContainingBlock(playerWorldPosition);
+            // if (playerChunk != _currentPlayerChunk)
+            // {
+            //     _currentPlayerChunk = playerChunk;
+            // }
+            
+            if (playerWorldPosition != _previousPlayerWorldPosition)
             {
-                _currentPlayerChunk = playerChunk;
+                _previousPlayerWorldPosition = playerWorldPosition;
+                CheckPlayerBlock(playerWorldPosition);
             }
             CheckInput();
         }
+
+        private void CheckPlayerBlock(Vector3Int playerWorldPosition)
+        {
+            Vector2Int playerChunk = GetChunkContainingBlock(playerWorldPosition);
+
+            if (ChunkDatas.TryGetValue(playerChunk, out var chunkData))
+            {
+                // var chunkOrigin = new Vector3Int(chunkData.ChunkPosition.x * ChunkRenderer.ChunkWidth, 0, chunkData.ChunkPosition.y * ChunkRenderer.ChunkWidth);
+                var blockPosition = playerWorldPosition + new Vector3Int(0,-2,0);
+
+
+                BlockType blockType = chunkData.Blocks[blockPosition.x + blockPosition.y * ChunkRenderer.ChunkWidthSq + blockPosition.z * ChunkRenderer.ChunkWidth];
+
+                if (blockType != BlockType.Air)
+                {
+                    _playerCharacter.PlayBlockSound(blockType);
+                }
+            }
+        }
+
+
 
         public float[,] Resize(Texture2D originalTexture, int newWidth, int newHeight)
         {
