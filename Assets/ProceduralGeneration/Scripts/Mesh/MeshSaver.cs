@@ -1,5 +1,6 @@
 using System.IO;
 using ProceduralGeneration.Scripts.Mesh;
+using ProceduralGeneration.Scripts.SavingSystem;
 using UnityEditor;
 using UnityEngine;
 
@@ -70,15 +71,17 @@ namespace Mesh
             PrefabUtility.SaveAsPrefabAsset(_targetMesh.gameObject, path);
             Debug.Log("Prefab saved at: " + path);
             
-            BlockPositionSaver[] blockPositionSaver = FindObjectsOfType<BlockPositionSaver>();
-            if (blockPositionSaver != null)
-            {
-                foreach (var blockPosition in blockPositionSaver)
-                {
-                    blockPosition.SaveTopBlockPositionsToJson();
-                }
-                
-            }
+            // BlockPositionSaver[] blockPositionSaver = FindObjectsOfType<BlockPositionSaver>();
+            // if (blockPositionSaver != null)
+            // {
+            //     foreach (var blockPosition in blockPositionSaver)
+            //     {
+            //         blockPosition.SaveTopBlockPositionsToJson();
+            //     }
+            //     
+            // }
+            
+            ChunksDataSaver.Singleton.SaveData();
         }
     }
 }

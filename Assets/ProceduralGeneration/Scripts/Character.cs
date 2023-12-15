@@ -1,4 +1,3 @@
-using ScriptableObjects;
 using UnityEngine;
 
 public class Character : MonoBehaviour
@@ -6,12 +5,9 @@ public class Character : MonoBehaviour
     [SerializeField] private float _movingYSpeed = 5;
     [SerializeField] private float _movingSpeed = 5;
     [SerializeField] private float _rotationSpeed = 5;
-    [SerializeField] private Rigidbody _rb;
-    [SerializeField] private AudioSource _audioSource;
 
     private float _rotationX = 0f;
     private float _rotationY = 0f;
-    [SerializeField] private BlockDataBase _blocksData;
 
     private void Update()
     {
@@ -20,15 +16,6 @@ public class Character : MonoBehaviour
         HandleInput();
     }
 
-    public void PlayBlockSound(BlockType blockType)
-    {
-        var blockInfo = _blocksData.GetInfo(blockType);
-    
-        if (blockInfo != null && blockInfo.AudioClip != null)
-        {
-            _audioSource.PlayOneShot(blockInfo.AudioClip);
-        }
-    }
     private void RotateCamera()
     {
         float mouseX = Input.GetAxis("Mouse X");

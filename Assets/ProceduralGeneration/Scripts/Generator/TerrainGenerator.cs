@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using Chunk;
 using Mesh;
+using ProceduralGeneration.Scripts.SavingSystem;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -24,13 +25,12 @@ namespace Generator
             public BlockType MainBlockType;
             public BlockType SecondaryBlockType;
             public BlockType AdditionalBlockType;
-            
+
             [Range(0, 100)] public int AdditionalBlockHeightRange = 0;
             public Spawnable[] SpawnablePrefabs;
         }
 
         #endregion
-
 
 
         [SerializeField] private List<Biome> biomes;
@@ -40,79 +40,84 @@ namespace Generator
         #region Terrain Generation
 
         public BlockType[] GenerateTerrain(int chunkX, int chunkZ, int totalChunksX, int totalChunksZ,
-        float[,] noiseData, Color[,] biomeData)
-    {
-        var result = new BlockType[ChunkRenderer.ChunkWidth * ChunkRenderer.ChunkHeight * ChunkRenderer.ChunkWidth];
-
-        int noiseDataWidth = noiseData.GetLength(0);
-        int noiseDataHeight = noiseData.GetLength(1);
-
-        for (int x = 0; x < ChunkRenderer.ChunkWidth; x++)
+            float[,] noiseData, Color[,] biomeData)
         {
-            for (int z = 0; z < ChunkRenderer.ChunkWidth; z++)
-            {
-                float noiseX = ((chunkX * ChunkRenderer.ChunkWidth + x) / (float)(totalChunksX * ChunkRenderer.ChunkWidth)) * noiseDataWidth;
-                float noiseZ = ((chunkZ * ChunkRenderer.ChunkWidth + z) / (float)(totalChunksZ * ChunkRenderer.ChunkWidth)) * noiseDataHeight;
+            var result = new BlockType[ChunkRenderer.ChunkWidth * ChunkRenderer.ChunkHeight * ChunkRenderer.ChunkWidth];
 
-                float height = GenerateHeightFromNoise(noiseX, noiseZ, noiseDataWidth, noiseDataHeight, noiseData);
-                Color biomeColor = biomeData[Mathf.FloorToInt(noiseX), Mathf.FloorToInt(noiseZ)];
-                
-                Biome currentBiome = GetBiomeByColor(biomeColor);
-                for (int y = 0; y < ChunkRenderer.ChunkHeight; y++)
+            int noiseDataWidth = noiseData.GetLength(0);
+            int noiseDataHeight = noiseData.GetLength(1);
+
+            for (int x = 0; x < ChunkRenderer.ChunkWidth; x++)
+            {
+                for (int z = 0; z < ChunkRenderer.ChunkWidth; z++)
                 {
-                    var index = x + y * ChunkRenderer.ChunkWidthSq + z * ChunkRenderer.ChunkWidth;
-                    
-                    if (y == Mathf.FloorToInt(height))
+                    float noiseX =
+                        ((chunkX * ChunkRenderer.ChunkWidth + x) / (float)(totalChunksX * ChunkRenderer.ChunkWidth)) *
+                        noiseDataWidth;
+                    float noiseZ =
+                        ((chunkZ * ChunkRenderer.ChunkWidth + z) / (float)(totalChunksZ * ChunkRenderer.ChunkWidth)) *
+                        noiseDataHeight;
+
+                    float height = GenerateHeightFromNoise(noiseX, noiseZ, noiseDataWidth, noiseDataHeight, noiseData);
+                    Color biomeColor = biomeData[Mathf.FloorToInt(noiseX), Mathf.FloorToInt(noiseZ)];
+
+                    Biome currentBiome = GetBiomeByColor(biomeColor);
+                    for (int y = 0; y < ChunkRenderer.ChunkHeight; y++)
                     {
-                        // Top block
-                        result[index] = GetBlockTypeByBiome(biomeColor, true);
-                    }
-                    else
-                    {
-                        // Check for AdditionalBlockType within the specified height range
-                        if (currentBiome != null && 
-                            y <= Mathf.FloorToInt(height - currentBiome.AdditionalBlockHeightRange))
+                        var index = x + y * ChunkRenderer.ChunkWidthSq + z * ChunkRenderer.ChunkWidth;
+
+                        if (y == Mathf.FloorToInt(height))
                         {
-                            result[index] = currentBiome.AdditionalBlockType;
-                        }
-                        else if (y < height)
-                        {
-                            // Below AdditionalBlockType range but above the terrain surface
-                            result[index] = GetBlockTypeByBiome(biomeColor, false);
+                            // Top block
+                            var blockType = GetBlockTypeByBiome(biomeColor, true);
+                            result[index] = blockType;
                         }
                         else
                         {
-                            // Above the terrain surface
-                            result[index] = BlockType.Air;
+                            // Check for AdditionalBlockType within the specified height range
+                            if (currentBiome != null &&
+                                y <= Mathf.FloorToInt(height - currentBiome.AdditionalBlockHeightRange))
+                            {
+                                result[index] = currentBiome.AdditionalBlockType;
+                            }
+                            else if (y < height)
+                            {
+                                // Below AdditionalBlockType range but above the terrain surface
+                                result[index] = GetBlockTypeByBiome(biomeColor, false);
+                            }
+                            else
+                            {
+                                // Above the terrain surface
+                                result[index] = BlockType.Air;
+                            }
                         }
-                    }
 
-                    if (y == Mathf.FloorToInt(height))
-                    {
-                        Vector3 spawnPosition = new Vector3(
-                            (chunkX * ChunkRenderer.ChunkWidth + x) * ChunkRenderer.BlockScale,
-                            (y + 1) * ChunkRenderer.BlockScale, // Adjusted to spawn on the upper surface
-                            (chunkZ * ChunkRenderer.ChunkWidth + z) * ChunkRenderer.BlockScale
-                        );
-
-                        // Apply the constant offset to the spawn position
-                        spawnPosition += new Vector3(_objectOffset, 0, _objectOffset);
-
-                        if (currentBiome != null)
+                        if (y == Mathf.FloorToInt(height))
                         {
-                            // Determine the spawnable object based on chances
-                            var spawnable = GetRandomSpawnable(currentBiome.SpawnablePrefabs);
+                            Vector3 spawnPosition = new Vector3(
+                                (chunkX * ChunkRenderer.ChunkWidth + x) * ChunkRenderer.BlockScale,
+                                (y + 1) * ChunkRenderer.BlockScale, // Adjusted to spawn on the upper surface
+                                (chunkZ * ChunkRenderer.ChunkWidth + z) * ChunkRenderer.BlockScale
+                            );
 
-                            // Spawn the selected prefab on the adjusted position
-                            SpawnPrefabInBiome(spawnPosition, spawnable, transform);
+                            // Apply the constant offset to the spawn position
+                            spawnPosition += new Vector3(_objectOffset, 0, _objectOffset);
+
+                            if (currentBiome != null)
+                            {
+                                // Determine the spawnable object based on chances
+                                var spawnable = GetRandomSpawnable(currentBiome.SpawnablePrefabs);
+
+                                // Spawn the selected prefab on the adjusted position
+                                SpawnPrefabInBiome(spawnPosition, spawnable, transform);
+                            }
                         }
                     }
                 }
             }
-        }
 
-        return result;
-    }
+            return result;
+        }
 
         #endregion
 
@@ -120,10 +125,8 @@ namespace Generator
 
         private BlockType CheckForBiomeLayer(int y, Biome currentBiome)
         {
-          
-                return BlockType.Air;
+            return BlockType.Air;
         }
-
 
         #endregion
 
