@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Animation_System;
 using Building_System.NetWorking;
 using PlayerDeathSystem;
+using Storage_System;
 using Unity.Netcode;
 using UnityEngine;
 using Web.User;
@@ -23,11 +24,31 @@ namespace Multiplayer.PlayerSpawning
         {
             if (!IsOwner) return;
             _userId.Value = UserDataHandler.singleton.UserData.Id;
-            PlayerStaffSpawner.Singleton.SpawnPlayerServerRpc(PlayerSpawnManager.Singleton.GetRandomSpawnPoint(),
-                Quaternion.identity, _userId.Value, GetComponent<NetworkObject>().OwnerClientId);
+            TryConnectServerToBackPack();
             await Task.Delay(900);
             if (!IsOwner) return;
             Singleton = this;
+        }
+
+        private void TryConnectServerToBackPack()
+        {
+            var backPacks = FindObjectsOfType<BackPack>().ToList();
+            foreach (var backPack in backPacks)
+            {
+                if (backPack == null) continue;
+                if (!(backPack.WasDisconnected.Value && backPack.OwnerId.Value == _userId.Value)) return;
+                PlayerStaffSpawner.Singleton.SpawnPlayerServerRpc(backPack.transform.position + new Vector3(0, 1, 0),
+                    backPack.transform.rotation, GetComponent<NetworkObject>().OwnerClientId, (int)backPack.NetworkObject.NetworkObjectId);
+                return;
+            }
+
+            SpawnPlayerInRandomPoint();
+        }
+
+        private void SpawnPlayerInRandomPoint()
+        {
+            PlayerStaffSpawner.Singleton.SpawnPlayerServerRpc(PlayerSpawnManager.Singleton.GetRandomSpawnPoint(),
+                Quaternion.identity, GetComponent<NetworkObject>().OwnerClientId);
         }
 
         private void Respawn(int userId, Vector3 spawnPoint)
@@ -36,7 +57,7 @@ namespace Multiplayer.PlayerSpawning
             var point = PlayerSpawnManager.Singleton.GetRandomSpawnPoint();
             if (spawnPoint == new Vector3(0, -1000000, 0))
                 point = spawnPoint;
-            PlayerStaffSpawner.Singleton.SpawnPlayerServerRpc(point, Quaternion.identity, _userId.Value,
+            PlayerStaffSpawner.Singleton.SpawnPlayerServerRpc(point, Quaternion.identity,
                 GetComponent<NetworkObject>().OwnerClientId);
         }
 
@@ -51,16 +72,16 @@ namespace Multiplayer.PlayerSpawning
             }
         }
 
-        // public override void OnNetworkDespawn()
-        // {
-        //     base.OnNetworkDespawn();
-        //     if (!IsServer) return;
-        //     List<PlayerKiller> players = FindObjectsOfType<PlayerKiller>().ToList();
-        //     foreach (var player in players)
-        //     {
-        //         if (player.UserId != _userId.Value) continue;
-        //         player.DieServerRpc();
-        //     }
-        // }
+        public override void OnNetworkDespawn()
+        {
+            base.OnNetworkDespawn();
+            if (!IsServer) return;
+            List<PlayerKiller> players = FindObjectsOfType<PlayerKiller>().ToList();
+            foreach (var player in players)
+            {
+                if (player.UserId != _userId.Value) continue;
+                player.DieServerRpc(_userId.Value, true, false);
+            }
+        }
     }
 }

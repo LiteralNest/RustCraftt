@@ -2,6 +2,7 @@ using System.Threading.Tasks;
 using PlayerDeathSystem;
 using Unity.Netcode;
 using UnityEngine;
+using Web.User;
 
 namespace Character_Stats
 {
@@ -33,7 +34,7 @@ namespace Character_Stats
             if (!IsOwner) return;
             _characterStats.DisplayHp(_currentHp.Value);
             if(Hp <= 0)
-                PlayerKiller.Singleton.DieServerRpc();
+                PlayerKiller.Singleton.DieServerRpc(UserDataHandler.singleton.UserData.Id, false);
             else if (Hp <= 5)
                 PlayerKnockDowner.Singleton.KnockDownServerRpc();
         }

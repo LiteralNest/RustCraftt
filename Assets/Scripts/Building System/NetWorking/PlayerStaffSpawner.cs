@@ -1,4 +1,6 @@
+using System.Linq;
 using Player_Controller;
+using Storage_System;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -15,7 +17,7 @@ namespace Building_System.NetWorking
 
   
         [ServerRpc(RequireOwnership = false)]
-        public void SpawnPlayerServerRpc(Vector3 pos, Quaternion rot, int id, ulong ownerClientId)
+        public void SpawnPlayerServerRpc(Vector3 pos, Quaternion rot, ulong ownerClientId, int instanceId = -1)
         {
             if(!IsServer) return;
             var obj = Instantiate(_playerNetCodePref, pos, rot);
@@ -23,6 +25,20 @@ namespace Building_System.NetWorking
             networkObj.DontDestroyWithOwner = true;
             networkObj.Spawn(); 
             networkObj.ChangeOwnership(ownerClientId);
+            if (instanceId != -1)
+                TryAssignBackPackToPlayer((ulong)instanceId, obj);
+        }
+
+        private void TryAssignBackPackToPlayer(ulong instanceId, PlayerNetCode playerNetCode)
+        {
+            var backPacks = FindObjectsOfType<BackPack>().ToList();
+            foreach (var backPack in backPacks)
+            {
+                if(backPack.NetworkObject.NetworkObjectId != instanceId) continue;
+                playerNetCode.CharacterInventory.AssignCells(backPack.ItemsNetData.Value);
+                backPack.DespawnServerRpc();
+                return;
+            }
         }
     }
 }

@@ -17,12 +17,14 @@ namespace PlayerDeathSystem
             _corpesObject.Id = corpesId;
         }
 
-        public void MoveCorpes(CustomSendingInventoryData data, int corpesId)
+        public void GenerateBackPack(CustomSendingInventoryData data, int corpesId, bool wasDisconnected, int ownerId)
         {
             var backPack = Instantiate(_corpesPref.gameObject, _corpesPlace.position, _corpesPlace.rotation);
             backPack.GetComponent<NetworkObject>().Spawn();
-            backPack.GetComponent<BackPack>().AssignCells(data);
-            backPack.GetComponent<BackPack>().AssignCorpServerRpc(corpesId);
+            var script = backPack.GetComponent<BackPack>();
+            script.AssignCells(data);
+            script.AssignCorpServerRpc(corpesId);
+            script.SetWasDisconnectedAndOwnerIdServerRpc(wasDisconnected, ownerId);
         }
     }
 }

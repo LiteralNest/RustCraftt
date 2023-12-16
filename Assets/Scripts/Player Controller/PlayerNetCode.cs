@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using ArmorSystem.Backend;
+using Storage_System;
 using TMPro;
 using Unity.Netcode;
 using UnityEngine;
@@ -16,6 +17,7 @@ namespace Player_Controller
         [Header("Attached Components")]
         [SerializeField] private Collider _collider;
         [field:SerializeField] public VehiclesController VehiclesController { get; private set; }
+        [field:SerializeField] public CharacterInventory CharacterInventory { get; private set; }
         [Header("In Hand Items")] 
         [SerializeField] private InHandObjectsContainer _inHandObjectsContainer;
 

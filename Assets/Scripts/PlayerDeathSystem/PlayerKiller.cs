@@ -13,14 +13,16 @@ namespace PlayerDeathSystem
     public class PlayerKiller : NetworkBehaviour
     {
         public static PlayerKiller Singleton { get; private set; }
-        
+
         [SerializeField] private CharacterInventory _characterInventory;
         [SerializeField] private List<Behaviour> _removingComponents;
         [SerializeField] private List<GameObject> _removingObjects;
 
-        [SerializeField] private PlayerCorpesHanler _playerCorpesHanler; 
+        [SerializeField] private PlayerCorpesHanler _playerCorpesHanler;
 
-        private NetworkVariable<int> _userId = new(-1, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
+        private NetworkVariable<int> _userId = new(-1, NetworkVariableReadPermission.Everyone,
+            NetworkVariableWritePermission.Owner);
+
         public int UserId => _userId.Value;
 
         private async void Start()
@@ -32,26 +34,29 @@ namespace PlayerDeathSystem
         }
 
         [ServerRpc(RequireOwnership = false)]
-        public void DieServerRpc()
+        public void DieServerRpc(int ownerId, bool wasDisconnected = false, bool shouldDisplayDeathScreen = true)
         {
-            if(!IsServer) return;
+            if (!IsServer) return;
             int corpesid = Random.Range(0, 100000);
-            DieClientRpc(corpesid);
+            DieClientRpc(corpesid, wasDisconnected, ownerId, shouldDisplayDeathScreen);
         }
 
         [ClientRpc]
-        private void DieClientRpc(int corpesid)
+        private void DieClientRpc(int corpesid, bool wasDisconnected, int ownerId, bool shouldDisplayDeathScreen)
         {
             _playerCorpesHanler.ResetCorpesPos(corpesid);
-            if (IsOwner)
+            if (ownerId == _userId.Value)
             {
-                MainUiHandler.Singleton.DisplayDeathScreen(true);
+                if(shouldDisplayDeathScreen)
+                    MainUiHandler.Singleton.DisplayDeathScreen(true);
                 AnimationsManager.Singleton.SetDeath(false);
             }
+
             if (IsServer)
             {
                 GetComponent<NetworkObject>().ChangeOwnership(PlayerNetCode.Singleton.OwnerClientId);
-                _playerCorpesHanler.MoveCorpes(_characterInventory.ItemsNetData.Value, corpesid);
+                _playerCorpesHanler.GenerateBackPack(_characterInventory.ItemsNetData.Value, corpesid, wasDisconnected,
+                    ownerId);
                 GetComponent<NetworkObject>().Despawn();
             }
         }
@@ -59,7 +64,7 @@ namespace PlayerDeathSystem
         [ContextMenu("Die")]
         private void Die()
         {
-            DieServerRpc();
+            DieServerRpc(UserDataHandler.singleton.UserData.Id, false);
         }
     }
 }
