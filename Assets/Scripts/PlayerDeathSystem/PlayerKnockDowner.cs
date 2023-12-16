@@ -5,6 +5,7 @@ using Player_Controller;
 using UI;
 using Unity.Netcode;
 using UnityEngine;
+using Web.User;
 
 namespace PlayerDeathSystem
 {
@@ -25,28 +26,27 @@ namespace PlayerDeathSystem
         #region KnockDown
 
         [ServerRpc(RequireOwnership = false)]
-        public void KnockDownServerRpc()
+        public void KnockDownServerRpc(int id)
         {
             if (!IsServer) return;
-            KnockDownClientRpc();
+            KnockDownClientRpc(id);
         }
 
         [ClientRpc]
-        private void KnockDownClientRpc()
+        private void KnockDownClientRpc(int id)
         {
-            if (IsOwner)
+            if (UserDataHandler.singleton.UserData.Id == id)
             {
                 GetComponent<PlayerController>().enabled = false;
                 MainUiHandler.Singleton.DisplayKnockDownScreen(true);
+                AnimationsManager.Singleton.SetKnockDown();
             }
-
-            AnimationsManager.Singleton.SetKnockDown();
         }
 
         [ContextMenu("KnockDown")]
         private void KnockDown()
         {
-            KnockDownServerRpc();
+            KnockDownServerRpc(UserDataHandler.singleton.UserData.Id);
         }
 
         #endregion

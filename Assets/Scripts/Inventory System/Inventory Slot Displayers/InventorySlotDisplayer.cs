@@ -1,18 +1,11 @@
-using Inventory_System.Inventory_Items_Displayer;
+using Inventory_System;
 using UnityEngine.EventSystems;
 
-public class InventorySlotDisplayer : SlotDisplayer
+public class InventorySlotDisplayer : SlotDisplayer, IPointerClickHandler
 {
-    protected override void Drop(PointerEventData eventData)
+    public void OnPointerClick(PointerEventData eventData)
     {
-        base.Drop(eventData);
-        // var itemDisplayer = eventData.pointerDrag.GetComponent<InventoryItemDisplayer>();
-        // if (TrySetItem(itemDisplayer))
-        // {
-        //     if(itemDisplayer != null)
-        //         Destroy(itemDisplayer.gameObject);
-        //     return;
-        // }
-        // itemDisplayer.SetPosition();
+        if(ItemDisplayer != null) return;
+        ItemInfoDisplayer.Singleton.DisplayItemInfo(null);
     }
 }

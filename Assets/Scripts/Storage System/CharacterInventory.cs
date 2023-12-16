@@ -2,6 +2,11 @@ namespace Storage_System
 {
     public class CharacterInventory : Storage
     {
+        public override void Open(InventoryHandler handler)
+        {
+            SlotsDisplayer.DisplayCells();
+        }
+        
         protected override void Appear()
         {
         }

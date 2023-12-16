@@ -1,4 +1,5 @@
 using Storage_System;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class ActiveInvetoriesHandler : MonoBehaviour
@@ -14,8 +15,14 @@ public class ActiveInvetoriesHandler : MonoBehaviour
     public void AddActiveInventory(Storage storage)
         => _activeInventory = storage; 
 
-    private void ResetActiveInventory()
+    public void ResetActiveInventory()
         => _activeInventory = null;
+
+    public void DisplayItemsInActiveInventory(bool value)
+    {
+        if(_activeInventory == null) return;
+        _activeInventory.HandleUi(value);
+    }
     
     public void HandleCell(ItemDisplayer itemDisplayer)
     { 

@@ -59,5 +59,12 @@ namespace Inventory_System.Inventory_Items_Displayer
             base.SetNewCell(slotDisplayer);
             _storage = slotDisplayer.Inventory;
         }
+
+        public void DisplayItemInfo()
+        {
+            var info = ItemInfoDisplayer.Singleton;
+            if(info == null) return;
+            info.DisplayItemInfo(InventoryCell.Item);
+        }
     }
 }

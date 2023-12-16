@@ -8,6 +8,7 @@ namespace Storage_System
     public class BackPack : Storage
     {
         [SerializeField] private NetworkObject _networkObject;
+        [SerializeField] private Transform _parrentingObject;
         public NetworkVariable<bool> WasDisconnected { get; private set; } = new(false);
         public NetworkVariable<int> OwnerId { get; private set; } = new(-1);
 
@@ -33,7 +34,7 @@ namespace Storage_System
             foreach (var corp in copres)
             {
                 if (corp.Id != id) continue;
-                corp.transform.SetParent(transform);
+                corp.transform.SetParent(_parrentingObject);
                 corp.transform.localPosition = Vector3.zero;
                 corp.transform.localRotation = Quaternion.identity;
                 Destroy(corp);

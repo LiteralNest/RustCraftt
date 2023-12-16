@@ -116,7 +116,8 @@ public class ObjectsRayCaster : MonoBehaviour
     private void TryRayCastOre()
     {
         if (!CanRayCastOre) return;
-        if (TryRaycast("Ore", _maxOreHitDistance, out ResourceOre ore, _defaultMask))
+        ResourceOre ore;
+        if (TryRaycast("Ore", _maxOreHitDistance, out ore, _defaultMask))
         {
             if (OreReady(ore))
             {
@@ -188,7 +189,16 @@ public class ObjectsRayCaster : MonoBehaviour
             if (!clipboard.IsAutorized(UserDataHandler.singleton.UserData.Id))
             {
                 SetLootButton("Authorize");
-                return;
+            }
+            return;
+        }
+        
+        if (TryRaycast("LootBox", _maxOpeningDistance, out ResourceOre ore, _defaultMask))
+        {
+            if (OreReady(ore))
+            {
+                CharacterUIHandler.singleton.ActivateGatherButton(true);
+                TargetResourceOre = ore;
             }
         }
 

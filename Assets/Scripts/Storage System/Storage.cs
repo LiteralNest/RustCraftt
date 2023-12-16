@@ -26,11 +26,14 @@ namespace Storage_System
 
         public virtual void Open(InventoryHandler handler)
         {
-            InventoryHandler.singleton.InventoryPanelsDisplayer.OpenInventory();
+            InventoryHandler.singleton.InventoryPanelsDisplayer.OpenInventory(false);
             Appear();
             _ui.SetActive(true);
             SlotsDisplayer.DisplayCells();
         }
+
+        public void HandleUi(bool value)
+            => _ui.SetActive(value);
 
         protected virtual void Appear()
             => ActiveInvetoriesHandler.singleton.AddActiveInventory(this);

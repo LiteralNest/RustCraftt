@@ -15,9 +15,6 @@ namespace PlayerDeathSystem
         public static PlayerKiller Singleton { get; private set; }
 
         [SerializeField] private CharacterInventory _characterInventory;
-        [SerializeField] private List<Behaviour> _removingComponents;
-        [SerializeField] private List<GameObject> _removingObjects;
-
         [SerializeField] private PlayerCorpesHanler _playerCorpesHanler;
 
         private NetworkVariable<int> _userId = new(-1, NetworkVariableReadPermission.Everyone,
@@ -45,7 +42,7 @@ namespace PlayerDeathSystem
         private void DieClientRpc(int corpesid, bool wasDisconnected, int ownerId, bool shouldDisplayDeathScreen)
         {
             _playerCorpesHanler.ResetCorpesPos(corpesid);
-            if (ownerId == _userId.Value)
+            if (ownerId == _userId.Value && IsOwner)
             {
                 if(shouldDisplayDeathScreen)
                     MainUiHandler.Singleton.DisplayDeathScreen(true);
@@ -64,6 +61,7 @@ namespace PlayerDeathSystem
         [ContextMenu("Die")]
         private void Die()
         {
+            MainUiHandler.Singleton.DisplayKnockDownScreen(false);
             DieServerRpc(UserDataHandler.singleton.UserData.Id, false);
         }
     }

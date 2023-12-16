@@ -265,8 +265,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 43.30005, y: -40.399994}
-  m_SizeDelta: {x: 104.612, y: 104.612}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 90, y: 90}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7684361845689548401
 CanvasRenderer:
@@ -312,7 +312,7 @@ MonoBehaviour:
   _countText: {fileID: 0}
   _itemIcon: {fileID: 8850549487105166724}
   _animator: {fileID: 502894858361013865}
-  _movingClip: {fileID: 0}
+  _movingClip: {fileID: 7400000, guid: b23e277801fe0b741979fedfd3abe335, type: 2}
   _hpBar: {fileID: 8727271779365304679}
   _hpBarParent: {fileID: 5082873828227686773}
 --- !u!114 &1443582545473423536
@@ -329,7 +329,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _onSingleTap:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 5913465673614204580}
+        m_TargetAssemblyTypeName: Inventory_System.Inventory_Items_Displayer.InventoryItemDisplayer,
+          Assembly-CSharp
+        m_MethodName: DisplayItemInfo
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   _onDoubleTap:
     m_PersistentCalls:
       m_Calls:
