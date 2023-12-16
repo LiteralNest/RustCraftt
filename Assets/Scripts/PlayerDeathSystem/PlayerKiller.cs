@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Animation_System;
 using Player_Controller;
 using Storage_System;
 using UI;
@@ -34,29 +35,24 @@ namespace PlayerDeathSystem
         public void DieServerRpc()
         {
             if(!IsServer) return;
-            DieClientRpc();
+            int corpesid = Random.Range(0, 100000);
+            DieClientRpc(corpesid);
         }
 
         [ClientRpc]
-        private void DieClientRpc()
+        private void DieClientRpc(int corpesid)
         {
-            _playerCorpesHanler.AssignCorpes(_characterInventory.ItemsNetData.Value);
-            if(IsOwner)
+            _playerCorpesHanler.ResetCorpesPos(corpesid);
+            if (IsOwner)
+            {
                 MainUiHandler.Singleton.DisplayDeathScreen(true);
-            
-            if(IsServer)
-                GetComponent<NetworkObject>().ChangeOwnership(PlayerNetCode.Singleton.OwnerClientId);
-
-            foreach (var component in _removingComponents)
-            {
-                if (component == null) continue;
-                Destroy(component);
+                AnimationsManager.Singleton.SetDeath(false);
             }
-
-            foreach (var obj in _removingObjects)
+            if (IsServer)
             {
-                if (obj == null) continue;
-                Destroy(obj);
+                GetComponent<NetworkObject>().ChangeOwnership(PlayerNetCode.Singleton.OwnerClientId);
+                _playerCorpesHanler.MoveCorpes(_characterInventory.ItemsNetData.Value, corpesid);
+                GetComponent<NetworkObject>().Despawn();
             }
         }
 

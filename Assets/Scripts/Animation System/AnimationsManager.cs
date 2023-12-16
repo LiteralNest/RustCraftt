@@ -11,8 +11,11 @@ namespace Animation_System
 
         private NetworkVariable<int> CurrentAnimationId =
             new(0, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
+        private NetworkVariable<int> CurrentInventoryAnimationId =
+            new(0, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
 
         public CharacterAnimationsHandler CharacterAnimationsHandler { get; set; }
+        public CharacterAnimationsHandler InventoryAnimationsHandler { get; set; }
 
         private async void Start()
         {
@@ -21,21 +24,28 @@ namespace Animation_System
             {
                 CharacterAnimationsHandler.SetAnimation(newValue);
             };
+            CurrentInventoryAnimationId.OnValueChanged += (int prevValue, int newValue) =>
+            {
+                InventoryAnimationsHandler.SetAnimation(newValue);
+            };
             if (!IsOwner) return;
             Singleton = this;
         }
 
         [ServerRpc(RequireOwnership = false)]
-        private void SetAnimationServerRpc(int value)
+        private void SetAnimationServerRpc(int value, bool isMainPlayer = true)
         {
             if (!IsServer) return;
-            CurrentAnimationId.Value = value;
+            if(isMainPlayer)
+                CurrentAnimationId.Value = value;
+            else
+                CurrentInventoryAnimationId.Value = value;
         }
 
-        private void SetAnimation(string value)
+        private void SetAnimation(string value, bool isMainPlayer = true)
         {
             if (CharacterAnimationsHandler == null) return;
-            SetAnimationServerRpc(CharacterAnimationsHandler.GetAnimationNum(value));
+            SetAnimationServerRpc(CharacterAnimationsHandler.GetAnimationNum(value), isMainPlayer);
         }
 
         [ContextMenu("Set Walk")]
@@ -69,7 +79,7 @@ namespace Animation_System
             => SetAnimation("Fall");
 
         [ContextMenu("Death")]
-        public void SetDeath()
-            => SetAnimation("Dead");
+        public void SetDeath(bool isMainPlayer = true)
+            => SetAnimation("Dead", isMainPlayer);
     }
 }

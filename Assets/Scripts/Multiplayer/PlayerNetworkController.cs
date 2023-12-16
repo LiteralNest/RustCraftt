@@ -14,6 +14,7 @@ public class PlayerNetworkController : MonoBehaviour
     [Header("NetCode")] 
     [SerializeField] private PlayerNetCode _playerNetCode;
     [SerializeField] private CharacterAnimationsHandler _characterAnimationsHandler;
+    [SerializeField] private CharacterAnimationsHandler _inventoryCharacterAnimationsHandler;
     [SerializeField] private List<Behaviour> _monos = new List<Behaviour>();
     [FormerlySerializedAs("_mainUiHandler")] [SerializeField] private CharacterUIHandler characterUIHandler;
     
@@ -41,6 +42,7 @@ public class PlayerNetworkController : MonoBehaviour
             if (GetComponent<NetworkObject>().OwnerClientId == player.GetComponent<NetworkObject>().OwnerClientId)
             {
                 player.AnimationsManager.CharacterAnimationsHandler = _characterAnimationsHandler;
+                player.AnimationsManager.InventoryAnimationsHandler = _inventoryCharacterAnimationsHandler;
             }
         }
 

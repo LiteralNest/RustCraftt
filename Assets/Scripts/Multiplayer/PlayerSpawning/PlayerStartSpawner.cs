@@ -13,12 +13,12 @@ namespace Multiplayer.PlayerSpawning
     public class PlayerStartSpawner : NetworkBehaviour
     {
         public static PlayerStartSpawner Singleton { get; private set; }
-        
+
         private NetworkVariable<int> _userId = new(-1, NetworkVariableReadPermission.Everyone,
             NetworkVariableWritePermission.Owner);
 
-       [field:SerializeField] public AnimationsManager AnimationsManager { get; private set; }
-        
+        [field: SerializeField] public AnimationsManager AnimationsManager { get; private set; }
+
         private async void Start()
         {
             if (!IsOwner) return;
@@ -26,13 +26,12 @@ namespace Multiplayer.PlayerSpawning
             PlayerStaffSpawner.Singleton.SpawnPlayerServerRpc(PlayerSpawnManager.Singleton.GetRandomSpawnPoint(),
                 Quaternion.identity, _userId.Value, GetComponent<NetworkObject>().OwnerClientId);
             await Task.Delay(900);
-            if(!IsOwner) return;
+            if (!IsOwner) return;
             Singleton = this;
         }
 
         public void Respawn(int userId, Vector3 spawnPoint)
         {
-            if (!IsOwner) return;
             if (_userId.Value != userId) return;
             var point = PlayerSpawnManager.Singleton.GetRandomSpawnPoint();
             if (spawnPoint == new Vector3(0, -1000000, 0))
@@ -40,18 +39,18 @@ namespace Multiplayer.PlayerSpawning
             PlayerStaffSpawner.Singleton.SpawnPlayerServerRpc(point, Quaternion.identity, _userId.Value,
                 GetComponent<NetworkObject>().OwnerClientId);
         }
-        
+
         public void Respawn(Vector3 spawnPoint)
         {
             List<PlayerStartSpawner> players = FindObjectsOfType<PlayerStartSpawner>().ToList();
             foreach (var player in players)
             {
-                if(!player.IsOwner) continue;
+                if (!player.IsOwner) continue;
                 player.Respawn(UserDataHandler.singleton.UserData.Id, spawnPoint);
+                return;
             }
-          
         }
-        
+
         // public override void OnNetworkDespawn()
         // {
         //     base.OnNetworkDespawn();

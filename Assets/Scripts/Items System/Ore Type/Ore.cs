@@ -20,11 +20,14 @@ namespace Items_System.Ore_Type
 
         public override void OnNetworkSpawn()
         {
-            _currentHp.Value = _hp;
+            if(IsServer)  
+                _currentHp.Value = _hp;
+                
             _currentHp.OnValueChanged += (int prevValue, int newValue) =>
             {
                 CheckHp();
             };
+    
             base.OnNetworkSpawn();
         }
     

@@ -10,8 +10,6 @@ namespace Player_Controller
         [Header("Attached Scripts")] [SerializeField]
         private InHandObjectsContainer _inHandObjectsContainer;
 
-        [SerializeField] private CharacterAnimationsHandler _characterAnimationsHandler;
-
         [Header("Move")] [SerializeField] private NetworkVariable<float> _movingSpeed =
             new(5, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
 

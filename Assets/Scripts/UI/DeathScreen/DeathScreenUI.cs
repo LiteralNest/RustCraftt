@@ -13,6 +13,7 @@ namespace UI.DeathScreen
             var playerKillers = FindObjectsOfType<PlayerStartSpawner>().ToList();
             foreach (var playerKiller in playerKillers)
             { 
+                if(!playerKiller.IsOwner) continue;
                 playerKiller.Respawn(new Vector3(0, 1000000, 0));
             }
         }
