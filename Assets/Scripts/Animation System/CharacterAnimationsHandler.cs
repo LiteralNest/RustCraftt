@@ -10,7 +10,7 @@ namespace Animation_System
         private List<CharacterAnimationSlot> _keys = new List<CharacterAnimationSlot>();
 
         [Header("Animators")] [SerializeField] private List<Animator> _animators = new List<Animator>();
-
+    
 
         public void SetAnimation(int num)
         {
