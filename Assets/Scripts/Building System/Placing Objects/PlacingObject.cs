@@ -9,6 +9,11 @@ namespace Building_System.Placing_Objects
     public class PlacingObject : BuildingStructure, IHammerInteractable
     {
         [field: SerializeField] public Item TargetItem { get; private set; }
+        public NetworkVariable<int> OwnerId { get; set; } = new();
+
+        [ServerRpc(RequireOwnership = false)]
+        public void SetOwnerIdServerRpc(int id)
+            => OwnerId.Value = id;
 
         [ServerRpc(RequireOwnership = false)]
         private void DestroyObjectServerRpc()

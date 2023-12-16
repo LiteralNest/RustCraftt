@@ -30,22 +30,13 @@ namespace Building_System.NetWorking
 
     
         [ServerRpc(RequireOwnership = false)]
-        public void InstantiateObjectServerRpc(int id, Vector3 pos, Quaternion rot)
+        public void InstantiateObjectServerRpc(int id, Vector3 pos, Quaternion rot, int playerId = -1)
         {
             if (!IsServer) return;
             var obj = Instantiate(GetObjectById(id), pos, rot);
             obj.NetObject.Spawn();
+            obj.SetOwnerIdServerRpc(playerId);
             obj.NetObject.DontDestroyWithOwner = true;
-        }
-    
-        [ServerRpc(RequireOwnership = false)]
-        public void InstantiateObjectServerRpc(int id, Vector3 pos, Quaternion rot, int playerId)
-        {
-            if (!IsServer) return;
-            var obj = Instantiate(GetObjectById(id), pos, rot);
-            obj.GetComponent<Locker>().Init(playerId);
-            obj.NetObject.DontDestroyWithOwner = true;
-            obj.NetObject.Spawn();
         }
     }
 }

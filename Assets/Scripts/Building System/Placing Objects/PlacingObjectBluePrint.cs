@@ -2,12 +2,14 @@ using Building_System.Blocks;
 using Building_System.Blue_Prints;
 using Building_System.NetWorking;
 using UnityEngine;
+using Web.User;
 
 namespace Building_System.Placing_Objects
 {
     public class PlacingObjectBluePrint : BluePrint
     {
         public PlacingObject TargetPlacingObject;
+        [SerializeField] private bool _shouldLoadOwnerId;
 
         protected virtual bool CanBePlaced()
         {
@@ -20,10 +22,14 @@ namespace Building_System.Placing_Objects
         public override void Place()
         {
             if (!CanBePlaced()) return;
+            var ownerId = -1;
+            if(_shouldLoadOwnerId)
+                ownerId = UserDataHandler.singleton.UserData.Id;
             InventoryHandler.singleton.CharacterInventory.RemoveItem(TargetPlacingObject.TargetItem.Id, 1);
             PlacingObjectsPool.singleton.InstantiateObjectServerRpc(TargetPlacingObject.TargetItem.Id,
                 transform.position,
-                transform.rotation);
+                transform.rotation,
+            ownerId);
         }
 
         public override void InitPlacedObject(BuildingStructure structure){}

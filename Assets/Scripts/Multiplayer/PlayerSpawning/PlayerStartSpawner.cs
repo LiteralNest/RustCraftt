@@ -30,7 +30,7 @@ namespace Multiplayer.PlayerSpawning
             Singleton = this;
         }
 
-        public void Respawn(int userId, Vector3 spawnPoint)
+        private void Respawn(int userId, Vector3 spawnPoint)
         {
             if (_userId.Value != userId) return;
             var point = PlayerSpawnManager.Singleton.GetRandomSpawnPoint();
