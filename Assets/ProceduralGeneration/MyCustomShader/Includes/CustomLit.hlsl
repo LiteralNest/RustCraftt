@@ -3,7 +3,7 @@
 
 half _TextureScale;
 
-half my_fmod(const half a, const half b)
+half my_fmod(const float2 a, const float2 b)
 {
     half2 c = frac(abs(a / b)) * abs(b);
     return c;

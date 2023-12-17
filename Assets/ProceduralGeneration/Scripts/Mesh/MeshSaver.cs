@@ -1,6 +1,6 @@
-#if UNITY_EDITOR
-
 using System.IO;
+using ProceduralGeneration.Scripts.Mesh;
+using ProceduralGeneration.Scripts.SavingSystem;
 using UnityEditor;
 using UnityEngine;
 
@@ -11,7 +11,7 @@ namespace Mesh
         [Header("Prefab Settings")] 
         public string _savingPrefName = "Terrain";
         [SerializeField] private string _directoryPath = "Assets/";
-        [SerializeField] private string _folderName = "GeneratedMeshes";
+        [SerializeField] private string _folderName = "GeneratedMeshes/";
 
         [SerializeField] private Transform _targetMesh;
 
@@ -60,7 +60,6 @@ namespace Mesh
                     continue;
                 }
             
-            
                 UnityEngine.Mesh meshToSave = Instantiate(child.GetComponent<MeshFilter>().sharedMesh);
                 SaveMesh(meshToSave, savingPath, "Meshes", "Mesh" + i);
                 child.GetComponent<MeshCollider>().sharedMesh = meshToSave;
@@ -71,9 +70,18 @@ namespace Mesh
             string path = savingPath + "/" + _savingPrefName + ".prefab";
             PrefabUtility.SaveAsPrefabAsset(_targetMesh.gameObject, path);
             Debug.Log("Prefab saved at: " + path);
+            
+            // BlockPositionSaver[] blockPositionSaver = FindObjectsOfType<BlockPositionSaver>();
+            // if (blockPositionSaver != null)
+            // {
+            //     foreach (var blockPosition in blockPositionSaver)
+            //     {
+            //         blockPosition.SaveTopBlockPositionsToJson();
+            //     }
+            //     
+            // }
+            
+            ChunksDataSaver.Singleton.SaveData();
         }
     }
 }
-
-
-#endif

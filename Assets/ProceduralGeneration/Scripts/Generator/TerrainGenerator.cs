@@ -1,12 +1,16 @@
 using System.Collections.Generic;
 using Chunk;
 using Mesh;
+using ProceduralGeneration.Scripts.SavingSystem;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Generator
 {
     public class TerrainGenerator : MonoBehaviour
     {
+        #region Serializable Classes
+
         [System.Serializable]
         public class Spawnable
         {
@@ -18,15 +22,25 @@ namespace Generator
         public class Biome
         {
             public Color Color;
-            public BlockType BlockType;
+            public BlockType MainBlockType;
+            public BlockType SecondaryBlockType;
+            public BlockType AdditionalBlockType;
+
+            [Range(0, 100)] public int AdditionalBlockHeightRange = 0;
             public Spawnable[] SpawnablePrefabs;
         }
-    
+
+        #endregion
+
+
         [SerializeField] private List<Biome> biomes;
         [SerializeField] private float _objectOffset = 0.5f;
         private Dictionary<Spawnable, GameObject> _prefabContainers = new Dictionary<Spawnable, GameObject>();
-    
-        public BlockType[] GenerateTerrain(int chunkX, int chunkZ, int totalChunksX, int totalChunksZ, float[,] noiseData, Color[,] biomeData)
+
+        #region Terrain Generation
+
+        public BlockType[] GenerateTerrain(int chunkX, int chunkZ, int totalChunksX, int totalChunksZ,
+            float[,] noiseData, Color[,] biomeData)
         {
             var result = new BlockType[ChunkRenderer.ChunkWidth * ChunkRenderer.ChunkHeight * ChunkRenderer.ChunkWidth];
 
@@ -46,13 +60,37 @@ namespace Generator
 
                     float height = GenerateHeightFromNoise(noiseX, noiseZ, noiseDataWidth, noiseDataHeight, noiseData);
                     Color biomeColor = biomeData[Mathf.FloorToInt(noiseX), Mathf.FloorToInt(noiseZ)];
-                    BlockType currentBlock = GetBlockTypeByBiome(biomeColor);
-                    Biome currentBiome = GetBiomeByColor(biomeColor);
 
+                    Biome currentBiome = GetBiomeByColor(biomeColor);
                     for (int y = 0; y < ChunkRenderer.ChunkHeight; y++)
                     {
                         var index = x + y * ChunkRenderer.ChunkWidthSq + z * ChunkRenderer.ChunkWidth;
-                        result[index] = y <= height ? currentBlock : BlockType.Air;
+
+                        if (y == Mathf.FloorToInt(height))
+                        {
+                            // Top block
+                            var blockType = GetBlockTypeByBiome(biomeColor, true);
+                            result[index] = blockType;
+                        }
+                        else
+                        {
+                            // Check for AdditionalBlockType within the specified height range
+                            if (currentBiome != null &&
+                                y <= Mathf.FloorToInt(height - currentBiome.AdditionalBlockHeightRange))
+                            {
+                                result[index] = currentBiome.AdditionalBlockType;
+                            }
+                            else if (y < height)
+                            {
+                                // Below AdditionalBlockType range but above the terrain surface
+                                result[index] = GetBlockTypeByBiome(biomeColor, false);
+                            }
+                            else
+                            {
+                                // Above the terrain surface
+                                result[index] = BlockType.Air;
+                            }
+                        }
 
                         if (y == Mathf.FloorToInt(height))
                         {
@@ -69,7 +107,7 @@ namespace Generator
                             {
                                 // Determine the spawnable object based on chances
                                 var spawnable = GetRandomSpawnable(currentBiome.SpawnablePrefabs);
-                            
+
                                 // Spawn the selected prefab on the adjusted position
                                 SpawnPrefabInBiome(spawnPosition, spawnable, transform);
                             }
@@ -80,6 +118,19 @@ namespace Generator
 
             return result;
         }
+
+        #endregion
+
+        #region Biome Layer Logic
+
+        private BlockType CheckForBiomeLayer(int y, Biome currentBiome)
+        {
+            return BlockType.Air;
+        }
+
+        #endregion
+
+        #region Object Spawning
 
         private void SpawnPrefabInBiome(Vector3 position, Spawnable spawnable, Transform chunkTransform)
         {
@@ -104,8 +155,10 @@ namespace Generator
             }
         }
 
+        #endregion
 
-    
+        #region Helper Methods
+
         private Spawnable GetRandomSpawnable(Spawnable[] spawnables)
         {
             float totalChance = 0;
@@ -140,7 +193,6 @@ namespace Generator
             return null;
         }
 
-    
         private Biome GetBiomeByColor(Color biomeColor)
         {
             var fixedColor = GetFixedColor(biomeColor);
@@ -156,8 +208,8 @@ namespace Generator
             return null;
         }
 
-
-        private float GenerateHeightFromNoise(float noiseX, float noiseZ, int noiseDataWidth, int noiseDataHeight, float[,] noiseData)
+        private float GenerateHeightFromNoise(float noiseX, float noiseZ, int noiseDataWidth, int noiseDataHeight,
+            float[,] noiseData)
         {
             float normalizedX = noiseX / noiseDataWidth;
             float normalizedZ = noiseZ / noiseDataHeight;
@@ -172,10 +224,10 @@ namespace Generator
 
         private float RoundToThreeDecimalPlaces(float value)
         {
-            float roundedValue = Mathf.Round(value * 10f) / 10f;  
+            float roundedValue = Mathf.Round(value * 10f) / 10f;
             return roundedValue;
         }
-    
+
         private Color GetFixedColor(Color inputColor)
         {
             Color res = new Color();
@@ -184,20 +236,22 @@ namespace Generator
             res.g = RoundToThreeDecimalPlaces(inputColor.g);
             return res;
         }
-    
-        private BlockType GetBlockTypeByBiome(Color biomeColor)
+
+        private BlockType GetBlockTypeByBiome(Color biomeColor, bool isTopBlock)
         {
             var fixedColor = GetFixedColor(biomeColor);
-            Debug.Log(fixedColor.r + " " + fixedColor.g + " " + fixedColor.b);
+
             foreach (Biome biome in biomes)
             {
                 if (biome.Color.Equals(fixedColor))
                 {
-                    return biome.BlockType;
+                    return isTopBlock ? biome.MainBlockType : biome.SecondaryBlockType;
                 }
             }
-        
-            return BlockType.Stone;
+
+            return BlockType.Stone; // Default block type
         }
+
+        #endregion
     }
 }

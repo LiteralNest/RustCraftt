@@ -1,6 +1,8 @@
 using System.Collections.Generic;
 using Chunk;
+using ProceduralGeneration.Scripts.BlockTypeUI;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 namespace Generator
 {
@@ -9,11 +11,12 @@ namespace Generator
         public Dictionary<Vector2Int, ChunkData> ChunkDatas = new Dictionary<Vector2Int, ChunkData>(); // Cordinates of chunk
 
         [SerializeField] private ChunkRenderer _chunkPrefab;
+        [SerializeField] private BlockPanelUI _blockPanelUI;
         [SerializeField] private TerrainGenerator _generator;
         [SerializeField] private Texture2D _mapTexture;
         [SerializeField] private Texture2D _biomeTexture2D;
         [SerializeField] private int _scaleFactor;
-
+        [SerializeField] private bool _shouldGenerateWorld;
         private Camera _mainCamera;
         private Vector2Int _currentPlayerChunk;
         private float[,] _fixedMapData;
@@ -30,6 +33,7 @@ namespace Generator
         private void Start()
         {
             _mainCamera = Camera.main;
+            if(!_shouldGenerateWorld) return;
             ChunkRenderer.InitTriangles();
             _fixedMapData = Resize(_mapTexture, _mapTexture.width * _scaleFactor, _mapTexture.height * _scaleFactor);
             _fixedBiomeData = ResizeBiomeData(_biomeTexture2D, _biomeTexture2D.width * _scaleFactor, _biomeTexture2D.height * _scaleFactor);
@@ -39,12 +43,6 @@ namespace Generator
 
         private void Update()
         {
-            var playerWorldPosition = Vector3Int.FloorToInt(_mainCamera.transform.position / ChunkRenderer.BlockScale);
-            Vector2Int playerChunk = GetChunkContainingBlock(playerWorldPosition);
-            if (playerChunk != _currentPlayerChunk)
-            {
-                _currentPlayerChunk = playerChunk;
-            }
             CheckInput();
         }
 
@@ -120,7 +118,7 @@ namespace Generator
             var chunk = Instantiate(_chunkPrefab, new Vector3(xPos, 0, zPos), Quaternion.identity, parent);
             chunk.ChunkData = chunkData;
             chunk.ParentWorld = this;
-
+            chunk.Init();
             chunkData.Renderer = chunk;
         }
 
@@ -137,7 +135,11 @@ namespace Generator
         }
 
         private void CheckInput()
-        {
+        {  
+            if (EventSystem.current.IsPointerOverGameObject())
+            {
+                return;
+            }
             if (Input.GetMouseButtonUp(0) || Input.GetMouseButtonUp(1))
             {
                 var isDestroying = Input.GetMouseButtonUp(0);
@@ -152,7 +154,8 @@ namespace Generator
                     }
                     else
                     {
-                        blockCenter = hitInfo.point + hitInfo.normal * ChunkRenderer.BlockScale / 2; // world coordinates
+                        blockCenter =
+                            hitInfo.point + hitInfo.normal * ChunkRenderer.BlockScale / 2; // world coordinates
                     }
 
                     var blockWorldPosition = Vector3Int.FloorToInt(blockCenter / ChunkRenderer.BlockScale);
@@ -168,7 +171,8 @@ namespace Generator
                         }
                         else
                         {
-                            chunkData.Renderer.SpawnBlock(blockWorldPosition - chunkOrigin);
+                            var selectedBlockInfo = _blockPanelUI.GetSelectedBlockType();
+                            chunkData.Renderer.SpawnBlock(blockWorldPosition - chunkOrigin, selectedBlockInfo);
                         }
                     }
                 }
