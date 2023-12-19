@@ -11,15 +11,15 @@ using UnityEngine.Serialization;
 
 public class PlayerNetworkController : MonoBehaviour
 {
-    [Header("NetCode")] 
-    [SerializeField] private PlayerNetCode _playerNetCode;
+    [Header("NetCode")] [SerializeField] private PlayerNetCode _playerNetCode;
     [SerializeField] private CharacterAnimationsHandler _characterAnimationsHandler;
     [SerializeField] private CharacterAnimationsHandler _inventoryCharacterAnimationsHandler;
     [SerializeField] private List<Behaviour> _monos = new List<Behaviour>();
-    [FormerlySerializedAs("_mainUiHandler")] [SerializeField] private CharacterUIHandler characterUIHandler;
-    
-    [Header("Children")] 
-    [SerializeField] private List<Renderer> _body = new List<Renderer>();
+
+    [FormerlySerializedAs("_mainUiHandler")] [SerializeField]
+    private CharacterUIHandler characterUIHandler;
+
+    [Header("Children")] [SerializeField] private List<Renderer> _body = new List<Renderer>();
     [SerializeField] private GameObject _characterStaff;
     [SerializeField] private GameObject _canvas;
     [SerializeField] private GameObject _vivox;
@@ -32,7 +32,7 @@ public class PlayerNetworkController : MonoBehaviour
         _canvas.SetActive(false);
         _vivox.SetActive(false);
     }
-    
+
     private IEnumerator Destroy()
     {
         yield return new WaitForSeconds(1);
@@ -46,7 +46,7 @@ public class PlayerNetworkController : MonoBehaviour
             }
         }
 
-        Destroy(this);
+        this.enabled = false;
     }
 
     public void Start()
@@ -80,12 +80,15 @@ public class PlayerNetworkController : MonoBehaviour
         foreach (var mono in _monos)
             mono.enabled = value;
     }
-    
+
     private void ClearObjects()
     {
         EnableMonos(false);
-        Destroy(_canvas);
-        Destroy(_vivox);
-        Destroy(_characterStaff);
+        _canvas.SetActive(false);
+        _vivox.SetActive(false);
+        _characterStaff.SetActive(false);
+        // Destroy(_canvas);
+        // Destroy(_vivox);
+        // Destroy(_characterStaff);
     }
 }
