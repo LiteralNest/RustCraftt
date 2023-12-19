@@ -35,7 +35,6 @@ namespace Fight_System.Weapon.ShootWeapon
                     damaged = TryDamage(hit);
                 
                 if(damaged) break;
-                SpawnTrail(AmmoSpawnPoint.transform.forward * 10f);     
             }
 
             StartCoroutine(WaitBetweenShootsRoutine());

@@ -28,7 +28,7 @@ namespace Fight_System.Weapon.ShootWeapon.Ammo
             _rb.useGravity = true;
             _rb.AddTorque(_rb.transform.forward * _torque);
         }
-        
+
         private void OnCollisionEnter(Collision other)
         {
             _rb.velocity = Vector3.zero;
@@ -37,10 +37,14 @@ namespace Fight_System.Weapon.ShootWeapon.Ammo
 
             // Set the arrow's position and rotation to match the point of impact
             transform.position = other.contacts[0].point;
-            
+            transform.rotation = Quaternion.LookRotation(other.contacts[0].normal);
+
+            // Make the arrow a child of the collided object
             transform.SetParent(other.transform);
+
             StartCoroutine(DespawnObject());
         }
+
         
         private IEnumerator DespawnObject()
         {

@@ -53,7 +53,8 @@ namespace Fight_System.Weapon.ShootWeapon
         protected void SpawnTrail(Vector3 hit)
         {
             if(_bulletTrail == null) return;
-            _currentBulletTrail = Instantiate(_bulletTrail, AmmoSpawnPoint.position, Quaternion.identity);
+            
+            _currentBulletTrail = Instantiate(_bulletTrail, AmmoSpawnPoint);
             StartCoroutine(SpawnTrail(_currentBulletTrail,  hit));
         }
         private void OnEnable()
@@ -170,11 +171,6 @@ namespace Fight_System.Weapon.ShootWeapon
         {
             canShoot = false;
             yield return new WaitForSeconds(Weapon.DelayBetweenShoots);
-            // if (_currentBulletTrail != null)
-            // {
-            //     Destroy(_currentBulletTrail.gameObject);
-            //     _currentBulletTrail = null;
-            // }
             canShoot = true;
         }
         
