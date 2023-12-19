@@ -3,15 +3,8 @@ using UnityEngine;
 [RequireComponent(typeof(BoxCollider), typeof(Rigidbody))]
 public class DamageObject : MonoBehaviour
 {
-   [SerializeField] private Rigidbody _rb;
    [SerializeField] private int _damage = 25;
    [SerializeField] private bool _destroyOnEnter;
-   private void Start()
-   {
-      if(!_rb)
-         _rb = GetComponent<Rigidbody>();
-      _rb.useGravity = false;
-   }
    
    private void OnTriggerEnter(Collider other)
    {
