@@ -17,7 +17,7 @@ namespace Server
         private const string ProjectId = "093ae33f-9b56-4e1a-a233-08ad3438b76c";
         private const string EnvironmentId = "5105ae74-6981-4eb6-89a4-9da20b640c13";
         
-        private const string FleetId = "34f078ba-9c15-41af-9793-2c5ffd7ff298";
+        private const string FleetId = "001918ba-7011-4fe5-abfb-cac116569c61";
         private const string EuropeRegionId = "0548345a-8510-49a8-80c8-ae8ce00fc934";
         private const int BuildConfigId = 1246733;
 
