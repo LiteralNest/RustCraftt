@@ -27,7 +27,7 @@ public class PlayerEffectsHandler : MonoBehaviour
 
         var workBench = other.GetComponent<WorkBenchZone>();
         if (workBench == null) return;
-        AlertsDisplayer.Singleton.DisplayWorkBenchAlert(workBench.TargetWorkBench.Level, true);
+        AlertsDisplayer.Singleton.DisplayWorkBenchAlert(workBench.Level, true);
     }
 
     private IEnumerator HandleClipBoardAlertCoroutine(ShelfZoneHandler zone)
