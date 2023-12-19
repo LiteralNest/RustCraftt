@@ -121,6 +121,7 @@ public class ObjectsRayCaster : MonoBehaviour
         {
             if (OreReady(ore))
             {
+                CharacterUIHandler.singleton.ActivateGatherButton(true);
                 TargetResourceOre = ore;
                 SetLootText("Obtain");
                 return;
@@ -141,6 +142,9 @@ public class ObjectsRayCaster : MonoBehaviour
         {
             _targetBlock = null;
         }
+
+        if (CharacterUIHandler.singleton != null)
+            CharacterUIHandler.singleton.ActivateGatherButton(false);
         SetLootText("", false);
 
         SetLootButton("", false);
@@ -193,6 +197,7 @@ public class ObjectsRayCaster : MonoBehaviour
         {
             if (OreReady(ore))
             {
+                CharacterUIHandler.singleton.ActivateGatherButton(true);
                 TargetResourceOre = ore;
             }
         }
