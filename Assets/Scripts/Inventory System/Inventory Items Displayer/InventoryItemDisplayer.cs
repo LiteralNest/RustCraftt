@@ -16,7 +16,6 @@ namespace Inventory_System.Inventory_Items_Displayer
             if (_countText != null)
                 _countText.gameObject.SetActive(false);
             transform.SetParent(PlaceForInventoryItems.Singleton.transform);
-            ResourcesDropper.singleton.InventoryItemDisplayer = this;
             _itemIcon.raycastTarget = false;
         }
 

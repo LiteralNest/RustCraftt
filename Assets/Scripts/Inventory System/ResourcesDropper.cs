@@ -4,15 +4,9 @@ using UnityEngine.EventSystems;
 
 public class ResourcesDropper : MonoBehaviour, IDropHandler
 {
-    public static ResourcesDropper singleton { get; private set; }
-
     public InventoryItemDisplayer InventoryItemDisplayer { get; set; }
 
     [SerializeField] private float _droppingOffset = 1;
-    
-    private void Start()
-        => singleton = this;
-
 
     private Vector3 GetFrontCameraPos()
     {
@@ -21,12 +15,12 @@ public class ResourcesDropper : MonoBehaviour, IDropHandler
         Vector3 cameraForward = camera.transform.forward;
         return cameraPosition + (cameraForward * _droppingOffset);
     }
-    
+
     private void TryResetInHandItem()
     {
         if (InventoryHandler.singleton.ActiveSlotDisplayer == null) return;
         if (InventoryItemDisplayer.PreviousCell == null) return;
-        if(InventoryHandler.singleton.ActiveSlotDisplayer.Index == InventoryItemDisplayer.PreviousCell.Index)
+        if (InventoryHandler.singleton.ActiveSlotDisplayer.Index == InventoryItemDisplayer.PreviousCell.Index)
             GlobalEventsContainer.OnCurrentItemDeleted?.Invoke();
     }
     
@@ -35,8 +29,11 @@ public class ResourcesDropper : MonoBehaviour, IDropHandler
         if (!InventoryItemDisplayer) return;
         TryResetInHandItem();
         var cell = InventoryItemDisplayer.PreviousCell;
-        InventoryHandler.singleton.CharacterInventory.RemoveItemCountFromSlotServerRpc(cell.Index, InventoryItemDisplayer.InventoryCell.Item.Id, InventoryItemDisplayer.InventoryCell.Count);
-        InstantiatingItemsPool.sigleton.SpawnDropableObjectServerRpc(InventoryItemDisplayer.InventoryCell.Item.Id, InventoryItemDisplayer.InventoryCell.Count, GetFrontCameraPos());
+        InventoryHandler.singleton.CharacterInventory.RemoveItemCountFromSlotServerRpc(cell.Index,
+            InventoryItemDisplayer.InventoryCell.Item.Id, InventoryItemDisplayer.InventoryCell.Count);
+        InstantiatingItemsPool.sigleton.SpawnDropableObjectServerRpc(InventoryItemDisplayer.InventoryCell.Item.Id, InventoryItemDisplayer.InventoryCell.Count,
+            GetFrontCameraPos());
         Destroy(InventoryItemDisplayer.gameObject);
+        InventoryItemDisplayer = null;
     }
 }
