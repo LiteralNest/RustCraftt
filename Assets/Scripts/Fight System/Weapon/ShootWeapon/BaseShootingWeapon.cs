@@ -2,6 +2,7 @@ using System.Collections;
 using Items_System.Items.Weapon;
 using UI;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.VFX;
 
 namespace Fight_System.Weapon.ShootWeapon
@@ -11,9 +12,9 @@ namespace Fight_System.Weapon.ShootWeapon
         [SerializeField] protected WeaponAim WeaponAim;
         [SerializeField] private bool canBeReloaded = false;
 
-        [Header("Shooting Mode")] [SerializeField]
-        private bool _isSingle;
-
+        [Header("Shooting Mode")] 
+        [SerializeField] private bool _isSingle;
+        
         [SerializeField] protected WeaponRecoil Recoil;
         [SerializeField] protected WeaponSoundPlayer SoundPlayer;
         [SerializeField] protected Transform AmmoSpawnPoint;
@@ -24,12 +25,17 @@ namespace Fight_System.Weapon.ShootWeapon
         [SerializeField] protected LayerMask TargetMask;
         [SerializeField] protected ShootingWeapon Weapon;
 
+        [Header("Trail Settings")] 
+        [SerializeField] private TrailRenderer _bulletTrail;
+        [SerializeField] private int _bulletSpeed = 100;
+        
         public bool IsSingle => _isSingle;
         protected int currentAmmoCount;
         public int CurrentAmmoCount => currentAmmoCount;
         protected bool canShoot;
         private float _timeBetweenShots = 0f;
         private bool _isReloading = false;
+        private TrailRenderer _currentBulletTrail;
 
         protected void Start()
             => canShoot = true;
@@ -44,6 +50,13 @@ namespace Fight_System.Weapon.ShootWeapon
             return canShoot && _timeBetweenShots <= 0 && currentAmmoCount > 0 && !_isReloading;
         }
 
+        protected void SpawnTrail(Vector3 hit)
+        {
+            if(_bulletTrail == null) return;
+            
+            _currentBulletTrail = Instantiate(_bulletTrail, AmmoSpawnPoint);
+            StartCoroutine(SpawnTrail(_currentBulletTrail,  hit));
+        }
         private void OnEnable()
         {
             CharacterUIHandler.singleton.ActivateScope(true);
@@ -66,8 +79,7 @@ namespace Fight_System.Weapon.ShootWeapon
         }
 
         public virtual bool CanReload() => canBeReloaded;
-
-
+        
         public virtual void Reload()
         {
             if (_isReloading) return;
@@ -108,6 +120,7 @@ namespace Fight_System.Weapon.ShootWeapon
             Destroy(fire, 2f);
             var decalObj = Instantiate(Decal, hit.point, Quaternion.LookRotation(hit.normal));
             Destroy(decalObj, 5);
+            // SpawnTrail(decalObj.transform.position);
             return true;
         }
 
@@ -133,14 +146,34 @@ namespace Fight_System.Weapon.ShootWeapon
             yield return new WaitForSeconds(FlameEffectDuration);
             FlameEffect.Stop();
         }
+        
+        protected IEnumerator SpawnTrail(TrailRenderer trail, Vector3 hitPoint)
+        {
+            var startPosition = trail.transform;
+            var distance = Vector3.Distance(trail.transform.position, hitPoint);
+            var remainingDistance = distance;
 
+            while (remainingDistance > 0)
+            {
+                trail.transform.position = Vector3.Lerp(startPosition.position, hitPoint, 1 - (remainingDistance / distance));
+            
+                remainingDistance -= _bulletSpeed * Time.deltaTime;
+            
+                yield return null;
+            }
+           
+            trail.transform.position = hitPoint;
+            
+            Destroy(trail.gameObject, trail.time);
+        }
+        
         protected IEnumerator WaitBetweenShootsRoutine()
         {
             canShoot = false;
             yield return new WaitForSeconds(Weapon.DelayBetweenShoots);
             canShoot = true;
         }
-
+        
         public void Scope()
         {
             if (!WeaponAim) return;

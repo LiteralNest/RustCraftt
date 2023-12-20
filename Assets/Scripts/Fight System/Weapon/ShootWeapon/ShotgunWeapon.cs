@@ -23,6 +23,7 @@ namespace Fight_System.Weapon.ShootWeapon
         public override void Attack()
         {
             if (!CanShoot() || currentAmmoCount <= 0) return;
+            
             SoundPlayer.PlayShot();
             MinusAmmo();
 
@@ -41,25 +42,27 @@ namespace Fight_System.Weapon.ShootWeapon
             for (var i = 0; i < _pelletCount; i++)
             {
                 var angle = i * angleStep;
-                var spreadAngleRad = angle * Mathf.Deg2Rad;
-
-                var x = Mathf.Cos(spreadAngleRad);
-                var y = Mathf.Sin(spreadAngleRad);
-
-                var spreadOffset = new Vector3(x, y, 0f) * radius; 
-
+                
+                var spreadOffset = Quaternion.AngleAxis(angle, shootDirection) * (Vector3.up * radius);
                 var spreadDirection = (shootDirection + spreadOffset).normalized;
 
-                var randomSpreadOffset = Random.insideUnitCircle * _spreadRadiusNoFocus;
+                var randomSpreadOffset = Random.insideUnitCircle * radius;
         
                 var randomSpreadOffset3D = new Vector3(randomSpreadOffset.x, randomSpreadOffset.y, 0f);
 
                 var shootRay = new Ray(spawnPoint, (spreadDirection + randomSpreadOffset3D).normalized);
+
+                var raycast = Physics.Raycast(shootRay, out var hit, Weapon.Range, TargetMask);
                 
-                if (Physics.Raycast(shootRay, out var hit, Weapon.Range, TargetMask))
+                if (raycast)
                 {
+                    SpawnTrail(hit.point);
                     TryDamage(hit);
                     DisplayHit(hit);
+                }
+                else
+                {
+                    SpawnTrail(AmmoSpawnPoint.transform.forward * 10f);
                 }
             }
         }

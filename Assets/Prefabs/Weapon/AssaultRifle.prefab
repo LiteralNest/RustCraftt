@@ -175,6 +175,8 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 1083211959
   Weapon: {fileID: 11400000, guid: db581e837c8b34c96a777dc0afc8e659, type: 2}
+  _bulletTrail: {fileID: 328621789431213768, guid: 0494dfb18c2fb47ff92649474cc26278, type: 3}
+  _bulletSpeed: 200
 --- !u!114 &1124508249312575346
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -222,7 +224,6 @@ MonoBehaviour:
   _weaponAimPosition: {fileID: 0}
   _weaponSway: {fileID: 9183368219839637121}
   _aimSway: {fileID: 4527934426741539904}
-  _aimSpeed: 5
 --- !u!114 &4527934426741539904
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -238,10 +239,7 @@ MonoBehaviour:
   _swayAmount: 1
   _maxSwayAmount: 0.14
   _swayXBounds: 0.003
-  _swayYBounds: 0.003
   _smoothFactor: 1
-  _rotationAmount: 3.5
-  _maxRotation: 6
   _returnSpeed: 4
 --- !u!1 &3957807644436831765
 GameObject:
@@ -268,7 +266,7 @@ Transform:
   m_GameObject: {fileID: 3957807644436831765}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.0005, y: 0.1226, z: 0.6539}
+  m_LocalPosition: {x: -0.002, y: 0.12, z: 0.967}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

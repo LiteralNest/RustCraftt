@@ -11,7 +11,7 @@ namespace Fight_System.Weapon.ShootWeapon
         public override void Attack()
         {
             if (!CanShoot() || currentAmmoCount <= 0) return;
-
+            
             SoundPlayer.PlayShot();
             MinusAmmo();
             AdjustRecoil();
@@ -25,10 +25,15 @@ namespace Fight_System.Weapon.ShootWeapon
             
             foreach (var hit in raycastedTargets)
             {
-                if(!hitDisplayed)
+
+                if (!hitDisplayed)
+                {
+                    SpawnTrail(hit.point);
                     hitDisplayed = DisplayHit(hit);
+                }
                 if (!damaged)
                     damaged = TryDamage(hit);
+                
                 if(damaged) break;
             }
 

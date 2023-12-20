@@ -8,14 +8,14 @@ namespace Crafting_System.WorkBench
 
         private void OnTriggerStay(Collider other)
         {
-            var workbench = other.GetComponent<WorkBenchZone>();
+            var workbench = other.GetComponent<WorkBench>();
             if(!workbench) return;
             CurrentWorkBanchLevel = workbench.Level;
         }
 
         private void OnTriggerExit(Collider other)
         {
-            var workbench = other.GetComponent<WorkBenchZone>();
+            var workbench = other.GetComponent<WorkBench>();
             if(!workbench) return;
             CurrentWorkBanchLevel = 0;
         }

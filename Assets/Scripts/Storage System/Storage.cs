@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using Inventory_System;
 using Items_System.Items.Abstract;
-using Player_Controller;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -137,23 +136,10 @@ namespace Storage_System
             if (IsServer)
             {
                 if (range == default)
-                {
-                    if (!InventoryHelper.AddItemToDesiredSlot(itemId, count, ammo, ItemsNetData,
-                            new Vector2Int(0, MainSlotsCount)))
-                    {
-                        InstantiatingItemsPool.sigleton.SpawnDropableObjectServerRpc(itemId, count,
-                            transform.forward * 1.5f);
-                    }
-                }
+                    InventoryHelper.AddItemToDesiredSlot(itemId, count, ammo, ItemsNetData,
+                        new Vector2Int(0, MainSlotsCount));
                 else
-                {
-                    if (!InventoryHelper.AddItemToDesiredSlot(itemId, count, ammo, ItemsNetData, range))
-                    {
-                        InstantiatingItemsPool.sigleton.SpawnDropableObjectServerRpc(itemId, count,
-                            transform.forward * 1.5f);
-                    }   
-                }
-                  
+                    InventoryHelper.AddItemToDesiredSlot(itemId, count, ammo, ItemsNetData, range);
             }
 
             DoAfterAddingItem(new InventoryCell(ItemFinder.singleton.GetItemById(itemId), count));

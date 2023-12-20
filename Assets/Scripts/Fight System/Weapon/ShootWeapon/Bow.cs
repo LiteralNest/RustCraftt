@@ -22,7 +22,7 @@ namespace Fight_System.Weapon.ShootWeapon
 
         public override void Attack()
         {
-            if (!CanShoot()) return;
+            // if (!CanShoot() || currentAmmoCount <= 0) return;
             ShootArrow();
         }
 
