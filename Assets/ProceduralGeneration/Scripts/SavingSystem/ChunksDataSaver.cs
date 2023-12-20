@@ -21,7 +21,7 @@ namespace ProceduralGeneration.Scripts.SavingSystem
 
         private void InitPath()
         {
-            _path = Application.persistentDataPath + "/" + _fileName + ".json";
+            _path = "Assets/ProceduralGeneration/GeneratedMesh/" + _fileName + ".json";
         }
 
         public void AddData(ChunkSavingData addingData)
