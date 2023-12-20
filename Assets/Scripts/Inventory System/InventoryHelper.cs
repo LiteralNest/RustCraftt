@@ -135,7 +135,7 @@ namespace Inventory_System
             return GetFreeCellId(data);
         }
 
-        public static void AddItemToDesiredSlot(int itemId, int count, int ammo,
+        public static bool AddItemToDesiredSlot(int itemId, int count, int ammo,
             NetworkVariable<CustomSendingInventoryData> data,
             Vector2Int range)
         {
@@ -166,7 +166,7 @@ namespace Inventory_System
             while (cachedCount > 0)
             {
                 var cellId = GetFreeCellId(data, range);
-                if (cellId == -1) break;
+                if (cellId == -1) return false;
                 var item = ItemFinder.singleton.GetItemById(itemId);
                 if (item.StackCount > cachedCount)
                 {
@@ -179,6 +179,8 @@ namespace Inventory_System
                     cachedCount -= item.StackCount;
                 }
             }
+
+            return true;
         }
 
         public static bool EnoughMaterials(List<InventoryCell> inputSlots,

@@ -136,10 +136,23 @@ namespace Storage_System
             if (IsServer)
             {
                 if (range == default)
-                    InventoryHelper.AddItemToDesiredSlot(itemId, count, ammo, ItemsNetData,
-                        new Vector2Int(0, MainSlotsCount));
+                {
+                    if (!InventoryHelper.AddItemToDesiredSlot(itemId, count, ammo, ItemsNetData,
+                            new Vector2Int(0, MainSlotsCount)))
+                    {
+                        InstantiatingItemsPool.sigleton.SpawnDropableObjectServerRpc(itemId, count,
+                            transform.forward * 1.5f);
+                    }
+                }
+
                 else
-                    InventoryHelper.AddItemToDesiredSlot(itemId, count, ammo, ItemsNetData, range);
+                {
+                    if (!InventoryHelper.AddItemToDesiredSlot(itemId, count, ammo, ItemsNetData, range))
+                    {
+                        InstantiatingItemsPool.sigleton.SpawnDropableObjectServerRpc(itemId, count,
+                            transform.forward * 1.5f);
+                    }
+                }
             }
 
             DoAfterAddingItem(new InventoryCell(ItemFinder.singleton.GetItemById(itemId), count));

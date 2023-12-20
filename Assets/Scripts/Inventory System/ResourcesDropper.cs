@@ -4,16 +4,10 @@ using UnityEngine.EventSystems;
 
 public class ResourcesDropper : MonoBehaviour, IDropHandler
 {
-    public static ResourcesDropper singleton { get; private set; }
-
     public InventoryItemDisplayer InventoryItemDisplayer { get; set; }
 
     [SerializeField] private float _droppingOffset = 1;
     
-    private void Start()
-        => singleton = this;
-
-
     private Vector3 GetFrontCameraPos()
     {
         var camera = Camera.main;
@@ -38,5 +32,6 @@ public class ResourcesDropper : MonoBehaviour, IDropHandler
         InventoryHandler.singleton.CharacterInventory.RemoveItemCountFromSlotServerRpc(cell.Index, InventoryItemDisplayer.InventoryCell.Item.Id, InventoryItemDisplayer.InventoryCell.Count);
         InstantiatingItemsPool.sigleton.SpawnDropableObjectServerRpc(InventoryItemDisplayer.InventoryCell.Item.Id, InventoryItemDisplayer.InventoryCell.Count, GetFrontCameraPos());
         Destroy(InventoryItemDisplayer.gameObject);
+        InventoryItemDisplayer = null;
     }
 }

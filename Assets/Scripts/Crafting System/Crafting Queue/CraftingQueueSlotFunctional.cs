@@ -34,14 +34,22 @@ public class CraftingQueueSlotFunctional : MonoBehaviour
     
     private void DeleteItemsFromInventory()
     {
-        // foreach (var slot in _reservedSlotsForOneItem)
-        //     InventoryHandler.singleton.InventorySlotsContainer.DeleteSlot(slot.Resource, slot.Count * _count);
+        foreach (var slot in _reservedSlotsForOneItem)
+        {
+            var count = slot.Count * _count;
+            GlobalEventsContainer.OnInventoryItemRemoved?.Invoke(new InventoryCell(slot.Resource, count));
+            InventoryHandler.singleton.CharacterInventory.RemoveItem(slot.Resource.Id, count);
+        }
     }
 
     private void ReturnItemsToInventory()
     {
-        // foreach (var slot in _reservedSlotsForOneItem)
-        //     InventoryHandler.singleton.InventorySlotsContainer.AddItemToDesiredSlot(slot.Resource, slot.Count * _count);
+        foreach (var slot in _reservedSlotsForOneItem)
+        {
+            var count = slot.Count * _count;
+            GlobalEventsContainer.OnInventoryItemAdded?.Invoke(new InventoryCell(slot.Resource, count));
+            InventoryHandler.singleton.CharacterInventory.AddCraftedItem(slot.Resource.Id, slot.Count * _count, 0);
+        }
     }
     
     public void CreateItems()
@@ -51,6 +59,7 @@ public class CraftingQueueSlotFunctional : MonoBehaviour
     {
         Destroy(_currentSlotDisplayer.gameObject); 
         _queue.DisplayAlert(false);
+        GlobalEventsContainer.OnInventoryItemAdded?.Invoke(new InventoryCell(_craftingItem, 1));
         _queue.DeleteCell(this);
         if (shouldRecoverData)
             ReturnItemsToInventory();
