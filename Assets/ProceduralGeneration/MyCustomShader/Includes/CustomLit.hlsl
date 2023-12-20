@@ -16,7 +16,7 @@ void CustomFragmentPass(Varyings input, out half4 outColor : SV_Target0
             )
 {
     float x = input.positionWS.x * _TextureScale;
-    float y =  input.positionWS.y * _TextureScale;
+    float y = (input.positionWS.y - 0.5) * _TextureScale; // Shift by -0.5 in world Y coordinates
     float z = input.positionWS.z * _TextureScale;
     float isUp = abs(input.normalWS.y);
             
