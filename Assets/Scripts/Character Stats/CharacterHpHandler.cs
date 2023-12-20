@@ -1,7 +1,9 @@
 using System.Threading.Tasks;
 using PlayerDeathSystem;
+using Sound_System;
 using UI;
 using Unity.Netcode;
+using Unity.VisualScripting;
 using UnityEngine;
 using Web.User;
 

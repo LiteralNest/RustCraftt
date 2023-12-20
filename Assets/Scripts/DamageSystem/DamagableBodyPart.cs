@@ -1,5 +1,6 @@
 using ArmorSystem.Backend;
 using Character_Stats;
+using Player_Controller;
 using Sound_System;
 using UnityEngine;
 
@@ -26,7 +27,7 @@ namespace DamageSystem
 
         public void GetDamage(int damage)
         {
-            PlayerSoundsPlayer.Singleton.PlayHit(_hitSound);
+            PlayerNetCode.Singleton.PlayerSoundsPlayer.PlayHit(_hitSound);
             _characterHpHandler.GetDamageServerRpc(
                 (int)(damage * _gettingDamageKoef)); //Додати переввірку на резіст броні
         }

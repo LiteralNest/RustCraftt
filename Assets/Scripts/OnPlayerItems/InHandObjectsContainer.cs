@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Player_Controller;
 using Unity.Netcode;
 using UnityEngine;
@@ -27,6 +28,12 @@ namespace OnPlayerItems
         {
             GlobalEventsContainer.ShouldHandleAttacking -= HandleAttacking;
             GlobalEventsContainer.OnCurrentItemDeleted -= ResetCurrentCell;
+        }
+
+        private async void Start()
+        {
+            await Task.Delay(1100);
+            SetDefaultHands();
         }
 
         public override void OnNetworkSpawn()

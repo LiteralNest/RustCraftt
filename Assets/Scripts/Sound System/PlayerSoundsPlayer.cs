@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -7,18 +6,9 @@ namespace Sound_System
 {
     public class PlayerSoundsPlayer : NetworkBehaviour
     {
-        public static PlayerSoundsPlayer Singleton { get; private set; }
-        
         [SerializeField] private AudioSource _audioSource;
         [SerializeField] private List<SoundSLot> _soundSlots = new List<SoundSLot>();
-        
-        private async void Start()
-        {
-            await Task.Delay(1000);
-            if(!IsOwner) return;
-            Singleton = this;
-        }
-        
+
         [ServerRpc(RequireOwnership = false)]
         private void PlayOneShotServerRpc(int soundId)
         {

@@ -9,7 +9,7 @@ namespace Items_System.Ore_Type
         [SerializeField] private List<Item> _toolsForGathering = new List<Item>();
     
         [field: SerializeField] public AudioClip GatheringClip { get; private set; }
-        [SerializeField] private GameObject _vfxEffect;
+
     
         private void Start()
         {
@@ -24,7 +24,7 @@ namespace Items_System.Ore_Type
             if (_currentHp.Value <= 0) return;
             if(!CanUseTool(targetTool)) return;
             AddResourcesToInventory();
-            Instantiate(_vfxEffect, lastRayPos,  Quaternion.FromToRotation(Vector3.up, lastRayRot));
+            DisplayVfxServerRpc(lastRayPos, lastRayRot);
             InventoryHandler.singleton.ActiveSlotDisplayer.ItemDisplayer.MinusCurrentHp(5);
             MinusHpServerRpc();
             destroyed = _currentHp.Value <= 0;

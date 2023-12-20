@@ -1,5 +1,6 @@
 using System.Threading.Tasks;
 using Player_Controller;
+using Unity.Netcode;
 using UnityEngine;
 using Web.User;
 
@@ -93,7 +94,7 @@ public class PlayerResourcesGatherer : MonoBehaviour
         if (!door) return;
         door.Open(UserDataHandler.singleton.UserData.Id);
     }
-    
+
     private void TryHit()
     {
         if (!_canHit) return;
@@ -105,7 +106,7 @@ public class PlayerResourcesGatherer : MonoBehaviour
         if(invHandler.ActiveSlotDisplayer.ItemDisplayer.GetCurrentHp() <= 0) return;
         StartedGather = true;
         ore.MinusHp(_inventoryHandler.ActiveItem, out bool destroyed, _objectsRayCaster.LastRaycastedPosition, _objectsRayCaster.LastRayCastedRotation);
-        _audioSource.PlayOneShot(ore.GatheringClip);
+        PlayerNetCode.Singleton.PlayerSoundsPlayer.PlayHit(ore.GatheringClip);
         if (!destroyed) return;
         StopGathering();
     }
