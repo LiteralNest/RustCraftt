@@ -1,4 +1,5 @@
 using System.Threading.Tasks;
+using Items_System.Items;
 using Player_Controller;
 using Unity.Netcode;
 using UnityEngine;
@@ -8,10 +9,10 @@ using Web.User;
 public class PlayerResourcesGatherer : MonoBehaviour
 {
     [Header("Attached Scripts")]
+    [SerializeField] private PlayerMeleeDamager _playerMeleeDamager;
     [SerializeField] private PlayerNetCode _playerNetCode;
     [SerializeField] private InventoryHandler _inventoryHandler;
     [SerializeField] private ObjectsRayCaster _objectsRayCaster;
-    [SerializeField] private AudioSource _audioSource;
     private float _recoveringTime = 1; 
 
     [Header("Ore")]
@@ -98,7 +99,13 @@ public class PlayerResourcesGatherer : MonoBehaviour
     private void TryHit()
     {
         if (!_canHit) return;
+        var item = _inventoryHandler.ActiveItem as Tool;
+        if (!item) return;
+        
         Recover();
+
+        if(item.CanDamage && _playerMeleeDamager.TryDamage(item.Damage)) return;
+        
         var ore = _objectsRayCaster.TargetResourceOre;
         if (!ore) return;
         var invHandler = InventoryHandler.singleton;

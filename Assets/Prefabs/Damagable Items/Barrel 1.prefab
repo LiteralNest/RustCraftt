@@ -9,14 +9,12 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6765276325429593995}
-  - component: {fileID: 5066575253397907159}
-  - component: {fileID: 4648553869089097583}
   - component: {fileID: 5444055393955986189}
   - component: {fileID: 2344358473387716718}
   - component: {fileID: 8775702876900304765}
   - component: {fileID: 8142519773774099173}
   - component: {fileID: 7077725781212029604}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Barrel 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -39,56 +37,6 @@ Transform:
   - {fileID: 2774245623836897701}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
---- !u!33 &5066575253397907159
-MeshFilter:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4532231993039419107}
-  m_Mesh: {fileID: 2534964839176971238, guid: 19438567b406a7b47807b5e6d5e3d384, type: 3}
---- !u!23 &4648553869089097583
-MeshRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4532231993039419107}
-  m_Enabled: 0
-  m_CastShadows: 1
-  m_ReceiveShadows: 1
-  m_DynamicOccludee: 1
-  m_StaticShadowCaster: 0
-  m_MotionVectors: 1
-  m_LightProbeUsage: 1
-  m_ReflectionProbeUsage: 1
-  m_RayTracingMode: 2
-  m_RayTraceProcedural: 0
-  m_RenderingLayerMask: 1
-  m_RendererPriority: 0
-  m_Materials:
-  - {fileID: -6629797300637803691, guid: 19438567b406a7b47807b5e6d5e3d384, type: 3}
-  m_StaticBatchInfo:
-    firstSubMesh: 0
-    subMeshCount: 0
-  m_StaticBatchRoot: {fileID: 0}
-  m_ProbeAnchor: {fileID: 0}
-  m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_ReceiveGI: 1
-  m_PreserveUVs: 0
-  m_IgnoreNormalsForChartDetection: 0
-  m_ImportantGI: 0
-  m_StitchLightmapSeams: 1
-  m_SelectedEditorRenderState: 3
-  m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: 0.5
-  m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
-  m_AdditionalVertexStreams: {fileID: 0}
 --- !u!114 &5444055393955986189
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -280,6 +228,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: c41a7f4301543dd44ac0ba23022d3910, type: 3}
       propertyPath: m_Name
       value: Barrel
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: c41a7f4301543dd44ac0ba23022d3910, type: 3}
+      propertyPath: m_Layer
+      value: 8
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

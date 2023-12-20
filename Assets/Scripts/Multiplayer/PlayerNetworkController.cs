@@ -84,8 +84,8 @@ public class PlayerNetworkController : MonoBehaviour
     private void ClearObjects()
     {
         EnableMonos(false);
-        Destroy(_canvas);
-        Destroy(_vivox);
-        Destroy(_characterStaff);
+        _canvas.SetActive(false);
+        _vivox.SetActive(false);
+        _characterStaff.SetActive(false);
     }
 }
