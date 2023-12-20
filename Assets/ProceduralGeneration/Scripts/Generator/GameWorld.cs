@@ -115,7 +115,8 @@ namespace Generator
             var xPos = chunkData.ChunkPosition.x * ChunkRenderer.ChunkWidth * ChunkRenderer.BlockScale;
             var zPos = chunkData.ChunkPosition.y * ChunkRenderer.ChunkWidth * ChunkRenderer.BlockScale;
 
-            var chunk = Instantiate(_chunkPrefab, new Vector3(xPos, 0, zPos), Quaternion.identity, parent);
+            var chunk = Instantiate(_chunkPrefab, new Vector3(xPos, 0, zPos), Quaternion.identity);
+            chunk.transform.SetParent(parent);
             chunk.ChunkData = chunkData;
             chunk.ParentWorld = this;
             chunk.Init();
