@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using Unity.Netcode;
-using Unity.VisualScripting;
 using UnityEngine;
 
 namespace Sound_System
@@ -29,12 +28,13 @@ namespace Sound_System
         private void PlaySoundServerRpc(bool isOneShot, int id)
         {
             if (!IsServer) return;
-            PlaySoundClientRpc(isOneShot, id);
+            PlaySoundClientRpc(isOneShot, id, GetComponent<NetworkObject>().NetworkObjectId);
         }
 
         [ClientRpc]
-        private void PlaySoundClientRpc(bool isOneShot, int clipId)
+        private void PlaySoundClientRpc(bool isOneShot, int clipId, ulong networkObjectId)
         {
+            if(GetComponent<NetworkObject>().NetworkObjectId != networkObjectId) return;
             AudioClip targetClip = _soundSlots[clipId].Clip;
             if (isOneShot)
                 _audioSource.PlayOneShot(targetClip);

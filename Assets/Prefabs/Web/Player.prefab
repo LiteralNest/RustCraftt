@@ -12673,7 +12673,7 @@ AudioSource:
   SpatializePostEffects: 0
   Priority: 128
   DopplerLevel: 1
-  MinDistance: 1
+  MinDistance: 10
   MaxDistance: 500
   Pan2D: 0
   rolloffMode: 0
@@ -12709,7 +12709,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0
+      value: 1
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -12784,6 +12784,9 @@ MonoBehaviour:
   - Id: 7
     Volume: 1
     Clip: {fileID: 8300000, guid: 851f4e8cde1215540bec1d909d8d8475, type: 3}
+  - Id: 7
+    Volume: 1
+    Clip: {fileID: 8300000, guid: 591b31e7596e3a848945dd52467f4d07, type: 3}
 --- !u!114 &7329390832356083849
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13127,6 +13130,7 @@ MonoBehaviour:
   - {fileID: 7329390832356083849}
   - {fileID: 228275790847561711}
   - {fileID: 274879223211706544}
+  - {fileID: 1553957174920031044}
   characterUIHandler: {fileID: 1045087680176844765}
   _body:
   - {fileID: 1128752710889453121}

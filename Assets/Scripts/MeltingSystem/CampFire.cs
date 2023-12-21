@@ -9,13 +9,13 @@ namespace MeltingSystem
 {
     public class CampFire : Smelter
     {
-        protected CookingCharacterStatRiser _currentlyCookingCharacterStatRiser;
+        protected CookingFood CurrentlyCookingFood;
         
         public override bool CanAddItem(Item item, int index)
         {
             if (IsInRange(index, _outputSlotsRange)) return false;
             if (IsInRange(index, _fuelSlotsRange) && item is Fuel) return true;
-            if (IsInRange(index, _inputSlotsRange) && item is CookingCharacterStatRiser) return true;
+            if (IsInRange(index, _inputSlotsRange) && item is CookingFood) return true;
             return false;
         }
 
@@ -32,7 +32,7 @@ namespace MeltingSystem
             {
                 if (cells[i].Id == -1) continue;
                 var item = ItemFinder.singleton.GetItemById(cells[i].Id);
-                if (item is CookingCharacterStatRiser)
+                if (item is CookingFood)
                     res.Add(new InventoryCell(item, cells[i].Count));
             }
 
@@ -42,24 +42,24 @@ namespace MeltingSystem
         private void TryCook()
         {
             if (!Flaming.Value) return;
-            if (_currentlyCookingCharacterStatRiser != null) return;
+            if (CurrentlyCookingFood != null) return;
             var foodList = GetCookingMaterials();
             if (foodList.Count == 0) return;
-            var food = foodList[0].Item as CookingCharacterStatRiser;
+            var food = foodList[0].Item as CookingFood;
             StartCoroutine(Cook(food));
         }
 
-        private IEnumerator Cook(CookingCharacterStatRiser characterStatRiser)
+        private IEnumerator Cook(CookingFood food)
         {
-            _currentlyCookingCharacterStatRiser = characterStatRiser;
-            yield return new WaitForSeconds(characterStatRiser.CookingTime);
+            CurrentlyCookingFood = food;
+            yield return new WaitForSeconds(food.CookingTime);
             if (Flaming.Value)
             {
-                RemoveItemCountServerRpc(_currentlyCookingCharacterStatRiser.Id, 1);
-                AddItemToDesiredSlotServerRpc(characterStatRiser.CharacterStatRiserAfterCooking.Id, 1, 0,_outputSlotsRange);
+                RemoveItemCountServerRpc(CurrentlyCookingFood.Id, 1);
+                AddItemToDesiredSlotServerRpc(food.FoodAfterCooking.Id, 1, 0,_outputSlotsRange);
             }
 
-            _currentlyCookingCharacterStatRiser = null;
+            CurrentlyCookingFood = null;
         }
     }
 }
