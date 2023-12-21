@@ -12550,6 +12550,7 @@ GameObject:
   - component: {fileID: -5966689580882158241}
   - component: {fileID: 3960080918123890327}
   - component: {fileID: 7221513865209393274}
+  - component: {fileID: 1553957174920031044}
   m_Layer: 15
   m_Name: Player
   m_TagString: Player
@@ -12774,6 +12775,15 @@ MonoBehaviour:
   - Id: 4
     Volume: 1
     Clip: {fileID: 8300000, guid: 5b629d5f309986141adc4ef0a0b8c904, type: 3}
+  - Id: 5
+    Volume: 1
+    Clip: {fileID: 8300000, guid: 68e339c5bd7f0f141bb4dc66eed0002c, type: 3}
+  - Id: 6
+    Volume: 1
+    Clip: {fileID: 8300000, guid: d9da9138341dcd240aa98cb740c4cc67, type: 3}
+  - Id: 7
+    Volume: 1
+    Clip: {fileID: 8300000, guid: 851f4e8cde1215540bec1d909d8d8475, type: 3}
 --- !u!114 &7329390832356083849
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13280,6 +13290,24 @@ MonoBehaviour:
   _damageLayer:
     serializedVersion: 2
     m_Bits: 256
+--- !u!114 &1553957174920031044
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2441425697621568629}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dfcee87d264edfd4bafa6fbe09550fc4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _playerSoundsPlayer: {fileID: 6048430939065525206}
+  _blocksData: {fileID: 11400000, guid: df6e8951eafd24794a49e7f2727551b0, type: 2}
+  _audioSource: {fileID: 2926654359359091872}
+  _terrainLayer:
+    serializedVersion: 2
+    m_Bits: 128
 --- !u!1 &2457710998111202452
 GameObject:
   m_ObjectHideFlags: 0
