@@ -1,40 +1,43 @@
 using UnityEngine;
 
-public class QuickSlotDisplayer : MonoBehaviour
+namespace Inventory_System.Inventory_Slot_Displayers
 {
-    [SerializeField] private InventoryHandler _inventoryHandler;
-
-    [Header("UI")] [SerializeField] private GameObject _activeFon;
-
-    public SlotDisplayer ConnectedSlotDisplayer { get; set; }
-    public ItemDisplayer ItemDisplayer { get; private set; }
-
-    public void ClearSlot()
+    public class QuickSlotDisplayer : MonoBehaviour
     {
-        if (!ItemDisplayer) return;
-        Destroy(ItemDisplayer.gameObject);
-        ItemDisplayer = null;
-        ConnectedSlotDisplayer = null;
-    }
+        [SerializeField] private InventoryHandler _inventoryHandler;
 
-    public void AssignItemDisplayer(ItemDisplayer itemDisplayer)
-    {
-        ItemDisplayer = itemDisplayer;
-        Destroy(itemDisplayer.GetComponent<DoubleTapHandler>());
-    }
+        [Header("UI")] [SerializeField] private GameObject _activeFon;
 
-    public void Click()
-    {
-        if (GlobalValues.CanDragInventoryItems) return;
-        if (ItemDisplayer == null)
+        public SlotDisplayer ConnectedSlotDisplayer { get; set; }
+        public ItemDisplayer ItemDisplayer { get; private set; }
+
+        public void ClearSlot()
         {
-            _inventoryHandler.InHandObjectsContainer.SetDefaultHands();
-            return;
+            if (!ItemDisplayer) return;
+            Destroy(ItemDisplayer.gameObject);
+            ItemDisplayer = null;
+            ConnectedSlotDisplayer = null;
         }
-        if (ItemDisplayer.InventoryCell == null) return;
-        var cell = ItemDisplayer.InventoryCell;
-        if (cell == null) return;
-        var item = cell.Item;
-        item.Click(this, _inventoryHandler);
+
+        public void AssignItemDisplayer(ItemDisplayer itemDisplayer)
+        {
+            ItemDisplayer = itemDisplayer;
+            Destroy(itemDisplayer.GetComponent<DoubleTapHandler>());
+        }
+
+        public void Click()
+        {
+            if (GlobalValues.CanDragInventoryItems) return;
+            if (ItemDisplayer == null)
+            {
+                _inventoryHandler.InHandObjectsContainer.SetDefaultHands();
+                return;
+            }
+            if (ItemDisplayer.InventoryCell == null) return;
+            var cell = ItemDisplayer.InventoryCell;
+            if (cell == null) return;
+            var item = cell.Item;
+            item.Click(ConnectedSlotDisplayer);
+        }
     }
 }

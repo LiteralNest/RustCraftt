@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using ArmorSystem.Backend;
+using Inventory_System.ItemInfo;
 using OnPlayerItems;
 using Sound_System;
 using Storage_System;
@@ -17,7 +18,9 @@ namespace Player_Controller
         public static PlayerNetCode Singleton { get; private set; }
         
         [Header("Attached Components")]
+     
         [SerializeField] private Collider _collider;
+        [field:SerializeField] public ItemInfoHandler ItemInfoHandler { get; private set; }
         [field:SerializeField] public PlayerSoundsPlayer PlayerSoundsPlayer { get; private set; }
         [field:SerializeField] public InHandObjectsContainer InHandObjectsContainer { get; private set; }
         [field:SerializeField] public VehiclesController VehiclesController { get; private set; }

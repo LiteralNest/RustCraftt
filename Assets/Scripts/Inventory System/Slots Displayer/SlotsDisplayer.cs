@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Armor_System.UI;
+using Inventory_System.Inventory_Slot_Displayers;
 using Storage_System;
 using UnityEngine;
 using UnityEngine.Serialization;

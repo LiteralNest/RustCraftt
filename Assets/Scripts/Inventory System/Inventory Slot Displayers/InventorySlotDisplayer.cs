@@ -1,11 +1,18 @@
-using Inventory_System;
+using Player_Controller;
 using UnityEngine.EventSystems;
 
-public class InventorySlotDisplayer : SlotDisplayer, IPointerClickHandler
+namespace Inventory_System.Inventory_Slot_Displayers
 {
-    public void OnPointerClick(PointerEventData eventData)
+    public class InventorySlotDisplayer : SlotDisplayer, IPointerClickHandler
     {
-        if(ItemDisplayer != null) return;
-        ItemInfoDisplayer.Singleton.DisplayItemInfo(null);
+        public void OnPointerClick(PointerEventData eventData)
+        {
+            if (ItemDisplayer == null)
+            {
+                PlayerNetCode.Singleton.ItemInfoHandler.ResetPanel();
+                return;
+            }
+            PlayerNetCode.Singleton.ItemInfoHandler.AssignItem(this);
+        }
     }
 }

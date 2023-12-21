@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Inventory_System.Inventory_Slot_Displayers;
 using UnityEngine;
 
 public class QuickSlotsDisplayer : MonoBehaviour

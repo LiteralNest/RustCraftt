@@ -1,3 +1,4 @@
+using Inventory_System.Inventory_Slot_Displayers;
 using UnityEngine;
 
 namespace Items_System.Items
@@ -8,9 +9,10 @@ namespace Items_System.Items
         [field: SerializeField] public int Damage { get; set; } = 25;
         [field: SerializeField] public bool CanDamage { get; set; } = true;
         
-        public override void Click(QuickSlotDisplayer slotDisplayer, InventoryHandler handler)
+        public override void Click(SlotDisplayer slotDisplayer)
         {
-            base.Click(slotDisplayer, handler);
+            base.Click(slotDisplayer);
+            var handler = InventoryHandler.singleton;
             handler.SetActiveItem(this);
             GlobalEventsContainer.ShouldDisplayHandItem?.Invoke(slotDisplayer.ItemDisplayer.InventoryCell.Item.Id,
                 handler.PlayerNetCode.GetClientId());

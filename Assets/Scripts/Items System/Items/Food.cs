@@ -1,3 +1,4 @@
+using Inventory_System.Inventory_Slot_Displayers;
 using Player_Controller;
 using UnityEngine;
 
@@ -10,11 +11,11 @@ namespace Items_System.Items
         [SerializeField] private int _addingValue;
         [SerializeField] private CharacterStatType _statType;
         [SerializeField] private AudioClip _eatingSound;
-        public override void Click(QuickSlotDisplayer slotDisplayer, InventoryHandler handler)
+        public override void Click(SlotDisplayer slotDisplayer)
         {
-            base.Click(slotDisplayer, handler);
-            handler.Stats.PlusStat(_statType, _addingValue);
-            InventoryHandler.singleton.CharacterInventory.RemoveItem(Id, 1);
+            base.Click(slotDisplayer);
+            InventoryHandler.singleton.Stats.PlusStat(_statType, _addingValue);
+            InventoryHandler.singleton.CharacterInventory.RemoveItemCountFromSlotServerRpc(slotDisplayer.Index, Id, 1);
             PlayerNetCode.Singleton.PlayerSoundsPlayer.PlayHit(_eatingSound);
         }
     }
