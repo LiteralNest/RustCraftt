@@ -7,7 +7,7 @@ namespace Inventory_System
     {
         public static CurrentInventoriesHandler Singleton { get; set; }
 
-        [field: SerializeField] public Storage CurrentStorage { get; set; }
+       public Storage CurrentStorage { get; set; }
 
         private void Awake()
             => Singleton = this;
