@@ -48,7 +48,8 @@ namespace Building_System.Blocks
             if (_activeBlock != null)
                 _activeBlock.SetActive(false);
             var activatingBlock = _levels[_currentLevel.Value];
-            _soundPlayer.PlayOneShot(activatingBlock.UpgradingSound);
+            if(IsServer)
+                _soundPlayer.PlayOneShot(activatingBlock.UpgradingSound);
             activatingBlock.gameObject.SetActive(true);
             _activeBlock = activatingBlock.gameObject;
             var gettingHp = (ushort)activatingBlock.GetComponent<Block>().Hp;
