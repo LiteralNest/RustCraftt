@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Building_System.Buildings_Connecting;
 using Building_System.Upgrading;
+using Sound_System;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -11,6 +12,7 @@ namespace Building_System.Blocks
 {
     public class BuildingBlock : NetworkBehaviour, IDamagable, IHammerInteractable
     {
+        [SerializeField] private NetworkSoundPlayer _soundPlayer;
         [SerializeField] private List<Block> _levels;
 
         private NetworkVariable<ushort> _hp = new(100, NetworkVariableReadPermission.Everyone,
@@ -46,6 +48,7 @@ namespace Building_System.Blocks
             if (_activeBlock != null)
                 _activeBlock.SetActive(false);
             var activatingBlock = _levels[_currentLevel.Value];
+            _soundPlayer.PlayOneShot(activatingBlock.UpgradingSound);
             activatingBlock.gameObject.SetActive(true);
             _activeBlock = activatingBlock.gameObject;
             var gettingHp = (ushort)activatingBlock.GetComponent<Block>().Hp;
