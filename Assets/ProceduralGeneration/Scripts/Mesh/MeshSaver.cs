@@ -1,3 +1,5 @@
+#if !UNITY_SERVER
+
 using System.IO;
 using ProceduralGeneration.Scripts.Mesh;
 using ProceduralGeneration.Scripts.SavingSystem;
@@ -85,3 +87,5 @@ namespace Mesh
         }
     }
 }
+
+#endif

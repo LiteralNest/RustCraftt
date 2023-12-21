@@ -20,6 +20,7 @@ namespace Player_Controller
         [Header("Attached Components")]
      
         [SerializeField] private Collider _collider;
+        [field:SerializeField] public ResourcesDropper ResourcesDropper { get; private set; }
         [field:SerializeField] public ItemInfoHandler ItemInfoHandler { get; private set; }
         [field:SerializeField] public PlayerSoundsPlayer PlayerSoundsPlayer { get; private set; }
         [field:SerializeField] public InHandObjectsContainer InHandObjectsContainer { get; private set; }

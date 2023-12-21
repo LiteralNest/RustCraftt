@@ -1,4 +1,5 @@
 using System.Threading.Tasks;
+using Player_Controller;
 using Storage_System;
 using UI;
 using UnityEngine.EventSystems;
@@ -16,6 +17,7 @@ namespace Inventory_System.Inventory_Items_Displayer
             if (_countText != null)
                 _countText.gameObject.SetActive(false);
             transform.SetParent(PlaceForInventoryItems.Singleton.transform);
+            PlayerNetCode.Singleton.ResourcesDropper.InventoryItemDisplayer = this;
             _itemIcon.raycastTarget = false;
         }
 
