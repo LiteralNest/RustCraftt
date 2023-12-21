@@ -26,7 +26,8 @@ namespace Storage_System
 
         public virtual void Open(InventoryHandler handler)
         {
-            InventoryHandler.singleton.InventoryPanelsDisplayer.OpenInventory(false);
+            CurrentInventoriesHandler.Singleton.CurrentStorage = this;
+            InventoryHandler.singleton.InventoryPanelsDisplayer.OpenInventory(true);
             Appear();
             _ui.SetActive(true);
             SlotsDisplayer.DisplayCells();

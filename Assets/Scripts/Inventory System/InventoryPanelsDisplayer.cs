@@ -39,14 +39,17 @@ namespace Inventory_System
         public void ClosePanels()
         {
             _inventoryPanel.SetActive(false);
+            CurrentInventoriesHandler.Singleton.ResetCurrentStorage();
             ResetInventories();
         }
 
-        public void OpenInventory(bool shouldDisplayArmorPanel)
+        public void OpenInventory(bool deactivateCharacterView)
         {
+            CurrentInventoriesHandler.Singleton.HandleCurrentStoragePanel(true);
             ResetInventories();
             HandleInventory(true);
-            _characterPreview.SetActive(shouldDisplayArmorPanel);
+            if(deactivateCharacterView)
+                _characterPreview.SetActive(false);
         }
         
         public void OpenWorkbenchPanel()
@@ -55,5 +58,11 @@ namespace Inventory_System
             HandleInventory(true);
             _workbenchPanel.SetActive(true);
         }
+
+        public void OpenCraft()
+            => CurrentInventoriesHandler.Singleton.HandleCurrentStoragePanel(false);
+        
+        public void OpenInventory()
+            => CurrentInventoriesHandler.Singleton.HandleCurrentStoragePanel(true);
     }
 }
