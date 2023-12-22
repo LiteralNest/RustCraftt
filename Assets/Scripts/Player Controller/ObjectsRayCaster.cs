@@ -186,8 +186,8 @@ public class ObjectsRayCaster : MonoBehaviour
             if (!clipboard.IsAutorized(UserDataHandler.singleton.UserData.Id))
             {
                 SetLootButton("Authorize");
+                return;
             }
-            return;
         }
         
         if (TryRaycast("LootBox", _maxOpeningDistance, out ResourceOre ore, _defaultMask))

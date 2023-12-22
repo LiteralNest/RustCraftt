@@ -56,6 +56,8 @@ namespace Building_System.Buildings_Connecting
             return false;
         }
 
+            
+            
         private void Decay()
         {
             foreach (var block in Blocks)

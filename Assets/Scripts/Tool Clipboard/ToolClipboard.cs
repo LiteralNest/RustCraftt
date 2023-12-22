@@ -74,10 +74,18 @@ namespace Tool_Clipboard
             return res;
         }
 
+        private List<InventoryCell> GetInitedList(List<InventoryCell> data)
+        {
+            List<InventoryCell> res = new List<InventoryCell>();
+            foreach (var cell in data)
+                res.Add(new InventoryCell(cell));
+            return res;
+        }
+        
         private bool TryMinusItemsPreSecond(List<InventoryCell> delCells,
             List<InventoryCell> data)
         {
-            var deletingCells = new List<InventoryCell>(delCells);
+            var deletingCells = GetInitedList(delCells);
             for (int i = 0; i < deletingCells.Count; i++)
             {
                 for (int j = 0; j < data.Count; j++)
@@ -141,28 +149,26 @@ namespace Tool_Clipboard
             return res;
         }
 
-        private void AddSlotToInventory(InventoryCell addingCell, List<InventoryCell> data)
-        {
-            foreach (var slot in data)
-            {
-                if (slot.Item.Id == addingCell.Item.Id)
-                {
-                    slot.Count += addingCell.Count;
-                    return;
-                }
-            }
-
-            data.Add(addingCell);
-        }
-
         private List<InventoryCell> GetStackedList(List<InventoryCell> inputList)
         {
             var res = new List<InventoryCell>();
             if (inputList.Count == 0) return res;
-            res.Add(inputList[0]);
-            inputList.RemoveAt(0);
             foreach (var cell in inputList)
-                AddSlotToInventory(cell, res);
+            {
+                var addingCell = new InventoryCell(cell);
+                bool wasAdded = false;
+                foreach (var resCell in res)
+                {
+                    if (resCell.Item.Id == cell.Item.Id)
+                    {
+                        resCell.Count += cell.Count;
+                        wasAdded = true;
+                        break;
+                    }
+                }
+                if(!wasAdded)
+                    res.Add(addingCell);
+            }
             return res;
         }
 
