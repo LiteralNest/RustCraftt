@@ -1,7 +1,7 @@
 using System.Linq;
+using Map;
 using Multiplayer.PlayerSpawning;
 using UnityEngine;
-using UI;
 
 namespace UI.DeathScreen
 {
@@ -9,9 +9,17 @@ namespace UI.DeathScreen
     {
         public static DeathScreenUI Singleton { get; private set; }
 
+        [SerializeField] private MapHandler _mapHandler;
+        
         private void Awake()
             => Singleton = this;
 
+        private void OnEnable()
+            => _mapHandler.Open();
+
+        private void OnDisable()
+            => _mapHandler.Close();
+        
         public void Respawn()
         {
             MainUiHandler.Singleton.DisplayDeathScreen(false);
