@@ -25,7 +25,7 @@ namespace Items_System.Ore_Type
             if(!CanUseTool(targetTool)) return;
             AddResourcesToInventory();
             DisplayVfxServerRpc(lastRayPos, lastRayRot);
-            InventoryHandler.singleton.ActiveSlotDisplayer.ItemDisplayer.MinusCurrentHp(5);
+            InventoryHandler.singleton.ActiveSlotDisplayer.ItemDisplayer.MinusCurrentHp(1);
             MinusHpServerRpc();
             destroyed = _currentHp.Value <= 0;
         }

@@ -25,7 +25,8 @@ namespace Fight_System.Weapon.ShootWeapon
         {
             if (!CanShoot() || currentAmmoCount <= 0 || !RandomShotSucceeded()) return;
 
-            SoundPlayer.PlayShot();
+            if(SoundPlayer != null)
+                SoundPlayer.PlayShot();
             MinusAmmo();
 
             var spawnPoint = AmmoSpawnPoint.position;
@@ -62,13 +63,13 @@ namespace Fight_System.Weapon.ShootWeapon
 
                 if (raycast)
                 {
-                    SpawnTrail(hit.point);
+                    SpawnTrailServerRpc(hit.point);
                     TryDamage(hit);
                     DisplayHit(hit);
                 }
                 else
                 {
-                    SpawnTrail(AmmoSpawnPoint.transform.forward * 10f);
+                    SpawnTrailServerRpc(AmmoSpawnPoint.transform.forward * 10f);
                 }
             }
         }

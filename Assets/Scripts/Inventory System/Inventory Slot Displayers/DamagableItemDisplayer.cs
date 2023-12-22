@@ -64,11 +64,6 @@ namespace Inventory_System.Inventory_Slot_Displayers
 
         public override int GetCurrentHp()
             => InventoryCell.Hp;
-
-        [ContextMenu("Test Minusing Hp")]
-        private void Test()
-        {
-            MinusCurrentHp(10);
-        }
+        
     }
 }

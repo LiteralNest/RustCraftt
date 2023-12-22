@@ -23,9 +23,14 @@ namespace Multiplayer
 
         private void SpawnAnimalById(int id, Vector3 position, Vector3 rotation)
         {
-            foreach(var animal in _animalIds)
-                if(animal.Id == id)
+            foreach (var animal in _animalIds)
+            {
+                if (animal.Id == id)
+                {
                     Spawn(animal, position, rotation);
+                    return;
+                }
+            }
             Debug.LogError("Can't find object with id: " + id);
         }
     

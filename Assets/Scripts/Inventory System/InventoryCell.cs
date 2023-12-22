@@ -5,7 +5,7 @@ public class InventoryCell
 {
    public Item Item;
    public int Count;
-   public int Hp = -1;
+   public int Hp { get; set; } = -1;
    public int Ammo = 0;
 
    public InventoryCell(InventoryCell cell)

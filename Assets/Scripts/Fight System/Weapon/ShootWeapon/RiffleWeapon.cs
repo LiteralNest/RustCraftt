@@ -28,7 +28,7 @@ namespace Fight_System.Weapon.ShootWeapon
 
                 if (!hitDisplayed)
                 {
-                    SpawnTrail(hit.point);
+                    SpawnTrailServerRpc(hit.point);
                     hitDisplayed = DisplayHit(hit);
                 }
                 if (!damaged)
