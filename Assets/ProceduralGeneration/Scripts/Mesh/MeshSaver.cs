@@ -1,4 +1,4 @@
-#if !UNITY_SERVER
+#if UNITY_EDITOR
 
 using System.IO;
 using ProceduralGeneration.Scripts.Mesh;

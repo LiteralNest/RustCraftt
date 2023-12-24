@@ -1,4 +1,5 @@
 using System.Collections;
+using Fight_System.Weapon.ShootWeapon.TrailSystem;
 using Items_System.Items.Weapon;
 using UI;
 using Unity.Netcode;
@@ -26,10 +27,9 @@ namespace Fight_System.Weapon.ShootWeapon
         [SerializeField] protected LayerMask TargetMask;
         [SerializeField] protected ShootingWeapon Weapon;
 
-        [Header("Trail Settings")] [SerializeField]
-        private TrailRenderer _bulletTrail;
-
-        [SerializeField] private int _bulletSpeed = 100;
+        [Header("Trail Settings")]
+        [SerializeField] protected TrailSpawner _trailSpawner;
+        [SerializeField] protected int _bulletSpeed = 100;
 
         public bool IsSingle => _isSingle;
         protected int currentAmmoCount;
@@ -49,45 +49,6 @@ namespace Fight_System.Weapon.ShootWeapon
         protected bool CanShoot()
         {
             return canShoot && _timeBetweenShots <= 0 && currentAmmoCount > 0 && !_isReloading;
-        }
-
-        private IEnumerator SpawnTrailRoutine(Vector3 hitPoint)
-        {
-            var trail = Instantiate(_bulletTrail, AmmoSpawnPoint.transform.position, Quaternion.identity,
-                AmmoSpawnPoint);
-
-            var distance = Vector3.Distance(trail.transform.position, hitPoint);
-            var remainingDistance = distance;
-
-            while (remainingDistance > 0)
-            {
-                trail.transform.position =
-                    Vector3.Lerp(trail.transform.position, hitPoint, 1 - (remainingDistance / distance));
-
-                remainingDistance -= _bulletSpeed * Time.deltaTime;
-
-                yield return null;
-            }
-
-            trail.transform.position = hitPoint;
-
-            Destroy(trail.gameObject, trail.time);
-        }
-
-
-        [ServerRpc(RequireOwnership = false)]
-        protected void SpawnTrailServerRpc(Vector3 hit)
-        {
-            if (!IsServer) return;
-            SpawnTrailClientRpc(hit);
-        }
-
-        [ClientRpc]
-        private void SpawnTrailClientRpc(Vector3 hit)
-        {
-            if (_bulletTrail == null) return;
-
-            StartCoroutine(SpawnTrailRoutine(hit));
         }
 
         private void OnEnable()
@@ -153,7 +114,6 @@ namespace Fight_System.Weapon.ShootWeapon
             Destroy(fire, 2f);
             var decalObj = Instantiate(Decal, hit.point, Quaternion.LookRotation(hit.normal));
             Destroy(decalObj, 5);
-            // SpawnTrail(decalObj.transform.position);
             return true;
         }
 

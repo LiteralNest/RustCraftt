@@ -121,14 +121,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6853f396bbcebd649a79565721826af1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _patrolPoints:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  _pointGetter: {fileID: 5758573500931984155}
 --- !u!1 &4802760897474640653
 GameObject:
   m_ObjectHideFlags: 0
@@ -273,7 +266,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
+  - {fileID: 2100000, guid: 7f22c188414929b439142211a2f678db, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -373,6 +366,7 @@ GameObject:
   - component: {fileID: 1037852635728798627}
   - component: {fileID: 5986825837521743611}
   - component: {fileID: 2814044194007606491}
+  - component: {fileID: 5758573500931984155}
   m_Layer: 0
   m_Name: Chicken
   m_TagString: Untagged
@@ -565,6 +559,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <Id>k__BackingField: 4
+--- !u!114 &5758573500931984155
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6955868715168596032}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 63dec66007d6f8f4995ebb38da062704, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  circleRadius: 30
 --- !u!1 &7479389190354327790
 GameObject:
   m_ObjectHideFlags: 0

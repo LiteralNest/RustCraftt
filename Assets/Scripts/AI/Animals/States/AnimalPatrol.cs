@@ -1,14 +1,12 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace AI.Animals.States
 {
     public class AnimalPatrol : AnimalState
     {
-        [SerializeField] private List<Transform> _patrolPoints;
-
-        private Transform _currentMovingPoint;
+        [SerializeField] private RandomCirclePointGetter _pointGetter;
+        private Vector3 _currentMovingPoint;
         
         public override void Init(AnimalController controller)
         {
@@ -18,14 +16,7 @@ namespace AI.Animals.States
 
         private void FindNextPatrolPoint()
         {
-            var rand = Random.Range(0, _patrolPoints.Count);
-            if (_patrolPoints != null && _currentMovingPoint == _patrolPoints[rand])
-            {
-                FindNextPatrolPoint();
-                return;
-            }
-
-            _currentMovingPoint = _patrolPoints[rand];
+            _currentMovingPoint = _pointGetter.GetRandomPointInCircle();
             StartCoroutine(MoveToPoint());
         }
 
@@ -33,8 +24,8 @@ namespace AI.Animals.States
         
         private IEnumerator MoveToPoint()
         {
-            _controller.NavMeshAgent.SetDestination(_currentMovingPoint.position);
-            while (!EnoughDistance(_currentMovingPoint.position))
+            _controller.NavMeshAgent.SetDestination(_currentMovingPoint);
+            while (!EnoughDistance(_currentMovingPoint))
             {
                 if(_shouldStop) yield break;
                 yield return null;

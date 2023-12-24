@@ -17,6 +17,7 @@ GameObject:
   - component: {fileID: 5808785799306039446}
   - component: {fileID: 3543342543622117996}
   - component: {fileID: 657592028347266323}
+  - component: {fileID: 3497160477936115115}
   m_Layer: 0
   m_Name: Wolf
   m_TagString: Untagged
@@ -209,6 +210,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <Id>k__BackingField: 3
+--- !u!114 &3497160477936115115
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 93130758357716207}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 63dec66007d6f8f4995ebb38da062704, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  circleRadius: 70
 --- !u!1 &2332002152271931367
 GameObject:
   m_ObjectHideFlags: 0
@@ -643,14 +657,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6853f396bbcebd649a79565721826af1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _patrolPoints:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  _pointGetter: {fileID: 3497160477936115115}
 --- !u!1 &9162210510198147303
 GameObject:
   m_ObjectHideFlags: 0

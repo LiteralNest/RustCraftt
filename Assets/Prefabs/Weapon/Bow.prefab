@@ -118,6 +118,9 @@ GameObject:
   - component: {fileID: 3397476021959001406}
   - component: {fileID: 285675924588345423}
   - component: {fileID: 8705672770995017363}
+  - component: {fileID: 5308877836840549176}
+  - component: {fileID: 7179640006268223775}
+  - component: {fileID: 8227267492312698807}
   m_Layer: 0
   m_Name: Bow
   m_TagString: Untagged
@@ -135,7 +138,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.070673026, y: 0.070673026, z: 0.070673026}
+  m_LocalScale: {x: 0.0007704547, y: 0.0007704546, z: 0.0007704543}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 6593024223010759467}
@@ -176,7 +179,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c03318f378bd475dacc754c2282dc909, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  WeaponAim: {fileID: 0}
+  WeaponAim: {fileID: 8227267492312698807}
   canBeReloaded: 1
   _isSingle: 1
   Recoil: {fileID: 285675924588345423}
@@ -188,9 +191,9 @@ MonoBehaviour:
   Decal: {fileID: 6642391786047634509}
   TargetMask:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 256
   Weapon: {fileID: 11400000, guid: 26fde466de57044e388093ac0d9b80f9, type: 2}
-  _bulletTrail: {fileID: 0}
+  _trailSpawner: {fileID: 0}
   _bulletSpeed: 0
   _arrowPrefab: {fileID: -371570071824515017, guid: 6e9631a9a94fc46f484315b44bcba73e, type: 3}
   _arrowForce: 30
@@ -220,6 +223,58 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _shotClip: {fileID: 0}
   _shotSource: {fileID: 0}
+--- !u!114 &5308877836840549176
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 673059641430715970}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 05e726e55990d4cb09c156a317e300b1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _swayAmount: 1
+  _maxSwayAmount: 0.14
+  _swayXBounds: 0.01
+  _swayYBounds: 0.01
+  _smoothFactor: 1
+  _rotationAmount: 3.5
+  _maxRotation: 6
+  _returnSpeed: 4
+--- !u!114 &7179640006268223775
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 673059641430715970}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 20201d759c124bc29a8d028a4fc44575, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _swayAmount: 1
+  _maxSwayAmount: 0.005
+  _swayXBounds: 0.003
+  _smoothFactor: 1
+  _returnSpeed: 3
+--- !u!114 &8227267492312698807
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 673059641430715970}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db8d2ec2cbd34d788eb4c919a82c64ed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _weaponAimPosition: {fileID: 0}
+  _weaponSway: {fileID: 5308877836840549176}
+  _aimSway: {fileID: 7179640006268223775}
 --- !u!1 &6642391786047634509
 GameObject:
   m_ObjectHideFlags: 0

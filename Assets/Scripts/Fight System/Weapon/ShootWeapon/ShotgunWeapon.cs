@@ -1,4 +1,5 @@
 using Inventory_System.Inventory_Items_Displayer;
+using Player_Controller;
 using UnityEngine;
 
 namespace Fight_System.Weapon.ShootWeapon
@@ -7,15 +8,16 @@ namespace Fight_System.Weapon.ShootWeapon
     public class ShotgunWeapon : BaseShootingWeapon
     {
         [SerializeField] private WeaponAim _weaponAim;
-        
-        [Header("Shotgun Settings")]
-        [SerializeField] private int _pelletCount = 12;
+
+        [Header("Shotgun Settings")] [SerializeField]
+        private int _pelletCount = 12;
+
         [SerializeField] private float _spreadRadiusNoFocus = 0.5f;
         [SerializeField] private float _spreadRadiusFocus = 0.1f;
 
         private LongRangeWeaponItemDisplayer _inventoryItemDisplayer;
         private Vector3[] _spreadOffsets;
-        
+
 
         [ContextMenu("Shot")]
         private void TestShot() => Attack();
@@ -23,7 +25,7 @@ namespace Fight_System.Weapon.ShootWeapon
         public override void Attack()
         {
             if (!CanShoot() || currentAmmoCount <= 0) return;
-            
+
             SoundPlayer.PlayShot();
             MinusAmmo();
 
@@ -42,27 +44,28 @@ namespace Fight_System.Weapon.ShootWeapon
             for (var i = 0; i < _pelletCount; i++)
             {
                 var angle = i * angleStep;
-                
+
                 var spreadOffset = Quaternion.AngleAxis(angle, shootDirection) * (Vector3.up * radius);
                 var spreadDirection = (shootDirection + spreadOffset).normalized;
 
                 var randomSpreadOffset = Random.insideUnitCircle * radius;
-        
+
                 var randomSpreadOffset3D = new Vector3(randomSpreadOffset.x, randomSpreadOffset.y, 0f);
 
                 var shootRay = new Ray(spawnPoint, (spreadDirection + randomSpreadOffset3D).normalized);
 
                 var raycast = Physics.Raycast(shootRay, out var hit, Weapon.Range, TargetMask);
-                
+
                 if (raycast)
                 {
-                    SpawnTrailServerRpc(hit.point);
+                    _trailSpawner.SpawnTrailServerRpc(PlayerNetCode.Singleton.GetClientId(), _bulletSpeed, hit.point);
                     TryDamage(hit);
                     DisplayHit(hit);
                 }
                 else
                 {
-                    SpawnTrailServerRpc(AmmoSpawnPoint.transform.forward * 10f);
+                    _trailSpawner.SpawnTrailServerRpc(PlayerNetCode.Singleton.GetClientId(), _bulletSpeed,
+                        AmmoSpawnPoint.transform.forward * 10f);
                 }
             }
         }
@@ -73,7 +76,7 @@ namespace Fight_System.Weapon.ShootWeapon
             var spawnPoint = AmmoSpawnPoint.position;
             var shootDirection = transform.forward;
 
-            Gizmos.color = Color.green; 
+            Gizmos.color = Color.green;
             Gizmos.DrawLine(spawnPoint, spawnPoint + shootDirection * Weapon.Range);
 
             float angleStep = 360f / _pelletCount;
@@ -89,12 +92,13 @@ namespace Fight_System.Weapon.ShootWeapon
                 var spreadOffset = new Vector3(x, y, 0) * _spreadRadiusNoFocus;
 
                 var spreadDirection = (shootDirection + spreadOffset).normalized;
-            
+
                 var randomSpreadOffset = Random.insideUnitCircle * _spreadRadiusNoFocus;
-            
+
                 var randomSpreadOffset3D = new Vector3(randomSpreadOffset.x, randomSpreadOffset.y, 0f);
 
-                Gizmos.DrawLine(spawnPoint, spawnPoint + (spreadDirection + randomSpreadOffset3D).normalized * Weapon.Range);
+                Gizmos.DrawLine(spawnPoint,
+                    spawnPoint + (spreadDirection + randomSpreadOffset3D).normalized * Weapon.Range);
             }
         }
 #endif

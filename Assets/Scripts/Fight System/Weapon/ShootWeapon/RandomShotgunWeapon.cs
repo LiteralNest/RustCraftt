@@ -1,4 +1,5 @@
 using Inventory_System.Inventory_Items_Displayer;
+using Player_Controller;
 using UnityEngine;
 
 namespace Fight_System.Weapon.ShootWeapon
@@ -63,13 +64,13 @@ namespace Fight_System.Weapon.ShootWeapon
 
                 if (raycast)
                 {
-                    SpawnTrailServerRpc(hit.point);
+                    _trailSpawner.SpawnTrailServerRpc(PlayerNetCode.Singleton.GetClientId(), _bulletSpeed, hit.point);
                     TryDamage(hit);
                     DisplayHit(hit);
                 }
                 else
                 {
-                    SpawnTrailServerRpc(AmmoSpawnPoint.transform.forward * 10f);
+                    _trailSpawner.SpawnTrailServerRpc(PlayerNetCode.Singleton.GetClientId(), _bulletSpeed,AmmoSpawnPoint.transform.forward * 10f);
                 }
             }
         }

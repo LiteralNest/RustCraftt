@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -13,7 +14,7 @@ public class CraftingQueueSlotCreator : MonoBehaviour
     [SerializeField] private CraftingItemDataDisplayer _craftingItemDataDisplayer;
     [SerializeField] private CraftingItemDataTableSlotsContainer _craftingItemDataTableSlotsContainer;
     [SerializeField] private CraftingItemDataTableSlotsContainer _slotsContainer;
-    [Header("UI")] [SerializeField] private TMP_Text _displayingCountText;
+    [Header("UI")] [SerializeField] private TMP_InputField _displayingCountText;
 
     private void OnEnable()
     {
@@ -56,6 +57,16 @@ public class CraftingQueueSlotCreator : MonoBehaviour
     public void MinusCount()
     {
         _currentCount--;
+        DisplayCurrentCountText();
+        ReCalculateResourceSlots();
+    }
+
+    public void SetText(string text)
+    {
+        var count = Int32.Parse(text);
+        if (_currentCount <= 0)
+            _currentCount = 1;
+        _currentCount = count;
         DisplayCurrentCountText();
         ReCalculateResourceSlots();
     }

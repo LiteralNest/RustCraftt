@@ -31,10 +31,10 @@ public class InitMultiplay : MonoBehaviour
 
         _serverQueryHandler = await MultiplayService.Instance.StartServerQueryHandlerAsync(DefaultMaxPlayers,
             DefaultServerName, DefaultGameType, DefaultBuildId, DefaultMap);
-
+        
         var config = MultiplayService.Instance.ServerConfig;
         var transport = GetComponent<UnityTransport>();
-
+        
         const string ipv4Address = "0.0.0.0";
         transport.SetConnectionData(ipv4Address, config.Port, ipv4Address);
 

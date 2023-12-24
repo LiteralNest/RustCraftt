@@ -1,11 +1,13 @@
 using System.Collections;
 using System.Threading.Tasks;
+using Player_Controller;
 using Storage_System;
 using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public abstract class ItemDisplayer : MonoBehaviour
+public abstract class ItemDisplayer : MonoBehaviour, IPointerClickHandler
 {
     [Header("UI")] [SerializeField] protected TMP_Text _countText;
     [SerializeField] protected Image _itemIcon;
@@ -15,6 +17,11 @@ public abstract class ItemDisplayer : MonoBehaviour
     public InventoryCell InventoryCell { get; protected set; }
     public SlotDisplayer PreviousCell { get; protected set; }
 
+    public void OnPointerClick(PointerEventData eventData)
+    {
+        PlayerNetCode.Singleton.ItemInfoHandler.AssignItem(PreviousCell);
+    }
+    
     public virtual void MinusCurrentHp(int hp)
     {
     }
