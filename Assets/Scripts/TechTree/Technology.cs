@@ -46,10 +46,10 @@ public class Technology : MonoBehaviour
     [System.Serializable]
     public struct CustomSendingTechnologyData : INetworkSerializable
     {
-        public int TechId;
+        public int[] TechId;
         public ulong UserId;
 
-        public CustomSendingTechnologyData(int techId, ulong userId)
+        public CustomSendingTechnologyData(int[] techId, ulong userId)
         {
             TechId = techId;
             UserId = userId;
@@ -62,61 +62,19 @@ public class Technology : MonoBehaviour
         }
     }
 
-    public class TechnologyManager : NetworkBehaviour
+[System.Serializable]
+public struct CustomSendingTechnologyArrayData : INetworkSerializable
+{
+    public CustomSendingTechnologyData[] TechnologyArray;
+
+    public CustomSendingTechnologyArrayData(CustomSendingTechnologyData[] array)
     {
-        // A network variable to store the technology id and user id
-        [field: SerializeField]
-        public NetworkVariable<CustomSendingTechnologyData> TechNetData { get; private set; } = new();
-
-        // A reference to the technology prefab
-        [SerializeField] private Technology _technologyPrefab;
-
-        // A dictionary to store the technology instances by id
-        private Dictionary<int, Technology> _technologies;
-
-        private void Awake()
-        {
-            _technologies = new Dictionary<int, Technology>();
-        }
-
-        
-        // A method to check if a technology is available for research by user id
-        public bool IsTechnologyAvailableServerRpc(int techId, ulong userId)
-        {
-            if (_technologies.TryGetValue(techId, out var tech))
-            {
-                if (tech._isActive && !tech.IsResearched)
-                {
-                    if (userId == tech.GetComponent<NetworkObject>().OwnerClientId)
-                    {
-                        return true;
-                    }
-                }
-            }
-            return false;
-        }
-
-        // A method to spawn the technologies on the server and assign them ids
-        [ServerRpc(RequireOwnership = false)]
-        public void SpawnTechnologiesServerRpc(CustomSendingTechnologyData data)
-        {
-            if(!IsServer) return;
-            TechNetData.Value = data;
-        }
-
-
-        // A method to research a technology by user id
-        [ServerRpc(RequireOwnership = false)]
-        public void ResearchTechnologyServerRpc(int techId, ulong userId)
-        {
-            if (IsTechnologyAvailableServerRpc(techId, userId))
-            {
-                var tech = _technologies[techId];
-
-                tech.Research();
-
-                TechNetData.Value = new CustomSendingTechnologyData(techId, userId);
-            }
-        }
+        TechnologyArray = array;
     }
 
+    public void NetworkSerialize<T>(BufferSerializer<T> serializer) where T : IReaderWriter
+    {
+        serializer.SerializeValue(ref TechnologyArray);
+    }
+    
+}
