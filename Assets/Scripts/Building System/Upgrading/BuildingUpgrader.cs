@@ -11,6 +11,7 @@ namespace Building_System.Upgrading
         [Header("Main Params")]
         [SerializeField] private LayerMask _targetMask;
         [SerializeField] private Camera _targetCamera;
+        [SerializeField] private float _hammerRange = 5f;
 
         private IHammerInteractable _hammerInteractable;
         private bool _hammerActive;
@@ -46,7 +47,7 @@ namespace Building_System.Upgrading
             Vector3 rayDirection = _targetCamera.transform.forward;
             RaycastHit hit;
 
-            if (Physics.Raycast(rayOrigin, rayDirection, out hit, Mathf.Infinity, _targetMask))
+            if (Physics.Raycast(rayOrigin, rayDirection, out hit, _hammerRange, _targetMask))
             {
                 var upgradable = hit.transform.GetComponent<IHammerInteractable>();
                 if (upgradable == null)

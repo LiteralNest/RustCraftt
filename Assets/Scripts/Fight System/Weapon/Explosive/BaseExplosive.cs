@@ -69,13 +69,16 @@ public abstract class BaseExplosive : NetworkBehaviour
         _explosionVfx.SetActive(true);
         DamageObjects();
         _model.SetActive(false);
-        await PlaySound();
-        //Destroy(gameObject);
+        await PlaySound(); 
+        Destroy(gameObject);
         if (IsServer)
             GetComponent<NetworkObject>().Despawn();
     }
 
     [ServerRpc(RequireOwnership = false)]
     protected void ExplodeServerRpc()
-        => Explode();
+    {
+        if (!IsServer) return;
+        Explode();
+    }
 }
