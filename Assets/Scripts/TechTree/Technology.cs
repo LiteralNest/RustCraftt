@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Items_System.Items.Abstract;
+using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -13,7 +14,7 @@ public class Technology : MonoBehaviour
 
     [SerializeField] private List<Technology> _unlockingTech = new List<Technology>();
     [field: SerializeField] public Item Item { get; private set; }
-    [SerializeField] private bool _isActive;
+    [field:SerializeField] public bool _isActive;
     [field: SerializeField] public bool IsResearched { get; private set; }
 
     private void Awake()
@@ -39,4 +40,41 @@ public class Technology : MonoBehaviour
         _technologyUI.UnlockTech();
         UnlockTechs();
     }
+}
+
+
+    [System.Serializable]
+    public struct CustomSendingTechnologyData : INetworkSerializable
+    {
+        public int[] TechId;
+        public ulong UserId;
+
+        public CustomSendingTechnologyData(int[] techId, ulong userId)
+        {
+            TechId = techId;
+            UserId = userId;
+        }
+
+        public void NetworkSerialize<T>(BufferSerializer<T> serializer) where T : IReaderWriter
+        {
+            serializer.SerializeValue(ref TechId);
+            serializer.SerializeValue(ref UserId);
+        }
+    }
+
+[System.Serializable]
+public struct CustomSendingTechnologyArrayData : INetworkSerializable
+{
+    public CustomSendingTechnologyData[] TechnologyArray;
+
+    public CustomSendingTechnologyArrayData(CustomSendingTechnologyData[] array)
+    {
+        TechnologyArray = array;
+    }
+
+    public void NetworkSerialize<T>(BufferSerializer<T> serializer) where T : IReaderWriter
+    {
+        serializer.SerializeValue(ref TechnologyArray);
+    }
+    
 }
