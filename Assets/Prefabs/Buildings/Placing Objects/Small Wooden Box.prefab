@@ -440,6 +440,7 @@ GameObject:
   - component: {fileID: 2887783248820936167}
   - component: {fileID: 3867963982949131542}
   - component: {fileID: 2214298970788488293}
+  - component: {fileID: 5241294178536831915}
   m_Layer: 0
   m_Name: Chest
   m_TagString: Untagged
@@ -482,8 +483,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.5679116, y: 0.38251287, z: 0.7314014}
-  m_Center: {x: -0.0010577741, y: 0.29224864, z: -0.00080947625}
+  m_Size: {x: 0.57, y: 0.38, z: 0.73}
+  m_Center: {x: 0, y: 0.3, z: 0}
 --- !u!114 &2942282475471704702
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -568,7 +569,6 @@ MonoBehaviour:
   _testAddingCell:
     Item: {fileID: 0}
     Count: 0
-    Hp: 0
     Ammo: 0
   MainSlotsCount: 16
 --- !u!114 &2887783248820936167
@@ -642,6 +642,27 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _targetPlacingObject: {fileID: 913430177415819756}
+--- !u!65 &5241294178536831915
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4586736202319826632}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.5, y: 0.3, z: 0.7}
+  m_Center: {x: 0, y: 0.3, z: 0}
 --- !u!1 &4916727284614581621
 GameObject:
   m_ObjectHideFlags: 0
