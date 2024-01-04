@@ -10,5 +10,6 @@ public class BluePrintObject : MonoBehaviour
     {
         CharacterUIHandler.singleton.ActivateBuildingButton(false);
         CharacterUIHandler.singleton.ActivateBuildingChoosingPanel(false);
+        GlobalEventsContainer.BluePrintDeactivated?.Invoke();
     }
 }

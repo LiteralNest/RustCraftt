@@ -7,22 +7,34 @@ namespace Building_System
     public class BuildingDragger : MonoBehaviour
     {
         [SerializeField] private Camera _targetCamera;
-        [SerializeField] private float _distance = 5f;
+        [SerializeField] private float _forwardPlacingOffset = 5f;
+        [SerializeField] private float _rayCastDistance = 10f;
     
         private BluePrint _currentPref;
+
+        private void OnEnable()
+        {
+            GlobalEventsContainer.BluePrintDeactivated += ClearCurrentPref;
+        }
+        
+        private void OnDisable()
+        {
+            GlobalEventsContainer.BluePrintDeactivated -= ClearCurrentPref;
+        }
 
         private void Update()
         {
             if (_currentPref == null) return;
             TryMoveBuildingObject();
         }
+        
 
         private Vector3 GetFrontOfCameraPosition()
-            => _targetCamera.transform.position + _targetCamera.transform.forward * _distance;
+            => _targetCamera.transform.position + _targetCamera.transform.forward * _forwardPlacingOffset;
 
         private void TryMoveBuildingObject()
         {
-            if (!_currentPref.TryGetObjectCoords(_targetCamera, out var coords, out var rotation, out bool shouldRotate))
+            if (!_currentPref.TryGetObjectCoords(_targetCamera, out var coords, out var rotation, out bool shouldRotate, _rayCastDistance))
             {
                 _currentPref.SetOnFrontOfPlayer(true);
                 _currentPref.transform.position = GetFrontOfCameraPosition();

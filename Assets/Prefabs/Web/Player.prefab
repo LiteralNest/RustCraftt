@@ -11389,10 +11389,10 @@ GameObject:
   - component: {fileID: 228275790847561711}
   - component: {fileID: 5538215080173942597}
   - component: {fileID: 63447646871411618}
+  - component: {fileID: 7278581159367419240}
   - component: {fileID: 6207217001499837402}
   - component: {fileID: 9138900656108926211}
   - component: {fileID: 7980957284091982892}
-  - component: {fileID: 7278581159367419240}
   - component: {fileID: 1707071653376519926}
   - component: {fileID: 1451852465645917735}
   - component: {fileID: 1816369662541527775}
@@ -11903,7 +11903,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _targetCamera: {fileID: 3745558344891033599}
-  _distance: 5
+  _forwardPlacingOffset: 5
+  _rayCastDistance: 10
+--- !u!114 &7278581159367419240
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2441425697621568629}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fdae842c382ba094195f4125d7d246fd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _targetCamera: {fileID: 3745558344891033599}
+  _forwardPlacingOffset: 5
+  _rayCastDistance: 10
 --- !u!114 &6207217001499837402
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11943,20 +11959,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _inventorySlotsContainer: {fileID: 2013276024286378747}
   _objectsRayCaster: {fileID: 5538215080173942597}
---- !u!114 &7278581159367419240
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2441425697621568629}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fdae842c382ba094195f4125d7d246fd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _targetCamera: {fileID: 3745558344891033599}
-  _distance: 5
 --- !u!114 &1707071653376519926
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -23707,6 +23709,8 @@ MonoBehaviour:
   _characterPreview: {fileID: 4828155748289691794}
   _backPackPanel: {fileID: 7422642656469119482}
   _workbenchPanel: {fileID: 3214753250399207027}
+  _inventoryCellsPanel: {fileID: 1070150251588930757}
+  _craftPanel: {fileID: 4045527244989395501}
 --- !u!114 &6858446919533252270
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -47898,9 +47902,9 @@ MonoBehaviour:
   _renderers:
   - {fileID: 4073014015419501257}
   _activatingObjects: []
-  _attackIndex: Attacking
-  _walkIndex: Walking
-  _runIndex: Running
+  _attackIndex: Attack
+  _walkIndex: Walk
+  _runIndex: Walk
 --- !u!1 &8374918741775451531
 GameObject:
   m_ObjectHideFlags: 0

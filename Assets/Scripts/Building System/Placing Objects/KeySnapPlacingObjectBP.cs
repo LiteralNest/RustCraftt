@@ -6,7 +6,7 @@ using Web.User;
 
 namespace Building_System.Placing_Objects
 {
-    public class KeySnapPlacingObjectBP : SnapPlacingObjectBP
+    public class KeySnapPlacingObjectBP : SnapPlacingObjectBp
     {
         public override void InitPlacedObject(BuildingStructure structure)
         {
