@@ -4,7 +4,6 @@ using UnityEngine;
 public class UserJsonDataHandler : MonoBehaviour
 {
     [Header("Start init")]
-    [SerializeField] private UserCreator _userCreator;
     [SerializeField] private string _fileName = "UserData";
 
     [Header("In game init")]
@@ -12,9 +11,11 @@ public class UserJsonDataHandler : MonoBehaviour
 
     private void Start()
     {
+#if !UNITY_SERVER
+
         InitPath();
         LoadUserData(out bool exists, out UserData data);
-        _userCreator.Init(exists, data);
+#endif
     }
 
     private void InitPath()

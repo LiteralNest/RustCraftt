@@ -1,73 +1,137 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
+using ArmorSystem.Backend;
+using Inventory_System.ItemInfo;
+using OnPlayerItems;
+using Sound_System;
+using Storage_System;
 using TMPro;
 using Unity.Netcode;
 using UnityEngine;
+using Vehicle;
+using Web.User;
 
-public class PlayerNetCode : NetworkBehaviour
+namespace Player_Controller
 {
-    public static PlayerNetCode Singleton { get; private set; }
-    public NetworkVariable<int> ActiveItemId = new NetworkVariable<int>();
-    private NetworkVariable<ulong> _gettedClientId = new NetworkVariable<ulong>();
-    [SerializeField] private InHandObjectsContainer _inHandObjectsContainer;
-
-    [Header("NickName")] [SerializeField] private NetworkVariable<int> _playerId = new NetworkVariable<int>();
-    [SerializeField] private List<TMP_Text> _nickNameTexts = new List<TMP_Text>();
-
-    private void OnEnable()
-        => GlobalEventsContainer.ShouldDisplayHandItem += SendChangeInHandItem;
-
-    private void OnDisable()
-        => GlobalEventsContainer.ShouldDisplayHandItem -= SendChangeInHandItem;
-
-    private void Start()
+    public class PlayerNetCode : NetworkBehaviour
     {
-#if UNITY_SERVER
-        WebServerDataHandler.singleton.RegistrateNewUser();
-#endif
-    }
+        public static PlayerNetCode Singleton { get; private set; }
+        
+        [Header("Attached Components")]
+     
+        [SerializeField] private Collider _collider;
+        [field:SerializeField] public ResourcesDropper ResourcesDropper { get; private set; }
+        [field:SerializeField] public ItemInfoHandler ItemInfoHandler { get; private set; }
+        [field:SerializeField] public PlayerSoundsPlayer PlayerSoundsPlayer { get; private set; }
+        [field:SerializeField] public InHandObjectsContainer InHandObjectsContainer { get; private set; }
+        [field:SerializeField] public VehiclesController VehiclesController { get; private set; }
+        [field:SerializeField] public CharacterInventory CharacterInventory { get; private set; }
+        [Header("In Hand Items")] 
+        [SerializeField] private InHandObjectsContainer _inHandObjectsContainer;
 
-    public override void OnNetworkSpawn()
-    {
-        _gettedClientId.Value = GetClientId();
-        AssignName();
-        ActiveItemId.OnValueChanged += (int prevValue, int newValue) =>
+        [Header("Armor")] 
+        public NetworkVariable<int> ActiveArmorId = new(101, NetworkVariableReadPermission.Everyone,
+            NetworkVariableWritePermission.Owner);
+        [SerializeField] private ArmorsContainer _armorsContainer;
+
+        [Header("NickName")] 
+        [SerializeField] private NetworkVariable<int> _playerId = new(-1,
+            NetworkVariableReadPermission.Everyone,
+            NetworkVariableWritePermission.Owner);
+        [SerializeField] private List<TMP_Text> _nickNameTexts = new List<TMP_Text>();
+        
+        public NetworkVariable<int> ActiveItemId { get; set; } = new NetworkVariable<int>();
+        
+        private RigidbodyConstraints _cachedConstraints;
+
+        private void OnEnable()
+            => GlobalEventsContainer.ShouldDisplayHandItem += SendChangeInHandItem;
+
+        private void OnDisable()
+            => GlobalEventsContainer.ShouldDisplayHandItem -= SendChangeInHandItem;
+
+        private async void Start()
         {
-            if (GetClientId() != _gettedClientId.Value) return;
+            await Task.Delay(1000);
+            if (IsOwner)
+            {
+                _playerId.Value = UserDataHandler.singleton.UserData.Id;
+                 Singleton = this;
+            }
+               
+        }
+
+        public override void OnNetworkSpawn()
+        {
+            ActiveItemId.OnValueChanged += (int prevValue, int newValue) =>
+            {
+                _inHandObjectsContainer.DisplayItems(ActiveItemId.Value);
+            };
+            
             _inHandObjectsContainer.DisplayItems(ActiveItemId.Value);
-        };
-    }
 
-    private async void AssignName()
-    {
-        string name = await WebUserDataHandler.singleton.GetUserValueById(UserDataHandler.singleton.UserData.Id);
-        foreach (var nickNameText in _nickNameTexts)
-            nickNameText.text = name;
-    }
+            ActiveArmorId.OnValueChanged += (int prevValue, int newValue) =>
+            {
+                _armorsContainer.DisplayArmor(ActiveArmorId.Value, this);
+            };
 
-    public bool PlayerIsOwner()
-        => IsOwner;
+            _armorsContainer.DisplayArmor(ActiveArmorId.Value, this);
+            
+            _playerId.OnValueChanged += (int prevValue, int newValue) => { AssignName(); };
+            
+            AssignName();
 
+        }
 
-    public ulong GetClientId()
-        => OwnerClientId;
+        private void AssignName()
+        {
+            string name = UserDataHandler.singleton.UserData.Name;
+            foreach (var nickNameText in _nickNameTexts)
+                nickNameText.text = name;
+        }
 
-    private void SendChangeInHandItem(int itemId, ulong clientId)
-    {
-        if (!IsOwner) return;
-        ChangeInHandItemServerRpc(itemId, clientId);
-    }
+        public ulong GetClientId()
+            => OwnerClientId;
 
-    [ServerRpc(RequireOwnership = false)]
-    public void ChangeInHandItemServerRpc(int itemId, ulong clientId)
-    {
-        // if(!IsOwner) return;
-        ActiveItemId.Value = itemId;
-        _gettedClientId.Value = clientId;
-    }
+        private void SendChangeInHandItem(int itemId, ulong clientId)
+        {
+            if (!IsOwner) return;
+            ChangeInHandItemServerRpc(itemId, clientId);
+        }
 
-    [ContextMenu("Test")]
-    public void TestRPC()
-    {
-        ChangeInHandItemServerRpc(18, GetClientId());
+        [ServerRpc(RequireOwnership = false)]
+        public void ChangeInHandItemServerRpc(int itemId, ulong clientId)
+        {
+            ActiveItemId.Value = -1;
+            ActiveItemId.Value = itemId;
+        }
+
+        [ClientRpc]
+        public void SitClientRpc()
+        {
+            var rb = GetComponent<Rigidbody>();
+            _cachedConstraints = rb.constraints;
+            rb.constraints = RigidbodyConstraints.FreezeAll;
+            rb.useGravity = true;
+            GetComponent<PlayerController>().enabled = false;
+            _collider.enabled = false;
+        }
+
+        [ClientRpc]
+        public void StandClientRpc()
+        {
+            var rb = GetComponent<Rigidbody>();
+            rb.constraints = _cachedConstraints;
+            rb.useGravity = true;
+            GetComponent<PlayerController>().enabled = true;
+            _collider.enabled = true;
+        }
+        
+        [ClientRpc]
+        public void ChangePositionClientRpc(Vector3 position)
+        {
+            if(!IsOwner) return;
+            transform.position = position;
+        }
     }
 }

@@ -1,14 +1,22 @@
+using Inventory_System.Inventory_Slot_Displayers;
+using Player_Controller;
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "Item/Food")]
-public class Food : Resource
+namespace Items_System.Items
 {
-    [SerializeField] private int _addingFood;
-    
-    public override void Click(QuickSlotDisplayer slotDisplayer, InventoryHandler handler, out bool shouldMinus)
+    [CreateAssetMenu(menuName = "Item/CharacterStatRiser")]
+    public class Food : Resource
     {
-        base.Click(slotDisplayer, handler, out shouldMinus);
-        shouldMinus = true;
-        handler.Stats.PlusStat(CharacterStatType.Food, _addingFood);
+        [Header("Character Stat Riser")]
+        [SerializeField] private int _addingValue;
+        [SerializeField] private CharacterStatType _statType;
+        [SerializeField] private AudioClip _eatingSound;
+        public override void Click(SlotDisplayer slotDisplayer)
+        {
+            base.Click(slotDisplayer);
+            InventoryHandler.singleton.Stats.PlusStat(_statType, _addingValue);
+            InventoryHandler.singleton.CharacterInventory.RemoveItemCountFromSlotServerRpc(slotDisplayer.Index, Id, 1);
+            PlayerNetCode.Singleton.PlayerSoundsPlayer.PlayHit(_eatingSound);
+        }
     }
 }

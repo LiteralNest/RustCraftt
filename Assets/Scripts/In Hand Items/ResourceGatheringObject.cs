@@ -1,22 +1,28 @@
+using Player_Controller;
+using UI;
 using UnityEngine;
 
 public class ResourceGatheringObject : MonoBehaviour
 {
-   [Header("Attached")]
-   [SerializeField] private Animator _animator;
+    public AnimationClip GatheringAnimation => _gatheringAnimation;
+    [SerializeField] private AnimationClip _gatheringAnimation;
+    [SerializeField] private bool _canAttack = true;
 
-   [Header("Animator Config")]
-   [SerializeField] private string _gatherAnimationTag = "Gather";
-   public AnimationClip GatheringAnimation => _gatheringAnimation;
-   [SerializeField] private AnimationClip _gatheringAnimation;
+    private void OnEnable()
+    {
+        if (_canAttack)
+            CharacterUIHandler.singleton.ActivateGatherButton(true);
+        GlobalEventsContainer.ResourceGatheringObjectAssign?.Invoke(this);
+    }
 
-   private void OnEnable()
-   {
-      GlobalEventsContainer.ResourceGatheringObjectAssign?.Invoke(this);
-   }
+    private void OnDisable()
+    {
+        if (_canAttack)
+            CharacterUIHandler.singleton.ActivateGatherButton(false);
+    }
 
-   public void SetGathering(bool value)
-   {
-      _animator.SetBool(_gatherAnimationTag, value);
-   }
+    public void SetGathering(bool value)
+    {
+        PlayerNetCode.Singleton.InHandObjectsContainer.SetAttackAnimationServerRpc(value);
+    }
 }

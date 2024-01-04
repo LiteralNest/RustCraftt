@@ -1,14 +1,20 @@
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "Item/Tool")]
-public class Tool : CraftingItem
+namespace Items_System.Items
 {
-    public override void Click(QuickSlotDisplayer slotDisplayer, InventoryHandler handler, out bool shouldMinus)
+    [CreateAssetMenu(menuName = "Item/Tool")]
+    public class Tool : DamagableItem
     {
-        base.Click(slotDisplayer, handler, out shouldMinus);
-        shouldMinus = false;
-        handler.SetActiveItem(this);
-        GlobalEventsContainer.ShouldDisplayHandItem?.Invoke(slotDisplayer.ItemDisplayer.InventoryCell.Item.Id,
-            handler.PlayerNetCode.GetClientId());
+        [field: SerializeField] public int Damage { get; set; } = 25;
+        [field: SerializeField] public bool CanDamage { get; set; } = true;
+        
+        public override void Click(SlotDisplayer slotDisplayer)
+        {
+            base.Click(slotDisplayer);
+            var handler = InventoryHandler.singleton;
+            handler.SetActiveItem(this);
+            GlobalEventsContainer.ShouldDisplayHandItem?.Invoke(slotDisplayer.ItemDisplayer.InventoryCell.Item.Id,
+                handler.PlayerNetCode.GetClientId());
+        }
     }
 }

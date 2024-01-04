@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PlayerHandsController : MonoBehaviour
 {
-   [SerializeField] private LongRangeWeaponObject _targetObject;
+   // [SerializeField] private LongRangeBaseWeaponObject _targetObject;
    private Vector3 _lookPos;
    
    public float Step => _step;

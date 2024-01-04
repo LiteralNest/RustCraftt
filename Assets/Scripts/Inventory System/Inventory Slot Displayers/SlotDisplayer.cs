@@ -1,3 +1,6 @@
+using Inventory_System;
+using Inventory_System.Inventory_Items_Displayer;
+using Storage_System;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -10,32 +13,56 @@ public abstract class SlotDisplayer : MonoBehaviour, IDropHandler
     public int Index { get; private set; }
 
     public SlotsDisplayer InventorySlotsDisplayer { get; protected set; }
-    public SlotsContainer Inventory { get; protected set; }
+    public Storage Inventory { get; protected set; }
 
-    protected abstract void Drop(PointerEventData eventData);
+    protected virtual void Drop(PointerEventData eventData)
+    {
+        var itemDisplayer = eventData.pointerDrag.GetComponent<InventoryItemDisplayer>();
+        if (TrySetItem(itemDisplayer))
+        {
+            if(itemDisplayer != null)
+                Destroy(itemDisplayer.gameObject);
+            return;
+        }
+        itemDisplayer.SetPosition();
+    }
 
     public void OnDrop(PointerEventData eventData)
         => Drop(eventData);
 
-    public void Init(int index, SlotsDisplayer slotsDisplayer, SlotsContainer slotsContainer)
+    public void Init(int index, SlotsDisplayer slotsDisplayer, Storage targetStorage)
     {
         Index = index;
         InventorySlotsDisplayer = slotsDisplayer;
-        Inventory = slotsContainer;
+        Inventory = targetStorage;
         ItemDisplayer = null;
     }
 
-    public void SetItem(ItemDisplayer itemDisplayer)
+    public void DisplayItem(ItemDisplayer itemDisplayer)
     {
         if (ItemDisplayer != null) Destroy(ItemDisplayer.gameObject);
         ItemDisplayer = itemDisplayer;
         ItemDisplayer.SetNewCell(this);
     }
 
-    public void ResetItem()
+    private void SetItem(ItemDisplayer itemDisplayer)
+    {
+        if (ItemDisplayer != null) Destroy(ItemDisplayer.gameObject);
+        itemDisplayer.PreviousCell.Inventory.ResetItemServerRpc(itemDisplayer.PreviousCell.Index);
+        ItemDisplayer = itemDisplayer;
+        ItemDisplayer.SetNewCell(this);
+        var cell = ItemDisplayer.InventoryCell;
+        Inventory.SetItemServerRpc(Index,
+            new CustomSendingInventoryDataCell(cell.Item.Id, cell.Count, cell.Hp, cell.Ammo));
+    }
+
+    private void ResetItem()
     {
         ItemDisplayer = null;
     }
+
+    public virtual void ResetItemWhileDrag()
+        => ItemDisplayer = null;
 
     private void ClearPlace(Transform place)
     {
@@ -57,30 +84,30 @@ public abstract class SlotDisplayer : MonoBehaviour, IDropHandler
         return true;
     }
 
-    private bool TryStack(InventoryCell cell, out bool wasStacking)
+    private bool TryStack(ItemDisplayer displayer, out bool wasStacking)
     {
+        var cell = displayer.InventoryCell;
         wasStacking = false;
         if (cell.Item == null || cell.Item != ItemDisplayer.InventoryCell.Item) return false;
         wasStacking = true;
-        var res = ItemDisplayer.StackCount(cell.Count, this);
+        var res = ItemDisplayer.StackCount(displayer);
         if (res > 0) return false;
-        DestroyItem();
         return true;
     }
 
-    public virtual void Swap(ItemDisplayer itemDisplayer)
+    private void Swap(ItemDisplayer itemDisplayer)
     {
-        var prevCell = itemDisplayer.PreviousCell;
-        prevCell.SetItem(ItemDisplayer);
-        SetItem(itemDisplayer);
+        InventoryHelper.SwapCells(Index, Inventory, itemDisplayer.PreviousCell.Index,
+            itemDisplayer.PreviousCell.Inventory);
     }
 
-    protected bool TrySetItem(ItemDisplayer itemDisplayer)
+    protected virtual bool TrySetItem(ItemDisplayer itemDisplayer)
     {
         if (!CanSetSlot) return false;
-        if (!Inventory.CanAddItem(itemDisplayer.InventoryCell.Item)) return false;
+        Debug.Log(gameObject.name);
+        if (!Inventory.CanAddItem(itemDisplayer.InventoryCell.Item, Index)) return false;
         if (CheckForFree(itemDisplayer)) return true;
-        if (TryStack(itemDisplayer.InventoryCell, out bool wasStacking)) return true;
+        if (TryStack(itemDisplayer, out bool wasStacking)) return true;
         if (wasStacking) return false;
         Swap(itemDisplayer);
         return true;

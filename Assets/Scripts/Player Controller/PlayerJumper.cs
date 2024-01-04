@@ -1,3 +1,4 @@
+using Animation_System;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody))]
@@ -21,6 +22,7 @@ public class PlayerJumper : MonoBehaviour
     public void Jump()
     {
         if(!_groundChecker.IsGrounded) return;
+        AnimationsManager.Singleton.SetJump();
         _rigidbody.AddForce(Vector3.up * _jumpForce, ForceMode.Impulse);
     }
 }

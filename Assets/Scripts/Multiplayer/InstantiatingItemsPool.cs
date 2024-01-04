@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Items_System;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -7,6 +8,8 @@ public class InstantiatingItemsPool : NetworkBehaviour
     public static InstantiatingItemsPool sigleton { get; set; }
 
     [SerializeField] private List<LootingItem> _items = new List<LootingItem>();
+
+    [SerializeField] private LootingItem _universalDropableItem;
 
     private void Awake()
         => sigleton = this;
@@ -17,9 +20,10 @@ public class InstantiatingItemsPool : NetworkBehaviour
         if(!IsServer) return;
         foreach (var ore in _items)
         {
-            if (ore.Item.Id == inputItemId)
+            if (ore.ItemId.Value == inputItemId)
             {
                 var obj = Instantiate(ore, position, Quaternion.identity);
+                var objItemId = obj.ItemId;
                 obj.Count.Value = count;
                 obj.NetworkObject.DontDestroyWithOwner = true;
                 obj.NetworkObject.Spawn();
@@ -27,5 +31,17 @@ public class InstantiatingItemsPool : NetworkBehaviour
             }
             Debug.LogError("Can't find object with id " + inputItemId);
         }
+    }
+    
+    
+    [ServerRpc(RequireOwnership = false)]
+    public void SpawnDropableObjectServerRpc(int inputItemId, int count, Vector3 position)
+    {
+        if(!IsServer) return;
+        var obj = Instantiate(_universalDropableItem, position, Quaternion.identity);
+        obj.ItemId.Value = inputItemId;
+        obj.Count.Value = count;
+        obj.NetworkObject.DontDestroyWithOwner = true;
+        obj.NetworkObject.Spawn();
     }
 }

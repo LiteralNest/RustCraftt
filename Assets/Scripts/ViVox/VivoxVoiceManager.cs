@@ -16,6 +16,8 @@ using Unity.Services.Authentication;
 
 public class VivoxVoiceManager : MonoBehaviour
 {
+    public static VivoxVoiceManager singleton { get; private set; }
+    
 #region Enums
 
     /// <summary>
@@ -145,7 +147,7 @@ public class VivoxVoiceManager : MonoBehaviour
 
     private void Awake()
     {
-        
+        singleton = this;
         if (m_Instance != this && m_Instance != null)
         {
             Debug.LogWarning("Multiple VivoxVoiceManager detected in the scene. Only one VivoxVoiceManager can exist at a time. The duplicate VivoxVoiceManager will be destroyed.");
@@ -187,7 +189,11 @@ public class VivoxVoiceManager : MonoBehaviour
     public void Login(string displayName = null)
     {
         m_Account = new Account(displayName);
-
+        Debug.Log("----------------------------");
+        Debug.Log(m_Account.Name);
+        Debug.Log(m_Account.DisplayName);
+        Debug.Log("----------------------------");
+        
         LoginSession = _client.GetLoginSession(m_Account);
         LoginSession.PropertyChanged += OnLoginSessionPropertyChanged;
         LoginSession.BeginLogin(LoginSession.GetLoginToken(), SubscriptionMode.Accept, null, null, null, ar =>
@@ -200,6 +206,7 @@ public class VivoxVoiceManager : MonoBehaviour
             {
                 // Handle error 
                 VivoxLogError(nameof(e));
+
                 // Unbind if we failed to login.
                 LoginSession.PropertyChanged -= OnLoginSessionPropertyChanged;
                 return;

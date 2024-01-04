@@ -1,33 +1,80 @@
 using System.Collections.Generic;
+using Building_System.Blocks;
+using Inventory_System;
 using UnityEngine;
+using System.Collections;
+using Storage_System;
+using Tool_Clipboard;
 
-public class ConnectedStructure : MonoBehaviour
+namespace Building_System.Buildings_Connecting
 {
-    [field: SerializeField] public List<BuildingBlock> Blocks { get; private set; } = new List<BuildingBlock>();
-
-    [field: SerializeField]
-    public List<ToolClipboard> TargetClipBoards { get; private set; } = new List<ToolClipboard>();
-
-    private void GetBlock(List<BuildingBlock> _blocks)
+    public class ConnectedStructure : MonoBehaviour
     {
-        foreach (var block in _blocks)
-        {
-            block.transform.SetParent(transform);
-            block.BuildingConnector.SetNewStructure(this);
-        }
-    }
+        [field: SerializeField] public List<BuildingBlock> Blocks { get; private set; } = new List<BuildingBlock>();
 
-    public void MigrateBlocks(ConnectedStructure structure)
-    {
-        if (Blocks.Count != 0)
+        [field: SerializeField]
+        public List<ToolClipboard> TargetClipBoards { get; private set; } = new List<ToolClipboard>();
+
+        [SerializeField] private float _decayingIterationTime = 1f;
+
+        private void Start()
         {
-            structure.GetBlock(Blocks);
-            Blocks.Clear();
+            StartCoroutine(DecayRoutine());
         }
 
-        Destroy(gameObject);
-    }
+        private void GetBlock(List<BuildingBlock> _blocks)
+        {
+            foreach (var block in _blocks)
+            {
+                block.transform.SetParent(transform);
+                block.BuildingConnector.SetNewStructure(this);
+            }
+        }
 
-    public void AddClipBoard(ToolClipboard clipboard)
-        => TargetClipBoards.Add(clipboard);
+        public void MigrateBlocks(ConnectedStructure structure)
+        {
+            if (Blocks.Count != 0)
+            {
+                structure.GetBlock(Blocks);
+                Blocks.Clear();
+            }
+
+            Destroy(gameObject);
+        }
+
+
+        private bool ThereIsEnoughMaterials(List<InventoryCell> comparingCells)
+        {
+            if (TargetClipBoards.Count == 0) return false;
+            if (InventoryHelper.EnoughMaterials(comparingCells, TargetClipBoards[0].ItemsNetData))
+            {
+                foreach (var cell in comparingCells)
+                    InventoryHelper.RemoveItemCount(cell.Item.Id, cell.Count, TargetClipBoards[0].ItemsNetData);
+                return true;
+            }
+
+            return false;
+        }
+
+            
+            
+        private void Decay()
+        {
+            foreach (var block in Blocks)
+            {
+                if (ThereIsEnoughMaterials(block.CurrentBlock.CellsForRemovingPerTime))
+                    block.RestoreHealth(block.StartHp / 10);
+                block.GetDamage(block.StartHp / 10);
+            }
+        }
+
+        private IEnumerator DecayRoutine()
+        {
+            while (true)
+            {
+                yield return new WaitForSeconds(_decayingIterationTime);
+                Decay();
+            }
+        }
+    }
 }

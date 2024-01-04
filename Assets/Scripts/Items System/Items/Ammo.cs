@@ -1,15 +1,13 @@
+using Items_System.Items.Abstract;
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "Item/Ammo")]
-public class Ammo : CraftingItem
+namespace Items_System.Items
 {
-    public float MultiplyKoef => _multiplyKoef;
-    [Range(1, 5)]
-    [Header("Ammo")] [SerializeField] private float _multiplyKoef = 1;
-
-    public override void Click(QuickSlotDisplayer slotDisplayer, InventoryHandler handler, out bool shouldMinus)
+    [CreateAssetMenu(menuName = "Item/Ammo")]
+    public class Ammo : CraftingItem
     {
-        base.Click(slotDisplayer, handler, out shouldMinus);
-        shouldMinus = false;
+        public float MultiplyKoef => _multiplyKoef;
+        [Range(1, 5)]
+        [Header("Ammo")] [SerializeField] private float _multiplyKoef = 1;
     }
 }

@@ -1,59 +1,57 @@
 using System.Collections.Generic;
+using Armor_System.UI;
+using Inventory_System.Inventory_Slot_Displayers;
+using Storage_System;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public abstract class SlotsDisplayer : MonoBehaviour
 {
-    [SerializeField] protected SlotsContainer _slotsContainer;
-
-    [Header("Start Init")] [SerializeField]
-    protected InventoryItemDisplayer _itemDisplayerPrefab;
-
-    [SerializeField] protected List<InventorySlotDisplayer> _cellDisplayers = new List<InventorySlotDisplayer>();
+   [field:SerializeField] public Storage TargetStorage { get; private set; }
+    
+    [FormerlySerializedAs("_cellDisplayers")] [Header("Start Init")] [SerializeField]
+    public List<InventorySlotDisplayer> CellDisplayers = new List<InventorySlotDisplayer>();
 
     public abstract void InitItems();
 
-    private void Start()
+    public virtual List<ArmorSlotDisplayer> GetArmorSlots()
+        => null;
+    private void Awake()
     {
-        if (_slotsContainer == null)
-            _slotsContainer = GetComponent<SlotsContainer>();
         InitItems();
-        InitCells();
-        DisplayCells();
     }
 
-    private void InitCells()
+    public void InitCells()
     {
-        for (int i = 0; i < _cellDisplayers.Count; i++)
-            _cellDisplayers[i].Init(i, this, _slotsContainer);
+        Debug.Log(gameObject.name);
+        for (int i = 0; i < CellDisplayers.Count; i++)
+            CellDisplayers[i].Init(i, this, TargetStorage);
     }
 
     public void ResetCells()
     {
-        foreach (var cell in _cellDisplayers)
+        foreach (var cell in CellDisplayers)
             cell.DestroyItem();
     }
 
     private ItemDisplayer GetGeneratedItemDisplayer(InventoryCell cell, InventorySlotDisplayer slotDisplayer)
     {
-        var itemDisplayer = Instantiate(_itemDisplayerPrefab, slotDisplayer.transform);
-        itemDisplayer.Init(slotDisplayer, cell, _slotsContainer);
+        var itemDisplayer = Instantiate(InventorySlotDisplayerSelector.singleton.GetDisplayerByType(cell.Item),
+            slotDisplayer.transform);
+        itemDisplayer.Init(slotDisplayer, cell, TargetStorage);
         return itemDisplayer;
     }
 
-
     public virtual void DisplayCells()
     {
-        if (!_slotsContainer) return;
         ResetCells();
-        var cells = _slotsContainer.Cells;
-        for (int i = 0; i < cells.Count; i++)
+        var cells = TargetStorage.ItemsNetData.Value.Cells;
+        for (int i = 0; i < cells.Length; i++)
         {
-            if (!cells[i].Item) continue;
-            _cellDisplayers[i].SetItem(GetGeneratedItemDisplayer(cells[i], _cellDisplayers[i]));
+            if (cells[i].Id == -1) continue;
+            var item = ItemFinder.singleton.GetItemById(cells[i].Id);
+            var inventoryCell = new InventoryCell(item, cells[i].Count, cells[i].Hp, cells[i].Ammo);
+            CellDisplayers[i].DisplayItem(GetGeneratedItemDisplayer(inventoryCell, CellDisplayers[i]));
         }
     }
-
-    [ContextMenu("Save Data")]
-    public void SaveData()
-        => GlobalEventsContainer.InventoryDataShouldBeSaved?.Invoke(_slotsContainer.Cells);
 }

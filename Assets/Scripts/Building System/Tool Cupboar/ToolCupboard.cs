@@ -1,40 +1,43 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ToolCupboard : MonoBehaviour
+namespace Building_System.Tool_Cupboar
 {
-    [SerializeField] private List<InventoryCell> _cells = new List<InventoryCell>();
-
-    private bool TryRemoveItem(InventoryCell minusingCell)
+    public class ToolCupboard : MonoBehaviour
     {
-        var item = minusingCell.Item;
-        int currentCount = minusingCell.Count;
-        foreach (var cell in _cells)
+        [SerializeField] private List<InventoryCell> _cells = new List<InventoryCell>();
+
+        private bool TryRemoveItem(InventoryCell minusingCell)
         {
-            if (cell.Item.Id == item.Id && cell.Count > currentCount)
+            var item = minusingCell.Item;
+            int currentCount = minusingCell.Count;
+            foreach (var cell in _cells)
             {
-                if (currentCount > cell.Count)
+                if (cell.Item.Id == item.Id && cell.Count > currentCount)
                 {
-                    currentCount -= cell.Count;
-                    cell.Count = 0;
-                    if (currentCount <= 0)
-                        return true;
-                    continue;
+                    if (currentCount > cell.Count)
+                    {
+                        currentCount -= cell.Count;
+                        cell.Count = 0;
+                        if (currentCount <= 0)
+                            return true;
+                        continue;
+                    }
+                    cell.Count -= currentCount;
+                    return true;
                 }
-                cell.Count -= currentCount;
-                return true;
             }
-        }
 
-        return false;
-    }
-    
-    public bool TryRemoveItems(List<InventoryCell> cells)
-    {
-        foreach (var cell in cells)
-        {
-            if (!TryRemoveItem(cell)) return false;
+            return false;
         }
-        return true;
+    
+        public bool TryRemoveItems(List<InventoryCell> cells)
+        {
+            foreach (var cell in cells)
+            {
+                if (!TryRemoveItem(cell)) return false;
+            }
+            return true;
+        }
     }
 }

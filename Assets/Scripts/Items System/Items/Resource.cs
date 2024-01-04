@@ -1,11 +1,11 @@
+using Items_System.Items.Abstract;
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "Item/Resource")]
-public class Resource : Item
+namespace Items_System.Items
 {
-    public override void Click(QuickSlotDisplayer slotDisplayer, InventoryHandler handler, out bool shouldMinus)
+    [CreateAssetMenu(menuName = "Item/Resource")]
+    public class Resource : Item
     {
-        base.Click(slotDisplayer, handler, out shouldMinus);
-        shouldMinus = false;
+    
     }
 }

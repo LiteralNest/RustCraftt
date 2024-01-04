@@ -1,3 +1,5 @@
+using Building_System.Placing_Objects;
+using UI;
 using UnityEngine;
 
 public class PlayerObjectsPlacer : MonoBehaviour
@@ -18,7 +20,7 @@ public class PlayerObjectsPlacer : MonoBehaviour
 
     private void TryMoveBuildingObject()
     {
-        if (!_targetBluePrint.TryGetObjectCoords(_targetCamera, out var coords, out var rotation))
+        if (!_targetBluePrint.TryGetObjectCoords(_targetCamera, out var coords, out var rotation, out var shouldRotate))
         {
             _targetBluePrint.SetOnFrontOfPlayer(true);
             _targetBluePrint.transform.position = GetFrontOfCameraPosition();
@@ -27,13 +29,15 @@ public class PlayerObjectsPlacer : MonoBehaviour
 
         _targetBluePrint.SetOnFrontOfPlayer(false);
         _targetBluePrint.transform.position = coords;
+        if(!shouldRotate) return;
+        _targetBluePrint.transform.rotation = rotation;
     }
 
     public void Place()
     {
         if (_targetBluePrint == null) return;
         _targetBluePrint.Place();
-        GlobalEventsContainer.ShouldDisplayPlacingPanel?.Invoke(false);
+        CharacterUIHandler.singleton.ActivatePlacingPanel(false);
         ClearCurrentPref();
     }
 
@@ -41,7 +45,7 @@ public class PlayerObjectsPlacer : MonoBehaviour
     {
         if (_targetBluePrint == null) return;
         Destroy(_targetBluePrint.gameObject);
-        GlobalEventsContainer.ShouldDisplayBuildingStaff?.Invoke(false);
+        CharacterUIHandler.singleton.ActivateBuildingStaffPanel(false);
         _targetBluePrint = null;
     }
 
@@ -60,6 +64,7 @@ public class PlayerObjectsPlacer : MonoBehaviour
     public void Reset()
     {
         ClearCurrentPref();
-        GlobalEventsContainer.ShouldDisplayPlacingPanel?.Invoke(false);
+        CharacterUIHandler.singleton.ActivateBuildingStaffPanel(false);
+        CharacterUIHandler.singleton.ActivatePlacingPanel(false);
     }
 }

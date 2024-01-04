@@ -1,14 +1,19 @@
-using UnityEngine;
+using Building_System.Blocks;
 
-public class BuildingBluePrint : BluePrint
+namespace Building_System.Blue_Prints
 {
-    public BuildingStructure TargetBuildingStructure;
-    public override void Place()
+    public class BuildingBluePrint : BluePrint
     {
-        foreach (var cell in BluePrintCells)
-            cell.TryPlace();
-    }
+        public override void Place()
+        {
+            if(!EnoughMaterials()) return;
+            foreach (var cell in BluePrintCells)
+                cell.TryPlace();
+        }
 
-    public override BuildingStructure GetBuildingStructure()
-        => TargetBuildingStructure;
+        public override void InitPlacedObject(BuildingStructure structure)
+        {
+        
+        }
+    }
 }

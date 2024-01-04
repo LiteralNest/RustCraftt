@@ -1,9 +1,11 @@
+#if UNITY_SERVER
 using System;
 using System.Threading.Tasks;
 using Unity.Netcode;
 using Unity.Netcode.Transports.UTP;
 using Unity.Services.Core;
 using Unity.Services.Multiplay;
+#endif
 using UnityEngine;
 
 public class InitMultiplay : MonoBehaviour
@@ -29,10 +31,10 @@ public class InitMultiplay : MonoBehaviour
 
         _serverQueryHandler = await MultiplayService.Instance.StartServerQueryHandlerAsync(DefaultMaxPlayers,
             DefaultServerName, DefaultGameType, DefaultBuildId, DefaultMap);
-
+        
         var config = MultiplayService.Instance.ServerConfig;
         var transport = GetComponent<UnityTransport>();
-
+        
         const string ipv4Address = "0.0.0.0";
         transport.SetConnectionData(ipv4Address, config.Port, ipv4Address);
 
@@ -74,12 +76,16 @@ public class InitMultiplay : MonoBehaviour
     }
 
     #endregion
+    
 
     private async void UpdateData()
     {
         _waiting = true;
-        _serverQueryHandler.UpdateServerCheck();
         await Task.Delay(100);
+        if (_serverQueryHandler == null)
+            Debug.Log("ServerQueryHandler is null");
+        else
+            _serverQueryHandler.UpdateServerCheck();
         _waiting = false;
     }
 

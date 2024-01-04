@@ -11,10 +11,13 @@ public class PanelsHandler : MonoBehaviour
 
     public void SetCanDragInventoryItems(bool canDrag)
         => GlobalValues.CanDragInventoryItems = canDrag;
-        
+
     public void Quit()
         => Application.Quit();
 
     public void LoadLevel(int id)
         => SceneManager.LoadScene(id);
+
+    public void LoadLevelAsync(int id)
+        => LevelsLoader.singleton.LoadLevelAsync(id);
 }

@@ -5,6 +5,7 @@ using UnityEngine.UI;
 using VivoxUnity;
 using System.Collections.Generic;
 using System.Collections;
+using TMPro;
 
 public class TextChatUI : MonoBehaviour
 {
@@ -12,16 +13,14 @@ public class TextChatUI : MonoBehaviour
     private const string LobbyChannelName = "lobbyChannel";
     private ChannelId _lobbyChannelId;
     private List<GameObject> _messageObjPool = new List<GameObject>();
-    private ScrollRect _textChatScrollRect;
 
+    public ScrollRect _textChatScrollRect;
     public GameObject ChatContentObj;
-    public GameObject MessageObject;
-    public Button EnterButton;
-    public InputField MessageInputField;
-    
+    public ChatSlotDisplayer MessageObject;
+    public TMP_InputField MessageInputField;
+
     private void Awake()
     {
-        _textChatScrollRect = GetComponent<ScrollRect>();
         _vivoxVoiceManager = VivoxVoiceManager.Instance;
         if (_messageObjPool.Count > 0)
         {
@@ -33,30 +32,21 @@ public class TextChatUI : MonoBehaviour
         _vivoxVoiceManager.OnParticipantAddedEvent += OnParticipantAdded;
         _vivoxVoiceManager.OnTextMessageLogReceivedEvent += OnTextMessageLogReceivedEvent;
 
-#if !(UNITY_STANDALONE || UNITY_IOS || UNITY_ANDROID || UNITY_STADIA)
-
-        MessageInputField.gameObject.SetActive(false);
-        EnterButton.gameObject.SetActive(false);
-        SendTTSMessageButton.gameObject.SetActive(false);
-#else
-        EnterButton.onClick.AddListener(SubmitTextToVivox);
         MessageInputField.onEndEdit.AddListener((string text) => { EnterKeyOnTextField(); });
 
-#endif
+        if(_vivoxVoiceManager == null || _vivoxVoiceManager.ActiveChannels == null) return;
         if (_vivoxVoiceManager.ActiveChannels.Count > 0)
-        {
-            _lobbyChannelId = _vivoxVoiceManager.ActiveChannels.FirstOrDefault(ac => ac.Channel.Name == LobbyChannelName).Key;
-        }
+            _lobbyChannelId = _vivoxVoiceManager.ActiveChannels
+                .FirstOrDefault(ac => ac.Channel.Name == LobbyChannelName).Key;
     }
 
-   
+
     private void OnDestroy()
     {
         _vivoxVoiceManager.OnParticipantAddedEvent -= OnParticipantAdded;
         _vivoxVoiceManager.OnTextMessageLogReceivedEvent -= OnTextMessageLogReceivedEvent;
 
 #if UNITY_STANDALONE || UNITY_IOS || UNITY_ANDROID || UNITY_STADIA
-        EnterButton.onClick.RemoveAllListeners();
         MessageInputField.onEndEdit.RemoveAllListeners();
 #endif
     }
@@ -65,8 +55,10 @@ public class TextChatUI : MonoBehaviour
     {
         for (int i = 0; i < _messageObjPool.Count; i++)
         {
+            if (_messageObjPool[i] == null) continue;
             Destroy(_messageObjPool[i]);
         }
+
         _messageObjPool.Clear();
     }
 
@@ -77,16 +69,17 @@ public class TextChatUI : MonoBehaviour
         MessageInputField.ActivateInputField();
     }
 
-
     private void EnterKeyOnTextField()
     {
-        if(!Input.GetKeyDown(KeyCode.Return))
+        if (!Input.GetKeyDown(KeyCode.Return))
         {
             return;
         }
+
         SubmitTextToVivox();
     }
-    private void SubmitTextToVivox()
+
+    public void SubmitTextToVivox()
     {
         if (string.IsNullOrEmpty(MessageInputField.text))
         {
@@ -97,28 +90,17 @@ public class TextChatUI : MonoBehaviour
         ClearOutTextField();
     }
 
-    public static string TruncateAtWord(string value, int length)
-    {
-        if (value == null || value.Length < length || value.IndexOf(" ", length) == -1)
-            return value;
-
-        return value.Substring(0, value.IndexOf(" ", length));
-    }
-    
-
     private IEnumerator SendScrollRectToBottom()
     {
         yield return new WaitForEndOfFrame();
 
-        // We need to wait for the end of the frame for this to be updated, otherwise it happens too quickly.
         _textChatScrollRect.normalizedPosition = new Vector2(0, 0);
 
         yield return null;
     }
-    
+
 
     #region Vivox Callbacks
-
 
     void OnParticipantAdded(string username, ChannelId channel, IParticipant participant)
     {
@@ -130,27 +112,19 @@ public class TextChatUI : MonoBehaviour
 
     private void OnTextMessageLogReceivedEvent(string sender, IChannelTextMessage channelTextMessage)
     {
-        if (!String.IsNullOrEmpty(channelTextMessage.ApplicationStanzaNamespace))
-        {
-            // If we find a message with an ApplicationStanzaNamespace we don't push that to the chat box.
-            // Such messages denote opening/closing or requesting the open status of multiplayer matches.
-            return;
-        }
+        if (!String.IsNullOrEmpty(channelTextMessage.ApplicationStanzaNamespace)) return;
 
         var newMessageObj = Instantiate(MessageObject, ChatContentObj.transform);
-        _messageObjPool.Add(newMessageObj);
-        Text newMessageText = newMessageObj.GetComponent<Text>();
+        _messageObjPool.Add(newMessageObj.gameObject);
 
         if (channelTextMessage.FromSelf)
         {
-            newMessageText.alignment = TextAnchor.MiddleRight;
-            newMessageText.text = string.Format($"{channelTextMessage.Message} :<color=blue>{sender} </color>\n<color=#5A5A5A><size=20>{channelTextMessage.ReceivedTime}</size></color>");
+            newMessageObj.DisplayMessage(sender + ": " + channelTextMessage.Message);
             StartCoroutine(SendScrollRectToBottom());
         }
         else
         {
-            newMessageText.alignment = TextAnchor.MiddleLeft;
-            newMessageText.text = string.Format($"<color=green>{sender} </color>: {channelTextMessage.Message}\n<color=#5A5A5A><size=20>{channelTextMessage.ReceivedTime}</size></color>");
+            newMessageObj.DisplayMessage(sender + ": " + channelTextMessage.Message);
         }
     }
 

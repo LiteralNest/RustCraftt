@@ -1,8 +1,24 @@
-public class Armor : CraftingItem
+using ArmorSystem.Backend;
+using UnityEngine;
+
+namespace Items_System.Items
 {
-    public override void Click(QuickSlotDisplayer slotDisplayer, InventoryHandler handler, out bool shouldMinus)
+    [CreateAssetMenu(menuName = "Item/Armor")]
+    public class Armor : DamagableItem
     {
-        base.Click(slotDisplayer, handler, out shouldMinus);
-        shouldMinus = false;
+        [Header("Armor")] [SerializeField] private BodyPartType _bodyPartType;
+        public BodyPartType BodyPartType => _bodyPartType;
+
+        [Range(0, 100)] [SerializeField] private int _radiationResistValue;
+        public int RadiationResistValue => _radiationResistValue;
+
+        [Range(0, 100)] [SerializeField] private int _hitResistValue;
+        public int HitResistValue => _hitResistValue;
+
+        [Range(0, 100)] [SerializeField] private int _temperatureResistValue;
+        public int TemperatureResistValue => _temperatureResistValue;
+
+        [Range(0, 100)] [SerializeField] private int _explosionResistValue;
+        public int ExplosionResistValue => _explosionResistValue;
     }
 }

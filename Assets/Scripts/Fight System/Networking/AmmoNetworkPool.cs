@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Items_System.Items.Weapon;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -6,13 +7,13 @@ public class AmmoNetworkPool : NetworkBehaviour
 {
     public static AmmoNetworkPool singleton { get; set; }
 
-    [SerializeField] private List<LongRangeWeapon> _weapons = new List<LongRangeWeapon>();
+    [SerializeField] private List<ShootingWeapon> _weapons = new List<ShootingWeapon>();
     [SerializeField] private List<NetworkObject> _netWorkObjects = new List<NetworkObject>();
     
     private void Awake()
         => singleton = this;
 
-    private LongRangeWeapon GetWeaponById(int id)
+    private ShootingWeapon GetWeaponById(int id)
     {
         foreach(var weapon in _weapons)
             if (weapon.Id == id)
@@ -27,6 +28,6 @@ public class AmmoNetworkPool : NetworkBehaviour
         var obj = Instantiate(_netWorkObjects[bulletId], pos, rotation);
         obj.DontDestroyWithOwner = true;
         obj.Spawn();
-        LongRangeWeapon weapon = GetWeaponById(weaponId);
+        ShootingWeapon weapon = GetWeaponById(weaponId);
     }
 }

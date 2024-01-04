@@ -1,34 +1,33 @@
 using System.Collections.Generic;
-using Unity.Netcode;
+using Items_System.Items.Abstract;
 using UnityEngine;
 
-public class ResourceOre : Ore
+namespace Items_System.Ore_Type
 {
-    [SerializeField] private List<Item> _toolsForGathering = new List<Item>();
+    public class ResourceOre : Ore
+    {
+        [SerializeField] private List<Item> _toolsForGathering = new List<Item>();
     
-    [field: SerializeField] public AudioClip GatheringClip { get; private set; }
+        [field: SerializeField] public AudioClip GatheringClip { get; private set; }
+
     
-    private void Start()
-    {
-        base.Start(); 
-        gameObject.tag = "Ore";
-    }
-    private bool CanUseTool(Item tool)
-        => _toolsForGathering.Contains(tool);
+        private void Start()
+        {
+            gameObject.tag = "Ore";
+        }
+        private bool CanUseTool(Item tool)
+            => _toolsForGathering.Contains(tool);
 
-    public void MinusHp(Item targetTool, out bool destroyed)
-    {
-        destroyed = false;
-        if (_currentHp.Value <= 0) return;
-        if(!CanUseTool(targetTool)) return;
-        InventoryHandler.singleton.InventorySlotsContainer.AddItemToDesiredSlot(_targetResource, Random.Range(_addingCount.x, _addingCount.y + 1));
-        MinusHpServerRpc();
-        destroyed = _currentHp.Value <= 0;
-    }
-
-    [ContextMenu("Test RPC")]
-    private void TestRpc()
-    {
-        MinusHpServerRpc();
+        public void MinusHp(Item targetTool, out bool destroyed, Vector3 lastRayPos, Vector3 lastRayRot)
+        {
+            destroyed = false;
+            if (_currentHp.Value <= 0) return;
+            if(!CanUseTool(targetTool)) return;
+            AddResourcesToInventory();
+            DisplayVfxServerRpc(lastRayPos, lastRayRot);
+            InventoryHandler.singleton.ActiveSlotDisplayer.ItemDisplayer.MinusCurrentHp(1);
+            MinusHpServerRpc();
+            destroyed = _currentHp.Value <= 0;
+        }
     }
 }

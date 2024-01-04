@@ -17,9 +17,9 @@ namespace Server
         private const string ProjectId = "093ae33f-9b56-4e1a-a233-08ad3438b76c";
         private const string EnvironmentId = "5105ae74-6981-4eb6-89a4-9da20b640c13";
         
-        private const string FleetId = "f17bde87-612b-40d7-b479-8287da85d9bc";
+        private const string FleetId = "001918ba-7011-4fe5-abfb-cac116569c61";
         private const string EuropeRegionId = "0548345a-8510-49a8-80c8-ae8ce00fc934";
-        private const int BuildConfigId = 1245935;
+        private const int BuildConfigId = 1246733;
 
         public IMultiplayWebApi MultiplayWebApi { get; private set; } = new MultiplayWebApi(KeyId, SecretId, ProjectId, EnvironmentId,
             FleetId, EuropeRegionId, BuildConfigId);
@@ -31,29 +31,6 @@ namespace Server
             // Debug.LogError("Auth Completed");
         }
 
-        private void OnGUI()
-        {
-            var customButtonStyle = new GUIStyle(GUI.skin.button);
-            customButtonStyle.fontSize = 40;
-            
-            GUILayout.BeginArea(new Rect(50, 50, 400, 100));
-
-            var networkManager = NetworkManager.Singleton;
-            if (!networkManager.IsClient && !networkManager.IsServer)
-            {
-                // if (GUILayout.Button("Host")) networkManager.StartHost();
-                GUILayout.Space(20);
-                if (GUILayout.Button("Client",customButtonStyle, GUILayout.Width(400), GUILayout.Height(100))) Connect();
-
-
-                // if (GUILayout.Button("Server")) networkManager.StartServer();
-            }
-            else
-                GUILayout.Label($"Mode: {(networkManager.IsHost ? "Host" : networkManager.IsServer ? "Server" : "Client")}");
-
-            GUILayout.EndArea();
-        }
-        
         public async void Connect()
         {
             var networkManager = NetworkManager.Singleton;

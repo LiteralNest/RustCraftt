@@ -1,18 +1,27 @@
+using Unity.Netcode;
 using UnityEngine;
 
-[RequireComponent(typeof(Rigidbody), typeof(BoxCollider))]
-public class GatheringOre : Ore
+namespace Items_System.Ore_Type
 {
-    private void Start()
+    [RequireComponent(typeof(Rigidbody), typeof(BoxCollider))]
+    public class GatheringOre : Ore
     {
-        base.Start();
-        gameObject.tag = "Gathering";
-    }
+        [SerializeField] private bool _shouldDelete;
+    
+        private void Start()
+        {
+            gameObject.tag = "Gathering";
+        }
 
-    public void Gather()
-    {
-        if(Recovering) return;
-        InventoryHandler.singleton.InventorySlotsContainer.AddItemToDesiredSlot(_targetResource, Random.Range(_addingCount.x, _addingCount.y + 1));
-        MinusHpServerRpc();
+        public void Gather()
+        {
+            if(Recovering) return;
+            AddResourcesToInventory();
+            MinusHpServerRpc();
+            if (_shouldDelete)
+            {
+                GetComponent<NetworkObject>().Despawn();
+            }
+        }
     }
 }

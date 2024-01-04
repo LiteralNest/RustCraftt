@@ -1,13 +1,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CraftingItem : Item
+namespace Items_System.Items.Abstract
 {
-   [field: SerializeField] public List<CraftingItemDataTableSlot> NeededSlots;
-   
-   public override void Click(QuickSlotDisplayer slotDisplayer, InventoryHandler handler, out bool shouldMinus)
+   public class CraftingItem : Item
    {
-      base.Click(slotDisplayer, handler, out shouldMinus);
-      shouldMinus = false;
+      [field: SerializeField] public int TimeForCreating;
+      [field: SerializeField] public List<CraftingItemDataTableSlot> NeededSlots;
+      [field: SerializeField] public int NeededWorkBanch = 0;
    }
 }

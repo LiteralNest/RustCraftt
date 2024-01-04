@@ -1,34 +1,36 @@
 using System.Threading.Tasks;
 using UnityEngine;
 
-[RequireComponent(typeof(CharacterStats))]
-public class CharacterStatsRuntimeSubstracter : MonoBehaviour
+namespace Character_Stats
 {
-    [Header("Atached Scripts")]
-    [SerializeField] private CharacterStats _characterStats;
-    [Header("Main Params")]
-    [SerializeField] private float _minusingValuePerSecond;
+    public class CharacterStatsRuntimeSubstracter : MonoBehaviour
+    {
+        [Header("Atached Scripts")]
+        [SerializeField] private CharacterStats _characterStats;
+        [Header("Main Params")]
+        [SerializeField] private float _minusingValuePerSecond;
+
+        private bool _minusing;
     
-    private bool _minusing;
+        private void Awake()
+        {
+            if(_characterStats == null)
+                _characterStats = GetComponent<CharacterStats>();
+        }
 
-    private void Awake()
-    {
-        if(_characterStats == null)
-            _characterStats = GetComponent<CharacterStats>();
-    }
+        private void Update()
+        {
+            if(_minusing) return;
+            SubstractStats();
+        }
 
-    private void Update()
-    {
-        if(_minusing) return;
-        SubstractStats();
-    }
-
-    private async void SubstractStats()
-    {
-        _minusing = true;
-        await Task.Delay(1000);
-        _characterStats.MinusStat(CharacterStatType.Food, _minusingValuePerSecond);
-        _characterStats.MinusStat(CharacterStatType.Water, _minusingValuePerSecond);
-        _minusing = false;
+        private async void SubstractStats()
+        {
+            _minusing = true;
+            await Task.Delay(1000);
+            _characterStats.MinusStat(CharacterStatType.Food, _minusingValuePerSecond);
+            _characterStats.MinusStat(CharacterStatType.Water, _minusingValuePerSecond);
+            _minusing = false;
+        }
     }
 }

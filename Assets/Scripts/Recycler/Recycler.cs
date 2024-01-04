@@ -1,107 +1,117 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Inventory_System;
+using Items_System.Items.Recycling_Item;
+using Storage_System;
+using Unity.Netcode;
 using UnityEngine;
 
-[RequireComponent(typeof(BoxCollider))]
-public class Recycler : MonoBehaviour
+namespace Recycler
 {
-    [Header("Main Params")] [SerializeField]
-    private float _recyclingTime = 1;
-    
-    [Header("Cells")]
-    [SerializeField] private List<InventoryCell> _cells = new List<InventoryCell>();
-    [SerializeField] private List<RecyclingItem> _avaliableItems = new List<RecyclingItem>();
-    
-    private RecyclerSlotsContainer _recyclerSlotsContainer;
-    private bool _turned;
-    private bool _recycling;
-
-    private void Start()
-        => gameObject.tag = "Recycler";
-
-    private void Update()
+    public class Recycler : Storage
     {
-        if(!_turned) return;
-        TryRecycle();
-    }
-    
-    public void Open(InventoryHandler handler)
-    {
-        handler.RecyclerSlotsContainer.InitCells(_cells);
-        _recyclerSlotsContainer = handler.RecyclerSlotsContainer;
-        handler.OpenRecyclerPanel();
-        _recyclerSlotsContainer.Init(this);
-    }
+        [HideInInspector] public NetworkVariable<bool> Turned = new NetworkVariable<bool>(false);
 
-    private RecyclingItem GetRecyclingItemById(int id)
-    {
-        foreach (var item in _avaliableItems)
+        [SerializeField] private float _recyclingTime = 1;
+        [SerializeField] private List<RecyclingItem> _avaliableItems = new List<RecyclingItem>();
+        [SerializeField] private AudioSource _source;
+        
+        [Header("UI")]
+        [SerializeField] private GameObject _turnOnPanel;
+        [SerializeField] private GameObject _turnOffPanel;
+        
+        private bool _recycling;
+
+        private void Start()
+            => gameObject.tag = "Recycler";
+
+        public override void OnNetworkSpawn()
         {
-            if (item.Id == id)
-                return item;
+            Turned.OnValueChanged += (bool prevValue, bool newValue) => { Turn(newValue); };
+            Turn(Turned.Value);
+            base.OnNetworkSpawn();
         }
-        return null;
-    }
-    
-    private void ResetCell(InventoryCell cell)
-    {
-        cell.Item = null;
-        cell.Count = 0;
-        _recyclerSlotsContainer.InitCells(_cells);
-    }
-    
-    private void RemoveItem(Item item, int count)
-    {
-        foreach (var cell in _cells)
+        
+        private void Update()
         {
-            if (cell.Item == item)
-            {
-                cell.Count -= count;
-                if(cell.Count > 0) return;
-                ResetCell(cell);
+            if (!Turned.Value) return;
+            TryRecycle();
+        }
+
+        private void Turn(bool value)
+        {
+            _turnOnPanel.SetActive(!value);
+            _turnOffPanel.SetActive(value);
+            if(value)
+                _source.Play();
+            else
+                _source.Stop();
             }
-        }
-    }
-    
-    private async void RecycleItem(RecyclingItem item)
-    {
-        await Task.Delay((int)(_recyclingTime * 1000));
-        if(!_recycling) return;
-        List<InventoryCell> recyclingCells = new List<InventoryCell>();
-        recyclingCells = _cells.GetRange(5, 5);
-        foreach (var cell in item.Cells)
+
+        private RecyclingItem GetRecyclingItemById(int id)
         {
-            var rand = Random.Range(cell.ItemsRange.x, cell.ItemsRange.y);
-            var desiredCell = InventoryHelper.GetDesiredCell(cell.ResultItem, rand, recyclingCells);
-            if (desiredCell == null)
+            foreach (var item in _avaliableItems)
             {
-                _recycling = false;
+                if (item.Id == id)
+                    return item;
+            }
+
+            return null;
+        }
+
+        private async void RecycleItem(RecyclingItem item)
+        {
+            await Task.Delay((int)(_recyclingTime * 1000));
+            if (!_recycling) return;
+            List<CustomSendingInventoryDataCell> recyclingCells = new List<CustomSendingInventoryDataCell>();
+            for (int i = 5; i < 10; i++)
+            {
+                recyclingCells.Add(new CustomSendingInventoryDataCell(ItemsNetData.Value.Cells[i]));
+            }
+
+            foreach (var cell in item.Cells)
+            {
+                var rand = Random.Range(cell.ItemsRange.x, cell.ItemsRange.y);
+                var desiredCellId = 5 + InventoryHelper.GetDesiredCellId(cell.ResultItem.Id, rand, ItemsNetData);
+                if (desiredCellId == -1)
+                {
+                    _recycling = false;
+                    return;
+                }
+
+                SetItemServerRpc(desiredCellId, new CustomSendingInventoryDataCell(cell.ResultItem.Id, rand, -1, 0));
+            }
+
+            RemoveItem(item, 1);
+            _recycling = false;
+        }
+
+        private void TryRecycle()
+        {
+            if (!IsServer) return;
+            if (_recycling) return;
+            List<CustomSendingInventoryDataCell> cells = new List<CustomSendingInventoryDataCell>();
+            for (int i = 0; i < 5; i++)
+            {
+                cells.Add(new CustomSendingInventoryDataCell(ItemsNetData.Value.Cells[i]));
+            }
+
+            foreach (var cell in cells)
+            {
+                if (cell.Id == -1 || !GetRecyclingItemById(cell.Id)) continue;
+                RecycleItem(GetRecyclingItemById(cell.Id));
+                _recycling = true;
                 return;
             }
-            desiredCell.Item = cell.ResultItem;
-            desiredCell.Count += rand;
-        }
-        RemoveItem(item, 1);
-        _recyclerSlotsContainer.InitCells(_cells);
-        _recycling = false;
-    }
 
-    private void TryRecycle()
-    {
-        if(_recycling) return;
-        var cells = _cells.GetRange(0, 5);
-        foreach (var cell in cells)
+            SetTurnedServerRpc(false);
+        }
+
+        [ServerRpc(RequireOwnership = false)]
+        public void SetTurnedServerRpc(bool value)
         {
-            if (!cell.Item || !GetRecyclingItemById(cell.Item.Id)) continue;
-            RecycleItem(GetRecyclingItemById(cell.Item.Id));
-            _recycling = true;
+            if (!IsServer) return;
+            Turned.Value = value;
         }
-    }
-
-    public void SetTurned(bool value)
-    {
-        _turned = value;
-        if (!value)
-            _recycling = value;
     }
 }

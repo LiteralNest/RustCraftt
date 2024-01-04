@@ -1,69 +1,64 @@
 using System.Threading.Tasks;
+using Player_Controller;
+using Storage_System;
+using UI;
 using UnityEngine.EventSystems;
 
-public class InventoryItemDisplayer : ItemDisplayer, IBeginDragHandler, IDragHandler, IEndDragHandler
+namespace Inventory_System.Inventory_Items_Displayer
 {
-    protected SlotsContainer _slotsContainer;
-    
-    public void OnBeginDrag(PointerEventData eventData)
+    public class InventoryItemDisplayer : ItemDisplayer, IBeginDragHandler, IDragHandler, IEndDragHandler
     {
-        if (!GlobalValues.CanDragInventoryItems) return;
-        _slotsContainer.ResetCell(PreviousCell.Index);
-        PreviousCell.ResetItem();
-        _countText.gameObject.SetActive(false);
-        transform.SetParent(transform.root);
-        _itemIcon.raycastTarget = false;
-    }
+        protected Storage _storage;
 
-    public void OnDrag(PointerEventData eventData)
-    {
-        if (!GlobalValues.CanDragInventoryItems) return;
-        transform.position = eventData.position;
-    }
+        public void OnBeginDrag(PointerEventData eventData)
+        {
+            if (!GlobalValues.CanDragInventoryItems) return;
+            PreviousCell.ResetItemWhileDrag();
+            if (_countText != null)
+                _countText.gameObject.SetActive(false);
+            transform.SetParent(PlaceForInventoryItems.Singleton.transform);
+            PlayerNetCode.Singleton.ResourcesDropper.InventoryItemDisplayer = this;
+            _itemIcon.raycastTarget = false;
+        }
 
-    public void OnEndDrag(PointerEventData eventData)
-    {
-        if (!GlobalValues.CanDragInventoryItems) return;
-        _countText.gameObject.SetActive(true);
-        transform.position = PreviousCell.transform.position;
-        transform.SetParent(PreviousCell.transform);
-        _itemIcon.raycastTarget = true;
-    }
+        public void OnDrag(PointerEventData eventData)
+        {
+            if (!GlobalValues.CanDragInventoryItems) return;
+            transform.position = eventData.position;
+        }
 
-    public void Init(SlotDisplayer slot, InventoryCell cell, SlotsContainer slotsContainer)
-    {
-        _slotsContainer = slotsContainer;
-        PreviousCell = slot;
+        public void OnEndDrag(PointerEventData eventData)
+        {
+            if (!GlobalValues.CanDragInventoryItems) return;
+            if (_countText != null)
+                _countText.gameObject.SetActive(true);
+            transform.position = PreviousCell.transform.position;
+            // if (InventoryCell.Count == 0)
+            //     _storage.ResetItemServerRpc(PreviousCell.Index);
+            // else
+            //     _storage.SetItemServerRpc(PreviousCell.Index,
+            //         new CustomSendingInventoryDataCell(InventoryCell.Item.Id, InventoryCell.Count, InventoryCell.Hp, InventoryCell.Ammo));
+            transform.SetParent(PreviousCell.transform);
+            _itemIcon.raycastTarget = true;
+        }
 
-        var cellTransform = slot.transform;
-        SetPosition();
-        transform.SetParent(cellTransform);
+        public void Init(SlotDisplayer slot, InventoryCell cell, Storage storage)
+        {
+            _storage = storage;
+            PreviousCell = slot;
 
-        InventoryCell = new InventoryCell(cell);
-        DisplayData();
-    }
+            var cellTransform = slot.transform;
+            SetPosition();
+            transform.SetParent(cellTransform);
 
-    public override void SetNewCell(SlotDisplayer slotDisplayer)
-    {
-        base.SetNewCell(slotDisplayer);
-        _slotsContainer = slotDisplayer.Inventory;
-        if (!_slotsContainer) return;
-        _slotsContainer.AddCell(slotDisplayer.Index, InventoryCell);
-        GlobalEventsContainer.InventoryDataShouldBeSaved?.Invoke(_slotsContainer.Cells);
-    }
+            InventoryCell = new InventoryCell(cell);
+            DisplayData();
+        }
 
-    public override int StackCount(int addedCount, SlotDisplayer slotDisplayer)
-    {
-        var res = base.StackCount(addedCount, slotDisplayer);
-        _slotsContainer.AddCell(slotDisplayer.Index, InventoryCell);
-        GlobalEventsContainer.InventoryDataShouldBeSaved?.Invoke(_slotsContainer.Cells);
-        RedisplayInventrory();
-        return res;
-    }
-
-    private async void RedisplayInventrory()
-    {
-        await Task.Delay(100);
-        GlobalEventsContainer.ShouldDisplayInventoryCells?.Invoke();
+        public override void SetNewCell(SlotDisplayer slotDisplayer)
+        {
+            base.SetNewCell(slotDisplayer);
+            _storage = slotDisplayer.Inventory;
+        }
     }
 }

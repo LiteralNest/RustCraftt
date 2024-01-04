@@ -1,17 +1,13 @@
+using Player_Controller;
 using UnityEngine.EventSystems;
 
-public class InventorySlotDisplayer : SlotDisplayer
+namespace Inventory_System.Inventory_Slot_Displayers
 {
-    protected override void Drop(PointerEventData eventData)
+    public class InventorySlotDisplayer : SlotDisplayer, IPointerClickHandler
     {
-        var itemDisplayer = eventData.pointerDrag.GetComponent<InventoryItemDisplayer>();
-        if(TrySetItem(itemDisplayer)) return;
-        itemDisplayer.SetPosition();
-    }
-
-    public override void Swap(ItemDisplayer itemDisplayer)
-    {
-        base.Swap(itemDisplayer);
-        GlobalEventsContainer.ShouldDisplayInventoryCells?.Invoke();
+        public void OnPointerClick(PointerEventData eventData)
+        {
+            PlayerNetCode.Singleton.ItemInfoHandler.ResetPanel();
+        }
     }
 }
