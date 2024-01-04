@@ -9,7 +9,9 @@ namespace Storage_System
 {
     public abstract class Storage : NetworkBehaviour
     {
-        [field: SerializeField] public NetworkVariable<CustomSendingInventoryData> ItemsNetData { get; set; } = new();
+        [field: SerializeField]
+        public NetworkVariable<CustomSendingInventoryData> ItemsNetData { get; private set; } = new();
+
         [field: SerializeField] public SlotsDisplayer SlotsDisplayer { get; set; }
         [SerializeField] protected GameObject _ui;
 
@@ -52,6 +54,13 @@ namespace Storage_System
         }
 
         #endregion
+
+        [ServerRpc(RequireOwnership = false)]
+        public void SetItemsServerRpc(CustomSendingInventoryData data)
+        {
+            if(!IsServer) return;
+            ItemsNetData.Value = data;
+        }
 
 
         public override void OnNetworkSpawn()

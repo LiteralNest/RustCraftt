@@ -59,13 +59,13 @@ namespace Inventory_System
             {
                 cells1[cellId1] = cells2[cellId2];
                 cells1[cellId2] = cells2[cellId1];
-                storage1.ItemsNetData.Value = new CustomSendingInventoryData(cells1);
+                storage1.SetItemsServerRpc(new CustomSendingInventoryData(cells1));
             }
             else
             {
                 (cells1[cellId1], cells2[cellId2]) = (cells2[cellId2], cells1[cellId1]);
-                storage1.ItemsNetData.Value = new CustomSendingInventoryData(cells1);
-                storage2.ItemsNetData.Value = new CustomSendingInventoryData(cells2);
+                storage1.SetItemsServerRpc(new CustomSendingInventoryData(cells1));
+                storage2.SetItemsServerRpc(new CustomSendingInventoryData(cells2));
             }
         }
 
