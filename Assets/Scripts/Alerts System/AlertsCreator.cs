@@ -1,6 +1,3 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class AlertsCreator : MonoBehaviour
@@ -11,14 +8,14 @@ public class AlertsCreator : MonoBehaviour
 
     private void OnEnable()
     {
-        GlobalEventsContainer.InventoryItemAdded += CreateAddingItemAlert;
-        GlobalEventsContainer.InventoryItemRemoved += CreateRemovingtemAlert;
+        GlobalEventsContainer.OnInventoryItemAdded += CreateAddingItemAlert;
+        GlobalEventsContainer.OnInventoryItemRemoved += CreateRemovingtemAlert;
     }
     
     private void OnDisable()
     {
-        GlobalEventsContainer.InventoryItemAdded -= CreateAddingItemAlert;
-        GlobalEventsContainer.InventoryItemRemoved -= CreateRemovingtemAlert;
+        GlobalEventsContainer.OnInventoryItemAdded -= CreateAddingItemAlert;
+        GlobalEventsContainer.OnInventoryItemRemoved -= CreateRemovingtemAlert;
     }
 
     private void CreateAddingItemAlert(InventoryCell inventoryCell)

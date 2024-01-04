@@ -34,6 +34,7 @@ public class TextChatUI : MonoBehaviour
 
         MessageInputField.onEndEdit.AddListener((string text) => { EnterKeyOnTextField(); });
 
+        if(_vivoxVoiceManager == null || _vivoxVoiceManager.ActiveChannels == null) return;
         if (_vivoxVoiceManager.ActiveChannels.Count > 0)
             _lobbyChannelId = _vivoxVoiceManager.ActiveChannels
                 .FirstOrDefault(ac => ac.Channel.Name == LobbyChannelName).Key;

@@ -4,31 +4,29 @@ using UnityEngine;
 
 public static class CustomDataSerializer
 {
-    private static void ClearList(NetworkList<Vector2> res)
-        => res.Clear();
-    
-    public static void SetConvertedItemsList(List<InventoryCell> cells, NetworkList<Vector2> res)
+    public static void SetConvertedItemsList(List<InventoryCell> cells, NetworkList<Vector3> res)
     {
-        ClearList(res);
-        foreach (var cell in cells)
+        res.Clear();
+        for (int i = 0; i < cells.Count; i++)
         {
-            if (cell.Item == null)
-                res.Add(new Vector2Int(-1, 0));
+            var cell = cells[i];
+            if (cell.Item != null)
+                res.Add(new Vector3Int(cell.Item.Id, cell.Count, cell.Hp));
             else
-                res.Add(new Vector2Int(cell.Item.Id, cell.Count));
+                res.Add(new Vector3Int(-1, 0, -1));
         }
     }
 
-    public static List<InventoryCell> GetConvertedCellsList(NetworkList<Vector2> data)
+    public static List<InventoryCell> GetConvertedCellsList(NetworkList<Vector3> data)
     {
         List<InventoryCell> res = new List<InventoryCell>();
 
         foreach (var cell in data)
         {
             if (cell.x == -1)
-                res.Add(new InventoryCell(null, 0));
+                res.Add(new InventoryCell(null, 0, -1));
             else
-                res.Add(new InventoryCell(ItemsContainer.singleton.GetItemById((int)cell.x), (int)cell.y));
+                res.Add(new InventoryCell(ItemFinder.singleton.GetItemById((int)cell.x), (int)cell.y, (int)cell.z));
         }
         
         return res;

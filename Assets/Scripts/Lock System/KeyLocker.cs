@@ -1,20 +1,16 @@
 using Unity.Netcode;
-using UnityEngine;
 
 namespace Lock_System
 {
-    public class KeyLocker : NetworkBehaviour
+    public class KeyLocker : Locker
     {
-        private NetworkVariable<ushort> _registratedKey = new(0, NetworkVariableReadPermission.Everyone,
+        private NetworkVariable<int> _registratedKey = new(0, NetworkVariableReadPermission.Everyone,
             NetworkVariableWritePermission.Owner);
 
-        public void RegistrateKey(int userId)
-        {
-            _registratedKey.Value = (ushort)userId;
-            Debug.Log("Key registrated");
-        }
+        public override void Init(int userId)
+            => _registratedKey.Value = userId;
 
-        public bool CanBeOpened(int value)
+        public override bool CanBeOpened(int value)
             => _registratedKey.Value == value;
     }
 }

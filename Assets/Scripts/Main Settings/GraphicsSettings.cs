@@ -8,7 +8,7 @@ public class GraphicsSettings : MonoBehaviour
         Application.targetFrameRate = 60;
         QualitySettings.vSyncCount  = 0;
 #else
-        Application.targetFrameRate = 60;
+        Application.targetFrameRate = 120;
 #endif
     }
 }

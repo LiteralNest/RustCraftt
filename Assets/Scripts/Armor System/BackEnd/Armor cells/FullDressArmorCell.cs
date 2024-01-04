@@ -1,14 +1,14 @@
+using Armor_System.BackEnd.Armor_cells;
+using Player_Controller;
+
 namespace ArmorSystem.Backend
 {
-    public class FullDressArmorCell : ArmorCell
+    public class FullDressArmorCell : DressArmorCell
     {
-        public override void PutOnArmor()
+        public override void PutOnArmor(PlayerNetCode netCode)
         {
-            base.PutOnArmor();
-            _bodyPartsDisplayer.DressArmor(BodyPartType.Head, _targetMaterial);
-            _targetObject.SetActive(true);
-            _bodyPartsDisplayer.DressArmor(BodyPartType.Hands, _targetMaterial); 
-            _bodyPartsDisplayer.DressArmor( BodyPartType.Legs, _targetMaterial);
+            base.PutOnArmor(netCode);
+
         }
     }  
 }

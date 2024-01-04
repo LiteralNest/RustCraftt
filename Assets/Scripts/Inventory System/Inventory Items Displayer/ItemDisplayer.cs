@@ -1,51 +1,79 @@
+using System.Collections;
 using System.Threading.Tasks;
+using Player_Controller;
+using Storage_System;
 using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public abstract class ItemDisplayer : MonoBehaviour
+public abstract class ItemDisplayer : MonoBehaviour, IPointerClickHandler
 {
-    [Header("UI")]
-    [SerializeField] protected TMP_Text _countText;
+    [Header("UI")] [SerializeField] protected TMP_Text _countText;
     [SerializeField] protected Image _itemIcon;
-    [Header("Animator")]
-    [SerializeField] protected Animator _animator;
+    [Header("Animator")] [SerializeField] protected Animator _animator;
     [SerializeField] private AnimationClip _movingClip;
-    
+
     public InventoryCell InventoryCell { get; protected set; }
     public SlotDisplayer PreviousCell { get; protected set; }
+
+    public void OnPointerClick(PointerEventData eventData)
+    {
+        PlayerNetCode.Singleton.ItemInfoHandler.AssignItem(PreviousCell);
+    }
+    
+    public virtual void MinusCurrentHp(int hp)
+    {
+    }
+
+    public virtual void MinusCurrentAmmo(int value)
+    {
+    }
+
+    public virtual void SetCurrentAmmo(int value)
+    {
+    }
+
+    public virtual int GetCurrentHp()
+        => 0;
 
     public void SetInventoryCell(InventoryCell inventoryCell)
     {
         InventoryCell = inventoryCell;
         DisplayData();
     }
-    
-    public void DisplayData()
+
+    public virtual void DisplayData()
     {
-        if(InventoryCell.Item == null) return;
+        if (InventoryCell.Item == null) return;
+        if (InventoryCell.Item.StackCount == 1)
+            _countText.gameObject.SetActive(false);
         _itemIcon.sprite = InventoryCell.Item.Icon;
         _countText.text = InventoryCell.Count.ToString();
     }
 
-    public virtual int StackCount(int addedCount, SlotDisplayer slotDisplayer)
+    public int StackCount(ItemDisplayer displayer)
     {
+        var cell = displayer.InventoryCell;
         var currentItemCount = InventoryCell.Count;
-        int count = currentItemCount + addedCount;
+        int count = currentItemCount + cell.Count;
         if (count <= InventoryCell.Item.StackCount)
         {
             InventoryCell.Count = count;
-            DisplayData();
+            PreviousCell.Inventory.SetItemAndResetCellServerRpc(PreviousCell.Index,
+                new CustomSendingInventoryDataCell(InventoryCell.Item.Id, InventoryCell.Count, InventoryCell.Hp,
+                    InventoryCell.Ammo), displayer.PreviousCell.Index);
             return 0;
         }
 
         InventoryCell.Count = InventoryCell.Item.StackCount;
+        cell.Count = count - InventoryCell.Item.StackCount;
         return count - InventoryCell.Item.StackCount;
     }
-    
+
     public void SetPosition()
         => transform.position = PreviousCell.transform.position;
-    
+
     public virtual void SetNewCell(SlotDisplayer slotDisplayer)
     {
         PreviousCell = slotDisplayer;

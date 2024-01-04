@@ -1,5 +1,11 @@
+using System.Threading.Tasks;
 using ArmorSystem.Backend;
+using Character_Stats;
+using Inventory_System;
+using Items_System.Items.Abstract;
+using OnPlayerItems;
 using Player_Controller;
+using Storage_System;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -7,127 +13,34 @@ public class InventoryHandler : NetworkBehaviour
 {
     public static InventoryHandler singleton { get; set; }
 
+    [field: SerializeField] public InventoryPanelsDisplayer InventoryPanelsDisplayer { get; private set; }
     [field: SerializeField] public PlayerNetCode PlayerNetCode { get; private set; }
     [field: SerializeField] public CharacterStats Stats { get; private set; }
-    [field: SerializeField] public StorageSlotsContainer LootboxSlotsContainer { get; private set; }
-    [field: SerializeField] public StorageSlotsContainer LargeStorageSlotsContainer { get; private set; }
-    [field: SerializeField] public StorageSlotsContainer ToolClipboardSlotsContainer { get; private set; }
-    [field: SerializeField] public StorageSlotsContainer ShotGunSlotsContainer { get; private set; }
-    [field: SerializeField] public SlotsContainer InventorySlotsContainer { get; private set; }
-    [field: SerializeField] public InventorySlotsDisplayer InventorySlotsDisplayer { get; private set; }
     [field: SerializeField] public PlayerObjectsPlacer PlayerObjectsPlacer { get; private set; }
-    [field: SerializeField] public BuildingChooser BuildingChooser { get; private set; }
-    [field: SerializeField] public CampFireSlotsContainer CampFireSlotsContainer { get; private set; }
-    [field: SerializeField] public RecyclerSlotsContainer RecyclerSlotsContainer { get; private set; }
     [field: SerializeField] public InHandObjectsContainer InHandObjectsContainer { get; private set; }
     [field: SerializeField] public ArmorsContainer ArmorsContainer { get; private set; }
 
-
-    [Header("UI")] [SerializeField] private GameObject _mainButtonsPanel;
-    [SerializeField] private GameObject _armorPanel;
-    [SerializeField] private GameObject _lootBoxPanel;
-    [SerializeField] private GameObject _largeStoragePanel;
-    [SerializeField] private GameObject _inventoryPanel;
-    [SerializeField] private GameObject _campFirePanel;
-    [SerializeField] private GameObject _recyclerPanel;
-    [SerializeField] private GameObject _toolClipboardPanel;
-    [SerializeField] private GameObject _shotGunPanel;
+    [field: SerializeField] public Storage CharacterInventory { get; private set; }
 
     public Item ActiveItem { get; private set; }
+    public SlotDisplayer ActiveSlotDisplayer { get; set; }
 
-    public override void OnNetworkSpawn()
+    private async void Start()
     {
-        if (IsOwner)
-            singleton = this;
-        base.OnNetworkSpawn();
-    }
-
-    public void HandleInventory(bool isOpen)
-    {
-        _mainButtonsPanel.SetActive(!isOpen);
-        _inventoryPanel.SetActive(isOpen);
-        GlobalValues.CanDragInventoryItems = isOpen;
-        GlobalValues.CanLookAround = !isOpen;
+        await Task.Delay(1000);
+        if(!IsOwner) return;
+        singleton = this;
     }
 
     public void DisplayInventoryCells()
-        => InventorySlotsDisplayer.DisplayCells();
-
-    public void OpenArmorPanel()
-    {
-        HandleInventory(true);
-        _armorPanel.SetActive(true);
-        _lootBoxPanel.SetActive(false);
-    }
-
-    public void OpenLootBoxPanel()
-    {
-        HandleInventory(true);
-        _armorPanel.SetActive(false);
-        _campFirePanel.SetActive(false);
-        _largeStoragePanel.SetActive(false);
-        _toolClipboardPanel.SetActive(false);
-        _shotGunPanel.SetActive(false);
-        _lootBoxPanel.SetActive(true);
-    }
-
-    public void OpenCampFirePanel()
-    {
-        HandleInventory(true);
-        _armorPanel.SetActive(false);
-        _lootBoxPanel.SetActive(false);
-        _largeStoragePanel.SetActive(false);
-        _toolClipboardPanel.SetActive(false);
-        _shotGunPanel.SetActive(false);
-        _campFirePanel.SetActive(true);
-    }
-
-    public void OpenRecyclerPanel()
-    {
-        HandleInventory(true);
-        _armorPanel.SetActive(false);
-        _lootBoxPanel.SetActive(false);
-        _largeStoragePanel.SetActive(false);
-        _toolClipboardPanel.SetActive(false);
-        _shotGunPanel.SetActive(false);
-        _recyclerPanel.SetActive(true);
-    }
-
-    public void OpenLargeChestPanel()
-    {
-        HandleInventory(true);
-        _armorPanel.SetActive(false);
-        _lootBoxPanel.SetActive(false);
-        _recyclerPanel.SetActive(false);
-        _toolClipboardPanel.SetActive(false);
-        _shotGunPanel.SetActive(false);
-        _largeStoragePanel.SetActive(true);
-    }
-    
-    public void OpenClipBoardPanel()
-    {
-        HandleInventory(true);
-        _armorPanel.SetActive(false);
-        _lootBoxPanel.SetActive(false);
-        _recyclerPanel.SetActive(false);
-        _largeStoragePanel.SetActive(false);
-        _shotGunPanel.SetActive(false);
-        _toolClipboardPanel.SetActive(true);
-    }
-
-    public void OpenShotGunPanel()
-    {
-        HandleInventory(true);
-        _armorPanel.SetActive(false);
-        _lootBoxPanel.SetActive(false);
-        _recyclerPanel.SetActive(false);
-        _largeStoragePanel.SetActive(false);
-        _toolClipboardPanel.SetActive(false);
-        _shotGunPanel.SetActive(true);
-    }
+        => CharacterInventory.Open(this);
 
     public void SetActiveItem(Item item)
+        => ActiveItem = item;
+
+    public void RemoveActiveSlotDisplayer()
     {
-        ActiveItem = item;
+        var cell = ActiveSlotDisplayer.ItemDisplayer.InventoryCell;
+        CharacterInventory.RemoveItemCountFromSlotServerRpc(ActiveSlotDisplayer.Index, cell.Item.Id, cell.Count);
     }
 }

@@ -1,14 +1,22 @@
+using Player_Controller;
+
 namespace ArmorSystem.Backend
 {
     public class OneSlotArmorCell : ArmorCell
     {
-        public override void PutOnArmor()
+        public override void PutOnArmor(PlayerNetCode netCode)
         {
-            base.PutOnArmor();
-            if (_targetObject != null)
-                _targetObject.SetActive(true);
+            base.PutOnArmor(netCode);
+            _armorsContainer.DisplayDefaultArmor();
             _bodyPartsDisplayer.DressArmor(_bodyPartType, _targetMaterial);
-            _bodyPartsDisplayer.ReturnArmorsToDefault(_bodyPartType);
+        }
+        
+        public override void PutOff()
+        {
+            foreach(var targetObject in _targetObjects)
+                targetObject.SetActive(false);
+            foreach(var slot in _inventoryObjects)
+                slot.SetActive(false);
         }
     }
 }

@@ -1,6 +1,7 @@
-using UnityEngine;
-
-public class ClipBoardBluePrint : PlacingObjectBluePrint
+namespace Building_System.Placing_Objects.ClipBoard
 {
+    public class ClipBoardBluePrint : PlacingObjectBluePrint
+    {
 
+    }
 }

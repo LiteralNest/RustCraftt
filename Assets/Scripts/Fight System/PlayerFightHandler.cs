@@ -1,11 +1,11 @@
 using Fight_System.Weapon.ShootWeapon;
+using UI;
 using UnityEngine;
 
 public class PlayerFightHandler : MonoBehaviour
 {
     private BaseShootingWeapon _currentBaseShootingWeapon;
     private bool _attacking;
-
     private void OnEnable()
         => GlobalEventsContainer.WeaponObjectAssign += AssignWeaponObject;
     
@@ -34,17 +34,24 @@ public class PlayerFightHandler : MonoBehaviour
 
     public void SetAttacking(bool value)
     {
+        if(!_currentBaseShootingWeapon) return;
         _attacking = value;
+        if (value == false)
+        {
+            _currentBaseShootingWeapon.ResetRecoil();
+        }
     }
 
     public void Reload()
     {
+        if(!_currentBaseShootingWeapon) return;
         _currentBaseShootingWeapon.Reload();
-        GlobalEventsContainer.ShouldDisplayReloadingButton?.Invoke(false);
+        CharacterUIHandler.singleton.ActivateReloadingButton(false);
     }
 
     public void Scope()
     {
+        if(!_currentBaseShootingWeapon) return;
         _currentBaseShootingWeapon.Scope();
     }
 }

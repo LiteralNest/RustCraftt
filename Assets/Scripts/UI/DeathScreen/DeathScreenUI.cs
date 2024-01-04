@@ -1,40 +1,45 @@
-using System.Collections.Generic;
-using Character_Stats;
-using TMPro;
+using System.Linq;
+using Map;
+using Multiplayer.PlayerSpawning;
 using UnityEngine;
-using UnityEngine.Serialization;
-using UnityEngine.UI;
 
 namespace UI.DeathScreen
 {
     public class DeathScreenUI : MonoBehaviour
     {
-        [SerializeField] private UnityEngine.InputSystem.PlayerInput _input;
-        [SerializeField] private GameObject _gameHUD;
+        public static DeathScreenUI Singleton { get; private set; }
 
-        private List<Transform> _spawnPoints = new List<Transform>();
-
+        [SerializeField] private MapHandler _mapHandler;
+        
         private void Awake()
-        {
-            gameObject.SetActive(false);
-        }
+            => Singleton = this;
 
-        private void Start()
-        {
-            _gameHUD.SetActive(false);
-            _input.DeactivateInput();
-            _spawnPoints = CharacterSpawnManager.Instance.GetSpawnPoints();
-        }
+        private void OnEnable()
+            => _mapHandler.Open();
 
+        private void OnDisable()
+            => _mapHandler.Close();
+        
         public void Respawn()
         {
-            var selectedSpawnPoint = _spawnPoints[Random.Range(0, _spawnPoints.Count)];
+            MainUiHandler.Singleton.DisplayDeathScreen(false);
+            var playerKillers = FindObjectsOfType<PlayerStartSpawner>().ToList();
+            foreach (var playerKiller in playerKillers)
+            {
+                if (!playerKiller.IsOwner) continue;
+                playerKiller.Respawn(new Vector3(0, 1000000, 0));
+            }
+        }
 
-            CharacterSpawnManager.Instance.OnSpawnPointSelected(selectedSpawnPoint.gameObject);
-            CharacterStats.Singleton.ResetStatsToDefault();
-            _input.ActivateInput();
-            _gameHUD.SetActive(true);
-            gameObject.SetActive(false);
+        public void RespawnInCoordinates(Vector3 coordinates)
+        {
+            MainUiHandler.Singleton.DisplayDeathScreen(false);
+            var playerKillers = FindObjectsOfType<PlayerStartSpawner>().ToList();
+            foreach (var playerKiller in playerKillers)
+            {
+                if (!playerKiller.IsOwner) continue;
+                playerKiller.Respawn(coordinates);
+            }
         }
     }
 }

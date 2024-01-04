@@ -119,8 +119,10 @@ public class LobbyScreenUI : MonoBehaviour
     private void FixedUpdate()
     {
         if (_chan == null || _chan.ChannelState != ConnectionState.Connected) return;
-        var camera = Camera.main.transform;
-        _chan.Set3DPosition(camera.position,camera.position,camera.forward, camera.up);
+        var camera = Camera.main;
+        if(camera == null) return;
+        var cameraTransform = camera.transform;
+        _chan.Set3DPosition(cameraTransform.position,cameraTransform.position,cameraTransform.forward, cameraTransform.up);
     }
     
     #endregion

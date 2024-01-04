@@ -4,30 +4,39 @@ using UnityEngine;
 
 public class DoorHandler : NetworkBehaviour, ILockable
 {
-    [SerializeField] private Transform _mainTransform;
     [SerializeField] private Animator _anim;
-    private KeyLocker _doorLocker;
-    private static readonly int Opened = Animator.StringToHash("Opened");
+    private Locker _locker;
+
+    private NetworkVariable<bool> _wasOpened = new();
 
     private void Start()
         => gameObject.tag = "Door";
 
+    [ServerRpc(RequireOwnership = false)]
+    private void SetWasOpenedServerRpc(bool value)
+    {
+        if (!IsServer) return;
+        _wasOpened.Value = value;
+    }
+    
     public void Open(int id)
     {
-        if (_doorLocker != null && !_doorLocker.CanBeOpened(id)) return;
-        _anim.SetBool(Opened, !_anim.GetBool(Opened));
+        if (_locker != null && !_locker.CanBeOpened(id)) return;
+        if(!_wasOpened.Value)
+            _anim.SetTrigger("Open");
+        else
+            _anim.SetTrigger("Close");
+        SetWasOpenedServerRpc(!_wasOpened.Value);
     }
 
     #region ILockable
 
-    public void Lock(KeyLocker locker)
-        => _doorLocker = locker;
+    public void Lock(Locker locker)
+        => _locker = locker;
+    
 
-    public Transform GetParent()
-        => _mainTransform;
-
-    public bool Locked
-        => _doorLocker != null;
+    bool ILockable.IsLocked()
+        => _locker != null;
 
     #endregion
 }

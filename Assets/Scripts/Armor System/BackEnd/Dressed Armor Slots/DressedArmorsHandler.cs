@@ -1,4 +1,6 @@
 using System.Collections.Generic;
+using Items_System.Items;
+using Player_Controller;
 using UnityEngine;
 
 namespace ArmorSystem.Backend
@@ -6,7 +8,7 @@ namespace ArmorSystem.Backend
     public class DressedArmorsHandler : MonoBehaviour
     {
         [SerializeField] private List<DressedArmorSlot> _slots = new List<DressedArmorSlot>();
-
+        
         private DressedArmorSlot GetDressedSlotByPart(BodyPartType partType)
         {
            foreach(var slot in _slots)
@@ -24,7 +26,7 @@ namespace ArmorSystem.Backend
                     slot.Armor = armor;
                 return;
             }
-            var dressedSlot= GetDressedSlotByPart(bodyPartType);
+            var dressedSlot = GetDressedSlotByPart(bodyPartType);
             dressedSlot.Armor = armor;
         }
     }

@@ -6,5 +6,8 @@ public class BuilldingHammer : MonoBehaviour
         => GlobalEventsContainer.BuildingHammerActivated?.Invoke(true);
 
     private void OnDisable()
-        => GlobalEventsContainer.BuildingHammerActivated?.Invoke(false);
+    {
+        GlobalEventsContainer.BuildingHammerActivated?.Invoke(false);
+   
+    }
 }

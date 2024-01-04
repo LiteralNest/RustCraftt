@@ -1,4 +1,5 @@
 using System.Collections;
+using Character_Stats;
 using UnityEngine;
 
 namespace Items_System.GunTrap
@@ -53,7 +54,9 @@ namespace Items_System.GunTrap
             if (!_canShoot || !_ammo.CanShot()) return;
             if (!Physics.Raycast(_ray, out var hit, _rayDistance, _playerMask)) return;
             if (!hit.collider.CompareTag("Player")) return;
-            CharacterStats.Singleton.MinusStat(CharacterStatType.Health, _damageAmount);
+            var hpHandler = hit.collider.GetComponent<CharacterHpHandler>();
+            if(!hpHandler) return;
+            hpHandler.GetDamageServerRpc((int)_damageAmount);
             _audioSource.PlayOneShot(_shotClip);
             _ammo.RemoveAmmo();
             StartCoroutine(ShowEffectsRoutine());

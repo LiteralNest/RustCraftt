@@ -11,19 +11,19 @@ namespace Fight_System.Weapon.ShootWeapon
 
         private Arrow _currentArrow;
         private Vector3 _force;
+
         protected new void Start()
         {
-            base.Start();
             currentAmmoCount = 100;
 
             // Instantiate arrow at the start
             CreateArrow();
         }
-        
+
 
         public override void Attack()
         {
-            if (!CanShoot()) return;
+            // if (!CanShoot() || currentAmmoCount <= 0) return;
             ShootArrow();
         }
 
@@ -54,6 +54,7 @@ namespace Fight_System.Weapon.ShootWeapon
             StartCoroutine(WaitBetweenShootsRoutine());
         }
 
+#if UnityEditor
         private void OnDrawGizmos()
         {
             {
@@ -61,5 +62,7 @@ namespace Fight_System.Weapon.ShootWeapon
                 Gizmos.DrawRay(AmmoSpawnPoint.position, AmmoSpawnPoint.forward * _arrowForce);
             }
         }
+
+#endif
     }
 }

@@ -1,3 +1,5 @@
+using Inventory_System.Inventory_Items_Displayer;
+using Player_Controller;
 using UnityEngine;
 
 namespace Fight_System.Weapon.ShootWeapon
@@ -5,38 +7,40 @@ namespace Fight_System.Weapon.ShootWeapon
     [RequireComponent(typeof(WeaponSoundPlayer))]
     public class RiffleWeapon : BaseShootingWeapon
     {
-        [Header("In Game Init")]
-        private int _startingAmmoCount = 100;
-
-        private LongRangeWeaponInventoryItemDisplayer _inventoryItemDisplayer;
-        
-        private void Start()
-        {
-            Reload();
-            canShoot = true;
-            currentAmmoCount = _startingAmmoCount;
-        }
-
-        private void Update()
-        {
-            Recoil.UpdateRecoil(2f);
-        }
+        private LongRangeWeaponItemDisplayer _inventoryItemDisplayer;
 
         public override void Attack()
         {
             if (!CanShoot() || currentAmmoCount <= 0) return;
+            
             SoundPlayer.PlayShot();
             MinusAmmo();
-            Recoil.ApplyRecoil(Weapon.RecoilX, Weapon.RecoilY, Weapon.RecoilZ);
-            StartCoroutine(DisplayFlameEffect()); // Start the coroutine
-            if (Physics.Raycast(AmmoSpawnPoint.position, AmmoSpawnPoint.forward, out var hit, Weapon.Range, TargetMask))
+            AdjustRecoil();
+            StartCoroutine(DisplayFlameEffect());
+
+            var raycastedTargets =
+                Physics.RaycastAll(AmmoSpawnPoint.position, AmmoSpawnPoint.forward, Weapon.Range, TargetMask);
+
+            bool hitDisplayed = false;
+            bool damaged = false;
+            
+            foreach (var hit in raycastedTargets)
             {
-                TryDamage(hit);
-                DisplayHit(hit);
+
+                if (!hitDisplayed)
+                {
+                    _trailSpawner.SpawnTrailServerRpc(PlayerNetCode.Singleton.GetClientId(), _bulletSpeed, hit.point);
+                    hitDisplayed = DisplayHit(hit);
+                }
+                if (!damaged)
+                    damaged = TryDamage(hit);
+                
+                if(damaged) break;
             }
+
             StartCoroutine(WaitBetweenShootsRoutine());
         }
-        
+
         private void OnDrawGizmos()
         {
             {

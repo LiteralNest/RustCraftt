@@ -1,9 +1,13 @@
+using Items_System.Items.Abstract;
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "Item/Ammo")]
-public class Ammo : CraftingItem
+namespace Items_System.Items
 {
-    public float MultiplyKoef => _multiplyKoef;
-    [Range(1, 5)]
-    [Header("Ammo")] [SerializeField] private float _multiplyKoef = 1;
+    [CreateAssetMenu(menuName = "Item/Ammo")]
+    public class Ammo : CraftingItem
+    {
+        public float MultiplyKoef => _multiplyKoef;
+        [Range(1, 5)]
+        [Header("Ammo")] [SerializeField] private float _multiplyKoef = 1;
+    }
 }

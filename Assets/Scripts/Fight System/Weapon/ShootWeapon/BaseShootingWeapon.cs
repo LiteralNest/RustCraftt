@@ -1,12 +1,18 @@
 using System.Collections;
+using Fight_System.Weapon.ShootWeapon.TrailSystem;
+using Items_System.Items.Weapon;
+using UI;
+using Unity.Netcode;
 using UnityEngine;
+using UnityEngine.Serialization;
+using UnityEngine.VFX;
 
 namespace Fight_System.Weapon.ShootWeapon
 {
-    public abstract class BaseShootingWeapon : MonoBehaviour, IWeapon
+    public abstract class BaseShootingWeapon : NetworkBehaviour, IWeapon
     {
         [SerializeField] protected WeaponAim WeaponAim;
-        [SerializeField] private bool canBeReloaded = false; //to show in editor for debug
+        [SerializeField] private bool canBeReloaded = false;
 
         [Header("Shooting Mode")] [SerializeField]
         private bool _isSingle;
@@ -15,20 +21,30 @@ namespace Fight_System.Weapon.ShootWeapon
         [SerializeField] protected WeaponSoundPlayer SoundPlayer;
         [SerializeField] protected Transform AmmoSpawnPoint;
         [SerializeField] protected GameObject ImpactEffect;
-        [SerializeField] protected GameObject FlameEffect;
+        [SerializeField] protected VisualEffect FlameEffect;
         [SerializeField] protected float FlameEffectDuration;
         [SerializeField] protected GameObject Decal;
         [SerializeField] protected LayerMask TargetMask;
         [SerializeField] protected ShootingWeapon Weapon;
 
+        [Header("Trail Settings")]
+        [SerializeField] protected TrailSpawner _trailSpawner;
+        [SerializeField] protected int _bulletSpeed = 100;
+
         public bool IsSingle => _isSingle;
         protected int currentAmmoCount;
+        public int CurrentAmmoCount => currentAmmoCount;
         protected bool canShoot;
-        private float _timeBetweenShots = 0f; // Variable to handle shots between shoots
+        private float _timeBetweenShots = 0f;
         private bool _isReloading = false;
 
         protected void Start()
             => canShoot = true;
+
+        private void Update()
+        {
+            Recoil.UpdateRecoil(3f);
+        }
 
         protected bool CanShoot()
         {
@@ -37,15 +53,18 @@ namespace Fight_System.Weapon.ShootWeapon
 
         private void OnEnable()
         {
-            GlobalEventsContainer.ShouldHandleScope?.Invoke(true);
+            CharacterUIHandler.singleton.ActivateScope(true);
+            TryDisplayReload();
             GlobalEventsContainer.WeaponObjectAssign?.Invoke(this);
+            GlobalEventsContainer.InventoryDataChanged += TryDisplayReload;
         }
 
         private void OnDisable()
         {
-            GlobalEventsContainer.ShouldHandleScope?.Invoke(false);
-            GlobalEventsContainer.ShouldDisplayReloadingButton?.Invoke(false);
-            GlobalEventsContainer.AttackButtonActivated?.Invoke(false);
+            GlobalEventsContainer.InventoryDataChanged -= TryDisplayReload;
+            CharacterUIHandler.singleton.ActivateScope(false);
+            CharacterUIHandler.singleton.ActivateReloadingButton(false);
+            CharacterUIHandler.singleton.ActivateAttackButton(false);
             GlobalEventsContainer.WeaponObjectAssign?.Invoke(null);
         }
 
@@ -55,52 +74,70 @@ namespace Fight_System.Weapon.ShootWeapon
 
         public virtual bool CanReload() => canBeReloaded;
 
-
         public virtual void Reload()
         {
-            if (_isReloading) return; // Don't initiate another reload while already reloading.
+            if (_isReloading) return;
             _isReloading = true;
-            StartCoroutine(ReloadCoroutine());
+            var addingAmmo = InventoryHandler.singleton.CharacterInventory.GetItemCount(Weapon.Ammo.Id);
+            if (addingAmmo <= 0)
+                return;
+            if (addingAmmo > Weapon.MagazineCount)
+                addingAmmo = Weapon.MagazineCount;
+            StartCoroutine(ReloadCoroutine(addingAmmo));
         }
 
-        private IEnumerator ReloadCoroutine()
+        private IEnumerator ReloadCoroutine(int count)
         {
-            yield return new WaitForSeconds(1f); // Simulate 1 second reload time
-            currentAmmoCount = Weapon.MagazineCount;
+            yield return new WaitForSeconds(1f);
+            currentAmmoCount = count;
+            InventoryHandler.singleton.CharacterInventory.RemoveItem(Weapon.Ammo.Id, count);
+            InventoryHandler.singleton.ActiveSlotDisplayer.ItemDisplayer.SetCurrentAmmo(currentAmmoCount);
+            CharacterUIHandler.singleton.ActivateAttackButton(true);
             _isReloading = false;
         }
 
-        protected void TryDamage(RaycastHit hit)
+        protected bool TryDamage(RaycastHit hit)
         {
             if (hit.transform.TryGetComponent<IDamagable>(out var damagableObj))
             {
                 damagableObj.GetDamage((int)(Weapon.Damage * Weapon.Ammo.MultiplyKoef));
+                return true;
             }
+
+            return false;
         }
 
-        protected void DisplayHit(RaycastHit hit)
+        protected bool DisplayHit(RaycastHit hit)
         {
+            if (hit.transform.GetComponent<Collider>().isTrigger) return false;
             var fire = Instantiate(ImpactEffect, hit.point, Quaternion.LookRotation(hit.normal));
             Destroy(fire, 2f);
             var decalObj = Instantiate(Decal, hit.point, Quaternion.LookRotation(hit.normal));
             Destroy(decalObj, 5);
+            return true;
+        }
+
+        private void TryDisplayReload()
+        {
+            var addingAmmo = InventoryHandler.singleton.CharacterInventory.GetItemCount(Weapon.Ammo.Id);
+            if (addingAmmo <= 0) return;
+            CharacterUIHandler.singleton.ActivateReloadingButton(true);
         }
 
         protected void MinusAmmo()
         {
-            GlobalEventsContainer.ShouldDisplayReloadingButton?.Invoke(true);
+            TryDisplayReload();
             currentAmmoCount--;
+            InventoryHandler.singleton.ActiveSlotDisplayer.ItemDisplayer.MinusCurrentAmmo(1);
             if (currentAmmoCount <= 0)
-            {
-                Reload();
-            }
+                CharacterUIHandler.singleton.ActivateAttackButton(false);
         }
 
         protected IEnumerator DisplayFlameEffect()
         {
-            FlameEffect.SetActive(true);
+            FlameEffect.Play();
             yield return new WaitForSeconds(FlameEffectDuration);
-            FlameEffect.SetActive(false);
+            FlameEffect.Stop();
         }
 
         protected IEnumerator WaitBetweenShootsRoutine()
@@ -112,8 +149,32 @@ namespace Fight_System.Weapon.ShootWeapon
 
         public void Scope()
         {
-            if(!WeaponAim) return;
+            if (!WeaponAim) return;
             WeaponAim.SetScope();
+        }
+
+        protected void AdjustRecoil()
+        {
+            var recoilX = Weapon.RecoilX;
+            var recoilY = Weapon.RecoilY;
+            var recoilZ = Weapon.RecoilZ;
+
+            if (WeaponAim && WeaponAim.IsAiming)
+            {
+                // Reduce recoil by half when aiming
+                recoilX /= 4f;
+                recoilY /= 4f;
+                recoilZ /= 4f;
+
+                Recoil.ApplyRecoil(recoilX, recoilY, recoilZ);
+            }
+            else
+                Recoil.ApplyRecoil(recoilX, recoilY, recoilZ);
+        }
+
+        public void ResetRecoil()
+        {
+            Recoil.ResetRecoil();
         }
     }
 }

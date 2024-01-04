@@ -1,68 +1,80 @@
 using System.Collections;
-using System.Threading.Tasks;
-using SurroundingEffectsSystem;
+using Alerts_System.Alerts;
+using Character_Stats;
 using UnityEngine;
 
-namespace EnvironmentEffectsSystem.Effects
+public class ColdEffect : MonoBehaviour
 {
-    public class ColdEffect : MonoBehaviour ,IEnvironmentEffect
+    [SerializeField] private TemperatureZone _temperatureZone;
+    [SerializeField] private float _coldDecreaseInterval = 3f;
+
+    private CharacterStats _characterStats;
+    private bool _isEffectActive = false;
+
+    public bool MatchesTrigger(Collider other) => other.CompareTag("ColdEnvironment");
+
+    private void ActivateEffect()
     {
-        private readonly float _coldEffectValue = 10f;
-        private readonly float _temperatureDecreaseRate = 1f;
-        private readonly float _temperatureDecreaseInterval = 2f;
-        private readonly float _coldEffectInterval = 2f;
-
-        private float _currentTemperature;
-        private CharacterStats _characterStats;
-
-        private bool _isEntering;
+        _isEffectActive = true;
         
-        public bool MatchesTrigger(Collider other)
-        { 
-            return other.CompareTag("ColdEnvironment");
-        }
-        
-        
-        public void OnEnter()
-        {
-            _isEntering = true;
-            StartCoroutine(EffectByTimeRoutine());
-            Debug.Log("Entered Cold Zone");
-        }
+    }
+    
+    public void SetCharacterStats(CharacterStats characterStats)
+    {
+        _characterStats = characterStats;
+    }
 
-        public void OnExit()
-        {
-            _isEntering = false;
-            StartCoroutine(DecreaseEffectOverTime());
-            Debug.Log("Exited Cold Zone");
-        }
+    public void OnEnter(Transform playerPosition,float resist)
+    {
+        ActivateEffect(); 
+        StartCoroutine(ApplyEffectCoroutine(playerPosition, resist));
+    }
 
+    private void OnStay(Transform playerPosition, float resist)
+    {
+        float temperature = _temperatureZone.GetTemperatureAtPosition(playerPosition.position);
+        if(temperature < 0)
+            AlertsDisplayer.Singleton.DisplayTooColdAlert((int)temperature);
+        ApplyColdEffect(temperature, resist);
+    }
 
-        private IEnumerator EffectByTimeRoutine()
+    public void OnExit(Transform player, float resist)
+    {
+        _isEffectActive = false;
+        StopCoroutine(ApplyEffectCoroutine(player, resist));
+    }
+
+    private void ApplyColdEffect(float temperature, float resist)
+    {
+        if (_isEffectActive)
         {
-            while (_isEntering)
+            if (temperature < -15f)
             {
-                _currentTemperature -= _coldEffectValue;
-                // DisplayTemperature();
-
-                if (_currentTemperature < -10f)
-                {
-                    _characterStats.MinusStat(CharacterStatType.Health, 1);
-                }
-
-                Debug.Log($"Current Temperature: {_currentTemperature}");
-                yield return new WaitForSeconds(_coldEffectInterval);
+                GlobalEventsContainer.CriticalTemperatureReached?.Invoke();
+                DealDamage(4f, resist);
+            }
+            else if (temperature < -10f)
+            {
+                DealDamage(2f, resist);
             }
         }
+    }
 
-        private IEnumerator DecreaseEffectOverTime()
+
+    private void DealDamage(float damageAmount, float resist)
+    {
+        if (_characterStats != null)
         {
-            while (!_isEntering && _currentTemperature > 0f)
-            {
-                _currentTemperature -= _temperatureDecreaseRate;
-                Debug.Log($"Current Temperature: {_currentTemperature}");
-                yield return new WaitForSeconds(_temperatureDecreaseInterval);
-            }
+            _characterStats.MinusStat(CharacterStatType.Health, damageAmount * resist);
+        }
+    }
+
+    private IEnumerator ApplyEffectCoroutine(Transform player, float resist)
+    {
+        while (_isEffectActive)
+        {
+            OnStay(player, resist);
+            yield return new WaitForSeconds(_coldDecreaseInterval);
         }
     }
 }

@@ -1,3 +1,4 @@
+using Items_System.Items;
 using UnityEngine;
 
 namespace ArmorSystem.Backend

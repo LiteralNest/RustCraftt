@@ -7,10 +7,10 @@ namespace Web.User
         public static UserDataHandler singleton { get; set; }
         [field: SerializeField] public UserData UserData { get; set; }
 
-#if !UNITY_SERVER
-    
         private void Awake()
         {
+            UserData.Id = Random.Range(0, 100000);
+            
             if (singleton != null && singleton != this)
             {
                 Destroy(gameObject);
@@ -18,7 +18,5 @@ namespace Web.User
             }
             singleton = this;
         }
-
-#endif
     }
 }

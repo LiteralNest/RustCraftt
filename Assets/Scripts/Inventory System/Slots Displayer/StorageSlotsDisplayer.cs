@@ -6,7 +6,7 @@ public class StorageSlotsDisplayer : SlotsDisplayer
     
     public override void InitItems()
     {
-        foreach (var cell in _cellDisplayers)
+        foreach (var cell in CellDisplayers)
             cell.CanSetSlot = _canSetSlots;
     }
 }

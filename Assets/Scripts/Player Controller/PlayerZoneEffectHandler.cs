@@ -1,15 +1,19 @@
+using Character_Stats;
 using EnvironmentEffectsSystem.Effects;
-using SurroundingEffectsSystem;
 using UnityEngine;
 
 namespace Player_Controller
 {
     public class PlayerZoneEffectHandler : MonoBehaviour
     {
-        private IEnvironmentEffect _currentEffect;
+        private ColdEffect _currentColdEffect;
+        private WarmEffect _currentWarmEffect;
+        private RadiationEffect _currentRadiationEffect;
         private CharacterStats _characterStats;
-
-        [SerializeField] private ColdEffect _coldEffect;
+        private PlayerResistParams _resist;
+        
+        private void Awake()
+        => _resist = GetComponent<PlayerResistParams>();
         
         private void Start()
         {
@@ -18,31 +22,68 @@ namespace Player_Controller
 
         private void OnTriggerEnter(Collider other)
         {
-            IEnvironmentEffect effect = null;
-
             if (other.CompareTag("ColdEnvironment"))
             {
-                effect = _coldEffect;
+                ColdEffect coldEffect = other.GetComponent<ColdEffect>();
+                if (coldEffect != null)
+                {
+                    _currentColdEffect = coldEffect;
+                    _currentColdEffect.SetCharacterStats(_characterStats);
+                    _currentColdEffect.OnEnter(transform, _resist.ColdResist);
+                }
             }
-            // else if (other.CompareTag("RadioactiveEnvironment"))
-            // {
-            //     effect = new RadiationEffect(_characterStats);
-            // }
-
-            if (effect != null && effect != _currentEffect)
+            else if (other.CompareTag("WarmEnvironment"))
             {
-                effect.OnEnter();
-                _currentEffect = effect;
+                WarmEffect warmEffect = other.GetComponent<WarmEffect>();
+                if (warmEffect != null)
+                {
+                    // Stop the cold effect if it's active
+                    if (_currentColdEffect != null)
+                    {
+                        _currentColdEffect.OnExit(transform, _resist.ColdResist);
+                    }
+
+                    _currentWarmEffect = warmEffect;
+                    _currentWarmEffect.SetCharacterStats(_characterStats);
+                    _currentWarmEffect.OnEnter(transform);
+                }
+            }
+            else if (other.CompareTag("RadioactiveEnvironment"))
+            {
+                RadiationEffect radiationEffect = other.GetComponent<RadiationEffect>();
+                if (radiationEffect != null)
+                {
+                    _currentRadiationEffect = radiationEffect;
+                    _currentRadiationEffect.SetCharacterStats(_characterStats);
+                    _currentRadiationEffect.OnEnter(_resist.RadiationResist);
+                }
             }
         }
 
         private void OnTriggerExit(Collider other)
         {
-           
-            if (_currentEffect != null && _currentEffect.MatchesTrigger(other))
+            if (_currentWarmEffect != null && _currentWarmEffect.MatchesTrigger(other))
             {
-                _currentEffect.OnExit();
-                _currentEffect = null;
+                _currentWarmEffect.OnExit(transform);
+
+                // Check if the player previously entered a cold zone
+                if (_currentColdEffect != null)
+                {
+                    Debug.Log("Exited Warm Zone, returning to Cold Zone");
+                    _currentColdEffect.SetCharacterStats(_characterStats);
+                    _currentColdEffect.OnEnter(transform, _resist.ColdResist);
+                }
+
+                _currentWarmEffect = null;
+            }
+            else if (_currentColdEffect != null && _currentColdEffect.MatchesTrigger(other))
+            {
+                _currentColdEffect.OnExit(transform, _resist.ColdResist);
+            }
+            else if (_currentRadiationEffect != null && _currentRadiationEffect.MatchesTrigger(other))
+            {
+                _currentRadiationEffect.OnExit(_resist.RadiationResist);
+                _currentRadiationEffect = null;
             }
         }
     }

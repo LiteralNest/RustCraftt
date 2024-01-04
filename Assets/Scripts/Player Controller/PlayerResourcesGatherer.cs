@@ -1,4 +1,7 @@
 using System.Threading.Tasks;
+using Items_System.Items;
+using Player_Controller;
+using Unity.Netcode;
 using UnityEngine;
 using Web.User;
 
@@ -6,9 +9,10 @@ using Web.User;
 public class PlayerResourcesGatherer : MonoBehaviour
 {
     [Header("Attached Scripts")]
+    [SerializeField] private PlayerMeleeDamager _playerMeleeDamager;
+    [SerializeField] private PlayerNetCode _playerNetCode;
     [SerializeField] private InventoryHandler _inventoryHandler;
     [SerializeField] private ObjectsRayCaster _objectsRayCaster;
-    [SerializeField] private AudioSource _audioSource;
     private float _recoveringTime = 1; 
 
     [Header("Ore")]
@@ -67,6 +71,8 @@ public class PlayerResourcesGatherer : MonoBehaviour
 
     public void TryDoGathering()
     {
+        TrySit();
+        TryOpenWorkBench();
         TryHit();
         TryOpenChest();
         TryGather();
@@ -76,24 +82,59 @@ public class PlayerResourcesGatherer : MonoBehaviour
         TryOpenDoor();
     }
 
+    private void TryOpenWorkBench()
+    {
+        var bench = _objectsRayCaster.WorkBench;
+        if (!bench) return;
+        bench.Open();
+    }
+    
     private void TryOpenDoor()
     {
         var door = _objectsRayCaster.DoorHandler;
         if (!door) return;
         door.Open(UserDataHandler.singleton.UserData.Id);
     }
-    
+
     private void TryHit()
     {
         if (!_canHit) return;
+        var item = _inventoryHandler.ActiveItem as Tool;
+        if (!item) return;
+        
         Recover();
+
+        if(item.CanDamage && _playerMeleeDamager.TryDamage(item.Damage)) return;
+        
         var ore = _objectsRayCaster.TargetResourceOre;
         if (!ore) return;
+        var invHandler = InventoryHandler.singleton;
+        if(invHandler.ActiveSlotDisplayer == null) return;
+        if(invHandler.ActiveSlotDisplayer.ItemDisplayer.GetCurrentHp() <= 0) return;
         StartedGather = true;
         ore.MinusHp(_inventoryHandler.ActiveItem, out bool destroyed, _objectsRayCaster.LastRaycastedPosition, _objectsRayCaster.LastRayCastedRotation);
-        _audioSource.PlayOneShot(ore.GatheringClip);
+        PlayerNetCode.Singleton.PlayerSoundsPlayer.PlayHit(ore.GatheringClip);
         if (!destroyed) return;
         StopGathering();
+    }
+
+    private bool TrySit()
+    {
+        var place = _objectsRayCaster.TargetSittingPlace;
+        if(!place) return false;
+        if(place.CanSit())
+            place.SitIn(_playerNetCode);
+        else if(place.CanStand(_playerNetCode))
+            place.StandUp(_playerNetCode);
+        return true;
+    }
+
+    private bool TryAuthorizeClipboard()
+    {
+        var clipboard = _objectsRayCaster.ToolClipboard;
+        if(!clipboard) return false;
+        clipboard.AuthorizeServerRpc(UserDataHandler.singleton.UserData.Id);
+        return true;
     }
 
     private bool TryOpenChest()
@@ -104,33 +145,35 @@ public class PlayerResourcesGatherer : MonoBehaviour
         return true;
     }
 
-    public void TryGather()
+    private void TryGather()
     {
+        if(TryAuthorizeClipboard()) return;
         if(TryOpenChest()) return;
         var ore = _objectsRayCaster.TargetGathering;
         if(!ore) return;
         ore.Gather();
     }
 
-    public void TryOpenCampFire()
+    private void TryOpenCampFire()
     {
-        var campfire = _objectsRayCaster.CampFireHandler;
+        var campfire = _objectsRayCaster.Smelter;
         if(!campfire) return;
         campfire.Open(_inventoryHandler);
     }
 
-    public void TryOpenRecycler()
+    private void TryOpenRecycler()
     {
         var recylcer = _objectsRayCaster.RecyclerHandler;
         if(!recylcer) return;
         recylcer.Open(_inventoryHandler);
     }
 
-    public void TryPickUp()
+    private void TryPickUp()
     {
         var lootingItem = _objectsRayCaster.LootingItem;
         if(!lootingItem) return;
-        _inventoryHandler.InventorySlotsContainer.AddItemToDesiredSlot(ItemFinder.singleton.GetItemById(lootingItem.ItemId.Value), lootingItem.Count.Value);
+        _inventoryHandler.CharacterInventory.AddItemToDesiredSlotServerRpc(lootingItem.ItemId.Value,
+            lootingItem.Count.Value, 0);
         lootingItem.PickUpServerRpc();
     }
 }

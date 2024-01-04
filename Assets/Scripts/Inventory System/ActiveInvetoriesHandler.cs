@@ -1,26 +1,28 @@
+using Storage_System;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class ActiveInvetoriesHandler : MonoBehaviour
 {
     public static ActiveInvetoriesHandler singleton { get; private set; }
 
-    [SerializeField] private SlotsContainer _playerInventory;
-    private SlotsContainer _activeInventory;
+    [SerializeField] private Storage _playerInventory;
+    private Storage _activeInventory;
 
     private void Awake()
         => singleton = this;
 
-    private void OnEnable()
-        => GlobalEventsContainer.ShouldResetCurrentInventory += ResetActiveInventory;
+    public void AddActiveInventory(Storage storage)
+        => _activeInventory = storage; 
 
-    private void OnDisable()
-        => GlobalEventsContainer.ShouldResetCurrentInventory -= ResetActiveInventory;
-
-    public void AddActiveInventory(SlotsContainer slotsContainer)
-        => _activeInventory = slotsContainer; 
-
-    private void ResetActiveInventory()
+    public void ResetActiveInventory()
         => _activeInventory = null;
+
+    public void DisplayItemsInActiveInventory(bool value)
+    {
+        if(_activeInventory == null) return;
+        _activeInventory.HandleUi(value);
+    }
     
     public void HandleCell(ItemDisplayer itemDisplayer)
     { 
@@ -28,13 +30,13 @@ public class ActiveInvetoriesHandler : MonoBehaviour
         if (itemInventory == null || _activeInventory == null || _playerInventory == null) return;
         if (itemInventory == _playerInventory)
         {
-            _playerInventory.ResetCellAndSendData(itemDisplayer.PreviousCell.Index);
-            _activeInventory.AddItemToDesiredSlot(itemDisplayer.InventoryCell.Item, itemDisplayer.InventoryCell.Count);
+            _playerInventory.ResetItemServerRpc(itemDisplayer.PreviousCell.Index);
+            _activeInventory.AddItemToDesiredSlotServerRpc(itemDisplayer.InventoryCell.Item.Id, itemDisplayer.InventoryCell.Count, itemDisplayer.InventoryCell.Ammo);
         }
         else
         {
-            _activeInventory.ResetCellAndSendData(itemDisplayer.PreviousCell.Index);
-            _playerInventory.AddItemToDesiredSlot(itemDisplayer.InventoryCell.Item, itemDisplayer.InventoryCell.Count);
+            _activeInventory.ResetItemServerRpc(itemDisplayer.PreviousCell.Index);
+            _playerInventory.AddItemToDesiredSlotServerRpc(itemDisplayer.InventoryCell.Item.Id, itemDisplayer.InventoryCell.Count, itemDisplayer.InventoryCell.Ammo);
         }
         Destroy(itemDisplayer.gameObject);
     }
