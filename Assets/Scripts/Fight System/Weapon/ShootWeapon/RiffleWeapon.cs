@@ -14,8 +14,8 @@ namespace Fight_System.Weapon.ShootWeapon
             if (!CanShoot() || CurrentAmmoCount <= 0) return;
             
             SoundPlayer.PlayShot();
-            MinusAmmo();
             AdjustRecoil();
+            MinusAmmo();
             StartCoroutine(DisplayFlameEffect());
 
             var raycastedTargets =

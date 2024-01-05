@@ -1,11 +1,17 @@
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 public class CustomButton : MonoBehaviour, IPointerUpHandler ,IPointerClickHandler, IPointerDownHandler, IPointerExitHandler
 {
     [SerializeField] private UnityEvent _pointerDown;
     [SerializeField] private UnityEvent _pointerClicked;
+
+    private void OnDisable()
+    {
+        _pointerClicked?.Invoke();
+    }
 
     public void OnPointerDown(PointerEventData eventData)
     {
