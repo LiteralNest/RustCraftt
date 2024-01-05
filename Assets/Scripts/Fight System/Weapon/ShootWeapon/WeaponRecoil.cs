@@ -1,4 +1,4 @@
-using System;
+using Sirenix.OdinInspector;
 using UnityEngine;
 
 namespace Fight_System.Weapon.ShootWeapon
@@ -7,6 +7,8 @@ namespace Fight_System.Weapon.ShootWeapon
     {
         private Vector3 _currentRotation;
         private Quaternion _originalRotation;
+        
+        
         public void ApplyRecoil(float recoilX, float recoilY, float recoilZ)
         {
             _originalRotation = transform.localRotation;
@@ -24,10 +26,11 @@ namespace Fight_System.Weapon.ShootWeapon
         {
             transform.localRotation = Quaternion.Slerp(transform.localRotation, _originalRotation, Time.deltaTime * returnSpeed);
         }
-
-        // Add this method to reset the recoil when needed
+        
+        [Button]
         public void ResetRecoil()
         {
+            _originalRotation = Quaternion.identity;
             _currentRotation = Vector3.zero;
         }
     }

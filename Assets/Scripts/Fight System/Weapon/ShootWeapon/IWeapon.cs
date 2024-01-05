@@ -4,6 +4,5 @@ namespace Fight_System.Weapon.ShootWeapon
     {
         void Attack();
         void Reload();
-        bool CanReload();
     }
 }

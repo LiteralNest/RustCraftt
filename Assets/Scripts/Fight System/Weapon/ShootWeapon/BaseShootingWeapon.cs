@@ -12,7 +12,6 @@ namespace Fight_System.Weapon.ShootWeapon
     public abstract class BaseShootingWeapon : NetworkBehaviour, IWeapon
     {
         [SerializeField] protected WeaponAim WeaponAim;
-        [SerializeField] private bool canBeReloaded = false;
 
         [Header("Shooting Mode")] [SerializeField]
         private bool _isSingle;
@@ -78,7 +77,8 @@ namespace Fight_System.Weapon.ShootWeapon
         {
         }
 
-        public virtual bool CanReload() => canBeReloaded;
+        public virtual bool CanReload()
+            => CurrentAmmoCount < Weapon.MagazineCount;
 
         public virtual void Reload()
         {
@@ -87,8 +87,8 @@ namespace Fight_System.Weapon.ShootWeapon
             var addingAmmo = InventoryHandler.singleton.CharacterInventory.GetItemCount(Weapon.Ammo.Id);
             if (addingAmmo <= 0)
                 return;
-            if (addingAmmo > Weapon.MagazineCount)
-                addingAmmo = Weapon.MagazineCount;
+            if (addingAmmo > Weapon.MagazineCount - CurrentAmmoCount)
+                addingAmmo = Weapon.MagazineCount - CurrentAmmoCount;
             StartCoroutine(ReloadCoroutine(addingAmmo));
         }
 
