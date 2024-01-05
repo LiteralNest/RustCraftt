@@ -14,6 +14,7 @@ public static class GlobalEventsContainer
     public static Action<ResourceGatheringObject> ResourceGatheringObjectAssign { get; set; }
     public static Action BluePrintDeactivated { get; set; }
     public static Action OnCurrentItemDeleted { get; set; }
+    public static Action<bool> OnMicrophoneButtonClicked { get; set; }
 
     #region Temperature & Radiation
 

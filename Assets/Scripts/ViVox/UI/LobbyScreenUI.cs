@@ -51,6 +51,7 @@ public class LobbyScreenUI : MonoBehaviour
     {
         if (isButtonDown && !_isMicrophoneOn) 
         {
+            GlobalEventsContainer.OnMicrophoneButtonClicked?.Invoke(true);
             _vivoxVoiceManager.AudioInputDevices.Muted = false; 
             _isMicrophoneOn = true;
         }
@@ -58,6 +59,7 @@ public class LobbyScreenUI : MonoBehaviour
         {
             _vivoxVoiceManager.AudioInputDevices.Muted = true;
             _isMicrophoneOn = false;
+            GlobalEventsContainer.OnMicrophoneButtonClicked?.Invoke(false);
         }
     }
     
