@@ -1,19 +1,21 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(BoxCollider))]
 public class GroundChecker : MonoBehaviour
 {
-    [field:SerializeField] public bool IsGrounded { get; private set; }
-    
+    [SerializeField] private List<string> _availableTriggers = new List<string>();
+    [field: SerializeField] public bool IsGrounded { get; private set; }
+
     private void OnTriggerStay(Collider other)
     {
-        if (other.CompareTag("Ground") || other.CompareTag("Block"))
+        if(_availableTriggers.Contains(other.tag))
             IsGrounded = true;
     }
-    
+
     private void OnTriggerExit(Collider other)
     {
-        if (other.CompareTag("Ground") || other.CompareTag("Block") || other.CompareTag("DamagingItem"))
+        if(_availableTriggers.Contains(other.tag))
             IsGrounded = false;
     }
 }
