@@ -61,7 +61,7 @@ public class DamagingItem : NetworkBehaviour, IDamagable
     }
 
     [ServerRpc(RequireOwnership = false)]
-    private void GetDamageServerRpc(int damage)
+    private void GetDamageServerRpc(int damage, bool value)
     {
         _currentHp.Value -= damage;
         _soundPlayer.PlayOneShot(_damagingSound);
@@ -79,10 +79,10 @@ public class DamagingItem : NetworkBehaviour, IDamagable
             renderer.enabled = value;
     }
 
-    public void GetDamage(int damage)
+    public void GetDamage(int damage, bool playSound = true)
     {
         if (!_canGetDamage) return;
-        GetDamageServerRpc(damage);
+        GetDamageServerRpc(damage, playSound);
     }
 
     private void CheckHp(int value)

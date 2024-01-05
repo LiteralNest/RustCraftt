@@ -25,7 +25,7 @@ namespace Storage_System.Object_With_Loot
         public int GetMaxHp()
             => _cachedHp;
 
-        public void GetDamage(int damage)
+        public void GetDamage(int damage, bool playSound = true)
         {
             _hp -= damage;
             CheckHp();

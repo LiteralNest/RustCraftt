@@ -57,7 +57,7 @@ namespace Character_Stats
         {
             WasKnockedDown.Value = value;
         }
-        
+
         [ServerRpc(RequireOwnership = false)]
         public void GetDamageServerRpc(int damageAmount)
         {

@@ -163,7 +163,7 @@ namespace Building_System.Blocks
     
         #region IDamagable
 
-        public void GetDamage(int damage)
+        public void GetDamage(int damage, bool playSound = true)
         {
             int hp = _hp.Value - damage;
             SetHpServerRpc((ushort)hp);

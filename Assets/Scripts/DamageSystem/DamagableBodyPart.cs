@@ -1,7 +1,6 @@
 using ArmorSystem.Backend;
 using Character_Stats;
 using Player_Controller;
-using Sound_System;
 using UnityEngine;
 
 namespace DamageSystem
@@ -25,11 +24,14 @@ namespace DamageSystem
 
         public int GetMaxHp() => 100;
 
-        public void GetDamage(int damage)
+        public void GetDamage(int damage, bool playSound = true)
         {
-            PlayerNetCode.Singleton.PlayerSoundsPlayer.PlayHit(_hitSound);
-            _characterHpHandler.GetDamageServerRpc(
-                (int)(damage * _gettingDamageKoef)); //Додати переввірку на резіст броні
+            if (_characterHpHandler.Hp >= 0)
+            {
+                PlayerNetCode.Singleton.PlayerSoundsPlayer.PlayHit(_hitSound);
+                _characterHpHandler.GetDamageServerRpc(
+                    (int)(damage * _gettingDamageKoef)); //Додати перевірку на резіст броні
+            }
         }
 
         public void Destroy()

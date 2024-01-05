@@ -38,7 +38,7 @@ namespace AI
                 Destroy();
         }
 
-        public void GetDamage(int damage)
+        public void GetDamage(int damage, bool playSound = true)
         {
             int currHp = _hp.Value;
             var newHp = currHp - damage;
