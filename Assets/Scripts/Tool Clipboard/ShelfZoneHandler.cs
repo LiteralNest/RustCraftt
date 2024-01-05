@@ -1,3 +1,4 @@
+using Building_System;
 using Building_System.Blocks;
 using UnityEngine;
 
@@ -20,11 +21,24 @@ namespace Tool_Clipboard
             _toolClipboard.ConnectedBlocks.Add(structure);
         }
 
-        private void OnTriggerEnter(Collider other)
+
+        private void CheckBuildingBlockEnter(Collider other)
         {
             var structure = other.GetComponent<BuildingBlock>();
             if (structure == null) return;
             TryAddStructure(structure);
+        }
+
+        private void CheckHammerInteractableEnter(Collider other)
+        {
+            if(other.transform.TryGetComponent(out HammerInteractable hammerInteractable))
+                hammerInteractable.TargetToolClipboard = _toolClipboard;
+        }
+        
+        private void OnTriggerEnter(Collider other)
+        {
+            CheckBuildingBlockEnter(other);
+            
         }
 
         private void OnTriggerExit(Collider other)

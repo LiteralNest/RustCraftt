@@ -7,12 +7,19 @@ using Web.User;
 
 namespace Building_System
 {
-    [RequireComponent(typeof(BoxCollider), typeof(Rigidbody))]
+    [RequireComponent(typeof(BoxCollider))]
     public class HammerInteractable : NetworkBehaviour, IHammerInteractable
     {
         [SerializeField] private PlacingObject _targetPlacingObject;
+
+        public ToolClipboard TargetToolClipboard
+        {
+            get => _targetToolClipboard;
+            set => _targetToolClipboard = value;
+        }
+
         private ToolClipboard _targetToolClipboard;
-        
+
         public bool CanBeUpgraded()
             => false;
 
@@ -45,28 +52,17 @@ namespace Building_System
 
         public void PickUp()
         {
-            InventoryHandler.singleton.CharacterInventory.AddItemToDesiredSlotServerRpc(_targetPlacingObject.TargetItem.Id, 1, 0);
+            InventoryHandler.singleton.CharacterInventory.AddItemToDesiredSlotServerRpc(
+                _targetPlacingObject.TargetItem.Id, 1, 0);
             DestroyObjectServerRpc();
         }
 
         [ServerRpc(RequireOwnership = false)]
         private void DestroyObjectServerRpc()
         {
-            if(!IsServer) return;
+            if (!IsServer) return;
             GetComponent<NetworkObject>().Despawn();
             Destroy(gameObject);
-        }
-
-        private void OnTriggerEnter(Collider other)
-        {
-            if(!other.CompareTag("ShelfZone")) return;
-            if (!other.TryGetComponent<ToolClipboard>(out _targetToolClipboard)) return;
-        }
-
-        private void OnTriggerExit(Collider other)
-        {
-            if(!other.CompareTag("ShelfZone")) return;
-            _targetToolClipboard = null;
         }
     }
 }
