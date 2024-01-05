@@ -11,7 +11,7 @@ namespace Fight_System.Weapon.ShootWeapon
 
         public override void Attack()
         {
-            if (!CanShoot() || currentAmmoCount <= 0) return;
+            if (!CanShoot() || CurrentAmmoCount <= 0) return;
             
             SoundPlayer.PlayShot();
             MinusAmmo();

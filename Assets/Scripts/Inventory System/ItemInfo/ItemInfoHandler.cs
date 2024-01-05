@@ -1,3 +1,4 @@
+using Inventory_System.Inventory_Slot_Displayers;
 using Items_System.Items;
 using Player_Controller;
 using TMPro;

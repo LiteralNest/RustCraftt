@@ -14,7 +14,7 @@ namespace Fight_System.Weapon.ShootWeapon
 
         protected new void Start()
         {
-            currentAmmoCount = 100;
+            CurrentAmmoCount = 100;
 
             // Instantiate arrow at the start
             CreateArrow();

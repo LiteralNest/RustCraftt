@@ -30,6 +30,7 @@ public class PlayerFightHandler : MonoBehaviour
     private void AssignWeaponObject(BaseShootingWeapon value)
     {
         _currentBaseShootingWeapon = value;
+        _currentBaseShootingWeapon.Init();
     }
 
     public void SetAttacking(bool value)

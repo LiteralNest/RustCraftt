@@ -2,6 +2,7 @@ using System.Threading.Tasks;
 using ArmorSystem.Backend;
 using Character_Stats;
 using Inventory_System;
+using Inventory_System.Inventory_Slot_Displayers;
 using Items_System.Items.Abstract;
 using OnPlayerItems;
 using Player_Controller;

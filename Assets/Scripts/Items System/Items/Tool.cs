@@ -1,3 +1,4 @@
+using Inventory_System.Inventory_Slot_Displayers;
 using UnityEngine;
 
 namespace Items_System.Items

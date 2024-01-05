@@ -27,13 +27,13 @@ namespace Fight_System.Weapon.ShootWeapon
         [SerializeField] protected LayerMask TargetMask;
         [SerializeField] protected ShootingWeapon Weapon;
 
-        [Header("Trail Settings")]
-        [SerializeField] protected TrailSpawner _trailSpawner;
+        [Header("Trail Settings")] [SerializeField]
+        protected TrailSpawner _trailSpawner;
+
         [SerializeField] protected int _bulletSpeed = 100;
 
         public bool IsSingle => _isSingle;
-        protected int currentAmmoCount;
-        public int CurrentAmmoCount => currentAmmoCount;
+        protected int CurrentAmmoCount;
         protected bool canShoot;
         private float _timeBetweenShots = 0f;
         private bool _isReloading = false;
@@ -48,7 +48,7 @@ namespace Fight_System.Weapon.ShootWeapon
 
         protected bool CanShoot()
         {
-            return canShoot && _timeBetweenShots <= 0 && currentAmmoCount > 0 && !_isReloading;
+            return canShoot && _timeBetweenShots <= 0 && CurrentAmmoCount > 0 && !_isReloading;
         }
 
         private void OnEnable()
@@ -66,6 +66,12 @@ namespace Fight_System.Weapon.ShootWeapon
             CharacterUIHandler.singleton.ActivateReloadingButton(false);
             CharacterUIHandler.singleton.ActivateAttackButton(false);
             GlobalEventsContainer.WeaponObjectAssign?.Invoke(null);
+        }
+
+        public void Init()
+        {
+            CurrentAmmoCount = InventoryHandler.singleton.ActiveSlotDisplayer.ItemDisplayer.GetCurrentAmmo();
+            if (CurrentAmmoCount > 0) CharacterUIHandler.singleton.ActivateAttackButton(true);
         }
 
         public virtual void Attack()
@@ -89,9 +95,9 @@ namespace Fight_System.Weapon.ShootWeapon
         private IEnumerator ReloadCoroutine(int count)
         {
             yield return new WaitForSeconds(1f);
-            currentAmmoCount = count;
+            CurrentAmmoCount += count;
             InventoryHandler.singleton.CharacterInventory.RemoveItem(Weapon.Ammo.Id, count);
-            InventoryHandler.singleton.ActiveSlotDisplayer.ItemDisplayer.SetCurrentAmmo(currentAmmoCount);
+            InventoryHandler.singleton.ActiveSlotDisplayer.ItemDisplayer.SetCurrentAmmo(CurrentAmmoCount);
             CharacterUIHandler.singleton.ActivateAttackButton(true);
             _isReloading = false;
         }
@@ -127,9 +133,9 @@ namespace Fight_System.Weapon.ShootWeapon
         protected void MinusAmmo()
         {
             TryDisplayReload();
-            currentAmmoCount--;
+            CurrentAmmoCount--;
             InventoryHandler.singleton.ActiveSlotDisplayer.ItemDisplayer.MinusCurrentAmmo(1);
-            if (currentAmmoCount <= 0)
+            if (CurrentAmmoCount <= 0)
                 CharacterUIHandler.singleton.ActivateAttackButton(false);
         }
 
