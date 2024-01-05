@@ -13,7 +13,6 @@ namespace Player_Controller
 
         [Header("Move")] [SerializeField] private NetworkVariable<float> _movingSpeed =
             new(5, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
-
         public bool IsMoving { get; private set; }
         private Vector2 _move;
 
@@ -24,6 +23,8 @@ namespace Player_Controller
         [Header("Swim")] [SerializeField] private float _swimSpeed = 0.5f;
         public bool IsSwimming { get; set; }
 
+        private CharacterController _controller;
+        
         private Rigidbody _rb;
         private float _originalDrag;
         private float _originalAngularDrag;
@@ -57,11 +58,17 @@ namespace Player_Controller
                     return;
                 }
 
-                transform.Translate(Vector3.forward * _currentMovingSpeed * Time.deltaTime, Space.Self);
+                MoveTo(Vector3.forward);
                 return;
             }
 
             Swim();
+        }
+
+        private void MoveTo(Vector3 target)
+        {
+            Vector3 moveDirection = transform.TransformDirection(target).normalized;
+            _rb.velocity = new Vector3(moveDirection.x * _currentMovingSpeed, _rb.velocity.y, moveDirection.z * _currentMovingSpeed);
         }
 
         private void ReturnOriginalRb()
@@ -98,12 +105,13 @@ namespace Player_Controller
             if (movement != Vector3.zero)
             {
                 AnimationsManager.Singleton.SetWalk();
-                transform.Translate(movement * _currentMovingSpeed * Time.deltaTime, Space.Self);
+
+                MoveTo(movement);
                 return;
             }
 
             _inHandObjectsContainer.SetWalk(false);
-            if(AnimationsManager.Singleton != null)
+            if (AnimationsManager.Singleton != null)
                 AnimationsManager.Singleton.SetIdle();
         }
 
@@ -142,7 +150,7 @@ namespace Player_Controller
             {
                 _rb.drag = _targetDrag;
                 _rb.angularDrag = _targetAngularDrag;
-                transform.Translate(movement * _swimSpeed * Time.deltaTime, Space.Self);
+                MoveTo(movement * _swimSpeed);
             }
         }
 
