@@ -1,7 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
-using Inventory_System;
+using System.Linq;
 using Items_System.Items;
+using Items_System.Items.Abstract;
 using Storage_System;
 using Unity.Netcode;
 using UnityEngine;
@@ -41,6 +42,19 @@ namespace MeltingSystem
             base.OnNetworkSpawn();
         }
 
+        
+        public override int GetAvailableCellIndexForMovingItem(Item item)
+        {
+            var cells = ItemsNetData.Value.Cells.ToList();
+            for (int i = 0; i < cells.Count; i++)
+            {
+                if (cells[i].Id != -1) continue;
+                if(CanAddItem(item, i)) return i;
+            }
+
+            return -1;
+        }
+        
         private void Update()
         {
             Cook();

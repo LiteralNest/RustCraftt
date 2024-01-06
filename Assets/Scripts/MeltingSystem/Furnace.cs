@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Items_System.Items;
 using Items_System.Items.Abstract;
 using UnityEngine;
@@ -22,7 +23,7 @@ namespace MeltingSystem
         {
             TryCook();
         }
-        
+
         private List<InventoryCell> GetCookingMaterials()
         {
             List<InventoryCell> res = new List<InventoryCell>();

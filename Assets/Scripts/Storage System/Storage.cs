@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Inventory_System;
 using Items_System.Items.Abstract;
 using Unity.Netcode;
@@ -58,7 +59,7 @@ namespace Storage_System
         [ServerRpc(RequireOwnership = false)]
         public void SetItemsServerRpc(CustomSendingInventoryData data)
         {
-            if(!IsServer) return;
+            if (!IsServer) return;
             ItemsNetData.Value = data;
         }
 
@@ -187,6 +188,9 @@ namespace Storage_System
 
         public virtual bool CanAddItem(Item item, int cellId)
             => true;
+
+        public virtual int GetAvailableCellIndexForMovingItem(Item item)
+            => InventoryHelper.GetFreeCellId(ItemsNetData, new Vector2Int(0, MainSlotsCount));
 
         protected void RemoveItem(Item item, int count)
             => InventoryHelper.RemoveItemCount(item.Id, count, ItemsNetData);
