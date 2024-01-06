@@ -38,29 +38,29 @@ public class MapCameraBounds : MonoBehaviour
         _camera.transform.position = clampedPosition;
     }
 
-    private void OnGUI()
-    {
-        var buttonWidth = 100f;
-        var buttonHeight = 100f;
-
-        var screenWidth = Screen.width;
-        var screenHeight = Screen.height;
-
-        var buttonX = (screenWidth - buttonWidth) / 2f;
-        var buttonY = 10f;
-
-        if (GUI.Button(new Rect(buttonX, buttonY, buttonWidth, buttonHeight), "Zoom In"))
-        {
-            ZoomCamera(-10);
-        }
-
-        buttonY += buttonHeight + 10f;
-
-        if (GUI.Button(new Rect(buttonX, buttonY, buttonWidth, buttonHeight), "Zoom Out"))
-        {
-            ZoomCamera(10);
-        }
-    }
+    // private void OnGUI()
+    // {
+    //     var buttonWidth = 100f;
+    //     var buttonHeight = 100f;
+    //
+    //     var screenWidth = Screen.width;
+    //     var screenHeight = Screen.height;
+    //
+    //     var buttonX = (screenWidth - buttonWidth) / 2f;
+    //     var buttonY = 10f;
+    //
+    //     if (GUI.Button(new Rect(buttonX, buttonY, buttonWidth, buttonHeight), "Zoom In"))
+    //     {
+    //         ZoomCamera(-10);
+    //     }
+    //
+    //     buttonY += buttonHeight + 10f;
+    //
+    //     if (GUI.Button(new Rect(buttonX, buttonY, buttonWidth, buttonHeight), "Zoom Out"))
+    //     {
+    //         ZoomCamera(10);
+    //     }
+    // }
 
     private void ZoomCamera(int direction)
     {
@@ -88,7 +88,7 @@ public class MapCameraBounds : MonoBehaviour
         return new Vector2(offsetX, offsetY);
     }
 
-    void OnDrawGizmos()
+    private void OnDrawGizmos()
     {
         Vector2 dynamicOffset = CalculateDynamicOffset();
 
