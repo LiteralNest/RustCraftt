@@ -30,6 +30,7 @@ public class PlayerFightHandler : MonoBehaviour
     private void AssignWeaponObject(BaseShootingWeapon value)
     {
         _currentBaseShootingWeapon = value;
+        if (_currentBaseShootingWeapon == null) return;
         _currentBaseShootingWeapon.Init();
     }
 
