@@ -22,8 +22,9 @@ public class MapCameraBounds : MonoBehaviour
     private void Awake()
     {
         _currentOrthographicSize = _camera.orthographicSize;
-        _initialOffset.x = 100f;
-        _initialOffset.y = 100f;
+       
+        // _initialOffset.x = 100f;
+        // _initialOffset.y = 100f;
     }
 
     private void LateUpdate()
@@ -63,11 +64,14 @@ public class MapCameraBounds : MonoBehaviour
 
     private void ZoomCamera(int direction)
     {
+        
+        
         _currentOrthographicSize += direction * _zoomSpeed;
         _currentOrthographicSize = Mathf.Clamp(_currentOrthographicSize, _minZoom, _maxZoom);
         
         _camera.orthographicSize = _currentOrthographicSize;
-        // _initialOffset = CalculateInitialOffset();
+        
+        _initialOffset = CalculateInitialOffset();
     }
 
     private Vector2 CalculateInitialOffset()

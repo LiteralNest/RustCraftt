@@ -1,47 +1,32 @@
 ﻿using UnityEngine;
+using UnityEngine.EventSystems;
 
 namespace Map
 {
-    public class MapMovement : MonoBehaviour
+    public class MapMovement : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IDragHandler
     {
-        public float moveSpeed = 5f;
-        public float scrollSpeed = 2f;
+        [SerializeField] private Camera _targetCamera;
+        
+        private bool isDragging = false;
+        private Vector3 offset;
 
-        private void Update()
+        public void OnPointerDown(PointerEventData eventData)
         {
-            HandleCameraMovement();
-            HandlePinchZoom();
+            isDragging = true;
+            offset = _targetCamera.transform.position -_targetCamera.ScreenToWorldPoint(new Vector3(eventData.position.x, eventData.position.y, 10.0f));
         }
 
-        private void HandleCameraMovement()
+        public void OnPointerUp(PointerEventData eventData)
         {
-            // Move the camera with one finger swipe
-            if (Input.touchCount == 1 && Input.GetTouch(0).phase == TouchPhase.Moved)
-            {
-                Vector2 touchDeltaPosition = Input.GetTouch(0).deltaPosition;
-                transform.Translate(-touchDeltaPosition.x * moveSpeed * Time.deltaTime, 0f,
-                    -touchDeltaPosition.y * moveSpeed * Time.deltaTime);
-            }
+            isDragging = false;
         }
 
-        private void HandlePinchZoom()
+        public void OnDrag(PointerEventData eventData)
         {
-            // Zoom the camera with two fingers pinch
-            if (Input.touchCount == 2)
+            if (isDragging)
             {
-                Touch touchZero = Input.GetTouch(0);
-                Touch touchOne = Input.GetTouch(1);
-
-                Vector2 touchZeroPrevPos = touchZero.position - touchZero.deltaPosition;
-                Vector2 touchOnePrevPos = touchOne.position - touchOne.deltaPosition;
-
-                float prevMagnitude = (touchZeroPrevPos - touchOnePrevPos).magnitude;
-                float currentMagnitude = (touchZero.position - touchOne.position).magnitude;
-
-                float difference = currentMagnitude - prevMagnitude;
-
-                Camera.main.fieldOfView += difference * scrollSpeed;
-                Camera.main.fieldOfView = Mathf.Clamp(Camera.main.fieldOfView, 10f, 80f);
+                Vector3 newPosition = _targetCamera.ScreenToWorldPoint(new Vector3(eventData.position.x, eventData.position.y, 10.0f)) + offset;
+                _targetCamera.transform.position = -new Vector3(newPosition.x, newPosition.y, transform.position.z);
             }
         }
     }
