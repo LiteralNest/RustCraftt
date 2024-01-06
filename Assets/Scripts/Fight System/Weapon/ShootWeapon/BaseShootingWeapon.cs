@@ -1,4 +1,5 @@
 using System.Collections;
+using Events;
 using Fight_System.Weapon.ShootWeapon.TrailSystem;
 using Items_System.Items.Weapon;
 using UI;

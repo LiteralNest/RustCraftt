@@ -1,38 +1,42 @@
 using System;
 using Fight_System.Weapon.ShootWeapon;
 
-public static class GlobalEventsContainer
+namespace Events
 {
-    public static Action InventoryClosed { get; set; }
+    public static class GlobalEventsContainer
+    {
+        public static Action InventoryClosed { get; set; }
     
-    public static Action<InventoryCell> OnInventoryItemAdded { get; set; }
-    public static Action<InventoryCell> OnInventoryItemRemoved { get; set; }
-    public static Action InventoryDataChanged { get; set; }
-    public static Action<int, ulong> ShouldDisplayHandItem { get; set; }
-    public static Action<BaseShootingWeapon> WeaponObjectAssign { get; set; }
-    public static Action<MeleeShootingWeapon> WeaponMeleeObjectAssign { get; set; }
-    public static Action<ResourceGatheringObject> ResourceGatheringObjectAssign { get; set; }
-    public static Action BluePrintDeactivated { get; set; }
-    public static Action OnCurrentItemDeleted { get; set; }
-    public static Action<bool> OnMicrophoneButtonClicked { get; set; }
+        public static Action<InventoryCell> OnInventoryItemAdded { get; set; }
+        public static Action<InventoryCell> OnInventoryItemRemoved { get; set; }
+        public static Action InventoryDataChanged { get; set; }
+        public static Action<int, ulong> ShouldDisplayHandItem { get; set; }
+        public static Action<BaseShootingWeapon> WeaponObjectAssign { get; set; }
+        public static Action<MeleeShootingWeapon> WeaponMeleeObjectAssign { get; set; }
+        public static Action<ResourceGatheringObject> ResourceGatheringObjectAssign { get; set; }
+        public static Action BluePrintDeactivated { get; set; }
+        public static Action OnCurrentItemDeleted { get; set; }
+        public static Action<bool> OnMicrophoneButtonClicked { get; set; }
+        public static Action OnMapOpened { get; set; }
 
-    #region Temperature & Radiation
+        #region Temperature & Radiation
 
-    public static Action CriticalTemperatureReached { get; set; }
-    public static Action RadiationStarted { get; set; }
-    public static Action RadiationEnded { get; set; }
+        public static Action CriticalTemperatureReached { get; set; }
+        public static Action RadiationStarted { get; set; }
+        public static Action RadiationEnded { get; set; }
 
-    #endregion
+        #endregion
 
-    #region Handle
+        #region Handle
 
-    public static Action<bool> ShouldHandleAttacking { get; set; }
+        public static Action<bool> ShouldHandleAttacking { get; set; }
 
-    #endregion
+        #endregion
 
-    #region Building Hammer
+        #region Building Hammer
 
-    public static Action<bool> BuildingHammerActivated { get; set; }
+        public static Action<bool> BuildingHammerActivated { get; set; }
 
-    #endregion
+        #endregion
+    }
 }

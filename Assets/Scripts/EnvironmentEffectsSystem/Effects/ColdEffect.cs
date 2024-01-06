@@ -1,6 +1,7 @@
 using System.Collections;
 using Alerts_System.Alerts;
 using Character_Stats;
+using Events;
 using UnityEngine;
 
 public class ColdEffect : MonoBehaviour

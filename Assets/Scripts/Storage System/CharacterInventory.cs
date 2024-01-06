@@ -1,3 +1,5 @@
+using Events;
+
 namespace Storage_System
 {
     public class CharacterInventory : Storage

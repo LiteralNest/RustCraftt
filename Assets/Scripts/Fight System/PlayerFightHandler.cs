@@ -1,3 +1,4 @@
+using Events;
 using Fight_System.Weapon.ShootWeapon;
 using UI;
 using UnityEngine;

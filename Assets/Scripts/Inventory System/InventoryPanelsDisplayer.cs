@@ -1,3 +1,4 @@
+using Events;
 using UnityEngine;
 
 namespace Inventory_System
