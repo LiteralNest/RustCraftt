@@ -38,7 +38,6 @@ public class PlayerRotator : MonoBehaviour, IDragHandler, IPointerDownHandler
         else if (headTransform.rotation.x < _rotationBounds.y) return;
 
         headTransform.Rotate(Vector3.left * rotation);
-        Debug.Log(headTransform.rotation);
     }
 
     public void OnDrag(PointerEventData eventData)

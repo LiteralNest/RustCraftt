@@ -72,6 +72,7 @@ public class PlayerResourcesGatherer : MonoBehaviour
 
     public void TryDoGathering()
     {
+        TryRenameSleepingBag();
         TrySit();
         TryOpenWorkBench();
         TryHit();
@@ -83,6 +84,13 @@ public class PlayerResourcesGatherer : MonoBehaviour
         TryOpenDoor();
     }
 
+    private void TryRenameSleepingBag()
+    {
+        var sleepingBag = _objectsRayCaster.TargetSleepingBag;
+        if (!sleepingBag) return;
+        sleepingBag.Open();
+    }
+    
     private void TryOpenWorkBench()
     {
         var bench = _objectsRayCaster.WorkBench;

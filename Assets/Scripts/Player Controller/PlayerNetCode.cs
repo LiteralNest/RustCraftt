@@ -17,32 +17,33 @@ namespace Player_Controller
     public class PlayerNetCode : NetworkBehaviour
     {
         public static PlayerNetCode Singleton { get; private set; }
-        
-        [Header("Attached Components")]
-     
-        [SerializeField] private Collider _collider;
-        [field:SerializeField] public ResourcesDropper ResourcesDropper { get; private set; }
-        [field:SerializeField] public ItemInfoHandler ItemInfoHandler { get; private set; }
-        [field:SerializeField] public PlayerSoundsPlayer PlayerSoundsPlayer { get; private set; }
-        [field:SerializeField] public InHandObjectsContainer InHandObjectsContainer { get; private set; }
-        [field:SerializeField] public VehiclesController VehiclesController { get; private set; }
-        [field:SerializeField] public CharacterInventory CharacterInventory { get; private set; }
-        [Header("In Hand Items")] 
-        [SerializeField] private InHandObjectsContainer _inHandObjectsContainer;
 
-        [Header("Armor")] 
-        public NetworkVariable<int> ActiveArmorId = new(101, NetworkVariableReadPermission.Everyone,
+        [Header("Attached Components")] [SerializeField]
+        private Collider _collider;
+
+        [field: SerializeField] public ResourcesDropper ResourcesDropper { get; private set; }
+        [field: SerializeField] public ItemInfoHandler ItemInfoHandler { get; private set; }
+        [field: SerializeField] public PlayerSoundsPlayer PlayerSoundsPlayer { get; private set; }
+        [field: SerializeField] public InHandObjectsContainer InHandObjectsContainer { get; private set; }
+        [field: SerializeField] public VehiclesController VehiclesController { get; private set; }
+        [field: SerializeField] public CharacterInventory CharacterInventory { get; private set; }
+
+        [Header("In Hand Items")] [SerializeField]
+        private InHandObjectsContainer _inHandObjectsContainer;
+
+        [Header("Armor")] public NetworkVariable<int> ActiveArmorId = new(101, NetworkVariableReadPermission.Everyone,
             NetworkVariableWritePermission.Owner);
+
         [SerializeField] private ArmorsContainer _armorsContainer;
 
-        [Header("NickName")] 
-        [SerializeField] private NetworkVariable<int> _playerId = new(-1,
+        [Header("NickName")] [SerializeField] private NetworkVariable<int> _playerId = new(-1,
             NetworkVariableReadPermission.Everyone,
             NetworkVariableWritePermission.Owner);
+
         [SerializeField] private List<TMP_Text> _nickNameTexts = new List<TMP_Text>();
-        
+
         public NetworkVariable<int> ActiveItemId { get; set; } = new NetworkVariable<int>();
-        
+
         private RigidbodyConstraints _cachedConstraints;
 
         private void OnEnable()
@@ -57,9 +58,9 @@ namespace Player_Controller
             if (IsOwner)
             {
                 _playerId.Value = UserDataHandler.singleton.UserData.Id;
-                 Singleton = this;
+                Singleton = this;
+                GlobalEventsContainer.PlayerNetCodeAssigned?.Invoke(this);
             }
-               
         }
 
         public override void OnNetworkSpawn()
@@ -68,7 +69,7 @@ namespace Player_Controller
             {
                 _inHandObjectsContainer.DisplayItems(ActiveItemId.Value);
             };
-            
+
             _inHandObjectsContainer.DisplayItems(ActiveItemId.Value);
 
             ActiveArmorId.OnValueChanged += (int prevValue, int newValue) =>
@@ -77,11 +78,10 @@ namespace Player_Controller
             };
 
             _armorsContainer.DisplayArmor(ActiveArmorId.Value, this);
-            
-            _playerId.OnValueChanged += (int prevValue, int newValue) => { AssignName(); };
-            
-            AssignName();
 
+            _playerId.OnValueChanged += (int prevValue, int newValue) => { AssignName(); };
+
+            AssignName();
         }
 
         private void AssignName()
@@ -127,11 +127,11 @@ namespace Player_Controller
             GetComponent<PlayerController>().enabled = true;
             _collider.enabled = true;
         }
-        
+
         [ClientRpc]
         public void ChangePositionClientRpc(Vector3 position)
         {
-            if(!IsOwner) return;
+            if (!IsOwner) return;
             transform.position = position;
         }
     }

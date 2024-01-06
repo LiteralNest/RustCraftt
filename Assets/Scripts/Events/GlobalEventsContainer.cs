@@ -1,12 +1,14 @@
 using System;
 using Fight_System.Weapon.ShootWeapon;
+using Player_Controller;
+using RespawnSystem.SleepingBag;
 
 namespace Events
 {
     public static class GlobalEventsContainer
     {
         public static Action InventoryClosed { get; set; }
-    
+
         public static Action<InventoryCell> OnInventoryItemAdded { get; set; }
         public static Action<InventoryCell> OnInventoryItemRemoved { get; set; }
         public static Action InventoryDataChanged { get; set; }
@@ -17,6 +19,7 @@ namespace Events
         public static Action BluePrintDeactivated { get; set; }
         public static Action OnCurrentItemDeleted { get; set; }
         public static Action<bool> OnMicrophoneButtonClicked { get; set; }
+        public static Action<SleepingBag> SleepingBagSpawned { get; set; }
         public static Action OnMapOpened { get; set; }
 
         #region Temperature & Radiation
@@ -36,6 +39,12 @@ namespace Events
         #region Building Hammer
 
         public static Action<bool> BuildingHammerActivated { get; set; }
+
+        #endregion
+
+        #region Player Net Code
+
+        public static Action<PlayerNetCode> PlayerNetCodeAssigned { get; set; }
 
         #endregion
     }

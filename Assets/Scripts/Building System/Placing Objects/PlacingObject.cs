@@ -3,6 +3,7 @@ using Building_System.Upgrading;
 using Items_System.Items.Abstract;
 using Unity.Netcode;
 using UnityEngine;
+using Web.User;
 
 namespace Building_System.Placing_Objects
 {
@@ -10,19 +11,26 @@ namespace Building_System.Placing_Objects
     {
         [field: SerializeField] public Item TargetItem { get; private set; }
         public NetworkVariable<int> OwnerId { get; set; } = new();
+        private IPlacingObjectInteractable _interactable;
+
+        private void Awake()
+            => _interactable = GetComponent<IPlacingObjectInteractable>();
 
         [ServerRpc(RequireOwnership = false)]
         public void SetOwnerIdServerRpc(int id)
-            => OwnerId.Value = id;
-
+        {
+            OwnerId.Value = id;
+            _interactable?.Init(UserDataHandler.singleton.UserData.Id);
+        }
+        
         [ServerRpc(RequireOwnership = false)]
         private void DestroyObjectServerRpc()
         {
-            if(!IsServer) return;
+            if (!IsServer) return;
             GetComponent<NetworkObject>().Despawn();
             Destroy(gameObject);
         }
-    
+
         #region IHammerInteractable
 
         public bool CanBePickUp()
@@ -33,7 +41,7 @@ namespace Building_System.Placing_Objects
             InventoryHandler.singleton.CharacterInventory.AddItemToDesiredSlotServerRpc(TargetItem.Id, 1, 0);
             DestroyObjectServerRpc();
         }
-    
+
         public bool CanBeUpgraded()
             => false;
 
@@ -57,7 +65,7 @@ namespace Building_System.Placing_Objects
         {
             throw new System.NotImplementedException();
         }
-    
+
         #endregion
     }
 }

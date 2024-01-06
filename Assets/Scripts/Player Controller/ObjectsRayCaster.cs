@@ -5,6 +5,7 @@ using Items_System;
 using Items_System.Ore_Type;
 using MeltingSystem;
 using Player_Controller;
+using RespawnSystem.SleepingBag;
 using Storage_System;
 using TMPro;
 using Tool_Clipboard;
@@ -48,6 +49,7 @@ public class ObjectsRayCaster : MonoBehaviour
     public WorkBench WorkBench { get; private set; }
     public HammerInteractable TargetClipboardInteractable { get; private set; }
     public SittingPlace TargetSittingPlace { get; private set; }
+    public SleepingBagNamer TargetSleepingBag { get; private set; }
     private BuildingBlock _targetBlock;
     public bool CanRayCastOre { get; set; }
 
@@ -72,6 +74,7 @@ public class ObjectsRayCaster : MonoBehaviour
         WorkBench = null;
         TargetClipboardInteractable = null;
         TargetSittingPlace = null;
+        TargetSleepingBag = null;
         _vehiclesController.SetVehicleController(null);
     }
 
@@ -152,6 +155,13 @@ public class ObjectsRayCaster : MonoBehaviour
         {
             LootingItem = lootingItem;
             SetLootButton("Gather");
+            return;
+        }
+        
+        if(TryRaycast("SleepingBag", _maxOpeningDistance, out SleepingBagNamer sleepingBag, _defaultMask))
+        {
+            TargetSleepingBag = sleepingBag;
+            SetLootButton("Rename");
             return;
         }
 
