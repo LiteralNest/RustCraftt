@@ -52,6 +52,7 @@ namespace Fight_System.Weapon.ShootWeapon
 
         private void OnEnable()
         {
+            if(CharacterUIHandler.singleton == null) return;
             CharacterUIHandler.singleton.ActivateScope(true);
             TryDisplayReload();
             GlobalEventsContainer.WeaponObjectAssign?.Invoke(this);
@@ -60,6 +61,7 @@ namespace Fight_System.Weapon.ShootWeapon
 
         private void OnDisable()
         {
+            if(CharacterUIHandler.singleton == null) return;
             GlobalEventsContainer.InventoryDataChanged -= TryDisplayReload;
             CharacterUIHandler.singleton.ActivateScope(false);
             CharacterUIHandler.singleton.ActivateReloadingButton(false);
