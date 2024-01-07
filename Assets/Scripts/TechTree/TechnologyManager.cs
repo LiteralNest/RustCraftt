@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using Unity.Netcode;
 using UnityEngine;
@@ -14,6 +15,15 @@ namespace TechTree
         private void Awake()
             => Singleton = this;
 
+        public int[] GetResearchedTechs(int userId)
+        {
+            foreach(var tech in TechArrayNetData.Value.TechnologyArray)
+                if (tech.UserId == userId)
+                    return tech.ItemsId;
+            
+            return Array.Empty<int>();
+        }
+        
         [ServerRpc(RequireOwnership = false)]
         public void AddTechServerRpc(int itemId, int userId)
         {
@@ -22,7 +32,6 @@ namespace TechTree
 
             TechArrayNetData.Value = new CustomSendingTechnologyArrayData(AddItem(itemId, data, TechArrayNetData.Value));
         }
-
         private int TryAddToExistedTech(int addingItemId, CustomSendingTechnologyData item, out CustomSendingTechnologyData res)
         {
             for (int i = 0; i < TechArrayNetData.Value.TechnologyArray.Length; i++)

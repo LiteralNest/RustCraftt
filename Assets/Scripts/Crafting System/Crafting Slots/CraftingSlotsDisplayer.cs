@@ -1,21 +1,25 @@
 using System.Collections.Generic;
 using Crafting_System.WorkBench;
+using Inventory_System;
 using Items_System.Items;
 using Items_System.Items.Abstract;
 using Items_System.Items.Weapon;
+using TechTree;
 using UnityEngine;
+using Web.User;
 
 namespace Crafting_System.Crafting_Slots
 {
     public class CraftingSlotsDisplayer : MonoBehaviour
     {
-        [Header("Attached Scripts")]
-        [SerializeField] private CraftingItemDataDisplayer _craftingItemDataDisplayer;
+        [Header("Attached Scripts")] [SerializeField]
+        private CraftingItemDataDisplayer _craftingItemDataDisplayer;
+
         [SerializeField] private CharacterWorkbenchesCatcher _characterWorkbenchesCatcher;
 
-        [Header("Main Params")]
-        [SerializeField] private List<CraftingSlotTypeDisplayer> _slotTypeDisplayers = new List<CraftingSlotTypeDisplayer>();
-        
+        [Header("Main Params")] [SerializeField]
+        private List<CraftingSlotTypeDisplayer> _slotTypeDisplayers = new List<CraftingSlotTypeDisplayer>();
+
         [Header("UI")] [SerializeField] private CraftingSlotDisplayer _craftingSlotPrefab;
         [SerializeField] private Transform _placeForSlots;
 
@@ -36,12 +40,35 @@ namespace Crafting_System.Crafting_Slots
                     .Init(item, _craftingItemDataDisplayer);
         }
 
+        private List<CraftingItem> GetConvertedResearchedList()
+        {
+            var res = new List<CraftingItem>();
+            foreach (var itemId in
+                     TechnologyManager.Singleton.GetResearchedTechs(UserDataHandler.singleton.UserData.Id))
+            {
+                res.Add(ItemFinder.singleton.GetItemById(itemId) as CraftingItem);
+            }
+
+            return res;
+        }
+
+        private List<CraftingItem> GetCombinedList<T, Y>(List<T> firstList, List<Y> secondList) where T : CraftingItem where Y : CraftingItem
+        {
+            var res = new List<CraftingItem>();
+            foreach (var item in firstList)
+                res.Add(item);
+            foreach (var item in secondList)
+                res.Add(item);
+            return res;
+        }
+
         private List<CraftingItem> GetSlots<T>() where T : CraftingItem
         {
             List<CraftingItem> res = new List<CraftingItem>();
-            foreach (var slot in ItemFinder.singleton.GetCraftingItems())
+            var slots = GetCombinedList(ItemFinder.singleton.GetCraftingItems(), GetConvertedResearchedList());
+            foreach (var slot in slots)
                 if (slot is T && _characterWorkbenchesCatcher.CurrentWorkBanchLevel >= slot.NeededWorkBanch)
-                    res.Add(slot as CraftingItem);
+                    res.Add(slot);
             return res;
         }
 
@@ -53,7 +80,7 @@ namespace Crafting_System.Crafting_Slots
                     res.Add(slot as CraftingItem);
             return res;
         }
-        
+
         private void DisplayActives(CraftingSlotTypeDisplayer displayer)
         {
             foreach (var slotTypeDisplayer in _slotTypeDisplayers)
