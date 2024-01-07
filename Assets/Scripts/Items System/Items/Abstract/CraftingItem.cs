@@ -3,6 +3,7 @@ using UnityEngine;
 
 namespace Items_System.Items.Abstract
 {
+   [CreateAssetMenu(menuName = "Item/CraftingItem")]
    public class CraftingItem : Item
    {
       [field: SerializeField] public int TimeForCreating;

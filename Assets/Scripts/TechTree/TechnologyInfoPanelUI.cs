@@ -36,6 +36,7 @@ namespace TechTree
             _technologiesContainer.DeselectTechnologies();
             technologyUI.Select(true);
             _currentTechnology = technology;
+            _techImage.gameObject.SetActive(true);
             _techImage.sprite = technology.Item.Icon;
             _techNameText.text = technology.Item.Name;
             _techDescriptionText.text = technology.Item.Description;

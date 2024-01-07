@@ -15,7 +15,8 @@ public class Technology : MonoBehaviour
 
     [SerializeField] private List<Technology> _unlockingTech = new List<Technology>();
     [field: SerializeField] public Item Item { get; private set; }
-    [field:SerializeField] public bool _isActive;
+    [SerializeField] private bool _isActive;
+    public bool IsActive => _isActive;
     [field: SerializeField] public bool IsResearched { get; private set; }
 
     private void Awake()
@@ -24,7 +25,7 @@ public class Technology : MonoBehaviour
     private void UnlockTechs()
     {
         foreach (var tech in _unlockingTech)
-            tech._isActive = true;
+            tech.Unlock();
     }
 
     public bool CanResearch()
@@ -32,13 +33,19 @@ public class Technology : MonoBehaviour
         if (!_isActive) return false;
         return InventoryHandler.singleton.CharacterInventory.GetItemCount(_scrap.Id) >= Cost;
     }
+    
+    private void Unlock()
+    {
+        _isActive = true;
+        _technologyUI.UnlockTech();
+    }
 
     public void Research()
     {
         if (IsResearched || !CanResearch()) return;
         InventoryHandler.singleton.CharacterInventory.RemoveItem(_scrap.Id, Cost);
         IsResearched = true;
-        _technologyUI.UnlockTech();
+        _technologyUI.ResearchTech();
         UnlockTechs();
         TechnologyManager.Singleton.AddTechServerRpc(Item.Id, UserDataHandler.singleton.UserData.Id);
     }
