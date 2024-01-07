@@ -1,8 +1,9 @@
 using System.Collections.Generic;
 using Items_System.Items.Abstract;
-using Unity.Netcode;
+using TechTree;
 using UnityEngine;
 using UnityEngine.Serialization;
+using Web.User;
 
 public class Technology : MonoBehaviour
 {
@@ -39,42 +40,6 @@ public class Technology : MonoBehaviour
         IsResearched = true;
         _technologyUI.UnlockTech();
         UnlockTechs();
+        TechnologyManager.Singleton.AddTechServerRpc(Item.Id, UserDataHandler.singleton.UserData.Id);
     }
-}
-
-
-    [System.Serializable]
-    public struct CustomSendingTechnologyData : INetworkSerializable
-    {
-        public int[] TechId;
-        public ulong UserId;
-
-        public CustomSendingTechnologyData(int[] techId, ulong userId)
-        {
-            TechId = techId;
-            UserId = userId;
-        }
-
-        public void NetworkSerialize<T>(BufferSerializer<T> serializer) where T : IReaderWriter
-        {
-            serializer.SerializeValue(ref TechId);
-            serializer.SerializeValue(ref UserId);
-        }
-    }
-
-[System.Serializable]
-public struct CustomSendingTechnologyArrayData : INetworkSerializable
-{
-    public CustomSendingTechnologyData[] TechnologyArray;
-
-    public CustomSendingTechnologyArrayData(CustomSendingTechnologyData[] array)
-    {
-        TechnologyArray = array;
-    }
-
-    public void NetworkSerialize<T>(BufferSerializer<T> serializer) where T : IReaderWriter
-    {
-        serializer.SerializeValue(ref TechnologyArray);
-    }
-    
 }
