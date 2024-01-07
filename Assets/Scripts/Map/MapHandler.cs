@@ -9,17 +9,19 @@ namespace Map
 
         private void OnEnable()
             => GlobalEventsContainer.OnMapOpened += Open;
-        
+
         private void OnDisable()
             => GlobalEventsContainer.OnMapOpened -= Open;
 
         public void Open()
         {
+            GlobalEventsContainer.OnMainHudHandle?.Invoke(false);
             _map.SetActive(true);
         }
 
         public void Close()
         {
+            GlobalEventsContainer.OnMainHudHandle?.Invoke(true);
             _map.SetActive(false);
         }
     }

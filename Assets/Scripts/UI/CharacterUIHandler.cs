@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Events;
 using UnityEngine;
 
 namespace UI
@@ -16,13 +17,24 @@ namespace UI
         [SerializeField] private GameObject _placingPanel;
         [SerializeField] private GameObject _scopeButton;
         [SerializeField] private GameObject _joystick;
-    
+
         [SerializeField] private List<GameObject> _vehicleIgnoringPanels = new List<GameObject>();
 
         [SerializeField] private GameObject _meleeThrowButton;
         [SerializeField] private GameObject _throwExplosiveButton;
-    
+
         [SerializeField] private List<GameObject> _movingHudPanels = new List<GameObject>();
+
+        [SerializeField] private GameObject _mainHudPanel;
+
+        private void OnEnable()
+            => GlobalEventsContainer.OnMainHudHandle += HandleHud;
+
+        private void OnDisable()
+            => GlobalEventsContainer.OnMainHudHandle -= HandleHud;
+
+        private void HandleHud(bool value)
+            => _mainHudPanel.SetActive(value);
 
         public void AssignSingleton()
             => singleton = this;
@@ -60,7 +72,7 @@ namespace UI
 
         public void HandleJoystick(bool value)
             => _joystick.SetActive(value);
-        
+
         public void HandleIgnoringVehiclePanels(bool value)
         {
             foreach (var panel in _vehicleIgnoringPanels)

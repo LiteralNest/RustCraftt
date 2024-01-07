@@ -1,5 +1,5 @@
-using System.Collections.Generic;
 using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using Animation_System;
 using Multiplayer.PlayerSpawning;
@@ -9,83 +9,87 @@ using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.Serialization;
 
-public class PlayerNetworkController : MonoBehaviour
+namespace Multiplayer
 {
-    [Header("NetCode")] 
-    [SerializeField] private PlayerNetCode _playerNetCode;
-    [SerializeField] private CharacterAnimationsHandler _characterAnimationsHandler;
-    [SerializeField] private CharacterAnimationsHandler _inventoryCharacterAnimationsHandler;
-    [SerializeField] private List<Behaviour> _monos = new List<Behaviour>();
-    [FormerlySerializedAs("_mainUiHandler")] [SerializeField] private CharacterUIHandler characterUIHandler;
-    
-    [Header("Children")] 
-    [SerializeField] private List<Renderer> _body = new List<Renderer>();
-    [SerializeField] private GameObject _characterStaff;
-    [SerializeField] private GameObject _canvas;
-    [SerializeField] private GameObject _vivox;
+    public class PlayerNetworkController : MonoBehaviour
+    {
+        [Header("NetCode")] 
+        [SerializeField] private PlayerNetCode _playerNetCode;
+        [SerializeField] private CharacterAnimationsHandler _characterAnimationsHandler;
+        [SerializeField] private CharacterAnimationsHandler _inventoryCharacterAnimationsHandler;
+        [SerializeField] private List<Behaviour> _monos = new List<Behaviour>();
+        [FormerlySerializedAs("_mainUiHandler")] [SerializeField] private CharacterUIHandler characterUIHandler;
 
-    private void Awake()
-    {
-        foreach (var mono in _monos)
-            mono.enabled = false;
-        characterUIHandler.enabled = false;
-        _canvas.SetActive(false);
-        _vivox.SetActive(false);
-    }
-    
-    private IEnumerator Destroy()
-    {
-        yield return new WaitForSeconds(1);
-        var players = FindObjectsOfType<PlayerStartSpawner>().ToList();
-        foreach (var player in players)
+        [Header("Children")] 
+        [SerializeField] private List<Renderer> _body = new List<Renderer>();
+        [SerializeField] private GameObject _characterStaff;
+        [SerializeField] private GameObject _canvas;
+        [SerializeField] private GameObject _vivox;
+
+        private void Awake()
         {
-            if (GetComponent<NetworkObject>().OwnerClientId == player.GetComponent<NetworkObject>().OwnerClientId)
+            foreach (var mono in _monos)
+                mono.enabled = false;
+            characterUIHandler.enabled = false;
+            _canvas.SetActive(false);
+            _vivox.SetActive(false);
+        }
+    
+        private IEnumerator Destroy()
+        {
+            yield return new WaitForSeconds(1);
+            var players = FindObjectsOfType<PlayerStartSpawner>().ToList();
+            foreach (var player in players)
             {
-                player.AnimationsManager.CharacterAnimationsHandler = _characterAnimationsHandler;
-                player.AnimationsManager.InventoryAnimationsHandler = _inventoryCharacterAnimationsHandler;
+                if (GetComponent<NetworkObject>().OwnerClientId == player.GetComponent<NetworkObject>().OwnerClientId)
+                {
+                    player.AnimationsManager.CharacterAnimationsHandler = _characterAnimationsHandler;
+                    player.AnimationsManager.InventoryAnimationsHandler = _inventoryCharacterAnimationsHandler;
+                }
             }
+
+            Destroy(this);
         }
 
-        Destroy(this);
-    }
+        public void Start()
+        {
+            _canvas.SetActive(true);
+            _vivox.SetActive(true);
+            _vivox.transform.SetParent(null);
+            if (!_playerNetCode.IsOwner)
+            {
+                EnableMonos(false);
+                ClearObjects();
+            }
+            else
+            {
+                SetBody(false);
+                EnableMonos(true);
+                characterUIHandler.enabled = true;
+                characterUIHandler.AssignSingleton();
+            }
 
-    public void Start()
-    {
-        _canvas.SetActive(true);
-        _vivox.SetActive(true);
-        _vivox.transform.SetParent(null);
-        if (!_playerNetCode.IsOwner)
+            StartCoroutine(Destroy());
+        }
+
+        private void SetBody(bool value)
+        {
+            foreach (var part in _body)
+                part.enabled = value;
+        }
+
+        private void EnableMonos(bool value)
+        {
+            foreach (var mono in _monos)
+                mono.enabled = value;
+        }
+    
+        private void ClearObjects()
         {
             EnableMonos(false);
-            ClearObjects();
+            _canvas.SetActive(false);
+            _vivox.SetActive(false);
+            _characterStaff.SetActive(false);
         }
-        else
-        {
-            SetBody(false);
-            EnableMonos(true);
-            characterUIHandler.AssignSingleton();
-        }
-
-        StartCoroutine(Destroy());
-    }
-
-    private void SetBody(bool value)
-    {
-        foreach (var part in _body)
-            part.enabled = value;
-    }
-
-    private void EnableMonos(bool value)
-    {
-        foreach (var mono in _monos)
-            mono.enabled = value;
-    }
-    
-    private void ClearObjects()
-    {
-        EnableMonos(false);
-        _canvas.SetActive(false);
-        _vivox.SetActive(false);
-        _characterStaff.SetActive(false);
     }
 }

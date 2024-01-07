@@ -31,9 +31,6 @@ namespace RespawnSystem.SleepingBag
             base.OnNetworkSpawn();
             _cachedReloadTime = _reloadTime.Value;
             _reloadTime.Value = 0;
-
-            if (UserDataHandler.singleton == null) return;
-            CheckPlayerId();
         }
 
         public void Init(int ownerId)
@@ -60,6 +57,7 @@ namespace RespawnSystem.SleepingBag
         {
             if (!IsServer) return;
             _playerId.Value = id;
+            CheckPlayerIdClientRpc();
         }
 
         private IEnumerator ReloadRoutine()
@@ -71,11 +69,13 @@ namespace RespawnSystem.SleepingBag
             }
         }
 
-        private void CheckPlayerId()
+        [ClientRpc]
+        private void CheckPlayerIdClientRpc()
         {
             if (_mapPoint == null) return;
             bool value = _playerId.Value == UserDataHandler.singleton.UserData.Id;
             _mapPoint.SetActive(value);
+            _targetCanvas.transform.eulerAngles = new Vector3(90, 0, 90);
             GlobalEventsContainer.SleepingBagSpawned?.Invoke(this);
             _targetCanvas.worldCamera = MapCamera.Singleton.TargetCamera;
         }

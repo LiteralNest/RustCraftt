@@ -11,13 +11,13 @@ namespace RespawnSystem.SleepingBag
         [SerializeField] private GameObject _reloadingPanel;
         [SerializeField] private SleepingBag _sleepingBag;
         private bool _canRespawn;
-        
+
         private void OnEnable()
         {
             if (_sleepingBag == null) return;
-            UpdateRemainingTime(_sleepingBag.ReloadTime.Value); 
+            UpdateRemainingTime(_sleepingBag.ReloadTime.Value);
         }
-        
+
         private void Start()
         {
             UpdateRemainingTime(_sleepingBag.ReloadTime.Value);
@@ -27,15 +27,16 @@ namespace RespawnSystem.SleepingBag
                 UpdateRemainingTime(newValue);
             };
         }
-        
+
         public void OnPointerDown(PointerEventData eventData)
         {
+            if (DeathScreenUI.Singleton == null) return;
             Debug.Log("Clicked");
-            if(!_canRespawn) return;
+            if (!_canRespawn) return;
             DeathScreenUI.Singleton.RespawnInCoordinates(transform.position);
             _sleepingBag.RespawnPlayerServerRpc();
         }
-        
+
         private void UpdateRemainingTime(int value)
         {
             _canRespawn = value <= 0;

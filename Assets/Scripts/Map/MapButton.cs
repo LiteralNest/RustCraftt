@@ -15,6 +15,8 @@ namespace Map
         }
 
         private void Click()
-            => GlobalEventsContainer.OnMapOpened?.Invoke();
+        {
+            GlobalEventsContainer.OnMapOpened?.Invoke();
+        }
     }
 }
