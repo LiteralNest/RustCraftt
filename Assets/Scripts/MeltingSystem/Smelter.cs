@@ -104,15 +104,16 @@ namespace MeltingSystem
         public void TurnFlamingServerRpc(bool value)
         {
             List<Fuel> items = new List<Fuel>();
-            Flaming.Value = value;
             if (value)
             {
                 items = GetFuel();
                 if (items.Count == 0) return;
+                Flaming.Value = true;
             }
             else
             {
                 _source.Stop();
+                Flaming.Value = false;
                 return;
             }
 

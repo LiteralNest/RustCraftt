@@ -57,11 +57,15 @@ namespace Inventory_System
             if(deactivateCharacterView)
                 _characterPreview.SetActive(false);
         }
+
+        public void CloseWorkbenchPanel()
+        {
+            _workbenchPanel.SetActive(false);
+        }
         
         public void OpenWorkbenchPanel()
         {
-            ResetInventories();
-            HandleInventory(true);
+            OpenInventory(true);
             _workbenchPanel.SetActive(true);
         }
 
