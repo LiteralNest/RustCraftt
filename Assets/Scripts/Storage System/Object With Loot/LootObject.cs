@@ -19,7 +19,7 @@ namespace Storage_System.Object_With_Loot
                 Destroy(gameObject);
         }
 
-        public ushort GetHp()
+        public int GetHp()
             => (ushort)_hp;
 
         public int GetMaxHp()

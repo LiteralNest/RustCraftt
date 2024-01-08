@@ -23,7 +23,7 @@ namespace AI
 
         #region IDamagable
 
-        public ushort GetHp()
+        public int GetHp()
             => _hp.Value;
 
         public int GetMaxHp()

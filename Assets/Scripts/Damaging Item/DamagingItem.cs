@@ -67,7 +67,7 @@ public class DamagingItem : NetworkBehaviour, IDamagable
         _soundPlayer.PlayOneShot(_damagingSound);
     }
 
-    public ushort GetHp()
+    public int GetHp()
         => (ushort)_currentHp.Value;
 
     public int GetMaxHp()

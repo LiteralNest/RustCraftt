@@ -15,7 +15,7 @@ namespace DamageSystem
         [SerializeField] private AudioClip _hitSound;
         [SerializeField] private BodyPartType _partType = BodyPartType.None;
 
-        public ushort GetHp()
+        public int GetHp()
         {
             if(_characterHpHandler.Hp <= 0)
                 return 0;

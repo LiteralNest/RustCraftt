@@ -169,7 +169,7 @@ namespace Building_System.Blocks
             SetHpServerRpc((ushort)hp);
         }
 
-        public ushort GetHp()
+        public int GetHp()
             => _hp.Value;
 
         public int GetMaxHp()

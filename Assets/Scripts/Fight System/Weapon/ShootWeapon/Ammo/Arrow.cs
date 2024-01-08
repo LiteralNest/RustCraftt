@@ -1,4 +1,5 @@
 using System.Collections;
+using Unity.Netcode;
 using UnityEngine;
 
 namespace Fight_System.Weapon.ShootWeapon.Ammo
@@ -31,15 +32,7 @@ namespace Fight_System.Weapon.ShootWeapon.Ammo
 
         private void OnCollisionEnter(Collision other)
         {
-            _rb.velocity = Vector3.zero;
-            _rb.angularVelocity = Vector3.zero;
-            _rb.isKinematic = true;
-
-            // Set the arrow's position and rotation to match the point of impact
-            transform.position = other.contacts[0].point;
-            transform.rotation = Quaternion.LookRotation(other.contacts[0].normal);
-
-            // Make the arrow a child of the collided object
+            _rb.constraints = RigidbodyConstraints.FreezeAll;
             transform.SetParent(other.transform);
 
             StartCoroutine(DespawnObject());
@@ -48,8 +41,9 @@ namespace Fight_System.Weapon.ShootWeapon.Ammo
         
         private IEnumerator DespawnObject()
         {
-            yield return new WaitForSeconds(_despawnTime); Destroy(gameObject);
-            // GetComponent<NetworkObject>().Despawn();
+            yield return new WaitForSeconds(_despawnTime); 
+            Destroy(gameObject);  
+            //GetComponent<NetworkObject>().Despawn();
         }
     }
 }
