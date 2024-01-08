@@ -80,7 +80,8 @@ namespace Player_Controller
 
             if (!_ifRunning)
             {
-                AnimationsManager.Singleton.SetWalk();
+                if(AnimationsManager.Singleton != null)
+                    AnimationsManager.Singleton.SetWalk();
                 _controller.SimpleMove(moveDirection * _movingSpeed);
             }
             else
