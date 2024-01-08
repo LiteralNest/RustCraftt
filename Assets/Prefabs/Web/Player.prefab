@@ -9375,7 +9375,6 @@ Transform:
   - {fileID: 689675192733144626}
   - {fileID: 5447757192001166520}
   - {fileID: 5663251422154097518}
-  - {fileID: 5639397067750878215}
   - {fileID: 1073976444382258915}
   m_Father: {fileID: 4341349121896943449}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -12510,7 +12509,6 @@ GameObject:
   - component: {fileID: -5502007171107923210}
   - component: {fileID: 8624086197897355627}
   - component: {fileID: 2115686004867581448}
-  - component: {fileID: 5624260414466233215}
   - component: {fileID: 7740005035847538642}
   - component: {fileID: -6262232929159552701}
   - component: {fileID: 228275790847561711}
@@ -12525,8 +12523,6 @@ GameObject:
   - component: {fileID: 1816369662541527775}
   - component: {fileID: 5794072887831293070}
   - component: {fileID: 7607081406083368911}
-  - component: {fileID: 3361015755068034061}
-  - component: {fileID: 6146465117998318630}
   - component: {fileID: 2970817441335259203}
   - component: {fileID: 2347488702821661028}
   - component: {fileID: -5966689580882158241}
@@ -12717,7 +12713,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 124812598
+  GlobalObjectIdHash: 1057753847
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
   ActiveSceneSynchronization: 0
@@ -12902,21 +12898,6 @@ MonoBehaviour:
   _characterController: {fileID: 6180139838029370084}
   Gravity: -9.8
   _jumpForce: 2.5
---- !u!114 &5624260414466233215
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2441425697621568629}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6310470cd34c80b4c8ba5992af25205e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _groundChecker: {fileID: 2440265495394100363}
-  _eyes: {fileID: 0}
-  _downingValue: 1
 --- !u!114 &7740005035847538642
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13079,7 +13060,7 @@ MonoBehaviour:
   - {fileID: 228275790847561711}
   - {fileID: 8624086197897355627}
   - {fileID: 2115686004867581448}
-  - {fileID: 5624260414466233215}
+  - {fileID: 0}
   - {fileID: 7740005035847538642}
   - {fileID: 5538215080173942597}
   - {fileID: 6207217001499837402}
@@ -13151,32 +13132,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a2ad087253ff4633b79950660136582a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &3361015755068034061
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2441425697621568629}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5f1079d5de24291499415a0008c5fbd7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &6146465117998318630
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2441425697621568629}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fcda211085744dc783bcd53a2f969037, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _coldResist: 0.5
-  _radiationResist: 0.5
 --- !u!114 &2970817441335259203
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -41294,7 +41249,7 @@ MonoBehaviour:
   _pointerDown:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 5624260414466233215}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: PlayerSitter, Assembly-CSharp
         m_MethodName: Sit
         m_Mode: 1
@@ -41309,7 +41264,7 @@ MonoBehaviour:
   _pointerClicked:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 5624260414466233215}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: PlayerSitter, Assembly-CSharp
         m_MethodName: Stand
         m_Mode: 1
@@ -44881,7 +44836,7 @@ MonoBehaviour:
   _pointerDown:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 5624260414466233215}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: PlayerSitter, Assembly-CSharp
         m_MethodName: Sit
         m_Mode: 1
@@ -44896,7 +44851,7 @@ MonoBehaviour:
   _pointerClicked:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 5624260414466233215}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: PlayerSitter, Assembly-CSharp
         m_MethodName: Stand
         m_Mode: 1
@@ -53279,78 +53234,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
---- !u!1 &8549182561246142950
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 5639397067750878215}
-  - component: {fileID: 2224058883668644547}
-  - component: {fileID: 2440265495394100363}
-  m_Layer: 15
-  m_Name: Ground Checker
-  m_TagString: Finish
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &5639397067750878215
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8549182561246142950}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.141, y: -1.161, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 8086720571742289560}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!65 &2224058883668644547
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8549182561246142950}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 1
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 0.44552028, y: 0.06624377, z: 0.17460467}
-  m_Center: {x: -0.14175147, y: -0.11270195, z: 0}
---- !u!114 &2440265495394100363
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8549182561246142950}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0a76d1fe773ccc346bc2ebdfb6957e6b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _availableTriggers:
-  - Ground
-  - Block
-  - DamagingItem
-  - Ore
-  <IsGrounded>k__BackingField: 0
 --- !u!1 &8575715383704345208
 GameObject:
   m_ObjectHideFlags: 0
