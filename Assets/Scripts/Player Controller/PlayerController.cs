@@ -8,74 +8,49 @@ namespace Player_Controller
 {
     public class PlayerController : MonoBehaviour
     {
-        [Header("Attached Scripts")] [SerializeField]
-        private InHandObjectsContainer _inHandObjectsContainer;
+        [Header("Attached Scripts")]
+        [SerializeField] private InHandObjectsContainer _inHandObjectsContainer;
 
-        [Header("Move")] [SerializeField] private NetworkVariable<float> _movingSpeed =
-            new(5, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
+        [Header("Move")] 
+        [SerializeField] private float _movingSpeed = 5;
+        [SerializeField] private CharacterController _controller;
         public bool IsMoving { get; private set; }
         private Vector2 _move;
 
-        [Header("Run")] [SerializeField] private float _runningKoef = 1.5f;
+        [Header("Run")]
+        [SerializeField] private float _runningKoef = 1.5f;
         private bool _ifRunning;
         private float _currentMovingSpeed;
 
-        [Header("Swim")] [SerializeField] private float _swimSpeed = 0.5f;
-        public bool IsSwimming { get; set; }
+        [Header("Swim")]
+        [SerializeField] private float _swimSpeed = 0.5f;
 
-        private CharacterController _controller;
         
-        private Rigidbody _rb;
-        private float _originalDrag;
-        private float _originalAngularDrag;
-
-        private readonly float _targetDrag = 0.3f;
-        private readonly float _targetAngularDrag = 0.7f;
-        private readonly float _floatStrength = 0.4f;
+        public bool IsSwimming { get; set; }
 
         private Camera _camera;
 
         private void Start()
         {
             _camera = Camera.main;
-            _rb = GetComponent<Rigidbody>();
-
-            _originalDrag = _rb.drag;
-            _originalAngularDrag = _rb.angularDrag;
-            _currentMovingSpeed = _movingSpeed.Value;
+            _currentMovingSpeed = _movingSpeed;
         }
 
-
-        private void FixedUpdate()
+        private void Update()
         {
-            if (IsSwimming != true)
+            if (IsSwimming)
             {
-                if (!_rb.useGravity)
-                    ReturnOriginalRb();
-                if (!_ifRunning)
-                {
-                    Move();
-                    return;
-                }
-
-                MoveTo(Vector3.forward);
-                return;
+                Swim();
             }
-
-            Swim();
+            else
+            {
+                Move();
+            }
         }
-
-        private void MoveTo(Vector3 target)
+        
+        private void ReturnOriginalController()
         {
-            Vector3 moveDirection = transform.TransformDirection(target).normalized;
-            _rb.velocity = new Vector3(moveDirection.x * _currentMovingSpeed, _rb.velocity.y, moveDirection.z * _currentMovingSpeed);
-        }
-
-        private void ReturnOriginalRb()
-        {
-            _rb.useGravity = true;
-            _rb.drag = _originalDrag;
-            _rb.angularDrag = _originalAngularDrag;
+            // for swimming behavior
         }
 
         #region InputMap
@@ -84,14 +59,13 @@ namespace Player_Controller
         {
             if (IsSwimming)
             {
-                IsMoving = true;
+                IsMoving = context.ReadValue<Vector2>().magnitude > 0.1f;
                 _move = context.ReadValue<Vector2>();
             }
             else
             {
-                IsMoving = true;
+                IsMoving = context.ReadValue<Vector2>().magnitude > 0.1f;
                 _move = context.ReadValue<Vector2>();
-                IsMoving = false;
             }
         }
 
@@ -101,26 +75,28 @@ namespace Player_Controller
 
         private void Move()
         {
-            Vector3 movement = new Vector3(_move.x, 0f, _move.y);
-            if (movement != Vector3.zero)
+            Vector3 moveDirection = new Vector3(_move.x, 0f, _move.y);
+            moveDirection = transform.TransformDirection(moveDirection);
+
+            if (!_ifRunning)
             {
                 AnimationsManager.Singleton.SetWalk();
-
-                MoveTo(movement);
-                return;
+                _controller.SimpleMove(moveDirection * _movingSpeed);
             }
-
+            else
+            {
+                _controller.SimpleMove(_camera.transform.forward * _movingSpeed * _runningKoef);
+            }
+          
+            AnimationsManager.Singleton.SetIdle();
             _inHandObjectsContainer.SetWalk(false);
-            if (AnimationsManager.Singleton != null)
-                AnimationsManager.Singleton.SetIdle();
+            
         }
 
         public void StartRunning()
         {
             _inHandObjectsContainer.SetRun(true);
-            AnimationsManager.Singleton.SetWalk();
             _ifRunning = true;
-            _currentMovingSpeed *= _runningKoef;
         }
 
         public void StopRunning()
@@ -128,7 +104,6 @@ namespace Player_Controller
             AnimationsManager.Singleton.SetIdle();
             _inHandObjectsContainer.SetRun(false);
             _ifRunning = false;
-            _currentMovingSpeed = _movingSpeed.Value;
         }
 
         #endregion
@@ -137,30 +112,17 @@ namespace Player_Controller
 
         private void Swim()
         {
-            if (_rb.useGravity)
-                _rb.useGravity = false;
+            if (_controller.isGrounded)
+                _controller.Move(Vector3.down * 0.1f);  
+
             var cameraForward = _camera.transform.forward;
             cameraForward *= _move.y;
             Vector3 movement = new Vector3(_move.x, cameraForward.y, _move.y);
-            // cameraForward.x = _move.x;
             cameraForward.Normalize();
-
 
             if (cameraForward != Vector3.zero)
             {
-                _rb.drag = _targetDrag;
-                _rb.angularDrag = _targetAngularDrag;
-                MoveTo(movement * _swimSpeed);
-            }
-        }
-
-
-        private void FloatUp()
-        {
-            if (IsSwimming)
-            {
-                Vector3 jumpForce = Vector3.up * _floatStrength;
-                _rb.AddForce(jumpForce, ForceMode.Force);
+                _controller.Move(movement * _swimSpeed * Time.fixedDeltaTime);
             }
         }
 
