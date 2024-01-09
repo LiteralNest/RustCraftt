@@ -6,23 +6,27 @@ namespace Player_Controller
     [RequireComponent(typeof(CharacterController))]
     public class PlayerJumper : MonoBehaviour
     {
-        [Header("Attached Scripts")]
-        [SerializeField] private CharacterController _characterController;
-        [SerializeField] private float Gravity = -9.8f;
-        [Header("Main Params")]
-        [SerializeField] private float _jumpForce = 20f;
+        [Header("Attached Scripts")] [SerializeField]
+        private CharacterController _characterController;
 
+        [SerializeField] private float Gravity = -9.8f;
+
+        [Header("Main Params")] [SerializeField]
+        private float _jumpForce = 20f;
+
+        private bool _canUseGravity;
         private Vector3 _velocity;
-    
+
         private void Update()
         {
             if (Input.GetButtonDown("Jump"))
             {
                 Jump();
             }
-
+            
             UpdateGravity();
         }
+        
 
         private void Jump()
         {

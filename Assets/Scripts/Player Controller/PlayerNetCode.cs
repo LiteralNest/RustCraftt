@@ -17,10 +17,7 @@ namespace Player_Controller
     public class PlayerNetCode : NetworkBehaviour
     {
         public static PlayerNetCode Singleton { get; private set; }
-
-        [Header("Attached Components")] [SerializeField]
-        private Collider _collider;
-
+        
         [field: SerializeField] public ResourcesDropper ResourcesDropper { get; private set; }
         [field: SerializeField] public ItemInfoHandler ItemInfoHandler { get; private set; }
         [field: SerializeField] public PlayerSoundsPlayer PlayerSoundsPlayer { get; private set; }
@@ -110,22 +107,15 @@ namespace Player_Controller
         [ClientRpc]
         public void SitClientRpc()
         {
-            var rb = GetComponent<Rigidbody>();
-            _cachedConstraints = rb.constraints;
-            rb.constraints = RigidbodyConstraints.FreezeAll;
-            rb.useGravity = true;
+            GetComponent<PlayerJumper>().enabled = false;
             GetComponent<PlayerController>().enabled = false;
-            _collider.enabled = false;
         }
 
         [ClientRpc]
         public void StandClientRpc()
         {
-            var rb = GetComponent<Rigidbody>();
-            rb.constraints = _cachedConstraints;
-            rb.useGravity = true;
+            GetComponent<PlayerJumper>().enabled = true;
             GetComponent<PlayerController>().enabled = true;
-            _collider.enabled = true;
         }
 
         [ClientRpc]
