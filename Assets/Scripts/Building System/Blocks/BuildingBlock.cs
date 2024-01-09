@@ -78,6 +78,13 @@ namespace Building_System.Blocks
             }
         }
 
+        [ServerRpc(RequireOwnership = false)]
+        private void DestroyServerRpc()
+        {
+            if (!IsServer) return;
+            StartCoroutine(DestroyRoutine());
+        }
+
         private IEnumerator DestroyRoutine()
         {
             //Потрібно щоб OnTriggerExit зчитався
@@ -128,7 +135,7 @@ namespace Building_System.Blocks
         }
 
         public void Destroy()
-            => StartCoroutine(DestroyRoutine());
+            => DestroyServerRpc();
 
         public void Shake()
         {
