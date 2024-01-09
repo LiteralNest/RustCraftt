@@ -103,12 +103,12 @@ namespace Vehicle
 
         public void ReturnKinematic()
         {
-            VehicleRb.isKinematic = false;
+            // VehicleRb.isKinematic = false;
         }
         
         private void TakeOff()
         {
-            VehicleRb.isKinematic = true;
+            // VehicleRb.isKinematic = true;
             transform.Translate(Vector3.up * 3f);
         }
 
@@ -131,7 +131,7 @@ namespace Vehicle
             if (other.gameObject.CompareTag("Ground"))
             {
                 _isGrounded = true;
-                VehicleRb.isKinematic = false;
+                // VehicleRb.isKinematic = false;
                 _fuelStorage.StopMoving();
             }
         }
@@ -141,7 +141,7 @@ namespace Vehicle
             if (other.gameObject.CompareTag("Ground"))
             {
                 _isGrounded = false;
-                VehicleRb.isKinematic = true;
+                // VehicleRb.isKinematic = true;
                 _fuelStorage.StartMoving();
             }
         }

@@ -9,8 +9,6 @@ namespace Vehicle
     {
         [SerializeField] private Horse _horse;
         
-        private RigidbodyConstraints _rbConstraints;
-        
         private void FixedUpdate()
         {
             if (IsMoving)
