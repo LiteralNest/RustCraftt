@@ -52,6 +52,7 @@ namespace Vehicle.SittingPlaces
             SetPlayer(playerId, ownerId);
             _currentPlayer.SitClientRpc();
             _networkObject.ChangeOwnership(playerId);
+            _networkObject.DontDestroyWithOwner = true;
         }
 
         [ClientRpc]
