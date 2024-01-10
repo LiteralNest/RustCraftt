@@ -2,15 +2,18 @@ using Events;
 using UI;
 using UnityEngine;
 
-public class BluePrintObject : MonoBehaviour
+namespace In_Hand_Items
 {
-    private void OnEnable()
-        => CharacterUIHandler.singleton.ActivateBuildingButton(true);
-
-    private void OnDisable()
+    public class BluePrintObject : MonoBehaviour
     {
-        CharacterUIHandler.singleton.ActivateBuildingButton(false);
-        CharacterUIHandler.singleton.ActivateBuildingChoosingPanel(false);
-        GlobalEventsContainer.BluePrintDeactivated?.Invoke();
+        private void OnEnable()
+            => CharacterUIHandler.singleton.ActivateBuildingButton(true);
+
+        private void OnDisable()
+        {
+            CharacterUIHandler.singleton.ActivateBuildingButton(false);
+            CharacterUIHandler.singleton.ActivateBuildingChoosingPanel(false);
+            GlobalEventsContainer.BluePrintDeactivated?.Invoke();
+        }
     }
 }

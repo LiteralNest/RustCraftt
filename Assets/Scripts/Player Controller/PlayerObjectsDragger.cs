@@ -1,10 +1,11 @@
 using Building_System.Placing_Objects;
+using Events;
 using UI;
 using UnityEngine;
 
 namespace Player_Controller
 {
-    public class PlayerObjectsPlacer : MonoBehaviour
+    public class PlayerObjectsDragger : MonoBehaviour
     {
         [SerializeField] private Camera _targetCamera;
         [SerializeField] private float _forwardPlacingOffset = 5f;
@@ -12,6 +13,16 @@ namespace Player_Controller
 
         private PlacingObjectBluePrint _targetBluePrint;
 
+        private void OnEnable()
+        {
+            GlobalEventsContainer.BluePrintDeactivated += ClearCurrentPref;
+        }
+        
+        private void OnDisable()
+        {
+            GlobalEventsContainer.BluePrintDeactivated -= ClearCurrentPref;
+        }
+        
         private void Update()
         {
             if (_targetBluePrint == null) return;
@@ -48,7 +59,7 @@ namespace Player_Controller
         {
             if (_targetBluePrint == null) return;
             Destroy(_targetBluePrint.gameObject);
-            CharacterUIHandler.singleton.ActivateBuildingStaffPanel(false);
+            CharacterUIHandler.singleton.ActivatePlacingPanel(false);
             _targetBluePrint = null;
         }
 

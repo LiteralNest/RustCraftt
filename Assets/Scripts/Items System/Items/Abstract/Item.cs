@@ -20,5 +20,10 @@ namespace Items_System.Items.Abstract
                 handler.PlayerNetCode.GetClientId());
             handler.ActiveSlotDisplayer = quickSlotDisplayer;
         }
+
+        public virtual void OnClickDisabled()
+        {
+            
+        }
     }
 }

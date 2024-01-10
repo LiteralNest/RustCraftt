@@ -5,7 +5,7 @@ using UnityEngine;
 namespace Building_System.Buildings_Connecting
 {
     [RequireComponent(typeof(BoxCollider))]
-    public abstract class BuildingConnector : MonoBehaviour
+    public abstract class BuildingConnector : NetworkBehaviour
     {
         [SerializeField] protected ConnectedStructure _structurePrefab;
     
@@ -16,7 +16,7 @@ namespace Building_System.Buildings_Connecting
 
         private void Start()
         {
-            ConnectBlocks();
+            ConnectBlocksServerRpc();
         }
 
         #region abstractd
@@ -51,8 +51,9 @@ namespace Building_System.Buildings_Connecting
         }
 
         [ServerRpc(RequireOwnership = false)]
-        private void ConnectBlocks()
+        private void ConnectBlocksServerRpc()
         {
+            if(!IsServer) return;
             ConnectStructures();
         }
     

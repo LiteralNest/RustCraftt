@@ -17,7 +17,7 @@ public class InventoryHandler : NetworkBehaviour
     [field: SerializeField] public InventoryPanelsDisplayer InventoryPanelsDisplayer { get; private set; }
     [field: SerializeField] public PlayerNetCode PlayerNetCode { get; private set; }
     [field: SerializeField] public CharacterStats Stats { get; private set; }
-    [field: SerializeField] public PlayerObjectsPlacer PlayerObjectsPlacer { get; private set; }
+    [field: SerializeField] public PlayerObjectsDragger PlayerObjectsDragger { get; private set; }
     [field: SerializeField] public InHandObjectsContainer InHandObjectsContainer { get; private set; }
     [field: SerializeField] public ArmorsContainer ArmorsContainer { get; private set; }
 

@@ -1,3 +1,4 @@
+using Storage_System;
 using UnityEngine;
 
 namespace Inventory_System.Inventory_Slot_Displayers
@@ -28,16 +29,25 @@ namespace Inventory_System.Inventory_Slot_Displayers
         public void Click()
         {
             if (GlobalValues.CanDragInventoryItems) return;
+            var characterInventory = _inventoryHandler.CharacterInventory as CharacterInventory;
+            characterInventory.SetActiveQuickSlot(this);
             if (ItemDisplayer == null)
             {
                 _inventoryHandler.InHandObjectsContainer.SetDefaultHands();
                 return;
             }
+
             if (ItemDisplayer.InventoryCell == null) return;
             var cell = ItemDisplayer.InventoryCell;
             if (cell == null) return;
             var item = cell.Item;
             item.Click(ConnectedSlotDisplayer);
+        }
+
+        public void OnSlotDisabled()
+        {
+            if (ItemDisplayer?.InventoryCell != null) 
+                ItemDisplayer?.InventoryCell.Item.OnClickDisabled();
         }
     }
 }
