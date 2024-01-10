@@ -89,7 +89,8 @@ namespace Player_Controller
                 _controller.SimpleMove(_camera.transform.forward * _movingSpeed * _runningKoef);
             }
           
-            AnimationsManager.Singleton.SetIdle();
+            if(AnimationsManager.Singleton != null)
+                AnimationsManager.Singleton.SetIdle();
             _inHandObjectsContainer.SetWalk(false);
             
         }

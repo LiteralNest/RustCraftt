@@ -198,7 +198,6 @@ namespace Storage_System
         [ContextMenu("Test")]
         private void AddTestCell()
         {
-            if (!IsServer) return;
             AddItemToDesiredSlotServerRpc(_testAddingCell.Item.Id, _testAddingCell.Count, 0);
         }
     }
