@@ -1,3 +1,5 @@
+using System.Collections;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Unity.Netcode;
 using UnityEngine;
@@ -52,12 +54,6 @@ public abstract class BaseExplosive : NetworkBehaviour
         }
     }
 
-    private async Task PlaySound()
-    {
-        _explosiveSource.PlayOneShot(_explosiveClip);
-        await Task.Delay((int)(_explosiveClip.length * 1000));
-    }
-
     protected void ShakeCamera()
     {
         if (_cameraShake != null)
@@ -66,12 +62,18 @@ public abstract class BaseExplosive : NetworkBehaviour
         }
     }
 
-    private async void Explode()
+    private IEnumerator PlaySoundRoutine()
+    {
+        _explosiveSource.PlayOneShot(_explosiveClip);
+        yield return new WaitForSeconds(_explosiveClip.length);
+    }
+
+    private IEnumerator ExplodeRoutine()
     {
         _explosionVfx.SetActive(true);
         _model.SetActive(false);
         DamageObjects();
-        await PlaySound();
+        yield return StartCoroutine(PlaySoundRoutine());
         Destroy(gameObject);
         if (IsServer)
             GetComponent<NetworkObject>().Despawn();
@@ -81,6 +83,6 @@ public abstract class BaseExplosive : NetworkBehaviour
     protected void ExplodeServerRpc()
     {
         if (!IsServer) return;
-        Explode();
+        StartCoroutine(ExplodeRoutine());
     }
 }

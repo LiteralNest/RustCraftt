@@ -91,7 +91,7 @@ namespace Tool_Clipboard
             {
                 for (int j = 0; j < data.Count; j++)
                 {
-                    if (deletingCells[i].Item == null || data[j].Item == null) continue;
+                    if (i == -1 || deletingCells[i].Item == null || data[j].Item == null) continue;
                     if (deletingCells[i].Item.Id == data[j].Item.Id)
                     {
                         if (deletingCells.Count <= data[j].Count)
@@ -106,6 +106,7 @@ namespace Tool_Clipboard
 
                             deletingCells.RemoveAt(i);
                             i--;
+                            if (i == -1) return true;
                             if (deletingCells.Count == 0) return true;
                             continue;
                         }
