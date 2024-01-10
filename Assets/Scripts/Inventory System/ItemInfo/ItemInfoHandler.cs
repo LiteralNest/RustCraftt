@@ -1,3 +1,5 @@
+using System;
+using Events;
 using Inventory_System.Inventory_Slot_Displayers;
 using Items_System.Items;
 using Player_Controller;
@@ -15,8 +17,17 @@ namespace Inventory_System.ItemInfo
         [SerializeField] private Image _icon;
 
         [Header("Buttons")] [SerializeField] private GameObject _eatButton;
-        
+
         private SlotDisplayer _currentSlotDisplayer;
+
+        private void OnEnable()
+            => GlobalEventsContainer.InventoryItemDragged += ResetPanel;
+
+        private void OnDisable()
+        {
+            GlobalEventsContainer.InventoryItemDragged -= ResetPanel;
+            ResetPanel();
+        }
 
         public void ResetPanel()
             => _displayingPanel.SetActive(false);

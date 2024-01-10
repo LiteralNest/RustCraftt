@@ -1,4 +1,5 @@
 using System.Threading.Tasks;
+using Events;
 using Inventory_System.Inventory_Slot_Displayers;
 using Player_Controller;
 using Storage_System;
@@ -14,6 +15,7 @@ namespace Inventory_System.Inventory_Items_Displayer
         public void OnBeginDrag(PointerEventData eventData)
         {
             if (!GlobalValues.CanDragInventoryItems) return;
+            GlobalEventsContainer.InventoryItemDragged?.Invoke();
             PreviousCell.ResetItemWhileDrag();
             if (_countText != null)
                 _countText.gameObject.SetActive(false);

@@ -24,6 +24,12 @@ namespace Events
         public static Action<bool> OnMainHudHandle { get; set; }
         public static Action OnMapOpened { get; set; }
 
+        #region Inventory
+
+        public static Action InventoryItemDragged { get; set; }
+
+        #endregion
+        
         #region Temperature & Radiation
 
         public static Action CriticalTemperatureReached { get; set; }
