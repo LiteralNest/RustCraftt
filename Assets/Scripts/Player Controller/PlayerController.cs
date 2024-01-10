@@ -82,17 +82,19 @@ namespace Player_Controller
             {
                 if(AnimationsManager.Singleton != null)
                     AnimationsManager.Singleton.SetWalk();
+                _inHandObjectsContainer.SetWalk(true);
                 _controller.SimpleMove(moveDirection * _movingSpeed);
             }
             else
             {
                 _controller.SimpleMove(_camera.transform.forward * _movingSpeed * _runningKoef);
             }
-          
+
+            if (_move != Vector2.zero) return;
             if(AnimationsManager.Singleton != null)
                 AnimationsManager.Singleton.SetIdle();
             _inHandObjectsContainer.SetWalk(false);
-            
+
         }
 
         public void StartRunning()
