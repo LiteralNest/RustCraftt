@@ -20,7 +20,7 @@ namespace Building_System.Placing_Objects
         public void SetOwnerIdServerRpc(int id)
         {
             OwnerId.Value = id;
-            _interactable?.Init(UserDataHandler.singleton.UserData.Id);
+            _interactable?.Init(id);
         }
         
         [ServerRpc(RequireOwnership = false)]

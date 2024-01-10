@@ -29,7 +29,7 @@ namespace Building_System.Placing_Objects
             PlacingObjectsPool.singleton.InstantiateObjectServerRpc(TargetPlacingObject.TargetItem.Id,
                 transform.position,
                 transform.rotation,
-            ownerId);
+            UserDataHandler.singleton.UserData.Id);
         }
 
         public override void InitPlacedObject(BuildingStructure structure){}

@@ -8649,7 +8649,7 @@ Transform:
   m_GameObject: {fileID: 1430145389057078488}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0, y: 0.0034300713, z: 0}
+  m_LocalPosition: {x: -0, y: 0.001, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -16314,6 +16314,8 @@ MonoBehaviour:
   - {fileID: 228275790847561711}
   - {fileID: 274879223211706544}
   - {fileID: 1553957174920031044}
+  _disablingObjects:
+  - {fileID: 4785573788255898050}
   characterUIHandler: {fileID: 1045087680176844765}
   _body:
   - {fileID: 1128752710889453121}
@@ -16488,13 +16490,13 @@ CharacterController:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Height: 2
-  m_Radius: 0.26
+  m_Height: 1.5
+  m_Radius: 0.2
   m_SlopeLimit: 45
   m_StepOffset: 0.3
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
-  m_Center: {x: 0, y: -0.4, z: 0}
+  m_Center: {x: 0, y: -0.55, z: 0}
 --- !u!1 &2456831152746633296
 GameObject:
   m_ObjectHideFlags: 0
@@ -34003,10 +34005,10 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4785573788255898050}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.03690791, y: -0.023583708, z: -0.0010663323, w: -0.9990398}
-  m_LocalPosition: {x: 0, y: 1948, z: 41}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 310, z: 0}
+  m_LocalScale: {x: 0.1, y: 0.1, z: 0.1}
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 5041277166301792385}
   m_Father: {fileID: 4341349121896943449}
@@ -48711,7 +48713,7 @@ GameObject:
   - component: {fileID: 4647961249501836294}
   - component: {fileID: 2320585369222077407}
   m_Layer: 0
-  m_Name: Image
+  m_Name: Point
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -48757,14 +48759,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.8584906, g: 0.6240966, b: 0.16602883, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: b350498777a10994c8cd82e4ca0990bb, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1

@@ -18,6 +18,7 @@ namespace Multiplayer
         [SerializeField] private CharacterAnimationsHandler _characterAnimationsHandler;
         [SerializeField] private CharacterAnimationsHandler _inventoryCharacterAnimationsHandler;
         [SerializeField] private List<Behaviour> _monos = new List<Behaviour>();
+        [SerializeField] private List<GameObject> _disablingObjects = new List<GameObject>();
         [FormerlySerializedAs("_mainUiHandler")] [SerializeField] private CharacterUIHandler characterUIHandler;
 
         [Header("Children")] 
@@ -82,6 +83,8 @@ namespace Multiplayer
         {
             foreach (var mono in _monos)
                 mono.enabled = value;
+            foreach (var obj in _disablingObjects)
+                obj.SetActive(value);
         }
     
         private void ClearObjects()
