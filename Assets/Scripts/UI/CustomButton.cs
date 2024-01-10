@@ -7,6 +7,7 @@ public class CustomButton : MonoBehaviour, IPointerUpHandler ,IPointerClickHandl
 {
     [SerializeField] private UnityEvent _pointerDown;
     [SerializeField] private UnityEvent _pointerClicked;
+    [SerializeField] private UnityEvent _pointerClickedWithoudDisable;
 
     private void OnDisable()
     {
@@ -21,15 +22,18 @@ public class CustomButton : MonoBehaviour, IPointerUpHandler ,IPointerClickHandl
     public void OnPointerClick(PointerEventData eventData)
     {
         _pointerClicked?.Invoke();
+        _pointerClickedWithoudDisable?.Invoke();
     }
 
     public void OnPointerUp(PointerEventData eventData)
     {
         _pointerClicked?.Invoke();
+        _pointerClickedWithoudDisable?.Invoke();
     }
     
     public void OnPointerExit(PointerEventData eventData)
     {
         _pointerClicked?.Invoke();
+        _pointerClickedWithoudDisable?.Invoke();
     }
 }
