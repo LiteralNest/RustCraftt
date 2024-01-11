@@ -14,6 +14,7 @@ namespace FightSystem.Weapon.ShootWeapon
     [RequireComponent(typeof(TrailSpawner))]
     [RequireComponent(typeof(WeaponSway))]
     [RequireComponent(typeof(AimSway))]
+    [RequireComponent(typeof(AudioSource))]
     public abstract class BaseShootingWeapon : NetworkBehaviour
     {
         private const string ViewName = "Weapon/View/LongRangeWeaponView";
@@ -61,6 +62,9 @@ namespace FightSystem.Weapon.ShootWeapon
 
         private void OnEnable()
         {
+            _isReloading = false;
+            if (_weaponAim != null)
+                _weaponAim.UnScope();
             TryDisplayReload();
             TryDisplayAttack();
             GlobalEventsContainer.WeaponObjectAssign?.Invoke(this);
@@ -128,6 +132,7 @@ namespace FightSystem.Weapon.ShootWeapon
 
         public void Scope()
         {
+            if (_isReloading) return;
             _weaponAim.SetScope();
         }
 

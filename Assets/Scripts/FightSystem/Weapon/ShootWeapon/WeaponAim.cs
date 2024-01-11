@@ -14,7 +14,7 @@ namespace FightSystem.Weapon.ShootWeapon
         private Quaternion _originalRotation;
         private bool _isScoping;
         public bool IsAiming { get; private set; }
-        
+
 
         public WeaponAim(Transform weaponAimPosition, Transform transform, WeaponSway weaponSway, AimSway aimSway)
         {
@@ -53,6 +53,8 @@ namespace FightSystem.Weapon.ShootWeapon
             IsAiming = false;
         }
 
+        public void UnScope() => UnScope(out bool wasUnScopped);
+
         public void UnScope(out bool wasScoped)
         {
             wasScoped = false;
@@ -61,6 +63,7 @@ namespace FightSystem.Weapon.ShootWeapon
                 wasScoped = true;
                 SetOnOriginalPosition();
             }
+
             _isScoping = false;
         }
 
