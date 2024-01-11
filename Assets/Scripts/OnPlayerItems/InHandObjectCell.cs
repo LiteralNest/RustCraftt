@@ -1,4 +1,6 @@
 using System.Collections.Generic;
+using In_Hand_Items;
+using In_Hand_Items.InHand;
 using Items_System.Items.Abstract;
 using UnityEngine;
 

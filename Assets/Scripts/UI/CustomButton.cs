@@ -8,6 +8,9 @@ public class CustomButton : MonoBehaviour, IPointerUpHandler ,IPointerClickHandl
     [SerializeField] private UnityEvent _pointerDown;
     [SerializeField] private UnityEvent _pointerClicked;
     [SerializeField] private UnityEvent _pointerClickedWithoudDisable;
+    
+    public UnityEvent PointerDown => _pointerDown;
+    public UnityEvent PointerClicked => _pointerClicked;
 
     private void OnDisable()
     {

@@ -7,14 +7,16 @@ namespace Web.NetObjectsSpawner
     {
         [SerializeField] private string _prefabPath = "NetObject/";
         
-        public void GeneratePref()
+        public void GeneratePref(Transform parent)
         {
             var position = transform.position;
             Debug.Log("Generating " + _prefabPath + " at " + position);
             ClearChildren();
             var prefab = Resources.Load<GameObject>(_prefabPath);
             var instance = Instantiate(prefab, position, Quaternion.identity);
-            instance.GetComponent<NetworkObject>().Spawn();
+            var networkObject = instance.GetComponent<NetworkObject>();
+            networkObject.Spawn();
+            networkObject.TrySetParent(parent);
         }
         
         private void ClearChildren()

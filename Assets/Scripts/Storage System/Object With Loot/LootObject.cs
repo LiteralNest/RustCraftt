@@ -1,3 +1,4 @@
+using FightSystem.Damage;
 using UnityEngine;
 
 namespace Storage_System.Object_With_Loot

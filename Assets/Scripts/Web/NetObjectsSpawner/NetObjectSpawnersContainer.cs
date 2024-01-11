@@ -21,7 +21,7 @@ namespace Web.NetObjectsSpawner
             var spawners = FindObjectsOfType<NetObjectSpawner>().ToList();
             foreach (var spawner in spawners)
             {
-                spawner.GeneratePref();
+                spawner.GeneratePref(this.transform);
                 yield return new WaitForSeconds(_delayBetweenSpawning);
             }
         }

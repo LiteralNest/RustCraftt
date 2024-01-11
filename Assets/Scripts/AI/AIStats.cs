@@ -1,4 +1,5 @@
 using AI.Animals;
+using FightSystem.Damage;
 using Multiplayer;
 using Unity.Netcode;
 using UnityEngine;
