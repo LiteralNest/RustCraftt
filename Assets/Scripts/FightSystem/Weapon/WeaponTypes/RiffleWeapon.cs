@@ -2,7 +2,7 @@ using Inventory_System.Inventory_Items_Displayer;
 using Player_Controller;
 using UnityEngine;
 
-namespace FightSystem.Weapon.ShootWeapon
+namespace FightSystem.Weapon.WeaponTypes
 {
     public class RiffleWeapon : BaseShootingWeapon
     {
@@ -11,9 +11,9 @@ namespace FightSystem.Weapon.ShootWeapon
         protected override void Attack()
         {
             if (!CanShoot() || CurrentAmmoCount <= 0) return;
+            base.Attack();
             
             SoundPlayer.PlayShot();
-            AdjustRecoil();
             MinusAmmo();
             StartCoroutine(DisplayFlameEffect());
 
@@ -22,21 +22,22 @@ namespace FightSystem.Weapon.ShootWeapon
 
             bool hitDisplayed = false;
             bool damaged = false;
-            
+
             foreach (var hit in raycastedTargets)
             {
-
                 if (!hitDisplayed)
                 {
                     _trailSpawner.SpawnTrailServerRpc(PlayerNetCode.Singleton.GetClientId(), _bulletSpeed, hit.point);
                     hitDisplayed = DisplayHit(hit);
                 }
+
                 if (!damaged)
                     damaged = TryDamage(hit);
-                
-                if(damaged) break;
+
+                if (damaged) break;
             }
 
+            AdjustRecoil();
             StartCoroutine(WaitBetweenShootsRoutine());
         }
     }

@@ -1,4 +1,5 @@
 ﻿using FightSystem.Weapon.ShootWeapon;
+using FightSystem.Weapon.WeaponTypes;
 using UnityEngine;
 using UnityEngine.UI;
 

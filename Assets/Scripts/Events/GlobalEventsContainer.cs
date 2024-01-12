@@ -1,6 +1,7 @@
 using System;
 using FightSystem.Weapon.Melee;
 using FightSystem.Weapon.ShootWeapon;
+using FightSystem.Weapon.WeaponTypes;
 using Player_Controller;
 using RespawnSystem.SleepingBag;
 

@@ -1,6 +1,7 @@
 using System.Collections;
 using Events;
 using FightSystem.Damage;
+using FightSystem.Weapon.ShootWeapon;
 using FightSystem.Weapon.ShootWeapon.Sway;
 using FightSystem.Weapon.ShootWeapon.TrailSystem;
 using FightSystem.Weapon.WeaponViewSystem;
@@ -9,7 +10,7 @@ using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.VFX;
 
-namespace FightSystem.Weapon.ShootWeapon
+namespace FightSystem.Weapon.WeaponTypes
 {
     [RequireComponent(typeof(TrailSpawner))]
     [RequireComponent(typeof(WeaponSway))]
@@ -102,6 +103,7 @@ namespace FightSystem.Weapon.ShootWeapon
 
         protected virtual void Attack()
         {
+            _weaponAnimator.PlayShot();
         }
 
         public void Reload()
@@ -115,12 +117,6 @@ namespace FightSystem.Weapon.ShootWeapon
             if (addingAmmo > Weapon.MagazineCount - CurrentAmmoCount)
                 addingAmmo = Weapon.MagazineCount - CurrentAmmoCount;
             StartCoroutine(ReloadCoroutine(addingAmmo));
-        }
-
-        public void Init()
-        {
-            CurrentAmmoCount = InventoryHandler.singleton.ActiveSlotDisplayer.ItemDisplayer.GetCurrentAmmo();
-            if (CurrentAmmoCount > 0) _weaponView.AssignAttack(true);
         }
 
         public void HandleShoot(bool value)

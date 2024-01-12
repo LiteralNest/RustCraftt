@@ -1,8 +1,9 @@
+using FightSystem.Weapon.ShootWeapon;
 using Inventory_System.Inventory_Items_Displayer;
 using Player_Controller;
 using UnityEngine;
 
-namespace FightSystem.Weapon.ShootWeapon
+namespace FightSystem.Weapon.WeaponTypes
 {
     public class RandomShotgunWeapon : BaseShootingWeapon
     {
@@ -24,6 +25,8 @@ namespace FightSystem.Weapon.ShootWeapon
         {
             if (!CanShoot() || CurrentAmmoCount <= 0 || !RandomShotSucceeded()) return;
 
+            base.Attack();
+            
             if(SoundPlayer != null)
                 SoundPlayer.PlayShot();
             MinusAmmo();

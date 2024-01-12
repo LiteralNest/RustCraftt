@@ -6,11 +6,16 @@ namespace FightSystem.Weapon.ShootWeapon
 {
     public class WeaponAnimator : NetworkBehaviour
     {
+        private const string Reload = "Reload";
+        private const string Shot = "Shot";
+        
         [SerializeField] private List<Animator> _animators;
-
-        [ContextMenu("Reload")]
+        
         public void PlayReload()
-            => PlayAnimationServerRpc("Reload");
+            => PlayAnimationServerRpc(Reload);
+        
+        public void PlayShot()
+            => PlayAnimationServerRpc(Shot);
 
         [ClientRpc]
         private void PlayAnimationClientRpc(string key)

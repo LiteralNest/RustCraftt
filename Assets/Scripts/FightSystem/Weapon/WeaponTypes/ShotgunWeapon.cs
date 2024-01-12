@@ -1,7 +1,7 @@
 using Player_Controller;
 using UnityEngine;
 
-namespace FightSystem.Weapon.ShootWeapon
+namespace FightSystem.Weapon.WeaponTypes
 {
     public class ShotgunWeapon : BaseShootingWeapon
     {
@@ -17,6 +17,7 @@ namespace FightSystem.Weapon.ShootWeapon
         {
             if (!CanShoot() || CurrentAmmoCount <= 0) return;
 
+            base.Attack();
             SoundPlayer.PlayShot();
             MinusAmmo();
 

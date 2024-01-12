@@ -1,4 +1,5 @@
 using FightSystem.Weapon.ShootWeapon.Ammo;
+using FightSystem.Weapon.WeaponTypes;
 using UnityEngine;
 
 namespace FightSystem.Weapon.ShootWeapon
@@ -22,6 +23,7 @@ namespace FightSystem.Weapon.ShootWeapon
 
         protected override void Attack()
         {
+            base.Attack();
             // if (!CanShoot() || currentAmmoCount <= 0) return;
             ShootArrow();
         }
