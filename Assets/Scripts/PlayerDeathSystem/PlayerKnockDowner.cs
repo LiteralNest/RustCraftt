@@ -39,6 +39,10 @@ namespace PlayerDeathSystem
             {
                 GetComponent<PlayerController>().enabled = false;
                 MainUiHandler.Singleton.DisplayKnockDownScreen(true);
+                var item = InventoryHandler.singleton.ActiveItem;
+                if (item == null) return;
+                InstantiatingItemsPool.sigleton.SpawnDropableObjectServerRpc(item.Id, 1, Camera.main.transform.position + Camera.main.transform.forward);
+                PlayerNetCode.Singleton.InHandObjectsContainer.SetDefaultHands();
                 AnimationsManager.Singleton.SetKnockDown();
             }
         }

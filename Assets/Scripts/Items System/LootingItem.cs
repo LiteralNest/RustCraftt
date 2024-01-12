@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Items_System
 {
-    [RequireComponent(typeof(BoxCollider), typeof(Rigidbody))]
+    [RequireComponent(typeof(BoxCollider))]
     public class LootingItem : NetworkBehaviour
     {
         public NetworkVariable<int> ItemId = new(0, NetworkVariableReadPermission.Everyone,
@@ -14,12 +14,6 @@ namespace Items_System
         private void Start()
             => gameObject.tag = "LootingItem";
 
-        public void SetCell(InventoryCell cell)
-        {
-            Count.Value = cell.Count;
-            ItemId.Value = cell.Item.Id;
-        }
-    
         [ServerRpc(RequireOwnership = false)]
         public void PickUpServerRpc()
         {
