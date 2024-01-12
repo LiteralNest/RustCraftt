@@ -1,19 +1,25 @@
-using Events;
-using FightSystem.Weapon.WeaponAnimations;
-using InHandViewSystem;
+using InHandItems.InHandAnimations.Weapon;
+using InHandItems.InHandViewSystem;
+using Items_System.Items.Weapon;
+using Player_Controller;
 using UnityEngine;
+
 
 namespace FightSystem.Weapon.Melee
 {
-    public class MeleeShootingWeapon : MonoBehaviour, IViewable
+    public class MeleeShootingWeapon : DelayItem, IViewable
     {
         private const string ViewName = "Weapon/View/MeleeShootingWeaponView";
+
+        [Header("Main Params")] 
+        [SerializeField] private AnimationClip _attackAnimation;
+        [SerializeField] private MeleeWeapon _targetWeapon;
 
         [Header("Attached Components")] [SerializeField]
         private Transform _viewSpawningPoint;
 
         [Header("ThrowingObject")] [SerializeField]
-        private ThrowingWeaponAnimator _weaponAnimator;
+        private ThrowingInHandAnimator inHandAnimator;
 
         [SerializeField] private WeaponThrower _weaponThrower;
         [SerializeField] private GameObject _mainObj;
@@ -44,8 +50,10 @@ namespace FightSystem.Weapon.Melee
 
         private void Update()
         {
-            if (_isAttacking)
-                _weaponAnimator.Attack();
+            if (!_isAttacking || _isRecovering) return;
+            PlayerNetCode.Singleton.PlayerMeleeDamager.TryDamage(_targetWeapon.Damage);
+            StartCoroutine(RecoverRoutine(_attackAnimation.length));
+            inHandAnimator.Attack();
         }
 
         public void SetThrowingPosition(bool value)
@@ -62,7 +70,7 @@ namespace FightSystem.Weapon.Melee
 
         public void SetAttack(bool value)
             => _isAttacking = value;
-        
+
         private void DisplayDefault()
         {
             _weaponThrower.gameObject.SetActive(false);

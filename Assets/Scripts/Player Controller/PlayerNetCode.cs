@@ -24,6 +24,7 @@ namespace Player_Controller
         [field: SerializeField] public InHandObjectsContainer InHandObjectsContainer { get; private set; }
         [field: SerializeField] public VehiclesController VehiclesController { get; private set; }
         [field: SerializeField] public CharacterInventory CharacterInventory { get; private set; }
+        [field:SerializeField] public PlayerMeleeDamager PlayerMeleeDamager { get; private set; }
 
         [Header("In Hand Items")] [SerializeField]
         private InHandObjectsContainer _inHandObjectsContainer;

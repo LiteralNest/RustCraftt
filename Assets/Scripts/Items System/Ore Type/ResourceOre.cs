@@ -15,7 +15,7 @@ namespace Items_System.Ore_Type
         {
             gameObject.tag = "Ore";
         }
-        private bool CanUseTool(Item tool)
+        public bool CanUseTool(Item tool)
             => _toolsForGathering.Contains(tool);
 
         public void MinusHp(Item targetTool, out bool destroyed, Vector3 lastRayPos, Vector3 lastRayRot)

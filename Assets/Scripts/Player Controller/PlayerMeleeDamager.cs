@@ -7,12 +7,11 @@ namespace Player_Controller
     {
         [SerializeField] private float _damageRange = 1f;
         [SerializeField] private LayerMask _damageLayer;
-    
-        
-        
+
         public bool TryDamage(int damageAmount)
         {
-            var ray = new Ray(transform.position, transform.forward);
+            var cameraTransform = Camera.main.transform;
+            var ray = new Ray(cameraTransform.position, cameraTransform.forward);
             if (Physics.Raycast(ray, out var hit, _damageRange, _damageLayer))
             {
                 var damagable = hit.collider.GetComponent<IDamagable>();

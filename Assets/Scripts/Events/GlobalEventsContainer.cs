@@ -2,7 +2,7 @@ using System;
 using FightSystem.Weapon.Melee;
 using FightSystem.Weapon.ShootWeapon;
 using FightSystem.Weapon.WeaponTypes;
-using In_Hand_Items;
+using InHandItems;
 using Player_Controller;
 using RespawnSystem.SleepingBag;
 
