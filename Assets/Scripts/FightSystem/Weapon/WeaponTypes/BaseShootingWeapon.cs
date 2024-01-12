@@ -9,11 +9,10 @@ using InHandItems.InHandViewSystem;
 using Items_System.Items.Weapon;
 using Unity.Netcode;
 using UnityEngine;
-using UnityEngine.VFX;
+using UnityEngine.Serialization;
 
 namespace FightSystem.Weapon.WeaponTypes
 {
-    [RequireComponent(typeof(TrailSpawner))]
     [RequireComponent(typeof(WeaponSway))]
     [RequireComponent(typeof(AimSway))]
     [RequireComponent(typeof(AudioSource))]
@@ -34,16 +33,16 @@ namespace FightSystem.Weapon.WeaponTypes
         [SerializeField] protected ShootingWeapon Weapon;
         [SerializeField] protected Transform AmmoSpawnPoint;
         [SerializeField] protected GameObject ImpactEffect;
-
+        
+        [FormerlySerializedAs("TrailSpawner")] 
+        [SerializeField] protected ShotEffectSpawner ShotEffectSpawner;
+        
         [Header("Aim")] 
         [SerializeField] private Transform _aimPosition;
         [SerializeField] private Transform _aimingTransform;
 
         [Header("Animation")]
         [SerializeField] private AnimationClip _reloadAnim;
-
-        [Header("Flame")] [SerializeField] protected VisualEffect FlameEffect;
-        [SerializeField] protected float FlameEffectDuration;
 
         private WeaponSway _weaponSway;
         private AimSway _aimSway;
@@ -52,10 +51,7 @@ namespace FightSystem.Weapon.WeaponTypes
         private WeaponRecoil _recoil;
         protected WeaponAim WeaponAim;
         private LongRangeInHandView _inHandView;
-
-        protected TrailSpawner _trailSpawner;
-
-        public bool IsSingle => _isSingle;
+        
         protected int CurrentAmmoCount;
         private bool _canShoot;
         private bool _isShooting;
@@ -86,7 +82,6 @@ namespace FightSystem.Weapon.WeaponTypes
             SoundPlayer = new WeaponSoundPlayer(GetComponent<AudioSource>(), Weapon);
             WeaponAim = new WeaponAim(_aimPosition, _aimingTransform, _weaponSway, _aimSway);
             _recoil = new WeaponRecoil(_swayTransform);
-            _trailSpawner = GetComponent<TrailSpawner>();
             _canShoot = true;
             _inHandView = Instantiate(Resources.Load<LongRangeInHandView>(ViewName), transform);
             _inHandView.Init(this);
@@ -103,6 +98,7 @@ namespace FightSystem.Weapon.WeaponTypes
         protected virtual void Attack()
         {
             _weaponAnimator.PlayShot();
+            ShotEffectSpawner.DisplayEffectServerRpc();
         }
 
         public void Reload()
@@ -190,13 +186,6 @@ namespace FightSystem.Weapon.WeaponTypes
             InventoryHandler.singleton.ActiveSlotDisplayer.ItemDisplayer.MinusCurrentAmmo(1);
             TryDisplayReload();
             TryDisplayAttack();
-        }
-
-        protected IEnumerator DisplayFlameEffect()
-        {
-            FlameEffect.Play();
-            yield return new WaitForSeconds(FlameEffectDuration);
-            FlameEffect.Stop();
         }
 
         protected IEnumerator WaitBetweenShootsRoutine()

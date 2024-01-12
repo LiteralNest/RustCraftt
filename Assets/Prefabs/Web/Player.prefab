@@ -22162,9 +22162,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a3a24b436d1d4c6d9d490ef92812abda, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _animators:
-  - {fileID: 7876175493028108024}
-  - {fileID: 2789636639527401665}
+  _fpAnimators: []
+  _tpAnimators: []
 --- !u!1 &3982276043569888848
 GameObject:
   m_ObjectHideFlags: 0
@@ -25849,7 +25848,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 310, z: 0}
-  m_LocalScale: {x: 0.1, y: 0.1, z: 0.1}
+  m_LocalScale: {x: 0.05, y: 0.05, z: 0.05}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 5041277166301792385}
@@ -29814,11 +29813,10 @@ MonoBehaviour:
   Weapon: {fileID: 11400000, guid: 9a099c6aa20c40842a61981a8ee28391, type: 2}
   AmmoSpawnPoint: {fileID: 5274800336384837932}
   ImpactEffect: {fileID: 0}
+  ShotEffectSpawner: {fileID: 0}
   _aimPosition: {fileID: 0}
   _aimingTransform: {fileID: 0}
   _reloadAnim: {fileID: 0}
-  FlameEffect: {fileID: 6642391786047634509, guid: a52b6b441086c1b41a3d27432158df80, type: 3}
-  FlameEffectDuration: 0
   _arrowPrefab: {fileID: -371570071824515017, guid: 6e9631a9a94fc46f484315b44bcba73e, type: 3}
   _arrowForce: 50
 --- !u!114 &8525521400454221942
@@ -29873,6 +29871,9 @@ MonoBehaviour:
   _fpSpawningPos: {fileID: 0}
   _tpSpawningPos: {fileID: 0}
   _bulletTrail: {fileID: 0}
+  _shotVfxFp: {fileID: 0}
+  _shotVfxTp: {fileID: 0}
+  _flameEffectDuration: 1
 --- !u!114 &1192670799936881327
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -43891,8 +43892,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a45a9da4c55e49499aad6a910d8eb4d0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _animators:
-  - {fileID: 2755295016699195908}
+  _fpAnimators: []
+  _tpAnimators: []
 --- !u!1 &7764069570783305128
 GameObject:
   m_ObjectHideFlags: 0
@@ -63513,6 +63514,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Explosive BeanCanGranade
       objectReference: {fileID: 0}
+    - target: {fileID: 8359619640532620024, guid: 1845c0bf4c604134682870e4ee69ab18, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:
@@ -63997,6 +64002,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5273353998894053599, guid: 017419cddd13c2441987065c7e7cc2a3, type: 3}
+      propertyPath: GlobalObjectIdHash
+      value: 1057753847
+      objectReference: {fileID: 0}
+    - target: {fileID: 8726923971449298976, guid: 017419cddd13c2441987065c7e7cc2a3, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -64040,6 +64053,10 @@ PrefabInstance:
     - target: {fileID: 478355575480329509, guid: b204edd775bf36b4e9c7191a9a73bf3a, type: 3}
       propertyPath: m_Name
       value: Spear
+      objectReference: {fileID: 0}
+    - target: {fileID: 1036636685373083111, guid: b204edd775bf36b4e9c7191a9a73bf3a, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9184475224881221504, guid: b204edd775bf36b4e9c7191a9a73bf3a, type: 3}
       propertyPath: m_LocalPosition.x

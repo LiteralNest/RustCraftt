@@ -15,7 +15,7 @@ namespace FightSystem.Weapon.WeaponTypes
             
             SoundPlayer.PlayShot();
             MinusAmmo();
-            StartCoroutine(DisplayFlameEffect());
+           
 
             var raycastedTargets =
                 Physics.RaycastAll(AmmoSpawnPoint.position, AmmoSpawnPoint.forward, Weapon.Range, TargetMask);
@@ -27,7 +27,7 @@ namespace FightSystem.Weapon.WeaponTypes
             {
                 if (!hitDisplayed)
                 {
-                    _trailSpawner.SpawnTrailServerRpc(PlayerNetCode.Singleton.GetClientId(), _bulletSpeed, hit.point);
+                    ShotEffectSpawner.SpawnTrailServerRpc(PlayerNetCode.Singleton.GetClientId(), _bulletSpeed, hit.point);
                     hitDisplayed = DisplayHit(hit);
                 }
 

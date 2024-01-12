@@ -6,12 +6,15 @@ namespace InHandItems.InHandAnimations
 {
     public abstract class InHandAnimator : NetworkBehaviour 
     {
-        [SerializeField] private List<Animator> _animators;
+        [SerializeField] private List<Animator> _fpAnimators;
+        [SerializeField] private List<Animator> _tpAnimators;
         
         [ClientRpc]
         private void PlayAnimationClientRpc(string key)
         {
-            foreach (var animator in _animators)
+            foreach (var animator in _fpAnimators)
+                animator.SetTrigger(key);
+            foreach (var animator in _tpAnimators)
                 animator.SetTrigger(key);
         }
 

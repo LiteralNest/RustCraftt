@@ -32,8 +32,7 @@ namespace FightSystem.Weapon.WeaponTypes
             MinusAmmo();
 
             var spawnPoint = AmmoSpawnPoint.position;
-            var shootDirection = transform.forward;
-            StartCoroutine(DisplayFlameEffect()); // Start the coroutine
+            var shootDirection = transform.forward; 
             SpreadShots(spawnPoint, shootDirection, _weaponAim.IsAiming ? _spreadRadiusFocus : _spreadRadiusNoFocus);
             AdjustRecoil();
             StartCoroutine(WaitBetweenShootsRoutine());
@@ -65,13 +64,13 @@ namespace FightSystem.Weapon.WeaponTypes
 
                 if (raycast)
                 {
-                    _trailSpawner.SpawnTrailServerRpc(PlayerNetCode.Singleton.GetClientId(), _bulletSpeed, hit.point);
+                    ShotEffectSpawner.SpawnTrailServerRpc(PlayerNetCode.Singleton.GetClientId(), _bulletSpeed, hit.point);
                     TryDamage(hit);
                     DisplayHit(hit);
                 }
                 else
                 {
-                    _trailSpawner.SpawnTrailServerRpc(PlayerNetCode.Singleton.GetClientId(), _bulletSpeed,AmmoSpawnPoint.transform.forward * 10f);
+                    ShotEffectSpawner.SpawnTrailServerRpc(PlayerNetCode.Singleton.GetClientId(), _bulletSpeed,AmmoSpawnPoint.transform.forward * 10f);
                 }
             }
         }
