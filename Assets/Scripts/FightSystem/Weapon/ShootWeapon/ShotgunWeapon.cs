@@ -1,4 +1,3 @@
-using Inventory_System.Inventory_Items_Displayer;
 using Player_Controller;
 using UnityEngine;
 
@@ -6,20 +5,13 @@ namespace FightSystem.Weapon.ShootWeapon
 {
     public class ShotgunWeapon : BaseShootingWeapon
     {
-        [SerializeField] private WeaponAim _weaponAim;
-
         [Header("Shotgun Settings")] [SerializeField]
         private int _pelletCount = 12;
 
         [SerializeField] private float _spreadRadiusNoFocus = 0.5f;
         [SerializeField] private float _spreadRadiusFocus = 0.1f;
-
-        private LongRangeWeaponItemDisplayer _inventoryItemDisplayer;
+        
         private Vector3[] _spreadOffsets;
-
-
-        [ContextMenu("Shot")]
-        private void TestShot() => Attack();
 
         protected override void Attack()
         {
@@ -30,8 +22,8 @@ namespace FightSystem.Weapon.ShootWeapon
 
             var spawnPoint = AmmoSpawnPoint.position;
             var shootDirection = transform.forward;
-            StartCoroutine(DisplayFlameEffect()); // Start the coroutine
-            SpreadShots(spawnPoint, shootDirection, _weaponAim.IsAiming ? _spreadRadiusFocus : _spreadRadiusNoFocus);
+            StartCoroutine(DisplayFlameEffect());
+            SpreadShots(spawnPoint, shootDirection, WeaponAim.IsAiming ? _spreadRadiusFocus : _spreadRadiusNoFocus);
             AdjustRecoil();
             StartCoroutine(WaitBetweenShootsRoutine());
         }
@@ -68,38 +60,5 @@ namespace FightSystem.Weapon.ShootWeapon
                 }
             }
         }
-
-#if UNITY_EDITOR
-        private void OnDrawGizmos()
-        {
-            var spawnPoint = AmmoSpawnPoint.position;
-            var shootDirection = transform.forward;
-
-            Gizmos.color = Color.green;
-            Gizmos.DrawLine(spawnPoint, spawnPoint + shootDirection * Weapon.Range);
-
-            float angleStep = 360f / _pelletCount;
-
-            for (int i = 0; i < _pelletCount; i++)
-            {
-                var angle = i * angleStep;
-                var spreadAngleRad = angle * Mathf.Deg2Rad;
-
-                var x = Mathf.Cos(spreadAngleRad);
-                var y = Mathf.Sin(spreadAngleRad);
-
-                var spreadOffset = new Vector3(x, y, 0) * _spreadRadiusNoFocus;
-
-                var spreadDirection = (shootDirection + spreadOffset).normalized;
-
-                var randomSpreadOffset = Random.insideUnitCircle * _spreadRadiusNoFocus;
-
-                var randomSpreadOffset3D = new Vector3(randomSpreadOffset.x, randomSpreadOffset.y, 0f);
-
-                Gizmos.DrawLine(spawnPoint,
-                    spawnPoint + (spreadDirection + randomSpreadOffset3D).normalized * Weapon.Range);
-            }
-        }
-#endif
     }
 }

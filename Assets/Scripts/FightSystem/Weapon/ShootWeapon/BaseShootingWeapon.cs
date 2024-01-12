@@ -48,7 +48,7 @@ namespace FightSystem.Weapon.ShootWeapon
 
         protected WeaponSoundPlayer SoundPlayer;
         private WeaponRecoil _recoil;
-        private WeaponAim _weaponAim;
+        protected WeaponAim WeaponAim;
         private LongRangeWeaponView _weaponView;
 
         protected TrailSpawner _trailSpawner;
@@ -63,8 +63,8 @@ namespace FightSystem.Weapon.ShootWeapon
         private void OnEnable()
         {
             _isReloading = false;
-            if (_weaponAim != null)
-                _weaponAim.UnScope();
+            if (WeaponAim != null)
+                WeaponAim.UnScope();
             TryDisplayReload();
             TryDisplayAttack();
             GlobalEventsContainer.WeaponObjectAssign?.Invoke(this);
@@ -84,7 +84,7 @@ namespace FightSystem.Weapon.ShootWeapon
             _aimSway = GetComponent<AimSway>();
             _aimSway.Init(_swayTransform);
             SoundPlayer = new WeaponSoundPlayer(GetComponent<AudioSource>(), Weapon);
-            _weaponAim = new WeaponAim(_aimPosition, _aimingTransform, _weaponSway, _aimSway);
+            WeaponAim = new WeaponAim(_aimPosition, _aimingTransform, _weaponSway, _aimSway);
             _recoil = new WeaponRecoil(_swayTransform);
             _trailSpawner = GetComponent<TrailSpawner>();
             _canShoot = true;
@@ -97,14 +97,14 @@ namespace FightSystem.Weapon.ShootWeapon
             if (_isShooting && CanShoot())
                 Attack();
             _recoil.UpdateRecoil(3f);
-            _weaponAim.UpdateSway();
+            WeaponAim.UpdateSway();
         }
 
         protected virtual void Attack()
         {
         }
 
-        public virtual void Reload()
+        public void Reload()
         {
             if (_isReloading) return;
             _weaponAnimator.PlayReload();
@@ -133,7 +133,7 @@ namespace FightSystem.Weapon.ShootWeapon
         public void Scope()
         {
             if (_isReloading) return;
-            _weaponAim.SetScope();
+            WeaponAim.SetScope();
         }
 
         protected bool CanShoot()
@@ -141,11 +141,11 @@ namespace FightSystem.Weapon.ShootWeapon
 
         private IEnumerator ReloadCoroutine(int count)
         {
-            _weaponAim.UnScope(out bool wasUnScopped);
+            WeaponAim.UnScope(out bool wasUnScopped);
             _weaponView.AssignReload(false);
             yield return new WaitForSeconds(_reloadAnim.length);
             if(wasUnScopped)
-                _weaponAim.SetScope();
+                WeaponAim.SetScope();
             CurrentAmmoCount += count;
             InventoryHandler.singleton.CharacterInventory.RemoveItem(Weapon.Ammo.Id, count);
             InventoryHandler.singleton.ActiveSlotDisplayer.ItemDisplayer.SetCurrentAmmo(CurrentAmmoCount);
@@ -217,7 +217,7 @@ namespace FightSystem.Weapon.ShootWeapon
             var recoilY = Weapon.RecoilY;
             var recoilZ = Weapon.RecoilZ;
 
-            if (_weaponAim.IsAiming)
+            if (WeaponAim.IsAiming)
             {
                 // Reduce recoil by half when aiming
                 recoilX /= 4f;
