@@ -12,12 +12,14 @@ namespace FightSystem.Weapon.Melee
 
         public void Throw(Vector3 direction, float force)
         {
+            if(!_rb) return;
             _rb.AddForce(direction * force, ForceMode.Impulse);
             Rotate();
         }
 
         private void Rotate()
         {
+            if(!_rb) return;
             var velocity = _rb.velocity.normalized;
             if (_rb.velocity.sqrMagnitude > 0.01f)
             {
@@ -28,6 +30,7 @@ namespace FightSystem.Weapon.Melee
 
         private void OnCollisionEnter(Collision other)
         {
+            if(_rb) return;
             _rb.velocity = Vector3.zero;
             _rb.angularVelocity = Vector3.zero;
             _rb.isKinematic = true;

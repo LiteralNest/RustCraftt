@@ -3,27 +3,30 @@ using Player_Controller;
 using UI;
 using UnityEngine;
 
-public class ResourceGatheringObject : MonoBehaviour
+namespace In_Hand_Items
 {
-    public AnimationClip GatheringAnimation => _gatheringAnimation;
-    [SerializeField] private AnimationClip _gatheringAnimation;
-    [SerializeField] private bool _canAttack = true;
-
-    private void OnEnable()
+    public class ResourceGatheringObject : MonoBehaviour
     {
-        if (_canAttack)
-            CharacterUIHandler.singleton.ActivateGatherButton(true);
-        GlobalEventsContainer.ResourceGatheringObjectAssign?.Invoke(this);
-    }
+        public AnimationClip GatheringAnimation => _gatheringAnimation;
+        [SerializeField] private AnimationClip _gatheringAnimation;
+        [SerializeField] private bool _canAttack = true;
 
-    private void OnDisable()
-    {
-        if (_canAttack)
-            CharacterUIHandler.singleton.ActivateGatherButton(false);
-    }
+        private void OnEnable()
+        {
+            if (_canAttack)
+                CharacterUIHandler.singleton.ActivateGatherButton(true);
+            GlobalEventsContainer.ResourceGatheringObjectAssign?.Invoke(this);
+        }
 
-    public void SetGathering(bool value)
-    {
-        PlayerNetCode.Singleton.InHandObjectsContainer.SetAttackAnimationServerRpc(value);
+        private void OnDisable()
+        {
+            if (_canAttack)
+                CharacterUIHandler.singleton.ActivateGatherButton(false);
+        }
+
+        public void SetGathering(bool value)
+        {
+            PlayerNetCode.Singleton.InHandObjectsContainer.SetAttackAnimationServerRpc(value);
+        }
     }
 }

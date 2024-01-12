@@ -418,8 +418,8 @@ GameObject:
   m_Component:
   - component: {fileID: 7805928736795697131}
   - component: {fileID: 8461248906950368814}
-  - component: {fileID: 6034618708266508261}
   - component: {fileID: 2014401238894488383}
+  - component: {fileID: 1025150888881720008}
   m_Layer: 0
   m_Name: FP_ShotGun
   m_TagString: Untagged
@@ -465,21 +465,6 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &6034618708266508261
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3307993380144919260}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 88286fc23ab54d5983e67ff63fee0316, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _animators:
-  - {fileID: 8461248906950368814}
-  - {fileID: 2758969461356974807}
 --- !u!114 &2014401238894488383
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -496,6 +481,21 @@ MonoBehaviour:
   - {fileID: 6156519292323637672}
   _activatingObjects:
   - {fileID: 6500364245617463983}
+--- !u!114 &1025150888881720008
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3307993380144919260}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8d791eff8813452ebc28fe447b51707f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _animators:
+  - {fileID: 2758969461356974807}
+  - {fileID: 8461248906950368814}
 --- !u!1 &3310097494439609307
 GameObject:
   m_ObjectHideFlags: 0
@@ -789,8 +789,8 @@ GameObject:
   m_Component:
   - component: {fileID: 8339191602502378018}
   - component: {fileID: 2787778145591420922}
-  - component: {fileID: 2709244060322697149}
   - component: {fileID: 5053977143430207334}
+  - component: {fileID: 8527111909635812651}
   m_Layer: 0
   m_Name: TP_ShotGun
   m_TagString: Untagged
@@ -836,21 +836,6 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &2709244060322697149
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3979383444136286866}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 88286fc23ab54d5983e67ff63fee0316, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _animators:
-  - {fileID: 2787778145591420922}
-  - {fileID: 313381514769556730}
 --- !u!114 &5053977143430207334
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -867,6 +852,21 @@ MonoBehaviour:
   - {fileID: 5938093609161758527}
   _activatingObjects:
   - {fileID: 8968265061068825353}
+--- !u!114 &8527111909635812651
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3979383444136286866}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8d791eff8813452ebc28fe447b51707f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _animators:
+  - {fileID: 2787778145591420922}
+  - {fileID: 313381514769556730}
 --- !u!1 &4134970696306513837
 GameObject:
   m_ObjectHideFlags: 0
@@ -1738,7 +1738,7 @@ MonoBehaviour:
     m_Bits: 1083212215
   _bulletSpeed: 200
   Decal: {fileID: 1305036650871697919, guid: 74feb497a20face4e89facba0677d7ab, type: 3}
-  _weaponAnimator: {fileID: 6034618708266508261}
+  _weaponAnimator: {fileID: 1025150888881720008}
   _swayTransform: {fileID: 7805928736795697131}
   Weapon: {fileID: 11400000, guid: ff489915aee544cddbb847f9c5db7ac7, type: 2}
   AmmoSpawnPoint: {fileID: 3688680325972020887}

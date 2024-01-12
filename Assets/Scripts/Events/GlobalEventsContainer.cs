@@ -2,6 +2,7 @@ using System;
 using FightSystem.Weapon.Melee;
 using FightSystem.Weapon.ShootWeapon;
 using FightSystem.Weapon.WeaponTypes;
+using In_Hand_Items;
 using Player_Controller;
 using RespawnSystem.SleepingBag;
 
@@ -15,8 +16,6 @@ namespace Events
         public static Action<InventoryCell> OnInventoryItemRemoved { get; set; }
         public static Action InventoryDataChanged { get; set; }
         public static Action<int, ulong> ShouldDisplayHandItem { get; set; }
-        public static Action<BaseShootingWeapon> WeaponObjectAssign { get; set; }
-        public static Action<MeleeShootingWeapon> WeaponMeleeObjectAssign { get; set; }
         public static Action<ResourceGatheringObject> ResourceGatheringObjectAssign { get; set; }
         public static Action BluePrintDeactivated { get; set; }
         public static Action OnCurrentItemDeleted { get; set; }

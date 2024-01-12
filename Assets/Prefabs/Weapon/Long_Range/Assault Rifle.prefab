@@ -324,8 +324,8 @@ GameObject:
   m_Component:
   - component: {fileID: 2825953074115656747}
   - component: {fileID: 6617304330176735856}
-  - component: {fileID: 1469893377190074896}
   - component: {fileID: 394676090813570944}
+  - component: {fileID: 3512432536039232079}
   m_Layer: 0
   m_Name: FP_AssRifle_Hands
   m_TagString: Untagged
@@ -371,21 +371,6 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &1469893377190074896
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2721861993630452404}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 88286fc23ab54d5983e67ff63fee0316, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _animators:
-  - {fileID: 6617304330176735856}
-  - {fileID: 4170828713574710076}
 --- !u!114 &394676090813570944
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -402,6 +387,21 @@ MonoBehaviour:
   - {fileID: 34048075015996354}
   _activatingObjects:
   - {fileID: 5748217972620209267}
+--- !u!114 &3512432536039232079
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2721861993630452404}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8d791eff8813452ebc28fe447b51707f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _animators:
+  - {fileID: 6617304330176735856}
+  - {fileID: 4170828713574710076}
 --- !u!1 &2753999774902466467
 GameObject:
   m_ObjectHideFlags: 0
@@ -1354,7 +1354,7 @@ MonoBehaviour:
     m_Bits: 1083212215
   _bulletSpeed: 200
   Decal: {fileID: 1305036650871697919, guid: 74feb497a20face4e89facba0677d7ab, type: 3}
-  _weaponAnimator: {fileID: 1469893377190074896}
+  _weaponAnimator: {fileID: 3512432536039232079}
   _swayTransform: {fileID: 2825953074115656747}
   Weapon: {fileID: 11400000, guid: db581e837c8b34c96a777dc0afc8e659, type: 2}
   AmmoSpawnPoint: {fileID: 8890699187627926473}
@@ -1503,8 +1503,8 @@ GameObject:
   m_Component:
   - component: {fileID: 4288702212270077650}
   - component: {fileID: 4028040453974389367}
-  - component: {fileID: 8132301128770551627}
   - component: {fileID: 6254859016810218075}
+  - component: {fileID: 7505154059425160211}
   m_Layer: 0
   m_Name: TP_AssRifle_Hands
   m_TagString: Untagged
@@ -1550,21 +1550,6 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &8132301128770551627
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6774085612164206019}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 88286fc23ab54d5983e67ff63fee0316, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _animators:
-  - {fileID: 4028040453974389367}
-  - {fileID: 6198766969861036243}
 --- !u!114 &6254859016810218075
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1581,6 +1566,21 @@ MonoBehaviour:
   - {fileID: 168003424960388936}
   _activatingObjects:
   - {fileID: 1537149371851830287}
+--- !u!114 &7505154059425160211
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6774085612164206019}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8d791eff8813452ebc28fe447b51707f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _animators:
+  - {fileID: 4028040453974389367}
+  - {fileID: 6198766969861036243}
 --- !u!1 &6841563424633713818
 GameObject:
   m_ObjectHideFlags: 0

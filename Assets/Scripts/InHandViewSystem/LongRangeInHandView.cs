@@ -1,19 +1,20 @@
-﻿using FightSystem.Weapon.ShootWeapon;
-using FightSystem.Weapon.WeaponTypes;
+﻿using FightSystem.Weapon.WeaponTypes;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace FightSystem.Weapon.WeaponViewSystem
+namespace InHandViewSystem
 {
-    public class LongRangeWeaponView : WeaponView
+    public class LongRangeInHandView : InHandView
     {
         [Header("UI")] 
         [SerializeField] private CustomButton _attackButton;
         [SerializeField] private Button _scopeButton;
         [SerializeField] private Button _reloadButton;
 
-        public override void Init(BaseShootingWeapon weapon)
+        public override void Init(IViewable viewable)
         {
+            var weapon = viewable as BaseShootingWeapon;
+            
             AssignAttack(false);
             
             _attackButton.PointerDown.AddListener(() =>

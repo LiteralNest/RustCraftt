@@ -340,8 +340,8 @@ GameObject:
   m_Component:
   - component: {fileID: 7346877284490643059}
   - component: {fileID: 4592525629617001225}
-  - component: {fileID: 7418805980075559622}
   - component: {fileID: 5417830451728475072}
+  - component: {fileID: 6052759919498839807}
   m_Layer: 0
   m_Name: TP_Thompson
   m_TagString: Untagged
@@ -387,21 +387,6 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &7418805980075559622
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1852331923712710453}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 88286fc23ab54d5983e67ff63fee0316, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _animators:
-  - {fileID: 4592525629617001225}
-  - {fileID: 5035013237848905725}
 --- !u!114 &5417830451728475072
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -418,6 +403,21 @@ MonoBehaviour:
   - {fileID: 1891492454640154310}
   _activatingObjects:
   - {fileID: 5907100826830903653}
+--- !u!114 &6052759919498839807
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1852331923712710453}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8d791eff8813452ebc28fe447b51707f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _animators:
+  - {fileID: 5035013237848905725}
+  - {fileID: 4592525629617001225}
 --- !u!1 &2407300047225950582
 GameObject:
   m_ObjectHideFlags: 0
@@ -494,6 +494,7 @@ GameObject:
   - component: {fileID: 4739147601244740622}
   - component: {fileID: 3694380667209163997}
   - component: {fileID: 4553124052043125562}
+  - component: {fileID: 5490811064021526070}
   m_Layer: 0
   m_Name: Thompson
   m_TagString: Untagged
@@ -609,7 +610,7 @@ MonoBehaviour:
     m_Bits: 1083212215
   _bulletSpeed: 200
   Decal: {fileID: 1305036650871697919, guid: 74feb497a20face4e89facba0677d7ab, type: 3}
-  _weaponAnimator: {fileID: 322955589868349531}
+  _weaponAnimator: {fileID: 0}
   _swayTransform: {fileID: 5440547292025093705}
   Weapon: {fileID: 11400000, guid: f5e2e833cba134179bbfc2d0d795124f, type: 2}
   AmmoSpawnPoint: {fileID: 4715809145942709030}
@@ -619,6 +620,102 @@ MonoBehaviour:
   _reloadAnim: {fileID: -2026999844283682747, guid: c45bbe6dd6a88684c981f43a9202ed4a, type: 3}
   FlameEffect: {fileID: 4072873944710678867}
   FlameEffectDuration: 1
+--- !u!82 &5490811064021526070
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2770291360511204454}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 0}
+  m_PlayOnAwake: 1
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &2808268424600500045
 GameObject:
   m_ObjectHideFlags: 0
@@ -933,8 +1030,8 @@ GameObject:
   m_Component:
   - component: {fileID: 5440547292025093705}
   - component: {fileID: 3993056517877226889}
-  - component: {fileID: 322955589868349531}
   - component: {fileID: 2485484458764962724}
+  - component: {fileID: 1044065946732815121}
   m_Layer: 0
   m_Name: FP_Thompson
   m_TagString: Untagged
@@ -980,21 +1077,6 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &322955589868349531
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3361505673397222366}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 88286fc23ab54d5983e67ff63fee0316, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _animators:
-  - {fileID: 3993056517877226889}
-  - {fileID: 563242834754007969}
 --- !u!114 &2485484458764962724
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1011,6 +1093,21 @@ MonoBehaviour:
   - {fileID: 3353955707796762177}
   _activatingObjects:
   - {fileID: 2770291360511204454}
+--- !u!114 &1044065946732815121
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3361505673397222366}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8d791eff8813452ebc28fe447b51707f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _animators:
+  - {fileID: 3993056517877226889}
+  - {fileID: 563242834754007969}
 --- !u!1 &3544480171232306465
 GameObject:
   m_ObjectHideFlags: 0

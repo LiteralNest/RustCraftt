@@ -38,14 +38,7 @@ namespace UI
 
         public void AssignSingleton()
             => singleton = this;
-
-        public void ActivateMeleeThrowButton(bool value)
-            => _meleeThrowButton.SetActive(value);
-
-
-        public void ActivateScope(bool value)
-            => _scopeButton.SetActive(value);
-
+        
         public void ActivateBuildingStaffPanel(bool value)
             => _buildingStaffPanel.SetActive(value);
 
@@ -57,12 +50,6 @@ namespace UI
 
         public void ActivateGatherButton(bool value)
             => _gatherButton.SetActive(value);
-
-        public void ActivateAttackButton(bool value)
-            => _attackButton.SetActive(value);
-
-        public void ActivateReloadingButton(bool value)
-            => _reloadingButton.SetActive(value);
 
         public void ActivatePlacingPanel(bool value)
             => _placingPanel.SetActive(value);

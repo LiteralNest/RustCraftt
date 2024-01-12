@@ -380,7 +380,7 @@ MonoBehaviour:
     m_Bits: 1083212215
   _bulletSpeed: 200
   Decal: {fileID: 1305036650871697919, guid: 74feb497a20face4e89facba0677d7ab, type: 3}
-  _weaponAnimator: {fileID: 6591874075216944118}
+  _weaponAnimator: {fileID: 2703335738484995549}
   _swayTransform: {fileID: 6365227694319226122}
   Weapon: {fileID: 11400000, guid: 76c41e124016b49e0aee08cc2b8a6286, type: 2}
   AmmoSpawnPoint: {fileID: 1382258413542572191}
@@ -432,8 +432,8 @@ GameObject:
   m_Component:
   - component: {fileID: 6879427596842858930}
   - component: {fileID: 6475054640679591019}
-  - component: {fileID: 834174973348851}
   - component: {fileID: 6197485242330364853}
+  - component: {fileID: 9123373267761058003}
   m_Layer: 0
   m_Name: TP_BoltRifle
   m_TagString: Untagged
@@ -479,21 +479,6 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &834174973348851
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2036979520373226469}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 88286fc23ab54d5983e67ff63fee0316, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _animators:
-  - {fileID: 6475054640679591019}
-  - {fileID: 8199026579432378445}
 --- !u!114 &6197485242330364853
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -510,6 +495,21 @@ MonoBehaviour:
   - {fileID: 2611099803817145474}
   _activatingObjects:
   - {fileID: 7799700670715004407}
+--- !u!114 &9123373267761058003
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2036979520373226469}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8d791eff8813452ebc28fe447b51707f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _animators:
+  - {fileID: 6475054640679591019}
+  - {fileID: 8199026579432378445}
 --- !u!1 &2162753236605911950
 GameObject:
   m_ObjectHideFlags: 0
@@ -1302,8 +1302,8 @@ GameObject:
   m_Component:
   - component: {fileID: 6365227694319226122}
   - component: {fileID: 538823000841710724}
-  - component: {fileID: 6591874075216944118}
   - component: {fileID: 1294235606658149642}
+  - component: {fileID: 2703335738484995549}
   m_Layer: 0
   m_Name: FP_BoltRifle
   m_TagString: Untagged
@@ -1349,21 +1349,6 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &6591874075216944118
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5939801711016226273}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 88286fc23ab54d5983e67ff63fee0316, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _animators:
-  - {fileID: 538823000841710724}
-  - {fileID: 1898591715313254209}
 --- !u!114 &1294235606658149642
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1380,6 +1365,21 @@ MonoBehaviour:
   - {fileID: 9182080316887478255}
   _activatingObjects:
   - {fileID: 1197494453361225009}
+--- !u!114 &2703335738484995549
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5939801711016226273}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8d791eff8813452ebc28fe447b51707f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _animators:
+  - {fileID: 538823000841710724}
+  - {fileID: 1898591715313254209}
 --- !u!1 &6014948946987294600
 GameObject:
   m_ObjectHideFlags: 0

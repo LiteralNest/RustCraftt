@@ -368,8 +368,8 @@ GameObject:
   m_Component:
   - component: {fileID: 8742326472491654394}
   - component: {fileID: 134038677929264207}
-  - component: {fileID: 5099126957245600989}
   - component: {fileID: 7429189814524094742}
+  - component: {fileID: 1720532167014973960}
   m_Layer: 0
   m_Name: TP_Revolver
   m_TagString: Untagged
@@ -415,21 +415,6 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &5099126957245600989
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1545153602809061874}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 88286fc23ab54d5983e67ff63fee0316, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _animators:
-  - {fileID: 134038677929264207}
-  - {fileID: 6291976138236386021}
 --- !u!114 &7429189814524094742
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -446,6 +431,21 @@ MonoBehaviour:
   - {fileID: 4083430549786447358}
   _activatingObjects:
   - {fileID: 8589327838373790832}
+--- !u!114 &1720532167014973960
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1545153602809061874}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8d791eff8813452ebc28fe447b51707f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _animators:
+  - {fileID: 134038677929264207}
+  - {fileID: 6291976138236386021}
 --- !u!1 &1771788670687301377
 GameObject:
   m_ObjectHideFlags: 0
@@ -1177,7 +1177,7 @@ MonoBehaviour:
     m_Bits: 1083212215
   _bulletSpeed: 200
   Decal: {fileID: 1305036650871697919, guid: 74feb497a20face4e89facba0677d7ab, type: 3}
-  _weaponAnimator: {fileID: 4117831860899717774}
+  _weaponAnimator: {fileID: 5962609903385916374}
   _swayTransform: {fileID: 8306475283652424764}
   Weapon: {fileID: 11400000, guid: ef1b33f0483a14c289b53fdfd3468b87, type: 2}
   AmmoSpawnPoint: {fileID: 8928641006100558267}
@@ -1508,8 +1508,8 @@ GameObject:
   m_Component:
   - component: {fileID: 8306475283652424764}
   - component: {fileID: 2529758343872814676}
-  - component: {fileID: 4117831860899717774}
   - component: {fileID: 6799409106915066671}
+  - component: {fileID: 5962609903385916374}
   m_Layer: 0
   m_Name: FP_Revolver
   m_TagString: Untagged
@@ -1555,21 +1555,6 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &4117831860899717774
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8764707675151113147}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 88286fc23ab54d5983e67ff63fee0316, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _animators:
-  - {fileID: 2529758343872814676}
-  - {fileID: 6347557239914454533}
 --- !u!114 &6799409106915066671
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1586,6 +1571,21 @@ MonoBehaviour:
   - {fileID: 1306384898849224476}
   _activatingObjects:
   - {fileID: 5817511327243674878}
+--- !u!114 &5962609903385916374
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8764707675151113147}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8d791eff8813452ebc28fe447b51707f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _animators:
+  - {fileID: 2529758343872814676}
+  - {fileID: 6347557239914454533}
 --- !u!1 &8773081559645279082
 GameObject:
   m_ObjectHideFlags: 0

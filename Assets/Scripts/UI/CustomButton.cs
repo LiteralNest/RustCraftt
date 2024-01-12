@@ -11,6 +11,7 @@ public class CustomButton : MonoBehaviour, IPointerUpHandler ,IPointerClickHandl
     
     public UnityEvent PointerDown => _pointerDown;
     public UnityEvent PointerClicked => _pointerClicked;
+    public UnityEvent PointerClickedWithoudDisable => _pointerClickedWithoudDisable;
 
     private void OnDisable()
     {

@@ -1,30 +1,51 @@
 using Events;
-using UI;
+using FightSystem.Weapon.WeaponAnimations;
+using InHandViewSystem;
 using UnityEngine;
 
 namespace FightSystem.Weapon.Melee
 {
-    public class MeleeShootingWeapon : MonoBehaviour
+    public class MeleeShootingWeapon : MonoBehaviour, IViewable
     {
-        [Header("ThrowingObject")] [SerializeField]
-        private WeaponThrower _weaponThrower;
+        private const string ViewName = "Weapon/View/MeleeShootingWeaponView";
 
+        [Header("Attached Components")] [SerializeField]
+        private Transform _viewSpawningPoint;
+
+        [Header("ThrowingObject")] [SerializeField]
+        private ThrowingWeaponAnimator _weaponAnimator;
+
+        [SerializeField] private WeaponThrower _weaponThrower;
         [SerializeField] private GameObject _mainObj;
+
+        private bool _isAttacking;
+        private ThrowingInHandView _inHandView;
         private Vector3 _direction;
         private bool _wasScoped;
 
+        private void Start()
+        {
+            _inHandView = Instantiate(Resources.Load<ThrowingInHandView>(ViewName), _viewSpawningPoint);
+            _inHandView.Init(this);
+        }
+
         private void OnEnable()
         {
-            CharacterUIHandler.singleton.ActivateMeleeThrowButton(true);
-            GlobalEventsContainer.WeaponMeleeObjectAssign?.Invoke(this);
+            if (_inHandView != null)
+            {
+                _inHandView.gameObject.SetActive(true);
+                _inHandView.DisplayAttackButton(true);
+                _inHandView.DisplayScopeButton(true);
+            }
+
+            DisplayDefault();
             _wasScoped = false;
         }
 
-        private void OnDisable()
+        private void Update()
         {
-            CharacterUIHandler.singleton.ActivateMeleeThrowButton(false);
-            if (_wasScoped) return;
-            GlobalEventsContainer.WeaponMeleeObjectAssign?.Invoke(null);
+            if (_isAttacking)
+                _weaponAnimator.Attack();
         }
 
         public void SetThrowingPosition(bool value)
@@ -32,12 +53,20 @@ namespace FightSystem.Weapon.Melee
             _wasScoped = true;
             _mainObj.SetActive(false);
             _weaponThrower.gameObject.SetActive(value);
+            _inHandView.DisplayAttackButton(false);
             if (value) return;
+            _inHandView.gameObject.SetActive(false);
             _weaponThrower.ThrowSpear();
             gameObject.SetActive(false);
         }
 
-        protected void Attack(bool value)
-            => GlobalEventsContainer.ShouldHandleAttacking?.Invoke(value);
+        public void SetAttack(bool value)
+            => _isAttacking = value;
+        
+        private void DisplayDefault()
+        {
+            _weaponThrower.gameObject.SetActive(false);
+            _mainObj.SetActive(true);
+        }
     }
 }

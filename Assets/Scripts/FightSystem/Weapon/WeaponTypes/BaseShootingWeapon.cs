@@ -4,7 +4,8 @@ using FightSystem.Damage;
 using FightSystem.Weapon.ShootWeapon;
 using FightSystem.Weapon.ShootWeapon.Sway;
 using FightSystem.Weapon.ShootWeapon.TrailSystem;
-using FightSystem.Weapon.WeaponViewSystem;
+using FightSystem.Weapon.WeaponAnimations;
+using InHandViewSystem;
 using Items_System.Items.Weapon;
 using Unity.Netcode;
 using UnityEngine;
@@ -16,7 +17,7 @@ namespace FightSystem.Weapon.WeaponTypes
     [RequireComponent(typeof(WeaponSway))]
     [RequireComponent(typeof(AimSway))]
     [RequireComponent(typeof(AudioSource))]
-    public abstract class BaseShootingWeapon : NetworkBehaviour
+    public abstract class BaseShootingWeapon : NetworkBehaviour, IViewable
     {
         private const string ViewName = "Weapon/View/LongRangeWeaponView";
 
@@ -28,7 +29,7 @@ namespace FightSystem.Weapon.WeaponTypes
 
         [Header("Attached Components")] 
         [SerializeField] protected GameObject Decal;
-        [SerializeField] private WeaponAnimator _weaponAnimator;
+        [SerializeField] private RifleAnimator _weaponAnimator;
         [SerializeField] private Transform _swayTransform;
         [SerializeField] protected ShootingWeapon Weapon;
         [SerializeField] protected Transform AmmoSpawnPoint;
@@ -50,7 +51,7 @@ namespace FightSystem.Weapon.WeaponTypes
         protected WeaponSoundPlayer SoundPlayer;
         private WeaponRecoil _recoil;
         protected WeaponAim WeaponAim;
-        private LongRangeWeaponView _weaponView;
+        private LongRangeInHandView _inHandView;
 
         protected TrailSpawner _trailSpawner;
 
@@ -68,14 +69,12 @@ namespace FightSystem.Weapon.WeaponTypes
                 WeaponAim.UnScope();
             TryDisplayReload();
             TryDisplayAttack();
-            GlobalEventsContainer.WeaponObjectAssign?.Invoke(this);
             GlobalEventsContainer.InventoryDataChanged += TryDisplayReload;
         }
 
         private void OnDisable()
         {
             GlobalEventsContainer.InventoryDataChanged -= TryDisplayReload;
-            GlobalEventsContainer.WeaponObjectAssign?.Invoke(null);
         }
 
         private void Start()
@@ -89,8 +88,8 @@ namespace FightSystem.Weapon.WeaponTypes
             _recoil = new WeaponRecoil(_swayTransform);
             _trailSpawner = GetComponent<TrailSpawner>();
             _canShoot = true;
-            _weaponView = Instantiate(Resources.Load<LongRangeWeaponView>(ViewName), transform);
-            _weaponView.Init(this);
+            _inHandView = Instantiate(Resources.Load<LongRangeInHandView>(ViewName), transform);
+            _inHandView.Init(this);
         }
 
         private void Update()
@@ -138,14 +137,14 @@ namespace FightSystem.Weapon.WeaponTypes
         private IEnumerator ReloadCoroutine(int count)
         {
             WeaponAim.UnScope(out bool wasUnScopped);
-            _weaponView.AssignReload(false);
+            _inHandView.AssignReload(false);
             yield return new WaitForSeconds(_reloadAnim.length);
             if(wasUnScopped)
                 WeaponAim.SetScope();
             CurrentAmmoCount += count;
             InventoryHandler.singleton.CharacterInventory.RemoveItem(Weapon.Ammo.Id, count);
             InventoryHandler.singleton.ActiveSlotDisplayer.ItemDisplayer.SetCurrentAmmo(CurrentAmmoCount);
-            _weaponView.AssignAttack(true);
+            _inHandView.AssignAttack(true);
             _isReloading = false;
         }
 
@@ -173,16 +172,16 @@ namespace FightSystem.Weapon.WeaponTypes
         public void TryDisplayReload()
         {
             if (InventoryHandler.singleton == null || InventoryHandler.singleton.ActiveSlotDisplayer == null ||
-                _weaponView == null || CurrentAmmoCount >= Weapon.MagazineCount)
+                _inHandView == null || CurrentAmmoCount >= Weapon.MagazineCount)
                 return;
             var addingAmmo = InventoryHandler.singleton.CharacterInventory.GetItemCount(Weapon.Ammo.Id);
-            _weaponView.AssignReload(addingAmmo > 0);
+            _inHandView.AssignReload(addingAmmo > 0);
         }
 
         private void TryDisplayAttack()
         {
-            if (_weaponView == null) return;
-            _weaponView.AssignAttack(CurrentAmmoCount > 0);
+            if (_inHandView == null) return;
+            _inHandView.AssignAttack(CurrentAmmoCount > 0);
         }
 
         protected void MinusAmmo()

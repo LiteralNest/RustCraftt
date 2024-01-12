@@ -105,8 +105,8 @@ GameObject:
   m_Component:
   - component: {fileID: 2381737851680573802}
   - component: {fileID: 1934183393353380945}
-  - component: {fileID: 8351488961292055076}
   - component: {fileID: 6076426058963373515}
+  - component: {fileID: 1993484330882181659}
   m_Layer: 0
   m_Name: TP_Berdanka
   m_TagString: Untagged
@@ -152,21 +152,6 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &8351488961292055076
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 844433778767571170}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 88286fc23ab54d5983e67ff63fee0316, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _animators:
-  - {fileID: 1934183393353380945}
-  - {fileID: 9081974877642588742}
 --- !u!114 &6076426058963373515
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -183,6 +168,21 @@ MonoBehaviour:
   - {fileID: 8726923971449298976}
   _activatingObjects:
   - {fileID: 2734438773308861133}
+--- !u!114 &1993484330882181659
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 844433778767571170}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8d791eff8813452ebc28fe447b51707f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _animators:
+  - {fileID: 1934183393353380945}
+  - {fileID: 9081974877642588742}
 --- !u!1 &948285517801033208
 GameObject:
   m_ObjectHideFlags: 0
@@ -1014,7 +1014,7 @@ MonoBehaviour:
     m_Bits: 1083212215
   _bulletSpeed: 200
   Decal: {fileID: 1305036650871697919, guid: 74feb497a20face4e89facba0677d7ab, type: 3}
-  _weaponAnimator: {fileID: 5428904227712602397}
+  _weaponAnimator: {fileID: 3277283490241062474}
   _swayTransform: {fileID: 3703071918902377328}
   Weapon: {fileID: 11400000, guid: 006e8b380b45c9d4f8833e6f057b6585, type: 2}
   AmmoSpawnPoint: {fileID: 8197162506157570922}
@@ -1904,8 +1904,8 @@ GameObject:
   m_Component:
   - component: {fileID: 3703071918902377328}
   - component: {fileID: 771709835444741142}
-  - component: {fileID: 5428904227712602397}
   - component: {fileID: 3281475563129832105}
+  - component: {fileID: 3277283490241062474}
   m_Layer: 0
   m_Name: FP_Berdanka
   m_TagString: Untagged
@@ -1951,21 +1951,6 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &5428904227712602397
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9079144246857701741}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 88286fc23ab54d5983e67ff63fee0316, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _animators:
-  - {fileID: 771709835444741142}
-  - {fileID: 4915937090956112623}
 --- !u!114 &3281475563129832105
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1982,3 +1967,18 @@ MonoBehaviour:
   - {fileID: 3869554621594777256}
   _activatingObjects:
   - {fileID: 3251262298120622666}
+--- !u!114 &3277283490241062474
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9079144246857701741}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8d791eff8813452ebc28fe447b51707f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _animators:
+  - {fileID: 771709835444741142}
+  - {fileID: 4915937090956112623}
