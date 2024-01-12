@@ -11326,6 +11326,7 @@ MonoBehaviour:
   - {fileID: 1553957174920031044}
   _disablingObjects:
   - {fileID: 4785573788255898050}
+  - {fileID: 535795125405950032}
   characterUIHandler: {fileID: 1045087680176844765}
   _body:
   - {fileID: 1128752710889453121}
@@ -11840,6 +11841,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3593281222848652425}
+  - component: {fileID: 8983140496629090585}
   m_Layer: 0
   m_Name: HeadArmature
   m_TagString: Untagged
@@ -11863,6 +11865,36 @@ Transform:
   - {fileID: 7938249172792099079}
   m_Father: {fileID: 1339945534139893317}
   m_LocalEulerAnglesHint: {x: -89.98021, y: 0, z: 0}
+--- !u!114 &8983140496629090585
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2460616533065994890}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: df2868252ab5c4d1da357e8f11f1b524, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SyncPositionX: 0
+  SyncPositionY: 0
+  SyncPositionZ: 0
+  SyncRotAngleX: 1
+  SyncRotAngleY: 1
+  SyncRotAngleZ: 1
+  SyncScaleX: 0
+  SyncScaleY: 0
+  SyncScaleZ: 0
+  PositionThreshold: 0.001
+  RotAngleThreshold: 0.01
+  ScaleThreshold: 0.01
+  UseQuaternionSynchronization: 0
+  UseQuaternionCompression: 0
+  UseHalfFloatPrecision: 0
+  InLocalSpace: 0
+  Interpolate: 1
+  SlerpPosition: 0
 --- !u!1 &2461064500113706269
 GameObject:
   m_ObjectHideFlags: 0
@@ -28513,6 +28545,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _inHandObjects:
+  - <TargetItem>k__BackingField: {fileID: 11400000, guid: 26e1812f844d8ae4f99d928a305dfd30, type: 2}
+    <FirstPersonObject>k__BackingField: {fileID: 0}
+    <ThirdPersonObject>k__BackingField: {fileID: 2043244045497264233}
   - <TargetItem>k__BackingField: {fileID: 11400000, guid: 006e8b380b45c9d4f8833e6f057b6585, type: 2}
     <FirstPersonObject>k__BackingField: {fileID: 8656853067275238535}
     <ThirdPersonObject>k__BackingField: {fileID: 142628728763724773}
@@ -28531,9 +28566,6 @@ MonoBehaviour:
   - <TargetItem>k__BackingField: {fileID: 11400000, guid: 76c41e124016b49e0aee08cc2b8a6286, type: 2}
     <FirstPersonObject>k__BackingField: {fileID: 8050908016694391624}
     <ThirdPersonObject>k__BackingField: {fileID: 2904115584641738231}
-  - <TargetItem>k__BackingField: {fileID: 11400000, guid: 26e1812f844d8ae4f99d928a305dfd30, type: 2}
-    <FirstPersonObject>k__BackingField: {fileID: 0}
-    <ThirdPersonObject>k__BackingField: {fileID: 0}
   - <TargetItem>k__BackingField: {fileID: 11400000, guid: 722b392527e89894ba230a29531d3973, type: 2}
     <FirstPersonObject>k__BackingField: {fileID: 2124667926156029401}
     <ThirdPersonObject>k__BackingField: {fileID: 6967805601841424661}
@@ -53420,10 +53452,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 5099172542635950057}
     m_Modifications:
-    - target: {fileID: 1704708408957800556, guid: 5858ef980b5c3d8419c1dfb76f8c55ee, type: 3}
-      propertyPath: m_Enabled
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 2928557462737783431, guid: 5858ef980b5c3d8419c1dfb76f8c55ee, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -53467,18 +53495,6 @@ PrefabInstance:
     - target: {fileID: 4134970696306513837, guid: 5858ef980b5c3d8419c1dfb76f8c55ee, type: 3}
       propertyPath: m_Name
       value: ShotGun
-      objectReference: {fileID: 0}
-    - target: {fileID: 6156519292323637672, guid: 5858ef980b5c3d8419c1dfb76f8c55ee, type: 3}
-      propertyPath: m_Enabled
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6500364245617463983, guid: 5858ef980b5c3d8419c1dfb76f8c55ee, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8945040036741736748, guid: 5858ef980b5c3d8419c1dfb76f8c55ee, type: 3}
-      propertyPath: _spreadRadiusNoFocus
-      value: 0.2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -63937,17 +63953,9 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 5099172542635950057}
     m_Modifications:
-    - target: {fileID: 1144582331237963016, guid: 017419cddd13c2441987065c7e7cc2a3, type: 3}
-      propertyPath: m_Enabled
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 1489383165614018406, guid: 017419cddd13c2441987065c7e7cc2a3, type: 3}
       propertyPath: m_Name
       value: Berdanka
-      objectReference: {fileID: 0}
-    - target: {fileID: 3251262298120622666, guid: 017419cddd13c2441987065c7e7cc2a3, type: 3}
-      propertyPath: m_IsActive
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3483511250152081122, guid: 017419cddd13c2441987065c7e7cc2a3, type: 3}
       propertyPath: m_LocalPosition.x
@@ -63987,10 +63995,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3483511250152081122, guid: 017419cddd13c2441987065c7e7cc2a3, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3869554621594777256, guid: 017419cddd13c2441987065c7e7cc2a3, type: 3}
-      propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -66507,10 +66511,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Revolver
       objectReference: {fileID: 0}
-    - target: {fileID: 1306384898849224476, guid: 666ebed1a53c94441994ac591eb2ba4d, type: 3}
-      propertyPath: m_Enabled
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 5393345443021784061, guid: 666ebed1a53c94441994ac591eb2ba4d, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -66549,14 +66549,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5393345443021784061, guid: 666ebed1a53c94441994ac591eb2ba4d, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5763828127749829197, guid: 666ebed1a53c94441994ac591eb2ba4d, type: 3}
-      propertyPath: m_Enabled
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5817511327243674878, guid: 666ebed1a53c94441994ac591eb2ba4d, type: 3}
-      propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
