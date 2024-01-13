@@ -5,7 +5,7 @@ using Player_Controller;
 using UI;
 using Unity.Netcode;
 using UnityEngine;
-using Web.User;
+using Web.UserData;
 
 namespace PlayerDeathSystem
 {
@@ -35,7 +35,7 @@ namespace PlayerDeathSystem
         [ClientRpc]
         private void KnockDownClientRpc(int id)
         {
-            if (UserDataHandler.singleton.UserData.Id == id)
+            if (UserDataHandler.Singleton.UserData.Id == id)
             {
                 GetComponent<PlayerController>().enabled = false;
                 MainUiHandler.Singleton.DisplayKnockDownScreen(true);
@@ -50,7 +50,7 @@ namespace PlayerDeathSystem
         [ContextMenu("KnockDown")]
         private void KnockDown()
         {
-            KnockDownServerRpc(UserDataHandler.singleton.UserData.Id);
+            KnockDownServerRpc(UserDataHandler.Singleton.UserData.Id);
         }
 
         #endregion

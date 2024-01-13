@@ -5,7 +5,7 @@ using Map;
 using Unity.Collections;
 using Unity.Netcode;
 using UnityEngine;
-using Web.User;
+using Web.UserData;
 
 namespace RespawnSystem.SleepingBag
 {
@@ -73,7 +73,7 @@ namespace RespawnSystem.SleepingBag
         private void CheckPlayerIdClientRpc()
         {
             if (_mapPoint == null) return;
-            bool value = _playerId.Value == UserDataHandler.singleton.UserData.Id;
+            bool value = _playerId.Value == UserDataHandler.Singleton.UserData.Id;
             _mapPoint.SetActive(value);
             _targetCanvas.transform.eulerAngles = new Vector3(90, 0, 90);
             GlobalEventsContainer.SleepingBagSpawned?.Invoke(this);

@@ -3,7 +3,7 @@ using Building_System.Upgrading;
 using Tool_Clipboard;
 using Unity.Netcode;
 using UnityEngine;
-using Web.User;
+using Web.UserData;
 
 namespace Building_System
 {
@@ -47,7 +47,7 @@ namespace Building_System
         public bool CanBePickUp()
         {
             if (_targetToolClipboard == null) return true;
-            return _targetToolClipboard.IsAutorized(UserDataHandler.singleton.UserData.Id);
+            return _targetToolClipboard.IsAutorized(UserDataHandler.Singleton.UserData.Id);
         }
 
         public void PickUp()

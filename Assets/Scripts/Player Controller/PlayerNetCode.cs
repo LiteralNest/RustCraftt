@@ -10,7 +10,7 @@ using TMPro;
 using Unity.Netcode;
 using UnityEngine;
 using Vehicle;
-using Web.User;
+using Web.UserData;
 
 namespace Player_Controller
 {
@@ -55,7 +55,7 @@ namespace Player_Controller
             await Task.Delay(1000);
             if (IsOwner)
             {
-                _playerId.Value = UserDataHandler.singleton.UserData.Id;
+                _playerId.Value = UserDataHandler.Singleton.UserData.Id;
                 Singleton = this;
                 GlobalEventsContainer.PlayerNetCodeAssigned?.Invoke(this);
             }
@@ -84,7 +84,7 @@ namespace Player_Controller
 
         private void AssignName()
         {
-            string name = UserDataHandler.singleton.UserData.Name;
+            string name = UserDataHandler.Singleton.UserData.Name;
             foreach (var nickNameText in _nickNameTexts)
                 nickNameText.text = name;
         }

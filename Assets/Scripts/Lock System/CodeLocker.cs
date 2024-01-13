@@ -2,7 +2,7 @@ using AuthorizationSystem;
 using Multiplayer.CustomData;
 using Unity.Netcode;
 using UnityEngine;
-using Web.User;
+using Web.UserData;
 
 namespace Lock_System
 {
@@ -57,14 +57,14 @@ namespace Lock_System
                 if (Password.Value == 0)
                 {
                     SetPasswordServerRpc(parsedPassword);
-                    RegistrateUserServerRpc(UserDataHandler.singleton.UserData.Id);
+                    RegistrateUserServerRpc(UserDataHandler.Singleton.UserData.Id);
                     _codeUI.SetActive(false);
                 }
                 else
                 {
                     if (parsedPassword == Password.Value)
                     {
-                        RegistrateUserServerRpc(UserDataHandler.singleton.UserData.Id);
+                        RegistrateUserServerRpc(UserDataHandler.Singleton.UserData.Id);
                         _codeUI.SetActive(false);
                     }
                 }

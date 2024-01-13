@@ -1,6 +1,6 @@
 ﻿using TMPro;
 using UnityEngine;
-using Web.User;
+using Web.UserData;
 
 namespace Multiplayer.NickNameTexts
 {
@@ -11,7 +11,7 @@ namespace Multiplayer.NickNameTexts
         [SerializeField] private float _displayingDistance = 2;
 
         private void Start()
-            => _nickNameText.text = UserDataHandler.singleton.UserData.Name;
+            => _nickNameText.text = UserDataHandler.Singleton.UserData.Name;
         
         private void Update()
         {

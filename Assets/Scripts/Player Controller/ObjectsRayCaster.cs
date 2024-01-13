@@ -15,7 +15,7 @@ using UnityEngine;
 using UnityEngine.Serialization;
 using Vehicle;
 using Vehicle.SittingPlaces;
-using Web.User;
+using Web.UserData;
 
 public class ObjectsRayCaster : MonoBehaviour
 {
@@ -194,7 +194,7 @@ public class ObjectsRayCaster : MonoBehaviour
         if (TryRaycast("LootBox", _maxOpeningDistance, out ToolClipboard clipboard, _defaultMask))
         {
             ToolClipboard = clipboard;
-            if (!clipboard.IsAutorized(UserDataHandler.singleton.UserData.Id))
+            if (!clipboard.IsAutorized(UserDataHandler.Singleton.UserData.Id))
             {
                 SetLootButton("Authorize");
                 return;

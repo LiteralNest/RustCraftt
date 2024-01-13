@@ -6,7 +6,7 @@ using Storage_System;
 using UI;
 using Unity.Netcode;
 using UnityEngine;
-using Web.User;
+using Web.UserData;
 
 namespace PlayerDeathSystem
 {
@@ -27,7 +27,7 @@ namespace PlayerDeathSystem
             await Task.Delay(1000);
             if (!IsOwner) return;
             Singleton = this;
-            _userId.Value = UserDataHandler.singleton.UserData.Id;
+            _userId.Value = UserDataHandler.Singleton.UserData.Id;
         }
 
         [ServerRpc(RequireOwnership = false)]
@@ -62,7 +62,7 @@ namespace PlayerDeathSystem
         private void Die()
         {
             MainUiHandler.Singleton.DisplayKnockDownScreen(false);
-            DieServerRpc(UserDataHandler.singleton.UserData.Id, false);
+            DieServerRpc(UserDataHandler.Singleton.UserData.Id, false);
         }
     }
 }

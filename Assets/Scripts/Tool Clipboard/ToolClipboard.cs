@@ -8,7 +8,7 @@ using Multiplayer.CustomData;
 using Storage_System;
 using Unity.Netcode;
 using UnityEngine;
-using Web.User;
+using Web.UserData;
 
 namespace Tool_Clipboard
 {
@@ -29,7 +29,7 @@ namespace Tool_Clipboard
 
         public override void Open(InventoryHandler handler)
         {
-            if (_targetLocker != null && !_targetLocker.CanBeOpened(UserDataHandler.singleton.UserData.Id))
+            if (_targetLocker != null && !_targetLocker.CanBeOpened(UserDataHandler.Singleton.UserData.Id))
             {
                 _targetLocker.Open();
                 return;
@@ -206,7 +206,7 @@ namespace Tool_Clipboard
         [ServerRpc(RequireOwnership = false)]
         public void AuthorizeServerRpc(int id)
         {
-            if (_targetLocker != null && !_targetLocker.CanBeOpened(UserDataHandler.singleton.UserData.Id))
+            if (_targetLocker != null && !_targetLocker.CanBeOpened(UserDataHandler.Singleton.UserData.Id))
             {
                 _targetLocker.Open();
                 return;

@@ -3,7 +3,7 @@ using Items_System.Items.Abstract;
 using TechTree;
 using UnityEngine;
 using UnityEngine.Serialization;
-using Web.User;
+using Web.UserData;
 
 public class Technology : MonoBehaviour
 {
@@ -47,6 +47,6 @@ public class Technology : MonoBehaviour
         IsResearched = true;
         _technologyUI.ResearchTech();
         UnlockTechs();
-        TechnologyManager.Singleton.AddTechServerRpc(Item.Id, UserDataHandler.singleton.UserData.Id);
+        TechnologyManager.Singleton.AddTechServerRpc(Item.Id, UserDataHandler.Singleton.UserData.Id);
     }
 }

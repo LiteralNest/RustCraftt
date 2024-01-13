@@ -3,7 +3,7 @@ using Console;
 using UnityEngine;
 using UnityEngine.Android;
 using UnityEngine.EventSystems;
-using Web.User;
+using Web.UserData;
 
 namespace ViVox.UI
 {
@@ -122,15 +122,15 @@ namespace ViVox.UI
 
         private void LoginToVivox()
         {
-            if (string.IsNullOrEmpty(UserDataHandler.singleton.UserData.Name))
+            if (string.IsNullOrEmpty(UserDataHandler.Singleton.UserData.Name))
             {
-                var msg = UserDataHandler.singleton.UserData.Name;
+                var msg = UserDataHandler.Singleton.UserData.Name;
                 ConsoleDisplayer.Singleton?.DisplayText(msg);
                 Debug.LogError(msg);
                 return; 
             }
 
-            _vivoxVoiceManager.Login(UserDataHandler.singleton.UserData.Name);
+            _vivoxVoiceManager.Login(UserDataHandler.Singleton.UserData.Name);
         }
     }
 }

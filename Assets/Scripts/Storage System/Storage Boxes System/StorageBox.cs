@@ -1,5 +1,5 @@
 using Lock_System;
-using Web.User;
+using Web.UserData;
 
 namespace Storage_System.Storage_Boxes_System
 {
@@ -9,7 +9,7 @@ namespace Storage_System.Storage_Boxes_System
         
         public override void Open(InventoryHandler handler)
         {
-            if (_locker != null && !_locker.CanBeOpened(UserDataHandler.singleton.UserData.Id)) return;
+            if (_locker != null && !_locker.CanBeOpened(UserDataHandler.Singleton.UserData.Id)) return;
             base.Open(handler);
         }
 

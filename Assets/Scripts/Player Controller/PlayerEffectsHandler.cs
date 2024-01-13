@@ -4,7 +4,7 @@ using Alerts_System.Alerts;
 using Crafting_System.WorkBench;
 using Tool_Clipboard;
 using UnityEngine;
-using Web.User;
+using Web.UserData;
 
 public class PlayerEffectsHandler : MonoBehaviour
 {
@@ -38,7 +38,7 @@ public class PlayerEffectsHandler : MonoBehaviour
             var clipBoard = zone.ToolClipboard;
 
             var authorizedList = clipBoard.AuthorizedIds.AuthorizedIds.ToList();
-            if (authorizedList.Contains(UserDataHandler.singleton.UserData.Id))
+            if (authorizedList.Contains(UserDataHandler.Singleton.UserData.Id))
             {
                 AlertsDisplayer.Singleton.DisplayBuildingUnblockedAlert(true);
                 AlertsDisplayer.Singleton.DisplayBuildingBlockedAlert(false);

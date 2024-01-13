@@ -3,7 +3,6 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.Serialization;
 using UnityEngine.UI;
-using Web.User;
 
 public class CodeLockUI : MonoBehaviour
 {

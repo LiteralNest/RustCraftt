@@ -5,7 +5,7 @@ using PlayerDeathSystem;
 using UI;
 using Unity.Netcode;
 using UnityEngine;
-using Web.User;
+using Web.UserData;
 
 namespace Character_Stats
 {
@@ -41,10 +41,10 @@ namespace Character_Stats
             if (Hp <= 0)
             {
                 MainUiHandler.Singleton.DisplayKnockDownScreen(false);
-                PlayerKiller.Singleton.DieServerRpc(UserDataHandler.singleton.UserData.Id, false);
+                PlayerKiller.Singleton.DieServerRpc(UserDataHandler.Singleton.UserData.Id, false);
             }
             else if (Hp <= 5)
-                PlayerKnockDowner.Singleton.KnockDownServerRpc(UserDataHandler.singleton.UserData.Id);
+                PlayerKnockDowner.Singleton.KnockDownServerRpc(UserDataHandler.Singleton.UserData.Id);
         }
 
         [ServerRpc(RequireOwnership = false)]

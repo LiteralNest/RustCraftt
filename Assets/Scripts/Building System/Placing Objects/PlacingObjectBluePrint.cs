@@ -2,7 +2,7 @@ using Building_System.Blocks;
 using Building_System.Blue_Prints;
 using Building_System.NetWorking;
 using UnityEngine;
-using Web.User;
+using Web.UserData;
 
 namespace Building_System.Placing_Objects
 {
@@ -24,12 +24,12 @@ namespace Building_System.Placing_Objects
             if (!CanBePlaced()) return;
             var ownerId = -1;
             if(_shouldLoadOwnerId)
-                ownerId = UserDataHandler.singleton.UserData.Id;
+                ownerId = UserDataHandler.Singleton.UserData.Id;
             InventoryHandler.singleton.CharacterInventory.RemoveItem(TargetPlacingObject.TargetItem.Id, 1);
             PlacingObjectsPool.singleton.InstantiateObjectServerRpc(TargetPlacingObject.TargetItem.Id,
                 transform.position,
                 transform.rotation,
-            UserDataHandler.singleton.UserData.Id);
+            UserDataHandler.Singleton.UserData.Id);
         }
 
         public override void InitPlacedObject(BuildingStructure structure){}

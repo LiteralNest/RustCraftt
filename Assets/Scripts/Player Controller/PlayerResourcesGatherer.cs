@@ -5,7 +5,7 @@ using Items_System.Items;
 using Player_Controller;
 using Unity.Netcode;
 using UnityEngine;
-using Web.User;
+using Web.UserData;
 
 [RequireComponent(typeof(ObjectsRayCaster))]
 public class PlayerResourcesGatherer : MonoBehaviour
@@ -103,7 +103,7 @@ public class PlayerResourcesGatherer : MonoBehaviour
     {
         var door = _objectsRayCaster.DoorHandler;
         if (!door) return;
-        door.Open(UserDataHandler.singleton.UserData.Id);
+        door.Open(UserDataHandler.Singleton.UserData.Id);
     }
 
     private void TryHit()
@@ -143,7 +143,7 @@ public class PlayerResourcesGatherer : MonoBehaviour
     {
         var clipboard = _objectsRayCaster.ToolClipboard;
         if(!clipboard) return false;
-        clipboard.AuthorizeServerRpc(UserDataHandler.singleton.UserData.Id);
+        clipboard.AuthorizeServerRpc(UserDataHandler.Singleton.UserData.Id);
         return true;
     }
 

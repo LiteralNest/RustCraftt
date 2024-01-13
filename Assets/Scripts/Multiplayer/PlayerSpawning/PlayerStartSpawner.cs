@@ -7,7 +7,7 @@ using PlayerDeathSystem;
 using Storage_System;
 using Unity.Netcode;
 using UnityEngine;
-using Web.User;
+using Web.UserData;
 
 namespace Multiplayer.PlayerSpawning
 {
@@ -23,7 +23,7 @@ namespace Multiplayer.PlayerSpawning
         private async void Start()
         {
             if (!IsOwner) return;
-            _userId.Value = UserDataHandler.singleton.UserData.Id;
+            _userId.Value = UserDataHandler.Singleton.UserData.Id;
             TryConnectServerToBackPack();
             await Task.Delay(900);
             if (!IsOwner) return;
@@ -67,7 +67,7 @@ namespace Multiplayer.PlayerSpawning
             foreach (var player in players)
             {
                 if (!player.IsOwner) continue;
-                player.Respawn(UserDataHandler.singleton.UserData.Id, spawnPoint);
+                player.Respawn(UserDataHandler.Singleton.UserData.Id, spawnPoint);
                 return;
             }
         }
