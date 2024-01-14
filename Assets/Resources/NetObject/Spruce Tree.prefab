@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 7782547996647439138}
   - component: {fileID: 3362523757327199009}
   - component: {fileID: 2378363388536383874}
+  - component: {fileID: 6055816368525633745}
   m_Layer: 0
   m_Name: Spruce Tree
   m_TagString: Ore
@@ -33,6 +34,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 6617862285681706486}
+  - {fileID: 3179804783670508335}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!65 &7782547996647439138
@@ -68,7 +70,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 2884813947
+  GlobalObjectIdHash: 2068280435
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
   ActiveSceneSynchronization: 0
@@ -104,6 +106,114 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 99b717cefb9424dbbb1f06e724270532, type: 2}
   - {fileID: 11400000, guid: 4bca1e48d51c34d30a78ade40b2a211a, type: 2}
   <GatheringClip>k__BackingField: {fileID: 8300000, guid: a71cc79315d970b4e8ad4c60e0f2b804, type: 3}
+--- !u!205 &6055816368525633745
+LODGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 476050005394333884}
+  serializedVersion: 2
+  m_LocalReferencePoint: {x: 0.010011196, y: 5.1344366, z: -0.00000047683716}
+  m_Size: 10.268873
+  m_FadeMode: 0
+  m_AnimateCrossFading: 0
+  m_LastLODIsBillboard: 0
+  m_LODs:
+  - screenRelativeHeight: 0.14890796
+    fadeTransitionWidth: 0
+    renderers:
+    - renderer: {fileID: 7224520463815461795}
+    - renderer: {fileID: 7051982977279023134}
+    - renderer: {fileID: 4998283942391880032}
+  - screenRelativeHeight: 0.021986473
+    fadeTransitionWidth: 0
+    renderers:
+    - renderer: {fileID: 6648983672018188808}
+  m_Enabled: 1
+--- !u!1 &9166596714592592713
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3179804783670508335}
+  - component: {fileID: 3811936794647364143}
+  - component: {fileID: 6648983672018188808}
+  m_Layer: 0
+  m_Name: SpruceLod2(Clone)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3179804783670508335
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9166596714592592713}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2472034066693980416}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!33 &3811936794647364143
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9166596714592592713}
+  m_Mesh: {fileID: 7484479224727744026, guid: cc11613952afd1a479a46df82b7ece91, type: 3}
+--- !u!23 &6648983672018188808
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9166596714592592713}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: a3cdfefd4095d01438238d52d4ed5da8, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
 --- !u!1001 &6655730717348995613
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -181,6 +291,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 088ad91123fbd2a47b5c43e746153135, type: 3}
+--- !u!23 &4998283942391880032 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: -7421757288111621251, guid: 088ad91123fbd2a47b5c43e746153135, type: 3}
+  m_PrefabInstance: {fileID: 6655730717348995613}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &5808673763141820236 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 088ad91123fbd2a47b5c43e746153135, type: 3}
@@ -189,5 +304,15 @@ GameObject:
 --- !u!4 &6617862285681706486 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 088ad91123fbd2a47b5c43e746153135, type: 3}
+  m_PrefabInstance: {fileID: 6655730717348995613}
+  m_PrefabAsset: {fileID: 0}
+--- !u!23 &7051982977279023134 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: -4791747586137556477, guid: 088ad91123fbd2a47b5c43e746153135, type: 3}
+  m_PrefabInstance: {fileID: 6655730717348995613}
+  m_PrefabAsset: {fileID: 0}
+--- !u!23 &7224520463815461795 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 4044022215027255742, guid: 088ad91123fbd2a47b5c43e746153135, type: 3}
   m_PrefabInstance: {fileID: 6655730717348995613}
   m_PrefabAsset: {fileID: 0}
