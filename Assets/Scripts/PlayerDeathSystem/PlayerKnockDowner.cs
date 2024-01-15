@@ -15,6 +15,10 @@ namespace PlayerDeathSystem
 
         [SerializeField] private CharacterHpHandler _characterHpHandler;
         
+        [Header("Head")]
+        [SerializeField] private PlayerRotator _playerRotator;
+
+        
         private NetworkVariable<bool> _knockDown = new();
         public bool IsKnockDown => _knockDown.Value;
 
@@ -40,6 +44,7 @@ namespace PlayerDeathSystem
         {
             if (UserDataHandler.Singleton.UserData.Id == id)
             {
+                _playerRotator.SetKnockDownHead();
                 GetComponent<PlayerController>().enabled = false;
                 MainUiHandler.Singleton.DisplayKnockDownScreen(true);
                 var item = InventoryHandler.singleton.ActiveItem;
@@ -77,6 +82,7 @@ namespace PlayerDeathSystem
             AnimationsManager.Singleton.SetIdle();
             if (IsOwner)
             {
+                _playerRotator.SetDefaultHead();
                 _characterHpHandler.SetKnockedDownServerRpc(false);
                 GetComponent<PlayerController>().enabled = true;
                 MainUiHandler.Singleton.DisplayKnockDownScreen(false);

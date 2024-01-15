@@ -4,22 +4,41 @@ using UnityEngine.EventSystems;
 
 public class PlayerRotator : MonoBehaviour, IDragHandler, IPointerDownHandler
 {
-    [Header("Attached Scripts")] [SerializeField]
-    private PlayerController _playerController;
+    [Header("Attached Scripts")] 
+    [SerializeField] private PlayerController _playerController;
 
-    [SerializeField] private Transform _head;
-
-    [Header("Main Parameters")] [SerializeField]
-    private Vector2 _rotationBounds = new Vector2(0.75f, -0.25f);
-
+    [Header("Main Parameters")] 
+    [SerializeField] private Vector2 _rotationBounds = new Vector2(0.75f, -0.25f);
+    [SerializeField] private Vector2 _rotationBoundsKnockDown = new Vector2(0.25f, -0.25f);
+    [SerializeField] private Transform _defaultHead;
+    [SerializeField] private Transform _knockDownHead;
     [SerializeField] private float _rotationSpeed = 3f;
+    
+    private Transform _rotatingHead;
+    private Vector2 _currentBounds;
     private Vector2 _touchStartPos;
     private Vector2 _touchEndPos;
+
 
     private void Awake()
     {
         if (_playerController == null)
             _playerController = FindObjectOfType<PlayerController>();
+    }
+
+    private void Start()
+        => SetDefaultHead();
+    
+    public void SetDefaultHead()
+    {
+        _rotatingHead = _defaultHead;
+        _currentBounds = _rotationBounds;
+    }
+    
+    public void SetKnockDownHead()
+    {
+        _rotatingHead = _knockDownHead;
+        _currentBounds = _rotationBoundsKnockDown;
     }
 
     public void OnPointerDown(PointerEventData eventData)
@@ -29,16 +48,16 @@ public class PlayerRotator : MonoBehaviour, IDragHandler, IPointerDownHandler
 
     private void CheckCameraBounds(float rotation)
     {
-        var headTransform = _head.transform;
+        var headTransform = _rotatingHead;
         var currentRotation = headTransform.localRotation.x;
         if (rotation < 0)
         {
-            if (currentRotation > _rotationBounds.x)
+            if (currentRotation > _currentBounds.x)
                 return;
         }
-        else if (currentRotation < _rotationBounds.y) return;
-            
-        headTransform.Rotate(Vector3.left * rotation);
+        else if (currentRotation < _currentBounds.y) return;
+
+        headTransform.Rotate(Vector3.left * rotation, Space.Self);
     }
 
     public void OnDrag(PointerEventData eventData)
