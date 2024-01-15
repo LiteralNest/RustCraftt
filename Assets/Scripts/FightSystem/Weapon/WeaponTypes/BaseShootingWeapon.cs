@@ -63,6 +63,7 @@ namespace FightSystem.Weapon.WeaponTypes
             _isReloading = false;
             if (WeaponAim != null)
                 WeaponAim.UnScope();
+            CurrentAmmoCount = InventoryHandler.singleton.ActiveSlotDisplayer.ItemDisplayer.InventoryCell.Ammo;
             TryDisplayReload();
             TryDisplayAttack();
             GlobalEventsContainer.InventoryDataChanged += TryDisplayReload;
@@ -169,7 +170,10 @@ namespace FightSystem.Weapon.WeaponTypes
         {
             if (InventoryHandler.singleton == null || InventoryHandler.singleton.ActiveSlotDisplayer == null ||
                 _inHandView == null || CurrentAmmoCount >= Weapon.MagazineCount)
+            {
+                _inHandView.AssignReload(false);
                 return;
+            }
             var addingAmmo = InventoryHandler.singleton.CharacterInventory.GetItemCount(Weapon.Ammo.Id);
             _inHandView.AssignReload(addingAmmo > 0);
         }

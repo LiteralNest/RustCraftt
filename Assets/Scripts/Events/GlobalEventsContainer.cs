@@ -3,6 +3,7 @@ using FightSystem.Weapon.Melee;
 using FightSystem.Weapon.ShootWeapon;
 using FightSystem.Weapon.WeaponTypes;
 using InHandItems;
+using Items_System.Items.Weapon;
 using Player_Controller;
 using RespawnSystem.SleepingBag;
 
@@ -23,6 +24,7 @@ namespace Events
         
         public static Action<bool> OnMainHudHandle { get; set; }
         public static Action OnMapOpened { get; set; }
+        public static Action<ShootingWeapon> ShouldAssignCurrentWeapon { get; set; }
 
         #region Inventory
 

@@ -15,7 +15,8 @@ namespace Inventory_System.Inventory_Slot_Displayers
 
         public SlotsDisplayer InventorySlotsDisplayer { get; protected set; }
         public Storage Inventory { get; protected set; }
-
+        
+        
         protected virtual void Drop(PointerEventData eventData)
         {
             var itemDisplayer = eventData.pointerDrag.GetComponent<InventoryItemDisplayer>();
