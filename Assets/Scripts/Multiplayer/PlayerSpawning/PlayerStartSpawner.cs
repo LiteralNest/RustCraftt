@@ -13,8 +13,6 @@ namespace Multiplayer.PlayerSpawning
 {
     public class PlayerStartSpawner : NetworkBehaviour
     {
-        public static PlayerStartSpawner Singleton { get; private set; }
-
         private NetworkVariable<int> _userId = new(-1, NetworkVariableReadPermission.Everyone,
             NetworkVariableWritePermission.Owner);
 
@@ -25,9 +23,31 @@ namespace Multiplayer.PlayerSpawning
             if (!IsOwner) return;
             _userId.Value = UserDataHandler.Singleton.UserData.Id;
             TryConnectServerToBackPack();
-            await Task.Delay(900);
+            await Task.Delay(1500);
             if (!IsOwner) return;
-            Singleton = this;
+        }
+
+        public override void OnNetworkDespawn()
+        {
+            base.OnNetworkDespawn();
+            if (!IsServer) return;
+            List<PlayerKiller> players = FindObjectsOfType<PlayerKiller>().ToList();
+            foreach (var player in players)
+            {
+                if (player.UserId != _userId.Value) continue;
+                player.DisconnectServerRpc(_userId.Value);
+            }
+        }
+        
+        public void Respawn(Vector3 spawnPoint)
+        {
+            List<PlayerStartSpawner> players = FindObjectsOfType<PlayerStartSpawner>().ToList();
+            foreach (var player in players)
+            {
+                if (!player.IsOwner) continue;
+                player.Respawn(UserDataHandler.Singleton.UserData.Id, spawnPoint);
+                return;
+            }
         }
 
         private void TryConnectServerToBackPack()
@@ -59,29 +79,6 @@ namespace Multiplayer.PlayerSpawning
                 point = spawnPoint;
             PlayerStaffSpawner.Singleton.SpawnPlayerServerRpc(point, Quaternion.identity,
                 GetComponent<NetworkObject>().OwnerClientId);
-        }
-
-        public void Respawn(Vector3 spawnPoint)
-        {
-            List<PlayerStartSpawner> players = FindObjectsOfType<PlayerStartSpawner>().ToList();
-            foreach (var player in players)
-            {
-                if (!player.IsOwner) continue;
-                player.Respawn(UserDataHandler.Singleton.UserData.Id, spawnPoint);
-                return;
-            }
-        }
-
-        public override void OnNetworkDespawn()
-        {
-            base.OnNetworkDespawn();
-            if (!IsServer) return;
-            List<PlayerKiller> players = FindObjectsOfType<PlayerKiller>().ToList();
-            foreach (var player in players)
-            {
-                if (player.UserId != _userId.Value) continue;
-                player.DieServerRpc(_userId.Value, true, false);
-            }
         }
     }
 }

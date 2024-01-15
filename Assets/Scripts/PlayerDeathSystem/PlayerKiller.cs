@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using Animation_System;
 using Player_Controller;
@@ -16,6 +15,7 @@ namespace PlayerDeathSystem
 
         [SerializeField] private CharacterInventory _characterInventory;
         [SerializeField] private PlayerCorpesHanler _playerCorpesHanler;
+        [SerializeField] private CharacterAnimationsHandler _characterAnimationsHandler;
 
         private NetworkVariable<int> _userId = new(-1, NetworkVariableReadPermission.Everyone,
             NetworkVariableWritePermission.Owner);
@@ -38,13 +38,32 @@ namespace PlayerDeathSystem
             DieClientRpc(corpesid, wasDisconnected, ownerId, shouldDisplayDeathScreen);
         }
 
+        [ServerRpc(RequireOwnership = false)]
+        public void DisconnectServerRpc(int ownerId)
+        {
+            if (!IsServer) return;
+            int corpesid = Random.Range(0, 100000);
+            GenerateCorp(corpesid, true, ownerId);
+        }
+
+        private void GenerateCorp(int corpesid, bool wasDisconnected, int ownerId)
+        {
+            _playerCorpesHanler.ResetCorpesPos(corpesid);
+            _characterAnimationsHandler.SetAnimation(_characterAnimationsHandler.GetAnimationNum("Dead"));
+            var networkObject = GetComponent<NetworkObject>();
+            networkObject.ChangeOwnership(PlayerNetCode.Singleton.OwnerClientId);
+            _playerCorpesHanler.GenerateBackPack(_characterInventory.ItemsNetData.Value, corpesid, wasDisconnected,
+                ownerId);
+            networkObject.Despawn();
+        }
+
         [ClientRpc]
         private void DieClientRpc(int corpesid, bool wasDisconnected, int ownerId, bool shouldDisplayDeathScreen)
         {
             _playerCorpesHanler.ResetCorpesPos(corpesid);
             if (ownerId == _userId.Value && IsOwner)
             {
-                if(shouldDisplayDeathScreen)
+                if (shouldDisplayDeathScreen)
                     MainUiHandler.Singleton.DisplayDeathScreen(true);
                 AnimationsManager.Singleton.SetDeath(false);
             }
