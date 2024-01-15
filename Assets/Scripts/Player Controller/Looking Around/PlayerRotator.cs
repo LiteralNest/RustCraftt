@@ -30,13 +30,14 @@ public class PlayerRotator : MonoBehaviour, IDragHandler, IPointerDownHandler
     private void CheckCameraBounds(float rotation)
     {
         var headTransform = _head.transform;
+        var currentRotation = headTransform.localRotation.x;
         if (rotation < 0)
         {
-            if (headTransform.rotation.x > _rotationBounds.x)
+            if (currentRotation > _rotationBounds.x)
                 return;
         }
-        else if (headTransform.rotation.x < _rotationBounds.y) return;
-
+        else if (currentRotation < _rotationBounds.y) return;
+            
         headTransform.Rotate(Vector3.left * rotation);
     }
 
@@ -49,6 +50,7 @@ public class PlayerRotator : MonoBehaviour, IDragHandler, IPointerDownHandler
 
         float rotationX = touchDelta.x * _rotationSpeed * Time.deltaTime;
         float rotationY = touchDelta.y * _rotationSpeed * Time.deltaTime;
+        rotationY = Mathf.Clamp(rotationY, -90f, 90f);
 
         _playerController.transform.Rotate(Vector3.up * rotationX);
 

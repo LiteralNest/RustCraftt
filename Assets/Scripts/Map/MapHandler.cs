@@ -6,6 +6,7 @@ namespace Map
     public class MapHandler : MonoBehaviour
     {
         [SerializeField] private GameObject _map;
+        [SerializeField] private GameObject _mapCamera;
 
         private void OnEnable()
             => GlobalEventsContainer.OnMapOpened += Open;
@@ -16,13 +17,19 @@ namespace Map
         public void Open()
         {
             GlobalEventsContainer.OnMainHudHandle?.Invoke(false);
-            _map.SetActive(true);
+            HandleObjects(true);
         }
 
         public void Close()
         {
             GlobalEventsContainer.OnMainHudHandle?.Invoke(true);
-            _map.SetActive(false);
+            HandleObjects(false);
+        }
+
+        private void HandleObjects(bool value)
+        {
+            _map.SetActive(value);
+            _mapCamera.SetActive(value);
         }
     }
 }
