@@ -8,16 +8,15 @@ using Multiplayer.CustomData;
 using Storage_System;
 using Unity.Netcode;
 using UnityEngine;
+using UnityEngine.UI;
 using Web.UserData;
 
 namespace Tool_Clipboard
 {
     public class ToolClipboard : Storage, ILockable
     {
-        [Header("UI")] 
-        [SerializeField] private GameObject _selectingCircle;
+        [Header("UI")] [SerializeField] private GameObject _selectingCircle;
         [SerializeField] private GameObject _inventoryPanel;
-
         [SerializeField] private List<BuildingBlock> _connectedBlocks = new List<BuildingBlock>();
         public List<BuildingBlock> ConnectedBlocks => _connectedBlocks;
         [SerializeField] private NetworkVariable<AuthorizedUsersData> _authorizedIds = new();
@@ -26,7 +25,8 @@ namespace Tool_Clipboard
         private bool _isLocked;
 
         public AuthorizedUsersData AuthorizedIds => _authorizedIds.Value;
-
+        
+        
         public override void Open(InventoryHandler handler)
         {
             if (_targetLocker != null && !_targetLocker.CanBeOpened(UserDataHandler.Singleton.UserData.Id))
@@ -34,6 +34,7 @@ namespace Tool_Clipboard
                 _targetLocker.Open();
                 return;
             }
+
             _selectingCircle.SetActive(true);
             _inventoryPanel.SetActive(false);
             Appear();
@@ -42,6 +43,7 @@ namespace Tool_Clipboard
 
         public void OpenInventory()
         {
+            CurrentInventoriesHandler.Singleton.CurrentStorage = this;
             InventoryHandler.singleton.InventoryPanelsDisplayer.OpenInventory(true);
             SlotsDisplayer.DisplayCells();
         }
@@ -82,7 +84,7 @@ namespace Tool_Clipboard
                 res.Add(new InventoryCell(cell));
             return res;
         }
-        
+
         private bool TryMinusItemsPreSecond(List<InventoryCell> delCells,
             List<InventoryCell> data)
         {
@@ -168,9 +170,11 @@ namespace Tool_Clipboard
                         break;
                     }
                 }
-                if(!wasAdded)
+
+                if (!wasAdded)
                     res.Add(addingCell);
             }
+
             return res;
         }
 
