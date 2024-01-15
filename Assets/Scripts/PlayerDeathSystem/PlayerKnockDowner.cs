@@ -14,7 +14,9 @@ namespace PlayerDeathSystem
         public static PlayerKnockDowner Singleton { get; private set; }
 
         [SerializeField] private CharacterHpHandler _characterHpHandler;
-        [SerializeField] private CharacterAnimationsHandler _characterAnimationsHandler;
+        
+        private NetworkVariable<bool> _knockDown = new();
+        public bool IsKnockDown => _knockDown.Value;
 
         private async void Start()
         {
@@ -29,6 +31,7 @@ namespace PlayerDeathSystem
         public void KnockDownServerRpc(int id)
         {
             if (!IsServer) return;
+            _knockDown.Value = true;
             KnockDownClientRpc(id);
         }
 
@@ -40,9 +43,12 @@ namespace PlayerDeathSystem
                 GetComponent<PlayerController>().enabled = false;
                 MainUiHandler.Singleton.DisplayKnockDownScreen(true);
                 var item = InventoryHandler.singleton.ActiveItem;
-                if (item == null) return;
-                InstantiatingItemsPool.sigleton.SpawnDropableObjectServerRpc(item.Id, 1, Camera.main.transform.position + Camera.main.transform.forward);
-                PlayerNetCode.Singleton.InHandObjectsContainer.SetDefaultHands();
+                if (item != null)
+                {
+                    InstantiatingItemsPool.sigleton.SpawnDropableObjectServerRpc(item.Id, 1, Camera.main.transform.position + Camera.main.transform.forward);
+                    InventoryHandler.singleton.CharacterInventory.RemoveItem(item.Id, 1);
+                    PlayerNetCode.Singleton.InHandObjectsContainer.SetDefaultHands();
+                }
                 AnimationsManager.Singleton.SetKnockDown();
             }
         }
@@ -61,6 +67,7 @@ namespace PlayerDeathSystem
         public void StandUpServerRpc()
         {
             if (!IsServer) return;
+            _knockDown.Value = false;
             StandUpClientRpc();
         }
 

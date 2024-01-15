@@ -26,12 +26,6 @@ public class PlayerResourcesGatherer : MonoBehaviour
 
     public ResourceGatheringObject ResourceGatheringObject { get; private set; }
 
-    private void OnEnable()
-        => GlobalEventsContainer.ResourceGatheringObjectAssign += AssignResourceGatheringObject;
-    
-    private void OnDisable()
-        => GlobalEventsContainer.ResourceGatheringObjectAssign -= AssignResourceGatheringObject;
-    
     private void Start()
     {
         if(_objectsRayCaster == null)
@@ -42,12 +36,6 @@ public class PlayerResourcesGatherer : MonoBehaviour
     {
         if(_gathering)
             TryHit();
-    }
-
-    private void AssignResourceGatheringObject(ResourceGatheringObject target)
-    {
-        _objectsRayCaster.CanRayCastOre = target != null;
-        ResourceGatheringObject = target;
     }
 
     private async void Recover()
@@ -73,6 +61,7 @@ public class PlayerResourcesGatherer : MonoBehaviour
 
     public void TryDoGathering()
     {
+        TryHelp();
         TryRenameSleepingBag();
         TrySit();
         TryOpenWorkBench();
@@ -185,5 +174,12 @@ public class PlayerResourcesGatherer : MonoBehaviour
         _inventoryHandler.CharacterInventory.AddItemToDesiredSlotServerRpc(lootingItem.ItemId.Value,
             lootingItem.Count.Value, 0);
         lootingItem.PickUpServerRpc();
+    }
+
+    private void TryHelp()
+    {
+        var knockDowner = _objectsRayCaster.PlayerKnockDowner;
+        if(!knockDowner) return;
+        knockDowner.StandUpServerRpc();
     }
 }

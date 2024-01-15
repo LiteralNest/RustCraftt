@@ -16,7 +16,6 @@ namespace Events
         public static Action<InventoryCell> OnInventoryItemRemoved { get; set; }
         public static Action InventoryDataChanged { get; set; }
         public static Action<int, ulong> ShouldDisplayHandItem { get; set; }
-        public static Action<ResourceGatheringObject> ResourceGatheringObjectAssign { get; set; }
         public static Action BluePrintDeactivated { get; set; }
         public static Action OnCurrentItemDeleted { get; set; }
         public static Action<bool> OnMicrophoneButtonClicked { get; set; }

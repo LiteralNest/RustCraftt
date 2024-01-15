@@ -6,11 +6,11 @@ using Items_System;
 using Items_System.Ore_Type;
 using MeltingSystem;
 using Player_Controller;
+using PlayerDeathSystem;
 using RespawnSystem.SleepingBag;
 using Storage_System;
 using TMPro;
 using Tool_Clipboard;
-using UI;
 using UnityEngine;
 using UnityEngine.Serialization;
 using Vehicle;
@@ -38,6 +38,7 @@ public class ObjectsRayCaster : MonoBehaviour
 
     [Header("Layers")] [SerializeField] private LayerMask _defaultMask;
     [SerializeField] private LayerMask _blockMask;
+    [SerializeField] private LayerMask _playerMask;
 
     public ResourceOre TargetResourceOre { get; private set; }
     public GatheringOre TargetGathering { get; private set; }
@@ -51,8 +52,8 @@ public class ObjectsRayCaster : MonoBehaviour
     public HammerInteractable TargetClipboardInteractable { get; private set; }
     public SittingPlace TargetSittingPlace { get; private set; }
     public SleepingBagNamer TargetSleepingBag { get; private set; }
+    public PlayerKnockDowner PlayerKnockDowner { get; private set; }
     private BuildingBlock _targetBlock;
-    public bool CanRayCastOre { get; set; }
 
     public Vector3 LastRaycastedPosition { get; private set; }
     public Vector3 LastRayCastedRotation { get; private set; }
@@ -76,6 +77,7 @@ public class ObjectsRayCaster : MonoBehaviour
         TargetClipboardInteractable = null;
         TargetSittingPlace = null;
         TargetSleepingBag = null;
+        PlayerKnockDowner = null;
         _vehiclesController.SetVehicleController(null);
     }
 
@@ -116,21 +118,6 @@ public class ObjectsRayCaster : MonoBehaviour
 
     private bool OreReady(Ore ore)
         => !ore.Recovering;
-
-    private void TryRayCastOre()
-    {
-        if (!CanRayCastOre) return;
-        ResourceOre ore;
-        if (TryRaycast("Ore", _maxOreHitDistance, out ore, _defaultMask))
-        {
-            if (OreReady(ore))
-            {
-                TargetResourceOre = ore;
-                SetLootText("Obtain");
-                return;
-            }
-        }
-    }
 
     private void TryDisplayHp()
     {
@@ -260,6 +247,14 @@ public class ObjectsRayCaster : MonoBehaviour
             return;
         }
 
-        TryRayCastOre();
+        if (TryRaycast("Player", _maxOpeningDistance, out PlayerKnockDowner player, _playerMask))
+        {
+            if (player.IsKnockDown)
+            {
+                PlayerKnockDowner = player;
+                SetLootButton("Help");
+                return;
+            }
+        }
     }
 }
