@@ -48,7 +48,7 @@ namespace FightSystem.Weapon.ShootWeapon
             _transform.localPosition = _originalPosition;
             _transform.localRotation = _originalRotation;
 
-            _currentSway.CanSway = false;
+            _currentSway.CanSway = true;
 
             IsAiming = false;
         }
