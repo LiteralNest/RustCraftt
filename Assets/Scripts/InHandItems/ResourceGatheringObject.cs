@@ -48,7 +48,7 @@ namespace InHandItems
 
         private void TryGather()
         {
-            PlayerNetCode.Singleton.PlayerMeleeDamager.TryDamage(_gatheringTool.Damage);
+            PlayerNetCode.Singleton.PlayerMeleeDamager.TryDamage(_gatheringTool.Damage, _gatheringAnimation.length);
             
             if (!_rayCaster.TryRaycast<ResourceOre>("Ore", _maxGatheringDistance, out ResourceOre targetResourceOre,
                     _rayCastMask, out RaycastHit hitInfo)) return;

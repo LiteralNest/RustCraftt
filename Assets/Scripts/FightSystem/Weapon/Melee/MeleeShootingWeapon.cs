@@ -51,7 +51,7 @@ namespace FightSystem.Weapon.Melee
         private void Update()
         {
             if (!_isAttacking || _isRecovering) return;
-            PlayerNetCode.Singleton.PlayerMeleeDamager.TryDamage(_targetWeapon.Damage);
+            PlayerNetCode.Singleton.PlayerMeleeDamager.TryDamage(_targetWeapon.Damage, 1);
             StartCoroutine(RecoverRoutine(_attackAnimation.length));
             inHandAnimator.Attack();
         }
