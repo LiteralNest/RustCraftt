@@ -4,6 +4,7 @@ using ArmorSystem.Backend;
 using Events;
 using Inventory_System.ItemInfo;
 using OnPlayerItems;
+using PlayerDeathSystem;
 using Sound_System;
 using Storage_System;
 using TMPro;
@@ -25,6 +26,7 @@ namespace Player_Controller
         [field: SerializeField] public VehiclesController VehiclesController { get; private set; }
         [field: SerializeField] public CharacterInventory CharacterInventory { get; private set; }
         [field:SerializeField] public PlayerMeleeDamager PlayerMeleeDamager { get; private set; }
+        [field:SerializeField] public PlayerKiller PlayerKiller { get; private set; }
 
         [Header("In Hand Items")] [SerializeField]
         private InHandObjectsContainer _inHandObjectsContainer;
@@ -33,7 +35,8 @@ namespace Player_Controller
             NetworkVariableWritePermission.Owner);
 
         [SerializeField] private ArmorsContainer _armorsContainer;
-
+        
+        
         [Header("NickName")] [SerializeField] private NetworkVariable<int> _playerId = new(-1,
             NetworkVariableReadPermission.Everyone,
             NetworkVariableWritePermission.Owner);

@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Animation_System;
 using Building_System.NetWorking;
+using Player_Controller;
 using PlayerDeathSystem;
 using Storage_System;
 using Unity.Netcode;
@@ -25,6 +26,7 @@ namespace Multiplayer.PlayerSpawning
             TryConnectServerToBackPack();
             await Task.Delay(1500);
             if (!IsOwner) return;
+            PlayerNetCode.Singleton.PlayerKiller.AssignAnimationsManager(AnimationsManager);
         }
 
         public override void OnNetworkDespawn()

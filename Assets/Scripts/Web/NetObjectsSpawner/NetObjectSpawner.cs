@@ -6,11 +6,13 @@ namespace Web.NetObjectsSpawner
     public class NetObjectSpawner : MonoBehaviour
     {
         [SerializeField] private string _prefabPath = "NetObject/";
-        
+
         public void GeneratePref(Transform parent)
         {
             var position = transform.position;
+#if UNITY_SERVER
             Debug.Log("Generating " + _prefabPath + " at " + position);
+#endif
             ClearChildren();
             var prefab = Resources.Load<GameObject>(_prefabPath);
             var instance = Instantiate(prefab, position, Quaternion.identity);
@@ -18,10 +20,10 @@ namespace Web.NetObjectsSpawner
             networkObject.Spawn();
             networkObject.TrySetParent(parent);
         }
-        
+
         private void ClearChildren()
         {
-            foreach(Transform child in transform)
+            foreach (Transform child in transform)
                 Destroy(child.gameObject);
         }
     }
