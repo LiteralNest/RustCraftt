@@ -249,7 +249,7 @@ public class ObjectsRayCaster : MonoBehaviour
 
         if (TryRaycast("Player", _maxOpeningDistance, out PlayerKnockDowner player, _playerMask))
         {
-            if (player.IsKnockDown)
+            if (player.IsKnockDown && player.OwnerClientId != PlayerNetCode.Singleton.OwnerClientId)
             {
                 PlayerKnockDowner = player;
                 SetLootButton("Help");
