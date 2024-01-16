@@ -3,7 +3,6 @@ using System.Threading.Tasks;
 using ArmorSystem.Backend;
 using Events;
 using Inventory_System.ItemInfo;
-using Multiplayer.NickNameTexts;
 using OnPlayerItems;
 using PlayerDeathSystem;
 using Sound_System;
@@ -28,8 +27,7 @@ namespace Player_Controller
         [field: SerializeField] public CharacterInventory CharacterInventory { get; private set; }
         [field:SerializeField] public PlayerMeleeDamager PlayerMeleeDamager { get; private set; }
         [field:SerializeField] public PlayerKiller PlayerKiller { get; private set; }
-
-        [SerializeField] private NickNameTextDisplayer _nickNameTextDisplayer;
+        
         
         [Header("In Hand Items")] [SerializeField]
         private InHandObjectsContainer _inHandObjectsContainer;

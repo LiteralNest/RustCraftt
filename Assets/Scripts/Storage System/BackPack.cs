@@ -24,15 +24,8 @@ namespace Storage_System
             OwnerId.Value = ownerId;
         }
 
-        [ServerRpc(RequireOwnership = false)]
-        public void AssignCorpServerRpc(int id)
-        {
-            if (!IsServer) return;
-            AssignCorpClientRpc(id);
-        }
-
         [ClientRpc]
-        private void AssignCorpClientRpc(int id)
+        public void AssignCorpClientRpc(int id)
         {
             var copres = FindObjectsOfType<PlayerCorpes>().ToList();
             foreach (var corp in copres)

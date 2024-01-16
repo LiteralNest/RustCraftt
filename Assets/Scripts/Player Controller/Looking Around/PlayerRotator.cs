@@ -51,7 +51,6 @@ public class PlayerRotator : MonoBehaviour, IDragHandler, IPointerDownHandler
     {
         var headTransform = _rotatingHead;
         var currentRotation = Mathf.Abs(headTransform.localRotation.x);
-        Debug.Log(currentRotation);
         if (rotation < 0)
         {
             if (currentRotation < _currentBounds.x)

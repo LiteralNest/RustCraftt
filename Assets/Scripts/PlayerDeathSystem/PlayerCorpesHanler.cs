@@ -23,7 +23,7 @@ namespace PlayerDeathSystem
             backPack.GetComponent<NetworkObject>().Spawn();
             var script = backPack.GetComponent<BackPack>();
             script.AssignCells(data);
-            script.AssignCorpServerRpc(corpesId);
+            script.AssignCorpClientRpc(corpesId);
             script.SetWasDisconnectedAndOwnerIdServerRpc(wasDisconnected, ownerId);
         }
     }

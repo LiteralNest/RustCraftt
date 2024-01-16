@@ -19,6 +19,7 @@ namespace PlayerDeathSystem
         [SerializeField] private CharacterAnimationsHandler _inventoryAnimationsHandler;
 
         private AnimationsManager _animationsManager;
+
         private NetworkVariable<int> _userId = new(-1, NetworkVariableReadPermission.Everyone,
             NetworkVariableWritePermission.Owner);
 
@@ -47,7 +48,7 @@ namespace PlayerDeathSystem
             int corpesid = Random.Range(0, 100000);
             GenerateCorp(corpesid, true, ownerId);
         }
-        
+
         public void AssignAnimationsManager(AnimationsManager animationsManager)
         {
             _animationsManager = animationsManager;
@@ -64,6 +65,16 @@ namespace PlayerDeathSystem
             networkObject.Despawn();
         }
 
+        [ServerRpc(RequireOwnership = false)]
+        private void GenerateBackPackServerRpc(int corpesid, bool wasDisconnected, int ownerId)
+        {
+            GetComponent<NetworkObject>().ChangeOwnership(NetworkManager.Singleton.LocalClientId);
+            _playerCorpesHanler.GenerateBackPack(_characterInventory.ItemsNetData.Value, corpesid, wasDisconnected,
+                ownerId);
+            GetComponent<NetworkObject>().Despawn();
+        }
+
+
         [ClientRpc]
         private void DieClientRpc(int corpesid, bool wasDisconnected, int ownerId, bool shouldDisplayDeathScreen)
         {
@@ -75,13 +86,7 @@ namespace PlayerDeathSystem
                 AnimationsManager.Singleton.SetDeath();
             }
 
-            if (IsServer)
-            {
-                GetComponent<NetworkObject>().ChangeOwnership(PlayerNetCode.Singleton.OwnerClientId);
-                _playerCorpesHanler.GenerateBackPack(_characterInventory.ItemsNetData.Value, corpesid, wasDisconnected,
-                    ownerId);
-                GetComponent<NetworkObject>().Despawn();
-            }
+            GenerateBackPackServerRpc(corpesid, wasDisconnected, ownerId);
         }
 
         [ContextMenu("Die")]
