@@ -143,6 +143,11 @@ namespace Building_System.Blocks
         
         }
 
+        public InventoryCell GetNeededItemsForUpgrade()
+        {
+            throw new NotImplementedException();
+        }
+
         public bool CanBeUpgraded()
         {
             if(!MaxHp()) return false;

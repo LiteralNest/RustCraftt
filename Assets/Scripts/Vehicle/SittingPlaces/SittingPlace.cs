@@ -17,9 +17,8 @@ namespace Vehicle.SittingPlaces
         #region SitIn
 
         public bool CanSit() => _currentPlayer == null;
-
-        [ClientRpc]
-        private void AssignCurrentPlayerClientRpc(ulong playerId, ulong ownerId)
+        
+        private void AssignCurrentPlayer(ulong playerId, ulong ownerId)
         {
             var players = FindObjectsOfType<PlayerNetCode>().ToList();
             foreach (var player in players)
@@ -39,7 +38,7 @@ namespace Vehicle.SittingPlaces
                 if (networkObject.OwnerClientId != networkId) continue;
                 networkObject.TrySetParent(_networkObject.transform);
                 player.ChangePositionClientRpc(transform.position);
-                AssignCurrentPlayerClientRpc(networkId, ownerId);
+                AssignCurrentPlayer(networkId, ownerId);
                 return;
             }
         }

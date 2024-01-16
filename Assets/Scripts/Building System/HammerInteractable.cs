@@ -20,6 +20,11 @@ namespace Building_System
 
         private ToolClipboard _targetToolClipboard;
 
+        public InventoryCell GetNeededItemsForUpgrade()
+        {
+            throw new System.NotImplementedException();
+        }
+
         public bool CanBeUpgraded()
             => false;
 

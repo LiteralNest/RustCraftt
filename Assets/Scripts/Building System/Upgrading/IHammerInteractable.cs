@@ -2,6 +2,7 @@ namespace Building_System.Upgrading
 {
     public interface IHammerInteractable
     {
+        public InventoryCell GetNeededItemsForUpgrade();
         public bool CanBeUpgraded();
         public void Upgrade();
     

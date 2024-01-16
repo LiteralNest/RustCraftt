@@ -1,13 +1,15 @@
 using Building_System.Upgrading.UI;
 using Events;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Building_System.Upgrading
 {
     public class BuildingUpgrader : MonoBehaviour
     {
+        [FormerlySerializedAs("_buildingUpgraderDisplaying")]
         [Header("Attached scripts")]
-        [SerializeField] private BuildingUpgraderDisplaying _buildingUpgraderDisplaying;
+        [SerializeField] private BuildingUpgradeView buildingUpgradeView;
         
         [Header("Main Params")]
         [SerializeField] private LayerMask _targetMask;
@@ -38,7 +40,7 @@ namespace Building_System.Upgrading
         private void OnBuildingHammerActivated(bool value)
         {
             if(!value)
-                _buildingUpgraderDisplaying.DisplayButtons(false,false,false,false);
+                buildingUpgradeView.DisplayButtons(false,false,false,false);
             _hammerActive = value;
         }
 
@@ -53,13 +55,13 @@ namespace Building_System.Upgrading
                 var upgradable = hit.transform.GetComponent<IHammerInteractable>();
                 if (upgradable == null)
                 {
-                    _buildingUpgraderDisplaying.DisplayButtons(false,false,false,false);
+                    buildingUpgradeView.DisplayButtons(false,false,false,false);
                     return null;
                 }
-                _buildingUpgraderDisplaying.DisplayButtons(upgradable.CanBeUpgraded(), upgradable.CanBeDestroyed(), upgradable.CanBeRepaired(), upgradable.CanBePickUp());
+                buildingUpgradeView.DisplayButtons(upgradable.CanBeUpgraded(), upgradable.CanBeDestroyed(), upgradable.CanBeRepaired(), upgradable.CanBePickUp());
                 return upgradable;
             }
-            _buildingUpgraderDisplaying.DisplayButtons(false,false,false,false);
+            buildingUpgradeView.DisplayButtons(false,false,false,false);
             return null;
         }
 

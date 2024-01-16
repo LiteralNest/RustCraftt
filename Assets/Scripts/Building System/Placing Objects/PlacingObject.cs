@@ -41,6 +41,11 @@ namespace Building_System.Placing_Objects
             DestroyObjectServerRpc();
         }
 
+        public InventoryCell GetNeededItemsForUpgrade()
+        {
+                throw new System.NotImplementedException();
+        }
+
         public bool CanBeUpgraded()
             => false;
 

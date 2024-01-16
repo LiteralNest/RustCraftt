@@ -3,7 +3,7 @@ using UnityEngine.UI;
 
 namespace Building_System.Upgrading.UI
 {
-    public class BuildingUpgraderDisplaying : MonoBehaviour
+    public class BuildingUpgradeView : MonoBehaviour
     {
         [Header("Buttons")]
         [SerializeField] private Button _upgradeButton;
