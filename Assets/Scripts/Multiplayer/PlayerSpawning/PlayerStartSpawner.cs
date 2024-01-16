@@ -26,9 +26,8 @@ namespace Multiplayer.PlayerSpawning
             TryConnectServerToBackPack();
             await Task.Delay(1500);
             if (!IsOwner) return;
-            PlayerNetCode.Singleton.PlayerKiller.AssignAnimationsManager(AnimationsManager);
         }
-        
+
         public override void OnNetworkDespawn()
         {
             base.OnNetworkDespawn();
@@ -37,10 +36,10 @@ namespace Multiplayer.PlayerSpawning
             foreach (var player in players)
             {
                 if (player.UserId != _userId.Value) continue;
-                player.DisconnectServerRpc(_userId.Value);
+                player.GenerateBackPack(true, _userId.Value);
             }
         }
-        
+
         public void Respawn(Vector3 spawnPoint)
         {
             List<PlayerStartSpawner> players = FindObjectsOfType<PlayerStartSpawner>().ToList();
@@ -58,10 +57,15 @@ namespace Multiplayer.PlayerSpawning
             foreach (var backPack in backPacks)
             {
                 if (backPack == null) continue;
-                if (!(backPack.WasDisconnected.Value && backPack.OwnerId.Value == _userId.Value)) return;
-                PlayerStaffSpawner.Singleton.SpawnPlayerServerRpc(backPack.transform.position + new Vector3(0, 1, 0),
-                    backPack.transform.rotation, GetComponent<NetworkObject>().OwnerClientId, (int)backPack.NetworkObject.NetworkObjectId);
-                return;
+                if (backPack.WasDisconnected.Value && backPack.OwnerId.Value == _userId.Value)
+                {
+                    PlayerStaffSpawner.Singleton.SpawnPlayerServerRpc(
+                        backPack.transform.position + new Vector3(0, 1, 0),
+                        backPack.transform.rotation, GetComponent<NetworkObject>().OwnerClientId,
+                        (int)backPack.NetworkObject.NetworkObjectId);
+                    backPack.DespawnServerRpc();
+                    return;
+                }
             }
 
             SpawnPlayerInRandomPoint();

@@ -11,20 +11,14 @@ namespace PlayerDeathSystem
         [SerializeField] private PlayerCorpes _corpesObject;
         [SerializeField] private Transform _corpesPlace;
 
-        public void ResetCorpesPos(int corpesId)
-        {
-            _corpesObject.transform.SetParent(null);
-            _corpesObject.Id = corpesId;
-        }
-
-        public void GenerateBackPack(CustomSendingInventoryData data, int corpesId, bool wasDisconnected, int ownerId)
+        public void GenerateBackPack(CustomSendingInventoryData data, bool wasDisconnected, int ownerId)
         {
             var backPack = Instantiate(_corpesPref.gameObject, _corpesPlace.position, _corpesPlace.rotation);
             backPack.GetComponent<NetworkObject>().Spawn();
             var script = backPack.GetComponent<BackPack>();
             script.AssignCells(data);
-            script.AssignCorpClientRpc(corpesId);
-            script.SetWasDisconnectedAndOwnerIdServerRpc(wasDisconnected, ownerId);
+            script.PlayerCorpDisplay.Init();
+            script.SetWasDisconnectedAndOwnerId(wasDisconnected, ownerId);
         }
     }
 }
