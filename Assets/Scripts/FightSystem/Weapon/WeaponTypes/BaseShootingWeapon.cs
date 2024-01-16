@@ -171,7 +171,8 @@ namespace FightSystem.Weapon.WeaponTypes
             if (InventoryHandler.singleton == null || InventoryHandler.singleton.ActiveSlotDisplayer == null ||
                 _inHandView == null || CurrentAmmoCount >= Weapon.MagazineCount)
             {
-                _inHandView.AssignReload(false);
+                if(_inHandView != null)
+                    _inHandView.AssignReload(false);
                 return;
             }
             var addingAmmo = InventoryHandler.singleton.CharacterInventory.GetItemCount(Weapon.Ammo.Id);
