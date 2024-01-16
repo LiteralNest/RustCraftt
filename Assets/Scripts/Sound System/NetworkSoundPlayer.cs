@@ -19,7 +19,7 @@ namespace Sound_System
         }
 
         public void PlayOneShot(AudioClip clip)
-            => PlaySoundServerRpc(true, GetIdByClip(clip));
+            => PlaySoundClientRpc(true, GetIdByClip(clip), GetComponent<NetworkObject>().NetworkObjectId);
 
         public void PlayClip(AudioClip clip)
             => PlaySoundServerRpc(false, GetIdByClip(clip));

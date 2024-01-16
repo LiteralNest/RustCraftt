@@ -28,7 +28,7 @@ namespace Multiplayer.PlayerSpawning
             if (!IsOwner) return;
             PlayerNetCode.Singleton.PlayerKiller.AssignAnimationsManager(AnimationsManager);
         }
-
+        
         public override void OnNetworkDespawn()
         {
             base.OnNetworkDespawn();

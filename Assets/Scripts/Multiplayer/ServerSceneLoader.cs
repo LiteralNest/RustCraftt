@@ -1,3 +1,4 @@
+using ParrelSync;
 using Server;
 using Unity.Netcode;
 using UnityEngine;
@@ -9,12 +10,21 @@ public class ServerSceneLoader : MonoBehaviour
 
     private void Start()
     {
+#if UNITY_EDITOR
+        if (ClonesManager.IsClone())
+        {
+            NetworkManager.Singleton.StartClient();
+            return;
+        }
+#endif
+
 #if !UNITY_SERVER
         if (_shouldLoadHost)
         {
             NetworkManager.Singleton.StartHost();
             return;
         }
+
         _connectionManager.Connect();
 #endif
     }

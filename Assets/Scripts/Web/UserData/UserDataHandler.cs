@@ -1,3 +1,4 @@
+using ParrelSync;
 using UnityEngine;
 
 namespace Web.UserData
@@ -16,6 +17,13 @@ namespace Web.UserData
             }
             DontDestroyOnLoad(this);
             Singleton = this;
+            
+            #if UNITY_EDITOR
+            if (ClonesManager.IsClone())
+            {
+                UserData = new UserData(1001, "Clone");
+            }
+            #endif
         }
     }
 }

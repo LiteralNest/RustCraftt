@@ -26,7 +26,7 @@ Transform:
   m_GameObject: {fileID: 3089444422837530523}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 28.471104, y: -13.5, z: 11.244168}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -45,7 +45,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d7a2be0bf46e212419971d2b94e5c4bb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _buildingSize: {x: 1, y: 1, z: 1}
   BluePrintCells:
   - {fileID: 4615848699465797802}
   _targetMask:
@@ -54,7 +53,9 @@ MonoBehaviour:
   _placingTags:
   - Block
   - DamagingItem
+  <StructureSize>k__BackingField: {x: 1, y: 1, z: 1}
   TargetPlacingObject: {fileID: 2867120535830641015, guid: b67d81b66a922764c910829cd6901c3a, type: 3}
+  _shouldLoadOwnerId: 0
 --- !u!1 &3543935927796079543
 GameObject:
   m_ObjectHideFlags: 0
@@ -83,7 +84,7 @@ Transform:
   m_GameObject: {fileID: 3543935927796079543}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.48, z: 0}
+  m_LocalPosition: {x: 0, y: -0.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -137,7 +138,7 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.1638554, y: 1.0496902, z: 1}
+  m_Size: {x: 0.1638554, y: 0.954801, z: 1}
   m_Center: {x: 0, y: 0.5131407, z: 0}
 --- !u!114 &4615848699465797802
 MonoBehaviour:
@@ -158,7 +159,6 @@ MonoBehaviour:
   _renderers:
   - {fileID: 7375919002359377128}
   - {fileID: 5406954888954378846}
-  _triggeredObjects: []
 --- !u!1 &3901904750699074696
 GameObject:
   m_ObjectHideFlags: 0
