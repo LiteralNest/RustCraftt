@@ -1,4 +1,5 @@
 using Building_System.Placing_Objects;
+using Events;
 using Inventory_System.Inventory_Slot_Displayers;
 using Items_System.Items.Abstract;
 using UI;
@@ -10,12 +11,17 @@ namespace Items_System.Items
     public class Building : CraftingItem
     {
         [SerializeField] private PlacingObjectBluePrint _targetBluePrint;
-    
+
         public override void Click(SlotDisplayer slotDisplayer)
         {
             base.Click(slotDisplayer);
-            InventoryHandler.singleton.PlayerObjectsPlacer.SetCurrentPref(_targetBluePrint);
+            InventoryHandler.singleton.PlayerObjectsDragger.SetCurrentPref(_targetBluePrint);
             CharacterUIHandler.singleton.ActivatePlacingPanel(true);
+        }
+
+        public override void OnClickDisabled()
+        {
+            GlobalEventsContainer.BluePrintDeactivated?.Invoke();
         }
     }
 }

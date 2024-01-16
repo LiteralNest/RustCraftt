@@ -22,8 +22,9 @@ public class MapCameraBounds : MonoBehaviour
     private void Awake()
     {
         _currentOrthographicSize = _camera.orthographicSize;
-        _initialOffset.x = 100f;
-        _initialOffset.y = 100f;
+       
+        // _initialOffset.x = 100f;
+        // _initialOffset.y = 100f;
     }
 
     private void LateUpdate()
@@ -41,20 +42,20 @@ public class MapCameraBounds : MonoBehaviour
     {
         var buttonWidth = 100f;
         var buttonHeight = 100f;
-
+    
         var screenWidth = Screen.width;
         var screenHeight = Screen.height;
-
+    
         var buttonX = (screenWidth - buttonWidth) / 2f;
         var buttonY = 10f;
-
+    
         if (GUI.Button(new Rect(buttonX, buttonY, buttonWidth, buttonHeight), "Zoom In"))
         {
             ZoomCamera(-10);
         }
-
+    
         buttonY += buttonHeight + 10f;
-
+    
         if (GUI.Button(new Rect(buttonX, buttonY, buttonWidth, buttonHeight), "Zoom Out"))
         {
             ZoomCamera(10);
@@ -63,11 +64,14 @@ public class MapCameraBounds : MonoBehaviour
 
     private void ZoomCamera(int direction)
     {
+        
+        
         _currentOrthographicSize += direction * _zoomSpeed;
         _currentOrthographicSize = Mathf.Clamp(_currentOrthographicSize, _minZoom, _maxZoom);
         
         _camera.orthographicSize = _currentOrthographicSize;
-        // _initialOffset = CalculateInitialOffset();
+        
+        _initialOffset = CalculateInitialOffset();
     }
 
     private Vector2 CalculateInitialOffset()
@@ -84,7 +88,7 @@ public class MapCameraBounds : MonoBehaviour
         return new Vector2(offsetX, offsetY);
     }
 
-    void OnDrawGizmos()
+    private void OnDrawGizmos()
     {
         Vector2 dynamicOffset = CalculateDynamicOffset();
 

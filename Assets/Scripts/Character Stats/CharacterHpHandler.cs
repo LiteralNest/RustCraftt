@@ -1,15 +1,15 @@
 using System.Threading.Tasks;
+using FightSystem.Damage;
+using FightSystem.Weapon.Explosive;
 using PlayerDeathSystem;
-using Sound_System;
 using UI;
 using Unity.Netcode;
-using Unity.VisualScripting;
 using UnityEngine;
-using Web.User;
+using Web.UserData;
 
 namespace Character_Stats
 {
-    public class CharacterHpHandler : NetworkBehaviour
+    public class CharacterHpHandler : NetworkBehaviour, IDamagable
     {
         [SerializeField] private CharacterStats _characterStats;
         [SerializeField] private CameraShake _cameraShake;
@@ -17,8 +17,9 @@ namespace Character_Stats
         private NetworkVariable<int> _currentHp = new(100, NetworkVariableReadPermission.Everyone,
             NetworkVariableWritePermission.Server);
 
-        public NetworkVariable<bool> WasKnockedDown { get; set; }= new(false, NetworkVariableReadPermission.Everyone,
+        public NetworkVariable<bool> WasKnockedDown { get; set; } = new(false, NetworkVariableReadPermission.Everyone,
             NetworkVariableWritePermission.Server);
+
         public int Hp => _currentHp.Value;
 
 
@@ -31,6 +32,7 @@ namespace Character_Stats
                 _currentHp.OnValueChanged += (int prevValue, int newValue) => DisplayDamage();
             }
         }
+
         private void DisplayDamage()
         {
             if (_characterStats == null) return;
@@ -39,10 +41,10 @@ namespace Character_Stats
             if (Hp <= 0)
             {
                 MainUiHandler.Singleton.DisplayKnockDownScreen(false);
-                PlayerKiller.Singleton.DieServerRpc(UserDataHandler.singleton.UserData.Id, false);
+                PlayerKiller.Singleton.DieServerRpc(UserDataHandler.Singleton.UserData.Id, false);
             }
             else if (Hp <= 5)
-                PlayerKnockDowner.Singleton.KnockDownServerRpc(UserDataHandler.singleton.UserData.Id);
+                PlayerKnockDowner.Singleton.KnockDownServerRpc(UserDataHandler.Singleton.UserData.Id);
         }
 
         [ServerRpc(RequireOwnership = false)]
@@ -57,7 +59,7 @@ namespace Character_Stats
         {
             WasKnockedDown.Value = value;
         }
-        
+
         [ServerRpc(RequireOwnership = false)]
         public void GetDamageServerRpc(int damageAmount)
         {
@@ -66,7 +68,7 @@ namespace Character_Stats
             {
                 if (_currentHp.Value - damageAmount < 5)
                 {
-                    _currentHp.Value = 5; 
+                    _currentHp.Value = 5;
                     WasKnockedDown.Value = true;
                 }
                 else
@@ -74,11 +76,26 @@ namespace Character_Stats
             }
             else
             {
-                if(_currentHp.Value - damageAmount < 0)
+                if (_currentHp.Value - damageAmount < 0)
                     _currentHp.Value = 0;
                 else
                     _currentHp.Value -= damageAmount;
             }
+        }
+
+        #region Damagable
+
+        public int GetHp()
+            => _currentHp.Value;
+
+        public int GetMaxHp()
+            => 0;
+
+        public void GetDamage(int damage, bool playSound = true)
+            => _currentHp.Value -= damage;
+
+        public void Destroy()
+        {
         }
 
         public void Shake()
@@ -86,5 +103,7 @@ namespace Character_Stats
             if (!_cameraShake) return;
             _cameraShake.StartShake(0.5f, 0.1f);
         }
+
+        #endregion
     }
 }

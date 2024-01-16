@@ -3,7 +3,7 @@ using PlayerDeathSystem;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using Web.User;
+using Web.UserData;
 using Random = UnityEngine.Random;
 
 namespace UI.DeathScreen
@@ -56,7 +56,7 @@ namespace UI.DeathScreen
             }
             else
             {
-                PlayerKiller.Singleton.DieServerRpc(UserDataHandler.singleton.UserData.Id, false);
+                PlayerKiller.Singleton.DieServerRpc(UserDataHandler.Singleton.UserData.Id, false);
                 gameObject.SetActive(false);
             }
         }

@@ -5,7 +5,7 @@ using Player_Controller;
 using UI;
 using Unity.Netcode;
 using UnityEngine;
-using Web.User;
+using Web.UserData;
 
 namespace PlayerDeathSystem
 {
@@ -14,7 +14,13 @@ namespace PlayerDeathSystem
         public static PlayerKnockDowner Singleton { get; private set; }
 
         [SerializeField] private CharacterHpHandler _characterHpHandler;
-        [SerializeField] private CharacterAnimationsHandler _characterAnimationsHandler;
+        
+        [Header("Head")]
+        [SerializeField] private PlayerRotator _playerRotator;
+
+        
+        private NetworkVariable<bool> _knockDown = new();
+        public bool IsKnockDown => _knockDown.Value;
 
         private async void Start()
         {
@@ -29,16 +35,25 @@ namespace PlayerDeathSystem
         public void KnockDownServerRpc(int id)
         {
             if (!IsServer) return;
+            _knockDown.Value = true;
             KnockDownClientRpc(id);
         }
 
         [ClientRpc]
         private void KnockDownClientRpc(int id)
         {
-            if (UserDataHandler.singleton.UserData.Id == id)
+            if (UserDataHandler.Singleton.UserData.Id == id)
             {
+                _playerRotator.SetKnockDownHead();
                 GetComponent<PlayerController>().enabled = false;
                 MainUiHandler.Singleton.DisplayKnockDownScreen(true);
+                var item = InventoryHandler.singleton.ActiveItem;
+                if (item != null)
+                {
+                    InstantiatingItemsPool.sigleton.SpawnDropableObjectServerRpc(item.Id, 1, Camera.main.transform.position + Camera.main.transform.forward);
+                    InventoryHandler.singleton.CharacterInventory.RemoveItem(item.Id, 1);
+                    PlayerNetCode.Singleton.InHandObjectsContainer.SetDefaultHands();
+                }
                 AnimationsManager.Singleton.SetKnockDown();
             }
         }
@@ -46,7 +61,7 @@ namespace PlayerDeathSystem
         [ContextMenu("KnockDown")]
         private void KnockDown()
         {
-            KnockDownServerRpc(UserDataHandler.singleton.UserData.Id);
+            KnockDownServerRpc(UserDataHandler.Singleton.UserData.Id);
         }
 
         #endregion
@@ -57,6 +72,7 @@ namespace PlayerDeathSystem
         public void StandUpServerRpc()
         {
             if (!IsServer) return;
+            _knockDown.Value = false;
             StandUpClientRpc();
         }
 
@@ -66,6 +82,7 @@ namespace PlayerDeathSystem
             AnimationsManager.Singleton.SetIdle();
             if (IsOwner)
             {
+                _playerRotator.SetDefaultHead();
                 _characterHpHandler.SetKnockedDownServerRpc(false);
                 GetComponent<PlayerController>().enabled = true;
                 MainUiHandler.Singleton.DisplayKnockDownScreen(false);

@@ -1,4 +1,5 @@
 using AI.Animals;
+using FightSystem.Damage;
 using Multiplayer;
 using Unity.Netcode;
 using UnityEngine;
@@ -23,7 +24,7 @@ namespace AI
 
         #region IDamagable
 
-        public ushort GetHp()
+        public int GetHp()
             => _hp.Value;
 
         public int GetMaxHp()
@@ -38,7 +39,7 @@ namespace AI
                 Destroy();
         }
 
-        public void GetDamage(int damage)
+        public void GetDamage(int damage, bool playSound = true)
         {
             int currHp = _hp.Value;
             var newHp = currHp - damage;

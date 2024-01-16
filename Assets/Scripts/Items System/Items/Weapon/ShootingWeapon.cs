@@ -1,3 +1,5 @@
+using Events;
+using Inventory_System.Inventory_Slot_Displayers;
 using UnityEngine;
 
 namespace Items_System.Items.Weapon
@@ -15,6 +17,7 @@ namespace Items_System.Items.Weapon
         [SerializeField] private float _recoilX;
         [SerializeField] private float _recoilY;
         [SerializeField] private float _recoilZ;
+        [SerializeField] private AudioClip _shotClip;
 
         public float Range => _range;
         public int Damage => _damage;
@@ -24,5 +27,6 @@ namespace Items_System.Items.Weapon
         public float RecoilX => _recoilX;
         public float RecoilY => _recoilY;
         public float RecoilZ => _recoilZ;
+        public AudioClip ShotClip => _shotClip;
     }
 }

@@ -109,7 +109,7 @@ namespace Inventory_System
             data.Value = new CustomSendingInventoryData(cachedData.Value.Cells);
         }
 
-        private static int GetFreeCellId(NetworkVariable<CustomSendingInventoryData> data, Vector2Int range = default)
+        public static int GetFreeCellId(NetworkVariable<CustomSendingInventoryData> data, Vector2Int range = default)
         {
             if (range == default) range = new Vector2Int(0, data.Value.Cells.Length);
             for (int i = range.x; i < range.y; i++)

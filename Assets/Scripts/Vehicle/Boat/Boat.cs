@@ -19,13 +19,13 @@ namespace Vehicle
 
         public void SetVehicleRbInWater()
         {
-            VehicleRb.drag = 1.04f;
-            VehicleRb.mass = 50f;
+            // VehicleRb.drag = 1.04f;
+            // VehicleRb.mass = 50f;
         }
 
         private void SetVehicleRbOnGround()
         {
-            VehicleRb.drag = _originalRb;
+            // VehicleRb.drag = _originalRb;
         }
         
         public void Float(float waveHeight, bool statement)
@@ -38,14 +38,14 @@ namespace Vehicle
                 if (!(transform.position.y < waveHeight) || !statement) return;
                 
                 var displacementMultiplier = Mathf.Clamp01(waveHeight - transform.position.y / _depthBeforeSubmerged) * _displacementAmount;
-                VehicleRb.AddForce(new Vector3(0f, Mathf.Abs(Physics.gravity.y) * displacementMultiplier, 0f), ForceMode.Acceleration);
+                // VehicleRb.AddForce(new Vector3(0f, Mathf.Abs(Physics.gravity.y) * displacementMultiplier, 0f), ForceMode.Acceleration);
             }
             else SetVehicleRbOnGround();
                
         }
         public void Push(Vector3 pushDirection)
         {
-            VehicleRb.AddForce(pushDirection * _pushForce, ForceMode.Impulse);
+            // VehicleRb.AddForce(pushDirection * _pushForce, ForceMode.Impulse);
         }
 
         public void Move(Vector2 moveInput)

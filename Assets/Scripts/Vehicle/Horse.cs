@@ -8,7 +8,7 @@ namespace Vehicle
         [SerializeField] private float _galopingSpeed = 10f;
         [SerializeField] private float _jumpForce = 0.5f;
         private float _currentMovingSpeed;
-
+        private Vector3 _velocity;
         private void Start()
         {
             _currentMovingSpeed = MoveSpeed;
@@ -24,7 +24,7 @@ namespace Vehicle
 
             if (forwardMovement > 0)
             {
-                transform.Translate(movement * MoveSpeed * Time.deltaTime, Space.Self);
+                VehicleController.Move(transform.TransformDirection(movement * MoveSpeed * Time.deltaTime));
             }
         }
 
@@ -40,7 +40,16 @@ namespace Vehicle
 
         public void Jump()
         {
-            VehicleRb.AddForce(Vector3.up * _jumpForce, ForceMode.Impulse);
+            if (VehicleController.isGrounded)
+            {
+                _velocity.y = Mathf.Sqrt(_jumpForce * -2f * Gravity);
+            }
+        }
+        
+        private void UpdateGravity()
+        {
+            _velocity.y += Gravity * Time.deltaTime;
+            VehicleController.Move(_velocity * Time.deltaTime);
         }
     }
 }

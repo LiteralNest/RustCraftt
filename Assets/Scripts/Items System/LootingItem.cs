@@ -3,23 +3,30 @@ using UnityEngine;
 
 namespace Items_System
 {
-    [RequireComponent(typeof(BoxCollider), typeof(Rigidbody))]
+    [RequireComponent(typeof(BoxCollider))]
     public class LootingItem : NetworkBehaviour
     {
-        public NetworkVariable<int> ItemId = new(0, NetworkVariableReadPermission.Everyone,
+        public int ItemId
+        {
+            get => _itemId.Value;
+            set => _itemId.Value = value;
+        }
+
+        public int Count
+        {
+            get => _count.Value;
+            set => _count.Value = value;
+        }
+
+        [SerializeField] private NetworkVariable<int> _itemId = new(0, NetworkVariableReadPermission.Everyone,
             NetworkVariableWritePermission.Owner);
-        public NetworkVariable<int> Count = new(0, NetworkVariableReadPermission.Everyone,
+
+        [SerializeField] private NetworkVariable<int> _count = new(0, NetworkVariableReadPermission.Everyone,
             NetworkVariableWritePermission.Owner);
 
         private void Start()
             => gameObject.tag = "LootingItem";
 
-        public void SetCell(InventoryCell cell)
-        {
-            Count.Value = cell.Count;
-            ItemId.Value = cell.Item.Id;
-        }
-    
         [ServerRpc(RequireOwnership = false)]
         public void PickUpServerRpc()
         {
@@ -27,6 +34,7 @@ namespace Items_System
             {
                 GetComponent<NetworkObject>().Despawn();
             }
+
             Destroy(gameObject);
         }
     }

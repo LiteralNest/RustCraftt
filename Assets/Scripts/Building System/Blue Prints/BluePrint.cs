@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Building_System.Blocks;
+using Events;
 using Inventory_System;
 using UnityEngine;
 
@@ -40,7 +41,7 @@ namespace Building_System.Blue_Prints
 
         
         public virtual bool TryGetObjectCoords(Camera targetCamera, out Vector3 coords, out Quaternion rotation,
-            out bool shouldRotate)
+            out bool shouldRotate, float distance)
         {
             shouldRotate = false;
             Vector3 rayOrigin = targetCamera.transform.position;
@@ -48,7 +49,7 @@ namespace Building_System.Blue_Prints
             RaycastHit hit;
             rotation = default;
             coords = default;
-            if (Physics.Raycast(rayOrigin, rayDirection, out hit, Mathf.Infinity, _targetMask))
+            if (Physics.Raycast(rayOrigin, rayDirection, out hit, distance, _targetMask))
             {
                 if (!_placingTags.Contains(hit.collider.tag)) return false;
                 

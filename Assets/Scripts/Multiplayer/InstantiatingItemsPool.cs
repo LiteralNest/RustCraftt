@@ -20,11 +20,11 @@ public class InstantiatingItemsPool : NetworkBehaviour
         if(!IsServer) return;
         foreach (var ore in _items)
         {
-            if (ore.ItemId.Value == inputItemId)
+            if (ore.ItemId == inputItemId)
             {
                 var obj = Instantiate(ore, position, Quaternion.identity);
                 var objItemId = obj.ItemId;
-                obj.Count.Value = count;
+                obj.Count = count;
                 obj.NetworkObject.DontDestroyWithOwner = true;
                 obj.NetworkObject.Spawn();
                 return;
@@ -39,8 +39,8 @@ public class InstantiatingItemsPool : NetworkBehaviour
     {
         if(!IsServer) return;
         var obj = Instantiate(_universalDropableItem, position, Quaternion.identity);
-        obj.ItemId.Value = inputItemId;
-        obj.Count.Value = count;
+        obj.ItemId = inputItemId;
+        obj.Count = count;
         obj.NetworkObject.DontDestroyWithOwner = true;
         obj.NetworkObject.Spawn();
     }

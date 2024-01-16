@@ -30,8 +30,11 @@ public class ActiveInvetoriesHandler : MonoBehaviour
         if (itemInventory == null || _activeInventory == null || _playerInventory == null) return;
         if (itemInventory == _playerInventory)
         {
+            int cellIdex = _activeInventory.GetAvailableCellIndexForMovingItem(itemDisplayer.InventoryCell.Item);
+            if(cellIdex == -1) return;
             _playerInventory.ResetItemServerRpc(itemDisplayer.PreviousCell.Index);
-            _activeInventory.AddItemToDesiredSlotServerRpc(itemDisplayer.InventoryCell.Item.Id, itemDisplayer.InventoryCell.Count, itemDisplayer.InventoryCell.Ammo);
+            var inventoryCell = itemDisplayer.InventoryCell;
+            _activeInventory.SetItemServerRpc(cellIdex, new CustomSendingInventoryDataCell(inventoryCell.Item.Id, inventoryCell.Count, inventoryCell.Hp, inventoryCell.Ammo));
         }
         else
         {

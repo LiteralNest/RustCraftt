@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using Animation_System;
 using Player_Controller;
@@ -6,7 +5,7 @@ using Storage_System;
 using UI;
 using Unity.Netcode;
 using UnityEngine;
-using Web.User;
+using Web.UserData;
 
 namespace PlayerDeathSystem
 {
@@ -16,7 +15,10 @@ namespace PlayerDeathSystem
 
         [SerializeField] private CharacterInventory _characterInventory;
         [SerializeField] private PlayerCorpesHanler _playerCorpesHanler;
+        [SerializeField] private CharacterAnimationsHandler _characterAnimationsHandler;
+        [SerializeField] private CharacterAnimationsHandler _inventoryAnimationsHandler;
 
+        private AnimationsManager _animationsManager;
         private NetworkVariable<int> _userId = new(-1, NetworkVariableReadPermission.Everyone,
             NetworkVariableWritePermission.Owner);
 
@@ -27,7 +29,7 @@ namespace PlayerDeathSystem
             await Task.Delay(1000);
             if (!IsOwner) return;
             Singleton = this;
-            _userId.Value = UserDataHandler.singleton.UserData.Id;
+            _userId.Value = UserDataHandler.Singleton.UserData.Id;
         }
 
         [ServerRpc(RequireOwnership = false)]
@@ -38,15 +40,39 @@ namespace PlayerDeathSystem
             DieClientRpc(corpesid, wasDisconnected, ownerId, shouldDisplayDeathScreen);
         }
 
+        [ServerRpc(RequireOwnership = false)]
+        public void DisconnectServerRpc(int ownerId)
+        {
+            if (!IsServer) return;
+            int corpesid = Random.Range(0, 100000);
+            GenerateCorp(corpesid, true, ownerId);
+        }
+        
+        public void AssignAnimationsManager(AnimationsManager animationsManager)
+        {
+            _animationsManager = animationsManager;
+        }
+
+        private void GenerateCorp(int corpesid, bool wasDisconnected, int ownerId)
+        {
+            _playerCorpesHanler.ResetCorpesPos(corpesid);
+            _characterAnimationsHandler.SetAnimationServerRpc(_characterAnimationsHandler.GetAnimationNum("Dead"));
+            var networkObject = GetComponent<NetworkObject>();
+            networkObject.ChangeOwnership(PlayerNetCode.Singleton.OwnerClientId);
+            _playerCorpesHanler.GenerateBackPack(_characterInventory.ItemsNetData.Value, corpesid, wasDisconnected,
+                ownerId);
+            networkObject.Despawn();
+        }
+
         [ClientRpc]
         private void DieClientRpc(int corpesid, bool wasDisconnected, int ownerId, bool shouldDisplayDeathScreen)
         {
             _playerCorpesHanler.ResetCorpesPos(corpesid);
             if (ownerId == _userId.Value && IsOwner)
             {
-                if(shouldDisplayDeathScreen)
+                if (shouldDisplayDeathScreen)
                     MainUiHandler.Singleton.DisplayDeathScreen(true);
-                AnimationsManager.Singleton.SetDeath(false);
+                AnimationsManager.Singleton.SetDeath();
             }
 
             if (IsServer)
@@ -62,7 +88,7 @@ namespace PlayerDeathSystem
         private void Die()
         {
             MainUiHandler.Singleton.DisplayKnockDownScreen(false);
-            DieServerRpc(UserDataHandler.singleton.UserData.Id, false);
+            DieServerRpc(UserDataHandler.Singleton.UserData.Id, false);
         }
     }
 }

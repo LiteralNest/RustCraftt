@@ -1,5 +1,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Events;
+using InHandItems.InHand;
 using Player_Controller;
 using Unity.Netcode;
 using UnityEngine;

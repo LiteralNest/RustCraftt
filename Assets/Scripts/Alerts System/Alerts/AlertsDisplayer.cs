@@ -68,10 +68,14 @@ namespace Alerts_System.Alerts
         }
 
         public void DisplayDehydratedAlert(bool value)
-            => _dehydratedAlert.gameObject.SetActive(value);
+        {
+            if(_dehydratedAlert == null) return;
+            _dehydratedAlert.gameObject.SetActive(value);
+        }
 
         public void DisplayWorkBenchAlert(int workBenchLevel, bool value)
         {
+            if(_workBenchAlert == null) return;
             _workBenchAlert.gameObject.SetActive(value);
             _workBenchAlert.Init(workBenchLevel);
         }

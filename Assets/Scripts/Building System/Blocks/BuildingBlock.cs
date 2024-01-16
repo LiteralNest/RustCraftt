@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Building_System.Buildings_Connecting;
 using Building_System.Upgrading;
+using FightSystem.Damage;
 using Sound_System;
 using Unity.Netcode;
 using UnityEngine;
@@ -15,7 +16,7 @@ namespace Building_System.Blocks
         [SerializeField] private NetworkSoundPlayer _soundPlayer;
         [SerializeField] private List<Block> _levels;
 
-        private NetworkVariable<ushort> _hp = new(100, NetworkVariableReadPermission.Everyone,
+        private NetworkVariable<int> _hp = new(100, NetworkVariableReadPermission.Everyone,
             NetworkVariableWritePermission.Owner);
 
         public Block CurrentBlock => _levels[_currentLevel.Value];
@@ -26,8 +27,8 @@ namespace Building_System.Blocks
 
         private DateTime _placingTime;
 
-        public ushort StartHp => _startHp;
-        private ushort _startHp;
+        public int StartHp => _startHp;
+        private int _startHp;
 
         private NetworkVariable<ushort> _currentLevel = new(0, NetworkVariableReadPermission.Everyone,
             NetworkVariableWritePermission.Owner);
@@ -68,7 +69,7 @@ namespace Building_System.Blocks
 
 
         [ServerRpc(RequireOwnership = false)]
-        private void SetHpServerRpc(ushort value)
+        private void SetHpServerRpc(int value)
         {
             _hp.Value = value;
             if (_hp.Value <= 0)
@@ -76,6 +77,13 @@ namespace Building_System.Blocks
                 if (IsServer)
                     Destroy();
             }
+        }
+
+        [ServerRpc(RequireOwnership = false)]
+        private void DestroyServerRpc()
+        {
+            if (!IsServer) return;
+            StartCoroutine(DestroyRoutine());
         }
 
         private IEnumerator DestroyRoutine()
@@ -128,7 +136,7 @@ namespace Building_System.Blocks
         }
 
         public void Destroy()
-            => StartCoroutine(DestroyRoutine());
+            => DestroyServerRpc();
 
         public void Shake()
         {
@@ -163,13 +171,13 @@ namespace Building_System.Blocks
     
         #region IDamagable
 
-        public void GetDamage(int damage)
+        public void GetDamage(int damage, bool playSound = true)
         {
             int hp = _hp.Value - damage;
-            SetHpServerRpc((ushort)hp);
+            SetHpServerRpc(hp);
         }
 
-        public ushort GetHp()
+        public int GetHp()
             => _hp.Value;
 
         public int GetMaxHp()

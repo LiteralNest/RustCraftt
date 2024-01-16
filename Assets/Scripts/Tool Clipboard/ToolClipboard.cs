@@ -1,22 +1,22 @@
 using System.Collections.Generic;
 using AuthorizationSystem;
 using Building_System.Blocks;
+using Inventory_System;
 using Inventory_System.Slots_Displayer.Tool_CLipBoard;
 using Lock_System;
 using Multiplayer.CustomData;
 using Storage_System;
 using Unity.Netcode;
 using UnityEngine;
-using Web.User;
+using UnityEngine.UI;
+using Web.UserData;
 
 namespace Tool_Clipboard
 {
     public class ToolClipboard : Storage, ILockable
     {
-        [Header("UI")] 
-        [SerializeField] private GameObject _selectingCircle;
+        [Header("UI")] [SerializeField] private GameObject _selectingCircle;
         [SerializeField] private GameObject _inventoryPanel;
-
         [SerializeField] private List<BuildingBlock> _connectedBlocks = new List<BuildingBlock>();
         public List<BuildingBlock> ConnectedBlocks => _connectedBlocks;
         [SerializeField] private NetworkVariable<AuthorizedUsersData> _authorizedIds = new();
@@ -25,14 +25,16 @@ namespace Tool_Clipboard
         private bool _isLocked;
 
         public AuthorizedUsersData AuthorizedIds => _authorizedIds.Value;
-
+        
+        
         public override void Open(InventoryHandler handler)
         {
-            if (_targetLocker != null && !_targetLocker.CanBeOpened(UserDataHandler.singleton.UserData.Id))
+            if (_targetLocker != null && !_targetLocker.CanBeOpened(UserDataHandler.Singleton.UserData.Id))
             {
                 _targetLocker.Open();
                 return;
             }
+
             _selectingCircle.SetActive(true);
             _inventoryPanel.SetActive(false);
             Appear();
@@ -41,6 +43,7 @@ namespace Tool_Clipboard
 
         public void OpenInventory()
         {
+            CurrentInventoriesHandler.Singleton.CurrentStorage = this;
             InventoryHandler.singleton.InventoryPanelsDisplayer.OpenInventory(true);
             SlotsDisplayer.DisplayCells();
         }
@@ -81,7 +84,7 @@ namespace Tool_Clipboard
                 res.Add(new InventoryCell(cell));
             return res;
         }
-        
+
         private bool TryMinusItemsPreSecond(List<InventoryCell> delCells,
             List<InventoryCell> data)
         {
@@ -90,7 +93,7 @@ namespace Tool_Clipboard
             {
                 for (int j = 0; j < data.Count; j++)
                 {
-                    if (deletingCells[i].Item == null || data[j].Item == null) continue;
+                    if (i == -1 || deletingCells[i].Item == null || data[j].Item == null) continue;
                     if (deletingCells[i].Item.Id == data[j].Item.Id)
                     {
                         if (deletingCells.Count <= data[j].Count)
@@ -105,6 +108,7 @@ namespace Tool_Clipboard
 
                             deletingCells.RemoveAt(i);
                             i--;
+                            if (i == -1) return true;
                             if (deletingCells.Count == 0) return true;
                             continue;
                         }
@@ -166,9 +170,11 @@ namespace Tool_Clipboard
                         break;
                     }
                 }
-                if(!wasAdded)
+
+                if (!wasAdded)
                     res.Add(addingCell);
             }
+
             return res;
         }
 
@@ -204,7 +210,7 @@ namespace Tool_Clipboard
         [ServerRpc(RequireOwnership = false)]
         public void AuthorizeServerRpc(int id)
         {
-            if (_targetLocker != null && !_targetLocker.CanBeOpened(UserDataHandler.singleton.UserData.Id))
+            if (_targetLocker != null && !_targetLocker.CanBeOpened(UserDataHandler.Singleton.UserData.Id))
             {
                 _targetLocker.Open();
                 return;

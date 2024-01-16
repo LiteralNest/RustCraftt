@@ -2,11 +2,11 @@ using Building_System.Blocks;
 using Building_System.NetWorking;
 using Lock_System;
 using UnityEngine;
-using Web.User;
+using Web.UserData;
 
 namespace Building_System.Placing_Objects
 {
-    public class KeySnapPlacingObjectBP : SnapPlacingObjectBP
+    public class KeySnapPlacingObjectBP : SnapPlacingObjectBp
     {
         public override void InitPlacedObject(BuildingStructure structure)
         {
@@ -16,7 +16,7 @@ namespace Building_System.Placing_Objects
                 Debug.LogError("Can't load KeyLocker!");
                 return;
             }
-            locker.Init(UserDataHandler.singleton.UserData.Id);
+            locker.Init(UserDataHandler.Singleton.UserData.Id);
         }
 
         public override void Place()

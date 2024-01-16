@@ -1,3 +1,4 @@
+using Events;
 using Inventory_System.Inventory_Items_Displayer;
 using Items_System.Items;
 using Storage_System;

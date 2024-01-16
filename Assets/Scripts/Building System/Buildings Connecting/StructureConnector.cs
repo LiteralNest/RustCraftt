@@ -19,7 +19,7 @@ namespace Building_System.Buildings_Connecting
             _buildingBlock.GetComponent<NetworkObject>().TrySetParent(_currentStructure.transform);
         }
     
-        public ConnectedStructure GetInstantiatedStructure()
+        private ConnectedStructure GetInstantiatedStructure()
         {
             Vector3 position = transform.position;
             _currentStructure = Instantiate(_structurePrefab, position, Quaternion.identity);
@@ -27,7 +27,7 @@ namespace Building_System.Buildings_Connecting
             _buildingBlock.transform.GetComponent<NetworkObject>().TrySetParent(_currentStructure.transform);
             return _currentStructure;
         }
-
+        
         private async void ConnectStructuresAsync()
         {
             await Task.Delay(100);

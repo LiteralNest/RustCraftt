@@ -1,28 +1,47 @@
 using Animation_System;
 using UnityEngine;
 
-[RequireComponent(typeof(Rigidbody))]
-public class PlayerJumper : MonoBehaviour
+namespace Player_Controller
 {
-    [Header("Attached Scripts")]
-    [SerializeField] private Rigidbody _rigidbody;
-    [SerializeField] private GroundChecker _groundChecker;
-    
-    [Header("Main Params")]
-    [SerializeField] private float _jumpForce = 5f;
-
-
-    private void Start()
+    [RequireComponent(typeof(CharacterController))]
+    public class PlayerJumper : MonoBehaviour
     {
-        if (_rigidbody == null)
-            _rigidbody = GetComponent<Rigidbody>();
-    }
-    
+        [Header("Attached Scripts")] [SerializeField]
+        private CharacterController _characterController;
 
-    public void Jump()
-    {
-        if(!_groundChecker.IsGrounded) return;
-        AnimationsManager.Singleton.SetJump();
-        _rigidbody.AddForce(Vector3.up * _jumpForce, ForceMode.Impulse);
+        [SerializeField] private float Gravity = -9.8f;
+
+        [Header("Main Params")] [SerializeField]
+        private float _jumpForce = 20f;
+
+        private bool _canUseGravity;
+        private Vector3 _velocity;
+
+        private void Update()
+        {
+            if (Input.GetButtonDown("Jump"))
+            {
+                Jump();
+            }
+            
+            UpdateGravity();
+        }
+        
+
+        private void Jump()
+        {
+            AnimationsManager.Singleton.SetJump();
+
+            if (_characterController.isGrounded)
+            {
+                _velocity.y = Mathf.Sqrt(_jumpForce * -2f * Gravity);
+            }
+        }
+
+        private void UpdateGravity()
+        {
+            _velocity.y += Gravity * Time.deltaTime;
+            _characterController.Move(_velocity * Time.deltaTime);
+        }
     }
 }

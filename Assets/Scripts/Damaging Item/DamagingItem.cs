@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using FightSystem.Damage;
 using Sound_System;
 using Storage_System;
 using Unity.Netcode;
@@ -61,13 +62,13 @@ public class DamagingItem : NetworkBehaviour, IDamagable
     }
 
     [ServerRpc(RequireOwnership = false)]
-    private void GetDamageServerRpc(int damage)
+    private void GetDamageServerRpc(int damage, bool value)
     {
         _currentHp.Value -= damage;
         _soundPlayer.PlayOneShot(_damagingSound);
     }
 
-    public ushort GetHp()
+    public int GetHp()
         => (ushort)_currentHp.Value;
 
     public int GetMaxHp()
@@ -79,10 +80,10 @@ public class DamagingItem : NetworkBehaviour, IDamagable
             renderer.enabled = value;
     }
 
-    public void GetDamage(int damage)
+    public void GetDamage(int damage, bool playSound = true)
     {
         if (!_canGetDamage) return;
-        GetDamageServerRpc(damage);
+        GetDamageServerRpc(damage, playSound);
     }
 
     private void CheckHp(int value)

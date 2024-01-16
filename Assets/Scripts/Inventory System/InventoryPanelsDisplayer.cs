@@ -1,3 +1,4 @@
+using Events;
 using UnityEngine;
 
 namespace Inventory_System
@@ -14,6 +15,9 @@ namespace Inventory_System
         [SerializeField] private GameObject _characterPreview;
         [Space] [Space] [SerializeField] private GameObject _backPackPanel;
         [SerializeField] private GameObject _workbenchPanel;
+        [Space][Space]
+        [SerializeField] private GameObject _inventoryCellsPanel;
+        [SerializeField] private GameObject _craftPanel;
 
         private void Awake()
             => singleton = this;
@@ -27,6 +31,8 @@ namespace Inventory_System
                 GlobalEventsContainer.InventoryClosed?.Invoke();
             _mainButtonsPanel.SetActive(!isOpen);
             _inventoryPanel.SetActive(isOpen);
+            _inventoryCellsPanel.SetActive(true);
+            _craftPanel.SetActive(false);
             GlobalValues.CanDragInventoryItems = isOpen;
             GlobalValues.CanLookAround = !isOpen;
         }
@@ -51,11 +57,15 @@ namespace Inventory_System
             if(deactivateCharacterView)
                 _characterPreview.SetActive(false);
         }
+
+        public void CloseWorkbenchPanel()
+        {
+            _workbenchPanel.SetActive(false);
+        }
         
         public void OpenWorkbenchPanel()
         {
-            ResetInventories();
-            HandleInventory(true);
+            OpenInventory(true);
             _workbenchPanel.SetActive(true);
         }
 

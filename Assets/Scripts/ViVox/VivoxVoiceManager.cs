@@ -1,35 +1,17 @@
 using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Dynamic;
-using System.Linq;
-using System.Runtime;
+using Console;
 using UnityEngine;
 using VivoxUnity;
 using Unity.Services.Core;
 using Unity.Services.Vivox;
-#if AUTH_PACKAGE_PRESENT
-using Unity.Services.Authentication;
-#endif
 
 
 public class VivoxVoiceManager : MonoBehaviour
 {
     public static VivoxVoiceManager singleton { get; private set; }
-    
-#region Enums
 
-    /// <summary>
-    /// Defines properties that can change.  Used by the functions that subscribe to the OnAfterTYPEValueUpdated functions.
-    /// </summary>
-    public enum ChangedProperty
-    {
-        None,
-        Speaking,
-        Typing,
-        Muted
-    }
+    #region Enums
 
     public enum ChatCapability
     {
@@ -38,33 +20,40 @@ public class VivoxVoiceManager : MonoBehaviour
         TextAndAudio
     };
 
-#endregion
+    #endregion
 
-#region Delegates/Events
+    #region Delegates/Events
 
     public delegate void ParticipantValueChangedHandler(string username, ChannelId channel, bool value);
+
     public event ParticipantValueChangedHandler OnSpeechDetectedEvent;
+
     public delegate void ParticipantValueUpdatedHandler(string username, ChannelId channel, double value);
+
     public event ParticipantValueUpdatedHandler OnAudioEnergyChangedEvent;
 
 
     public delegate void ParticipantStatusChangedHandler(string username, ChannelId channel, IParticipant participant);
+
     public event ParticipantStatusChangedHandler OnParticipantAddedEvent;
     public event ParticipantStatusChangedHandler OnParticipantRemovedEvent;
 
     public delegate void ChannelTextMessageChangedHandler(string sender, IChannelTextMessage channelTextMessage);
+
     public event ChannelTextMessageChangedHandler OnTextMessageLogReceivedEvent;
 
     public delegate void LoginStatusChangedHandler();
+
     public event LoginStatusChangedHandler OnUserLoggedInEvent;
     public event LoginStatusChangedHandler OnUserLoggedOutEvent;
 
     public delegate void RecoveryStateChangedHandler(ConnectionRecoveryState recoveryState);
+
     public event RecoveryStateChangedHandler OnRecoveryStateChangedEvent;
 
-#endregion
+    #endregion
 
-#region Member Variables
+    #region Member Variables
 
     private Account m_Account;
 
@@ -74,14 +63,10 @@ public class VivoxVoiceManager : MonoBehaviour
 
     //These variables should be set to the projects Vivox credentials if the authentication package is not being used
     //Credentials are available on the Vivox Developer Portal (developer.vivox.com) or the Unity Dashboard (dashboard.unity3d.com), depending on where the organization and project were made
-    [SerializeField]
-    private string _key;
-    [SerializeField]
-    private string _issuer;
-    [SerializeField]
-    private string _domain;
-    [SerializeField]
-    private string _server;
+    [SerializeField] private string _key;
+    [SerializeField] private string _issuer;
+    [SerializeField] private string _domain;
+    [SerializeField] private string _server;
 
     /// <summary>
     /// Access singleton instance through this propriety.
@@ -106,6 +91,7 @@ public class VivoxVoiceManager : MonoBehaviour
                         singletonObject.name = typeof(VivoxVoiceManager).ToString() + " (Singleton)";
                     }
                 }
+
                 // Make instance persistent even if its already in the scene
                 DontDestroyOnLoad(m_Instance.gameObject);
                 return m_Instance;
@@ -120,41 +106,19 @@ public class VivoxVoiceManager : MonoBehaviour
     public IAudioDevices AudioInputDevices => _client.AudioInputDevices;
     public IAudioDevices AudioOutputDevices => _client.AudioOutputDevices;
 
-#endregion
-
-#region Properties
-
-    /// <summary>
-    /// Retrieves the first instance of a session that is transmitting. 
-    /// </summary>
-    public IChannelSession TransmittingSession
-    {
-        get
-        {
-            if (_client == null)
-                throw new NullReferenceException("client");
-            return _client.GetLoginSession(m_Account).ChannelSessions.FirstOrDefault(x => x.IsTransmitting);
-        }
-        set
-        {
-            if (value != null)
-            {
-                _client.GetLoginSession(m_Account).SetTransmissionMode(TransmissionMode.Single, value.Channel);
-            }
-        }
-    }
-#endregion
+    #endregion
 
     private void Awake()
     {
         singleton = this;
         if (m_Instance != this && m_Instance != null)
         {
-            Debug.LogWarning("Multiple VivoxVoiceManager detected in the scene. Only one VivoxVoiceManager can exist at a time. The duplicate VivoxVoiceManager will be destroyed.");
+            Debug.LogWarning(
+                "Multiple VivoxVoiceManager detected in the scene. Only one VivoxVoiceManager can exist at a time. The duplicate VivoxVoiceManager will be destroyed.");
             Destroy(this);
             return;
         }
-	}
+    }
 
     async void Start()
     {
@@ -173,6 +137,7 @@ public class VivoxVoiceManager : MonoBehaviour
 #endif
 
         VivoxService.Instance.Initialize();
+        ConsoleDisplayer.Singleton?.DisplayText("Initializing Vivox...");
     }
 
     private void OnApplicationQuit()
@@ -193,7 +158,7 @@ public class VivoxVoiceManager : MonoBehaviour
         Debug.Log(m_Account.Name);
         Debug.Log(m_Account.DisplayName);
         Debug.Log("----------------------------");
-        
+
         LoginSession = _client.GetLoginSession(m_Account);
         LoginSession.PropertyChanged += OnLoginSessionPropertyChanged;
         LoginSession.BeginLogin(LoginSession.GetLoginToken(), SubscriptionMode.Accept, null, null, null, ar =>
@@ -205,6 +170,7 @@ public class VivoxVoiceManager : MonoBehaviour
             catch (Exception e)
             {
                 // Handle error 
+                ConsoleDisplayer.Singleton?.DisplayText(nameof(e));
                 VivoxLogError(nameof(e));
 
                 // Unbind if we failed to login.
@@ -222,7 +188,8 @@ public class VivoxVoiceManager : MonoBehaviour
         }
     }
 
-    public void JoinChannel(string channelName, ChannelType channelType, ChatCapability chatCapability, bool transmissionSwitch = true, Channel3DProperties properties = null)
+    public void JoinChannel(string channelName, ChannelType channelType, ChatCapability chatCapability,
+        bool transmissionSwitch = true, Channel3DProperties properties = null)
     {
         if (LoginState == LoginState.LoggedIn)
         {
@@ -234,36 +201,43 @@ public class VivoxVoiceManager : MonoBehaviour
             channelSession.Participants.BeforeKeyRemoved += OnParticipantRemoved;
             channelSession.Participants.AfterValueUpdated += OnParticipantValueUpdated;
             channelSession.MessageLog.AfterItemAdded += OnMessageLogRecieved;
-            channelSession.BeginConnect(chatCapability != ChatCapability.TextOnly, chatCapability != ChatCapability.AudioOnly, transmissionSwitch, channelSession.GetConnectToken(), ar =>
-            {
-                try
+            channelSession.BeginConnect(chatCapability != ChatCapability.TextOnly,
+                chatCapability != ChatCapability.AudioOnly, transmissionSwitch, channelSession.GetConnectToken(), ar =>
                 {
-                    channelSession.EndConnect(ar);
-                }
-                catch (Exception e)
-                {
-                    // Handle error 
-                    VivoxLogError($"Could not connect to voice channel: {e.Message}");
-                    return;
-                }
-            });
+                    try
+                    {
+                        channelSession.EndConnect(ar);
+                    }
+                    catch (Exception e)
+                    {
+                        var msg = $"Could not connect to voice channel: {e.Message}";
+                        ConsoleDisplayer.Singleton?.DisplayText(msg);
+                        VivoxLogError(msg);
+                        return;
+                    }
+                });
         }
         else
         {
-            VivoxLogError("Cannot join a channel when not logged in.");
+            var msg = "Cannot join a channel when not logged in.";
+            ConsoleDisplayer.Singleton?.DisplayText(msg);
+            VivoxLogError(msg);
         }
     }
 
-    public void SendTextMessage(string messageToSend, ChannelId channel, string applicationStanzaNamespace = null, string applicationStanzaBody = null)
+    public void SendTextMessage(string messageToSend, ChannelId channel, string applicationStanzaNamespace = null,
+        string applicationStanzaBody = null)
     {
         if (ChannelId.IsNullOrEmpty(channel))
         {
             throw new ArgumentException("Must provide a valid ChannelId");
         }
+
         if (string.IsNullOrEmpty(messageToSend))
         {
             throw new ArgumentException("Must provide a message to send");
         }
+
         var channelSession = LoginSession.GetChannelSession(channel);
         channelSession.BeginSendText(null, messageToSend, applicationStanzaNamespace, applicationStanzaBody, ar =>
         {
@@ -291,10 +265,11 @@ public class VivoxVoiceManager : MonoBehaviour
 
     private bool CheckManualCredentials()
     {
-        return !(string.IsNullOrEmpty(_key) && string.IsNullOrEmpty(_issuer) && string.IsNullOrEmpty(_domain) && string.IsNullOrEmpty(_server));
+        return !(string.IsNullOrEmpty(_key) && string.IsNullOrEmpty(_issuer) && string.IsNullOrEmpty(_domain) &&
+                 string.IsNullOrEmpty(_server));
     }
 
-#region Vivox Callbacks
+    #region Vivox Callbacks
 
     private void OnMessageLogRecieved(object sender, QueueItemAddedEventArgs<IChannelTextMessage> textMessage)
     {
@@ -312,38 +287,40 @@ public class VivoxVoiceManager : MonoBehaviour
             OnRecoveryStateChangedEvent?.Invoke(LoginSession.RecoveryState);
             return;
         }
+
         if (propertyChangedEventArgs.PropertyName != "State")
         {
             return;
         }
+
         var loginSession = (ILoginSession)sender;
         LoginState = loginSession.State;
         VivoxLog("Detecting login session change");
         switch (LoginState)
         {
             case LoginState.LoggingIn:
-                {
-                    VivoxLog("Logging in");
-                    break;
-                }
+            {
+                VivoxLog("Logging in");
+                break;
+            }
             case LoginState.LoggedIn:
-                {
-                    VivoxLog("Connected to voice server and logged in.");
-                    OnUserLoggedInEvent?.Invoke();
-                    break;
-                }
+            {
+                VivoxLog("Connected to voice server and logged in.");
+                OnUserLoggedInEvent?.Invoke();
+                break;
+            }
             case LoginState.LoggingOut:
-                {
-                    VivoxLog("Logging out");
-                    break;
-                }
+            {
+                VivoxLog("Logging out");
+                break;
+            }
             case LoginState.LoggedOut:
-                {
-                    VivoxLog("Logged out");
-                    OnUserLoggedOutEvent?.Invoke();
-                    LoginSession.PropertyChanged -= OnLoginSessionPropertyChanged;
-                    break;
-                }
+            {
+                VivoxLog("Logged out");
+                OnUserLoggedOutEvent?.Invoke();
+                LoginSession.PropertyChanged -= OnLoginSessionPropertyChanged;
+                break;
+            }
             default:
                 break;
         }
@@ -385,6 +362,7 @@ public class VivoxVoiceManager : MonoBehaviour
             channelSession.Participants.AfterKeyAdded -= OnParticipantAdded;
             channelSession.Participants.BeforeKeyRemoved -= OnParticipantRemoved;
             channelSession.Participants.AfterValueUpdated -= OnParticipantValueUpdated;
+            channelSession.Participants.AfterValueUpdated -= OnParticipantValueUpdated;
             channelSession.MessageLog.AfterItemAdded -= OnMessageLogRecieved;
 
             // Remove session.
@@ -420,16 +398,16 @@ public class VivoxVoiceManager : MonoBehaviour
         switch (property)
         {
             case "SpeechDetected":
-                {
-                    VivoxLog($"OnSpeechDetectedEvent: {username} in {channel}.");
-                    OnSpeechDetectedEvent?.Invoke(username, channel, valueEventArg.Value.SpeechDetected);
-                    break;
-                }
+            {
+                VivoxLog($"OnSpeechDetectedEvent: {username} in {channel}.");
+                OnSpeechDetectedEvent?.Invoke(username, channel, valueEventArg.Value.SpeechDetected);
+                break;
+            }
             case "AudioEnergy":
-                {
-                    OnAudioEnergyChangedEvent?.Invoke(username, channel, valueEventArg.Value.AudioEnergy);
-                    break;
-                }
+            {
+                OnAudioEnergyChangedEvent?.Invoke(username, channel, valueEventArg.Value.AudioEnergy);
+                break;
+            }
             default:
                 break;
         }
@@ -444,7 +422,8 @@ public class VivoxVoiceManager : MonoBehaviour
         var channelSession = (IChannelSession)sender;
 
         // IF the channel has removed audio, make sure all the VAD indicators aren't showing speaking.
-        if (propertyChangedEventArgs.PropertyName == "AudioState" && channelSession.AudioState == ConnectionState.Disconnected)
+        if (propertyChangedEventArgs.PropertyName == "AudioState" &&
+            channelSession.AudioState == ConnectionState.Disconnected)
         {
             VivoxLog($"Audio disconnected from: {channelSession.Key.Name}");
 
@@ -455,7 +434,8 @@ public class VivoxVoiceManager : MonoBehaviour
         }
 
         // IF the channel has fully disconnected, unsubscribe and remove.
-        if ((propertyChangedEventArgs.PropertyName == "AudioState" || propertyChangedEventArgs.PropertyName == "TextState") &&
+        if ((propertyChangedEventArgs.PropertyName == "AudioState" ||
+             propertyChangedEventArgs.PropertyName == "TextState") &&
             channelSession.AudioState == ConnectionState.Disconnected &&
             channelSession.TextState == ConnectionState.Disconnected)
         {
@@ -470,19 +450,20 @@ public class VivoxVoiceManager : MonoBehaviour
             // Remove session.
             var user = _client.GetLoginSession(m_Account);
             user.DeleteChannelSession(channelSession.Channel);
-
         }
     }
 
-#endregion
+    #endregion
 
     private void VivoxLog(string msg)
     {
+        ConsoleDisplayer.Singleton?.DisplayText(msg);
         Debug.Log("<color=green>VivoxVoice: </color>: " + msg);
     }
 
     private void VivoxLogError(string msg)
     {
+        ConsoleDisplayer.Singleton?.DisplayText(msg);
         Debug.LogError("<color=green>VivoxVoice: </color>: " + msg);
     }
 }

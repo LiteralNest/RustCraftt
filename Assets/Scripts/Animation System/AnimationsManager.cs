@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using Unity.Netcode;
 using UnityEngine;
@@ -22,11 +21,11 @@ namespace Animation_System
             await Task.Delay(1000);
             CurrentAnimationId.OnValueChanged += (int prevValue, int newValue) =>
             {
-                CharacterAnimationsHandler.SetAnimation(newValue);
+                
             };
             CurrentInventoryAnimationId.OnValueChanged += (int prevValue, int newValue) =>
             {
-                InventoryAnimationsHandler.SetAnimation(newValue);
+                
             };
             if (!IsOwner) return;
             Singleton = this;
@@ -36,10 +35,28 @@ namespace Animation_System
         private void SetAnimationServerRpc(int value, bool isMainPlayer = true)
         {
             if (!IsServer) return;
-            if(isMainPlayer)
+            if (isMainPlayer)
+            {
                 CurrentAnimationId.Value = value;
+            }
             else
+            {
                 CurrentInventoryAnimationId.Value = value;
+            }
+            SetAnimationClientRpc(value, isMainPlayer);
+        }
+
+        [ClientRpc]
+        private void SetAnimationClientRpc(int value, bool isMainPlayer = true)
+        {
+            if (isMainPlayer)
+            {
+                CharacterAnimationsHandler.SetAnimation(value);
+            }
+            else
+            {
+                InventoryAnimationsHandler.SetAnimation(value);
+            }
         }
 
         private void SetAnimation(string value, bool isMainPlayer = true)
@@ -79,7 +96,7 @@ namespace Animation_System
             => SetAnimation("Fall");
 
         [ContextMenu("Death")]
-        public void SetDeath(bool isMainPlayer = true)
-            => SetAnimation("Dead", isMainPlayer);
+        public void SetDeath()
+            => SetAnimation("Dead", false);
     }
 }

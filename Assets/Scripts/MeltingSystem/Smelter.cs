@@ -1,7 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Inventory_System;
 using Items_System.Items;
+using Items_System.Items.Abstract;
 using Storage_System;
 using Unity.Netcode;
 using UnityEngine;
@@ -17,19 +19,20 @@ namespace MeltingSystem
         [Header("Main Params")] [SerializeField]
         private GameObject _fireObject;
 
-        [Header("Range")] 
-        [SerializeField] protected Vector2Int _fuelSlotsRange;
+        [Header("Range")] [SerializeField] protected Vector2Int _fuelSlotsRange;
         [SerializeField] protected Vector2Int _inputSlotsRange;
         [SerializeField] protected Vector2Int _outputSlotsRange;
 
-        [Header("Sound")] 
-        [SerializeField] private AudioSource _source;
+        [Header("Sound")] [SerializeField] private AudioSource _source;
 
         [Header("UI")] [SerializeField] private GameObject _turnOnPanel;
         [SerializeField] private GameObject _turnOffPanel;
-         
+
         private void Start()
             => gameObject.tag = "CampFire";
+
+        private void Update()
+            => Cook();
 
         protected bool IsInRange(int value, Vector2 range)
             => value >= range.x && value < range.y;
@@ -41,9 +44,37 @@ namespace MeltingSystem
             base.OnNetworkSpawn();
         }
 
-        private void Update()
+        public override int GetAvailableCellIndexForMovingItem(Item item)
         {
-            Cook();
+            var cells = ItemsNetData.Value.Cells.ToList();
+            for (int i = 0; i < cells.Count; i++)
+            {
+                if (cells[i].Id != -1) continue;
+                if (CanAddItem(item, i)) return i;
+            }
+
+            return -1;
+        }
+
+        [ServerRpc(RequireOwnership = false)]
+        public void TurnFlamingServerRpc(bool value)
+        {
+            List<Fuel> items = new List<Fuel>();
+            if (value)
+            {
+                items = GetFuel();
+                if (items.Count == 0) return;
+                Flaming.Value = true;
+            }
+            else
+            {
+                _source.Stop();
+                Flaming.Value = false;
+                return;
+            }
+
+            _source.Play();
+            StartCoroutine(RemoveFuel(items[0]));
         }
 
         private void TurnFire(bool value)
@@ -85,29 +116,8 @@ namespace MeltingSystem
             }
         }
 
-        [ServerRpc(RequireOwnership = false)]
-        public void TurnFlamingServerRpc(bool value)
-        {
-            List<Fuel> items = new List<Fuel>();
-            Flaming.Value = value;
-            if (value)
-            {
-                items = GetFuel();
-                if (items.Count == 0) return;
-            }
-            else
-            {
-                _source.Stop();
-                return;
-            }
-
-            _source.Play();
-            StartCoroutine(RemoveFuel(items[0]));
-        }
-
         protected virtual void Cook()
         {
-
         }
     }
 }

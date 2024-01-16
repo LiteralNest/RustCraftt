@@ -1,3 +1,4 @@
+using FightSystem.Damage;
 using UnityEngine;
 
 namespace Storage_System.Object_With_Loot
@@ -19,13 +20,13 @@ namespace Storage_System.Object_With_Loot
                 Destroy(gameObject);
         }
 
-        public ushort GetHp()
+        public int GetHp()
             => (ushort)_hp;
 
         public int GetMaxHp()
             => _cachedHp;
 
-        public void GetDamage(int damage)
+        public void GetDamage(int damage, bool playSound = true)
         {
             _hp -= damage;
             CheckHp();

@@ -1,6 +1,6 @@
 using Unity.Netcode;
 using UnityEngine;
-using Web.User;
+using Web.UserData;
 
 namespace Lock_System
 {
@@ -64,7 +64,7 @@ namespace Lock_System
                 if (lockable == null || lockable.IsLocked()) return;
                 
                 Destroy(other.gameObject);
-                LockServerRpc(UserDataHandler.singleton.UserData.Id, 1);
+                LockServerRpc(UserDataHandler.Singleton.UserData.Id, 1);
 
                 lockable.Lock(_keyLocker);
                 gameObject.tag = "Untagged";
@@ -76,7 +76,7 @@ namespace Lock_System
                 if (lockable == null || lockable.IsLocked()) return;
                 
                 Destroy(other.gameObject);
-                LockServerRpc(UserDataHandler.singleton.UserData.Id, 2);
+                LockServerRpc(UserDataHandler.Singleton.UserData.Id, 2);
 
                 lockable.Lock(_codeLocker);
                 gameObject.tag = "Untagged";

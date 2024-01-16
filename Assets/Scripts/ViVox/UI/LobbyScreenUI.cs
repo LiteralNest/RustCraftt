@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using Events;
 using Unity.Services.Vivox;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -43,7 +44,6 @@ public class LobbyScreenUI : MonoBehaviour
     {
         _vivoxVoiceManager.OnUserLoggedInEvent -= OnUserLoggedIn;
         _vivoxVoiceManager.OnUserLoggedOutEvent -= OnUserLoggedOut;
-        _vivoxVoiceManager.OnParticipantAddedEvent -= VivoxVoiceManager_OnParticipantAddedEvent;
     }
 
     #endregion
@@ -52,6 +52,7 @@ public class LobbyScreenUI : MonoBehaviour
     {
         if (isButtonDown && !_isMicrophoneOn) 
         {
+            GlobalEventsContainer.OnMicrophoneButtonClicked?.Invoke(true);
             _vivoxVoiceManager.AudioInputDevices.Muted = false; 
             _isMicrophoneOn = true;
         }
@@ -59,13 +60,13 @@ public class LobbyScreenUI : MonoBehaviour
         {
             _vivoxVoiceManager.AudioInputDevices.Muted = true;
             _isMicrophoneOn = false;
+            GlobalEventsContainer.OnMicrophoneButtonClicked?.Invoke(false);
         }
     }
     
     private void JoinLobbyChannel()
     {
         // Do nothing, participant added will take care of this
-        _vivoxVoiceManager.OnParticipantAddedEvent += VivoxVoiceManager_OnParticipantAddedEvent;
         _vivoxVoiceManager.JoinChannel(LobbyChannelName, ChannelType.Positional, VivoxVoiceManager.ChatCapability.TextAndAudio);
         var channelId = new Channel(LobbyChannelName, ChannelType.Positional);
         _chan = _vivoxVoiceManager.LoginSession.GetChannelSession(channelId);
@@ -73,16 +74,7 @@ public class LobbyScreenUI : MonoBehaviour
     
 
     #region Vivox Callbacks
-
-    private void VivoxVoiceManager_OnParticipantAddedEvent(string username, ChannelId channel, IParticipant participant)
-    {
-        if (channel.Name == LobbyChannelName && participant.IsSelf)
-        {
-            // if joined the lobby channel and we're not hosting a match
-            // we should request invites from hosts
-        }
-    }
-
+    
     private void OnUserLoggedIn()
     {
         LobbyScreen.SetActive(true);

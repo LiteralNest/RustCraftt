@@ -1,7 +1,7 @@
 using ArmorSystem.Backend;
 using Character_Stats;
+using FightSystem.Damage;
 using Player_Controller;
-using Sound_System;
 using UnityEngine;
 
 namespace DamageSystem
@@ -16,7 +16,7 @@ namespace DamageSystem
         [SerializeField] private AudioClip _hitSound;
         [SerializeField] private BodyPartType _partType = BodyPartType.None;
 
-        public ushort GetHp()
+        public int GetHp()
         {
             if(_characterHpHandler.Hp <= 0)
                 return 0;
@@ -25,11 +25,14 @@ namespace DamageSystem
 
         public int GetMaxHp() => 100;
 
-        public void GetDamage(int damage)
+        public void GetDamage(int damage, bool playSound = true)
         {
-            PlayerNetCode.Singleton.PlayerSoundsPlayer.PlayHit(_hitSound);
-            _characterHpHandler.GetDamageServerRpc(
-                (int)(damage * _gettingDamageKoef)); //Додати переввірку на резіст броні
+            if (_characterHpHandler.Hp >= 0)
+            {
+                PlayerNetCode.Singleton.PlayerSoundsPlayer.PlayHit(_hitSound);
+                _characterHpHandler.GetDamageServerRpc(
+                    (int)(damage * _gettingDamageKoef)); //Додати перевірку на резіст броні
+            }
         }
 
         public void Destroy()

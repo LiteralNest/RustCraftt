@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Threading.Tasks;
+using Inventory_System.Inventory_Slot_Displayers;
 using Player_Controller;
 using Storage_System;
 using TMPro;
@@ -30,6 +31,9 @@ public abstract class ItemDisplayer : MonoBehaviour, IPointerClickHandler
     {
     }
 
+    public virtual int GetCurrentAmmo()
+        => InventoryCell.Ammo;
+    
     public virtual void SetCurrentAmmo(int value)
     {
     }

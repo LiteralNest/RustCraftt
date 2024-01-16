@@ -19,38 +19,40 @@ namespace Vehicle.SittingPlaces
         public bool CanSit() => _currentPlayer == null;
 
         [ClientRpc]
-        private void AssignCurrentPlayerClientRpc(ulong playerId)
+        private void AssignCurrentPlayerClientRpc(ulong playerId, ulong ownerId)
         {
             var players = FindObjectsOfType<PlayerNetCode>().ToList();
             foreach (var player in players)
             {
-                if (player.NetworkObjectId != playerId) continue;
+                if (player.NetworkObjectId != ownerId) continue;
                 _currentPlayer = player;
             }
         }
 
-        private void SetPlayer(ulong networkId)
+        private void SetPlayer(ulong networkId, ulong ownerId)
         {
             if (!IsServer) return;
             var players = FindObjectsOfType<PlayerNetCode>().ToList();
             foreach (var player in players)
             {
                 var networkObject = player.GetComponent<NetworkObject>();
-                if (networkObject.NetworkObjectId != networkId) continue;
+                if (networkObject.OwnerClientId != networkId) continue;
                 networkObject.TrySetParent(_networkObject.transform);
                 player.ChangePositionClientRpc(transform.position);
-                AssignCurrentPlayerClientRpc(networkId);
+                AssignCurrentPlayerClientRpc(networkId, ownerId);
                 return;
             }
         }
 
 
         [ServerRpc(RequireOwnership = false)]
-        private void SitServerRpc(ulong playerId)
+        private void SitServerRpc(ulong playerId, ulong ownerId)
         {
             if (!IsServer) return;
-            SetPlayer(playerId);
+            SetPlayer(playerId, ownerId);
             _currentPlayer.SitClientRpc();
+            _networkObject.ChangeOwnership(playerId);
+            _networkObject.DontDestroyWithOwner = true;
         }
 
         [ClientRpc]
@@ -58,7 +60,7 @@ namespace Vehicle.SittingPlaces
             => _currentPlayer = null;
 
         public virtual void SitIn(PlayerNetCode playerNetCode)
-            => SitServerRpc(playerNetCode.NetworkObjectId);
+            => SitServerRpc(playerNetCode.OwnerClientId, playerNetCode.NetworkObjectId);
 
         #endregion
 
@@ -74,8 +76,10 @@ namespace Vehicle.SittingPlaces
             _currentPlayer.ChangePositionClientRpc(_standingPoint.position);
             ResetPlayerClientRpc();
         }
-        
-        protected virtual void ResetInput(){}
+
+        protected virtual void ResetInput()
+        {
+        }
 
         [ServerRpc(RequireOwnership = false)]
         private void StandUpServerRpc(ulong playerId)

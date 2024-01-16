@@ -3,9 +3,9 @@ using UnityEngine;
 
 namespace Building_System.Placing_Objects
 {
-    public class SnapPlacingObjectBP : PlacingObjectBluePrint
+    public class SnapPlacingObjectBp : PlacingObjectBluePrint
     {
-        public override bool TryGetObjectCoords(Camera targetCamera, out Vector3 coords, out Quaternion rotation, out bool shouldRotate)
+        public override bool TryGetObjectCoords(Camera targetCamera, out Vector3 coords, out Quaternion rotation, out bool shouldRotate, float distance)
         {
             shouldRotate = true;
         
