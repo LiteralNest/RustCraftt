@@ -17,7 +17,7 @@ namespace PlayerDeathSystem
             backPack.GetComponent<NetworkObject>().Spawn();
             var script = backPack.GetComponent<BackPack>();
             script.AssignCells(data);
-            script.PlayerCorpDisplay.Init();
+            script.PlayerCorpDisplay.Init(script.GetArmorSlots());
             script.SetWasDisconnectedAndOwnerId(wasDisconnected, ownerId);
         }
     }

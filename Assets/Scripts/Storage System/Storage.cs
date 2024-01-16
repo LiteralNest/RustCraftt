@@ -56,6 +56,18 @@ namespace Storage_System
 
         #endregion
 
+        public List<int> GetArmorSlots()
+        {
+            var result = new List<int>();
+            for(int i = 30; i <= 33; i++)
+            {
+                var cell = ItemsNetData.Value.Cells[i];
+                if(cell.Id == -1) continue;
+                result.Add(cell.Id);
+            }
+            return result;
+        }
+
         [ServerRpc(RequireOwnership = false)]
         public void SetItemsServerRpc(CustomSendingInventoryData data)
         {
