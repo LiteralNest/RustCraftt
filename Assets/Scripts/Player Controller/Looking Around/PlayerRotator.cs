@@ -4,16 +4,17 @@ using UnityEngine.EventSystems;
 
 public class PlayerRotator : MonoBehaviour, IDragHandler, IPointerDownHandler
 {
-    [Header("Attached Scripts")] 
-    [SerializeField] private PlayerController _playerController;
+    [Header("Attached Scripts")] [SerializeField]
+    private PlayerController _playerController;
 
-    [Header("Main Parameters")] 
-    [SerializeField] private Vector2 _rotationBounds = new Vector2(0.75f, -0.25f);
+    [Header("Main Parameters")] [SerializeField]
+    private Vector2 _rotationBounds = new Vector2(0.75f, -0.25f);
+
     [SerializeField] private Vector2 _rotationBoundsKnockDown = new Vector2(0.25f, -0.25f);
     [SerializeField] private Transform _defaultHead;
     [SerializeField] private Transform _knockDownHead;
     [SerializeField] private float _rotationSpeed = 3f;
-    
+
     private Transform _rotatingHead;
     private Vector2 _currentBounds;
     private Vector2 _touchStartPos;
@@ -28,13 +29,13 @@ public class PlayerRotator : MonoBehaviour, IDragHandler, IPointerDownHandler
 
     private void Start()
         => SetDefaultHead();
-    
+
     public void SetDefaultHead()
     {
         _rotatingHead = _defaultHead;
         _currentBounds = _rotationBounds;
     }
-    
+
     public void SetKnockDownHead()
     {
         _rotatingHead = _knockDownHead;
@@ -49,13 +50,14 @@ public class PlayerRotator : MonoBehaviour, IDragHandler, IPointerDownHandler
     private void CheckCameraBounds(float rotation)
     {
         var headTransform = _rotatingHead;
-        var currentRotation = headTransform.localRotation.x;
+        var currentRotation = Mathf.Abs(headTransform.localRotation.x);
+        Debug.Log(currentRotation);
         if (rotation < 0)
         {
-            if (currentRotation > _currentBounds.x)
+            if (currentRotation < _currentBounds.x)
                 return;
         }
-        else if (currentRotation < _currentBounds.y) return;
+        else if (currentRotation > _currentBounds.y) return;
 
         headTransform.Rotate(Vector3.left * rotation, Space.Self);
     }
@@ -69,11 +71,19 @@ public class PlayerRotator : MonoBehaviour, IDragHandler, IPointerDownHandler
 
         float rotationX = touchDelta.x * _rotationSpeed * Time.deltaTime;
         float rotationY = touchDelta.y * _rotationSpeed * Time.deltaTime;
-        rotationY = Mathf.Clamp(rotationY, -90f, 90f);
+        // rotationY = Mathf.Clamp(rotationY, -90f, 90f);
 
         _playerController.transform.Rotate(Vector3.up * rotationX);
 
         CheckCameraBounds(rotationY);
         _touchStartPos = _touchEndPos;
     }
+
+    [ContextMenu("Set Default Bounds")]
+    private void SetDefaultBounds()
+        => _currentBounds = _rotationBounds;
+
+    [ContextMenu("Set Knock Down Bounds")]
+    private void SetKnockDownBounds()
+        => _currentBounds = _rotationBoundsKnockDown;
 }
