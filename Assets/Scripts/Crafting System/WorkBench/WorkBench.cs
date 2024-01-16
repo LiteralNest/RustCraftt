@@ -1,4 +1,3 @@
-using Inventory_System;
 using UnityEngine;
 
 namespace Crafting_System.WorkBench
@@ -7,7 +6,7 @@ namespace Crafting_System.WorkBench
     {
         public void Open()
         {
-            InventoryPanelsDisplayer.singleton.OpenWorkbenchPanel();
+            InventoryHandler.singleton.InventoryPanelsDisplayer.OpenWorkbenchPanel();
         }
     }
 }

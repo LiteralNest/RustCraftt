@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class ServerSceneLoader : MonoBehaviour
 {
+    [SerializeField] private bool _shouldLoadServer;
     [SerializeField] private bool _shouldLoadHost;
     [SerializeField] private ConnectionManager _connectionManager;
 
@@ -19,6 +20,13 @@ public class ServerSceneLoader : MonoBehaviour
 #endif
 
 #if !UNITY_SERVER
+        
+        if(_shouldLoadServer)
+        {
+            NetworkManager.Singleton.StartServer();
+            return;
+        }
+        
         if (_shouldLoadHost)
         {
             NetworkManager.Singleton.StartHost();
