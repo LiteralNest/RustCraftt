@@ -71,10 +71,16 @@ namespace FightSystem.Weapon.Explosive
             yield return new WaitForSeconds(_explosiveClip.length);
         }
 
-        private IEnumerator ExplodeRoutine()
+        [ClientRpc]
+        private void DisplayExplosionClientRpc()
         {
             _explosionVfx.SetActive(true);
             _model.SetActive(false);
+        }
+
+        private IEnumerator ExplodeRoutine()
+        {
+            DisplayExplosionClientRpc();
             DamageObjects();
             yield return StartCoroutine(PlaySoundRoutine());
             Destroy(gameObject);

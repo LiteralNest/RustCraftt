@@ -9,8 +9,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7603827509887630854}
-  - component: {fileID: 1977205688757581661}
   - component: {fileID: 3209964061501244252}
+  - component: {fileID: 1977205688757581661}
   - component: {fileID: 3172702961503004558}
   - component: {fileID: 3734345089464141633}
   - component: {fileID: 4018147773538195819}
@@ -44,6 +44,26 @@ Transform:
   - {fileID: 3205737198442864885}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3209964061501244252
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 663783664502928287}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GlobalObjectIdHash: 2344334972
+  AlwaysReplicateAsRoot: 0
+  SynchronizeTransform: 1
+  ActiveSceneSynchronization: 0
+  SceneMigrationSynchronization: 1
+  SpawnWithObservers: 1
+  DontDestroyWithOwner: 0
+  AutoObjectParentSync: 1
 --- !u!114 &1977205688757581661
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -60,26 +80,6 @@ MonoBehaviour:
   <Id>k__BackingField: 0
   _blocks: []
   <TargetItem>k__BackingField: {fileID: 11400000, guid: 4995821123a8d3c42b2a741f5fab367c, type: 2}
---- !u!114 &3209964061501244252
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 663783664502928287}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 951099334
-  AlwaysReplicateAsRoot: 0
-  SynchronizeTransform: 1
-  ActiveSceneSynchronization: 0
-  SceneMigrationSynchronization: 1
-  SpawnWithObservers: 1
-  DontDestroyWithOwner: 0
-  AutoObjectParentSync: 1
 --- !u!114 &3172702961503004558
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -291,7 +291,6 @@ MonoBehaviour:
   _testAddingCell:
     Item: {fileID: 0}
     Count: 0
-    Hp: 0
     Ammo: 0
   MainSlotsCount: 0
 --- !u!114 &6572327945115695350
