@@ -8,9 +8,7 @@ namespace FightSystem.Weapon.Explosive
 {
     public abstract class BaseExplosive : NetworkBehaviour
     {
-        [Header("Attached Scripts")] [SerializeField]
-        protected AudioSource _explosiveSource;
-
+        [Header("Attached Scripts")]
         [SerializeField] protected NetworkSoundPlayer _explosiveSoundPlayer;
         [SerializeField] protected AudioClip _explosiveClip;
         [SerializeField] private GameObject _model;
@@ -28,14 +26,11 @@ namespace FightSystem.Weapon.Explosive
         protected Collider[] _colliders;
         protected bool _hasExploded = false;
 
-        private Camera _camera;
-
         protected virtual void Start()
         {
             _colliders = new Collider[100];
             //How is better?
             _cameraShake = GetComponent<CameraShake>();
-            _camera = Camera.main;
         }
 
         private void DamageObjects()

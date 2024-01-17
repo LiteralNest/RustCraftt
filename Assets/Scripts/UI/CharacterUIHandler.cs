@@ -48,14 +48,8 @@ namespace UI
         public void ActivateBuildingButton(bool value)
             => _buildingButton.SetActive(value);
 
-        public void ActivateGatherButton(bool value)
-            => _gatherButton.SetActive(value);
-
         public void ActivatePlacingPanel(bool value)
             => _placingPanel.SetActive(value);
-
-        public void ActivateThrowButton(bool value)
-            => _throwExplosiveButton.SetActive(value);
 
         public void HandleJoystick(bool value)
             => _joystick.SetActive(value);

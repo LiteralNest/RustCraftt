@@ -1,6 +1,7 @@
 ﻿using InHandItems.InHandViewSystem;
 using Multiplayer.Multiplay_Instances;
 using Player_Controller;
+using UI;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -15,7 +16,7 @@ namespace InHandItems
 
         private void Start()
         {
-            var view = Instantiate(Resources.Load<InHandView>(ViewName));
+            var view = Instantiate(Resources.Load<InHandView>(ViewName), this.transform);
             view.Init(this);
         }
 

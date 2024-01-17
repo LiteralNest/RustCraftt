@@ -185,7 +185,13 @@ namespace Building_System.Blocks
         public void GetDamage(int damage, bool playSound = true)
         {
             int hp = _hp.Value - damage;
-            SetHpServerRpc(hp);
+            _hp.Value = hp;
+            if (_hp.Value <= 0)
+            {
+                if (IsServer)
+                    StartCoroutine(DestroyRoutine());
+            }
+            // SetHpServerRpc(hp);
         }
 
         public int GetHp()
