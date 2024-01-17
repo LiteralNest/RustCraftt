@@ -1,9 +1,7 @@
 using System.Collections.Generic;
 using Building_System.Blocks;
 using Building_System.NetWorking;
-using Inventory_System;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace Building_System.Blue_Prints
 {
@@ -57,14 +55,14 @@ namespace Building_System.Blue_Prints
         public void InitPlacedObject(GameObject target)
             => _bluePrint.InitPlacedObject(target.GetComponent<BuildingStructure>());
 
-        public void TryPlace()
+        public void TryPlace(bool shouldPlaySound)
         {
             if (!CanBePlaced) return;
-
+            
             foreach (var cell in _targetBuildingStructure.GetPlacingRemovingCells())
                 InventoryHandler.singleton.CharacterInventory.RemoveItem((ushort)cell.Item.Id, (ushort)cell.Count);
             BuildingsNetworkingSpawner.singleton.SpawnPrefServerRpc(_targetBuildingStructure.Id, transform.position,
-                transform.rotation);
+                transform.rotation, shouldPlaySound);
         }
 
         private void OnTriggerEnter(Collider other)

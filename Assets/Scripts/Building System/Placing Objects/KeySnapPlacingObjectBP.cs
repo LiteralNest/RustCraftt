@@ -1,12 +1,11 @@
 using Building_System.Blocks;
-using Building_System.NetWorking;
 using Lock_System;
 using UnityEngine;
 using Web.UserData;
 
 namespace Building_System.Placing_Objects
 {
-    public class KeySnapPlacingObjectBP : SnapPlacingObjectBp
+    public class KeySnapPlacingObjectBp : SnapPlacingObjectBp
     {
         public override void InitPlacedObject(BuildingStructure structure)
         {

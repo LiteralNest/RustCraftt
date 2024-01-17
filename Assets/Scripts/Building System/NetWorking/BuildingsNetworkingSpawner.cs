@@ -1,3 +1,4 @@
+using Building_System.Blocks;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -18,12 +19,14 @@ namespace Building_System.NetWorking
    
    
       [ServerRpc(RequireOwnership = false)]
-      public void SpawnPrefServerRpc(int id, Vector3 pos, Quaternion rot)
+      public void SpawnPrefServerRpc(int id, Vector3 pos, Quaternion rot, bool shouldPlaySound)
       {
          if(!IsServer) return;
          var obj = Instantiate(_buildingObjectsPool.GetObjectByPoolId(id), pos, rot);
          obj.DontDestroyWithOwner = true;
          obj.Spawn();
+         if(shouldPlaySound)
+            obj.GetComponent<BuildingBlock>().PlaySound();
       }
    }
 }

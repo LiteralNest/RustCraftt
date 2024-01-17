@@ -15,7 +15,7 @@ namespace Building_System.Blocks
             if(NetObject == null)
                 NetObject = GetComponent<NetworkObject>();
         }
-        
+
         public List<InventoryCell> GetPlacingRemovingCells()
         {
             List<InventoryCell> res = new List<InventoryCell>();

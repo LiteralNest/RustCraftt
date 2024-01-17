@@ -6,6 +6,7 @@ namespace FightSystem.Weapon.Explosive
     {
         [SerializeField] private float _timeToExplode = 3f;
         private float _countdownTimer;
+        private bool _exploded = false;
 
         protected override void Start()
         {
@@ -18,8 +19,11 @@ namespace FightSystem.Weapon.Explosive
             if (_hasExploded) return;
             _countdownTimer -= Time.deltaTime;
 
-            if (_countdownTimer <= 0f)
+            if (_countdownTimer <= 0f && !_exploded)
+            {
                 ExplodeServerRpc();
+                _exploded = true;
+            }
         }
     }
 }

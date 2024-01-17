@@ -1,5 +1,6 @@
 using System.Collections;
 using FightSystem.Damage;
+using Sound_System;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -10,6 +11,7 @@ namespace FightSystem.Weapon.Explosive
         [Header("Attached Scripts")] [SerializeField]
         protected AudioSource _explosiveSource;
 
+        [SerializeField] protected NetworkSoundPlayer _explosiveSoundPlayer;
         [SerializeField] protected AudioClip _explosiveClip;
         [SerializeField] private GameObject _model;
         [SerializeField] private GameObject _explosionVfx;
@@ -65,7 +67,7 @@ namespace FightSystem.Weapon.Explosive
 
         private IEnumerator PlaySoundRoutine()
         {
-            _explosiveSource.PlayOneShot(_explosiveClip);
+            _explosiveSoundPlayer.PlayOneShot(_explosiveClip);
             yield return new WaitForSeconds(_explosiveClip.length);
         }
 

@@ -1,7 +1,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using Building_System.Buildings_Connecting;
 using Building_System.Upgrading;
 using FightSystem.Damage;
@@ -34,7 +33,7 @@ namespace Building_System.Blocks
             NetworkVariableWritePermission.Owner);
 
         private List<InventoryCell> _cellsForRepairing = new List<InventoryCell>();
-    
+
         private GameObject _activeBlock;
 
         public override void OnNetworkSpawn()
@@ -43,14 +42,21 @@ namespace Building_System.Blocks
             InitSlot(_currentLevel.Value);
             _currentLevel.OnValueChanged += (ushort prevValue, ushort newValue) => { InitSlot(newValue); };
         }
-
+        
+        public void PlaySound()
+        {
+            if (IsServer)
+                _soundPlayer.PlayOneShot(CurrentBlock.UpgradingSound);
+        }
+        
         private void InitSlot(int slotId)
         {
             if (_activeBlock != null)
                 _activeBlock.SetActive(false);
             var activatingBlock = _levels[_currentLevel.Value];
-            if(IsServer)
-                _soundPlayer.PlayOneShot(activatingBlock.UpgradingSound);
+
+            PlaySound();
+            
             activatingBlock.gameObject.SetActive(true);
             _activeBlock = activatingBlock.gameObject;
             var gettingHp = (ushort)activatingBlock.GetComponent<Block>().Hp;
@@ -91,25 +97,25 @@ namespace Building_System.Blocks
             //Потрібно щоб OnTriggerExit зчитався
             transform.position = new Vector3(1000000, 1000000, 1000000);
             yield return new WaitForSeconds(_destroyingTime);
-            if(gameObject == null) yield break;
+            if (gameObject == null) yield break;
             var networkObj = GetComponent<NetworkObject>();
             if (networkObj != null)
                 networkObj.Despawn();
             Destroy(gameObject);
         }
-        
+
         private bool MaxHp()
             => _hp.Value >= _startHp;
-    
+
         public void RestoreHealth(int value)
         {
             int hp = _hp.Value + value;
-            if(hp > _startHp)
+            if (hp > _startHp)
                 hp = _startHp;
             SetHpServerRpc((ushort)hp);
         }
 
-    
+
         #region IHammerInteractable
 
         public bool CanBeRepaired()
@@ -118,7 +124,7 @@ namespace Building_System.Blocks
             int damagingPercent = 100 - (_hp.Value * 100 / _startHp);
             _cellsForRepairing.Clear();
             foreach (var cell in GetNeededCellsForPlacing())
-                _cellsForRepairing.Add(new InventoryCell( cell.Item, cell.Count / damagingPercent));
+                _cellsForRepairing.Add(new InventoryCell(cell.Item, cell.Count / damagingPercent));
             return InventoryHandler.singleton.CharacterInventory.EnoughMaterials(_cellsForRepairing);
         }
 
@@ -140,7 +146,6 @@ namespace Building_System.Blocks
 
         public void Shake()
         {
-        
         }
 
         public InventoryCell GetNeededItemsForUpgrade()
@@ -150,10 +155,11 @@ namespace Building_System.Blocks
 
         public bool CanBeUpgraded()
         {
-            if(!MaxHp()) return false;
+            if (!MaxHp()) return false;
             int nextLevel = _currentLevel.Value + 1;
-            if(nextLevel >= _levels.Count) return false;
-            if (!InventoryHandler.singleton.CharacterInventory.EnoughMaterials(_levels[nextLevel].CellForPlace)) return false;
+            if (nextLevel >= _levels.Count) return false;
+            if (!InventoryHandler.singleton.CharacterInventory.EnoughMaterials(_levels[nextLevel].CellForPlace))
+                return false;
             return true;
         }
 
@@ -173,7 +179,7 @@ namespace Building_System.Blocks
         }
 
         #endregion
-    
+
         #region IDamagable
 
         public void GetDamage(int damage, bool playSound = true)

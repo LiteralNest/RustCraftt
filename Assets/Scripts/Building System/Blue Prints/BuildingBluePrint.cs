@@ -6,14 +6,19 @@ namespace Building_System.Blue_Prints
     {
         public override void Place()
         {
-            if(!EnoughMaterials()) return;
-            foreach (var cell in BluePrintCells)
-                cell.TryPlace();
-        }
+            if (!EnoughMaterials()) return;
 
+            bool playedSound = false;
+
+            foreach (var cell in BluePrintCells)
+            {
+                cell.TryPlace(!playedSound);
+                playedSound = true;
+            }
+        }
+        
         public override void InitPlacedObject(BuildingStructure structure)
         {
-        
         }
     }
 }

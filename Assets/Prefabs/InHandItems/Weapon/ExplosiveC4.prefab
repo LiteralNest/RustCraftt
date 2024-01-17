@@ -405,6 +405,7 @@ GameObject:
   - component: {fileID: 7005234944654087733}
   - component: {fileID: 8268016530076654473}
   - component: {fileID: 6963388312031390976}
+  - component: {fileID: 1943147796198506054}
   m_Layer: 0
   m_Name: ExplosiveC4
   m_TagString: Untagged
@@ -441,7 +442,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 3777390596
+  GlobalObjectIdHash: 479332196
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
   ActiveSceneSynchronization: 0
@@ -462,6 +463,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _explosiveSource: {fileID: 7005234944654087733}
+  _explosiveSoundPlayer: {fileID: 1943147796198506054}
   _explosiveClip: {fileID: 8300000, guid: 297bfe2f9da2167469aa5dcaedf9d688, type: 3}
   _model: {fileID: 6267408311085694890}
   _explosionVfx: {fileID: 6864202674513107424}
@@ -636,6 +638,23 @@ MonoBehaviour:
   InLocalSpace: 0
   Interpolate: 1
   SlerpPosition: 0
+--- !u!114 &1943147796198506054
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8845560717960578973}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 46a5f80798c25ad41a5d75aa66323529, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _audioSource: {fileID: 7005234944654087733}
+  _soundSlots:
+  - Id: 1
+    Volume: 1
+    Clip: {fileID: 8300000, guid: 297bfe2f9da2167469aa5dcaedf9d688, type: 3}
 --- !u!1 &9089217435973060627
 GameObject:
   m_ObjectHideFlags: 0
