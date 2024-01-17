@@ -7,6 +7,7 @@ using FightSystem.Weapon.ShootWeapon.TrailSystem;
 using InHandItems.InHandAnimations.Weapon;
 using InHandItems.InHandViewSystem;
 using Items_System.Items.Weapon;
+using Sound_System;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -15,7 +16,7 @@ namespace FightSystem.Weapon.WeaponTypes
 {
     [RequireComponent(typeof(WeaponSway))]
     [RequireComponent(typeof(AimSway))]
-    [RequireComponent(typeof(AudioSource))]
+    [RequireComponent(typeof(AudioSource), typeof(NetworkSoundPlayer))]
     public abstract class BaseShootingWeapon : NetworkBehaviour, IViewable
     {
         private const string ViewName = "Weapon/View/LongRangeWeaponView";
@@ -26,7 +27,7 @@ namespace FightSystem.Weapon.WeaponTypes
         [SerializeField] protected LayerMask TargetMask;
         [SerializeField] protected int _bulletSpeed = 100;
 
-        [Header("Attached Components")] 
+        [Header("Attached Components")]
         [SerializeField] protected GameObject Decal;
         [SerializeField] private RifleAnimator _weaponAnimator;
         [SerializeField] private Transform _swayTransform;
@@ -37,6 +38,10 @@ namespace FightSystem.Weapon.WeaponTypes
         [FormerlySerializedAs("TrailSpawner")] 
         [SerializeField] protected ShotEffectSpawner ShotEffectSpawner;
         
+        [Header("Sound")]
+        [SerializeField] private NetworkSoundPlayer _soundPlayer;
+        [SerializeField] private AudioClip _shotSound;
+        
         [Header("Aim")] 
         [SerializeField] private Transform _aimPosition;
         [SerializeField] private Transform _aimingTransform;
@@ -46,8 +51,7 @@ namespace FightSystem.Weapon.WeaponTypes
 
         private WeaponSway _weaponSway;
         private AimSway _aimSway;
-
-        protected WeaponSoundPlayer SoundPlayer;
+        
         private WeaponRecoil _recoil;
         protected WeaponAim WeaponAim;
         private LongRangeInHandView _inHandView;
@@ -80,7 +84,6 @@ namespace FightSystem.Weapon.WeaponTypes
             _weaponSway.Init(_swayTransform);
             _aimSway = GetComponent<AimSway>();
             _aimSway.Init(_swayTransform);
-            SoundPlayer = new WeaponSoundPlayer(GetComponent<AudioSource>(), Weapon);
             WeaponAim = new WeaponAim(_aimPosition, _aimingTransform, _weaponSway, _aimSway);
             _recoil = new WeaponRecoil(_swayTransform);
             _canShoot = true;
@@ -100,6 +103,7 @@ namespace FightSystem.Weapon.WeaponTypes
         {
             _weaponAnimator.PlayShot();
             ShotEffectSpawner.DisplayEffectServerRpc();
+            _soundPlayer.PlayOneShotFromClient(_shotSound);
         }
 
         public void Reload()

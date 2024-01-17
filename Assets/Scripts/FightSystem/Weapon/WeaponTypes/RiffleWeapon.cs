@@ -13,7 +13,10 @@ namespace FightSystem.Weapon.WeaponTypes
             if (!CanShoot() || CurrentAmmoCount <= 0) return;
             base.Attack();
             
-            SoundPlayer.PlayShot();
+            //PlayShot
+            
+            
+            //
             MinusAmmo();
            
 
@@ -36,6 +39,9 @@ namespace FightSystem.Weapon.WeaponTypes
 
                 if (damaged) break;
             }
+            
+            if (!hitDisplayed)
+                ShotEffectSpawner.SpawnTrailServerRpc(PlayerNetCode.Singleton.GetClientId(), _bulletSpeed, AmmoSpawnPoint.position + AmmoSpawnPoint.forward * Weapon.Range);
 
             AdjustRecoil();
             StartCoroutine(WaitBetweenShootsRoutine());

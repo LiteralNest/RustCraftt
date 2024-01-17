@@ -3,7 +3,6 @@ using UnityEngine;
 
 namespace FightSystem.Weapon.ShootWeapon.Ammo
 {
-    [RequireComponent(typeof(WeaponSoundPlayer))]
     public class Arrow : MonoBehaviour
     {
         [field: SerializeField] public int AmmoPoolId { get; private set; }

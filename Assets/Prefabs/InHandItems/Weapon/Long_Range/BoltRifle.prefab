@@ -166,6 +166,7 @@ GameObject:
   - component: {fileID: 5772039692934921165}
   - component: {fileID: 3214220855209640939}
   - component: {fileID: 2867978176780422038}
+  - component: {fileID: 1924791059813122055}
   m_Layer: 0
   m_Name: BoltRifle
   m_TagString: Untagged
@@ -370,9 +371,28 @@ MonoBehaviour:
   AmmoSpawnPoint: {fileID: 1382258413542572191}
   ImpactEffect: {fileID: 6288268902635791096}
   ShotEffectSpawner: {fileID: 1244576777421781857}
+  _soundPlayer: {fileID: 1924791059813122055}
+  _shotSound: {fileID: 8300000, guid: 79849aef751860948a8a167085d72574, type: 3}
   _aimPosition: {fileID: 2752068411685279750}
   _aimingTransform: {fileID: 6365227694319226122}
   _reloadAnim: {fileID: 7400000, guid: 2db49a30827d7cb4c9ca50ac10cb44da, type: 2}
+--- !u!114 &1924791059813122055
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1197494453361225009}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 46a5f80798c25ad41a5d75aa66323529, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _audioSource: {fileID: 3214220855209640939}
+  _soundSlots:
+  - Id: 1
+    Volume: 1
+    Clip: {fileID: 8300000, guid: 79849aef751860948a8a167085d72574, type: 3}
 --- !u!1 &2030697409522146877
 GameObject:
   m_ObjectHideFlags: 0

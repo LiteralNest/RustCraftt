@@ -27,8 +27,8 @@ namespace FightSystem.Weapon.WeaponTypes
 
             base.Attack();
             
-            if(SoundPlayer != null)
-                SoundPlayer.PlayShot();
+            //PlayShot
+
             MinusAmmo();
 
             var spawnPoint = AmmoSpawnPoint.position;

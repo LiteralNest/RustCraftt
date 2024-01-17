@@ -852,6 +852,7 @@ GameObject:
   - component: {fileID: 728636595968218871}
   - component: {fileID: 4754432067902157628}
   - component: {fileID: 8927259234240094684}
+  - component: {fileID: 2395063379189341159}
   m_Layer: 0
   m_Name: Berdanka
   m_TagString: Untagged
@@ -1075,9 +1076,28 @@ MonoBehaviour:
   AmmoSpawnPoint: {fileID: 8197162506157570922}
   ImpactEffect: {fileID: 7606732915356838842}
   ShotEffectSpawner: {fileID: 8962698323858089212}
+  _soundPlayer: {fileID: 2395063379189341159}
+  _shotSound: {fileID: 8300000, guid: 2e416b8e7768e4f4789989366017b91a, type: 3}
   _aimPosition: {fileID: 4571706495925635813}
   _aimingTransform: {fileID: 3703071918902377328}
   _reloadAnim: {fileID: 7832290154526303053, guid: d71c148cfd7851a46a0bb5b43e9476b9, type: 3}
+--- !u!114 &2395063379189341159
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3251262298120622666}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 46a5f80798c25ad41a5d75aa66323529, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _audioSource: {fileID: 6739534186708303850}
+  _soundSlots:
+  - Id: 1
+    Volume: 1
+    Clip: {fileID: 8300000, guid: 2e416b8e7768e4f4789989366017b91a, type: 3}
 --- !u!1 &4193483135486220170
 GameObject:
   m_ObjectHideFlags: 0

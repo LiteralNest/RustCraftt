@@ -1507,6 +1507,7 @@ GameObject:
   - component: {fileID: 465990638150681566}
   - component: {fileID: 6993466189505543660}
   - component: {fileID: 8945040036741736748}
+  - component: {fileID: 4691918854619110175}
   m_Layer: 0
   m_Name: Shotgun
   m_TagString: Untagged
@@ -1712,12 +1713,31 @@ MonoBehaviour:
   AmmoSpawnPoint: {fileID: 3688680325972020887}
   ImpactEffect: {fileID: 6752099171238169395}
   ShotEffectSpawner: {fileID: 470411057370022934}
+  _soundPlayer: {fileID: 4691918854619110175}
+  _shotSound: {fileID: 8300000, guid: ecc2ad6602e98044aa890f29234d9259, type: 3}
   _aimPosition: {fileID: 9155879637417388983}
   _aimingTransform: {fileID: 7805928736795697131}
   _reloadAnim: {fileID: -5370529379520654097, guid: 2aa9aff89b26aa146b8f4c7a8676c09c, type: 3}
   _pelletCount: 12
   _spreadRadiusNoFocus: 0.2
   _spreadRadiusFocus: 0.1
+--- !u!114 &4691918854619110175
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6500364245617463983}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 46a5f80798c25ad41a5d75aa66323529, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _audioSource: {fileID: 6993466189505543660}
+  _soundSlots:
+  - Id: 1
+    Volume: 1
+    Clip: {fileID: 8300000, guid: ecc2ad6602e98044aa890f29234d9259, type: 3}
 --- !u!1 &6580813702521469227
 GameObject:
   m_ObjectHideFlags: 0

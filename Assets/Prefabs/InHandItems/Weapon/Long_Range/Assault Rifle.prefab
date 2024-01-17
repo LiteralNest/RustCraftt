@@ -1438,6 +1438,8 @@ GameObject:
   - component: {fileID: 6121234546322902945}
   - component: {fileID: 7200647634311513360}
   - component: {fileID: 5810262550811844224}
+  - component: {fileID: 1325723921220786621}
+  - component: {fileID: 896446802580286452}
   m_Layer: 0
   m_Name: AssRifle_Shooting
   m_TagString: Untagged
@@ -1545,6 +1547,8 @@ MonoBehaviour:
   AmmoSpawnPoint: {fileID: 8890699187627926473}
   ImpactEffect: {fileID: 484742803737536967}
   ShotEffectSpawner: {fileID: 1966582041104536165}
+  _soundPlayer: {fileID: 1325723921220786621}
+  _shotSound: {fileID: 8300000, guid: ba32aca2939335c40bc3c71bf38694e5, type: 3}
   _aimPosition: {fileID: 7067189241455254761}
   _aimingTransform: {fileID: 2825953074115656747}
   _reloadAnim: {fileID: 166811380134242535, guid: a8a47a7b25e3f2a45934fea34c613a39, type: 3}
@@ -1644,6 +1648,43 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &1325723921220786621
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5748217972620209267}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 46a5f80798c25ad41a5d75aa66323529, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _audioSource: {fileID: 5810262550811844224}
+  _soundSlots:
+  - Id: 1
+    Volume: 1
+    Clip: {fileID: 8300000, guid: ba32aca2939335c40bc3c71bf38694e5, type: 3}
+--- !u!114 &896446802580286452
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5748217972620209267}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GlobalObjectIdHash: 0
+  AlwaysReplicateAsRoot: 0
+  SynchronizeTransform: 1
+  ActiveSceneSynchronization: 0
+  SceneMigrationSynchronization: 1
+  SpawnWithObservers: 1
+  DontDestroyWithOwner: 0
+  AutoObjectParentSync: 1
 --- !u!1 &6292390296212210944
 GameObject:
   m_ObjectHideFlags: 0
@@ -2021,7 +2062,7 @@ Transform:
   m_GameObject: {fileID: 9086323566937584446}
   serializedVersion: 2
   m_LocalRotation: {x: -0.00000005960465, y: 0.70710677, z: -0.00000005960465, w: 0.70710677}
-  m_LocalPosition: {x: 0.216, y: 1.216, z: 0.968}
+  m_LocalPosition: {x: 0.251, y: 1.43, z: 1.191}
   m_LocalScale: {x: 0.8414227, y: 0.8414216, z: 0.8414215}
   m_ConstrainProportionsScale: 0
   m_Children:

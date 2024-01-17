@@ -1317,6 +1317,7 @@ GameObject:
   - component: {fileID: 5944286806174676361}
   - component: {fileID: 7063698712712997554}
   - component: {fileID: 456117862466107660}
+  - component: {fileID: 5990261184559598461}
   m_Layer: 0
   m_Name: Revolver_Shooting
   m_TagString: Untagged
@@ -1520,9 +1521,28 @@ MonoBehaviour:
   AmmoSpawnPoint: {fileID: 8928641006100558267}
   ImpactEffect: {fileID: 5492427059748850827}
   ShotEffectSpawner: {fileID: 6872156095507704148}
+  _soundPlayer: {fileID: 5990261184559598461}
+  _shotSound: {fileID: 8300000, guid: 064fb4edd500f4248a1b4cdaad85c5f8, type: 3}
   _aimPosition: {fileID: 1297804269177800088}
   _aimingTransform: {fileID: 8306475283652424764}
   _reloadAnim: {fileID: 4461923671031485396, guid: b05c0393221661645a3b39b3632ecada, type: 3}
+--- !u!114 &5990261184559598461
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5817511327243674878}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 46a5f80798c25ad41a5d75aa66323529, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _audioSource: {fileID: 7063698712712997554}
+  _soundSlots:
+  - Id: 1
+    Volume: 1
+    Clip: {fileID: 8300000, guid: 064fb4edd500f4248a1b4cdaad85c5f8, type: 3}
 --- !u!1 &5945755038777276456
 GameObject:
   m_ObjectHideFlags: 0

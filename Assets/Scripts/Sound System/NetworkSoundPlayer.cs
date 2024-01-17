@@ -15,11 +15,15 @@ namespace Sound_System
             {
                 if (_soundSlots[i].Clip == clip) return i;
             }
+
             return 0;
         }
 
         public void PlayOneShot(AudioClip clip)
             => PlaySoundClientRpc(true, GetIdByClip(clip), GetComponent<NetworkObject>().NetworkObjectId);
+
+        public void PlayOneShotFromClient(AudioClip clip)
+            => PlaySoundServerRpc(true, GetIdByClip(clip));
 
         public void PlayClip(AudioClip clip)
             => PlaySoundServerRpc(false, GetIdByClip(clip));
@@ -34,7 +38,7 @@ namespace Sound_System
         [ClientRpc]
         private void PlaySoundClientRpc(bool isOneShot, int clipId, ulong networkObjectId)
         {
-            if(GetComponent<NetworkObject>().NetworkObjectId != networkObjectId) return;
+            if (GetComponent<NetworkObject>().NetworkObjectId != networkObjectId) return;
             AudioClip targetClip = _soundSlots[clipId].Clip;
             if (isOneShot)
                 _audioSource.PlayOneShot(targetClip);

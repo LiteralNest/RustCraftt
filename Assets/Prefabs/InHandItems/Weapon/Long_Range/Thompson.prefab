@@ -391,6 +391,7 @@ GameObject:
   - component: {fileID: 3694380667209163997}
   - component: {fileID: 4553124052043125562}
   - component: {fileID: 5490811064021526070}
+  - component: {fileID: 6438105834111296913}
   m_Layer: 0
   m_Name: Thompson
   m_TagString: Untagged
@@ -497,6 +498,8 @@ MonoBehaviour:
   AmmoSpawnPoint: {fileID: 4715809145942709030}
   ImpactEffect: {fileID: 2501963703902316941}
   ShotEffectSpawner: {fileID: 2795112829208377267}
+  _soundPlayer: {fileID: 6438105834111296913}
+  _shotSound: {fileID: 8300000, guid: d5278cfc8f7175b4c99c4c27d98a4bfc, type: 3}
   _aimPosition: {fileID: 574239409148414138}
   _aimingTransform: {fileID: 5440547292025093705}
   _reloadAnim: {fileID: -2026999844283682747, guid: c45bbe6dd6a88684c981f43a9202ed4a, type: 3}
@@ -596,6 +599,23 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &6438105834111296913
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2770291360511204454}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 46a5f80798c25ad41a5d75aa66323529, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _audioSource: {fileID: 5490811064021526070}
+  _soundSlots:
+  - Id: 1
+    Volume: 1
+    Clip: {fileID: 8300000, guid: d5278cfc8f7175b4c99c4c27d98a4bfc, type: 3}
 --- !u!1 &2808268424600500045
 GameObject:
   m_ObjectHideFlags: 0
