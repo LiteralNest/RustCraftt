@@ -35,7 +35,7 @@ namespace Building_System.NetWorking
             if (!IsServer) return;
             var obj = Instantiate(GetObjectById(id), pos, rot);
             obj.NetObject.Spawn();
-            obj.SetOwnerIdServerRpc(playerId);
+            obj.SetOwnerId(playerId);
             obj.NetObject.DontDestroyWithOwner = true;
         }
     }

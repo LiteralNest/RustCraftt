@@ -14,9 +14,8 @@ namespace Building_System.Placing_Objects
 
         private void Awake()
             => _interactable = GetComponent<IPlacingObjectInteractable>();
-
-        [ServerRpc(RequireOwnership = false)]
-        public void SetOwnerIdServerRpc(int id)
+        
+        public void SetOwnerId(int id)
         {
             OwnerId.Value = id;
             _interactable?.Init(id);
