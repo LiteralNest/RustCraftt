@@ -2,6 +2,7 @@ using System.Threading.Tasks;
 using Animation_System;
 using Character_Stats;
 using Player_Controller;
+using Player_Controller.Looking_Around;
 using UI;
 using Unity.Netcode;
 using UnityEngine;
