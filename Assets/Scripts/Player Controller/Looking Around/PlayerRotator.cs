@@ -13,11 +13,8 @@ namespace Player_Controller.Looking_Around
 
         [SerializeField] private Vector2 _rotationBoundsKnockDown = new Vector2(0.25f, -0.25f);
         [SerializeField] private Transform _defaultHead;
-        [SerializeField] private Transform _knockDownHead;
         [SerializeField] private float _rotationSpeed = 3f;
-
-        private Transform _rotatingHead;
-        private Vector2 _currentBounds;
+        
         private Vector2 _touchStartPos;
         private Vector2 _touchEndPos;
 
@@ -28,20 +25,6 @@ namespace Player_Controller.Looking_Around
                 _playerController = FindObjectOfType<PlayerController>();
         }
 
-        private void Start()
-            => SetDefaultHead();
-
-        public void SetDefaultHead()
-        {
-            _rotatingHead = _defaultHead;
-            _currentBounds = _rotationBounds;
-        }
-
-        public void SetKnockDownHead()
-        {
-            _rotatingHead = _knockDownHead;
-            _currentBounds = _rotationBoundsKnockDown;
-        }
 
         public void OnPointerDown(PointerEventData eventData)
         {
@@ -50,29 +33,14 @@ namespace Player_Controller.Looking_Around
 
         private void CheckCameraBounds(float rotation)
         {
-            var headTransform = _rotatingHead;
+            var headTransform = _defaultHead;
             var currentRotation = Mathf.Abs(headTransform.localRotation.x);
             if (rotation < 0)
             {
-                if (currentRotation < _currentBounds.x)
+                if (currentRotation < _rotationBounds.x)
                     return;
             }
-            else if (currentRotation > _currentBounds.y) return;
-
-            headTransform.Rotate(Vector3.left * rotation, Space.Self);
-        }
-
-        private void CheckCameraBoundsWhenKnockedDown(float rotation)
-        {
-            var headTransform = _rotatingHead;
-            var currentRotation = Mathf.Abs(headTransform.rotation.x);
-            Debug.Log(currentRotation);
-            // if (rotation < 0)
-            // {
-            //     if (currentRotation < _currentBounds.x)
-            //         return;
-            // }
-            // else if (currentRotation > _currentBounds.y) return;
+            else if (currentRotation > _rotationBounds.y) return;
 
             headTransform.Rotate(Vector3.left * rotation, Space.Self);
         }
@@ -90,19 +58,8 @@ namespace Player_Controller.Looking_Around
 
             _playerController.transform.Rotate(Vector3.up * rotationX);
 
-            if (_currentBounds == _rotationBoundsKnockDown)
-                CheckCameraBoundsWhenKnockedDown(rotationY);
-            else
-                CheckCameraBounds(rotationY);
+            CheckCameraBounds(rotationY);
             _touchStartPos = _touchEndPos;
         }
-
-        [ContextMenu("Set Default Bounds")]
-        private void SetDefaultBounds()
-            => _currentBounds = _rotationBounds;
-
-        [ContextMenu("Set Knock Down Bounds")]
-        private void SetKnockDownBounds()
-            => _currentBounds = _rotationBoundsKnockDown;
     }
 }
