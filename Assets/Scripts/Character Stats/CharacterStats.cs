@@ -50,7 +50,7 @@ namespace Character_Stats
             switch (type)
             {
                 case CharacterStatType.Health:
-                    _hpHandler.GetDamageServerRpc((int)value);
+                    _hpHandler.AddHpServerRpc((int)value);
                     break;
                 case CharacterStatType.Food:
                     Food = GetAddedStat(Food, value);

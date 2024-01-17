@@ -83,6 +83,13 @@ namespace Character_Stats
             }
         }
 
+        [ServerRpc(RequireOwnership = false)]
+        public void AddHpServerRpc(int value)
+        {
+            if(!IsServer) return;
+            _currentHp.Value += value;
+        }
+
         #region Damagable
 
         public int GetHp()
