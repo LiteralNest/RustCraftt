@@ -105,7 +105,8 @@ namespace Player_Controller
 
         public void StopRunning()
         {
-            AnimationsManager.Singleton.SetIdle();
+            if(AnimationsManager.Singleton != null)
+                AnimationsManager.Singleton.SetIdle();
             _inHandObjectsContainer.SetRun(false);
             _ifRunning = false;
         }
