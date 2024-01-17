@@ -1,4 +1,6 @@
+#if UNITY_EDITOR
 using ParrelSync;
+#endif
 using UnityEngine;
 
 namespace Web.UserData
