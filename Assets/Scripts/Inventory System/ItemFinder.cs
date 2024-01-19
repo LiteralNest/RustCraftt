@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using Items_System.Items.Abstract;
 using UnityEngine;
 
@@ -6,12 +7,16 @@ namespace Inventory_System
 {
     public class ItemFinder : MonoBehaviour
     {
+        private static readonly string Tag = "Main Resources";
         public static ItemFinder singleton {get; private set;}
 
-        private void Awake()
-            => singleton = this; 
-    
         [SerializeField] private List<Item> _items;
+
+        private void Awake()
+        {
+            singleton = this;
+            _items = Resources.LoadAll<Item>(Tag).ToList();
+        }
 
         public Item GetItemById(int id)
         {

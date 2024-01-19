@@ -6,11 +6,11 @@ public class PlayerClimber : MonoBehaviour
 
     private bool _canClimb;
 
-    public bool TryClimb(Transform player)
+    public void TryClimb(Transform player)
     {
-        if (!_canClimb) return false;
+        if (!_canClimb) return;
         player.position += new Vector3(0,_climbForce * Time.deltaTime,0);
-        return true;
+        return;
     }
 
     private void OnTriggerEnter(Collider other)
