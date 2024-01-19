@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using FightSystem.Damage;
+using Multiplayer;
 using Sound_System;
 using Storage_System;
 using Unity.Netcode;
@@ -40,7 +41,7 @@ public class DamagingItem : NetworkBehaviour, IDamagable
         int rand = Random.Range(cell.MinimalCount, cell.MaximalCount);
         var fixedPos = transform.position;
         fixedPos.y += _spawningYOffset;
-        InstantiatingItemsPool.sigleton.SpawnObjectServerRpc(cell.Item.Id, rand, fixedPos);
+        InstantiatingItemsPool.sigleton.SpawnObjectServerRpc(new CustomSendingInventoryDataCell(cell.Item.Id, rand, 100, 0), fixedPos);
     }
 
     public void Destroy()

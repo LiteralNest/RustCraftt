@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using ArmorSystem.Backend;
 using Events;
+using Inventory_System;
 using Inventory_System.ItemInfo;
 using OnPlayerItems;
 using PlayerDeathSystem;

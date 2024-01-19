@@ -1,47 +1,50 @@
 using System.Collections.Generic;
+using System.Linq;
 using Items_System;
+using Storage_System;
 using Unity.Netcode;
 using UnityEngine;
 
-public class InstantiatingItemsPool : NetworkBehaviour
+namespace Multiplayer
 {
-    public static InstantiatingItemsPool sigleton { get; set; }
-
-    [SerializeField] private List<LootingItem> _items = new List<LootingItem>();
-
-    [SerializeField] private LootingItem _universalDropableItem;
-
-    private void Awake()
-        => sigleton = this;
-
-    [ServerRpc(RequireOwnership = false)]
-    public void SpawnObjectServerRpc(int inputItemId, int count, Vector3 position)
+    public class InstantiatingItemsPool : NetworkBehaviour
     {
-        if(!IsServer) return;
-        foreach (var ore in _items)
+        private const string Path = "Looting Items";
+        
+        public static InstantiatingItemsPool sigleton { get; set; }
+
+        [SerializeField] private List<LootingItem> _items = new List<LootingItem>();
+
+        [SerializeField] private LootingItem _universalDropableItem;
+
+        private void Awake()
         {
-            if (ore.ItemId == inputItemId)
+            sigleton = this;
+            _items = Resources.LoadAll<LootingItem>(Path).ToList();
+        }
+       
+        private void SpawnLoot(LootingItem lootingItem, Vector3 position)
+        {
+            lootingItem.NetworkObject.DontDestroyWithOwner = true;
+            lootingItem.NetworkObject.Spawn();
+        }
+
+        [ServerRpc(RequireOwnership = false)]
+        public void SpawnObjectServerRpc(CustomSendingInventoryDataCell data, Vector3 position)
+        {
+            if (!IsServer) return;
+            LootingItem lootingItem = null;
+            foreach (var item in _items)
             {
-                var obj = Instantiate(ore, position, Quaternion.identity);
-                var objItemId = obj.ItemId;
-                obj.Count = count;
-                obj.NetworkObject.DontDestroyWithOwner = true;
-                obj.NetworkObject.Spawn();
+                if (item.TargetItem.Id != data.Id) continue;
+                lootingItem = Instantiate(item, position, Quaternion.identity);
+                SpawnLoot(lootingItem, position);
+                lootingItem.Data = data;
                 return;
             }
-            Debug.LogError("Can't find object with id " + inputItemId);
+            lootingItem = Instantiate(_universalDropableItem, position, Quaternion.identity);
+            SpawnLoot(lootingItem, position);
+            lootingItem.Data = data;
         }
-    }
-    
-    
-    [ServerRpc(RequireOwnership = false)]
-    public void SpawnDropableObjectServerRpc(int inputItemId, int count, Vector3 position)
-    {
-        if(!IsServer) return;
-        var obj = Instantiate(_universalDropableItem, position, Quaternion.identity);
-        obj.ItemId = inputItemId;
-        obj.Count = count;
-        obj.NetworkObject.DontDestroyWithOwner = true;
-        obj.NetworkObject.Spawn();
     }
 }

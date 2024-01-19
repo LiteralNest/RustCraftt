@@ -1,6 +1,7 @@
 using System.Threading.Tasks;
 using Animation_System;
 using Character_Stats;
+using Multiplayer;
 using Player_Controller;
 using Player_Controller.Looking_Around;
 using UI;
@@ -47,10 +48,12 @@ namespace PlayerDeathSystem
             {
                 GetComponent<PlayerController>().enabled = false;
                 MainUiHandler.Singleton.DisplayKnockDownScreen(true);
+                var cellIndex = InventoryHandler.singleton.ActiveSlotDisplayer.Index;
+                var data = InventoryHandler.singleton.CharacterInventory.ItemsNetData.Value.Cells[cellIndex];
                 var item = InventoryHandler.singleton.ActiveItem;
                 if (item != null)
                 {
-                    InstantiatingItemsPool.sigleton.SpawnDropableObjectServerRpc(item.Id, 1, Camera.main.transform.position + Camera.main.transform.forward);
+                    InstantiatingItemsPool.sigleton.SpawnObjectServerRpc(data, Camera.main.transform.position + Camera.main.transform.forward);
                     InventoryHandler.singleton.CharacterInventory.RemoveItem(item.Id, 1);
                     PlayerNetCode.Singleton.InHandObjectsContainer.SetDefaultHands();
                 }

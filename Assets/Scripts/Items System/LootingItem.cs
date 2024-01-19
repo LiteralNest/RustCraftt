@@ -1,3 +1,5 @@
+using Items_System.Items.Abstract;
+using Storage_System;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -6,23 +8,8 @@ namespace Items_System
     [RequireComponent(typeof(BoxCollider))]
     public class LootingItem : NetworkBehaviour
     {
-        public int ItemId
-        {
-            get => _itemId.Value;
-            set => _itemId.Value = value;
-        }
-
-        public int Count
-        {
-            get => _count.Value;
-            set => _count.Value = value;
-        }
-
-        [SerializeField] private NetworkVariable<int> _itemId = new(0, NetworkVariableReadPermission.Everyone,
-            NetworkVariableWritePermission.Owner);
-
-        [SerializeField] private NetworkVariable<int> _count = new(0, NetworkVariableReadPermission.Everyone,
-            NetworkVariableWritePermission.Owner);
+        public CustomSendingInventoryDataCell Data { get; set; }
+       [field:SerializeField] public Item TargetItem { get; private set; }
 
         private void Start()
             => gameObject.tag = "LootingItem";

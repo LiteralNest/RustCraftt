@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Inventory_System;
 using Items_System.Items.Abstract;
+using Multiplayer;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -154,25 +155,25 @@ namespace Storage_System
 
 
         [ServerRpc(RequireOwnership = false)]
-        public void AddItemToDesiredSlotServerRpc(int itemId, int count, int ammo, Vector2Int range = default)
+        public void AddItemToDesiredSlotServerRpc(int itemId, int count, int ammo, int hp = 100, Vector2Int range = default)
         {
             if (IsServer)
             {
                 if (range == default)
                 {
                     if (!InventoryHelper.AddItemToDesiredSlot(itemId, count, ammo, ItemsNetData,
-                            new Vector2Int(0, MainSlotsCount)))
+                            new Vector2Int(0, MainSlotsCount), hp))
                     {
-                        InstantiatingItemsPool.sigleton.SpawnDropableObjectServerRpc(itemId, count,
+                        InstantiatingItemsPool.sigleton.SpawnObjectServerRpc(new CustomSendingInventoryDataCell(itemId, count, hp, ammo),
                             transform.forward * 1.5f);
                     }
                 }
 
                 else
                 {
-                    if (!InventoryHelper.AddItemToDesiredSlot(itemId, count, ammo, ItemsNetData, range))
+                    if (!InventoryHelper.AddItemToDesiredSlot(itemId, count, ammo, ItemsNetData, range, hp))
                     {
-                        InstantiatingItemsPool.sigleton.SpawnDropableObjectServerRpc(itemId, count,
+                        InstantiatingItemsPool.sigleton.SpawnObjectServerRpc(new CustomSendingInventoryDataCell(itemId, count, hp, ammo),
                             transform.forward * 1.5f);
                     }
                 }

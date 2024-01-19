@@ -137,7 +137,7 @@ namespace Inventory_System
 
         public static bool AddItemToDesiredSlot(int itemId, int count, int ammo,
             NetworkVariable<CustomSendingInventoryData> data,
-            Vector2Int range)
+            Vector2Int range, int hp = 100)
         {
             var cachedCount = count;
             if (range == Vector2Int.one) range.y = data.Value.Cells.Length;
@@ -170,12 +170,12 @@ namespace Inventory_System
                 var item = ItemFinder.singleton.GetItemById(itemId);
                 if (item.StackCount > cachedCount)
                 {
-                    SetItem(cellId, new CustomSendingInventoryDataCell(itemId, count, 100, 0), data);
+                    SetItem(cellId, new CustomSendingInventoryDataCell(itemId, count, hp, 0), data);
                     cachedCount = 0;
                 }
                 else
                 {
-                    SetItem(cellId, new CustomSendingInventoryDataCell(itemId, item.StackCount, 100, ammo), data);
+                    SetItem(cellId, new CustomSendingInventoryDataCell(itemId, item.StackCount, hp, ammo), data);
                     cachedCount -= item.StackCount;
                 }
             }

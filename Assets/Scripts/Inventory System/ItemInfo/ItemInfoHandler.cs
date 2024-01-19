@@ -2,7 +2,9 @@ using System;
 using Events;
 using Inventory_System.Inventory_Slot_Displayers;
 using Items_System.Items;
+using Multiplayer;
 using Player_Controller;
+using Storage_System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -59,7 +61,7 @@ namespace Inventory_System.ItemInfo
         {
             var cell = _currentSlotDisplayer.ItemDisplayer.InventoryCell;
             var camera = Camera.main.transform;
-            InstantiatingItemsPool.sigleton.SpawnDropableObjectServerRpc(cell.Item.Id, cell.Count,
+            InstantiatingItemsPool.sigleton.SpawnObjectServerRpc(new CustomSendingInventoryDataCell(cell.Item.Id, cell.Count, cell.Hp, cell.Ammo),
                 camera.transform.position + camera.forward * 1.5f);
             InventoryHandler.singleton.CharacterInventory.RemoveItemCountFromSlotServerRpc(_currentSlotDisplayer.Index,
                 cell.Item.Id, cell.Count);
