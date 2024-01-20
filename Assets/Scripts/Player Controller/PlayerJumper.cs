@@ -6,13 +6,14 @@ namespace Player_Controller
     [RequireComponent(typeof(CharacterController))]
     public class PlayerJumper : MonoBehaviour
     {
-        [Header("Attached Scripts")] [SerializeField]
-        private CharacterController _characterController;
+        [Header("Attached Scripts")]
+        [SerializeField] private CharacterController _characterController;
 
         [SerializeField] private float Gravity = -9.8f;
 
-        [Header("Main Params")] [SerializeField]
-        private float _jumpForce = 20f;
+        [Header("Main Params")]
+        [SerializeField] private float _jumpForce = 20f;
+        [SerializeField] private float _damping = 0.5f; // Затухание скорости при приближении к земле
 
         private bool _canUseGravity;
         private Vector3 _velocity;
@@ -23,10 +24,9 @@ namespace Player_Controller
             {
                 Jump();
             }
-            
+
             UpdateGravity();
         }
-        
 
         private void Jump()
         {
@@ -34,7 +34,7 @@ namespace Player_Controller
 
             if (_characterController.isGrounded)
             {
-                _velocity.y = Mathf.Sqrt(_jumpForce * -2f * Gravity);
+                _velocity.y = Mathf.Sqrt(_jumpForce * _damping * -2f * Gravity); // Используйте _damping для затухания скорости
             }
         }
 
