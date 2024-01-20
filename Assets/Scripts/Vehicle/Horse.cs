@@ -6,9 +6,10 @@ namespace Vehicle
     public class Horse : BaseVehicle
     {
         [SerializeField] private float _galopingSpeed = 10f;
-        [SerializeField] private float _jumpForce = 0.5f;
+        [SerializeField] private float _jumpForce = 20f;
         private float _currentMovingSpeed;
         private Vector3 _velocity;
+
         private void Start()
         {
             _currentMovingSpeed = MoveSpeed;
@@ -37,18 +38,24 @@ namespace Vehicle
         {
             MoveSpeed = _currentMovingSpeed;
         }
-
         public void Jump()
         {
             if (VehicleController.isGrounded)
+            {
+                _velocity.y = -1f;
+            }
+            else
             {
                 _velocity.y = Mathf.Sqrt(_jumpForce * -2f * Gravity);
             }
         }
         
-        private void UpdateGravity()
+        public void UpdateGravity()
         {
-            _velocity.y += Gravity * Time.deltaTime;
+            if (VehicleController.isGrounded) _velocity.y = -1f;
+            else _velocity.y += Gravity * Time.deltaTime;
+
+
             VehicleController.Move(_velocity * Time.deltaTime);
         }
     }

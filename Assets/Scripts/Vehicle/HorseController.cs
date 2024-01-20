@@ -16,9 +16,9 @@ namespace Vehicle
             if (IsMoving)
             {
                 _horse.Move(MoveInput);
-
                 CheckForObstacle();
             }
+            _horse.UpdateGravity();
         }
         
         private void CheckForObstacle()
@@ -26,7 +26,6 @@ namespace Vehicle
             RaycastHit hit;
             if (Physics.Raycast(transform.position, transform.forward, out hit, _obstacleCheckDistance, LayerMask.GetMask("Ground")))
             {
-                
                 _horse.Jump();
             }
         }
