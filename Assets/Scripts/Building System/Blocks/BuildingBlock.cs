@@ -10,10 +10,12 @@ using UnityEngine;
 
 namespace Building_System.Blocks
 {
-    public class BuildingBlock : NetworkBehaviour, IDamagable, IHammerInteractable
+    public class BuildingBlock : NetworkBehaviour, IDamagable, IHammerInteractable, IDestroyable
     {
         [SerializeField] private NetworkSoundPlayer _soundPlayer;
         [SerializeField] private List<Block> _levels;
+
+        public Action<IDestroyable> OnDestroyed { get; set; }
 
         private NetworkVariable<int> _hp = new(100, NetworkVariableReadPermission.Everyone,
             NetworkVariableWritePermission.Owner);
@@ -42,13 +44,19 @@ namespace Building_System.Blocks
             InitSlot(_currentLevel.Value);
             _currentLevel.OnValueChanged += (ushort prevValue, ushort newValue) => { InitSlot(newValue); };
         }
-        
+
+        public override void OnDestroy()
+        {
+            OnDestroyed?.Invoke(this);
+            base.OnDestroy();
+        }
+
         public void PlaySound()
         {
             if (IsServer)
                 _soundPlayer.PlayOneShot(CurrentBlock.UpgradingSound);
         }
-        
+
         private void InitSlot(int slotId)
         {
             if (_activeBlock != null)
@@ -56,7 +64,7 @@ namespace Building_System.Blocks
             var activatingBlock = _levels[_currentLevel.Value];
 
             PlaySound();
-            
+
             activatingBlock.gameObject.SetActive(true);
             _activeBlock = activatingBlock.gameObject;
             var gettingHp = (ushort)activatingBlock.GetComponent<Block>().Hp;

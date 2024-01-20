@@ -15,6 +15,8 @@ GameObject:
   - component: {fileID: 6564485615648097483}
   - component: {fileID: -3432997556494704933}
   - component: {fileID: 8340608415192038969}
+  - component: {fileID: -3990187175023421545}
+  - component: {fileID: 1567637563331096009}
   m_Layer: 0
   m_Name: Work Bench 2
   m_TagString: WorkBench
@@ -50,7 +52,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 951099334
+  GlobalObjectIdHash: 3742251286
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
   ActiveSceneSynchronization: 0
@@ -150,6 +152,35 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _targetPlacingObject: {fileID: -3432997556494704933}
+--- !u!114 &-3990187175023421545
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6879002331664939008}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e290bc14a3e2439fb9f408c17401d301, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _rayCastLayer:
+    serializedVersion: 2
+    m_Bits: 384
+  _checkers:
+  - {fileID: 1567637563331096009}
+--- !u!114 &1567637563331096009
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6879002331664939008}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6a196b59427a47b3a049801c518fd331, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8853518201479967462
 GameObject:
   m_ObjectHideFlags: 0

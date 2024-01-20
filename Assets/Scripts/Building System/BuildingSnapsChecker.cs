@@ -1,12 +1,10 @@
 using System.Collections.Generic;
 using FightSystem.Damage;
 using Unity.Netcode;
-using Unity.VisualScripting;
 using UnityEngine;
 
 namespace Building_System
 {
-    [RequireComponent(typeof(BoxCollider))]
     public class BuildingSnapsChecker : MonoBehaviour
     {
         [SerializeField] private NetworkObject _destroyingObject;

@@ -1449,7 +1449,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad8deae8091111f4eb30a56c1f4e0d3e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  TransitionStateInfoList: []
+  TransitionStateInfoList:
+  - IsCrossFadeExit: 0
+    Layer: 0
+    OriginatingState: 1128938921
+    DestinationState: -356658476
+    TransitionDuration: 0.25
+    TriggerNameHash: 71445658
+    TransitionIndex: 0
+  - IsCrossFadeExit: 0
+    Layer: 0
+    OriginatingState: -356658476
+    DestinationState: 1128938921
+    TransitionDuration: 0.25
+    TriggerNameHash: -759124288
+    TransitionIndex: 0
+  - IsCrossFadeExit: 0
+    Layer: 0
+    OriginatingState: 2081823275
+    DestinationState: -356658476
+    TransitionDuration: 0.25
+    TriggerNameHash: 71445658
+    TransitionIndex: 0
   m_Animator: {fileID: 8880387676307341879}
 --- !u!65 &5602964685577526277
 BoxCollider:
@@ -1537,6 +1558,7 @@ GameObject:
   - component: {fileID: 843640418244009202}
   - component: {fileID: 3423220639423376394}
   - component: {fileID: 2747748712123742032}
+  - component: {fileID: 6308237747416719223}
   m_Layer: 0
   m_Name: Garage Door
   m_TagString: Untagged
@@ -1573,7 +1595,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 951099334
+  GlobalObjectIdHash: 511748467
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
   ActiveSceneSynchronization: 0
@@ -1627,6 +1649,22 @@ MonoBehaviour:
   <Id>k__BackingField: 3
   _blocks: []
   <TargetItem>k__BackingField: {fileID: 11400000, guid: 79a155bf7066bf44ea10d5eb82b80efb, type: 2}
+--- !u!114 &6308237747416719223
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8727321846950547660}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e290bc14a3e2439fb9f408c17401d301, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _rayCastLayer:
+    serializedVersion: 2
+    m_Bits: 384
+  _root: {fileID: 843640418244009202}
 --- !u!1 &8759645398963340022
 GameObject:
   m_ObjectHideFlags: 0

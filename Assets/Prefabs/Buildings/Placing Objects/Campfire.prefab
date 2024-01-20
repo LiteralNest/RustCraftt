@@ -2371,6 +2371,8 @@ GameObject:
   - component: {fileID: 8791997244452100437}
   - component: {fileID: 251577510548407138}
   - component: {fileID: 7667781568781108410}
+  - component: {fileID: 8184872010611716141}
+  - component: {fileID: 8092879266051470891}
   m_Layer: 0
   m_Name: Campfire
   m_TagString: CampFire
@@ -2643,6 +2645,35 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 0.22326565, z: 1}
   m_Center: {x: 0, y: -0.37714815, z: 0}
+--- !u!114 &8184872010611716141
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7609032276050599075}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e290bc14a3e2439fb9f408c17401d301, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _rayCastLayer:
+    serializedVersion: 2
+    m_Bits: 384
+  _checkers:
+  - {fileID: 8092879266051470891}
+--- !u!114 &8092879266051470891
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7609032276050599075}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6a196b59427a47b3a049801c518fd331, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8157174308045910515
 GameObject:
   m_ObjectHideFlags: 0
