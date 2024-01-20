@@ -81,7 +81,7 @@ public class ObjectsRayCaster : MonoBehaviour
         _vehiclesController.SetVehicleController(null);
     }
 
-    private bool TryRaycast<T>(string tag, float hitDistance, out T target, LayerMask layer)
+    private bool TryRaycast<T>(string tag, float hitDistance, out T target, LayerMask layer, bool ignoreTag = false)
     {
         target = default;
         Ray ray = new Ray(Camera.main.transform.position, Camera.main.transform.forward);
@@ -92,7 +92,8 @@ public class ObjectsRayCaster : MonoBehaviour
             LastRaycastedPosition = hitInfo.point;
             LastRayCastedRotation = hitInfo.normal;
             GameObject hitObject = hitInfo.collider.gameObject;
-            if (!hitObject.CompareTag(tag)) return false;
+            if(!ignoreTag)
+                if (!hitObject.CompareTag(tag)) return false;
             if (!hitObject.TryGetComponent<T>(out target)) return false;
             return true;
         }
@@ -121,7 +122,7 @@ public class ObjectsRayCaster : MonoBehaviour
 
     private void TryDisplayHp()
     {
-        if (!TryRaycast("DamagingItem", _maxGatheringDistance, out IDamagable damagable, _defaultMask)) return;
+        if (!TryRaycast("DamagingItem", _maxGatheringDistance, out IDamagable damagable, _defaultMask, true)) return;
         objectHpDisplayer.DisplayObjectHp(damagable);
     }
 
