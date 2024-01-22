@@ -8,20 +8,26 @@ namespace Player_Controller
 {
     public class PlayerController : MonoBehaviour
     {
-        [Header("Attached Scripts")] [SerializeField]
+        [Header("Attached Scripts")] 
+        [SerializeField]
         private InHandObjectsContainer _inHandObjectsContainer;
 
-        [Header("Move")] [SerializeField] private float _movingSpeed = 5;
+        [Header("Move")]
+        [SerializeField] private float _movingSpeed = 5;
         [SerializeField] private CharacterController _controller;
         public bool IsMoving { get; private set; }
         private Vector2 _move;
 
-        [Header("Run")] [SerializeField] private float _runningKoef = 1.5f;
+        [Header("Run")]
+        [SerializeField] private float _runningKoef = 1.5f;
         private bool _ifRunning;
         private float _currentMovingSpeed;
 
-        [Header("Swim")] [SerializeField] private float _swimSpeed = 0.5f;
+        [Header("Swim")] 
+        [SerializeField] private float _swimSpeed = 0.5f;
 
+        [Header("Swim")] 
+        [SerializeField] private PlayerJumper _jump;
         private bool _isCrouching;
         public bool IsCrouching => _isCrouching;
         public bool IsSwimming { get; set; }
@@ -105,11 +111,11 @@ namespace Player_Controller
                 {
                     HandleWalkAnimation();
                     _inHandObjectsContainer.SetWalk(true);
-                    _controller.SimpleMove(moveDirection * _movingSpeed);
+                    _controller.Move(moveDirection * _movingSpeed * Time.deltaTime);
                 }
                 else
                 {
-                    _controller.SimpleMove(_camera.transform.forward * _movingSpeed * _runningKoef);
+                    _controller.Move(_camera.transform.forward * _movingSpeed * _runningKoef * Time.deltaTime);
                 }
             }
           
@@ -140,17 +146,34 @@ namespace Player_Controller
 
         private void Swim()
         {
-            if (_controller.isGrounded)
-                _controller.Move(Vector3.down * 0.1f);
-
-            var cameraForward = _camera.transform.forward;
-            cameraForward *= _move.y;
-            Vector3 movement = new Vector3(_move.x, cameraForward.y, _move.y);
-            cameraForward.Normalize();
-
-            if (cameraForward != Vector3.zero)
+            Vector3 moveDirection = new Vector3(_move.x, 0f, _move.y);
+    
+            if (moveDirection != Vector3.zero)
             {
-                _controller.Move(movement * _swimSpeed * Time.fixedDeltaTime);
+                moveDirection = _camera.transform.TransformDirection(moveDirection);
+                _controller.Move(moveDirection * _swimSpeed * Time.deltaTime);
+            }
+        }
+
+        #endregion
+        
+        #region Collision Handling
+
+        private void OnTriggerEnter(Collider other)
+        {
+            if (other.CompareTag("Water"))
+            {
+                IsSwimming = true;
+                _jump.enabled = false;
+            }
+        }
+
+        private void OnTriggerExit(Collider other)
+        {
+            if (other.CompareTag("Water"))
+            {
+                IsSwimming = false;
+                _jump.enabled = true;
             }
         }
 
