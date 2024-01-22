@@ -14,7 +14,7 @@ namespace Building_System.Blocks
     {
         [SerializeField] private NetworkSoundPlayer _soundPlayer;
         [SerializeField] private List<Block> _levels;
-
+        [SerializeField] private float _canbeDestroyedByHammerTime = 60f;
         public Action<IDestroyable> OnDestroyed { get; set; }
 
         private NetworkVariable<int> _hp = new(100, NetworkVariableReadPermission.Everyone,
@@ -24,9 +24,9 @@ namespace Building_System.Blocks
         [field: SerializeField] public StructureConnector BuildingConnector { get; private set; }
 
         [Tooltip("In Seconds")] [SerializeField]
-        private float _destroyingTime = 600f;
-
-        private DateTime _placingTime;
+        private float _destroyingTime = 0.1f;
+        
+        private NetworkVariable<bool> _canBeDestroyedByHammer = new(true);
 
         public int StartHp => _startHp;
         private int _startHp;
@@ -40,9 +40,10 @@ namespace Building_System.Blocks
 
         public override void OnNetworkSpawn()
         {
-            _placingTime = DateTime.Now;
             InitSlot(_currentLevel.Value);
             _currentLevel.OnValueChanged += (ushort prevValue, ushort newValue) => { InitSlot(newValue); };
+            if(IsServer)
+                StartCoroutine(HandleDestroyingByHammerTime());
         }
 
         public override void OnDestroy()
@@ -57,6 +58,13 @@ namespace Building_System.Blocks
                 _soundPlayer.PlayOneShot(CurrentBlock.UpgradingSound);
         }
 
+        private IEnumerator HandleDestroyingByHammerTime()
+        {
+            _canBeDestroyedByHammer.Value = true;
+            yield return new WaitForSeconds(_canbeDestroyedByHammerTime);
+            _canBeDestroyedByHammer.Value = false;
+        }
+        
         private void InitSlot(int slotId)
         {
             if (_activeBlock != null)
@@ -144,10 +152,7 @@ namespace Building_System.Blocks
         }
 
         public bool CanBeDestroyed()
-        {
-            var res = DateTime.Now - _placingTime;
-            return res < TimeSpan.FromSeconds(_destroyingTime);
-        }
+            => _canBeDestroyedByHammer.Value;
 
         public void Destroy()
             => DestroyServerRpc();
