@@ -208,7 +208,6 @@ MonoBehaviour:
   _testAddingCell:
     Item: {fileID: 0}
     Count: 0
-    Hp: 0
     Ammo: 0
   MainSlotsCount: 1
   _availableItems:
@@ -722,11 +721,10 @@ GameObject:
   - component: {fileID: 4640726144069707269}
   - component: {fileID: 5571195247897589151}
   - component: {fileID: 4430476244687919983}
-  - component: {fileID: 3867364107936202290}
   - component: {fileID: 8747892899584033798}
+  - component: {fileID: 3867364107936202290}
   - component: {fileID: 6921639965935579815}
   - component: {fileID: 7759087801613623780}
-  - component: {fileID: 5804164441601376887}
   m_Layer: 0
   m_Name: Boat
   m_TagString: Vehicle
@@ -743,7 +741,7 @@ Transform:
   m_GameObject: {fileID: 4895301550270722600}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2, y: 0.11, z: 2.61}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -789,13 +787,34 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 16c6dabd1f5a43dcb2deac8b0f1ef261, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  VehicleRb: {fileID: 5804164441601376887}
+  VehicleController: {fileID: 0}
+  Gravity: -9.8
   MoveSpeed: 4
   RotationSpeed: 75
   _fuelStorage: {fileID: 5479995493501156178}
   _pushForce: 5
   _depthBeforeSubmerged: 1
   _displacementAmount: 1.25
+--- !u!114 &8747892899584033798
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4895301550270722600}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GlobalObjectIdHash: 3491476724
+  AlwaysReplicateAsRoot: 0
+  SynchronizeTransform: 1
+  ActiveSceneSynchronization: 0
+  SceneMigrationSynchronization: 1
+  SpawnWithObservers: 1
+  DontDestroyWithOwner: 0
+  AutoObjectParentSync: 1
 --- !u!114 &3867364107936202290
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -810,26 +829,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _input: {fileID: 6921639965935579815}
   _boat: {fileID: 4430476244687919983}
---- !u!114 &8747892899584033798
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4895301550270722600}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 951099334
-  AlwaysReplicateAsRoot: 0
-  SynchronizeTransform: 1
-  ActiveSceneSynchronization: 0
-  SceneMigrationSynchronization: 1
-  SpawnWithObservers: 1
-  DontDestroyWithOwner: 0
-  AutoObjectParentSync: 1
 --- !u!114 &6921639965935579815
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -922,33 +921,6 @@ MonoBehaviour:
   InLocalSpace: 0
   Interpolate: 1
   SlerpPosition: 0
---- !u!54 &5804164441601376887
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4895301550270722600}
-  serializedVersion: 4
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_CenterOfMass: {x: 0, y: 0, z: 0}
-  m_InertiaTensor: {x: 1, y: 1, z: 1}
-  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ImplicitCom: 1
-  m_ImplicitTensor: 1
-  m_UseGravity: 1
-  m_IsKinematic: 0
-  m_Interpolate: 0
-  m_Constraints: 0
-  m_CollisionDetection: 0
 --- !u!1 &5004776252811387641
 GameObject:
   m_ObjectHideFlags: 0

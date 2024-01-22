@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 9184475224881221504}
   - component: {fileID: 7812479423712602751}
   - component: {fileID: 851940798633152106}
+  - component: {fileID: 5221376328486480158}
   - component: {fileID: 5205045395715990461}
   m_Layer: 15
   m_Name: Spear
@@ -28,7 +29,7 @@ Transform:
   m_GameObject: {fileID: 478355575480329509}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.0008, y: -0.0136, z: 0.0091}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.01, y: 0.01, z: 0.01}
   m_ConstrainProportionsScale: 1
   m_Children:
@@ -71,6 +72,26 @@ MonoBehaviour:
   _renderers: []
   _activatingObjects:
   - {fileID: 1036636685373083111}
+--- !u!114 &5221376328486480158
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 478355575480329509}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GlobalObjectIdHash: 2297068263
+  AlwaysReplicateAsRoot: 0
+  SynchronizeTransform: 1
+  ActiveSceneSynchronization: 0
+  SceneMigrationSynchronization: 1
+  SpawnWithObservers: 1
+  DontDestroyWithOwner: 0
+  AutoObjectParentSync: 1
 --- !u!114 &5205045395715990461
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -83,8 +104,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bc534a3aabfa424e86c805f036b19ce6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _animators:
-  - {fileID: 7812479423712602751}
+  _fpAnimators: []
+  _tpAnimators: []
 --- !u!1 &767967287544952986
 GameObject:
   m_ObjectHideFlags: 0

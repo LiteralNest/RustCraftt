@@ -109,7 +109,7 @@ Transform:
   m_GameObject: {fileID: 805325758880991700}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.5, y: -11.5, z: 26}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -128,7 +128,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d7a2be0bf46e212419971d2b94e5c4bb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _buildingSize: {x: 2, y: 1, z: 2}
   BluePrintCells:
   - {fileID: 4858544263930444207}
   _targetMask:
@@ -138,7 +137,9 @@ MonoBehaviour:
   - Block
   - Ground
   - DamagingItem
+  <StructureSize>k__BackingField: {x: 1, y: 1, z: 1}
   TargetPlacingObject: {fileID: 6711003684368441550, guid: e09b0eea8bec30744b2d8ba1228a44bc, type: 3}
+  _shouldLoadOwnerId: 0
 --- !u!1 &2493411840932491500
 GameObject:
   m_ObjectHideFlags: 0

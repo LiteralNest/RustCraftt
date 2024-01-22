@@ -6,7 +6,6 @@ using Storage_System;
 using Unity.Netcode;
 using UnityEngine;
 
-[RequireComponent(typeof(BoxCollider), typeof(Rigidbody))]
 public class DamagingItem : NetworkBehaviour, IDamagable
 {
     [SerializeField] private NetworkVariable<int> _currentHp = new(50, NetworkVariableReadPermission.Everyone,
