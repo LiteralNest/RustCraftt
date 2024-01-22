@@ -169,7 +169,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 352c8db0e359cf6449b206a0615414d2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _rb: {fileID: 6390535024199931006}
   _damage: 10
   _destroyOnEnter: 0
 --- !u!114 &2071469841743698104
@@ -212,7 +211,7 @@ Transform:
   m_GameObject: {fileID: 7517428337145529168}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.0011, y: -0, z: 0}
+  m_LocalPosition: {x: 0, y: -0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -232,14 +231,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fd18f1623cafcc342824303799eb2e6c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _animator: {fileID: 6620937199529316598}
   _renderers:
   - {fileID: 2109078835587474138}
   _activatingObjects:
   - {fileID: 9118318103623772829}
-  _attackIndex: Attacking
-  _walkIndex: Walking
-  _runIndex: Running
 --- !u!1 &9118318103623772829
 GameObject:
   m_ObjectHideFlags: 0
@@ -284,5 +279,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b94f5874f3749d242a29ba7b3a09b3dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _canBeReloaded: 0
-  <WeaponType>k__BackingField: 3
+  _attackAnimation: {fileID: 0}
+  _targetWeapon: {fileID: 0}
+  _viewSpawningPoint: {fileID: 0}
+  inHandAnimator: {fileID: 0}
+  _weaponThrower: {fileID: 0}
+  _mainObj: {fileID: 0}

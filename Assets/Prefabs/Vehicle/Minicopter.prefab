@@ -1004,7 +1004,6 @@ MonoBehaviour:
   _testAddingCell:
     Item: {fileID: 0}
     Count: 0
-    Hp: 0
     Ammo: 0
   MainSlotsCount: 1
   _availableItems:
@@ -1212,8 +1211,8 @@ GameObject:
   - component: {fileID: 2016376666691477219}
   - component: {fileID: 3543178049723706629}
   - component: {fileID: 2860795021908904951}
-  - component: {fileID: 2201661181583563680}
   - component: {fileID: 4587411062432739263}
+  - component: {fileID: 2201661181583563680}
   - component: {fileID: 2981253158775588936}
   - component: {fileID: 6787863922758193993}
   m_Layer: 0
@@ -1232,7 +1231,7 @@ Transform:
   m_GameObject: {fileID: 8571520942610131881}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 6.94, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1303,7 +1302,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 14c9d5dd6068b471eb3ba4cca77565e9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  VehicleRb: {fileID: 2016376666691477219}
+  VehicleController: {fileID: 0}
+  Gravity: -9.8
   MoveSpeed: 10
   RotationSpeed: 60
   _fuelStorage: {fileID: 8154188035496179506}
@@ -1312,6 +1312,26 @@ MonoBehaviour:
   _tiltAngleX: 6
   _tiltAngelZ: 6
   _tiltAngleY: 5
+--- !u!114 &4587411062432739263
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8571520942610131881}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GlobalObjectIdHash: 2017972297
+  AlwaysReplicateAsRoot: 0
+  SynchronizeTransform: 1
+  ActiveSceneSynchronization: 0
+  SceneMigrationSynchronization: 1
+  SpawnWithObservers: 1
+  DontDestroyWithOwner: 0
+  AutoObjectParentSync: 1
 --- !u!114 &2201661181583563680
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1326,26 +1346,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _input: {fileID: 2981253158775588936}
   _copter: {fileID: 2860795021908904951}
---- !u!114 &4587411062432739263
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8571520942610131881}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 951099334
-  AlwaysReplicateAsRoot: 0
-  SynchronizeTransform: 1
-  ActiveSceneSynchronization: 0
-  SceneMigrationSynchronization: 1
-  SpawnWithObservers: 1
-  DontDestroyWithOwner: 0
-  AutoObjectParentSync: 1
 --- !u!114 &2981253158775588936
 MonoBehaviour:
   m_ObjectHideFlags: 0
