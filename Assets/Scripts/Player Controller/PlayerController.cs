@@ -24,7 +24,7 @@ namespace Player_Controller
         private float _currentMovingSpeed;
 
         [Header("Swim")] 
-        [SerializeField] private float _swimSpeed = 0.5f;
+        [SerializeField] private float _swimSpeed = 3f;
 
         [Header("Gravity")] 
         [SerializeField] private PlayerJumper _jump;

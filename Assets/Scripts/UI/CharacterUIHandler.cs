@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using Events;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace UI
 {
@@ -9,19 +10,13 @@ namespace UI
         public static CharacterUIHandler singleton { get; private set; }
 
         [SerializeField] private GameObject _buildingStaffPanel;
-        [Space] [Space] [SerializeField] private GameObject _attackButton;
-        [SerializeField] private GameObject _gatherButton;
         [SerializeField] private GameObject _buildingButton;
         [SerializeField] private GameObject _buildingChoosingPanel;
-        [SerializeField] private GameObject _reloadingButton;
         [SerializeField] private GameObject _placingPanel;
-        [SerializeField] private GameObject _scopeButton;
         [SerializeField] private GameObject _joystick;
-
+        [SerializeField] private GameObject _moveUpButton;
+        [SerializeField] private GameObject _sitAndJumpPanel;
         [SerializeField] private List<GameObject> _vehicleIgnoringPanels = new List<GameObject>();
-
-        [SerializeField] private GameObject _meleeThrowButton;
-        [SerializeField] private GameObject _throwExplosiveButton;
 
         [SerializeField] private List<GameObject> _movingHudPanels = new List<GameObject>();
 
@@ -38,7 +33,7 @@ namespace UI
 
         public void AssignSingleton()
             => singleton = this;
-        
+
         public void ActivateBuildingStaffPanel(bool value)
             => _buildingStaffPanel.SetActive(value);
 
@@ -64,6 +59,12 @@ namespace UI
         {
             foreach (var panel in _movingHudPanels)
                 panel.SetActive(value);
+        }
+
+        public void HandleMovingUpButton(bool value)
+        {
+            _moveUpButton.SetActive(value);
+            _sitAndJumpPanel.SetActive(!value);
         }
     }
 }

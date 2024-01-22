@@ -13,8 +13,8 @@ namespace Player_Controller
         [SerializeField] private float Gravity = -9.8f;
 
         [Header("Main Params")]
-        [SerializeField] private float _jumpForce = 20f;
-        [SerializeField] private float _damping = 0.5f;
+        [SerializeField] private float _jumpForce = 1.2f;
+        [SerializeField] private float _damping = 0.75f;
 
         private bool _canUseGravity = true;
         private Vector3 _velocity;

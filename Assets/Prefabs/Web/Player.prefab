@@ -1454,6 +1454,127 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
+--- !u!1 &275836083838144978
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7633463437215882655}
+  - component: {fileID: 8780732953392993841}
+  - component: {fileID: 6908607623583249345}
+  - component: {fileID: 1687165703827680279}
+  m_Layer: 15
+  m_Name: Up
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &7633463437215882655
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 275836083838144978}
+  m_LocalRotation: {x: -5.820766e-11, y: -0.0000000010513759, z: 1, w: -0.00000016245758}
+  m_LocalPosition: {x: 0, y: 0, z: 0.0006}
+  m_LocalScale: {x: 0.4650907, y: 0.4650905, z: 0.4650905}
+  m_ConstrainProportionsScale: 1
+  m_Children: []
+  m_Father: {fileID: 8175139506545450121}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 180}
+  m_AnchorMin: {x: 1, y: 0.5}
+  m_AnchorMax: {x: 1, y: 0.5}
+  m_AnchoredPosition: {x: -109.16521, y: -179.9}
+  m_SizeDelta: {x: 187.1902, y: 187.1902}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!222 &8780732953392993841
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 275836083838144978}
+  m_CullTransparentMesh: 1
+--- !u!114 &6908607623583249345
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 275836083838144978}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 21300000, guid: 96d59cf7d56177c4e945828972b7fe6a, type: 3}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!114 &1687165703827680279
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 275836083838144978}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a69f81a08f2265b4a9f1d6ad63278638, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _pointerDown:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1451852465645917735}
+        m_TargetAssemblyTypeName: PlayerClimber, Assembly-CSharp
+        m_MethodName: AssignClimbing
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
+  _pointerClicked:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1451852465645917735}
+        m_TargetAssemblyTypeName: PlayerClimber, Assembly-CSharp
+        m_MethodName: AssignClimbing
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  _pointerClickedWithoudDisable:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &298623561500862809
 GameObject:
   m_ObjectHideFlags: 0
@@ -6540,6 +6661,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 8654322223080786085}
+  - {fileID: 7633463437215882655}
   - {fileID: 7044030374352181694}
   - {fileID: 311411075737617839}
   - {fileID: 7565593186064241612}
@@ -11515,6 +11637,7 @@ GameObject:
   - component: {fileID: -5502007171107923210}
   - component: {fileID: 8624086197897355627}
   - component: {fileID: 2115686004867581448}
+  - component: {fileID: 1451852465645917735}
   - component: {fileID: 7740005035847538642}
   - component: {fileID: -6262232929159552701}
   - component: {fileID: 228275790847561711}
@@ -11523,7 +11646,6 @@ GameObject:
   - component: {fileID: 7278581159367419240}
   - component: {fileID: 6207217001499837402}
   - component: {fileID: 7980957284091982892}
-  - component: {fileID: 1451852465645917735}
   - component: {fileID: 1816369662541527775}
   - component: {fileID: 5794072887831293070}
   - component: {fileID: 2970817441335259203}
@@ -11908,8 +12030,8 @@ MonoBehaviour:
   _movingSpeed: 4
   _controller: {fileID: 6180139838029370084}
   _runningKoef: 1.5
-  _swimSpeed: 1
-  _jump: {fileID: 0}
+  _swimSpeed: 3
+  _jump: {fileID: 2115686004867581448}
 --- !u!114 &2115686004867581448
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11923,9 +12045,24 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _characterController: {fileID: 6180139838029370084}
-  Gravity: -20
-  _jumpForce: 1.1
-  _damping: 0.5
+  Gravity: -9.8
+  _jumpForce: 1.2
+  _damping: 0.75
+--- !u!114 &1451852465645917735
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2441425697621568629}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b35917063efdd4a20b5ec26bb507835b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _climbForce: 10
+  _raycastDistance: 0.5
+  _raycastOrigin: {fileID: 4347651715069804792}
 --- !u!114 &7740005035847538642
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12057,19 +12194,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _inventorySlotsContainer: {fileID: 2013276024286378747}
   _objectsRayCaster: {fileID: 5538215080173942597}
---- !u!114 &1451852465645917735
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2441425697621568629}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b35917063efdd4a20b5ec26bb507835b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _climbForce: 10
 --- !u!114 &1816369662541527775
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14709,18 +14833,6 @@ MonoBehaviour:
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 1451852465645917735}
-        m_TargetAssemblyTypeName: PlayerClimber, Assembly-CSharp
-        m_MethodName: TryClimb
-        m_Mode: 2
-        m_Arguments:
-          m_ObjectArgument: {fileID: 4341349121896943449}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Transform, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -21810,6 +21922,7 @@ Transform:
   - {fileID: 5395027267414539854}
   - {fileID: 3072805683980102521}
   - {fileID: 3980372619173511061}
+  - {fileID: 4347651715069804792}
   m_Father: {fileID: 4341349121896943449}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &189926528279566929
@@ -37729,6 +37842,37 @@ Transform:
   - {fileID: 6119560877789859539}
   m_Father: {fileID: 6542058237438743096}
   m_LocalEulerAnglesHint: {x: 46.244907, y: 180, z: 180}
+--- !u!1 &6998637691943133247
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4347651715069804792}
+  m_Layer: 0
+  m_Name: Climb RayCaster
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4347651715069804792
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6998637691943133247}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.113, z: -0.033}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2009614043163050692}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &7014861795413006002
 GameObject:
   m_ObjectHideFlags: 0
@@ -47436,18 +47580,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _buildingStaffPanel: {fileID: 6368303497934328447}
-  _attackButton: {fileID: 0}
-  _gatherButton: {fileID: 0}
   _buildingButton: {fileID: 381675372136977296}
   _buildingChoosingPanel: {fileID: 4757449108892827384}
-  _reloadingButton: {fileID: 7039893087790888195}
   _placingPanel: {fileID: 270296948653531768}
-  _scopeButton: {fileID: 3732653515715404401}
   _joystick: {fileID: 9079820904188426765}
+  _moveUpButton: {fileID: 275836083838144978}
+  _sitAndJumpPanel: {fileID: 6768293819319322947}
   _vehicleIgnoringPanels:
   - {fileID: 6768293819319322947}
-  _meleeThrowButton: {fileID: 0}
-  _throwExplosiveButton: {fileID: 0}
   _movingHudPanels:
   - {fileID: 9079820904188426765}
   - {fileID: 6768293819319322947}
