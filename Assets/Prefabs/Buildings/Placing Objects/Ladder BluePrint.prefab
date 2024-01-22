@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7164248263952024409}
-  - component: {fileID: 6344905764161581012}
+  - component: {fileID: 8775061708486877442}
   m_Layer: 0
   m_Name: Ladder BluePrint
   m_TagString: Untagged
@@ -26,14 +26,14 @@ Transform:
   m_GameObject: {fileID: 957432946331564367}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -1, z: -0, w: 0.00002515316}
-  m_LocalPosition: {x: 12.81851, y: -12.5, z: 7.971492}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 3406359969320203088}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: -179.997, z: 0}
---- !u!114 &6344905764161581012
+--- !u!114 &8775061708486877442
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -42,21 +42,22 @@ MonoBehaviour:
   m_GameObject: {fileID: 957432946331564367}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d7a2be0bf46e212419971d2b94e5c4bb, type: 3}
+  m_Script: {fileID: 11500000, guid: 5ea62ddaf0124b5f988b2af969a1d322, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _buildingSize: {x: 1, y: 1, z: 1}
   BluePrintCells:
   - {fileID: 7363811994386086585}
   _targetMask:
     serializedVersion: 2
-    m_Bits: 128
+    m_Bits: 385
   _placingTags:
   - Block
   - Ground
   - Ladder
   - DamagingItem
+  <StructureSize>k__BackingField: {x: 1, y: 1, z: 1}
   TargetPlacingObject: {fileID: 4152812067574340898, guid: 0d9cc0cb9e94fb949ac07c5fcd4699ba, type: 3}
+  _shouldLoadOwnerId: 0
 --- !u!1 &5332335334318044647
 GameObject:
   m_ObjectHideFlags: 0
@@ -71,7 +72,7 @@ GameObject:
   - component: {fileID: 3444498228658448834}
   - component: {fileID: 2677584959489227745}
   - component: {fileID: 7363811994386086585}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Ladder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -87,7 +88,7 @@ Transform:
   m_GameObject: {fileID: 5332335334318044647}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.5, z: 0}
+  m_LocalPosition: {x: -0.4, y: -0.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -203,10 +204,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d6ab88aa131870d41b3b1ba568ff8961, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _bluePrint: {fileID: 6344905764161581012}
+  _bluePrint: {fileID: 0}
   _targetBuildingStructure: {fileID: 1989593182122475027, guid: 3a40ef176d998a94d987c32d1c901d9b, type: 3}
   _negativeMaterial: {fileID: 2100000, guid: 0971632772a28584ca35068ec62d6dd7, type: 2}
   _normalMaterial: {fileID: 2100000, guid: 744e937d0ca5c324e80f80d9bd2ce177, type: 2}
   _renderers:
   - {fileID: 8579861620646744990}
-  _triggeredObjects: []
