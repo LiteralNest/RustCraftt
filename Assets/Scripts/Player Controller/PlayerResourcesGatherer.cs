@@ -10,8 +10,9 @@ using Web.UserData;
 [RequireComponent(typeof(ObjectsRayCaster))]
 public class PlayerResourcesGatherer : MonoBehaviour
 {
-    [Header("Attached Scripts")]
-    [SerializeField] private PlayerNetCode _playerNetCode;
+    [Header("Attached Scripts")] [SerializeField]
+    private PlayerNetCode _playerNetCode;
+
     [SerializeField] private InventoryHandler _inventoryHandler;
     [SerializeField] private ObjectsRayCaster _objectsRayCaster;
     private float _recoveringTime = 1;
@@ -20,12 +21,13 @@ public class PlayerResourcesGatherer : MonoBehaviour
 
     private void Start()
     {
-        if(_objectsRayCaster == null)
+        if (_objectsRayCaster == null)
             _objectsRayCaster = GetComponent<ObjectsRayCaster>();
     }
 
     public void TryDoGathering()
     {
+        TryTurnOnSatchel();
         TryHelp();
         TryRenameSleepingBag();
         TrySit();
@@ -38,20 +40,27 @@ public class PlayerResourcesGatherer : MonoBehaviour
         TryOpenDoor();
     }
 
+    private void TryTurnOnSatchel()
+    {
+        var satchel = _objectsRayCaster.SatchelExplosive;
+        if (!satchel) return;
+        satchel.TurnOn();
+    }
+
     private void TryRenameSleepingBag()
     {
         var sleepingBag = _objectsRayCaster.TargetSleepingBag;
         if (!sleepingBag) return;
         sleepingBag.Open();
     }
-    
+
     private void TryOpenWorkBench()
     {
         var bench = _objectsRayCaster.WorkBench;
         if (!bench) return;
         bench.Open();
     }
-    
+
     private void TryOpenDoor()
     {
         var door = _objectsRayCaster.DoorHandler;
@@ -62,10 +71,10 @@ public class PlayerResourcesGatherer : MonoBehaviour
     private bool TrySit()
     {
         var place = _objectsRayCaster.TargetSittingPlace;
-        if(!place) return false;
-        if(place.CanSit())
+        if (!place) return false;
+        if (place.CanSit())
             place.SitIn(_playerNetCode);
-        else if(place.CanStand(_playerNetCode))
+        else if (place.CanStand(_playerNetCode))
             place.StandUp(_playerNetCode);
         return true;
     }
@@ -73,7 +82,7 @@ public class PlayerResourcesGatherer : MonoBehaviour
     private bool TryAuthorizeClipboard()
     {
         var clipboard = _objectsRayCaster.ToolClipboard;
-        if(!clipboard) return false;
+        if (!clipboard) return false;
         clipboard.AuthorizeServerRpc(UserDataHandler.Singleton.UserData.Id);
         return true;
     }
@@ -81,38 +90,38 @@ public class PlayerResourcesGatherer : MonoBehaviour
     private bool TryOpenChest()
     {
         var chest = _objectsRayCaster.TargetBox;
-        if(!chest) return false;
+        if (!chest) return false;
         chest.Open(_inventoryHandler);
         return true;
     }
 
     private void TryGather()
     {
-        if(TryAuthorizeClipboard()) return;
-        if(TryOpenChest()) return;
+        if (TryAuthorizeClipboard()) return;
+        if (TryOpenChest()) return;
         var ore = _objectsRayCaster.TargetGathering;
-        if(!ore) return;
+        if (!ore) return;
         ore.Gather();
     }
 
     private void TryOpenCampFire()
     {
         var campfire = _objectsRayCaster.Smelter;
-        if(!campfire) return;
+        if (!campfire) return;
         campfire.Open(_inventoryHandler);
     }
 
     private void TryOpenRecycler()
     {
         var recylcer = _objectsRayCaster.RecyclerHandler;
-        if(!recylcer) return;
+        if (!recylcer) return;
         recylcer.Open(_inventoryHandler);
     }
 
     private void TryPickUp()
     {
         var lootingItem = _objectsRayCaster.LootingItem;
-        if(!lootingItem) return;
+        if (!lootingItem) return;
         _inventoryHandler.CharacterInventory.AddItemToDesiredSlotServerRpc(lootingItem.Data.Id,
             lootingItem.Data.Count, lootingItem.Data.Ammo, lootingItem.Data.Hp);
         lootingItem.PickUpServerRpc();
@@ -121,7 +130,7 @@ public class PlayerResourcesGatherer : MonoBehaviour
     private void TryHelp()
     {
         var knockDowner = _objectsRayCaster.PlayerKnockDowner;
-        if(!knockDowner) return;
+        if (!knockDowner) return;
         knockDowner.StandUpServerRpc();
     }
 }

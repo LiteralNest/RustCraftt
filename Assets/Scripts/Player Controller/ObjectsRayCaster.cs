@@ -2,6 +2,7 @@ using Building_System;
 using Building_System.Blocks;
 using Crafting_System.WorkBench;
 using FightSystem.Damage;
+using FightSystem.Weapon.Explosive;
 using Items_System;
 using Items_System.Ore_Type;
 using MeltingSystem;
@@ -53,6 +54,7 @@ public class ObjectsRayCaster : MonoBehaviour
     public SittingPlace TargetSittingPlace { get; private set; }
     public SleepingBagNamer TargetSleepingBag { get; private set; }
     public PlayerKnockDowner PlayerKnockDowner { get; private set; }
+    public SatchelExplosive SatchelExplosive { get; private set; }
     private BuildingBlock _targetBlock;
 
     public Vector3 LastRaycastedPosition { get; private set; }
@@ -78,6 +80,7 @@ public class ObjectsRayCaster : MonoBehaviour
         TargetSittingPlace = null;
         TargetSleepingBag = null;
         PlayerKnockDowner = null;
+        SatchelExplosive = null;
         _vehiclesController.SetVehicleController(null);
     }
 
@@ -92,8 +95,9 @@ public class ObjectsRayCaster : MonoBehaviour
             LastRaycastedPosition = hitInfo.point;
             LastRayCastedRotation = hitInfo.normal;
             GameObject hitObject = hitInfo.collider.gameObject;
-            if(!ignoreTag)
-                if (!hitObject.CompareTag(tag)) return false;
+            if (!ignoreTag)
+                if (!hitObject.CompareTag(tag))
+                    return false;
             if (!hitObject.TryGetComponent<T>(out target)) return false;
             return true;
         }
@@ -133,12 +137,22 @@ public class ObjectsRayCaster : MonoBehaviour
         {
             _targetBlock = null;
         }
-        
+
         SetLootText("", false);
 
         SetLootButton("", false);
         ResetTargets();
         TryDisplayHp();
+
+        if (TryRaycast("Satchel", _maxOpeningDistance, out SatchelExplosive satchelExplosive, _defaultMask))
+        {
+            if (satchelExplosive.TurnedOff)
+            {
+                SatchelExplosive = satchelExplosive;
+                SetLootButton("Fire");
+                return;
+            }
+        }
 
         if (TryRaycast("LootingItem", _maxGatheringDistance, out LootingItem lootingItem, _defaultMask))
         {
@@ -146,8 +160,8 @@ public class ObjectsRayCaster : MonoBehaviour
             SetLootButton("Gather");
             return;
         }
-        
-        if(TryRaycast("SleepingBag", _maxOpeningDistance, out SleepingBagNamer sleepingBag, _defaultMask))
+
+        if (TryRaycast("SleepingBag", _maxOpeningDistance, out SleepingBagNamer sleepingBag, _defaultMask))
         {
             TargetSleepingBag = sleepingBag;
             SetLootButton("Rename");
@@ -188,7 +202,7 @@ public class ObjectsRayCaster : MonoBehaviour
                 return;
             }
         }
-        
+
         if (TryRaycast("LootBox", _maxOpeningDistance, out ResourceOre ore, _defaultMask))
         {
             if (OreReady(ore))
