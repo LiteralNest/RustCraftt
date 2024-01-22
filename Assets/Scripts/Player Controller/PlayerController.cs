@@ -26,7 +26,7 @@ namespace Player_Controller
         [Header("Swim")] 
         [SerializeField] private float _swimSpeed = 0.5f;
 
-        [Header("Swim")] 
+        [Header("Gravity")] 
         [SerializeField] private PlayerJumper _jump;
         private bool _isCrouching;
         public bool IsCrouching => _isCrouching;
