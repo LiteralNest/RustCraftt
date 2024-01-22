@@ -98,5 +98,9 @@ namespace Animation_System
         [ContextMenu("Death")]
         public void SetDeath()
             => SetAnimation("Dead", false);
+        
+        [ContextMenu("StartStealing")]
+        public void StartStealing()
+            => SetAnimation("StartStealing");
     }
 }
