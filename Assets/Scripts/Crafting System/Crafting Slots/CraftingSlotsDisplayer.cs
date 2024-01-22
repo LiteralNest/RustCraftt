@@ -24,8 +24,10 @@ namespace Crafting_System.Crafting_Slots
         [SerializeField] private Transform _placeForSlots;
 
         private void OnEnable()
-            => DisplayFavourites(_slotTypeDisplayers[0]);
-
+        {
+            _craftingItemDataDisplayer.HandleInfoPanel(false);
+            DisplayFavourites(_slotTypeDisplayers[0]);
+        }
         private void ClearPlace(Transform place)
         {
             foreach (Transform child in place)
