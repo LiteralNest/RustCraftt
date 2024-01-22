@@ -11909,6 +11909,7 @@ MonoBehaviour:
   _controller: {fileID: 6180139838029370084}
   _runningKoef: 1.5
   _swimSpeed: 1
+  _jump: {fileID: 0}
 --- !u!114 &2115686004867581448
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14400,19 +14401,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 8415521849941618159}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: BuildingUpgrader, Assembly-CSharp
-        m_MethodName: Upgrade
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!1 &2833443558750736993
 GameObject:
   m_ObjectHideFlags: 0
@@ -16027,15 +16016,15 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3094249517776813806}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.43437997, y: 0.43437994, z: 0.43437988}
+  m_LocalPosition: {x: 0, y: 0, z: -0.000023490495}
+  m_LocalScale: {x: 0.43437994, y: 0.43437994, z: 0.43437988}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 6842945250100279658}
+  m_Father: {fileID: 1639592664831190494}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: -791.18445, y: 193.8154}
+  m_AnchoredPosition: {x: 55.000977, y: 238.2107}
   m_SizeDelta: {x: 160, y: 160}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3947815135299553547
@@ -33048,6 +33037,7 @@ RectTransform:
   - {fileID: 7757152930335667933}
   - {fileID: 8175139506545450121}
   - {fileID: 7443739641109879638}
+  - {fileID: 3263188881340162234}
   - {fileID: 4027251485891231558}
   m_Father: {fileID: 7297306746281903266}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -36555,7 +36545,6 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 3263188881340162234}
   - {fileID: 8278932426755016966}
   - {fileID: 5994926615560225388}
   m_Father: {fileID: 1639592664831190494}
