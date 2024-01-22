@@ -8,24 +8,22 @@ namespace Player_Controller
 {
     public class PlayerController : MonoBehaviour
     {
-        [Header("Attached Scripts")]
-        [SerializeField] private InHandObjectsContainer _inHandObjectsContainer;
+        [Header("Attached Scripts")] [SerializeField]
+        private InHandObjectsContainer _inHandObjectsContainer;
 
-        [Header("Move")] 
-        [SerializeField] private float _movingSpeed = 5;
+        [Header("Move")] [SerializeField] private float _movingSpeed = 5;
         [SerializeField] private CharacterController _controller;
         public bool IsMoving { get; private set; }
         private Vector2 _move;
 
-        [Header("Run")]
-        [SerializeField] private float _runningKoef = 1.5f;
+        [Header("Run")] [SerializeField] private float _runningKoef = 1.5f;
         private bool _ifRunning;
         private float _currentMovingSpeed;
 
-        [Header("Swim")]
-        [SerializeField] private float _swimSpeed = 0.5f;
+        [Header("Swim")] [SerializeField] private float _swimSpeed = 0.5f;
 
-        
+        private bool _isCrouching;
+        public bool IsCrouching => _isCrouching;
         public bool IsSwimming { get; set; }
 
         private Camera _camera;
@@ -47,7 +45,7 @@ namespace Player_Controller
                 Move();
             }
         }
-        
+
         private void ReturnOriginalController()
         {
             // for swimming behavior
@@ -71,30 +69,55 @@ namespace Player_Controller
 
         #endregion
 
-        #region Movement
+        #region Animation
 
+        public void HandleCrouching(bool value)
+        {
+            if(value)
+                AnimationsManager.Singleton.SetStartCrouching();
+            else if(_isCrouching)
+                AnimationsManager.Singleton.SetStopCrouching();
+            _isCrouching = value;
+        }
+
+
+        private void HandleWalkAnimation()
+        {
+            if (AnimationsManager.Singleton == null) return;
+            if (_isCrouching)
+                AnimationsManager.Singleton.SetCrouch();
+            else
+                AnimationsManager.Singleton.SetWalk();
+        }
+
+        #endregion
+        
+        #region Movement
+        
         private void Move()
         {
             Vector3 moveDirection = new Vector3(_move.x, 0f, _move.y);
-            moveDirection = transform.TransformDirection(moveDirection);
-
-            if (!_ifRunning)
+            
+            if (_move != Vector2.zero)
             {
-                if(AnimationsManager.Singleton != null)
-                    AnimationsManager.Singleton.SetWalk();
-                _inHandObjectsContainer.SetWalk(true);
-                _controller.SimpleMove(moveDirection * _movingSpeed);
+              moveDirection = transform.TransformDirection(moveDirection);
+                if (!_ifRunning)
+                {
+                    HandleWalkAnimation();
+                    _inHandObjectsContainer.SetWalk(true);
+                    _controller.SimpleMove(moveDirection * _movingSpeed);
+                }
+                else
+                {
+                    _controller.SimpleMove(_camera.transform.forward * _movingSpeed * _runningKoef);
+                }
             }
-            else
-            {
-                _controller.SimpleMove(_camera.transform.forward * _movingSpeed * _runningKoef);
-            }
+          
 
             if (_move != Vector2.zero) return;
-            if(AnimationsManager.Singleton != null)
+            if (AnimationsManager.Singleton != null)
                 AnimationsManager.Singleton.SetIdle();
             _inHandObjectsContainer.SetWalk(false);
-
         }
 
         public void StartRunning()
@@ -105,7 +128,7 @@ namespace Player_Controller
 
         public void StopRunning()
         {
-            if(AnimationsManager.Singleton != null)
+            if (AnimationsManager.Singleton != null)
                 AnimationsManager.Singleton.SetIdle();
             _inHandObjectsContainer.SetRun(false);
             _ifRunning = false;
@@ -118,7 +141,7 @@ namespace Player_Controller
         private void Swim()
         {
             if (_controller.isGrounded)
-                _controller.Move(Vector3.down * 0.1f);  
+                _controller.Move(Vector3.down * 0.1f);
 
             var cameraForward = _camera.transform.forward;
             cameraForward *= _move.y;

@@ -48,6 +48,14 @@ public class InHandObjectCell
             ThirdPersonObject.Run(value);
     }
 
+    public void SetCrouch(bool value)
+    {
+        if (FirstPersonObject)
+            FirstPersonObject.Crouch(value);
+        if (ThirdPersonObject)
+            ThirdPersonObject.Crouch(value);
+    }
+
     public void HandleAttacking(bool attack)
     {
         if (FirstPersonObject)

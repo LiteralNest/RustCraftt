@@ -12,6 +12,7 @@ namespace InHandItems.InHand
         public virtual void Walk(bool value){}
         public virtual void Run(bool value){}
         public virtual void HandleAttacking(bool attack){}
+        public virtual  void Crouch(bool value){}
 
         public void DisplayRenderers(bool value)
         {

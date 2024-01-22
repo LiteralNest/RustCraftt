@@ -10,17 +10,18 @@ namespace Player_Controller
     {
         [SerializeField] private PlayerSoundsPlayer _playerSoundsPlayer;
         [SerializeField] private BlockDataBase _blocksData;
-        [SerializeField] private AudioSource _audioSource;
         [SerializeField] private LayerMask _terrainLayer;
-
+        [SerializeField] private PlayerController _playerController;
+        
         private bool _canPlaySound;
         private Vector2Int _previousPlayerWorldPosition;
 
         private void Start()
             => _canPlaySound = true;
-    
+
         private void Update()
         {
+            if (_playerController.IsCrouching) return;
             var playerWorldPosition = Vector3Int.FloorToInt(transform.position);
             var fixedPlayerWorldPosition = new Vector2Int(playerWorldPosition.x, playerWorldPosition.z);
 

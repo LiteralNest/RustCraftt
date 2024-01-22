@@ -99,8 +99,14 @@ namespace Animation_System
         public void SetDeath()
             => SetAnimation("Dead", false);
         
-        [ContextMenu("StartStealing")]
-        public void StartStealing()
-            => SetAnimation("StartStealing");
+        [ContextMenu("StartCrouch")]
+        public void SetStartCrouching()
+            => SetAnimation("StartCrouch");
+        
+        public void SetCrouch()
+            => SetAnimation("Crouch");
+        
+        public void SetStopCrouching()
+            => SetAnimation("StopCrouch");
     }
 }

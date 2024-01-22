@@ -98,6 +98,11 @@ namespace OnPlayerItems
             }
         }
 
+        public void SetCrouch(bool value)
+        {
+            
+        }
+        
         [ServerRpc(RequireOwnership = false)]
         public void SetAttackAnimationServerRpc(bool value)
         {
