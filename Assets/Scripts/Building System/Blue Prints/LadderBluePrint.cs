@@ -15,7 +15,7 @@ namespace Building_System.Blue_Prints
                     return false;
             return true;
         }
-        
+
         public override void Place()
         {
             if (!CanBePlaced()) return;
@@ -43,15 +43,16 @@ namespace Building_System.Blue_Prints
                 {
                     var hitTransform = hit.transform;
                     rotation = hitTransform.rotation;
+                    shouldRotate = true;
                     coords = new Vector3(hitTransform.position.x, hitTransform.position.y + 1, hitTransform.position.z);
                     return true;
                 }
-                
+
                 if (!_placingTags.Contains(hit.collider.tag)) return false;
-                
+
                 int x, y, z;
                 y = Mathf.RoundToInt(hit.point.y + hit.normal.y / 2);
-                
+
                 if (_rotatedSide)
                 {
                     x = Mathf.RoundToInt(hit.point.x + hit.normal.x / 2);
@@ -62,7 +63,7 @@ namespace Building_System.Blue_Prints
                     x = Mathf.RoundToInt(hit.point.x + hit.normal.x / 2);
                     z = Mathf.RoundToInt(hit.point.z + hit.normal.z / 2);
                 }
-                
+
                 coords = new Vector3(x, y, z);
                 return true;
             }
@@ -70,10 +71,9 @@ namespace Building_System.Blue_Prints
             coords = default;
             return false;
         }
-        
+
         public override void InitPlacedObject(BuildingStructure structure)
         {
-            
         }
     }
 }
