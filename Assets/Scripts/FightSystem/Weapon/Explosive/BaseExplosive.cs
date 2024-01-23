@@ -52,14 +52,6 @@ namespace FightSystem.Weapon.Explosive
             }
         }
 
-        protected void ShakeCamera()
-        {
-            if (_cameraShake != null)
-            {
-                _cameraShake.StartShake(shakeDuration, shakeMagnitude);
-            }
-        }
-
         private IEnumerator PlaySoundRoutine()
         {
             _explosiveSoundPlayer.PlayOneShot(_explosiveClip);

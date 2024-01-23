@@ -116,7 +116,7 @@ GameObject:
   - component: {fileID: 2216170251848012146}
   - component: {fileID: 7359857693874490070}
   - component: {fileID: 2105539284643698077}
-  - component: {fileID: 7003669660084443816}
+  - component: {fileID: 4862972665232303725}
   m_Layer: 0
   m_Name: Explosive F1
   m_TagString: Untagged
@@ -135,7 +135,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.01, y: 0.01, z: 0.01}
-  m_ConstrainProportionsScale: 1
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 5165660002853048645}
   - {fileID: 6998592965162779430}
@@ -166,7 +166,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 3957097198
+  GlobalObjectIdHash: 1057753847
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
   ActiveSceneSynchronization: 0
@@ -174,7 +174,7 @@ MonoBehaviour:
   SpawnWithObservers: 1
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
---- !u!114 &7003669660084443816
+--- !u!114 &4862972665232303725
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -183,11 +183,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 8915409419917051720}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: df4b4203beac4d498875e5f68d560436, type: 3}
+  m_Script: {fileID: 11500000, guid: 447a7145ed3c434e84801657bb747a28, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _throwingClip: {fileID: 7400000, guid: 98503d9476c1685468df34e67c304477, type: 2}
   _throwForce: 10
-  _spawnPoint: {fileID: 2216170251848012146}
+  _spawnPoint: {fileID: 0}
+  _explosiveAnimator: {fileID: 0}
+  _granadeAnimator: {fileID: 0}
 --- !u!1 &9082846410418971379
 GameObject:
   m_ObjectHideFlags: 0
