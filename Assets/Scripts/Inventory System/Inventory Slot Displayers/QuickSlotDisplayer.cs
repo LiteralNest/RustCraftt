@@ -1,3 +1,4 @@
+using Player_Controller;
 using Storage_System;
 using UnityEngine;
 
@@ -33,7 +34,7 @@ namespace Inventory_System.Inventory_Slot_Displayers
             characterInventory.SetActiveQuickSlot(this);
             if (ItemDisplayer == null)
             {
-                _inventoryHandler.InHandObjectsContainer.SetDefaultHands();
+                PlayerNetCode.Singleton.SetDefaultHandsServerRpc();
                 return;
             }
 

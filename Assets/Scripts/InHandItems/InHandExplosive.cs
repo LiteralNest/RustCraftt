@@ -1,7 +1,6 @@
 ﻿using InHandItems.InHandViewSystem;
 using Multiplayer.Multiplay_Instances;
 using Player_Controller;
-using UI;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -22,7 +21,7 @@ namespace InHandItems
 
         public void TryThrow()
         {
-            PlayerNetCode.Singleton.InHandObjectsContainer.SetDefaultHands();
+            PlayerNetCode.Singleton.SetDefaultHandsServerRpc();
             InventoryHandler.singleton.RemoveActiveSlotDisplayer();
             MultiplayObjectsPool.singleton.InstantiateObjectServerRpc(GetComponent<MultiplayInstanceId>().Id,
                 _spawnPoint.position, Quaternion.identity, _throwForce, Camera.main.transform.forward);

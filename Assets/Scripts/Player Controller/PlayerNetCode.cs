@@ -19,17 +19,17 @@ namespace Player_Controller
     public class PlayerNetCode : NetworkBehaviour
     {
         public static PlayerNetCode Singleton { get; private set; }
-        
+
         [field: SerializeField] public ResourcesDropper ResourcesDropper { get; private set; }
         [field: SerializeField] public ItemInfoHandler ItemInfoHandler { get; private set; }
         [field: SerializeField] public PlayerSoundsPlayer PlayerSoundsPlayer { get; private set; }
         [field: SerializeField] public InHandObjectsContainer InHandObjectsContainer { get; private set; }
         [field: SerializeField] public VehiclesController VehiclesController { get; private set; }
         [field: SerializeField] public CharacterInventory CharacterInventory { get; private set; }
-        [field:SerializeField] public PlayerMeleeDamager PlayerMeleeDamager { get; private set; }
-        [field:SerializeField] public PlayerKiller PlayerKiller { get; private set; }
-        
-        
+        [field: SerializeField] public PlayerMeleeDamager PlayerMeleeDamager { get; private set; }
+        [field: SerializeField] public PlayerKiller PlayerKiller { get; private set; }
+
+
         [Header("In Hand Items")] [SerializeField]
         private InHandObjectsContainer _inHandObjectsContainer;
 
@@ -37,8 +37,8 @@ namespace Player_Controller
             NetworkVariableWritePermission.Owner);
 
         [SerializeField] private ArmorsContainer _armorsContainer;
-        
-        
+
+
         [Header("NickName")] [SerializeField] private NetworkVariable<int> _playerId = new(-1,
             NetworkVariableReadPermission.Everyone,
             NetworkVariableWritePermission.Owner);
@@ -68,6 +68,8 @@ namespace Player_Controller
 
         public override void OnNetworkSpawn()
         {
+            _inHandObjectsContainer.DisplayItems(ActiveItemId.Value);
+
             ActiveItemId.OnValueChanged += (int prevValue, int newValue) =>
             {
                 _inHandObjectsContainer.DisplayItems(ActiveItemId.Value);
@@ -86,6 +88,10 @@ namespace Player_Controller
 
             AssignName();
         }
+
+        [ServerRpc(RequireOwnership = false)]
+        public void SetDefaultHandsServerRpc()
+            => ActiveItemId.Value = -1;
 
         private void AssignName()
         {

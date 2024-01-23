@@ -12,7 +12,6 @@ namespace Building_System.Placing_Objects
         public override void OnNetworkSpawn()
         {
             base.OnNetworkSpawn();
-            gameObject.tag = "DamagingItem";
             _hp.Value = _maxHp;
         }
         
