@@ -36,7 +36,7 @@ namespace Multiplayer.PlayerSpawning
             foreach (var player in players)
             {
                 if (player.UserId != _userId.Value) continue;
-                player.GenerateBackPack(true, _userId.Value);
+                player.GenerateBackPack(true, _userId.Value, UserDataHandler.Singleton.UserData.Name);
             }
         }
 

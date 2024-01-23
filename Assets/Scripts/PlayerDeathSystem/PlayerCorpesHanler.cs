@@ -11,11 +11,12 @@ namespace PlayerDeathSystem
         [SerializeField] private PlayerCorpes _corpesObject;
         [SerializeField] private Transform _corpesPlace;
 
-        public void GenerateBackPack(CustomSendingInventoryData data, bool wasDisconnected, int ownerId)
+        public void GenerateBackPack(CustomSendingInventoryData data, bool wasDisconnected, int ownerId, string nickName)
         {
             var backPack = Instantiate(_corpesPref.gameObject, _corpesPlace.position, _corpesPlace.rotation);
             backPack.GetComponent<NetworkObject>().Spawn();
             var script = backPack.GetComponent<BackPack>();
+            script.NickName.Value = nickName;
             script.AssignCells(data);
             script.PlayerCorpDisplay.Init(script.GetArmorSlots());
             script.SetWasDisconnectedAndOwnerId(wasDisconnected, ownerId);
