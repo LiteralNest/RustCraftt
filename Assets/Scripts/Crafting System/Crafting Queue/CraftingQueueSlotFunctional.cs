@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Events;
 using Items_System.Items.Abstract;
 using UnityEngine;
+using Web.UserData;
 
 public class CraftingQueueSlotFunctional : MonoBehaviour
 {

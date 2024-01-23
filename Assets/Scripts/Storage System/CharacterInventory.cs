@@ -7,6 +7,18 @@ namespace Storage_System
     {
         private QuickSlotDisplayer _activeQuickSlot;
         
+        public  override  void OnNetworkSpawn()
+        {
+            base.OnNetworkSpawn();
+            SlotsDisplayer.DisplayCells();
+            
+            ItemsNetData.OnValueChanged += (oldValue, newValue) =>
+            {
+                if(!IsOwner) return;
+                GlobalEventsContainer.InventoryDataChanged?.Invoke();
+            };
+        }
+        
         public override void Open(InventoryHandler handler)
         {
             SlotsDisplayer.DisplayCells();
