@@ -1,69 +1,72 @@
+using System;
 using FightSystem.Weapon.ShootWeapon.Ammo;
-using FightSystem.Weapon.WeaponTypes;
+using InHandItems.InHandAnimations.Weapon;
+using InHandItems.InHandViewSystem;
 using UnityEngine;
 
 namespace FightSystem.Weapon.ShootWeapon
 {
-    public class Bow : BaseShootingWeapon
+    public class Bow : MonoBehaviour, IViewable
     {
+        private const string ViewName = "Weapon/View/BowWeaponView";
+
+        [Header("Bow")] 
+        [SerializeField] private Items_System.Items.Ammo _ammo;
         [SerializeField] private Arrow _arrowPrefab;
         [SerializeField] private float _arrowForce;
-
+        [SerializeField] private BowAnimator _weaponAnimator;
+        [SerializeField] private Transform _ammoSpawnPoint;
         private Arrow _currentArrow;
         private Vector3 _force;
 
-        protected new void Start()
-        {
-            CurrentAmmoCount = 100;
+        private int _currentAmmoCount;
 
-            // Instantiate arrow at the start
-            CreateArrow();
+        private BowInHandView _inHandView;
+
+        private void Start()
+        {
+            _inHandView = Instantiate(Resources.Load<BowInHandView>(ViewName), transform);
+            _inHandView.Init(this);
+        }
+        
+        public void Attack()
+        {
+            if (_currentAmmoCount <= 0) return;
+            _weaponAnimator.SetAttack();
+            ShootArrow();
+             InventoryHandler.singleton.CharacterInventory.RemoveItem(_ammo.Id, 1);
         }
 
-
-        protected override void Attack()
+        public void Scope()
         {
-            base.Attack();
-            // if (!CanShoot() || currentAmmoCount <= 0) return;
-            ShootArrow();
+            if (!EnoughAmmo()) return;
+            _currentAmmoCount = 1;
+            _weaponAnimator.SetScope();
+        }
+
+        private bool EnoughAmmo()
+        {
+            var ammoCount = InventoryHandler.singleton.CharacterInventory.GetItemCount(_ammo.Id);
+            return ammoCount > 0;
         }
 
         private void CreateArrow()
         {
-            if (_arrowPrefab != null)
-            {
-                _currentArrow = Instantiate(_arrowPrefab, AmmoSpawnPoint.position, AmmoSpawnPoint.rotation);
-                _currentArrow.transform.SetParent(AmmoSpawnPoint);
-            }
+            if (_arrowPrefab == null)
+                throw new Exception("There is no arrow prefab");
+            var rotation = _ammoSpawnPoint.rotation;
+            _currentArrow = Instantiate(_arrowPrefab, _ammoSpawnPoint.position, rotation);
+            _currentArrow.transform.SetParent(_ammoSpawnPoint);
         }
 
         private void ShootArrow()
         {
-            if (_currentArrow == null)
-            {
-                CreateArrow();
-            }
-
-            _force = AmmoSpawnPoint.TransformDirection(Vector3.forward * _arrowForce);
-            _currentArrow.ArrowFly(_force);
-            _currentArrow.transform.SetParent(null);
-            MinusAmmo();
-
-            // Spawn a new arrow immediately after shooting
             CreateArrow();
 
-            StartCoroutine(WaitBetweenShootsRoutine());
+            _force = _ammoSpawnPoint.TransformDirection(Vector3.forward * _arrowForce);
+            _currentArrow.ArrowFly(_force);
+            _currentArrow.transform.SetParent(null);
+            _currentAmmoCount--;
         }
-
-#if UnityEditor
-        private void OnDrawGizmos()
-        {
-            {
-                Gizmos.color = Color.red;
-                Gizmos.DrawRay(AmmoSpawnPoint.position, AmmoSpawnPoint.forward * _arrowForce);
-            }
-        }
-
-#endif
     }
 }

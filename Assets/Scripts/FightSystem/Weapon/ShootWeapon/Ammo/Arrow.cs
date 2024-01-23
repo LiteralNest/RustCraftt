@@ -9,19 +9,16 @@ namespace FightSystem.Weapon.ShootWeapon.Ammo
         [SerializeField] private float _despawnTime;
         [SerializeField] private Rigidbody _rb;
         [SerializeField] private float _torque = 10f;
-        [SerializeField] private Collider _arrowCollider;
-        
+ 
         private void Start()
         {
             if (_rb == null)
                 _rb = GetComponent<Rigidbody>();
-            _arrowCollider.enabled = false;
             // StartCoroutine(DespawnObject());
         }
         
         public void ArrowFly(Vector3 force)
         {
-            _arrowCollider.enabled = true;
             _rb.isKinematic = false;
             _rb.AddForce(force, ForceMode.Impulse);
             _rb.useGravity = true;

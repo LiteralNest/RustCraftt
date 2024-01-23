@@ -39,7 +39,6 @@ namespace FightSystem.Weapon.WeaponTypes
         [SerializeField] protected ShotEffectSpawner ShotEffectSpawner;
         
         [Header("Sound")]
-        [SerializeField] private NetworkSoundPlayer _soundPlayer;
         [SerializeField] private AudioClip _shotSound;
         
         [Header("Aim")] 
@@ -49,6 +48,8 @@ namespace FightSystem.Weapon.WeaponTypes
         [Header("Animation")]
         [SerializeField] private AnimationClip _reloadAnim;
 
+        private NetworkSoundPlayer _soundPlayer;
+        
         private WeaponSway _weaponSway;
         private AimSway _aimSway;
         
@@ -80,6 +81,7 @@ namespace FightSystem.Weapon.WeaponTypes
 
         private void Start()
         {
+            _soundPlayer = GetComponent<NetworkSoundPlayer>();
             _weaponSway = GetComponent<WeaponSway>();
             _weaponSway.Init(_swayTransform);
             _aimSway = GetComponent<AimSway>();

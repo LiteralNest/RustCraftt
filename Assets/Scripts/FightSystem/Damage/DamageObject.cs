@@ -2,7 +2,6 @@ using UnityEngine;
 
 namespace FightSystem.Damage
 {
-   [RequireComponent(typeof(BoxCollider), typeof(Rigidbody))]
    public class DamageObject : MonoBehaviour
    {
       [SerializeField] private int _damage = 25;
