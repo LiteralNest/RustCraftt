@@ -21,9 +21,7 @@ namespace FightSystem.Weapon.WeaponTypes
     {
         private const string ViewName = "Weapon/View/LongRangeWeaponView";
 
-        [Header("Main Parameters")] [SerializeField]
-        private bool _isSingle;
-
+        [Header("Main Parameters")]
         [SerializeField] protected LayerMask TargetMask;
         [SerializeField] protected int _bulletSpeed = 100;
 
@@ -55,13 +53,15 @@ namespace FightSystem.Weapon.WeaponTypes
         
         private WeaponRecoil _recoil;
         protected WeaponAim WeaponAim;
-        private LongRangeInHandView _inHandView;
+        protected LongRangeInHandView InHandView;
         
         protected int CurrentAmmoCount;
         private bool _canShoot;
         private bool _isShooting;
         private readonly float _timeBetweenShots = 0f;
         private bool _isReloading = false;
+
+        protected bool ViewAssign;
 
         private void OnEnable()
         {
@@ -79,7 +79,7 @@ namespace FightSystem.Weapon.WeaponTypes
             GlobalEventsContainer.InventoryDataChanged -= TryDisplayReload;
         }
 
-        private void Start()
+        protected void Start()
         {
             _soundPlayer = GetComponent<NetworkSoundPlayer>();
             _weaponSway = GetComponent<WeaponSway>();
@@ -89,8 +89,11 @@ namespace FightSystem.Weapon.WeaponTypes
             WeaponAim = new WeaponAim(_aimPosition, _aimingTransform, _weaponSway, _aimSway);
             _recoil = new WeaponRecoil(_swayTransform);
             _canShoot = true;
-            _inHandView = Instantiate(Resources.Load<LongRangeInHandView>(ViewName), transform);
-            _inHandView.Init(this);
+            if (!ViewAssign)
+            {
+                InHandView = Instantiate(Resources.Load<LongRangeInHandView>(ViewName), transform);
+                InHandView.Init(this);
+            }
         }
 
         private void Update()
@@ -101,9 +104,13 @@ namespace FightSystem.Weapon.WeaponTypes
             WeaponAim.UpdateSway();
         }
 
+        public void SetCanShot(bool value)
+            => _canShoot = value;
+        
         protected virtual void Attack()
         {
-            _weaponAnimator.PlayShot();
+            if(_weaponAnimator)
+                _weaponAnimator.PlayShot();
             ShotEffectSpawner.DisplayEffectServerRpc();
             _soundPlayer.PlayOneShotFromClient(_shotSound);
         }
@@ -140,14 +147,14 @@ namespace FightSystem.Weapon.WeaponTypes
         private IEnumerator ReloadCoroutine(int count)
         {
             WeaponAim.UnScope(out bool wasUnScopped);
-            _inHandView.AssignReload(false);
+            InHandView.AssignReload(false);
             yield return new WaitForSeconds(_reloadAnim.length);
             if(wasUnScopped)
                 WeaponAim.SetScope();
             CurrentAmmoCount += count;
             InventoryHandler.singleton.CharacterInventory.RemoveItem(Weapon.Ammo.Id, count);
             InventoryHandler.singleton.ActiveSlotDisplayer.ItemDisplayer.SetCurrentAmmo(CurrentAmmoCount);
-            _inHandView.AssignAttack(true);
+            InHandView.AssignAttack(true);
             _isReloading = false;
         }
 
@@ -175,20 +182,20 @@ namespace FightSystem.Weapon.WeaponTypes
         public void TryDisplayReload()
         {
             if (InventoryHandler.singleton == null || InventoryHandler.singleton.ActiveSlotDisplayer == null ||
-                _inHandView == null || CurrentAmmoCount >= Weapon.MagazineCount)
+                InHandView == null || CurrentAmmoCount >= Weapon.MagazineCount)
             {
-                if(_inHandView != null)
-                    _inHandView.AssignReload(false);
+                if(InHandView != null)
+                    InHandView.AssignReload(false);
                 return;
             }
             var addingAmmo = InventoryHandler.singleton.CharacterInventory.GetItemCount(Weapon.Ammo.Id);
-            _inHandView.AssignReload(addingAmmo > 0);
+            InHandView.AssignReload(addingAmmo > 0);
         }
 
         private void TryDisplayAttack()
         {
-            if (_inHandView == null) return;
-            _inHandView.AssignAttack(CurrentAmmoCount > 0);
+            if (InHandView == null) return;
+            InHandView.AssignAttack(CurrentAmmoCount > 0);
         }
 
         protected void MinusAmmo()
