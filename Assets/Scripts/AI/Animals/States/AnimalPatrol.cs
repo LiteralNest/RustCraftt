@@ -7,7 +7,7 @@ namespace AI.Animals.States
     {
         [SerializeField] private RandomCirclePointGetter _pointGetter;
         private Vector3 _currentMovingPoint;
-        
+        private readonly string _walk = "Walk";
         public override void Init(AnimalController controller)
         {
             base.Init(controller);
@@ -25,6 +25,8 @@ namespace AI.Animals.States
         private IEnumerator MoveToPoint()
         {
             _controller.NavMeshAgent.SetDestination(_currentMovingPoint);
+            _controller.SetAnimState(_walk);
+            
             while (!EnoughDistance(_currentMovingPoint))
             {
                 if(_shouldStop) yield break;

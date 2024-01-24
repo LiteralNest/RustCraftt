@@ -582,7 +582,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 1046880701
+  GlobalObjectIdHash: 3748778450
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
   ActiveSceneSynchronization: 0
@@ -654,6 +654,7 @@ MonoBehaviour:
   <InteractingRange>k__BackingField: {x: 4, y: 10}
   _idleState: {fileID: 5069920426355616617}
   _playerInteractionState: {fileID: 3327387251882102570}
+  Animator: {fileID: 4070635452545805557}
 --- !u!114 &1770868726360872817
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -788,8 +789,37 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 54c115a21f7791248ac93c7afd657120, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4070635452545805557}
   m_SourcePrefab: {fileID: 100100000, guid: 54c115a21f7791248ac93c7afd657120, type: 3}
+--- !u!1 &3856318705544168573 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 54c115a21f7791248ac93c7afd657120, type: 3}
+  m_PrefabInstance: {fileID: 4126718651198519596}
+  m_PrefabAsset: {fileID: 0}
+--- !u!95 &4070635452545805557
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3856318705544168573}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 571fef11bfd7447cb917b8bbcc91909b, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!4 &4526035998615264967 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 54c115a21f7791248ac93c7afd657120, type: 3}
