@@ -7,6 +7,8 @@ namespace AI.Animals.States
     {
         [SerializeField] private AnimalState _nextAnimalState;
         [SerializeField] private Vector2 _waitingTime;
+        private readonly string _idle = "Idle";
+
         public override void Init(AnimalController controller)
         {
             base.Init(controller);
@@ -16,6 +18,7 @@ namespace AI.Animals.States
         public IEnumerator WaitRandTime()
         {
             var waitingTime = Random.Range(_waitingTime.x, _waitingTime.y + 1);
+            _controller.SetAnimState(_idle);
             while (waitingTime > 0)
             {
                 if(_shouldStop)

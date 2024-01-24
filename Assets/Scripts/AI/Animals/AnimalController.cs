@@ -13,9 +13,12 @@ namespace AI.Animals
         [field: SerializeField] public NavMeshAgent NavMeshAgent { get; private set; }
         [field: SerializeField] public Vector2 InteractingRange { get; private set; } = new Vector2(4, 10);
 
-        [Header("States")] [SerializeField] protected AnimalState _idleState;
+        [Header("States")] 
+        [SerializeField] protected AnimalState _idleState;
         [SerializeField] private AnimalState _playerInteractionState;
 
+        [SerializeField] protected Animator Animator;
+        
         protected AnimalState _currentState;
 
         public List<Transform> ObjectsToInteract { get; private set; } = new List<Transform>();
@@ -76,6 +79,11 @@ namespace AI.Animals
             Vector3 aiPos = transform.position;
             aiPos.y = 0;
             return Vector3.Distance(pos, aiPos);
+        }
+
+        public void SetAnimState(string anim)
+        {
+            Animator.Play(anim);
         }
     }
 }

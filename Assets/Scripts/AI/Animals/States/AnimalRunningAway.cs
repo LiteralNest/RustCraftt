@@ -5,6 +5,7 @@ namespace AI.Animals.States
 {
     public class AnimalRunningAway : AnimalState
     {
+        private readonly string _run = "Run";
         public override void Init(AnimalController controller)
         {
            base.Init(controller);
@@ -17,6 +18,8 @@ namespace AI.Animals.States
             var cachedNearestObject = nearestObject;
             while (true)
             {
+                _controller.SetAnimState(_run);
+                
                 nearestObject = _controller.GetNearestObject();
                 if(nearestObject == null)
                     break;

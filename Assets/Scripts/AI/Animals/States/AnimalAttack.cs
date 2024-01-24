@@ -12,7 +12,8 @@ namespace AI.Animals.States
         [SerializeField] private float _damageCoolDown = 1f;
 
         private bool _canDamage = true;
-        
+        private readonly string _run = "Run";
+        private readonly string _attack = "Attack";
         public override void Init(AnimalController controller)
         {
             base.Init(controller);
@@ -46,6 +47,8 @@ namespace AI.Animals.States
             while (true)
             {
                 _controller.NavMeshAgent.SetDestination(nearestTarget.position);
+                _controller.SetAnimState(_run);
+                
                 if(_controller.GetDistanceTo(nearestTarget.position) > _controller.InteractingRange.y)
                 {
                     _controller.SetIdleState();
@@ -56,6 +59,7 @@ namespace AI.Animals.States
                 if (_controller.GetDistanceTo(nearestTarget.position) <= _attackRange)
                 {
                     TryAttack(nearestTarget);
+                    _controller.SetAnimState(_attack);
                 }
                 yield return null;
             }
