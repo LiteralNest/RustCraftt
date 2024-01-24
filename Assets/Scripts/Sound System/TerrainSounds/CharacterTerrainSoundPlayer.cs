@@ -1,6 +1,5 @@
 using System.Collections;
 using Player_Controller;
-using ScriptableObjects;
 using UnityEngine;
 
 namespace Sound_System.TerrainSounds
@@ -8,7 +7,6 @@ namespace Sound_System.TerrainSounds
     public class CharacterTerrainSoundPlayer : MonoBehaviour
     {
         [SerializeField] private PlayerSoundsPlayer _playerSoundsPlayer;
-        [SerializeField] private BlockDataBase _blocksData;
         [SerializeField] private LayerMask _terrainLayer;
         [SerializeField] private PlayerController _playerController;
 
