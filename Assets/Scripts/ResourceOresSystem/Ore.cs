@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using Events;
 using Items_System.Ore_Type;
+using Sirenix.OdinInspector;
+using TerrainTools;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -17,11 +19,11 @@ namespace ResourceOresSystem
 
         [SerializeField] protected NetworkVariable<int> _currentHp = new(100, NetworkVariableReadPermission.Everyone,
             NetworkVariableWritePermission.Owner);
-
-        [SerializeField] private float _recoveringSpeed;
+        
         [SerializeField] protected List<OreSlot> _resourceSlots = new List<OreSlot>();
-        [SerializeField] private List<GameObject> _renderers;
         [SerializeField] private GameObject _vfxEffect;
+
+        private OreObjectsPlacer _objectsPlacer;
 
         public bool Recovering { get; protected set; } = false;
 
@@ -33,11 +35,18 @@ namespace ResourceOresSystem
             if (IsServer)
                 _currentHp.Value = _hp;
 
-            _currentHp.OnValueChanged += (int prevValue, int newValue) => { CheckHp(); };
-
             base.OnNetworkSpawn();
         }
 
+        public void Init(OreObjectsPlacer objectsPlacer)
+            => _objectsPlacer = objectsPlacer;
+
+        [Button]
+        public void Destroy()
+        {
+            StartCoroutine(DestroyRoutine());
+        }
+        
         protected void AddResourcesToInventory()
         {
             foreach (var slot in _resourceSlots)
@@ -48,44 +57,21 @@ namespace ResourceOresSystem
             }
         }
 
-        private void CheckHp()
-        {
-            if (_currentHp.Value > 0) return;
-            DestroyObject();
-        }
-
-        protected void TurnRenderers(bool value)
-        {
-            foreach (var renderer in _renderers)
-                renderer.SetActive(value);
-        }
-
-        private IEnumerator Recover()
-        {
-            Recovering = true;
-            yield return new WaitForSeconds(_recoveringSpeed);
-            Recovering = false;
-            TurnRenderers(true);
-            _animator.SetIdle();
-        }
-
-        protected virtual void DestroyObject()
-            => StartCoroutine(Destroy());
-
-        private IEnumerator Destroy()
-        {
-            yield return _animator.SetFallRoutine();
-            TurnRenderers(false);
-            yield return Recover();
-            if (NetworkManager.Singleton.IsServer)
-                _currentHp.Value = _hp;
-        }
-
         [ServerRpc(RequireOwnership = false)]
         protected void MinusHpServerRpc()
         {
-            if (_currentHp.Value <= 0) return;
+            if (_currentHp.Value <= 0)
+            {
+                StartCoroutine(DestroyRoutine());
+                return;
+            }
             _currentHp.Value--;
+        }
+        
+        private IEnumerator DestroyRoutine()
+        {
+            yield return _animator.SetFallRoutine();
+            StartCoroutine(_objectsPlacer.RegenerateObjectRoutine(this));
         }
 
         [ClientRpc]
