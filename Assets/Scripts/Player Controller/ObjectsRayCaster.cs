@@ -8,6 +8,7 @@ using Items_System.Ore_Type;
 using MeltingSystem;
 using Player_Controller;
 using PlayerDeathSystem;
+using ResourceOresSystem;
 using RespawnSystem.SleepingBag;
 using Storage_System;
 using TMPro;

@@ -1,4 +1,3 @@
-using InHandItems.InHandAnimations;
 using InHandItems.InHandViewSystem;
 using Items_System.Items;
 using Items_System.Ore_Type;
@@ -14,7 +13,7 @@ namespace InHandItems
 
         [Header("Attached Components")] 
         [SerializeField] private AnimationClip _gatheringAnimation;
-        [SerializeField] private GatheringObjectAnimator _gatheringObjectAnimator;
+        [SerializeField] private InHandItems.InHandAnimations.GatheringObjectAnimator _gatheringObjectAnimator;
 
         [Header("Main Params")] 
         [SerializeField] private Tool _gatheringTool;
