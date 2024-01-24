@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using AI.Animals.Animators;
 using AI.Animals.States;
 using UnityEngine;
 using UnityEngine.AI;
@@ -7,21 +8,22 @@ namespace AI.Animals
 {
     public abstract class AnimalController : MonoBehaviour
     {
-        [Header("Main Params")] [SerializeField]
-        protected List<AIPerception> _aIPerceptions = new List<AIPerception>();
+        [Header("Attached Components")] 
+        [SerializeField] private AnimalAnimator _animalAnimator;
+        [SerializeField] protected List<AIPerception> _aIPerceptions = new List<AIPerception>();
 
         [field: SerializeField] public NavMeshAgent NavMeshAgent { get; private set; }
-        [field: SerializeField] public Vector2 InteractingRange { get; private set; } = new Vector2(4, 10);
 
-        [Header("States")] 
-        [SerializeField] protected AnimalState _idleState;
+        [Header("Main Params")] [SerializeField]
+        private Vector2 _interactingRange = new Vector2(4, 10);
+
+        [Header("States")] [SerializeField] protected AnimalState _idleState;
         [SerializeField] private AnimalState _playerInteractionState;
 
-        [SerializeField] protected Animator Animator;
-        
-        protected AnimalState _currentState;
+        public Vector2 InteractingRange => _interactingRange;
 
-        public List<Transform> ObjectsToInteract { get; private set; } = new List<Transform>();
+        private AnimalState _currentState;
+        protected List<Transform> ObjectsToInteract { get; private set; } = new List<Transform>();
 
         private void Update()
         {
@@ -67,7 +69,7 @@ namespace AI.Animals
             if (_currentState != null)
                 _currentState.Stop();
             _currentState = state;
-            _currentState.Init(this);
+            _currentState.Init(this, _animalAnimator);
         }
 
         public void SetIdleState()
@@ -79,11 +81,6 @@ namespace AI.Animals
             Vector3 aiPos = transform.position;
             aiPos.y = 0;
             return Vector3.Distance(pos, aiPos);
-        }
-
-        public void SetAnimState(string anim)
-        {
-            Animator.Play(anim);
         }
     }
 }

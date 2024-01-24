@@ -1,16 +1,19 @@
+using AI.Animals.Animators;
 using UnityEngine;
 
 namespace AI.Animals.States
 {
     public abstract class AnimalState : MonoBehaviour
     {
-        protected AnimalController _controller;
+        protected AnimalAnimator AnimalAnimator;
+        protected AnimalController Controller;
         protected bool _shouldStop;
 
-        public virtual void Init(AnimalController controller)
+        public virtual void Init(AnimalController controller, AnimalAnimator animalAnimator)
         {
+            AnimalAnimator = animalAnimator;
             _shouldStop = false;
-            _controller = controller;
+            Controller = controller;
         }
 
         public void Stop()

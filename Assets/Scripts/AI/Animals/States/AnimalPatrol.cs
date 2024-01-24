@@ -1,4 +1,5 @@
 using System.Collections;
+using AI.Animals.Animators;
 using UnityEngine;
 
 namespace AI.Animals.States
@@ -7,10 +8,10 @@ namespace AI.Animals.States
     {
         [SerializeField] private RandomCirclePointGetter _pointGetter;
         private Vector3 _currentMovingPoint;
-        private readonly string _walk = "Walk";
-        public override void Init(AnimalController controller)
+
+        public override void Init(AnimalController controller, AnimalAnimator animalAnimator)
         {
-            base.Init(controller);
+            base.Init(controller, animalAnimator);
             FindNextPatrolPoint();
         }
 
@@ -24,18 +25,20 @@ namespace AI.Animals.States
         
         private IEnumerator MoveToPoint()
         {
-            _controller.NavMeshAgent.SetDestination(_currentMovingPoint);
-            _controller.SetAnimState(_walk);
+            Controller.NavMeshAgent.SetDestination(_currentMovingPoint);
+            AnimalAnimator.SetWalk();
             
             while (!EnoughDistance(_currentMovingPoint))
             {
                 if(_shouldStop) yield break;
                 yield return null;
             }
-            _controller.SetIdleState();
+            
+            AnimalAnimator.SetIdle();
+            Controller.SetIdleState();
         }
 
         private bool EnoughDistance(Vector3 pos)
-            => _controller.GetDistanceTo(pos) < 0.5f;
+            => Controller.GetDistanceTo(pos) < 0.5f;
     }
 }

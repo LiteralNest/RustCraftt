@@ -1,4 +1,5 @@
 using System.Collections;
+using AI.Animals.Animators;
 using UnityEngine;
 
 namespace AI.Animals.States
@@ -7,18 +8,16 @@ namespace AI.Animals.States
     {
         [SerializeField] private AnimalState _nextAnimalState;
         [SerializeField] private Vector2 _waitingTime;
-        private readonly string _idle = "Idle";
 
-        public override void Init(AnimalController controller)
+        public override void Init(AnimalController controller, AnimalAnimator animalAnimator)
         {
-            base.Init(controller);
+            base.Init(controller, animalAnimator);
             StartCoroutine(WaitRandTime());
         }
 
         public IEnumerator WaitRandTime()
         {
             var waitingTime = Random.Range(_waitingTime.x, _waitingTime.y + 1);
-            _controller.SetAnimState(_idle);
             while (waitingTime > 0)
             {
                 if(_shouldStop)
@@ -26,7 +25,7 @@ namespace AI.Animals.States
                 waitingTime -= 0.1f;
                 yield return new WaitForSeconds(0.1f);
             }
-            _controller.SetState(_nextAnimalState);
+            Controller.SetState(_nextAnimalState);
         } 
     }
 }

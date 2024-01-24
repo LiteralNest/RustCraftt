@@ -1,4 +1,5 @@
 using System.Collections;
+using AI.Animals.Animators;
 using FightSystem.Damage;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -12,11 +13,10 @@ namespace AI.Animals.States
         [SerializeField] private float _damageCoolDown = 1f;
 
         private bool _canDamage = true;
-        private readonly string _run = "Run";
-        private readonly string _attack = "Attack";
-        public override void Init(AnimalController controller)
+
+        public override void Init(AnimalController controller, AnimalAnimator animalAnimator)
         {
-            base.Init(controller);
+            base.Init(controller, animalAnimator);
             StartCoroutine(AttackTarget());
         }
 
@@ -37,33 +37,34 @@ namespace AI.Animals.States
         
         private IEnumerator AttackTarget()
         {
-            var nearestTarget = _controller.GetNearestObject();
+            var nearestTarget = Controller.GetNearestObject();
             if (nearestTarget == null)
             {
-                _controller.SetIdleState();
+                Controller.SetIdleState();
                 yield break;
             }
-
+            AnimalAnimator.SetRun();
             while (true)
             {
-                _controller.NavMeshAgent.SetDestination(nearestTarget.position);
-                _controller.SetAnimState(_run);
+                Controller.NavMeshAgent.SetDestination(nearestTarget.position);
                 
-                if(_controller.GetDistanceTo(nearestTarget.position) > _controller.InteractingRange.y)
+
+                if(Controller.GetDistanceTo(nearestTarget.position) > Controller.InteractingRange.y)
                 {
-                    _controller.SetIdleState();
+                    Controller.SetIdleState();
                     break;
                 }
 
                 if(!_canDamage) yield return null;
-                if (_controller.GetDistanceTo(nearestTarget.position) <= _attackRange)
+                if (Controller.GetDistanceTo(nearestTarget.position) <= _attackRange)
                 {
                     TryAttack(nearestTarget);
-                    _controller.SetAnimState(_attack);
+                    AnimalAnimator.SetAttack();
                 }
                 yield return null;
             }
-            _controller.SetIdleState();
+            AnimalAnimator.SetIdle();
+            Controller.SetIdleState();
         }
     }
 }

@@ -1,14 +1,14 @@
 using System.Collections;
+using AI.Animals.Animators;
 using UnityEngine;
 
 namespace AI.Animals.States
 {
     public class AnimalRunningAway : AnimalState
     {
-        private readonly string _run = "Run";
-        public override void Init(AnimalController controller)
+        public override void Init(AnimalController controller, AnimalAnimator animalAnimator)
         {
-           base.Init(controller);
+           base.Init(controller, animalAnimator);
            StartCoroutine(RunAway());
         }
 
@@ -16,11 +16,10 @@ namespace AI.Animals.States
         {
             Transform nearestObject = null;
             var cachedNearestObject = nearestObject;
+                AnimalAnimator.SetRun();
             while (true)
             {
-                _controller.SetAnimState(_run);
-                
-                nearestObject = _controller.GetNearestObject();
+                nearestObject = Controller.GetNearestObject();
                 if(nearestObject == null)
                     break;
                 if(nearestObject == cachedNearestObject)
@@ -29,10 +28,12 @@ namespace AI.Animals.States
                 Vector3 runDirection = transform.position - nearestObject.position;
                 runDirection.Normalize();
                 Vector3 destination = transform.position + runDirection * 10.0f;
-                _controller.NavMeshAgent.SetDestination(destination);
+                Controller.NavMeshAgent.SetDestination(destination);
                 yield return null;
             }
-            _controller.SetIdleState();
+
+            AnimalAnimator.SetIdle();
+            Controller.SetIdleState();
         }
     }
 }
