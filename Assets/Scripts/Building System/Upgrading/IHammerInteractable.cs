@@ -1,10 +1,13 @@
+using System.Collections.Generic;
+
 namespace Building_System.Upgrading
 {
     public interface IHammerInteractable
     {
-        public InventoryCell GetNeededItemsForUpgrade();
         public bool CanBeUpgraded();
-        public void Upgrade();
+        public List<InventoryCell> GetNeededCellsForUpgrade();
+        public void UpgradeTo(int level);
+        public int GetLevel();
     
         public bool CanBeRepaired();
         public void Repair();

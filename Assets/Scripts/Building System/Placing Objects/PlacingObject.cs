@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Building_System.Blocks;
 using Building_System.Upgrading;
 using Items_System.Items.Abstract;
@@ -48,7 +49,17 @@ namespace Building_System.Placing_Objects
         public bool CanBeUpgraded()
             => false;
 
-        public void Upgrade()
+        public List<InventoryCell> GetNeededCellsForUpgrade()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public void UpgradeTo(int level)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public int GetLevel()
         {
             throw new System.NotImplementedException();
         }

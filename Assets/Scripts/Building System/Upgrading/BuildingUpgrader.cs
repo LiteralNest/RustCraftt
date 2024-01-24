@@ -7,7 +7,6 @@ namespace Building_System.Upgrading
 {
     public class BuildingUpgrader : MonoBehaviour
     {
-        [FormerlySerializedAs("_buildingUpgraderDisplaying")]
         [Header("Attached scripts")]
         [SerializeField] private BuildingUpgradeView buildingUpgradeView;
         
@@ -39,8 +38,11 @@ namespace Building_System.Upgrading
 
         private void OnBuildingHammerActivated(bool value)
         {
-            if(!value)
+            if (!value)
+            {
                 buildingUpgradeView.DisplayButtons(false,false,false,false);
+                buildingUpgradeView.DisplayCycle(false);
+            }       
             _hammerActive = value;
         }
 
@@ -58,17 +60,17 @@ namespace Building_System.Upgrading
                     buildingUpgradeView.DisplayButtons(false,false,false,false);
                     return null;
                 }
-                buildingUpgradeView.DisplayButtons(upgradable.CanBeUpgraded(), upgradable.CanBeDestroyed(), upgradable.CanBeRepaired(), upgradable.CanBePickUp());
+                buildingUpgradeView.DisplayButtons(upgradable.CanBeUpgraded(), upgradable.CanBeDestroyed(), upgradable.CanBeRepaired(), upgradable.CanBePickUp(), upgradable.GetNeededCellsForUpgrade(), upgradable.GetLevel());
                 return upgradable;
             }
             buildingUpgradeView.DisplayButtons(false,false,false,false);
             return null;
         }
 
-        public void Upgrade()
+        public void UpgradeTo(int lvl)
         {
             if(_hammerInteractable == null) return;
-            _hammerInteractable.Upgrade();
+            _hammerInteractable.UpgradeTo(lvl);
         }
 
         public void Repair()

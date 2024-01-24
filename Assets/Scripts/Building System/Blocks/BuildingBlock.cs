@@ -134,6 +134,9 @@ namespace Building_System.Blocks
 
         #region IHammerInteractable
 
+        public int GetLevel()
+            => _currentLevel.Value;
+
         public bool CanBeRepaired()
         {
             if (MaxHp()) return false;
@@ -167,20 +170,23 @@ namespace Building_System.Blocks
         }
 
         public bool CanBeUpgraded()
+            => MaxHp();
+
+        public List<InventoryCell> GetNeededCellsForUpgrade()
         {
-            if (!MaxHp()) return false;
-            int nextLevel = _currentLevel.Value + 1;
-            if (nextLevel >= _levels.Count) return false;
-            if (!InventoryHandler.singleton.CharacterInventory.EnoughMaterials(_levels[nextLevel].CellForPlace))
-                return false;
-            return true;
+            List<InventoryCell> res = new List<InventoryCell>();
+            foreach (var level in _levels)
+            {
+                foreach (var cell in level.CellForPlace)
+                    res.Add(cell);
+            }
+            return res;
         }
 
-        public void Upgrade()
+        public void UpgradeTo(int level)
         {
-            int nextLevel = _currentLevel.Value + 1;
-            InventoryHandler.singleton.CharacterInventory.RemoveItems(_levels[nextLevel].CellForPlace);
-            SetLevelServerRpc((ushort)nextLevel);
+            InventoryHandler.singleton.CharacterInventory.RemoveItems(_levels[level].CellForPlace);
+            SetLevelServerRpc((ushort)level);
         }
 
         public bool CanBePickUp()
@@ -204,7 +210,6 @@ namespace Building_System.Blocks
                 if (IsServer)
                     StartCoroutine(DestroyRoutine());
             }
-            // SetHpServerRpc(hp);
         }
 
         public int GetHp()
