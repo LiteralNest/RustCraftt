@@ -13,8 +13,10 @@ GameObject:
   - component: {fileID: 4799806363679772643}
   - component: {fileID: 4888910354429494302}
   - component: {fileID: 7712269352634625924}
+  - component: {fileID: -8562504819655638853}
   - component: {fileID: -371570071824515017}
   - component: {fileID: 428616925624492165}
+  - component: {fileID: 7058922021182806508}
   m_Layer: 0
   m_Name: Bow Arrow
   m_TagString: Untagged
@@ -44,7 +46,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 9147506513617174129}
-  m_Mesh: {fileID: 3624159985732742075, guid: 463895fafe2c3d3488d6ef8816b3b578, type: 3}
+  m_Mesh: {fileID: -7929139438592967118, guid: c35629272f0abfe4f85ebfdffb8eaa02, type: 3}
 --- !u!23 &4799806363679772643
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -135,6 +137,26 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 2
+--- !u!114 &-8562504819655638853
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9147506513617174129}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GlobalObjectIdHash: 273776028
+  AlwaysReplicateAsRoot: 0
+  SynchronizeTransform: 1
+  ActiveSceneSynchronization: 0
+  SceneMigrationSynchronization: 1
+  SpawnWithObservers: 1
+  DontDestroyWithOwner: 0
+  AutoObjectParentSync: 1
 --- !u!114 &-371570071824515017
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -165,3 +187,33 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _damage: 25
   _destroyOnEnter: 0
+--- !u!114 &7058922021182806508
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9147506513617174129}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: df2868252ab5c4d1da357e8f11f1b524, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SyncPositionX: 1
+  SyncPositionY: 1
+  SyncPositionZ: 1
+  SyncRotAngleX: 1
+  SyncRotAngleY: 1
+  SyncRotAngleZ: 1
+  SyncScaleX: 0
+  SyncScaleY: 0
+  SyncScaleZ: 0
+  PositionThreshold: 0.001
+  RotAngleThreshold: 0.01
+  ScaleThreshold: 0.01
+  UseQuaternionSynchronization: 0
+  UseQuaternionCompression: 0
+  UseHalfFloatPrecision: 0
+  InLocalSpace: 0
+  Interpolate: 1
+  SlerpPosition: 0

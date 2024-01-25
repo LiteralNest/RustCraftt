@@ -1,9 +1,10 @@
 using System.Collections;
+using Unity.Netcode;
 using UnityEngine;
 
 namespace FightSystem.Weapon.ShootWeapon.Ammo
 {
-    public class Arrow : MonoBehaviour
+    public class Arrow : NetworkBehaviour
     {
         [field: SerializeField] public int AmmoPoolId { get; private set; }
         [SerializeField] private float _despawnTime;
@@ -28,17 +29,21 @@ namespace FightSystem.Weapon.ShootWeapon.Ammo
         private void OnCollisionEnter(Collision other)
         {
             _rb.constraints = RigidbodyConstraints.FreezeAll;
-            transform.SetParent(other.transform);
-
-            StartCoroutine(DespawnObject());
+            if (IsServer)
+            {
+                GetComponent<NetworkObject>().TrySetParent(other.transform);
+                StartCoroutine(DespawnObject());
+            }
+           
         }
 
         
         private IEnumerator DespawnObject()
         {
+            if (!IsServer) yield break;
             yield return new WaitForSeconds(_despawnTime); 
-            Destroy(gameObject);  
-            //GetComponent<NetworkObject>().Despawn();
+            Destroy(gameObject);
+            GetComponent<NetworkObject>().Despawn();
         }
     }
 }

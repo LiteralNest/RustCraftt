@@ -1,4 +1,5 @@
 using System;
+using Building_System.NetWorking;
 using FightSystem.Weapon.ShootWeapon.Ammo;
 using InHandItems.InHandAnimations.Weapon;
 using InHandItems.InHandViewSystem;
@@ -10,8 +11,7 @@ namespace FightSystem.Weapon.ShootWeapon
     {
         private const string ViewName = "Weapon/View/BowWeaponView";
 
-        [Header("Bow")] 
-        [SerializeField] private Items_System.Items.Ammo _ammo;
+        [Header("Bow")] [SerializeField] private Items_System.Items.Ammo _ammo;
         [SerializeField] private Arrow _arrowPrefab;
         [SerializeField] private float _arrowForce;
         [SerializeField] private BowAnimator _weaponAnimator;
@@ -28,13 +28,13 @@ namespace FightSystem.Weapon.ShootWeapon
             _inHandView = Instantiate(Resources.Load<BowInHandView>(ViewName), transform);
             _inHandView.Init(this);
         }
-        
+
         public void Attack()
         {
             if (_currentAmmoCount <= 0) return;
             _weaponAnimator.SetAttack();
             ShootArrow();
-             InventoryHandler.singleton.CharacterInventory.RemoveItem(_ammo.Id, 1);
+            InventoryHandler.singleton.CharacterInventory.RemoveItem(_ammo.Id, 1);
         }
 
         public void Scope()
@@ -50,22 +50,10 @@ namespace FightSystem.Weapon.ShootWeapon
             return ammoCount > 0;
         }
 
-        private void CreateArrow()
-        {
-            if (_arrowPrefab == null)
-                throw new Exception("There is no arrow prefab");
-            var rotation = _ammoSpawnPoint.rotation;
-            _currentArrow = Instantiate(_arrowPrefab, _ammoSpawnPoint.position, rotation);
-            _currentArrow.transform.SetParent(_ammoSpawnPoint);
-        }
-
         private void ShootArrow()
         {
-            CreateArrow();
-
             _force = _ammoSpawnPoint.TransformDirection(Vector3.forward * _arrowForce);
-            _currentArrow.ArrowFly(_force);
-            _currentArrow.transform.SetParent(null);
+            AmmoObjectsPool.Singleton.SpawnArrowServerRpc(_ammoSpawnPoint.position, _ammoSpawnPoint.rotation, _force);
             _currentAmmoCount--;
         }
     }
