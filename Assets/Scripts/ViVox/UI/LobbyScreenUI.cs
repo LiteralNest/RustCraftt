@@ -3,11 +3,12 @@ using Events;
 using Unity.Services.Vivox;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using UnityEngine.UI;
 using VivoxUnity;
 
 public class LobbyScreenUI : MonoBehaviour
 {
+    public static LobbyScreenUI Singleton { get; set; }
+    
     public string LobbyChannelName = "lobbyChannel";
     
     public GameObject LobbyScreen;
@@ -21,6 +22,7 @@ public class LobbyScreenUI : MonoBehaviour
 
     private void Awake()
     {
+        Singleton = this;
         _evtSystem = EventSystem.current;
         if (!_evtSystem)
         {

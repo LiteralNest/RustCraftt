@@ -25,7 +25,6 @@ namespace Multiplayer
         [SerializeField] private List<Renderer> _body = new List<Renderer>();
         [SerializeField] private GameObject _characterStaff;
         [SerializeField] private GameObject _canvas;
-        [SerializeField] private GameObject _vivox;
 
         private void Awake()
         {
@@ -33,7 +32,6 @@ namespace Multiplayer
                 mono.enabled = false;
             characterUIHandler.enabled = false;
             _canvas.SetActive(false);
-            _vivox.SetActive(false);
         }
     
         private IEnumerator Destroy()
@@ -55,8 +53,6 @@ namespace Multiplayer
         public void Start()
         {
             _canvas.SetActive(true);
-            _vivox.SetActive(true);
-            _vivox.transform.SetParent(null);
             if (!_playerNetCode.IsOwner)
             {
                 EnableMonos(false);
@@ -91,7 +87,6 @@ namespace Multiplayer
         {
             EnableMonos(false);
             _canvas.SetActive(false);
-            _vivox.SetActive(false);
             _characterStaff.SetActive(false);
         }
     }
