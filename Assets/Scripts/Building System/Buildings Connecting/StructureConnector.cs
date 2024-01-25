@@ -16,6 +16,7 @@ namespace Building_System.Buildings_Connecting
         {
             structure.Blocks.Add(_buildingBlock);
             _currentStructure = structure;
+            _buildingBlock.CurrentStructure = structure;
             _buildingBlock.GetComponent<NetworkObject>().TrySetParent(_currentStructure.transform);
         }
     

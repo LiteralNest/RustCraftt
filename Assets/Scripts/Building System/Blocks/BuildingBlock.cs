@@ -17,6 +17,13 @@ namespace Building_System.Blocks
         [SerializeField] private float _canbeDestroyedByHammerTime = 60f;
         public Action<IDestroyable> OnDestroyed { get; set; }
 
+        private ConnectedStructure _currentStructure;
+
+        public ConnectedStructure CurrentStructure
+        {
+            set => _currentStructure = value;
+        }
+        
         private NetworkVariable<int> _hp = new(100, NetworkVariableReadPermission.Everyone,
             NetworkVariableWritePermission.Owner);
 
@@ -37,6 +44,7 @@ namespace Building_System.Blocks
         private List<InventoryCell> _cellsForRepairing = new List<InventoryCell>();
 
         private GameObject _activeBlock;
+        
 
         public override void OnNetworkSpawn()
         {
@@ -118,6 +126,8 @@ namespace Building_System.Blocks
             if (networkObj != null)
                 networkObj.Despawn();
             Destroy(gameObject);
+            if (_currentStructure != null)
+                _currentStructure.RemoveBlock(this);
         }
 
         private bool MaxHp()

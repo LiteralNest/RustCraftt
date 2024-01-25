@@ -22,6 +22,13 @@ namespace Building_System.Buildings_Connecting
             StartCoroutine(DecayRoutine());
         }
 
+        public void RemoveBlock(BuildingBlock block)
+        {
+            Blocks.Remove(block);
+            if (Blocks.Count <= 0)
+                Destroy(gameObject);
+        }
+        
         private void GetBlock(List<BuildingBlock> _blocks)
         {
             foreach (var block in _blocks)
