@@ -68,7 +68,8 @@ namespace FightSystem.Weapon.WeaponTypes
             _isReloading = false;
             if (WeaponAim != null)
                 WeaponAim.UnScope();
-            CurrentAmmoCount = InventoryHandler.singleton.ActiveSlotDisplayer.ItemDisplayer.InventoryCell.Ammo;
+            if(InventoryHandler.singleton && InventoryHandler.singleton.ActiveSlotDisplayer)
+                CurrentAmmoCount = InventoryHandler.singleton.ActiveSlotDisplayer.ItemDisplayer.InventoryCell.Ammo;
             TryDisplayReload();
             TryDisplayAttack();
             GlobalEventsContainer.InventoryDataChanged += TryDisplayReload;

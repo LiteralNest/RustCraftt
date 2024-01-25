@@ -3,12 +3,12 @@ using UnityEngine;
 
 public class DelayItem : MonoBehaviour
 {
-    protected bool _isRecovering;
+    protected bool IsRecovering;
     
     protected IEnumerator RecoverRoutine(float recoveringTime)
     {
-        _isRecovering = true;
+        IsRecovering = true;
         yield return new WaitForSeconds(recoveringTime);
-        _isRecovering = false;
+        IsRecovering = false;
     }
 }

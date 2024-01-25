@@ -1,4 +1,5 @@
 ﻿using FightSystem.Weapon.ShootWeapon;
+using UI;
 using UnityEngine;
 
 namespace InHandItems.InHandViewSystem

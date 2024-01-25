@@ -16,7 +16,7 @@ namespace ResourceOresSystem
         private int _idleHash;
         private Animator _animator;
 
-        private void Start()
+        private void Awake()
         {
             _animator = GetComponent<Animator>();
             _idleHash = Animator.StringToHash(_idleKey);
@@ -30,6 +30,9 @@ namespace ResourceOresSystem
         }
 
         public void SetIdle()
-            => _animator.SetTrigger(_idleHash);
+        {
+            if(_animator)
+                _animator.SetTrigger(_idleHash);
+        }
     }
 }

@@ -24,7 +24,6 @@ public abstract class SlotsDisplayer : MonoBehaviour
 
     public void InitCells()
     {
-        Debug.Log(gameObject.name);
         for (int i = 0; i < CellDisplayers.Count; i++)
             CellDisplayers[i].Init(i, this, TargetStorage);
     }

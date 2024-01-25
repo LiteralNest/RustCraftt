@@ -154,10 +154,6 @@ public class VivoxVoiceManager : MonoBehaviour
     public void Login(string displayName = null)
     {
         m_Account = new Account(displayName);
-        Debug.Log("----------------------------");
-        Debug.Log(m_Account.Name);
-        Debug.Log(m_Account.DisplayName);
-        Debug.Log("----------------------------");
 
         LoginSession = _client.GetLoginSession(m_Account);
         LoginSession.PropertyChanged += OnLoginSessionPropertyChanged;
@@ -458,12 +454,10 @@ public class VivoxVoiceManager : MonoBehaviour
     private void VivoxLog(string msg)
     {
         ConsoleDisplayer.Singleton?.DisplayText(msg);
-        Debug.Log("<color=green>VivoxVoice: </color>: " + msg);
     }
 
     private void VivoxLogError(string msg)
     {
         ConsoleDisplayer.Singleton?.DisplayText(msg);
-        Debug.LogError("<color=green>VivoxVoice: </color>: " + msg);
     }
 }

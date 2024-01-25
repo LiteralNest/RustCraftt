@@ -29,7 +29,8 @@ namespace DamageSystem
         {
             if (_characterHpHandler.Hp >= 0)
             {
-                PlayerNetCode.Singleton.PlayerSoundsPlayer.PlayHit(_hitSound);
+                if(PlayerNetCode.Singleton)
+                    PlayerNetCode.Singleton.PlayerSoundsPlayer.PlayHit(_hitSound);
                 _characterHpHandler.GetDamageServerRpc(
                     (int)(damage * _gettingDamageKoef)); //Додати перевірку на резіст броні
             }

@@ -11,12 +11,14 @@ namespace InHandItems
     {
         private const string GatheringViewPath = "Weapon/View/GatheringObjectView";
 
-        [Header("Attached Components")] 
-        [SerializeField] private AnimationClip _gatheringAnimation;
+        [Header("Attached Components")] [SerializeField]
+        private AnimationClip _gatheringAnimation;
+
         [SerializeField] private InHandItems.InHandAnimations.GatheringObjectAnimator _gatheringObjectAnimator;
 
-        [Header("Main Params")] 
-        [SerializeField] private Tool _gatheringTool;
+        [Header("Main Params")] [SerializeField]
+        private Tool _gatheringTool;
+
         [SerializeField] private LayerMask _rayCastMask;
 
         [SerializeField] private float _maxGatheringDistance;
@@ -37,8 +39,7 @@ namespace InHandItems
         private void Update()
         {
             if (!_isGathering) return;
-            _gatheringObjectAnimator.Attack();
-            if (_isRecovering) return;
+            if (IsRecovering) return;
             TryGather();
         }
 
@@ -47,15 +48,15 @@ namespace InHandItems
 
         private void TryGather()
         {
+            _gatheringObjectAnimator.Attack();
             PlayerNetCode.Singleton.PlayerMeleeDamager.TryDamage(_gatheringTool.Damage, _gatheringAnimation.length);
-            
+            StartCoroutine(RecoverRoutine(_gatheringAnimation.length));
             if (!_rayCaster.TryRaycast<ResourceOre>("Ore", _maxGatheringDistance, out ResourceOre targetResourceOre,
                     _rayCastMask, out RaycastHit hitInfo)) return;
 
             if (!targetResourceOre.CanUseTool(_gatheringTool)) return;
             targetResourceOre.MinusHp(InventoryHandler.singleton.ActiveItem, out bool destroyed, hitInfo.point,
                 hitInfo.normal);
-            StartCoroutine(RecoverRoutine(_gatheringAnimation.length));
             PlayerNetCode.Singleton.PlayerSoundsPlayer.PlayHit(targetResourceOre.GatheringClip);
         }
     }
