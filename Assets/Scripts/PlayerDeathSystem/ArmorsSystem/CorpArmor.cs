@@ -27,9 +27,16 @@ namespace PlayerDeathSystem.ArmorsSystem
 
         private void ActivateSlots(bool value)
         {
-            if (!value) return;
-            foreach (var slot in _slots)
-                slot.AssignMaterial();
+            if (value)
+            {
+                foreach (var slot in _slots)
+                    slot.AssignMaterial();
+            }
+            else
+            {
+                foreach (var slot in _slots)
+                    slot.AssignCharacterMaterial();
+            }
         }
     }
 }

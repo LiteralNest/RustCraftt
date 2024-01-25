@@ -24,11 +24,14 @@ namespace PlayerDeathSystem
         public override void OnNetworkSpawn()
         {
             base.OnNetworkSpawn();
+            RedisplayCloth();
+            ItemsNetData.OnValueChanged += (oldValue, newValue) => RedisplayCloth();
             _nickNameText.text = NickName.Value.ToString();
             NickName.OnValueChanged += (FixedString64Bytes oldValue, FixedString64Bytes newValue) =>
                 _nickNameText.text = newValue.ToString();
         }
-
+        
+        
         public void SetWasDisconnectedAndOwnerId(bool value, int ownerId)
         {
             if (!IsServer)
@@ -46,6 +49,11 @@ namespace PlayerDeathSystem
         {
             if (!IsServer) return;
             _networkObject.Despawn();
+        }
+
+        private void RedisplayCloth()
+        {
+            _playerCorpDisplay.DisplayCloth(GetArmorSlots());
         }
     }
 }

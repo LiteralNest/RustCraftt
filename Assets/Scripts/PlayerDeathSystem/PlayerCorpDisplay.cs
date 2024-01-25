@@ -10,11 +10,16 @@ namespace PlayerDeathSystem
         [SerializeField] private CharacterCorpesAnimator _characterAnimationsHandler;
         [SerializeField] private CorpesArmorsContainer _corpesArmorsContainer;
 
-        public void Init(List<int> items)
+        public void Init()
         {
             _characterAnimationsHandler.DisplayDeathServerRpc();
+        }
+
+        public void DisplayCloth(List<int> items)
+        {
+            _corpesArmorsContainer.ClearArmors();
             foreach(var item in items)
-                _corpesArmorsContainer.AssignItemServerRpc(item);
+                _corpesArmorsContainer.AssignItem(item);
         }
     }
 }

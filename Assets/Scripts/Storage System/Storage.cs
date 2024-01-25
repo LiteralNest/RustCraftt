@@ -54,6 +54,7 @@ namespace Storage_System
         protected virtual void DoAfterResetItem()
         {
         }
+        
 
         #endregion
 

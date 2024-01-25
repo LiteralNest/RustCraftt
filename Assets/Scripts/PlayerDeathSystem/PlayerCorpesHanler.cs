@@ -18,7 +18,7 @@ namespace PlayerDeathSystem
             var script = backPack.GetComponent<BackPack>();
             script.NickName.Value = nickName;
             script.AssignCells(data);
-            script.PlayerCorpDisplay.Init(script.GetArmorSlots());
+            script.PlayerCorpDisplay.Init();
             script.SetWasDisconnectedAndOwnerId(wasDisconnected, ownerId);
         }
     }
