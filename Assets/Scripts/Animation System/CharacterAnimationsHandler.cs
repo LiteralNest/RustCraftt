@@ -22,19 +22,6 @@ namespace Animation_System
             Debug.LogError("Can't find animation: " + key);
             return 0;
         }
-
-        [ServerRpc(RequireOwnership = false)]
-        public void SetAnimationServerRpc(int num)
-        {
-            if(!IsServer) return;
-            SetAnimationClientRpc(num);
-        }
-
-        [ClientRpc]
-        private void SetAnimationClientRpc(int num)
-        {
-            SetAnimation(num);
-        }
         
         public void SetAnimation(int num)
         {

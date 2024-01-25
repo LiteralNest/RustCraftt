@@ -64,6 +64,17 @@ namespace Animation_System
             if (CharacterAnimationsHandler == null) return;
             SetAnimationServerRpc(CharacterAnimationsHandler.GetAnimationNum(value), isMainPlayer);
         }
+        
+        [ContextMenu("Set Sit")]
+        public void SetSit()
+        {
+            SetAnimation("Sit");
+        }
+
+        public void SetStand()
+        {
+            SetAnimation("Stand");
+        }
 
         [ContextMenu("Set Walk")]
         public void SetWalk()

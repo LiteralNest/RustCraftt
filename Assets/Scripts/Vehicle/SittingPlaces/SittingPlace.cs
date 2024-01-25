@@ -1,4 +1,5 @@
 using System.Linq;
+using Animation_System;
 using Player_Controller;
 using Unity.Netcode;
 using UnityEngine;
@@ -28,6 +29,7 @@ namespace Vehicle.SittingPlaces
             foreach (var player in players)
             {
                 if (player.NetworkObjectId != ownerId) continue;
+                
                 _currentPlayer = player;
             }
         }
@@ -64,7 +66,10 @@ namespace Vehicle.SittingPlaces
             => _currentPlayer = null;
 
         public virtual void SitIn(PlayerNetCode playerNetCode)
-            => SitServerRpc(playerNetCode.OwnerClientId, playerNetCode.NetworkObjectId);
+        {
+            AnimationsManager.Singleton.SetSit();
+             SitServerRpc(playerNetCode.OwnerClientId, playerNetCode.NetworkObjectId);
+        }
 
         #endregion
 
@@ -94,7 +99,10 @@ namespace Vehicle.SittingPlaces
         }
 
         public virtual void StandUp(PlayerNetCode playerNetCode)
-            => StandUpServerRpc(playerNetCode.NetworkObjectId);
+        {
+            AnimationsManager.Singleton.SetSit();
+            StandUpServerRpc(playerNetCode.NetworkObjectId);
+        }
 
         #endregion
 

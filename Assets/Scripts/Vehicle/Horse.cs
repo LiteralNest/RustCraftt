@@ -1,10 +1,12 @@
 using System;
 using UnityEngine;
+using Vehicle.Animators;
 
 namespace Vehicle
 {
     public class Horse : BaseVehicle
     {
+        [SerializeField] private HorseAnimator _horseAnimator;
         [SerializeField] private float _galopingSpeed = 10f;
         [SerializeField] private float _jumpForce = 20f;
         private float _currentMovingSpeed;
@@ -25,8 +27,11 @@ namespace Vehicle
 
             if (forwardMovement > 0)
             {
+                _horseAnimator.HandleWalk(true);
                 VehicleController.Move(transform.TransformDirection(movement * MoveSpeed * Time.deltaTime));
+                return;
             }
+            _horseAnimator.HandleWalk(false);
         }
 
         public void StartRun()
