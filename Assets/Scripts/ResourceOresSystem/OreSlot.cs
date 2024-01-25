@@ -8,5 +8,6 @@ namespace Items_System.Ore_Type
     {
         public Item Resource;
         public Vector2Int CountRange;
+        public bool ShouldAddWithRand;
     }
 }

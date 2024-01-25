@@ -9,7 +9,8 @@ namespace Items_System.Items
     {
         [field: SerializeField] public int Damage { get; set; } = 25;
         [field: SerializeField] public bool CanDamage { get; set; } = true;
-        
+        [field: SerializeField] public int GatheringAmount { get; set; } = 10;
+
         public override void Click(SlotDisplayer slotDisplayer)
         {
             base.Click(slotDisplayer);
