@@ -8,26 +8,20 @@ namespace Player_Controller
 {
     public class PlayerController : MonoBehaviour
     {
-        [Header("Attached Scripts")] 
-        [SerializeField]
+        [Header("Attached Scripts")] [SerializeField]
         private InHandObjectsContainer _inHandObjectsContainer;
 
-        [Header("Move")]
-        [SerializeField] private float _movingSpeed = 5;
+        [Header("Move")] [SerializeField] private float _movingSpeed = 5;
         [SerializeField] private CharacterController _controller;
         public bool IsMoving { get; private set; }
         private Vector2 _move;
 
-        [Header("Run")]
-        [SerializeField] private float _runningKoef = 1.5f;
-        private bool _ifRunning;
-        private float _currentMovingSpeed;
+        [Header("Run")] [SerializeField] private float _runningKoef = 1.5f;
+        private bool _isRunning;
 
-        [Header("Swim")] 
-        [SerializeField] private float _swimSpeed = 3f;
+        [Header("Swim")] [SerializeField] private float _swimSpeed = 3f;
 
-        [Header("Gravity")] 
-        [SerializeField] private PlayerJumper _jump;
+        [Header("Gravity")] [SerializeField] private PlayerJumper _jump;
         private bool _isCrouching;
         public bool IsCrouching => _isCrouching;
         public bool IsSwimming { get; set; }
@@ -37,7 +31,6 @@ namespace Player_Controller
         private void Start()
         {
             _camera = Camera.main;
-            _currentMovingSpeed = _movingSpeed;
         }
 
         private void Update()
@@ -79,9 +72,9 @@ namespace Player_Controller
 
         public void HandleCrouching(bool value)
         {
-            if(value)
+            if (value)
                 AnimationsManager.Singleton.SetStartCrouching();
-            else if(_isCrouching)
+            else if (_isCrouching)
                 AnimationsManager.Singleton.SetStopCrouching();
             _isCrouching = value;
         }
@@ -97,28 +90,25 @@ namespace Player_Controller
         }
 
         #endregion
-        
+
         #region Movement
-        
+
         private void Move()
         {
             Vector3 moveDirection = new Vector3(_move.x, 0f, _move.y);
             
-            if (_move != Vector2.zero)
+            if (!_isRunning && _move != Vector2.zero)
             {
-              moveDirection = transform.TransformDirection(moveDirection);
-                if (!_ifRunning)
-                {
-                    HandleWalkAnimation();
-                    _inHandObjectsContainer.SetWalk(true);
-                    _controller.Move(moveDirection * _movingSpeed * Time.deltaTime);
-                }
-                else
-                {
-                    _controller.Move(_camera.transform.forward * _movingSpeed * _runningKoef * Time.deltaTime);
-                }
+                moveDirection = transform.TransformDirection(moveDirection);
+                HandleWalkAnimation();
+                _inHandObjectsContainer.SetWalk(true);
+                _controller.Move(moveDirection * _movingSpeed * Time.deltaTime);
             }
-          
+             else if(_isRunning)
+            {
+                _controller.Move(_camera.transform.forward * _movingSpeed * _runningKoef * Time.deltaTime);
+            }
+
 
             if (_move != Vector2.zero) return;
             if (AnimationsManager.Singleton != null)
@@ -129,7 +119,7 @@ namespace Player_Controller
         public void StartRunning()
         {
             _inHandObjectsContainer.SetRun(true);
-            _ifRunning = true;
+            _isRunning = true;
         }
 
         public void StopRunning()
@@ -137,7 +127,7 @@ namespace Player_Controller
             if (AnimationsManager.Singleton != null)
                 AnimationsManager.Singleton.SetIdle();
             _inHandObjectsContainer.SetRun(false);
-            _ifRunning = false;
+            _isRunning = false;
         }
 
         #endregion
@@ -147,7 +137,7 @@ namespace Player_Controller
         private void Swim()
         {
             Vector3 moveDirection = new Vector3(_move.x, 0f, _move.y);
-    
+
             if (moveDirection != Vector3.zero)
             {
                 moveDirection = _camera.transform.TransformDirection(moveDirection);
@@ -156,7 +146,7 @@ namespace Player_Controller
         }
 
         #endregion
-        
+
         #region Collision Handling
 
         private void OnTriggerEnter(Collider other)
