@@ -12,9 +12,8 @@ namespace Items_System.Ore_Type
         [field: SerializeField] public AudioClip GatheringClip { get; private set; }
 
     
-        protected override void Start()
+        protected void Start()
         {
-            base.Start();
             gameObject.tag = "Ore";
         }
         public bool CanUseTool(Item tool)

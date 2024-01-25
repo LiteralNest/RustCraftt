@@ -14,39 +14,21 @@ namespace ResourceOresSystem
         [Header("Attached Scripts")] [SerializeField]
         private GatheringOreAnimator _animator;
 
-        [Header("Start init")] [SerializeField]
-        protected int _hp = 100;
-
-        [SerializeField] protected NetworkVariable<int> _currentHp = new(100, NetworkVariableReadPermission.Everyone,
-            NetworkVariableWritePermission.Owner);
+        [Header("Start init")]
+        [SerializeField] protected NetworkVariable<int> _currentHp = new(100);
         
         [SerializeField] protected List<OreSlot> _resourceSlots = new List<OreSlot>();
         [SerializeField] private GameObject _vfxEffect;
-
+        
         private OreObjectsPlacer _objectsPlacer;
-
+        
+        public NetworkVariable<int> CurrentHp => _currentHp;
+        
         public bool Recovering { get; protected set; } = false;
-
-        protected virtual void Start()
-            => _animator.SetIdle();
-
-        public override void OnNetworkSpawn()
-        {
-            if (IsServer)
-                _currentHp.Value = _hp;
-
-            base.OnNetworkSpawn();
-        }
 
         public void Init(OreObjectsPlacer objectsPlacer)
             => _objectsPlacer = objectsPlacer;
 
-        [Button]
-        public void Destroy()
-        {
-            StartCoroutine(DestroyRoutine());
-        }
-        
         protected void AddResourcesToInventory()
         {
             foreach (var slot in _resourceSlots)
@@ -60,12 +42,12 @@ namespace ResourceOresSystem
         [ServerRpc(RequireOwnership = false)]
         protected void MinusHpServerRpc()
         {
+            _currentHp.Value--;
             if (_currentHp.Value <= 0)
             {
                 StartCoroutine(DestroyRoutine());
                 return;
             }
-            _currentHp.Value--;
         }
         
         private IEnumerator DestroyRoutine()
@@ -77,6 +59,7 @@ namespace ResourceOresSystem
         [ClientRpc]
         private void DisplayVfxClientRpc(Vector3 pos, Vector3 rot)
         {
+            if(!_vfxEffect) return;
             Instantiate(_vfxEffect, pos, Quaternion.FromToRotation(Vector3.up, rot));
         }
 
