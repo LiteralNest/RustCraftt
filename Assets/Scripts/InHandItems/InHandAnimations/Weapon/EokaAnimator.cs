@@ -6,6 +6,7 @@
         private const string MissFire = "MissFire";
         private const string Fire = "Fire";
         private const string StopFire = "StopFire";
+        private const string Reload = "Reload";
 
         public void PlayStartFire()
             => PlayAnimationServerRpc(StartFire);
@@ -18,5 +19,8 @@
 
         public void PlayStopFire()
             => PlayAnimationServerRpc(StopFire);
+        
+        public void PlayReload()
+            => PlayAnimationServerRpc(Reload);
     }
 }

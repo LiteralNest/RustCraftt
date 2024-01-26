@@ -1,7 +1,9 @@
 using System.Collections;
+using Events;
 using InHandItems.InHandAnimations.Weapon;
 using InHandItems.InHandViewSystem;
 using Inventory_System.Inventory_Items_Displayer;
+using Items_System.Items;
 using Player_Controller;
 using UnityEngine;
 
@@ -19,6 +21,11 @@ namespace FightSystem.Weapon.WeaponTypes
         [SerializeField] private float _spreadRadiusFocus = 0.1f;
         [SerializeField, Range(1, 100)] private int _shotProbability = 25;
         [SerializeField] private EokaAnimator _eokaAnimator;
+        [SerializeField] private Ammo _ammo;
+
+        [Header("Animations")] [SerializeField]
+        private AnimationClip _reloadAnim;
+
         private LongRangeWeaponItemDisplayer _inventoryItemDisplayer;
         private Vector3[] _spreadOffsets;
 
@@ -27,6 +34,19 @@ namespace FightSystem.Weapon.WeaponTypes
 
         private bool _shooted;
         private EokaView _eokaView;
+
+        private void OnEnable()
+        {
+            TryDisplayReload();
+            if(_eokaView)
+                _eokaView.DisplayAttackButton(CurrentAmmoCount > 0);
+            GlobalEventsContainer.InventoryDataChanged += TryDisplayReload;
+        }
+
+        private void OnDisable()
+        {
+            GlobalEventsContainer.InventoryDataChanged -= TryDisplayReload;
+        }
 
         private void Start()
         {
@@ -40,7 +60,6 @@ namespace FightSystem.Weapon.WeaponTypes
         public void StartAttack()
         {
             _shooted = false;
-            CurrentAmmoCount = 1;
             _eokaAnimator.PlayStartFire();
             HandleShoot(true);
             SetCanShot(true);
@@ -52,6 +71,27 @@ namespace FightSystem.Weapon.WeaponTypes
             _eokaAnimator.PlayStopFire();
             HandleShoot(false);
             SetCanShot(false);
+        }
+
+        public void Reload()
+            => StartCoroutine(ReloadRoutine());
+
+        private void TryDisplayReload()
+        {
+            if (CurrentAmmoCount > 0 || PlayerNetCode.Singleton == null || _eokaView == null) return;
+            var itemCount = PlayerNetCode.Singleton.CharacterInventory.GetItemCount(_ammo.Id);
+            _eokaView.DisplayReloadButton(itemCount > 0);
+        }
+
+        private IEnumerator ReloadRoutine()
+        {
+            _eokaAnimator.PlayReload();
+            yield return new WaitForSeconds(_reloadAnim.length);
+            _eokaView.DisplayAttackButton(true);
+            _eokaView.DisplayReloadButton(false);
+            InventoryHandler.singleton.ActiveSlotDisplayer.ItemDisplayer.SetCurrentAmmo(1);
+            InventoryHandler.singleton.CharacterInventory.RemoveItem(_ammo.Id, 1);
+            CurrentAmmoCount++;
         }
 
         private IEnumerator WaitMissAnimRoutine()
@@ -78,10 +118,11 @@ namespace FightSystem.Weapon.WeaponTypes
             _eokaAnimator.PlayFire();
             SetCanShot(false);
             _shooted = true;
-            //PlayShot
 
             MinusAmmo();
-
+            
+            TryDisplayReload();
+            _eokaView.DisplayAttackButton(false);
             var spawnPoint = AmmoSpawnPoint.position;
             var shootDirection = transform.forward;
             SpreadShots(spawnPoint, shootDirection, WeaponAim.IsAiming ? _spreadRadiusFocus : _spreadRadiusNoFocus);
@@ -92,7 +133,6 @@ namespace FightSystem.Weapon.WeaponTypes
         private bool RandomShotSucceeded()
         {
             bool res = Random.Range(0, 100) <= _shotProbability;
-            Debug.Log(res);
             return res;
         }
 
