@@ -47,7 +47,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 1797157960
+  GlobalObjectIdHash: 729357677
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
   ActiveSceneSynchronization: 0
@@ -67,17 +67,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4821f80e4cca5ce48a4fae2f0dd20d5b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _hp: 1
+  _animator: {fileID: 0}
   _currentHp:
     m_InternalValue: 1
-  _recoveringSpeed: 60
   _resourceSlots:
   - Resource: {fileID: 11400000, guid: 200d2c64639dc31419395399e2005cfe, type: 2}
     CountRange: {x: 50, y: 50}
+    ShouldAddWithRand: 0
+  _vfxEffect: {fileID: 0}
   _renderers:
   - {fileID: 7644066393250884720}
-  _vfxEffect: {fileID: 0}
-  _shouldDelete: 0
+  _colliders: []
+  _recovering:
+    m_InternalValue: 0
+  _recoveringTime: 0
 --- !u!65 &4880081461040391422
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -99,6 +102,37 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1.9337267, y: 1.1695518, z: 1.9863651}
   m_Center: {x: 0, y: 0.46051216, z: 0.20158195}
+--- !u!1 &7644066393250884720
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 2963466260073195933, guid: 9c7d9caf92173664292ed2807cce9752, type: 3}
+  m_PrefabInstance: {fileID: 4842905886655301101}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7182456735205851162}
+  m_Layer: 0
+  m_Name: 'Stump (Missing Prefab with guid: 9c7d9caf92173664292ed2807cce9752)'
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7182456735205851162
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 2348701311344723447, guid: 9c7d9caf92173664292ed2807cce9752, type: 3}
+  m_PrefabInstance: {fileID: 4842905886655301101}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7644066393250884720}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0.0000001376788, y: 0.7071068, z: 0.7071067, w: -0.00000013767875}
+  m_LocalPosition: {x: 0, y: -0.25, z: 0.21}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5368726046759990737}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &4842905886655301101
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -156,13 +190,3 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9c7d9caf92173664292ed2807cce9752, type: 3}
---- !u!4 &7182456735205851162 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 2348701311344723447, guid: 9c7d9caf92173664292ed2807cce9752, type: 3}
-  m_PrefabInstance: {fileID: 4842905886655301101}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &7644066393250884720 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 2963466260073195933, guid: 9c7d9caf92173664292ed2807cce9752, type: 3}
-  m_PrefabInstance: {fileID: 4842905886655301101}
-  m_PrefabAsset: {fileID: 0}
