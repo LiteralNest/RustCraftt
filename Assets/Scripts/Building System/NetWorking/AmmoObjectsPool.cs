@@ -18,6 +18,7 @@ namespace Building_System.NetWorking
         [ServerRpc]
         public void SpawnArrowServerRpc(Vector3 position, Quaternion rotation, Vector3 force)
         {
+            if (!IsServer) return;
             var arrow = Instantiate(_arrowPrefab, position, rotation);
             arrow.GetComponent<NetworkObject>().Spawn();
             arrow.ArrowFly(force);
