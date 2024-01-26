@@ -8,7 +8,6 @@ namespace ResourceOresSystem
     [RequireComponent(typeof(BoxCollider))]
     public class GatheringOre : Ore
     {
-        [SerializeField] private bool _shouldDelete;
         [SerializeField] private List<Renderer> _renderers;
         [SerializeField] private List<Collider> _colliders;
         [SerializeField] private NetworkVariable<bool> _recovering = new(false);
@@ -17,7 +16,7 @@ namespace ResourceOresSystem
         public override void OnNetworkSpawn()
         {
             base.OnNetworkSpawn();
-            _recovering.OnValueChanged += ((value, newValue) => DisplayRenderers(newValue));
+            _recovering.OnValueChanged += ((value, newValue) => DisplayRenderers(!newValue));
         }
 
         private void Start()
@@ -37,11 +36,7 @@ namespace ResourceOresSystem
         {
             if (Recovering) return;
             AddResourcesToInventory();
-            MinusHpServerRpc();
-            if (_shouldDelete)
-            {
-                GetComponent<NetworkObject>().Despawn();
-            }
+            RecoverServerRpc();
         }
 
         [ServerRpc(RequireOwnership = false)]

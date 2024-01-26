@@ -73,7 +73,8 @@ namespace ResourceOresSystem
 
         private IEnumerator DestroyRoutine()
         {
-            yield return _animator.SetFallRoutine();
+            if(_animator)
+                yield return _animator.SetFallRoutine();
             if (_objectsPlacer)
                 StartCoroutine(_objectsPlacer.RegenerateObjectRoutine(this));
         }
