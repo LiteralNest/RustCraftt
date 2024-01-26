@@ -34,6 +34,7 @@ namespace FightSystem.Weapon.Melee
             _rb.velocity = Vector3.zero;
             _rb.angularVelocity = Vector3.zero;
             _rb.isKinematic = true;
+            _rb.constraints = RigidbodyConstraints.FreezeAll;
 
             transform.position = other.contacts[0].point;
         }

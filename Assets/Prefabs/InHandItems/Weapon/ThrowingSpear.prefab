@@ -47,7 +47,7 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3207674100288365559}
   serializedVersion: 4
-  m_Mass: 1
+  m_Mass: 10
   m_Drag: 0
   m_AngularDrag: 0.05
   m_CenterOfMass: {x: 0, y: 0, z: 0}
@@ -65,7 +65,7 @@ Rigidbody:
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
-  m_CollisionDetection: 0
+  m_CollisionDetection: 2
 --- !u!65 &162486257633989712
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -85,8 +85,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.13342182, y: 0.008478045, z: 0.072695}
-  m_Center: {x: 0.033910833, y: 0.54971033, z: 0.0019045509}
+  m_Size: {x: 0.101014316, y: 0.20579338, z: 0.072695}
+  m_Center: {x: 0.017707072, y: 0.78211164, z: 0.0019045509}
 --- !u!65 &8705575569463625358
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -106,8 +106,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.0828781, y: 1.7770072, z: 0.072695}
-  m_Center: {x: 0.008639999, y: -0.0016462803, z: 0.001905039}
+  m_Size: {x: 0.0828781, y: 1.5592535, z: 0.072695}
+  m_Center: {x: 0.008639999, y: -0.110523194, z: 0.001905039}
 --- !u!114 &2969699125831738023
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -148,7 +148,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 3661415168
+  GlobalObjectIdHash: 4282524711
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
   ActiveSceneSynchronization: 0
@@ -168,17 +168,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4821f80e4cca5ce48a4fae2f0dd20d5b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _hp: 1
+  _animator: {fileID: 0}
   _currentHp:
     m_InternalValue: 1
-  _recoveringSpeed: 0
   _resourceSlots:
   - Resource: {fileID: 11400000, guid: ebeabc5889d66a241a55747f01558524, type: 2}
     CountRange: {x: 1, y: 1}
-  _renderers:
-  - {fileID: 8407622568791737467}
+    ShouldAddWithRand: 0
   _vfxEffect: {fileID: 0}
   _shouldDelete: 1
+  _renderers:
+  - {fileID: 8407622568791737467}
+  _colliders: []
+  _recovering:
+    m_InternalValue: 0
+  _recoveringTime: 0
 --- !u!1001 &8677462313272260906
 PrefabInstance:
   m_ObjectHideFlags: 0
