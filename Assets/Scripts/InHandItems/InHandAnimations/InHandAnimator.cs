@@ -9,6 +9,22 @@ namespace InHandItems.InHandAnimations
         [SerializeField] private List<Animator> _fpAnimators;
         [SerializeField] private List<Animator> _tpAnimators;
         
+        
+
+        [ServerRpc(RequireOwnership = false)]
+        protected void PlayAnimationServerRpc(string key)
+        {
+            if (!IsServer) return;
+            PlayAnimationClientRpc(key);
+        }
+
+        [ServerRpc]
+        protected void PlayAnimationServerRpc(string key, bool value)
+        {
+            if (!IsServer) return;
+            PlayAnimationClientRpc(key, value);
+        }
+        
         [ClientRpc]
         private void PlayAnimationClientRpc(string key)
         {
@@ -17,12 +33,14 @@ namespace InHandItems.InHandAnimations
             foreach (var animator in _tpAnimators)
                 animator.SetTrigger(key);
         }
-
-        [ServerRpc(RequireOwnership = false)]
-        protected void PlayAnimationServerRpc(string key)
+        
+        [ClientRpc]
+        private void PlayAnimationClientRpc(string key, bool value)
         {
-            if (!IsServer) return;
-            PlayAnimationClientRpc(key);
+            foreach (var animator in _fpAnimators)
+                animator.SetBool(key, value);
+            foreach (var animator in _tpAnimators)
+                animator.SetBool(key, value);
         }
     }
 }

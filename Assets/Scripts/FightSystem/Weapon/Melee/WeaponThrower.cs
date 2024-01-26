@@ -1,3 +1,4 @@
+using Player_Controller;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -27,7 +28,7 @@ namespace FightSystem.Weapon.Melee
             InventoryHandler.singleton.CharacterInventory.RemoveItem(
                 InventoryHandler.singleton.ActiveSlotDisplayer.ItemDisplayer.InventoryCell.Item.Id, 1);
             SpawnSpearServerRpc(Camera.main.transform.forward, _spawnPoint.position, _spawnPoint.rotation);
-            gameObject.SetActive(false);
+            PlayerNetCode.Singleton.SetDefaultHandsServerRpc();
         }
     }
 }

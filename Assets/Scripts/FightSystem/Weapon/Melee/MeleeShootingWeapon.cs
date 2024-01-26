@@ -3,6 +3,7 @@ using InHandItems.InHandViewSystem;
 using Items_System.Items.Weapon;
 using Player_Controller;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 
 namespace FightSystem.Weapon.Melee
@@ -11,18 +12,18 @@ namespace FightSystem.Weapon.Melee
     {
         private const string ViewName = "Weapon/View/MeleeShootingWeaponView";
 
-        [Header("Main Params")] 
-        [SerializeField] private AnimationClip _attackAnimation;
+        [Header("Main Params")] [SerializeField]
+        private AnimationClip _attackAnimation;
+
         [SerializeField] private MeleeWeapon _targetWeapon;
 
         [Header("Attached Components")] [SerializeField]
         private Transform _viewSpawningPoint;
 
-        [Header("ThrowingObject")] [SerializeField]
-        private ThrowingInHandAnimator inHandAnimator;
+        [FormerlySerializedAs("inHandAnimator")] [Header("ThrowingObject")] [SerializeField]
+        private ThrowingInHandAnimator _inHandAnimator;
 
         [SerializeField] private WeaponThrower _weaponThrower;
-        [SerializeField] private GameObject _mainObj;
 
         private bool _isAttacking;
         private ThrowingInHandView _inHandView;
@@ -43,9 +44,6 @@ namespace FightSystem.Weapon.Melee
                 _inHandView.DisplayAttackButton(true);
                 _inHandView.DisplayScopeButton(true);
             }
-
-            DisplayDefault();
-            _wasScoped = false;
         }
 
         private void Update()
@@ -53,28 +51,21 @@ namespace FightSystem.Weapon.Melee
             if (!_isAttacking || IsRecovering) return;
             PlayerNetCode.Singleton.PlayerMeleeDamager.TryDamage(_targetWeapon.Damage, 1);
             StartCoroutine(RecoverRoutine(_attackAnimation.length));
-            inHandAnimator.Attack();
         }
 
-        public void SetThrowingPosition(bool value)
+        public void SetScope()
+            => _inHandAnimator.SetScope();
+
+        public void SetThrow()
         {
-            _wasScoped = true;
-            _mainObj.SetActive(false);
-            _weaponThrower.gameObject.SetActive(value);
-            _inHandView.DisplayAttackButton(false);
-            if (value) return;
-            _inHandView.gameObject.SetActive(false);
+            _inHandAnimator.SetThrow();
             _weaponThrower.ThrowSpear();
-            gameObject.SetActive(false);
         }
 
         public void SetAttack(bool value)
-            => _isAttacking = value;
-
-        private void DisplayDefault()
         {
-            _weaponThrower.gameObject.SetActive(false);
-            _mainObj.SetActive(true);
+            _isAttacking = value;
+            _inHandAnimator.HandleAttack(value);
         }
     }
 }
