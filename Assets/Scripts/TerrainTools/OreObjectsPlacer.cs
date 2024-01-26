@@ -16,8 +16,8 @@ namespace TerrainTools
         [SerializeField] private int _spawningPrefabsCount = 10;
         [SerializeField] private int _maxAttemptCount = 100;
         [SerializeField] private float _regeneratingTime = 2;
-
-        private List<Ore> _prefabs = new List<Ore>();
+        [SerializeField] private List<string> _tags;
+        [SerializeField] private List<Ore> _prefabs = new List<Ore>();
 
 #if UNITY_EDITOR
         private void OnDrawGizmosSelected()
@@ -29,10 +29,11 @@ namespace TerrainTools
         }
 #endif
 
-        public override void OnNetworkSpawn()
+        private void Start()
         {
-            base.OnNetworkSpawn();
-            Regenerate();
+            if (!IsServer) return;
+            foreach (var prefab in _prefabs)
+                prefab.Init(this);
         }
 
         public IEnumerator RegenerateObjectRoutine(Ore destroyedObject)
@@ -43,9 +44,10 @@ namespace TerrainTools
         }
 
         [Button]
+        [ContextMenu("Regenerate")]
         public void Regenerate()
         {
-            if(!IsServer) return;
+            if (!IsServer) return;
             ClearPrefabs();
             RandomlySpawnPrefabs(_spawningPrefabsCount);
         }
@@ -56,7 +58,7 @@ namespace TerrainTools
             destroyedObject.GetComponent<NetworkObject>().Despawn();
             Destroy(destroyedObject.gameObject);
         }
-        
+
         private void ClearPrefabs()
         {
             foreach (var prefab in _prefabs)
@@ -70,6 +72,7 @@ namespace TerrainTools
             var worldPosition = new Vector3(x, 10000, z);
             var ray = new Ray(worldPosition, Vector3.down);
             if (!Physics.Raycast(ray, out var hit, Mathf.Infinity, _layerMask)) return false;
+            if (!_tags.Contains(hit.collider.tag)) return false;
             y = (int)hit.point.y;
             return true;
         }
@@ -88,6 +91,34 @@ namespace TerrainTools
             return false;
         }
 
+        private bool PrefabExists(Vector3Int position)
+        {
+            foreach (var prefab in _prefabs)
+            {
+                int prefabX = Mathf.RoundToInt(prefab.transform.position.x);
+                int prefabZ = Mathf.RoundToInt(prefab.transform.position.z);
+
+                if (prefabX == position.x && prefabZ == position.z) return true;
+            }
+
+            return false;
+        }
+
+        private Vector3Int GetRandomlyGeneratedCoords()
+        {
+            int x = 0;
+            int z = 0;
+            while (true)
+            {
+                x = Random.Range(_offset.x, _size.x - _offset.x + 1) + (int)transform.position.x;
+                z = Random.Range(_offset.y, _size.y - _offset.y + 1) + (int)transform.position.z;
+                if (PrefabExists(new Vector3Int(x, 0, z))) continue;
+                break;
+            }
+
+            return new Vector3Int(x, 0, z);
+        }
+
         private void RandomlySpawnPrefabs(int count)
         {
             int spawnedPrefabsCount = 0;
@@ -96,13 +127,13 @@ namespace TerrainTools
             {
                 if (attemptCount >= _maxAttemptCount) break;
                 attemptCount++;
-                int x = Random.Range(_offset.x, _size.x - _offset.x + 1) + (int)transform.position.x;
-                int z = Random.Range(_offset.y, _size.y - _offset.y + 1) + (int)transform.position.z;
+                Vector3Int position = GetRandomlyGeneratedCoords();
 
-                if (ConflictsWithOther(new Vector3Int(x, 0, z))) continue;
-                if (!ThereIsYCoordinate(x, z, out int y)) continue;
+                if (ConflictsWithOther(position)) continue;
+                if (!ThereIsYCoordinate(position.x, position.z, out int y)) continue;
 
-                SpawnObject(new Vector3(x,y,z));
+                position.y = y;
+                SpawnObject(position);
                 attemptCount = 0;
                 spawnedPrefabsCount++;
             }
@@ -111,7 +142,7 @@ namespace TerrainTools
         private void SpawnObject(Vector3 position)
         {
             var prefab = Resources.Load<Ore>(_objectParh);
-        
+
             var instance = Instantiate(prefab, position,
                 Quaternion.identity, transform);
             instance.GetComponent<NetworkObject>().Spawn();

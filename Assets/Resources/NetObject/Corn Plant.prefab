@@ -132,7 +132,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 293519785
+  GlobalObjectIdHash: 1255930586
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
   ActiveSceneSynchronization: 0
@@ -152,18 +152,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4821f80e4cca5ce48a4fae2f0dd20d5b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _hp: 1
+  _animator: {fileID: 0}
   _currentHp:
     m_InternalValue: 1
-  _recoveringSpeed: 60
   _resourceSlots:
   - Resource: {fileID: 11400000, guid: 31d7508eb5e401a43b56096165eb6e99, type: 2}
     CountRange: {x: 1, y: 2}
-  _renderers:
-  - {fileID: 5763803614188587622}
-  - {fileID: 7266896454183032938}
+    ShouldAddWithRand: 0
   _vfxEffect: {fileID: 0}
   _shouldDelete: 0
+  _renderers:
+  - {fileID: 7365202320042848954}
+  _colliders:
+  - {fileID: 5826834610660619043}
+  _recovering:
+    m_InternalValue: 0
+  _recoveringTime: 60
 --- !u!65 &5826834610660619043
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -306,11 +310,6 @@ MeshRenderer:
 --- !u!4 &4951413627855999196 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: d7c4804fbdf0de941930386f506d2002, type: 3}
-  m_PrefabInstance: {fileID: 4844831998161712951}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &5763803614188587622 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: d7c4804fbdf0de941930386f506d2002, type: 3}
   m_PrefabInstance: {fileID: 4844831998161712951}
   m_PrefabAsset: {fileID: 0}
 --- !u!23 &7365202320042848954 stripped
