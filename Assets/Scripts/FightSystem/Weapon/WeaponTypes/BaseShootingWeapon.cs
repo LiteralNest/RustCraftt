@@ -16,7 +16,6 @@ namespace FightSystem.Weapon.WeaponTypes
 {
     [RequireComponent(typeof(WeaponSway))]
     [RequireComponent(typeof(AimSway))]
-    [RequireComponent(typeof(AudioSource), typeof(NetworkSoundPlayer))]
     public abstract class BaseShootingWeapon : NetworkBehaviour, IViewable
     {
         private const string ViewName = "Weapon/View/LongRangeWeaponView";
@@ -32,6 +31,7 @@ namespace FightSystem.Weapon.WeaponTypes
         [SerializeField] protected ShootingWeapon Weapon;
         [SerializeField] protected Transform AmmoSpawnPoint;
         [SerializeField] protected GameObject ImpactEffect;
+        [SerializeField]   private NetworkSoundPlayer _soundPlayer;
         
         [FormerlySerializedAs("TrailSpawner")] 
         [SerializeField] protected ShotEffectSpawner ShotEffectSpawner;
@@ -46,8 +46,6 @@ namespace FightSystem.Weapon.WeaponTypes
         [Header("Animation")]
         [SerializeField] private AnimationClip _reloadAnim;
 
-        private NetworkSoundPlayer _soundPlayer;
-        
         private WeaponSway _weaponSway;
         private AimSway _aimSway;
         
@@ -82,7 +80,6 @@ namespace FightSystem.Weapon.WeaponTypes
 
         protected void Start()
         {
-            _soundPlayer = GetComponent<NetworkSoundPlayer>();
             _weaponSway = GetComponent<WeaponSway>();
             _weaponSway.Init(_swayTransform);
             _aimSway = GetComponent<AimSway>();

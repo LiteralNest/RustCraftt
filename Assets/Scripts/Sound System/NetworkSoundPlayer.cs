@@ -4,10 +4,15 @@ using UnityEngine;
 
 namespace Sound_System
 {
+    [RequireComponent(typeof(AudioSource))]
     public class NetworkSoundPlayer : NetworkBehaviour
     {
-        [SerializeField] private AudioSource _audioSource;
         [SerializeField] private List<SoundSLot> _soundSlots = new List<SoundSLot>();
+
+        private AudioSource _audioSource;
+        
+        private void Start()
+            => _audioSource = GetComponent<AudioSource>();
 
         private int GetIdByClip(AudioClip clip)
         {

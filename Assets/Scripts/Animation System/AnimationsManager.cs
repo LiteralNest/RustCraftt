@@ -51,11 +51,13 @@ namespace Animation_System
         {
             if (isMainPlayer)
             {
-                CharacterAnimationsHandler.SetAnimation(value);
+                if(CharacterAnimationsHandler)
+                    CharacterAnimationsHandler.SetAnimation(value);
             }
             else
             {
-                InventoryAnimationsHandler.SetAnimation(value);
+                if(InventoryAnimationsHandler)
+                    InventoryAnimationsHandler.SetAnimation(value);
             }
         }
 
