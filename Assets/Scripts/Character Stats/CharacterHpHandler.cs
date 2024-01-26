@@ -88,6 +88,8 @@ namespace Character_Stats
         {
             if(!IsServer) return;
             _currentHp.Value += value;
+            if(_currentHp.Value > 100)
+                _currentHp.Value = 100;
         }
 
         #region Damagable

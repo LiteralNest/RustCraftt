@@ -45,7 +45,7 @@ namespace Player_Controller
 
         [SerializeField] private List<TMP_Text> _nickNameTexts = new List<TMP_Text>();
 
-        public NetworkVariable<int> ActiveItemId { get; set; } = new NetworkVariable<int>();
+        [field: SerializeField]  public NetworkVariable<int> ActiveItemId { get; set; } = new NetworkVariable<int>(-1);
 
         private RigidbodyConstraints _cachedConstraints;
 
