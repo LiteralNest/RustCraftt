@@ -69,7 +69,7 @@ public class PlayerClimber : MonoBehaviour
     {
         _currentLadder = null;
         if (!Physics.Raycast(_raycastOrigin.position, _raycastOrigin.forward, out RaycastHit hit, _raycastDistance)) return false;
-        if (!hit.collider.CompareTag("DamagingItem")) return false;
+        if (!hit.collider.CompareTag("DamagingItem") && !hit.collider.CompareTag("Ladder")) return false;
         if (!hit.collider.TryGetComponent(out Ladder ladder)) return false;
         _currentLadder = ladder;
         return true;
