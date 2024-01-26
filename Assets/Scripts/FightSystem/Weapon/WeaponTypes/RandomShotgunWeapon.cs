@@ -6,6 +6,7 @@ using Inventory_System.Inventory_Items_Displayer;
 using Items_System.Items;
 using Player_Controller;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace FightSystem.Weapon.WeaponTypes
 {
@@ -23,8 +24,8 @@ namespace FightSystem.Weapon.WeaponTypes
         [SerializeField] private EokaAnimator _eokaAnimator;
         [SerializeField] private Ammo _ammo;
 
-        [Header("Animations")] [SerializeField]
-        private AnimationClip _reloadAnim;
+        [FormerlySerializedAs("_reloadAnim")] [Header("Animations")] [SerializeField]
+        private AnimationClip _reloadAnimation;
 
         private LongRangeWeaponItemDisplayer _inventoryItemDisplayer;
         private Vector3[] _spreadOffsets;
@@ -86,7 +87,7 @@ namespace FightSystem.Weapon.WeaponTypes
         private IEnumerator ReloadRoutine()
         {
             _eokaAnimator.PlayReload();
-            yield return new WaitForSeconds(_reloadAnim.length);
+            yield return new WaitForSeconds(_reloadAnimation.length);
             _eokaView.DisplayAttackButton(true);
             _eokaView.DisplayReloadButton(false);
             InventoryHandler.singleton.ActiveSlotDisplayer.ItemDisplayer.SetCurrentAmmo(1);

@@ -96,7 +96,7 @@ namespace Player_Controller
         private void Move()
         {
             Vector3 moveDirection = new Vector3(_move.x, 0f, _move.y);
-            
+
             if (!_isRunning && _move != Vector2.zero)
             {
                 moveDirection = transform.TransformDirection(moveDirection);
@@ -104,9 +104,12 @@ namespace Player_Controller
                 _inHandObjectsContainer.SetWalk(true);
                 _controller.Move(moveDirection * _movingSpeed * Time.deltaTime);
             }
-             else if(_isRunning)
+            else if (_isRunning)
             {
                 _controller.Move(_camera.transform.forward * _movingSpeed * _runningKoef * Time.deltaTime);
+                _inHandObjectsContainer.SetWalk(true);
+                HandleWalkAnimation();
+                return;
             }
 
 
