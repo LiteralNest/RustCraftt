@@ -8,8 +8,8 @@ namespace Items_System
     [RequireComponent(typeof(BoxCollider))]
     public class LootingItem : NetworkBehaviour
     {
-        public CustomSendingInventoryDataCell Data { get; set; }
-       [field:SerializeField] public Item TargetItem { get; private set; }
+        public NetworkVariable<CustomSendingInventoryDataCell> Data { get; set; } = new();
+        [field: SerializeField] public Item TargetItem { get; private set; }
 
         private void Start()
             => gameObject.tag = "LootingItem";

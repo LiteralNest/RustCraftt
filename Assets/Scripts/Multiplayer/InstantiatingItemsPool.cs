@@ -33,18 +33,24 @@ namespace Multiplayer
         public void SpawnObjectServerRpc(CustomSendingInventoryDataCell data, Vector3 position)
         {
             if (!IsServer) return;
+            SpawnObjectOnServer(data, position);
+        }
+
+        public void SpawnObjectOnServer(CustomSendingInventoryDataCell data, Vector3 position)
+        {
+         
             LootingItem lootingItem = null;
             foreach (var item in _items)
             {
                 if (item.TargetItem.Id != data.Id) continue;
                 lootingItem = Instantiate(item, position, Quaternion.identity);
                 SpawnLoot(lootingItem, position);
-                lootingItem.Data = data;
+                lootingItem.Data.Value = data;
                 return;
             }
             lootingItem = Instantiate(_universalDropableItem, position, Quaternion.identity);
             SpawnLoot(lootingItem, position);
-            lootingItem.Data = data;
+            lootingItem.Data.Value = data;
         }
     }
 }

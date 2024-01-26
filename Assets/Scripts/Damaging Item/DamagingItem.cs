@@ -37,17 +37,12 @@ namespace Damaging_Item
             _cachedHp = _currentHp.Value;
         }
 
-        public override void OnNetworkSpawn()
-        {
-            _currentHp.OnValueChanged += (int prevValue, int newValue) => { CheckHp(newValue); };
-        }
-
         private void SpawnLootCell(LootCell cell)
         {
             int rand = Random.Range(cell.MinimalCount, cell.MaximalCount);
             var fixedPos = transform.position;
             fixedPos.y += _spawningYOffset;
-            InstantiatingItemsPool.sigleton.SpawnObjectServerRpc(
+            InstantiatingItemsPool.sigleton.SpawnObjectOnServer(
                 new CustomSendingInventoryDataCell(cell.Item.Id, rand, 100, 0), fixedPos);
         }
 
@@ -99,6 +94,7 @@ namespace Damaging_Item
         private void GetDamageServerRpc(int damage, bool value)
         {
             _currentHp.Value -= damage;
+            CheckHp(_currentHp.Value);
             _soundPlayer.PlayOneShot(_damagingSound);
         }
 

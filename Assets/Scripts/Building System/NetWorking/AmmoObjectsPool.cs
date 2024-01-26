@@ -15,7 +15,7 @@ namespace Building_System.NetWorking
             Singleton = this;
         }
         
-        [ServerRpc]
+        [ServerRpc(RequireOwnership = false)]
         public void SpawnArrowServerRpc(Vector3 position, Quaternion rotation, Vector3 force)
         {
             if (!IsServer) return;
