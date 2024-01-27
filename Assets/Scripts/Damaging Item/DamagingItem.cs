@@ -20,7 +20,7 @@ namespace Damaging_Item
         [SerializeField] private List<LootCell> _loot = new List<LootCell>();
         [SerializeField] private List<GameObject> _renderingObjects = new List<GameObject>();
         [SerializeField] private List<Collider> _colliders = new List<Collider>();
-
+        [SerializeField] private float _recoveringTime = 60;
         [Header("Sound")] [SerializeField] private AudioClip _damagingSound;
         [SerializeField] private AudioClip _destroyingSound;
 
@@ -78,8 +78,15 @@ namespace Damaging_Item
             TurnRendederersClientRpc(false);
             foreach (var cell in _loot)
                 SpawnLootCell(cell);
-            yield return new WaitForSeconds(_destroyingSound.length);
-            _networkObject.Despawn();
+            StartCoroutine(RecoverRoutine());
+        }
+
+        private IEnumerator RecoverRoutine()
+        {
+            if(!IsServer) yield break;
+            yield return new WaitForSeconds(_recoveringTime);
+            _currentHp.Value = _cachedHp;
+            TurnRendederersClientRpc(true);
         }
 
         private void CheckHp(int value)
