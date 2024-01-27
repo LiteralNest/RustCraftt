@@ -18,6 +18,8 @@ namespace UI
         [SerializeField] private GameObject _joystick;
         [SerializeField] private GameObject _moveUpButton;
         [SerializeField] private GameObject _sitAndJumpPanel;
+        
+        
         [SerializeField] private List<GameObject> _vehicleIgnoringPanels = new List<GameObject>();
 
         [SerializeField] private List<GameObject> _movingHudPanels = new List<GameObject>();
