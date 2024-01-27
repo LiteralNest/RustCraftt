@@ -12,14 +12,14 @@ namespace Recycler
     {
         [HideInInspector] public NetworkVariable<bool> Turned = new NetworkVariable<bool>(false);
 
+        [SerializeField] private Animator _animator;
         [SerializeField] private float _recyclingTime = 1;
         [SerializeField] private List<RecyclingItem> _avaliableItems = new List<RecyclingItem>();
         [SerializeField] private AudioSource _source;
-        
-        [Header("UI")]
-        [SerializeField] private GameObject _turnOnPanel;
+
+        [Header("UI")] [SerializeField] private GameObject _turnOnPanel;
         [SerializeField] private GameObject _turnOffPanel;
-        
+
         private bool _recycling;
 
         private void Start()
@@ -31,7 +31,7 @@ namespace Recycler
             Turn(Turned.Value);
             base.OnNetworkSpawn();
         }
-        
+
         private void Update()
         {
             if (!Turned.Value) return;
@@ -42,11 +42,17 @@ namespace Recycler
         {
             _turnOnPanel.SetActive(!value);
             _turnOffPanel.SetActive(value);
-            if(value)
+            if (value)
+            {
+                _animator.SetTrigger("Work");
                 _source.Play();
+            }
             else
+            {
+                _animator.SetTrigger("Idle");
                 _source.Stop();
             }
+        }
 
         private RecyclingItem GetRecyclingItemById(int id)
         {
