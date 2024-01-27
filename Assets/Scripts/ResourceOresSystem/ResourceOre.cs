@@ -31,7 +31,7 @@ namespace Items_System.Ore_Type
             slot = default;
             return false;
         }
-
+        
         public override bool CanUseTool(Tool tool)
             => SlotFound(tool, out OreToolsForGatheringSlots toolSlot);
 

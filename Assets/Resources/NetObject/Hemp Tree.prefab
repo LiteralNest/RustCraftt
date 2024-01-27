@@ -1,5 +1,36 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &283799882480099038
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: bb165f5dd99446e4db530331d7dbd134, type: 3}
+  m_PrefabInstance: {fileID: 1094704205023355791}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 629258002854462564}
+  m_Layer: 0
+  m_Name: 'HempTree (Missing Prefab with guid: bb165f5dd99446e4db530331d7dbd134)'
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &629258002854462564
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: bb165f5dd99446e4db530331d7dbd134, type: 3}
+  m_PrefabInstance: {fileID: 1094704205023355791}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 283799882480099038}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.25, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 1
+  m_Children: []
+  m_Father: {fileID: 2255093383779684145}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &8224838688375217736
 GameObject:
   m_ObjectHideFlags: 0
@@ -12,7 +43,7 @@ GameObject:
   - component: {fileID: 1121701600363773240}
   - component: {fileID: 322657991128791314}
   - component: {fileID: 5396448916582991741}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Hemp Tree
   m_TagString: Gathering
   m_Icon: {fileID: 0}
@@ -67,17 +98,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4821f80e4cca5ce48a4fae2f0dd20d5b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _hp: 1
+  _animator: {fileID: 0}
   _currentHp:
     m_InternalValue: 1
-  _recoveringSpeed: 60
   _resourceSlots:
   - Resource: {fileID: 11400000, guid: 42519802c97ff8f41bcc6bb79c6d7cb3, type: 2}
     CountRange: {x: 1, y: 10}
+    ShouldAddWithRand: 0
+  _vfxEffect: {fileID: 0}
   _renderers:
   - {fileID: 283799882480099038}
-  _vfxEffect: {fileID: 0}
-  _shouldDelete: 0
+  _colliders: []
+  _recovering:
+    m_InternalValue: 0
+  _recoveringTime: 0
 --- !u!65 &5396448916582991741
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -196,13 +230,3 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bb165f5dd99446e4db530331d7dbd134, type: 3}
---- !u!1 &283799882480099038 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: bb165f5dd99446e4db530331d7dbd134, type: 3}
-  m_PrefabInstance: {fileID: 1094704205023355791}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &629258002854462564 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: bb165f5dd99446e4db530331d7dbd134, type: 3}
-  m_PrefabInstance: {fileID: 1094704205023355791}
-  m_PrefabAsset: {fileID: 0}

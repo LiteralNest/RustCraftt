@@ -41,8 +41,8 @@ public class ObjectsRayCaster : MonoBehaviour
     [Header("Layers")] [SerializeField] private LayerMask _defaultMask;
     [SerializeField] private LayerMask _blockMask;
     [SerializeField] private LayerMask _playerMask;
-
-    public ResourceOre TargetResourceOre { get; private set; }
+    [SerializeField] private LayerMask _resourceOreMask;
+    
     public GatheringOre TargetGathering { get; private set; }
     public Storage TargetBox { get; private set; }
     public LootingItem LootingItem { get; private set; }
@@ -68,7 +68,6 @@ public class ObjectsRayCaster : MonoBehaviour
 
     private void ResetTargets()
     {
-        TargetResourceOre = null;
         TargetGathering = null;
         TargetBox = null;
         LootingItem = null;
@@ -184,7 +183,7 @@ public class ObjectsRayCaster : MonoBehaviour
             TargetClipboardInteractable = clipboardInteractable;
         }
 
-        if (TryRaycast("Gathering", _maxGatheringDistance, out GatheringOre item, _defaultMask))
+        if (TryRaycast("Gathering", _maxGatheringDistance, out GatheringOre item, _resourceOreMask))
         {
             if (OreReady(item))
             {
@@ -201,14 +200,6 @@ public class ObjectsRayCaster : MonoBehaviour
             {
                 SetLootButton("Authorize");
                 return;
-            }
-        }
-
-        if (TryRaycast("LootBox", _maxOpeningDistance, out ResourceOre ore, _defaultMask))
-        {
-            if (OreReady(ore))
-            {
-                TargetResourceOre = ore;
             }
         }
 

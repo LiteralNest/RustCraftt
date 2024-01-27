@@ -71,8 +71,13 @@ namespace ResourceOresSystem
             }
         }
 
+        protected virtual void DoAfterDestroying()
+        {
+        }
+
         private IEnumerator DestroyRoutine()
         {
+            DoAfterDestroying();
             if(_animator)
                 yield return _animator.SetFallRoutine();
             if (_objectsPlacer)

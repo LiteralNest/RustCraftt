@@ -43,9 +43,9 @@ GameObject:
   - component: {fileID: 3233522887587040198}
   - component: {fileID: 2131782316785150647}
   - component: {fileID: 4880561337097570723}
-  - component: {fileID: 6386365782656214186}
   - component: {fileID: 9060565187582381313}
-  m_Layer: 0
+  - component: {fileID: 8437309168392197740}
+  m_Layer: 9
   m_Name: Chicken Dead
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -140,37 +140,6 @@ MonoBehaviour:
   InLocalSpace: 0
   Interpolate: 1
   SlerpPosition: 0
---- !u!114 &6386365782656214186
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8603674942033952941}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 498418d17b4745e44ac6f127b34160bd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _hp: 15
-  _currentHp:
-    m_InternalValue: 15
-  _recoveringSpeed: 0
-  _resourceSlots:
-  - Resource: {fileID: 11400000, guid: a125763f8d773924b815354b2051f09b, type: 2}
-    CountRange: {x: 5, y: 10}
-  - Resource: {fileID: 11400000, guid: 42519802c97ff8f41bcc6bb79c6d7cb3, type: 2}
-    CountRange: {x: 5, y: 10}
-  - Resource: {fileID: 11400000, guid: 79709cbf019cfc3439ad1b000ca77e75, type: 2}
-    CountRange: {x: 1, y: 4}
-  _renderers:
-  - {fileID: 6481049308412144755}
-  _vfxEffect: {fileID: 7920461796151334058}
-  _toolsForGathering:
-  - {fileID: 11400000, guid: 722b392527e89894ba230a29531d3973, type: 2}
-  - {fileID: 11400000, guid: c4791c33b05b3154992749c0dd27fc49, type: 2}
-  - {fileID: 11400000, guid: ebeabc5889d66a241a55747f01558524, type: 2}
-  <GatheringClip>k__BackingField: {fileID: 8300000, guid: 5b629d5f309986141adc4ef0a0b8c904, type: 3}
 --- !u!114 &9060565187582381313
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -184,6 +153,43 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <Id>k__BackingField: 4
+--- !u!114 &8437309168392197740
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8603674942033952941}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 442162623fee4d2baf5892ffb0b1ec61, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _animator: {fileID: 0}
+  _currentHp:
+    m_InternalValue: 15
+  _resourceSlots: []
+  _vfxEffect: {fileID: 0}
+  _toolsForGathering:
+  - Tool: {fileID: 11400000, guid: f5c4258f963384ac5b58c73a8bd24773, type: 2}
+    LossAmount: 0
+  - Tool: {fileID: 11400000, guid: beeb8cae151c24c8786bde42fa7491a5, type: 2}
+    LossAmount: 0
+  - Tool: {fileID: 11400000, guid: 722b392527e89894ba230a29531d3973, type: 2}
+    LossAmount: 30
+  - Tool: {fileID: 11400000, guid: 99b717cefb9424dbbb1f06e724270532, type: 2}
+    LossAmount: 25
+  - Tool: {fileID: 11400000, guid: 4bca1e48d51c34d30a78ade40b2a211a, type: 2}
+    LossAmount: 30
+  - Tool: {fileID: 11400000, guid: 22994ab29e3d64db387d1bcee48a3864, type: 2}
+    LossAmount: 35
+  - Tool: {fileID: 11400000, guid: c4791c33b05b3154992749c0dd27fc49, type: 2}
+    LossAmount: 35
+  - Tool: {fileID: 11400000, guid: 096e0c3eb4103474bb291184fde07afb, type: 2}
+    LossAmount: 35
+  <GatheringClip>k__BackingField: {fileID: 8300000, guid: 5b629d5f309986141adc4ef0a0b8c904, type: 3}
+  _displayingObjects:
+  - {fileID: 8603674942033952941}
 --- !u!1001 &6138469874327834914
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -264,10 +270,5 @@ PrefabInstance:
 --- !u!4 &5961218544225105609 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 04a4e8697783ae447b16a26cd5688f45, type: 3}
-  m_PrefabInstance: {fileID: 6138469874327834914}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &6481049308412144755 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 04a4e8697783ae447b16a26cd5688f45, type: 3}
   m_PrefabInstance: {fileID: 6138469874327834914}
   m_PrefabAsset: {fileID: 0}
