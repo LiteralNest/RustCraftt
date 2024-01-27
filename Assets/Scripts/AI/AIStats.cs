@@ -1,6 +1,7 @@
 using AI.Animals;
 using FightSystem.Damage;
 using Multiplayer;
+using Sound_System;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -23,6 +24,9 @@ namespace AI
         }
 
         #region IDamagable
+
+        public AudioClip GetPlayerDamageClip()
+           => GlobalSoundsContainer.Singleton.HitSound;
 
         public int GetHp()
             => _hp.Value;

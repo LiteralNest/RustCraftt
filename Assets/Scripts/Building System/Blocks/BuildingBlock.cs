@@ -15,6 +15,7 @@ namespace Building_System.Blocks
         [SerializeField] private NetworkSoundPlayer _soundPlayer;
         [SerializeField] private List<Block> _levels;
         [SerializeField] private float _canbeDestroyedByHammerTime = 60f;
+  
         public Action<IDestroyable> OnDestroyed { get; set; }
 
         private ConnectedStructure _currentStructure;
@@ -221,6 +222,9 @@ namespace Building_System.Blocks
                     StartCoroutine(DestroyRoutine());
             }
         }
+
+        public AudioClip GetPlayerDamageClip()
+            => GlobalSoundsContainer.Singleton.HitSound;
 
         public int GetHp()
             => _hp.Value;

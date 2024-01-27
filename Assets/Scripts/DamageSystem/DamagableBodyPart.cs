@@ -1,7 +1,7 @@
 using ArmorSystem.Backend;
 using Character_Stats;
 using FightSystem.Damage;
-using Player_Controller;
+using Sound_System;
 using UnityEngine;
 
 namespace DamageSystem
@@ -9,16 +9,22 @@ namespace DamageSystem
     public class DamagableBodyPart : MonoBehaviour, IDamagable
     {
         [Header("Attached Scripts")] [SerializeField]
-        private CharacterHpHandler _characterHpHandler;
+        private PlayerSoundsPlayer _playerSoundsPlayer;
+
+        [SerializeField] private CharacterHpHandler _characterHpHandler;
 
         [Header("Main Parameters")] [Range(0, 2)] [SerializeField]
         private float _gettingDamageKoef = 1;
+
         [SerializeField] private AudioClip _hitSound;
         [SerializeField] private BodyPartType _partType = BodyPartType.None;
 
+        public AudioClip GetPlayerDamageClip()
+            => _hitSound;
+
         public int GetHp()
         {
-            if(_characterHpHandler.Hp <= 0)
+            if (_characterHpHandler.Hp <= 0)
                 return 0;
             return (ushort)_characterHpHandler.Hp;
         }
@@ -29,8 +35,7 @@ namespace DamageSystem
         {
             if (_characterHpHandler.Hp >= 0)
             {
-                if(PlayerNetCode.Singleton)
-                    PlayerNetCode.Singleton.PlayerSoundsPlayer.PlayHit(_hitSound);
+                _playerSoundsPlayer.PlayHit(_hitSound);
                 _characterHpHandler.GetDamageServerRpc(
                     (int)(damage * _gettingDamageKoef)); //Додати перевірку на резіст броні
             }

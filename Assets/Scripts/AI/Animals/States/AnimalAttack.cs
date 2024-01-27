@@ -1,6 +1,7 @@
 using System.Collections;
 using AI.Animals.Animators;
 using FightSystem.Damage;
+using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -22,6 +23,7 @@ namespace AI.Animals.States
 
         private void TryAttack(Transform target)
         {
+            if(!NetworkManager.Singleton.IsServer) return;
             var damagable = target.GetComponent<IDamagable>();
             if(damagable == null) return;
             damagable.GetDamage(_damagingForce);

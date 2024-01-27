@@ -3,8 +3,8 @@ using Building_System.Blocks;
 using Inventory_System;
 using UnityEngine;
 using System.Collections;
-using Storage_System;
 using Tool_Clipboard;
+using Unity.Netcode;
 
 namespace Building_System.Buildings_Connecting
 {
@@ -19,6 +19,7 @@ namespace Building_System.Buildings_Connecting
 
         private void Start()
         {
+            if(!NetworkManager.Singleton.IsServer) return;
             StartCoroutine(DecayRoutine());
         }
 

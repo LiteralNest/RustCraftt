@@ -94,6 +94,11 @@ namespace Character_Stats
 
         #region Damagable
 
+        public AudioClip GetPlayerDamageClip()
+        {
+            return null;
+        }
+
         public int GetHp()
             => _currentHp.Value;
 

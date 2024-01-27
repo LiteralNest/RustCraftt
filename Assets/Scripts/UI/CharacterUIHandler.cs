@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using Events;
 using UnityEngine;
@@ -9,6 +10,7 @@ namespace UI
     {
         public static CharacterUIHandler singleton { get; private set; }
 
+        [SerializeField] private GameObject _hitUi;
         [SerializeField] private GameObject _buildingStaffPanel;
         [SerializeField] private GameObject _buildingButton;
         [SerializeField] private GameObject _buildingChoosingPanel;
@@ -65,6 +67,13 @@ namespace UI
         {
             _moveUpButton.SetActive(value);
             _sitAndJumpPanel.SetActive(!value);
+        }
+
+        public IEnumerator DisplayHitRoutine()
+        {
+            _hitUi.SetActive(true);
+            yield return new WaitForSeconds(0.1f);
+            _hitUi.SetActive(false);
         }
     }
 }

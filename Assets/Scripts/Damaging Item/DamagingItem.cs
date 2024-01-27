@@ -24,6 +24,7 @@ namespace Damaging_Item
         [Header("Sound")] [SerializeField] private AudioClip _damagingSound;
         [SerializeField] private AudioClip _destroyingSound;
 
+
         private NetworkSoundPlayer _soundPlayer;
         private NetworkObject _networkObject;
 
@@ -53,6 +54,9 @@ namespace Damaging_Item
         {
             throw new System.NotImplementedException();
         }
+
+        public AudioClip GetPlayerDamageClip()
+            => GlobalSoundsContainer.Singleton.HitSound;
 
         public int GetHp()
             => (ushort)_currentHp.Value;

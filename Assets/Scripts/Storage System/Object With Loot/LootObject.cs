@@ -1,4 +1,5 @@
 using FightSystem.Damage;
+using Sound_System;
 using UnityEngine;
 
 namespace Storage_System.Object_With_Loot
@@ -20,6 +21,9 @@ namespace Storage_System.Object_With_Loot
                 Destroy(gameObject);
         }
 
+        public AudioClip GetPlayerDamageClip()
+            => GlobalSoundsContainer.Singleton.HitSound;
+
         public int GetHp()
             => (ushort)_hp;
 
@@ -34,12 +38,10 @@ namespace Storage_System.Object_With_Loot
 
         public void Destroy()
         {
-        
         }
 
         public void Shake()
         {
-        
         }
     }
 }

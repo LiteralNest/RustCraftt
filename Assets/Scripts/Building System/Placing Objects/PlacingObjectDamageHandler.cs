@@ -8,13 +8,17 @@ namespace Building_System.Placing_Objects
     {
         [SerializeField] private int _maxHp = 100;
         private NetworkVariable<int> _hp = new();
- 
+        [SerializeField] private AudioClip _playerHitSound;
+
         public override void OnNetworkSpawn()
         {
             base.OnNetworkSpawn();
             _hp.Value = _maxHp;
         }
-        
+
+        public AudioClip GetPlayerDamageClip()
+            => _playerHitSound;
+
         public int GetHp()
             => _hp.Value;
 
@@ -23,6 +27,7 @@ namespace Building_System.Placing_Objects
 
         public void GetDamage(int damage, bool playSound = true)
             => GetDamageServerRpc(damage);
+
         public void Destroy()
         {
             GetComponent<NetworkObject>().Despawn();
@@ -38,6 +43,6 @@ namespace Building_System.Placing_Objects
             _hp.Value -= damage;
             if (_hp.Value <= 0)
                 Destroy();
-        }   
+        }
     }
 }
