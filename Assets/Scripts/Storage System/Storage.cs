@@ -155,30 +155,33 @@ namespace Storage_System
         }
 
 
+        public void AddItemToDesiredSlot(int itemId, int count, int ammo, int hp = 100, Vector2Int range = default)
+        {
+            if (range == default)
+            {
+                if (!InventoryHelper.AddItemToDesiredSlot(itemId, count, ammo, ItemsNetData,
+                        new Vector2Int(0, MainSlotsCount), hp))
+                {
+                    InstantiatingItemsPool.sigleton.SpawnObjectServerRpc(new CustomSendingInventoryDataCell(itemId, count, hp, ammo),
+                        transform.forward * 1.5f);
+                }
+            }
+
+            else
+            {
+                if (!InventoryHelper.AddItemToDesiredSlot(itemId, count, ammo, ItemsNetData, range, hp))
+                {
+                    InstantiatingItemsPool.sigleton.SpawnObjectServerRpc(new CustomSendingInventoryDataCell(itemId, count, hp, ammo),
+                        transform.forward * 1.5f);
+                }
+            }
+        }
+        
         [ServerRpc(RequireOwnership = false)]
         public void AddItemToDesiredSlotServerRpc(int itemId, int count, int ammo, int hp = 100, Vector2Int range = default)
         {
             if (IsServer)
-            {
-                if (range == default)
-                {
-                    if (!InventoryHelper.AddItemToDesiredSlot(itemId, count, ammo, ItemsNetData,
-                            new Vector2Int(0, MainSlotsCount), hp))
-                    {
-                        InstantiatingItemsPool.sigleton.SpawnObjectServerRpc(new CustomSendingInventoryDataCell(itemId, count, hp, ammo),
-                            transform.forward * 1.5f);
-                    }
-                }
-
-                else
-                {
-                    if (!InventoryHelper.AddItemToDesiredSlot(itemId, count, ammo, ItemsNetData, range, hp))
-                    {
-                        InstantiatingItemsPool.sigleton.SpawnObjectServerRpc(new CustomSendingInventoryDataCell(itemId, count, hp, ammo),
-                            transform.forward * 1.5f);
-                    }
-                }
-            }
+                AddItemToDesiredSlot(itemId, count, ammo, hp, range);
 
             DoAfterAddingItem(new InventoryCell(ItemFinder.singleton.GetItemById(itemId), count));
         }

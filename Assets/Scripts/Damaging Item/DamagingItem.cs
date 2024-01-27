@@ -13,6 +13,7 @@ namespace Damaging_Item
     [RequireComponent(typeof(NetworkObject))]
     public class DamagingItem : NetworkBehaviour, IDamagable
     {
+        
         [SerializeField] private NetworkVariable<int> _currentHp = new(50, NetworkVariableReadPermission.Everyone,
             NetworkVariableWritePermission.Owner);
 
