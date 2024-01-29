@@ -16310,7 +16310,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 124812598
+  GlobalObjectIdHash: 1057753847
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
   ActiveSceneSynchronization: 0
@@ -16493,10 +16493,24 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _characterController: {fileID: 6180139838029370084}
-  Gravity: -9.8
+  _characterStats: {fileID: 3960080918123890327}
+  _gravity: -9.8
   _jumpForce: 5
   _damping: 1.15
   _gravitySnap: -6
+  _fallDamageRanges:
+  - minHeight: 10
+    maxHeight: 19
+    damageAmount: 10
+  - minHeight: 20
+    maxHeight: 29
+    damageAmount: 20
+  - minHeight: 30
+    maxHeight: 39
+    damageAmount: 30
+  - minHeight: 40
+    maxHeight: 49
+    damageAmount: 40
 --- !u!114 &1451852465645917735
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -23270,7 +23284,7 @@ MonoBehaviour:
   m_CaretColor: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
   m_CustomCaretColor: 0
   m_SelectionColor: {r: 0.65882355, g: 0.80784315, b: 1, a: 0.7529412}
-  m_Text: "\u0446\u0446\u0446\u0446\u0446\u0446\u0446\u0446\u0446\u0446"
+  m_Text: "\u044B\u044B\u044B\u044B\u0432\u0432\u0432\u0432\u0432\u0432"
   m_CaretBlinkRate: 0.85
   m_CaretWidth: 1
   m_ReadOnly: 0
@@ -65933,7 +65947,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\u0446\u0446\u0446\u0446\u0446\u0446\u0446\u0446\u0446\u0446\u200B"
+  m_text: "\u044B\u044B\u044B\u044B\u0432\u0432\u0432\u0432\u0432\u0432\u200B"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
