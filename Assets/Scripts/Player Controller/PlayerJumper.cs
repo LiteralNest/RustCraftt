@@ -13,8 +13,9 @@ namespace Player_Controller
         [SerializeField] private float Gravity = -9.8f;
 
         [Header("Main Params")]
-        [SerializeField] private float _jumpForce = 1.2f;
-        [SerializeField] private float _damping = 0.75f;
+        [SerializeField] private float _jumpForce = 5f;
+        [SerializeField] private float _damping = 1.15f;
+        [SerializeField] private float _gravitySnap = -6f;
 
         private bool _canUseGravity = true;
         private Vector3 _velocity;
@@ -42,17 +43,23 @@ namespace Player_Controller
 
         private void UpdateGravity()
         {
-            if (!_canUseGravity)
+            if (!_canUseGravity && IsGrounded() && _velocity.y < 0.0f)
             {
-                _velocity.y = 0f;
+                _velocity.y = _gravitySnap;
             }
             else
             {
-                _velocity.y += Gravity * Time.deltaTime;
+                _velocity.y += 3f * Gravity * Time.deltaTime;
+
+                if (_velocity.y < -1f)
+                {
+                    _velocity.y = _gravitySnap;
+                }
             }
 
             _characterController.Move(_velocity * Time.deltaTime);
         }
+
         
         public bool IsGrounded()
         {
