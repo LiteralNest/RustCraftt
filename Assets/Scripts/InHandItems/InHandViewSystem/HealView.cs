@@ -25,6 +25,7 @@ namespace InHandItems.InHandViewSystem
         {
             var heal = viewable as InHandHeal;
             _healButton.onClick.AddListener(heal.Heal);
+            _healButton.onClick.AddListener(() => GlobalEventsContainer.OnActiveSlotReset?.Invoke());
         }
 
         public void DisplayHealButton(bool value)

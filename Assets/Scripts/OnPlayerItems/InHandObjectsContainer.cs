@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using Events;
-using InHandItems.InHand;
 using Player_Controller;
 using Unity.Netcode;
 using UnityEngine;
@@ -11,10 +10,8 @@ namespace OnPlayerItems
     {
         [SerializeField] private List<InHandObjectCell> _inHandObjects;
         [SerializeField] private PlayerNetCode _playerNetCode;
-        [SerializeField] private InHandObject _defaultHands;
         private InHandObjectCell _currentCell;
         
-
         private void OnEnable()
         {
             GlobalEventsContainer.ShouldHandleAttacking += HandleAttacking;

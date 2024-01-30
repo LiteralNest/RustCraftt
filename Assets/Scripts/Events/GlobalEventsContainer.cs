@@ -27,6 +27,7 @@ namespace Events
         public static Action<ShootingWeapon> ShouldAssignCurrentWeapon { get; set; }
 
         public static Action CharacterHpChanged { get; set; }
+        public static Action OnActiveSlotReset { get; set; }
         
         #region Inventory
 
