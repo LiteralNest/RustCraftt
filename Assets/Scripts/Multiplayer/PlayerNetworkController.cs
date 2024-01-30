@@ -13,18 +13,19 @@ namespace Multiplayer
 {
     public class PlayerNetworkController : MonoBehaviour
     {
-        [Header("NetCode")] 
-        [SerializeField] private PlayerNetCode _playerNetCode;
+        [Header("NetCode")] [SerializeField] private PlayerNetCode _playerNetCode;
         [SerializeField] private CharacterAnimationsHandler _characterAnimationsHandler;
         [SerializeField] private CharacterAnimationsHandler _inventoryCharacterAnimationsHandler;
         [SerializeField] private List<Behaviour> _monos = new List<Behaviour>();
         [SerializeField] private List<GameObject> _disablingObjects = new List<GameObject>();
-        [FormerlySerializedAs("_mainUiHandler")] [SerializeField] private CharacterUIHandler characterUIHandler;
 
-        [Header("Children")] 
-        [SerializeField] private List<Renderer> _body = new List<Renderer>();
+        [FormerlySerializedAs("_mainUiHandler")] [SerializeField]
+        private CharacterUIHandler characterUIHandler;
+
+        [Header("Children")] [SerializeField] private List<Renderer> _body = new List<Renderer>();
         [SerializeField] private GameObject _characterStaff;
         [SerializeField] private GameObject _canvas;
+        [SerializeField] private GameObject _playerNickName;
 
         private void Awake()
         {
@@ -33,7 +34,7 @@ namespace Multiplayer
             characterUIHandler.enabled = false;
             _canvas.SetActive(false);
         }
-    
+
         private IEnumerator Destroy()
         {
             yield return new WaitForSeconds(1);
@@ -60,6 +61,7 @@ namespace Multiplayer
             }
             else
             {
+                _playerNickName.SetActive(false);
                 SetBody(false);
                 EnableMonos(true);
                 characterUIHandler.enabled = true;
@@ -82,7 +84,7 @@ namespace Multiplayer
             foreach (var obj in _disablingObjects)
                 obj.SetActive(value);
         }
-    
+
         private void ClearObjects()
         {
             EnableMonos(false);
