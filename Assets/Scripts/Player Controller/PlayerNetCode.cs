@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using ArmorSystem.Backend;
+using Character_Stats;
 using Events;
 using Inventory_System;
 using Inventory_System.ItemInfo;
@@ -20,6 +21,7 @@ namespace Player_Controller
     {
         public static PlayerNetCode Singleton { get; private set; }
 
+        [field:SerializeField] public CharacterHpHandler CharacterHpHandler { get; private set; }
         [field: SerializeField] public ResourcesDropper ResourcesDropper { get; private set; }
         [field: SerializeField] public ItemInfoHandler ItemInfoHandler { get; private set; }
         [field: SerializeField] public PlayerSoundsPlayer PlayerSoundsPlayer { get; private set; }

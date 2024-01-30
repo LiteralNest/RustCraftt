@@ -53,7 +53,7 @@ namespace Damaging_Item
 
         public void Shake()
         {
-            throw new System.NotImplementedException();
+    
         }
 
         public AudioClip GetPlayerDamageClip()

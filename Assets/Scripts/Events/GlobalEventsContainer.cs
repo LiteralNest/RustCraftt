@@ -26,6 +26,8 @@ namespace Events
         public static Action OnMapOpened { get; set; }
         public static Action<ShootingWeapon> ShouldAssignCurrentWeapon { get; set; }
 
+        public static Action CharacterHpChanged { get; set; }
+        
         #region Inventory
 
         public static Action InventoryItemDragged { get; set; }

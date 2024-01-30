@@ -1,4 +1,5 @@
 using System.Threading.Tasks;
+using Events;
 using FightSystem.Damage;
 using FightSystem.Weapon.Explosive;
 using PlayerDeathSystem;
@@ -37,6 +38,7 @@ namespace Character_Stats
         {
             if (_characterStats == null) return;
             if (!IsOwner) return;
+            GlobalEventsContainer.CharacterHpChanged?.Invoke();
             _characterStats.DisplayHp(_currentHp.Value);
             if (Hp <= 0)
             {
