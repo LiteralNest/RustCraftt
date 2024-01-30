@@ -58,6 +58,9 @@ namespace MeltingSystem
 
         [ServerRpc(RequireOwnership = false)]
         public void TurnFlamingServerRpc(bool value)
+            => Turn(value);
+
+        private void Turn(bool value)
         {
             List<Fuel> items = new List<Fuel>();
             if (value)
@@ -112,7 +115,7 @@ namespace MeltingSystem
                 if (fuelList.Count != 0)
                     StartCoroutine(RemoveFuel(fuelList[0]));
                 else
-                    TurnFlamingServerRpc(false);
+                    Turn(false);
             }
         }
 
