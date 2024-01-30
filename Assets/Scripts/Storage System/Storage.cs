@@ -162,8 +162,8 @@ namespace Storage_System
                 if (!InventoryHelper.AddItemToDesiredSlot(itemId, count, ammo, ItemsNetData,
                         new Vector2Int(0, MainSlotsCount), hp))
                 {
-                    InstantiatingItemsPool.sigleton.SpawnObjectServerRpc(new CustomSendingInventoryDataCell(itemId, count, hp, ammo),
-                        transform.forward * 1.5f);
+                    InstantiatingItemsPool.sigleton.SpawnObjectOnServer(new CustomSendingInventoryDataCell(itemId, count, hp, ammo),
+                         transform.position + transform.forward * 1.5f);
                 }
             }
 
@@ -171,8 +171,8 @@ namespace Storage_System
             {
                 if (!InventoryHelper.AddItemToDesiredSlot(itemId, count, ammo, ItemsNetData, range, hp))
                 {
-                    InstantiatingItemsPool.sigleton.SpawnObjectServerRpc(new CustomSendingInventoryDataCell(itemId, count, hp, ammo),
-                        transform.forward * 1.5f);
+                    InstantiatingItemsPool.sigleton.SpawnObjectOnServer(new CustomSendingInventoryDataCell(itemId, count, hp, ammo),
+                        transform.position + transform.forward * 1.5f);
                 }
             }
         }

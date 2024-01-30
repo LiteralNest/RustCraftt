@@ -45,6 +45,7 @@ namespace Multiplayer
                 if (item.TargetItem.Id != data.Id) continue;
                 lootingItem = Instantiate(item, position, Quaternion.identity);
                 SpawnLoot(lootingItem, position);
+                lootingItem.transform.position = position;
                 lootingItem.Data.Value = data;
                 return;
             }
