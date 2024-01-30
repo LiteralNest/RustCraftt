@@ -95,6 +95,15 @@ namespace Crafting_System.Crafting_Slots
             ClearPlace(_placeForSlots);
         }
 
+        public void DisplayResources(CraftingSlotTypeDisplayer displayer)
+        {
+            DisplayActives(displayer);
+            var slots = GetSlots<CraftingResource>();
+            var explosionSlots = GetSlots<CraftingFuel>();
+            slots.AddRange(explosionSlots);
+            DisplaySlots(slots);
+        }
+        
         public void DisplayBuildings(CraftingSlotTypeDisplayer displayer)
         {
             DisplayActives(displayer);
