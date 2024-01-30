@@ -121,9 +121,6 @@ namespace Player_Controller
             _lootButtonText.text = text;
         }
 
-        private bool OreReady(Ore ore)
-            => !ore.Recovering;
-
         private void TryDisplayHp()
         {
             if (!TryRaycast("DamagingItem", _maxGatheringDistance, out IDamagable damagable, _defaultMask, true)) return;
@@ -185,12 +182,9 @@ namespace Player_Controller
 
             if (TryRaycast("Gathering", _maxGatheringDistance, out GatheringOre item, _resourceOreMask))
             {
-                if (OreReady(item))
-                {
-                    TargetGathering = item;
-                    SetLootButton("Gather");
-                    return;
-                }
+                TargetGathering = item;
+                SetLootButton("Gather");
+                return;
             }
 
             if (TryRaycast("LootBox", _maxOpeningDistance, out ToolClipboard clipboard, _defaultMask))

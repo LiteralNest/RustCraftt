@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using Events;
 using Items_System.Items;
 using Items_System.Ore_Type;
-using Sirenix.OdinInspector;
 using TerrainTools;
 using Unity.Netcode;
 using UnityEngine;
@@ -12,23 +11,15 @@ namespace ResourceOresSystem
 {
     public abstract class Ore : NetworkBehaviour
     {
-        [Header("Attached Scripts")] [SerializeField]
-        private GatheringOreAnimator _animator;
-
-        [Header("Start init")] [SerializeField]
-        protected NetworkVariable<int> _currentHp = new(100);
-
+        [Header("Start init")]
         [SerializeField] protected List<OreSlot> _resourceSlots = new List<OreSlot>();
-        [SerializeField] private GameObject _vfxEffect;
 
-        private OreObjectsPlacer _objectsPlacer;
-
+        protected OreObjectsPlacer ObjectsPlacer;
         public NetworkVariable<int> CurrentHp => _currentHp;
-
-        public bool Recovering { get; protected set; } = false;
-
+        protected NetworkVariable<int> _currentHp = new(100);
+        
         public void Init(OreObjectsPlacer objectsPlacer)
-            => _objectsPlacer = objectsPlacer;
+            => ObjectsPlacer = objectsPlacer;
 
         protected void AddResourcesToInventory()
         {
@@ -65,37 +56,16 @@ namespace ResourceOresSystem
         {
             _currentHp.Value--;
             if (_currentHp.Value <= 0)
-            {
                 StartCoroutine(DestroyRoutine());
-                return;
-            }
         }
 
         protected virtual void DoAfterDestroying()
         {
         }
 
-        private IEnumerator DestroyRoutine()
+        protected virtual IEnumerator DestroyRoutine()
         {
-            DoAfterDestroying();
-            if(_animator)
-                yield return _animator.SetFallRoutine();
-            if (_objectsPlacer)
-                StartCoroutine(_objectsPlacer.RegenerateObjectRoutine(this));
-        }
-
-        [ClientRpc]
-        private void DisplayVfxClientRpc(Vector3 pos, Vector3 rot)
-        {
-            if (!_vfxEffect) return;
-            Instantiate(_vfxEffect, pos, Quaternion.FromToRotation(Vector3.up, rot));
-        }
-
-        [ServerRpc(RequireOwnership = false)]
-        protected void DisplayVfxServerRpc(Vector3 pos, Vector3 rot)
-        {
-            if (!IsServer) return;
-            DisplayVfxClientRpc(pos, rot);
+            yield break;
         }
     }
 }
