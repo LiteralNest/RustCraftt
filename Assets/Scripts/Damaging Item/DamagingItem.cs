@@ -80,6 +80,8 @@ namespace Damaging_Item
         {
             if (!IsServer) yield break;
             _soundPlayer.PlayOneShot(_destroyingSound);
+            foreach(var collider in _colliders)
+                collider.enabled = false;
             TurnRendederersClientRpc(false);
             foreach (var cell in _loot)
                 SpawnLootCell(cell);
@@ -91,6 +93,8 @@ namespace Damaging_Item
             if(!IsServer) yield break;
             yield return new WaitForSeconds(_recoveringTime);
             _currentHp.Value = _cachedHp;
+            foreach(var collider in _colliders)
+                collider.enabled = true;
             TurnRendederersClientRpc(true);
         }
 

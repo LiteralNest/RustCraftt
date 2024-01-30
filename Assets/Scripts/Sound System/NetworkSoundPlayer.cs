@@ -11,7 +11,7 @@ namespace Sound_System
 
         private AudioSource _audioSource;
         
-        private void Start()
+        private void Awake()
             => _audioSource = GetComponent<AudioSource>();
 
         private int GetIdByClip(AudioClip clip)
