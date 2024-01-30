@@ -33,6 +33,8 @@ namespace OnPlayerItems
         public void DisplayItems(int itemId)
         {
             bool isOwner = _playerNetCode.IsOwner;
+            if(isOwner && itemId == -1)
+                GlobalEventsContainer.OnActiveSlotReset?.Invoke();
             foreach (var obj in _inHandObjects)
                 obj.ActivateInHandObject(isOwner, false);
 

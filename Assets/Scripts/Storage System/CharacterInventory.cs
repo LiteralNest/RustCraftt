@@ -16,8 +16,11 @@ namespace Storage_System
             base.OnNetworkSpawn();
             SlotsDisplayer.DisplayCells();
 
-            foreach(var slot in _defaultItems)
-                AddItemToDesiredSlotServerRpc(slot.Item.Id, slot.Count, slot.Ammo);
+            if (InventoryClear())
+            {
+                foreach(var slot in _defaultItems)
+                    AddItemToDesiredSlotServerRpc(slot.Item.Id, slot.Count, slot.Ammo);
+            }
             
             ItemsNetData.OnValueChanged += (oldValue, newValue) =>
             {
@@ -50,6 +53,16 @@ namespace Storage_System
             if (_activeQuickSlot != null)
                 _activeQuickSlot.OnSlotDisabled();
             _activeQuickSlot = quickSlot;
+        }
+
+        private bool InventoryClear()
+        {
+            foreach (var slot in ItemsNetData.Value.Cells)
+            {
+                if(slot.Id == -1) continue;
+                return false;
+            }
+            return true;
         }
     }
 }

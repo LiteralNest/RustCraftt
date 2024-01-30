@@ -24,7 +24,6 @@ namespace Events
         
         public static Action<bool> OnMainHudHandle { get; set; }
         public static Action OnMapOpened { get; set; }
-        public static Action<ShootingWeapon> ShouldAssignCurrentWeapon { get; set; }
 
         public static Action CharacterHpChanged { get; set; }
         public static Action OnActiveSlotReset { get; set; }

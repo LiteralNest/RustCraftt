@@ -34,7 +34,8 @@ namespace Inventory_System
             if (!InventoryItemDisplayer) return;
             TryResetInHandItem();
             var cell = InventoryItemDisplayer.PreviousCell;
-            InventoryHandler.singleton.CharacterInventory.RemoveItemCountFromSlotServerRpc(cell.Index, InventoryItemDisplayer.InventoryCell.Item.Id, InventoryItemDisplayer.InventoryCell.Count);
+            cell.Inventory.RemoveItemCountFromSlotServerRpc(cell.Index, InventoryItemDisplayer.InventoryCell.Item.Id, InventoryItemDisplayer.InventoryCell.Count);
+            //InventoryHandler.singleton.CharacterInventory.RemoveItemCountFromSlotServerRpc(cell.Index, InventoryItemDisplayer.InventoryCell.Item.Id, InventoryItemDisplayer.InventoryCell.Count);
             var addingCell = InventoryItemDisplayer.InventoryCell;
             InstantiatingItemsPool.sigleton.SpawnObjectServerRpc(new CustomSendingInventoryDataCell(addingCell.Item.Id, addingCell.Count, addingCell.Hp, addingCell.Ammo), GetFrontCameraPos());
             Destroy(InventoryItemDisplayer.gameObject);
