@@ -55,18 +55,18 @@ namespace Player_Controller
         {
             if (!value)
             {
-                if(_climbButtonPressed)
+                if (_climbButtonPressed)
                     StartCoroutine(AssignGravityRoutine());
             }
             else
-                _jumper.SetGravity(false);
+                _jumper.CanUseGravity = false;
             _climbButtonPressed = value;
         }
 
         private IEnumerator AssignGravityRoutine()
         {
             yield return null;
-            _jumper.SetGravity(_characterController.isGrounded || !_currentLadder);
+            _jumper.CanUseGravity = _characterController.isGrounded || !_currentLadder;
         }
 
         private bool LadderFound()
