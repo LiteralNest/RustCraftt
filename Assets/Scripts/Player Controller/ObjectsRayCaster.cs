@@ -154,7 +154,7 @@ namespace Player_Controller
             if (TryRaycast("LootingItem", _maxGatheringDistance, out LootingItem lootingItem, _defaultMask))
             {
                 LootingItem = lootingItem;
-                SetLootButton("Gather");
+                SetLootButton(LootingItem.GetName());
                 return;
             }
 

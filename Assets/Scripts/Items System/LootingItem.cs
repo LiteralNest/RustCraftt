@@ -1,3 +1,4 @@
+using Inventory_System;
 using Items_System.Items.Abstract;
 using Storage_System;
 using Unity.Netcode;
@@ -24,5 +25,8 @@ namespace Items_System
 
             Destroy(gameObject);
         }
+
+        public string GetName()
+            => ItemFinder.singleton.GetItemById(Data.Value.Id).Name;
     }
 }
