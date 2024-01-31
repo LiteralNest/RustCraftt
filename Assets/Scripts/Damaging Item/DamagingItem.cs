@@ -4,6 +4,7 @@ using FightSystem.Damage;
 using Multiplayer;
 using Sound_System;
 using Storage_System;
+using Storage_System.Loot_Boxes_System;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -16,8 +17,9 @@ namespace Damaging_Item
         [SerializeField] private NetworkVariable<int> _currentHp = new(50, NetworkVariableReadPermission.Everyone,
             NetworkVariableWritePermission.Owner);
 
+        [SerializeField] private LootBoxSlot _scrapSlot;
+        [SerializeField] private List<LootBoxSlot> _lootCells = new List<LootBoxSlot>();
         [SerializeField] private float _spawningYOffset = 1f;
-        [SerializeField] private List<LootCell> _loot = new List<LootCell>();
         [SerializeField] private List<GameObject> _renderingObjects = new List<GameObject>();
         [SerializeField] private List<Collider> _colliders = new List<Collider>();
         [SerializeField] private float _recoveringTime = 60;
@@ -34,13 +36,25 @@ namespace Damaging_Item
             _cachedHp = _currentHp.Value;
         }
 
-        private void SpawnLootCell(LootCell cell)
+        private void SpawnCell(LootBoxSlot slot)
         {
-            int rand = Random.Range(cell.MinimalCount, cell.MaximalCount);
             var fixedPos = transform.position;
             fixedPos.y += _spawningYOffset;
             InstantiatingItemsPool.sigleton.SpawnObjectOnServer(
-                new CustomSendingInventoryDataCell(cell.Item.Id, rand, 100, 0), fixedPos);
+                new CustomSendingInventoryDataCell(slot.Item.Id, Random.Range(slot.RandCount.x, slot.RandCount.y + 1), 100, 0), fixedPos);
+        }
+
+        [ContextMenu("Generate Cells")]
+        private void GenerateCells()
+        {
+            SpawnCell(_scrapSlot);
+            foreach (var set in _lootCells)
+            {
+                var rand = Random.Range(0, 100);
+                if (rand > set.Chance) continue;
+                SpawnCell(set);
+                return;
+            }   
         }
 
         public void Destroy()
@@ -77,8 +91,7 @@ namespace Damaging_Item
             foreach (var collider in _colliders)
                 collider.enabled = false;
             TurnRendederersClientRpc(false);
-            foreach (var cell in _loot)
-                SpawnLootCell(cell);
+            GenerateCells();
             StartCoroutine(RecoverRoutine());
         }
 
