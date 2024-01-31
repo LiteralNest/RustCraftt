@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Events;
 using Inventory_System;
 using Items_System.Items.Abstract;
 using Multiplayer;
@@ -125,6 +126,11 @@ namespace Storage_System
             DoAfterRemovingItem(new InventoryCell(ItemFinder.singleton.GetItemById(itemId), count));
         }
 
+        public virtual void RemoveItemCountWithAlert(int slotId, int itemId, int count)
+        {
+            RemoveItemCountFromSlotServerRpc(slotId, itemId, count);
+        }
+        
         [ServerRpc(RequireOwnership = false)]
         public void RemoveItemCountFromSlotServerRpc(int slotId, int itemId, int count)
         {
@@ -162,8 +168,8 @@ namespace Storage_System
                 if (!InventoryHelper.AddItemToDesiredSlot(itemId, count, ammo, ItemsNetData,
                         new Vector2Int(0, MainSlotsCount), hp))
                 {
-                    InstantiatingItemsPool.sigleton.SpawnObjectServerRpc(new CustomSendingInventoryDataCell(itemId, count, hp, ammo),
-                        transform.forward * 1.5f);
+                    InstantiatingItemsPool.sigleton.SpawnObjectOnServer(new CustomSendingInventoryDataCell(itemId, count, hp, ammo),
+                         transform.position + transform.forward * 1.5f);
                 }
             }
 
@@ -171,10 +177,15 @@ namespace Storage_System
             {
                 if (!InventoryHelper.AddItemToDesiredSlot(itemId, count, ammo, ItemsNetData, range, hp))
                 {
-                    InstantiatingItemsPool.sigleton.SpawnObjectServerRpc(new CustomSendingInventoryDataCell(itemId, count, hp, ammo),
-                        transform.forward * 1.5f);
+                    InstantiatingItemsPool.sigleton.SpawnObjectOnServer(new CustomSendingInventoryDataCell(itemId, count, hp, ammo),
+                        transform.position + transform.forward * 1.5f);
                 }
             }
+        }
+
+        public virtual void AddItemToSlotWithAlert(int itemId, int count, int ammo, int hp = 100, Vector2Int range = default)
+        {
+            AddItemToDesiredSlotServerRpc(itemId, count, ammo, hp, range);   
         }
         
         [ServerRpc(RequireOwnership = false)]

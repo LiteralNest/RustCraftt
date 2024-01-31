@@ -15892,7 +15892,7 @@ Camera:
   m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 1083212279
+    m_Bits: 1083212791
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
@@ -16441,18 +16441,21 @@ MonoBehaviour:
   _damping: 1.15
   _gravitySnap: -6
   _fallDamageRanges:
-  - minHeight: 10
-    maxHeight: 19
+  - minHeight: 5
+    maxHeight: 7
     damageAmount: 10
-  - minHeight: 20
-    maxHeight: 29
+  - minHeight: 7
+    maxHeight: 10
     damageAmount: 20
-  - minHeight: 30
-    maxHeight: 39
+  - minHeight: 10
+    maxHeight: 13
     damageAmount: 30
-  - minHeight: 40
-    maxHeight: 49
+  - minHeight: 13
+    maxHeight: 15
     damageAmount: 40
+  - minHeight: 15
+    maxHeight: 10000
+    damageAmount: 100
 --- !u!114 &1451852465645917735
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16465,6 +16468,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b35917063efdd4a20b5ec26bb507835b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _playerNetworkObject: {fileID: -4478240619763004460}
   _climbForce: 10
   _raycastDistance: 0.5
   _raycastOrigin: {fileID: 4347651715069804792}
@@ -17119,7 +17123,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: -0.42001343}
+  m_SizeDelta: {x: 220.5853, y: 119.899}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7512828396011976559
 CanvasRenderer:
@@ -33647,7 +33651,7 @@ MonoBehaviour:
     Item: {fileID: 0}
     Count: 0
     Ammo: 0
-  MainSlotsCount: 24
+  MainSlotsCount: 30
   _defaultItems:
   - Item: {fileID: 11400000, guid: 722b392527e89894ba230a29531d3973, type: 2}
     Count: 1
@@ -50843,7 +50847,7 @@ Transform:
   m_GameObject: {fileID: 6998637691943133247}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.61, z: 0.149}
+  m_LocalPosition: {x: 0, y: 0.25, z: 0.149}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -69006,7 +69010,7 @@ PrefabInstance:
     - target: {fileID: 4791591672798659345, guid: 49f26e241ee34e4419ae5ce4ee622541, type: 3}
       propertyPath: <Item>k__BackingField
       value: 
-      objectReference: {fileID: 11400000, guid: 65d2c7b89e12a2e419f586055d121ebf, type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 4791591672798659345, guid: 49f26e241ee34e4419ae5ce4ee622541, type: 3}
       propertyPath: _unlockingTech.Array.size
       value: 1
@@ -74563,7 +74567,7 @@ PrefabInstance:
     - target: {fileID: 4791591672798659345, guid: 49f26e241ee34e4419ae5ce4ee622541, type: 3}
       propertyPath: <Item>k__BackingField
       value: 
-      objectReference: {fileID: 11400000, guid: 5ca61af4551264b40830a2c7cdc989d7, type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 4791591672798659345, guid: 49f26e241ee34e4419ae5ce4ee622541, type: 3}
       propertyPath: _unlockingTech.Array.size
       value: 4
@@ -81486,6 +81490,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4728334872329127069, guid: a570b31eb72357f4abcb330ee534c7ce, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7929859038300317045, guid: a570b31eb72357f4abcb330ee534c7ce, type: 3}
+      propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []

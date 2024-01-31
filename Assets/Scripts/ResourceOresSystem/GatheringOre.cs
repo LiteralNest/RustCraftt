@@ -8,10 +8,12 @@ namespace ResourceOresSystem
     [RequireComponent(typeof(BoxCollider))]
     public class GatheringOre : Ore
     {
+        [Header("Attached Scripts")] 
         [SerializeField] private List<Renderer> _renderers;
-        [SerializeField] private List<Collider> _colliders;
-        [SerializeField] private NetworkVariable<bool> _recovering = new(false);
+        [SerializeField] private List<Collider> _colliders; 
         [SerializeField] private float _recoveringTime;
+        
+        private NetworkVariable<bool> _recovering = new(false);
 
         public override void OnNetworkSpawn()
         {
@@ -20,9 +22,7 @@ namespace ResourceOresSystem
         }
 
         private void Start()
-        {
-            gameObject.tag = "Gathering";
-        }
+            => gameObject.tag = "Gathering";
 
         private void DisplayRenderers(bool value)
         {
@@ -34,7 +34,7 @@ namespace ResourceOresSystem
 
         public void Gather()
         {
-            if (Recovering) return;
+            if (_recovering.Value) return;
             AddResourcesToInventory();
             RecoverServerRpc();
         }
@@ -42,8 +42,7 @@ namespace ResourceOresSystem
         [ServerRpc(RequireOwnership = false)]
         private void RecoverServerRpc()
         {
-            if(!IsServer) return;
-            Recovering = true;
+            if (!IsServer) return;
             StartCoroutine(StartRecovering());
         }
 

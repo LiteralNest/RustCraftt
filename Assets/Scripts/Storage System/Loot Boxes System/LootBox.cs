@@ -50,10 +50,7 @@ namespace Storage_System.Loot_Boxes_System
             {
                 var rand = Random.Range(set.Items[i].MinimalCount, set.Items[i].MaximalCount + 1);
                 AddItemToDesiredSlot(set.Items[i].Item.Id, rand, 0);
-                Debug.Log("Item id: " + set.Items[i].Item.Id + "; Count: " + rand);
             }
-
-            Debug.Log("Cells generated!");
         }
     }
 }

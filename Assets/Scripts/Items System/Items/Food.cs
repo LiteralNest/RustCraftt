@@ -15,7 +15,7 @@ namespace Items_System.Items
         {
             base.Click(slotDisplayer);
             InventoryHandler.singleton.Stats.PlusStat(_statType, _addingValue);
-            InventoryHandler.singleton.CharacterInventory.RemoveItemCountFromSlotServerRpc(slotDisplayer.Index, Id, 1);
+            slotDisplayer.Inventory.RemoveItemCountFromSlotServerRpc(slotDisplayer.Index, Id, 1);
             PlayerNetCode.Singleton.PlayerSoundsPlayer.PlayHit(_eatingSound);
         }
     }

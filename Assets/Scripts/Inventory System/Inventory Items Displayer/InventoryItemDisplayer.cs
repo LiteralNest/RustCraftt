@@ -15,6 +15,8 @@ namespace Inventory_System.Inventory_Items_Displayer
         public void OnBeginDrag(PointerEventData eventData)
         {
             if (!GlobalValues.CanDragInventoryItems) return;
+            if(InventoryHandler.singleton.ActiveSlotDisplayer.Index == PreviousCell.Index)
+                PlayerNetCode.Singleton.SetDefaultHandsServerRpc();
             GlobalEventsContainer.InventoryItemDragged?.Invoke();
             PreviousCell.ResetItemWhileDrag();
             if (_countText != null)
@@ -36,11 +38,6 @@ namespace Inventory_System.Inventory_Items_Displayer
             if (_countText != null)
                 _countText.gameObject.SetActive(true);
             transform.position = PreviousCell.transform.position;
-            // if (InventoryCell.Count == 0)
-            //     _storage.ResetItemServerRpc(PreviousCell.Index);
-            // else
-            //     _storage.SetItemServerRpc(PreviousCell.Index,
-            //         new CustomSendingInventoryDataCell(InventoryCell.Item.Id, InventoryCell.Count, InventoryCell.Hp, InventoryCell.Ammo));
             transform.SetParent(PreviousCell.transform);
             _itemIcon.raycastTarget = true;
         }

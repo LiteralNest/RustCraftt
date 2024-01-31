@@ -51,6 +51,7 @@ namespace Player_Controller
         {
             if (_targetBluePrint == null) return;
             _targetBluePrint.Place();
+            GlobalEventsContainer.OnActiveSlotReset?.Invoke();
             CharacterUIHandler.singleton.ActivatePlacingPanel(false);
             ClearCurrentPref();
         }

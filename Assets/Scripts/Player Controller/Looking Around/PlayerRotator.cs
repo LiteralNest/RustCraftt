@@ -68,7 +68,6 @@ namespace Player_Controller.Looking_Around
         {
             var headTransform = _rotationTarget;
             var currentRotation = Mathf.Abs(headTransform.rotation.x);
-            Debug.Log("Global " + currentRotation);
             if (rotation < 0)
             {
                 if (currentRotation < _currentRotationBounds.x)

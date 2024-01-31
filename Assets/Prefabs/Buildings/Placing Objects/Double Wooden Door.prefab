@@ -174,6 +174,7 @@ GameObject:
   - component: {fileID: 6882038930528912351}
   - component: {fileID: 7756907853151840753}
   - component: {fileID: 4942708351235427963}
+  - component: {fileID: 7906620019713892713}
   m_Layer: 6
   m_Name: Lock Snap
   m_TagString: Lock Snap
@@ -284,6 +285,33 @@ MonoBehaviour:
   _lockable: {fileID: 345581326860848236}
   _activeLockId:
     m_InternalValue: 0
+--- !u!54 &7906620019713892713
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2240645240207874407}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 126
+  m_CollisionDetection: 0
 --- !u!1 &3503733012929654908
 GameObject:
   m_ObjectHideFlags: 0
@@ -971,7 +999,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 52789769
+  GlobalObjectIdHash: 1080696376
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
   ActiveSceneSynchronization: 0
@@ -1056,6 +1084,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _maxHp: 100
+  _playerHitSound: {fileID: 0}
 --- !u!1001 &345952756935817257
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -8,6 +8,7 @@ public class DoorHandler : NetworkBehaviour, ILockable
     private Locker _locker;
 
     private NetworkVariable<bool> _wasOpened = new();
+    public bool IsOpened => _wasOpened.Value;
 
     public override void OnNetworkSpawn()
     {

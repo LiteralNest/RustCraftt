@@ -1,8 +1,8 @@
 using InHandItems.InHandViewSystem;
 using Items_System.Items;
-using Items_System.Ore_Type;
 using Player_Controller;
 using RayCastSystem;
+using ResourceOresSystem;
 using UnityEngine;
 
 namespace InHandItems
@@ -22,7 +22,6 @@ namespace InHandItems
         [SerializeField] private LayerMask _rayCastMask;
 
         [SerializeField] private float _maxGatheringDistance;
-        public AnimationClip GatheringAnimation => _gatheringAnimation;
 
         private GatheringObjectView _view;
         private bool _isGathering;
@@ -47,8 +46,10 @@ namespace InHandItems
             => _isGathering = value;
 
         private void TryGather()
+            => _gatheringObjectAnimator.Attack();
+        
+        public void Gather()
         {
-            _gatheringObjectAnimator.Attack();
             PlayerNetCode.Singleton.PlayerMeleeDamager.TryDamage(_gatheringTool.Damage, _gatheringAnimation.length);
             StartCoroutine(RecoverRoutine(_gatheringAnimation.length));
             if (!_rayCaster.TryRaycast<ResourceOre>("Ore", _maxGatheringDistance, out ResourceOre targetResourceOre,

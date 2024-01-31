@@ -94,7 +94,6 @@ namespace Player_Controller
         [ServerRpc(RequireOwnership = false)]
         public void SetDefaultHandsServerRpc()
         {
-            GlobalEventsContainer.OnActiveSlotReset?.Invoke();
             ActiveItemId.Value = -1;
         }
 

@@ -61,10 +61,12 @@ public class CraftingQueueSlotFunctional : MonoBehaviour
     {
         Destroy(_currentSlotDisplayer.gameObject); 
         _queue.DisplayAlert(false);
-        GlobalEventsContainer.OnInventoryItemAdded?.Invoke(new InventoryCell(_craftingItem, 1));
+     
         _queue.DeleteCell(this);
         if (shouldRecoverData)
             ReturnItemsToInventory();
+        else
+           GlobalEventsContainer.OnInventoryItemAdded?.Invoke(new InventoryCell(_craftingItem, 1));
         Destroy(gameObject);
     }
     
