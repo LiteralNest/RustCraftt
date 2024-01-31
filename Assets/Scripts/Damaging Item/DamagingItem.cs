@@ -13,7 +13,6 @@ namespace Damaging_Item
     [RequireComponent(typeof(NetworkObject))]
     public class DamagingItem : NetworkBehaviour, IDamagable
     {
-        
         [SerializeField] private NetworkVariable<int> _currentHp = new(50, NetworkVariableReadPermission.Everyone,
             NetworkVariableWritePermission.Owner);
 
@@ -25,15 +24,11 @@ namespace Damaging_Item
         [Header("Sound")] [SerializeField] private AudioClip _damagingSound;
         [SerializeField] private AudioClip _destroyingSound;
 
-
         private NetworkSoundPlayer _soundPlayer;
-        private NetworkObject _networkObject;
-
         private int _cachedHp;
 
         private void Start()
         {
-            _networkObject = GetComponent<NetworkObject>();
             _soundPlayer = GetComponent<NetworkSoundPlayer>();
             transform.tag = "DamagingItem";
             _cachedHp = _currentHp.Value;
@@ -53,7 +48,6 @@ namespace Damaging_Item
 
         public void Shake()
         {
-    
         }
 
         public AudioClip GetPlayerDamageClip()
@@ -80,7 +74,7 @@ namespace Damaging_Item
         {
             if (!IsServer) yield break;
             _soundPlayer.PlayOneShot(_destroyingSound);
-            foreach(var collider in _colliders)
+            foreach (var collider in _colliders)
                 collider.enabled = false;
             TurnRendederersClientRpc(false);
             foreach (var cell in _loot)
@@ -90,10 +84,10 @@ namespace Damaging_Item
 
         private IEnumerator RecoverRoutine()
         {
-            if(!IsServer) yield break;
+            if (!IsServer) yield break;
             yield return new WaitForSeconds(_recoveringTime);
             _currentHp.Value = _cachedHp;
-            foreach(var collider in _colliders)
+            foreach (var collider in _colliders)
                 collider.enabled = true;
             TurnRendederersClientRpc(true);
         }
@@ -109,6 +103,7 @@ namespace Damaging_Item
         [ServerRpc(RequireOwnership = false)]
         private void GetDamageServerRpc(int damage, bool value)
         {
+            if(_currentHp.Value <= 0) return;
             _currentHp.Value -= damage;
             CheckHp(_currentHp.Value);
             _soundPlayer.PlayOneShot(_damagingSound);
