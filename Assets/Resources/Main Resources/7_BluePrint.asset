@@ -13,15 +13,19 @@ MonoBehaviour:
   m_Name: 7_BluePrint
   m_EditorClassIdentifier: 
   Id: 7
-  Name: Blueprint
+  Name: Building Plan
   Icon: {fileID: 21300000, guid: 27e06e140846dae45b409021b09b5de7, type: 3}
-  Description: An item that allows for the crafting of items the player cannot craft
-    yet.
+  Description: The Building Plan is used to create weak twig structures at the cost
+    of a nominal amount of wood. These twigs may be upgraded with a Hammer if the
+    player has the resources to do so.
   StackCount: 1
-  TimeForCreating: 0
-  NeededSlots: []
+  TimeForCreating: 15
+  NeededSlots:
+  - <Resource>k__BackingField: {fileID: 11400000, guid: 200d2c64639dc31419395399e2005cfe, type: 2}
+    <Count>k__BackingField: 20
   NeededWorkBanch: 0
   ResearchedByDefault: 1
   <Hp>k__BackingField: 0
   <Damage>k__BackingField: 25
   <CanDamage>k__BackingField: 1
+  <GatheringAmount>k__BackingField: 10

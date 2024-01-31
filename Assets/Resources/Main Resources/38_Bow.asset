@@ -17,14 +17,19 @@ MonoBehaviour:
   Icon: {fileID: 21300000, guid: ec14f1900939411438626bca37e9421f, type: 3}
   Description: The parabolic trajectory of the arrow allows for the Bow to shoot
     Arrows vertically
-  StackCount: 1000
-  TimeForCreating: 0
-  NeededSlots: []
+  StackCount: 1
+  TimeForCreating: 30
+  NeededSlots:
+  - <Resource>k__BackingField: {fileID: 11400000, guid: 200d2c64639dc31419395399e2005cfe, type: 2}
+    <Count>k__BackingField: 200
+  - <Resource>k__BackingField: {fileID: 11400000, guid: 42519802c97ff8f41bcc6bb79c6d7cb3, type: 2}
+    <Count>k__BackingField: 50
   NeededWorkBanch: 0
   ResearchedByDefault: 1
   <Hp>k__BackingField: 100
   <Damage>k__BackingField: 25
   <CanDamage>k__BackingField: 1
+  <GatheringAmount>k__BackingField: 10
   _range: 50
   _damage: 5
   _delayBetweenShoots: 0.1
@@ -33,3 +38,4 @@ MonoBehaviour:
   _recoilX: 0
   _recoilY: 0
   _recoilZ: 0
+  _shotClip: {fileID: 0}
