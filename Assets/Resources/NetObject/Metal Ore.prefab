@@ -99,8 +99,6 @@ GameObject:
   - component: {fileID: 8310919420971221414}
   - component: {fileID: 2822867133038079393}
   - component: {fileID: 4808177641203833033}
-  - component: {fileID: 7149336474314211733}
-  - component: {fileID: 1240380273182297590}
   m_Layer: 9
   m_Name: Metal Ore
   m_TagString: Ore
@@ -185,7 +183,9 @@ MonoBehaviour:
   - Resource: {fileID: 11400000, guid: 5474d842b0e562a46ba3b664822145f2, type: 2}
     CountRange: {x: 1, y: 3}
     ShouldAddWithRand: 1
-  _animator: {fileID: 1240380273182297590}
+  _currentHp:
+    m_InternalValue: 20
+  _animator: {fileID: 0}
   _vfxEffect: {fileID: 641265665206420230, guid: 45b745ceccb7b1d44b7a6e638c8f9484, type: 3}
   _vfxParrent: {fileID: 2925446386833342774}
   _toolsForGathering:
@@ -329,9 +329,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _phases:
   - GameObject: {fileID: 7400403287755994549}
-    MinHpRequired: 6
+    MinHpRequired: 15
   - GameObject: {fileID: 5190755798169556733}
-    MinHpRequired: 3
+    MinHpRequired: 5
   - GameObject: {fileID: 75954812725439734}
     MinHpRequired: 0
 --- !u!95 &4808177641203833033
@@ -355,47 +355,6 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &7149336474314211733
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4200097235142479523}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ad8deae8091111f4eb30a56c1f4e0d3e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  TransitionStateInfoList:
-  - IsCrossFadeExit: 0
-    Layer: 0
-    OriginatingState: 1699040046
-    DestinationState: -453111474
-    TransitionDuration: 0.25
-    TriggerNameHash: 2081823275
-    TransitionIndex: 0
-  - IsCrossFadeExit: 0
-    Layer: 0
-    OriginatingState: -453111474
-    DestinationState: 1699040046
-    TransitionDuration: 0.25
-    TriggerNameHash: 1533177906
-    TransitionIndex: 0
-  m_Animator: {fileID: 4808177641203833033}
---- !u!114 &1240380273182297590
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4200097235142479523}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 31d77d824d1a4fe29b561650164cc764, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _fallAnimation: {fileID: 7400000, guid: b4705bdfd77abc442814466011e1af59, type: 2}
 --- !u!1001 &3392332572202346205
 PrefabInstance:
   m_ObjectHideFlags: 0

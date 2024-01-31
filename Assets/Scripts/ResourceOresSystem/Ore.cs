@@ -16,7 +16,7 @@ namespace ResourceOresSystem
 
         protected OreObjectsPlacer ObjectsPlacer;
         public NetworkVariable<int> CurrentHp => _currentHp;
-        protected NetworkVariable<int> _currentHp = new(100);
+        [SerializeField] protected NetworkVariable<int> _currentHp = new(20);
         
         public void Init(OreObjectsPlacer objectsPlacer)
             => ObjectsPlacer = objectsPlacer;

@@ -73,6 +73,8 @@ namespace ResourceOresSystem
                 yield return _animator.SetFallRoutine();
             if (ObjectsPlacer)
                 StartCoroutine(ObjectsPlacer.RegenerateObjectRoutine(this));
+            else
+                GetComponent<NetworkObject>().Despawn();
         }
     }
 }
