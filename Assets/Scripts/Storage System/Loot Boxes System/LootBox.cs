@@ -18,12 +18,7 @@ namespace Storage_System.Loot_Boxes_System
             base.OnNetworkSpawn();
             if (!IsServer) return;
             GenerateCells();
-        }
-
-        protected override void DoAfterResetItem()
-        {
-            base.DoAfterResetItem();
-            CheckCellsServerRpc();
+            ItemsNetData.OnValueChanged += (oldValue, newValue) => CheckCellsServerRpc();
         }
 
         [ServerRpc(RequireOwnership = false)]

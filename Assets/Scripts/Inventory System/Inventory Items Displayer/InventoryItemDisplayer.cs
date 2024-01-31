@@ -15,7 +15,7 @@ namespace Inventory_System.Inventory_Items_Displayer
         public void OnBeginDrag(PointerEventData eventData)
         {
             if (!GlobalValues.CanDragInventoryItems) return;
-            if(InventoryHandler.singleton.ActiveSlotDisplayer.Index == PreviousCell.Index)
+            if(InventoryHandler.singleton.ActiveSlotDisplayer != null && InventoryHandler.singleton.ActiveSlotDisplayer.Index == PreviousCell.Index)
                 PlayerNetCode.Singleton.SetDefaultHandsServerRpc();
             GlobalEventsContainer.InventoryItemDragged?.Invoke();
             PreviousCell.ResetItemWhileDrag();

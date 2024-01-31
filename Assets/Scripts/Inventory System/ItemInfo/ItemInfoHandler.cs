@@ -63,7 +63,7 @@ namespace Inventory_System.ItemInfo
             var camera = Camera.main.transform;
             InstantiatingItemsPool.sigleton.SpawnObjectServerRpc(new CustomSendingInventoryDataCell(cell.Item.Id, cell.Count, cell.Hp, cell.Ammo),
                 camera.transform.position + camera.forward * 1.5f);
-            InventoryHandler.singleton.CharacterInventory.RemoveItemCountFromSlotServerRpc(_currentSlotDisplayer.Index,
+            _currentSlotDisplayer.Inventory.RemoveItemCountFromSlotServerRpc(_currentSlotDisplayer.Index,
                 cell.Item.Id, cell.Count);
             ResetPanel();
         }
