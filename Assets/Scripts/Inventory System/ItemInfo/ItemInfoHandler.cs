@@ -2,6 +2,7 @@ using System;
 using Events;
 using Inventory_System.Inventory_Slot_Displayers;
 using Items_System.Items;
+using Items_System.Items.Food;
 using Multiplayer;
 using Player_Controller;
 using Storage_System;
