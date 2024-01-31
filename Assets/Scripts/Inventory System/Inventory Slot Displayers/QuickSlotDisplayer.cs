@@ -1,5 +1,4 @@
 using Events;
-using Inventory_System.Quick_Slots;
 using Items_System.Items;
 using Player_Controller;
 using Storage_System;
