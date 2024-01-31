@@ -73,7 +73,7 @@ namespace Building_System
 
         public void PickUp()
         {
-            InventoryHandler.singleton.CharacterInventory.AddItemToDesiredSlotServerRpc(
+            InventoryHandler.singleton.CharacterInventory.AddItemToSlotWithAlert(
                 _targetPlacingObject.TargetItem.Id, 1, 0);
             DestroyObjectServerRpc();
         }

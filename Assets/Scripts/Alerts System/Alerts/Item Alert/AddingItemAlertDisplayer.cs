@@ -1,9 +1,11 @@
-public class AddingItemAlertDisplayer : ItemAlertDisplayer
+namespace Alerts_System.Alerts.Item_Alert
 {
-    
-    public override void Init(InventoryCell inventoryCell)
+    public class AddingItemAlertDisplayer : ItemAlertDisplayer
     {
-        base.Init(inventoryCell);
-        _itemCount.text = "+" + inventoryCell.Count;
+        public override void Init(InventoryCell inventoryCell)
+        {
+            base.Init(inventoryCell);
+            _itemCount.text = "+" + inventoryCell.Count;
+        }
     }
 }

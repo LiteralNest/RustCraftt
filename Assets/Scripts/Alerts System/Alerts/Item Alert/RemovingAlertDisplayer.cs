@@ -1,3 +1,5 @@
+using Alerts_System.Alerts.Item_Alert;
+
 public class RemovingAlertDisplayer : ItemAlertDisplayer
 {
     public override void Init(InventoryCell inventoryCell)

@@ -26,8 +26,7 @@ namespace ResourceOresSystem
             foreach (var slot in _resourceSlots)
             {
                 int rand = Random.Range(slot.CountRange.x, slot.CountRange.y + 1);
-                GlobalEventsContainer.OnInventoryItemAdded?.Invoke(new InventoryCell(slot.Resource, rand));
-                InventoryHandler.singleton.CharacterInventory.AddItemToDesiredSlotServerRpc(slot.Resource.Id, rand, 0);
+                InventoryHandler.singleton.CharacterInventory.AddItemToSlotWithAlert(slot.Resource.Id, rand, 0);
             }
         }
 
@@ -45,9 +44,8 @@ namespace ResourceOresSystem
                     rand = targetTool.GatheringAmount * ((100 - toolSlot.LossAmount) / 100);
 
                 if (rand <= 0) rand = 1;
-
-                GlobalEventsContainer.OnInventoryItemAdded?.Invoke(new InventoryCell(slot.Resource, rand));
-                InventoryHandler.singleton.CharacterInventory.AddItemToDesiredSlotServerRpc(slot.Resource.Id, rand, 0);
+                
+                InventoryHandler.singleton.CharacterInventory.AddItemToSlotWithAlert(slot.Resource.Id, rand, 0);
             }
         }
 

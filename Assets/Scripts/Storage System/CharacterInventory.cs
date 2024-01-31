@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Events;
+using Inventory_System;
 using Inventory_System.Inventory_Slot_Displayers;
 using UnityEngine;
 
@@ -48,6 +49,18 @@ namespace Storage_System
             GlobalEventsContainer.InventoryDataChanged?.Invoke();
         }
 
+        public override void AddItemToSlotWithAlert(int itemId, int count, int ammo, int hp = 100, Vector2Int range = default)
+        {
+            base.AddItemToSlotWithAlert(itemId, count, ammo, hp, range);
+            GlobalEventsContainer.OnInventoryItemAdded?.Invoke(new InventoryCell(ItemFinder.singleton.GetItemById(itemId), count));
+        }
+        
+        public override void RemoveItemCountWithAlert(int slotId, int itemId, int count)
+        {
+            base.RemoveItemCountWithAlert(slotId, itemId, count);
+            GlobalEventsContainer.OnInventoryItemRemoved?.Invoke(new InventoryCell(ItemFinder.singleton.GetItemById(itemId), count));
+        }
+        
         public void SetActiveQuickSlot(QuickSlotDisplayer quickSlot)
         {
             if (_activeQuickSlot != null)

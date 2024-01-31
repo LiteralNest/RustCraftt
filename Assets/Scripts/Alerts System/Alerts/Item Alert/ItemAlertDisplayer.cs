@@ -1,14 +1,20 @@
-using UnityEngine;
 using TMPro;
+using UnityEngine;
 
-public abstract class ItemAlertDisplayer : AlertDisplayer
+namespace Alerts_System.Alerts.Item_Alert
 {
-    [SerializeField] protected TMP_Text _itemTitle;
-    [SerializeField] protected TMP_Text _itemCount;
-
-    public virtual void Init(InventoryCell inventoryCell)
+    public abstract class ItemAlertDisplayer : MonoBehaviour
     {
-        if(inventoryCell.Item == null) return;
-        _itemTitle.text = inventoryCell.Item.Name;
+        [SerializeField] protected TMP_Text _itemTitle;
+        [SerializeField] protected TMP_Text _itemCount;
+
+        public virtual void Init(InventoryCell inventoryCell)
+        {
+            if (inventoryCell.Item == null) return;
+            _itemTitle.text = inventoryCell.Item.Name;
+        }
+
+        public void Destroy()
+            => Destroy(gameObject);
     }
 }
