@@ -53,6 +53,7 @@ namespace Storage_System.Loot_Boxes_System
             TurnRenderers(false);
             yield return new WaitForSeconds(_recoverTime);
             TurnRenderers(true);
+            GenerateCells();
         }
 
         [ContextMenu("Generate Cells")]
