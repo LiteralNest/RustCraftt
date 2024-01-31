@@ -103,21 +103,13 @@ namespace Storage_System
         }
 
         [ServerRpc(RequireOwnership = false)]
-        public void SetItemAndResetCellServerRpc(int addingCellId, CustomSendingInventoryDataCell dataCell,
-            int resetingCellId)
-        {
-            if (!IsServer) return;
-            InventoryHelper.SetItemAndResetCell(addingCellId, dataCell, resetingCellId, ItemsNetData);
-        }
-
-        [ServerRpc(RequireOwnership = false)]
         public void SetItemServerRpc(int cellId, CustomSendingInventoryDataCell dataCell)
         {
             if (IsServer)
                 SetItem(cellId, dataCell);
         }
 
-        protected virtual void SetItem(int cellId, CustomSendingInventoryDataCell dataCell)
+        public virtual void SetItem(int cellId, CustomSendingInventoryDataCell dataCell)
             => InventoryHelper.SetItem(cellId, dataCell, ItemsNetData);
 
         public void RemoveItem(int itemId, int count)

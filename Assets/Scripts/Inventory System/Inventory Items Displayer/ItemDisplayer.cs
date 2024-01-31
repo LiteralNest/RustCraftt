@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Threading.Tasks;
 using Inventory_System.Inventory_Slot_Displayers;
 using Player_Controller;
@@ -22,7 +21,7 @@ public abstract class ItemDisplayer : MonoBehaviour, IPointerClickHandler
     {
         PlayerNetCode.Singleton.ItemInfoHandler.AssignItem(PreviousCell);
     }
-    
+
     public virtual void MinusCurrentHp(int hp)
     {
     }
@@ -33,7 +32,7 @@ public abstract class ItemDisplayer : MonoBehaviour, IPointerClickHandler
 
     public virtual int GetCurrentAmmo()
         => InventoryCell.Ammo;
-    
+
     public virtual void SetCurrentAmmo(int value)
     {
     }
@@ -64,9 +63,10 @@ public abstract class ItemDisplayer : MonoBehaviour, IPointerClickHandler
         if (count <= InventoryCell.Item.StackCount)
         {
             InventoryCell.Count = count;
-            PreviousCell.Inventory.SetItemAndResetCellServerRpc(PreviousCell.Index,
-                new CustomSendingInventoryDataCell(InventoryCell.Item.Id, InventoryCell.Count, InventoryCell.Hp,
-                    InventoryCell.Ammo), displayer.PreviousCell.Index);
+            displayer.PreviousCell.Inventory.ResetItemServerRpc(displayer.PreviousCell.Index);
+            PreviousCell.Inventory.SetItemServerRpc(PreviousCell.Index, new CustomSendingInventoryDataCell(
+                InventoryCell.Item.Id, InventoryCell.Count, InventoryCell.Hp,
+                InventoryCell.Ammo));
             return 0;
         }
 

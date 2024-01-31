@@ -69,16 +69,6 @@ namespace Inventory_System
             }
         }
 
-        public static void SetItemAndResetCell(int addingCellId, CustomSendingInventoryDataCell dataCell,
-            int resetingCellId,
-            NetworkVariable<CustomSendingInventoryData> data)
-        {
-            var cells = GetNewGeneratedArray(data.Value.Cells);
-            cells[resetingCellId] = new CustomSendingInventoryDataCell(-1, 0, -1, 0);
-            cells[addingCellId] = dataCell;
-            data.Value = new CustomSendingInventoryData(cells);
-        }
-
         public static void MinusCellCount(int cellId, int count,
             NetworkVariable<CustomSendingInventoryData> data)
         {
@@ -132,7 +122,7 @@ namespace Inventory_System
                     return i;
             }
 
-            return GetFreeCellId(data);
+            return GetFreeCellId(data, range);
         }
 
         public static bool AddItemToDesiredSlot(int itemId, int count, int ammo,

@@ -78,14 +78,15 @@ namespace Recycler
             foreach (var cell in item.Cells)
             {
                 var rand = Random.Range(cell.ItemsRange.x, cell.ItemsRange.y);
-                var desiredCellId = 5 + InventoryHelper.GetDesiredCellId(cell.ResultItem.Id, rand, ItemsNetData);
+                var desiredCellId = InventoryHelper.GetDesiredCellId(cell.ResultItem.Id, rand, ItemsNetData, new Vector2Int(5, 10));
                 if (desiredCellId == -1)
                 {
                     _recycling = false;
+                    Debug.LogError("Recycler: Can't find item placed in desired cell");
                     return;
                 }
 
-                SetItemServerRpc(desiredCellId, new CustomSendingInventoryDataCell(cell.ResultItem.Id, rand, -1, 0));
+                SetItem(desiredCellId, new CustomSendingInventoryDataCell(cell.ResultItem.Id, rand, -1, 0));
             }
 
             RemoveItem(item, 1);
