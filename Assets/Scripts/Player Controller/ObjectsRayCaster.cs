@@ -1,6 +1,7 @@
 using Building_System;
 using Building_System.Blocks;
 using Crafting_System.WorkBench;
+using Doors_System;
 using FightSystem.Damage;
 using FightSystem.Weapon.Explosive;
 using Items_System;
@@ -154,7 +155,7 @@ namespace Player_Controller
             if (TryRaycast("LootingItem", _maxGatheringDistance, out LootingItem lootingItem, _defaultMask))
             {
                 LootingItem = lootingItem;
-                SetLootButton("Gather");
+                SetLootButton(LootingItem.GetName());
                 return;
             }
 

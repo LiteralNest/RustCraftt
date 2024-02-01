@@ -8,8 +8,8 @@ using UnityEngine.Serialization;
 
 public abstract class SlotsDisplayer : MonoBehaviour
 {
-   [field:SerializeField] public Storage TargetStorage { get; private set; }
-    
+    [field: SerializeField] public Storage TargetStorage { get; private set; }
+
     [FormerlySerializedAs("_cellDisplayers")] [Header("Start Init")] [SerializeField]
     public List<InventorySlotDisplayer> CellDisplayers = new List<InventorySlotDisplayer>();
 
@@ -17,6 +17,7 @@ public abstract class SlotsDisplayer : MonoBehaviour
 
     public virtual List<ArmorSlotDisplayer> GetArmorSlots()
         => null;
+
     private void Awake()
     {
         InitItems();
@@ -42,13 +43,27 @@ public abstract class SlotsDisplayer : MonoBehaviour
         return itemDisplayer;
     }
 
+    private bool SlotsAreSimilar(int index)
+    {
+         var cells = TargetStorage.ItemsNetData.Value.Cells;
+         if (CellDisplayers[index].ItemDisplayer.InventoryCell.Item.Id != cells[index].Id) return false;
+         if (CellDisplayers[index].ItemDisplayer.InventoryCell.Count != cells[index].Count) return false;
+         if (CellDisplayers[index].ItemDisplayer.InventoryCell.Ammo != cells[index].Ammo) return false;
+         if (CellDisplayers[index].ItemDisplayer.InventoryCell.Hp != cells[index].Hp) return false;
+         return true;
+    }
+
     public virtual void DisplayCells()
     {
-        ResetCells();
         var cells = TargetStorage.ItemsNetData.Value.Cells;
         for (int i = 0; i < cells.Length; i++)
         {
-            if (cells[i].Id == -1) continue;
+            if (cells[i].Id == -1)
+            {
+                CellDisplayers[i].DestroyItem();
+                continue;
+            }
+            if(CellDisplayers[i].ItemDisplayer != null && SlotsAreSimilar(i)) continue;
             var item = ItemFinder.singleton.GetItemById(cells[i].Id);
             var inventoryCell = new InventoryCell(item, cells[i].Count, cells[i].Hp, cells[i].Ammo);
             CellDisplayers[i].DisplayItem(GetGeneratedItemDisplayer(inventoryCell, CellDisplayers[i]));

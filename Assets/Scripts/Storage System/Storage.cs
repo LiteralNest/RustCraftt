@@ -1,12 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using Events;
 using Inventory_System;
 using Items_System.Items.Abstract;
 using Multiplayer;
+using Player_Controller;
 using Unity.Netcode;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Storage_System
 {
@@ -29,12 +29,18 @@ namespace Storage_System
 
         #region virtual
 
+        public virtual void DoAfterMovingItemOut()
+        {
+        }
+
         public virtual void Open(InventoryHandler handler)
         {
             CurrentInventoriesHandler.Singleton.CurrentStorage = this;
+         
             InventoryHandler.singleton.InventoryPanelsDisplayer.OpenInventory(true);
             Appear();
             _ui.SetActive(true);
+            SlotsDisplayer.ResetCells();
             SlotsDisplayer.DisplayCells();
         }
 
@@ -52,22 +58,18 @@ namespace Storage_System
         {
         }
 
-        protected virtual void DoAfterResetItem()
-        {
-        }
-        
-
         #endregion
 
         public List<int> GetArmorSlots()
         {
             var result = new List<int>();
-            for(int i = 30; i <= 33; i++)
+            for (int i = 30; i <= 33; i++)
             {
                 var cell = ItemsNetData.Value.Cells[i];
-                if(cell.Id == -1) continue;
+                if (cell.Id == -1) continue;
                 result.Add(cell.Id);
             }
+
             return result;
         }
 
@@ -90,24 +92,24 @@ namespace Storage_System
         }
 
         [ServerRpc(RequireOwnership = false)]
-        public void ResetItemServerRpc(int id)
+        public void ResetItemServerRpc(int id, int interactingPlayerId)
         {
             if (IsServer)
                 InventoryHelper.ResetCell(id, ItemsNetData);
-            DoAfterResetItem();
+            HandleMovingItemOutClientRpc(interactingPlayerId);
+        }
+
+        [ClientRpc]
+        public void HandleMovingItemOutClientRpc(int interactingPlayerId)
+        {
+            if (interactingPlayerId == -1 ||
+                PlayerNetCode.Singleton.OwnerClientId != (ulong)interactingPlayerId) return;
+            DoAfterMovingItemOut();
         }
 
         public void AssignCells(CustomSendingInventoryData inputList)
         {
             ItemsNetData.Value = inputList;
-        }
-
-        [ServerRpc(RequireOwnership = false)]
-        public void SetItemAndResetCellServerRpc(int addingCellId, CustomSendingInventoryDataCell dataCell,
-            int resetingCellId)
-        {
-            if (!IsServer) return;
-            InventoryHelper.SetItemAndResetCell(addingCellId, dataCell, resetingCellId, ItemsNetData);
         }
 
         [ServerRpc(RequireOwnership = false)]
@@ -117,7 +119,7 @@ namespace Storage_System
                 SetItem(cellId, dataCell);
         }
 
-        protected virtual void SetItem(int cellId, CustomSendingInventoryDataCell dataCell)
+        public virtual void SetItem(int cellId, CustomSendingInventoryDataCell dataCell)
             => InventoryHelper.SetItem(cellId, dataCell, ItemsNetData);
 
         public void RemoveItem(int itemId, int count)
@@ -130,13 +132,18 @@ namespace Storage_System
         {
             RemoveItemCountFromSlotServerRpc(slotId, itemId, count);
         }
-        
+
+        protected void RemoveItemCountFromSlot(int slotId, int itemId, int count)
+        {
+            InventoryHelper.MinusCellCount(slotId, count, ItemsNetData);
+            DoAfterRemovingItem(new InventoryCell(ItemFinder.singleton.GetItemById(itemId), count));
+        }
+
         [ServerRpc(RequireOwnership = false)]
         public void RemoveItemCountFromSlotServerRpc(int slotId, int itemId, int count)
         {
             if (!IsServer) return;
-            InventoryHelper.MinusCellCount(slotId, count, ItemsNetData);
-            DoAfterRemovingItem(new InventoryCell(ItemFinder.singleton.GetItemById(itemId), count));
+            RemoveItemCountFromSlot(slotId, itemId, count);
         }
 
         [ServerRpc(RequireOwnership = false)]
@@ -168,8 +175,9 @@ namespace Storage_System
                 if (!InventoryHelper.AddItemToDesiredSlot(itemId, count, ammo, ItemsNetData,
                         new Vector2Int(0, MainSlotsCount), hp))
                 {
-                    InstantiatingItemsPool.sigleton.SpawnObjectOnServer(new CustomSendingInventoryDataCell(itemId, count, hp, ammo),
-                         transform.position + transform.forward * 1.5f);
+                    InstantiatingItemsPool.sigleton.SpawnObjectOnServer(
+                        new CustomSendingInventoryDataCell(itemId, count, hp, ammo),
+                        transform.position + transform.forward * 1.5f);
                 }
             }
 
@@ -177,19 +185,22 @@ namespace Storage_System
             {
                 if (!InventoryHelper.AddItemToDesiredSlot(itemId, count, ammo, ItemsNetData, range, hp))
                 {
-                    InstantiatingItemsPool.sigleton.SpawnObjectOnServer(new CustomSendingInventoryDataCell(itemId, count, hp, ammo),
+                    InstantiatingItemsPool.sigleton.SpawnObjectOnServer(
+                        new CustomSendingInventoryDataCell(itemId, count, hp, ammo),
                         transform.position + transform.forward * 1.5f);
                 }
             }
         }
 
-        public virtual void AddItemToSlotWithAlert(int itemId, int count, int ammo, int hp = 100, Vector2Int range = default)
+        public virtual void AddItemToSlotWithAlert(int itemId, int count, int ammo, int hp = 100,
+            Vector2Int range = default)
         {
-            AddItemToDesiredSlotServerRpc(itemId, count, ammo, hp, range);   
+            AddItemToDesiredSlotServerRpc(itemId, count, ammo, hp, range);
         }
-        
+
         [ServerRpc(RequireOwnership = false)]
-        public void AddItemToDesiredSlotServerRpc(int itemId, int count, int ammo, int hp = 100, Vector2Int range = default)
+        public void AddItemToDesiredSlotServerRpc(int itemId, int count, int ammo, int hp = 100,
+            Vector2Int range = default)
         {
             if (IsServer)
                 AddItemToDesiredSlot(itemId, count, ammo, hp, range);
@@ -219,9 +230,6 @@ namespace Storage_System
 
         public virtual int GetAvailableCellIndexForMovingItem(Item item)
             => InventoryHelper.GetFreeCellId(ItemsNetData, new Vector2Int(0, MainSlotsCount));
-
-        protected void RemoveItem(Item item, int count)
-            => InventoryHelper.RemoveItemCount(item.Id, count, ItemsNetData);
 
         [ContextMenu("Test")]
         private void AddTestCell()

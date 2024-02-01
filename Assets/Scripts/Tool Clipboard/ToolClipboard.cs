@@ -48,7 +48,7 @@ namespace Tool_Clipboard
             SlotsDisplayer.DisplayCells();
         }
 
-        protected override void SetItem(int cellId, CustomSendingInventoryDataCell dataCell)
+        public override void SetItem(int cellId, CustomSendingInventoryDataCell dataCell)
         {
             base.SetItem(cellId, dataCell);
             var slotsDisplayer = SlotsDisplayer as ToolClipBoardSlotsDisplayer;

@@ -21,19 +21,19 @@ namespace Events
         public static Action OnCurrentItemDeleted { get; set; }
         public static Action<bool> OnMicrophoneButtonClicked { get; set; }
         public static Action<SleepingBag> SleepingBagSpawned { get; set; }
-        
+
         public static Action<bool> OnMainHudHandle { get; set; }
         public static Action OnMapOpened { get; set; }
-
+        public static Action CharacterStatsChanged { get; set; }
         public static Action CharacterHpChanged { get; set; }
         public static Action OnActiveSlotReset { get; set; }
-        
+
         #region Inventory
 
         public static Action InventoryItemDragged { get; set; }
 
         #endregion
-        
+
         #region Temperature & Radiation
 
         public static Action CriticalTemperatureReached { get; set; }

@@ -1,3 +1,4 @@
+using Events;
 using UnityEngine;
 
 namespace Character_Stats
@@ -68,6 +69,7 @@ namespace Character_Stats
                         _statsDisplayer.DisplayOxygen((int)Oxygen);
                     break;
             }
+            GlobalEventsContainer.CharacterStatsChanged?.Invoke();
         }
 
         private float GetSubstractedStat(float stat, float substractingValue)

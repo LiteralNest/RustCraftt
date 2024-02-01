@@ -69,16 +69,6 @@ namespace Inventory_System
             }
         }
 
-        public static void SetItemAndResetCell(int addingCellId, CustomSendingInventoryDataCell dataCell,
-            int resetingCellId,
-            NetworkVariable<CustomSendingInventoryData> data)
-        {
-            var cells = GetNewGeneratedArray(data.Value.Cells);
-            cells[resetingCellId] = new CustomSendingInventoryDataCell(-1, 0, -1, 0);
-            cells[addingCellId] = dataCell;
-            data.Value = new CustomSendingInventoryData(cells);
-        }
-
         public static void MinusCellCount(int cellId, int count,
             NetworkVariable<CustomSendingInventoryData> data)
         {
@@ -132,7 +122,7 @@ namespace Inventory_System
                     return i;
             }
 
-            return GetFreeCellId(data);
+            return GetFreeCellId(data, range);
         }
 
         public static bool AddItemToDesiredSlot(int itemId, int count, int ammo,
@@ -154,7 +144,7 @@ namespace Inventory_System
                     AddCountToCell(i, itemId, addingCount, data);
                     cachedCount -= addingCount;
                 }
-                else if (sum < item.StackCount)
+                else if (sum <= item.StackCount)
                 {
                     AddCountToCell(i, itemId, cachedCount, data);
                     cachedCount = 0;
@@ -170,7 +160,7 @@ namespace Inventory_System
                 var item = ItemFinder.singleton.GetItemById(itemId);
                 if (item.StackCount > cachedCount)
                 {
-                    SetItem(cellId, new CustomSendingInventoryDataCell(itemId, count, hp, 0), data);
+                    SetItem(cellId, new CustomSendingInventoryDataCell(itemId, cachedCount, hp, 0), data);
                     cachedCount = 0;
                 }
                 else
