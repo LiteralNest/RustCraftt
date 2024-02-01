@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Cysharp.Threading.Tasks;
 using MultiplayApi.Service;
+using UI;
 using Unity.Netcode;
 using Unity.Netcode.Samples;
 using Unity.Netcode.Transports.UTP;
@@ -21,11 +22,15 @@ namespace Server
         private const string EuropeRegionId = "0548345a-8510-49a8-80c8-ae8ce00fc934";
         private const int BuildConfigId = 1253039;
 
+        private ServerDataUI _serverDataUI;
+
+        
         public IMultiplayWebApi MultiplayWebApi { get; private set; } = new MultiplayWebApi(KeyId, SecretId, ProjectId, EnvironmentId,
             FleetId, EuropeRegionId, BuildConfigId);
-
+     
         private async void Awake()
         {
+            _serverDataUI = ServerDataUI.Instance;
             await MultiplayWebApi.Authenticate();
             await UniTask.Yield(PlayerLoopTiming.LastUpdate);
             // Debug.LogError("Auth Completed");
@@ -42,6 +47,8 @@ namespace Server
             if (server != null)
             {
                 transport.SetConnectionData(server.IP, (ushort)server.Port);
+                _serverDataUI.Region = server.LocationName;
+                _serverDataUI.Ip = server.IP;
                 networkManager.StartClient();
                 return;
             }
@@ -55,6 +62,8 @@ namespace Server
                 serverById = await MultiplayWebApi.GetServerById(allocationId);
             }
             transport.SetConnectionData(serverById.Ipv4, (ushort)serverById.GamePort);
+            _serverDataUI.Region = serverById.RegionId;
+            _serverDataUI.Ip = serverById.Ipv4;
             networkManager.StartClient();
         }
 
