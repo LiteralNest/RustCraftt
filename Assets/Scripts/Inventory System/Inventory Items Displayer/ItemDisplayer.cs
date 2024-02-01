@@ -25,6 +25,7 @@ namespace Inventory_System.Inventory_Items_Displayer
             if (PlayerNetCode.Singleton.ItemInfoHandler)
                 PlayerNetCode.Singleton.ItemInfoHandler.AssignItem(PreviousCell);
         }
+
         public virtual void MinusCurrentHp(int hp)
         {
         }
@@ -36,7 +37,7 @@ namespace Inventory_System.Inventory_Items_Displayer
         public virtual void SetCurrentAmmo(int value)
         {
         }
-    
+
         public virtual void DoAfterMovingItemOut()
         {
         }
@@ -64,7 +65,12 @@ namespace Inventory_System.Inventory_Items_Displayer
             int sum = InventoryCell.Count + displayer.InventoryCell.Count;
             if (sum <= InventoryCell.Item.StackCount)
             {
-                displayer.PreviousCell.Inventory.ResetItemServerRpc(displayer.PreviousCell.Index, (int)PlayerNetCode.Singleton.OwnerClientId);
+                if (displayer.PreviousCell != null)
+                    displayer.PreviousCell.Inventory.ResetItemServerRpc(displayer.PreviousCell.Index,
+                        (int)PlayerNetCode.Singleton.OwnerClientId);
+                else
+                    displayer.DoAfterMovingItemOut();
+                
                 PreviousCell.Inventory.SetItemServerRpc(PreviousCell.Index, new CustomSendingInventoryDataCell(
                     InventoryCell.Item.Id, sum, InventoryCell.Hp,
                     InventoryCell.Ammo));

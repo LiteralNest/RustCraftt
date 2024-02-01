@@ -24,7 +24,10 @@ namespace Inventory_System.ItemInfo
         private InventoryCell _cachedCell;
 
         private void OnEnable()
-            => GlobalEventsContainer.InventoryItemDragged += ResetPanel;
+        {
+            _slider.value = 1;
+            GlobalEventsContainer.InventoryItemDragged += ResetPanel;
+        }
 
         private void OnDisable()
         {
@@ -35,7 +38,7 @@ namespace Inventory_System.ItemInfo
         private void Start()
         {
             _slider.onValueChanged.AddListener(HandleSliderValue);
-            _slider.value = 1;
+          
         }
 
         public void ResetPanel()
