@@ -14,7 +14,6 @@ namespace Recycler
 
         [SerializeField] private Animator _animator;
         [SerializeField] private float _recyclingTime = 1;
-        [SerializeField] private List<RecyclingItem> _avaliableItems = new List<RecyclingItem>();
         [SerializeField] private AudioSource _source;
 
         [Header("UI")] [SerializeField] private GameObject _turnOnPanel;
@@ -54,18 +53,7 @@ namespace Recycler
             }
         }
 
-        private RecyclingItem GetRecyclingItemById(int id)
-        {
-            foreach (var item in _avaliableItems)
-            {
-                if (item.Id == id)
-                    return item;
-            }
-
-            return null;
-        }
-
-        private async void RecycleItem(RecyclingItem item)
+        private async void RecycleItem(RecyclingItem item, int slotIndex)
         {
             await Task.Delay((int)(_recyclingTime * 1000));
             if (!_recycling) return;
@@ -78,7 +66,8 @@ namespace Recycler
             foreach (var cell in item.Cells)
             {
                 var rand = Random.Range(cell.ItemsRange.x, cell.ItemsRange.y);
-                var desiredCellId = InventoryHelper.GetDesiredCellId(cell.ResultItem.Id, rand, ItemsNetData, new Vector2Int(5, 10));
+                var desiredCellId =
+                    InventoryHelper.GetDesiredCellId(cell.ResultItem.Id, rand, ItemsNetData, new Vector2Int(5, 10));
                 if (desiredCellId == -1)
                 {
                     _recycling = false;
@@ -89,7 +78,7 @@ namespace Recycler
                 SetItem(desiredCellId, new CustomSendingInventoryDataCell(cell.ResultItem.Id, rand, -1, 0));
             }
 
-            RemoveItem(item, 1);
+            RemoveItemCountFromSlot(slotIndex, item.Id, 1);
             _recycling = false;
         }
 
@@ -97,16 +86,13 @@ namespace Recycler
         {
             if (!IsServer) return;
             if (_recycling) return;
-            List<CustomSendingInventoryDataCell> cells = new List<CustomSendingInventoryDataCell>();
-            for (int i = 0; i < 5; i++)
-            {
-                cells.Add(new CustomSendingInventoryDataCell(ItemsNetData.Value.Cells[i]));
-            }
 
-            foreach (var cell in cells)
+            for (int i = 0; i < ItemsNetData.Value.Cells.Length; i++)
             {
-                if (cell.Id == -1 || !GetRecyclingItemById(cell.Id)) continue;
-                RecycleItem(GetRecyclingItemById(cell.Id));
+                var cell = ItemsNetData.Value.Cells[i];
+                var item = ItemFinder.singleton.GetItemById(cell.Id);
+                if (cell.Id == -1 || !(item is RecyclingItem)) continue;
+                RecycleItem(item as RecyclingItem, i);
                 _recycling = true;
                 return;
             }

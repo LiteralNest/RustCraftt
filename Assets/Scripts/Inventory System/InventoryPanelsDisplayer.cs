@@ -46,6 +46,7 @@ namespace Inventory_System
             _inventoryPanel.SetActive(false);
             CurrentInventoriesHandler.Singleton.ResetCurrentStorage();
             ResetInventories();
+            ActiveInvetoriesHandler.singleton.AddActiveInventory(null);
         }
 
         public void OpenInventory(bool deactivateCharacterView)
