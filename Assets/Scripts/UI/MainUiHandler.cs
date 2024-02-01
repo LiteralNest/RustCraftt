@@ -18,6 +18,7 @@ namespace UI
         {
             _mapClose.SetActive(false);
             _deathPanel.SetActive(value);
+            
         }
 
         [ContextMenu("DisplayKnockDownScreen")]
