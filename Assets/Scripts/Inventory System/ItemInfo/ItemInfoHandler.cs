@@ -14,11 +14,14 @@ namespace Inventory_System.ItemInfo
         [Header("UI")] [SerializeField] private GameObject _displayingPanel;
         [SerializeField] private TMP_Text _titleText;
         [SerializeField] private TMP_Text _descriptionText;
-        [SerializeField] private Image _icon;
-
+        [SerializeField] private Transform _itemDisplayerPlace;
+        [SerializeField] private Slider _slider;
+        [SerializeField] private ItemPreviewItemDisplayer _itemDisplayerPrefab;
         [Header("Buttons")] [SerializeField] private GameObject _eatButton;
 
         private SlotDisplayer _currentSlotDisplayer;
+        private ItemPreviewItemDisplayer _targetItemDisplayer;
+        private InventoryCell _cachedCell;
 
         private void OnEnable()
             => GlobalEventsContainer.InventoryItemDragged += ResetPanel;
@@ -27,6 +30,12 @@ namespace Inventory_System.ItemInfo
         {
             GlobalEventsContainer.InventoryItemDragged -= ResetPanel;
             ResetPanel();
+        }
+
+        private void Start()
+        {
+            _slider.onValueChanged.AddListener(HandleSliderValue);
+            _slider.value = 1;
         }
 
         public void ResetPanel()
@@ -39,7 +48,7 @@ namespace Inventory_System.ItemInfo
             var cell = slotDisplayer.ItemDisplayer.InventoryCell;
             _titleText.text = cell.Item.Name;
             _descriptionText.text = cell.Item.Description;
-            _icon.sprite = cell.Item.Icon;
+            GenerateItemDisplayer(slotDisplayer);
             if (cell.Item is Food)
                 _eatButton.SetActive(true);
             else
@@ -59,11 +68,31 @@ namespace Inventory_System.ItemInfo
         {
             var cell = _currentSlotDisplayer.ItemDisplayer.InventoryCell;
             var camera = Camera.main.transform;
-            InstantiatingItemsPool.sigleton.SpawnObjectServerRpc(new CustomSendingInventoryDataCell(cell.Item.Id, cell.Count, cell.Hp, cell.Ammo),
+            InstantiatingItemsPool.sigleton.SpawnObjectServerRpc(
+                new CustomSendingInventoryDataCell(cell.Item.Id, cell.Count, cell.Hp, cell.Ammo),
                 camera.transform.position + camera.forward * 1.5f);
             _currentSlotDisplayer.Inventory.RemoveItemCountFromSlotServerRpc(_currentSlotDisplayer.Index,
                 cell.Item.Id, cell.Count);
             ResetPanel();
+        }
+
+        private void GenerateItemDisplayer(SlotDisplayer slotDisplayer)
+        {
+            var cell = slotDisplayer.ItemDisplayer.InventoryCell;
+            foreach (Transform child in _itemDisplayerPlace)
+                Destroy(child.gameObject);
+            _cachedCell = new InventoryCell(cell);
+            _targetItemDisplayer = Instantiate(_itemDisplayerPrefab,
+                _itemDisplayerPlace);
+            _targetItemDisplayer.SetData(cell);
+            _targetItemDisplayer.Init(slotDisplayer);
+        }
+
+        private void HandleSliderValue(float value)
+        {
+            var count = (int)(_cachedCell.Count * value);
+            if (count <= 0) count = 1;
+            _targetItemDisplayer.SetData(new InventoryCell(_targetItemDisplayer.InventoryCell.Item, count));
         }
     }
 }

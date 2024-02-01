@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using Armor_System.UI;
 using Inventory_System;
+using Inventory_System.Inventory_Items_Displayer;
 using Inventory_System.Inventory_Slot_Displayers;
 using Storage_System;
 using UnityEngine;
@@ -39,7 +40,7 @@ public abstract class SlotsDisplayer : MonoBehaviour
     {
         var itemDisplayer = Instantiate(InventorySlotDisplayerSelector.singleton.GetDisplayerByType(cell.Item),
             slotDisplayer.transform);
-        itemDisplayer.Init(slotDisplayer, cell, TargetStorage);
+        itemDisplayer.Init(slotDisplayer, cell);
         return itemDisplayer;
     }
 

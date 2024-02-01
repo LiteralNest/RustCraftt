@@ -1,4 +1,5 @@
 using Events;
+using Inventory_System.Inventory_Items_Displayer;
 using Items_System.Items;
 using Items_System.Items.Food;
 using Player_Controller;

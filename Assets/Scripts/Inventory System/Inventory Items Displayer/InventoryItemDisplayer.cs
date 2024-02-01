@@ -1,7 +1,6 @@
 using Events;
 using Inventory_System.Inventory_Slot_Displayers;
 using Player_Controller;
-using Storage_System;
 using UI;
 using UnityEngine.EventSystems;
 
@@ -9,10 +8,11 @@ namespace Inventory_System.Inventory_Items_Displayer
 {
     public class InventoryItemDisplayer : ItemDisplayer, IBeginDragHandler, IDragHandler, IEndDragHandler
     {
-        public void OnBeginDrag(PointerEventData eventData)
+        public virtual void BeginDrag(PointerEventData eventData)
         {
             if (!GlobalValues.CanDragInventoryItems) return;
-            if(InventoryHandler.singleton.ActiveSlotDisplayer != null && InventoryHandler.singleton.ActiveSlotDisplayer.Index == PreviousCell.Index)
+            if (InventoryHandler.singleton.ActiveSlotDisplayer != null &&
+                InventoryHandler.singleton.ActiveSlotDisplayer.Index == PreviousCell.Index)
                 PlayerNetCode.Singleton.SetDefaultHandsServerRpc();
             GlobalEventsContainer.InventoryItemDragged?.Invoke();
             PreviousCell.ResetItemWhileDrag();
@@ -23,13 +23,13 @@ namespace Inventory_System.Inventory_Items_Displayer
             _itemIcon.raycastTarget = false;
         }
 
-        public void OnDrag(PointerEventData eventData)
+        public virtual void Drag(PointerEventData eventData)
         {
             if (!GlobalValues.CanDragInventoryItems) return;
             transform.position = eventData.position;
         }
 
-        public void OnEndDrag(PointerEventData eventData)
+        public virtual void EndDrag(PointerEventData eventData)
         {
             if (!GlobalValues.CanDragInventoryItems) return;
             if (_countText != null)
@@ -39,7 +39,16 @@ namespace Inventory_System.Inventory_Items_Displayer
             _itemIcon.raycastTarget = true;
         }
 
-        public void Init(SlotDisplayer slot, InventoryCell cell, Storage storage)
+        public void OnBeginDrag(PointerEventData eventData)
+            => BeginDrag(eventData);
+
+        public void OnDrag(PointerEventData eventData)
+            => Drag(eventData);
+
+        public void OnEndDrag(PointerEventData eventData)
+            => EndDrag(eventData);
+
+        public void Init(SlotDisplayer slot, InventoryCell cell)
         {
             PreviousCell = slot;
 
@@ -47,7 +56,12 @@ namespace Inventory_System.Inventory_Items_Displayer
             SetPosition();
             transform.SetParent(cellTransform);
 
-            InventoryCell = new InventoryCell(cell);
+            SetData(new InventoryCell(cell));
+        }
+
+        public void SetData(InventoryCell cell)
+        {
+            InventoryCell = cell;
             DisplayData();
         }
     }
