@@ -9,12 +9,15 @@ public class SettingsMenuUI : MonoBehaviour
   [SerializeField] private Slider _fovSlider;
   [SerializeField] private Toggle _shadowsToggle;
   [SerializeField] private Toggle _grassToggle;
+  [SerializeField] private Slider _fpsSlider;
   [SerializeField] private Slider _sensitivitySlider;
 
   [Header("Info")] 
   [SerializeField] private TextMeshProUGUI _renderSliderInfo;
   [SerializeField] private TextMeshProUGUI _fovSliderInfo;
   [SerializeField] private TextMeshProUGUI _sensSliderInfo;
+  [SerializeField] private TextMeshProUGUI _fpsSliderInfo;
+  
 
    private void Start()
    {
@@ -23,6 +26,7 @@ public class SettingsMenuUI : MonoBehaviour
       _fovSlider.value = GlobalValues.CameraFOV;
       _shadowsToggle.isOn = GlobalValues.EnableShadows;
       _grassToggle.isOn = GlobalValues.EnableGrass;
+      _fpsSlider.value = GlobalValues.FixedFPS;
       _sensitivitySlider.value = GlobalValues.Sensitivity;
       
       UpdateSliderValueText(_renderSliderInfo, GlobalValues.CameraFarDistance);
@@ -35,6 +39,7 @@ public class SettingsMenuUI : MonoBehaviour
       _farDistanceSlider.onValueChanged.AddListener(UpdateRenderSliderText);
       _fovSlider.onValueChanged.AddListener(UpdateFOVSliderText);
       _sensitivitySlider.onValueChanged.AddListener(UpdateSensitivitySliderText);
+      _fpsSlider.onValueChanged.AddListener(UpdateFixedFPS);
    }
 
    private void OnDisable()
@@ -42,7 +47,9 @@ public class SettingsMenuUI : MonoBehaviour
       _farDistanceSlider.onValueChanged.RemoveListener(UpdateRenderSliderText);
       _fovSlider.onValueChanged.RemoveListener(UpdateFOVSliderText);
       _sensitivitySlider.onValueChanged.RemoveListener(UpdateSensitivitySliderText);
+      _fpsSlider.onValueChanged.RemoveListener(UpdateFixedFPS);
    }
+   
    public void SaveGraphicsSettings()
    {
       GlobalValues.GraphicsQualityIndex = _qualityDropdown.value;
@@ -50,15 +57,18 @@ public class SettingsMenuUI : MonoBehaviour
       GlobalValues.CameraFOV = _fovSlider.value;
       GlobalValues.EnableShadows = _shadowsToggle;
       GlobalValues.EnableGrass = _grassToggle;
+      GlobalValues.FixedFPS = Mathf.RoundToInt(_fpsSlider.value);
    }
    public void SetQuality(int qualityIndex) => QualitySettings.SetQualityLevel(qualityIndex);
 
-   private void UpdateRenderSliderText(float value) => UpdateSliderValueText(_renderSliderInfo, value);
-
-   private void UpdateFOVSliderText(float value) => UpdateSliderValueText(_fovSliderInfo, value);
-
-   private void UpdateSensitivitySliderText(float value) => UpdateSliderValueText(_sensSliderInfo, value);
-
+   private void UpdateFixedFPS(float value)
+   {
+      int newFPS = Mathf.RoundToInt(value);
+      GlobalValues.FixedFPS = newFPS;
+      Application.targetFrameRate = newFPS;
+      UpdateSliderValueText(_fpsSliderInfo, value);
+   }
+   
    private void UpdateSliderValueText(TMP_Text valueText, float value)
    {
       if (valueText != null)
@@ -66,4 +76,10 @@ public class SettingsMenuUI : MonoBehaviour
          valueText.text = $"{value}";
       }
    }
+
+   public void UpdateRenderSliderText(float value) => UpdateSliderValueText(_renderSliderInfo, value);
+
+   public void UpdateFOVSliderText(float value) => UpdateSliderValueText(_fovSliderInfo, value);
+
+   public void UpdateSensitivitySliderText(float value) => UpdateSliderValueText(_sensSliderInfo, value);
 }
