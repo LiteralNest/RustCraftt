@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using Inventory_System;
+using Items_System.Items.Abstract;
 using Player_Controller;
 using UnityEngine;
 
@@ -37,6 +38,9 @@ namespace Storage_System.Loot_Boxes_System
             PlayerNetCode.Singleton.ItemInfoHandler.ResetPanel();
         }
 
+        public override int GetAvailableCellIndexForMovingItem(Item item)
+            => -1;
+
         private bool StorageEmpty()
         {
             var cells = ItemsNetData.Value.Cells;
@@ -67,7 +71,8 @@ namespace Storage_System.Loot_Boxes_System
             TurnRenderers(true);
             GenerateCells();
         }
-
+        
+        
         [ContextMenu("Generate Cells")]
         private void GenerateCells()
         {

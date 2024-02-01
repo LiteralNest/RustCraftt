@@ -25,9 +25,10 @@ namespace Inventory_System.Inventory_Slot_Displayers
             {
                 if (itemDisplayer != null)
                     Destroy(itemDisplayer.gameObject);
+                PlayerNetCode.Singleton.ItemInfoHandler.ResetPanel();
                 return;
             }
-
+         
             itemDisplayer.SetPosition();
         }
 
@@ -51,8 +52,9 @@ namespace Inventory_System.Inventory_Slot_Displayers
 
         private void SetItem(ItemDisplayer itemDisplayer)
         {
-            itemDisplayer.PreviousCell.Inventory.ResetItemServerRpc(itemDisplayer.PreviousCell.Index, (int)PlayerNetCode.Singleton.OwnerClientId);
-            
+            if(itemDisplayer.PreviousCell)
+                itemDisplayer.PreviousCell.Inventory.ResetItemServerRpc(itemDisplayer.PreviousCell.Index, (int)PlayerNetCode.Singleton.OwnerClientId);
+            itemDisplayer.DoAfterMovingItemOut();
             var cell = itemDisplayer.InventoryCell;
             Inventory.SetItemServerRpc(Index,
                 new CustomSendingInventoryDataCell(cell.Item.Id, cell.Count, cell.Hp, cell.Ammo));

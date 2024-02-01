@@ -1,4 +1,3 @@
-using Inventory_System;
 using Inventory_System.Inventory_Slot_Displayers;
 using Player_Controller;
 using Storage_System;
@@ -7,87 +6,102 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public abstract class ItemDisplayer : MonoBehaviour, IPointerClickHandler
+namespace Inventory_System.Inventory_Items_Displayer
 {
-    [Header("UI")] [SerializeField] protected TMP_Text _countText;
-    [SerializeField] protected Image _itemIcon;
-    [Header("Animator")] [SerializeField] protected Animator _animator;
-
-    public InventoryCell InventoryCell { get; protected set; }
-    public SlotDisplayer PreviousCell { get; protected set; }
-
-    public void OnPointerClick(PointerEventData eventData)
+    public abstract class ItemDisplayer : MonoBehaviour, IPointerClickHandler
     {
-        if (PlayerNetCode.Singleton.ItemInfoHandler)
-            PlayerNetCode.Singleton.ItemInfoHandler.AssignItem(PreviousCell);
-    }
+        [Header("UI")] [SerializeField] protected TMP_Text _countText;
+        [SerializeField] protected Image _itemIcon;
+        [Header("Animator")] [SerializeField] protected Animator _animator;
 
-    public virtual void MinusCurrentHp(int hp)
-    {
-    }
+        public InventoryCell InventoryCell { get; protected set; }
+        public SlotDisplayer PreviousCell { get; protected set; }
 
-    public virtual void MinusCurrentAmmo(int value)
-    {
-    }
+        public void OnPointerClick(PointerEventData eventData)
+            => PointerClicked();
 
-    public virtual void SetCurrentAmmo(int value)
-    {
-    }
-
-    public virtual int GetCurrentHp()
-        => 0;
-
-    public void SetInventoryCell(InventoryCell inventoryCell)
-    {
-        InventoryCell = inventoryCell;
-        DisplayData();
-    }
-
-    public virtual void DisplayData()
-    {
-        if (InventoryCell.Item == null) return;
-        if (InventoryCell.Item.StackCount == 1)
-            _countText.gameObject.SetActive(false);
-        _itemIcon.sprite = InventoryCell.Item.Icon;
-        _countText.text = InventoryCell.Count.ToString();
-    }
-
-    public void StackCount(ItemDisplayer displayer)
-    {
-        int sum = InventoryCell.Count + displayer.InventoryCell.Count;
-        if (sum <= InventoryCell.Item.StackCount)
+        protected virtual void PointerClicked()
         {
-            displayer.PreviousCell.Inventory.ResetItemServerRpc(displayer.PreviousCell.Index, (int)PlayerNetCode.Singleton.OwnerClientId);
-            PreviousCell.Inventory.SetItemServerRpc(PreviousCell.Index, new CustomSendingInventoryDataCell(
-                InventoryCell.Item.Id, sum, InventoryCell.Hp,
-                InventoryCell.Ammo));
+            if (PlayerNetCode.Singleton.ItemInfoHandler)
+                PlayerNetCode.Singleton.ItemInfoHandler.AssignItem(PreviousCell);
         }
-        else
+
+        public virtual void MinusCurrentHp(int hp)
         {
-            displayer.PreviousCell.Inventory.SetItemServerRpc(displayer.PreviousCell.Index,
-                new CustomSendingInventoryDataCell(
-                    InventoryCell.Item.Id, sum - InventoryCell.Item.StackCount, InventoryCell.Hp, InventoryCell.Ammo
-                ));
-            PreviousCell.Inventory.SetItemServerRpc(PreviousCell.Index, new CustomSendingInventoryDataCell(
-                InventoryCell.Item.Id, InventoryCell.Item.StackCount, InventoryCell.Hp,
-                InventoryCell.Ammo));
         }
+
+        public virtual void MinusCurrentAmmo(int value)
+        {
+        }
+
+        public virtual void SetCurrentAmmo(int value)
+        {
+        }
+
+        public virtual void DoAfterMovingItemOut()
+        {
+        }
+
+        public virtual int GetCurrentHp()
+            => 0;
+
+        public void SetInventoryCell(InventoryCell inventoryCell)
+        {
+            InventoryCell = inventoryCell;
+            DisplayData();
+        }
+
+        public virtual void DisplayData()
+        {
+            if (InventoryCell.Item == null) return;
+            if (InventoryCell.Item.StackCount == 1)
+                _countText.gameObject.SetActive(false);
+            _itemIcon.sprite = InventoryCell.Item.Icon;
+            _countText.text = InventoryCell.Count.ToString();
+        }
+
+        public void StackCount(ItemDisplayer displayer)
+        {
+            int sum = InventoryCell.Count + displayer.InventoryCell.Count;
+            if (sum <= InventoryCell.Item.StackCount)
+            {
+                if (displayer.PreviousCell != null)
+                    displayer.PreviousCell.Inventory.ResetItemServerRpc(displayer.PreviousCell.Index,
+                        (int)PlayerNetCode.Singleton.OwnerClientId);
+                else
+                    displayer.DoAfterMovingItemOut();
+                
+                PreviousCell.Inventory.SetItemServerRpc(PreviousCell.Index, new CustomSendingInventoryDataCell(
+                    InventoryCell.Item.Id, sum, InventoryCell.Hp,
+                    InventoryCell.Ammo));
+            }
+            else
+            {
+                displayer.PreviousCell.Inventory.SetItemServerRpc(displayer.PreviousCell.Index,
+                    new CustomSendingInventoryDataCell(
+                        InventoryCell.Item.Id, sum - InventoryCell.Item.StackCount, InventoryCell.Hp, InventoryCell.Ammo
+                    ));
+                PreviousCell.Inventory.SetItemServerRpc(PreviousCell.Index, new CustomSendingInventoryDataCell(
+                    InventoryCell.Item.Id, InventoryCell.Item.StackCount, InventoryCell.Hp,
+                    InventoryCell.Ammo));
+            }
+        }
+
+        public void SetPosition()
+            => transform.position = PreviousCell.transform.position;
+
+        public void SetNewCell(SlotDisplayer slotDisplayer)
+        {
+            PreviousCell = slotDisplayer;
+            var slotTransform = slotDisplayer.transform;
+            transform.SetParent(slotTransform);
+            SetPosition();
+        }
+
+        public void StartMovingToOtherInventory()
+            => _animator.SetTrigger("Moving");
+
+        public void MoveToOtherInventory()
+            => ActiveInvetoriesHandler.singleton.HandleCell(this);
     }
-
-    public void SetPosition()
-        => transform.position = PreviousCell.transform.position;
-
-    public void SetNewCell(SlotDisplayer slotDisplayer)
-    {
-        PreviousCell = slotDisplayer;
-        var slotTransform = slotDisplayer.transform;
-        transform.SetParent(slotTransform);
-        SetPosition();
-    }
-
-    public void StartMovingToOtherInventory()
-        => _animator.SetTrigger("Moving");
-
-    public void MoveToOtherInventory()
-        => ActiveInvetoriesHandler.singleton.HandleCell(this);
 }

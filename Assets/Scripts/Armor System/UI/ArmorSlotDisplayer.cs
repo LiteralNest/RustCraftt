@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using ArmorSystem.Backend;
+using Inventory_System.Inventory_Items_Displayer;
 using Inventory_System.Inventory_Slot_Displayers;
 using Items_System.Items;
 using UnityEngine;
