@@ -1,4 +1,5 @@
 using Inventory_System.Inventory_Items_Displayer;
+using Player_Controller;
 using Storage_System;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -7,7 +8,7 @@ namespace Inventory_System.Inventory_Slot_Displayers
 {
     public abstract class SlotDisplayer : MonoBehaviour, IDropHandler
     {
-        public ItemDisplayer ItemDisplayer { get; protected set; }
+        public ItemDisplayer ItemDisplayer { get; set; }
         [field: SerializeField] public bool IsQuickSlot { get; private set; }
         [field: SerializeField] public bool CanSetSlot { get; set; }
 
@@ -15,17 +16,18 @@ namespace Inventory_System.Inventory_Slot_Displayers
 
         public SlotsDisplayer InventorySlotsDisplayer { get; protected set; }
         public Storage Inventory { get; protected set; }
-        
-        
+
+
         protected virtual void Drop(PointerEventData eventData)
         {
             var itemDisplayer = eventData.pointerDrag.GetComponent<InventoryItemDisplayer>();
             if (TrySetItem(itemDisplayer))
             {
-                if(itemDisplayer != null)
+                if (itemDisplayer != null)
                     Destroy(itemDisplayer.gameObject);
                 return;
             }
+
             itemDisplayer.SetPosition();
         }
 
@@ -49,11 +51,9 @@ namespace Inventory_System.Inventory_Slot_Displayers
 
         private void SetItem(ItemDisplayer itemDisplayer)
         {
-            if (ItemDisplayer != null) Destroy(ItemDisplayer.gameObject);
-            itemDisplayer.PreviousCell.Inventory.ResetItemServerRpc(itemDisplayer.PreviousCell.Index);
-            ItemDisplayer = itemDisplayer;
-            ItemDisplayer.SetNewCell(this);
-            var cell = ItemDisplayer.InventoryCell;
+            itemDisplayer.PreviousCell.Inventory.ResetItemServerRpc(itemDisplayer.PreviousCell.Index, (int)PlayerNetCode.Singleton.OwnerClientId);
+            
+            var cell = itemDisplayer.InventoryCell;
             Inventory.SetItemServerRpc(Index,
                 new CustomSendingInventoryDataCell(cell.Item.Id, cell.Count, cell.Hp, cell.Ammo));
         }
@@ -92,8 +92,7 @@ namespace Inventory_System.Inventory_Slot_Displayers
             wasStacking = false;
             if (cell.Item == null || cell.Item != ItemDisplayer.InventoryCell.Item) return false;
             wasStacking = true;
-            var res = ItemDisplayer.StackCount(displayer);
-            if (res > 0) return false;
+            ItemDisplayer.StackCount(displayer);
             return true;
         }
 

@@ -1,5 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
+using Inventory_System;
+using Player_Controller;
 using UnityEngine;
 
 namespace Storage_System.Loot_Boxes_System
@@ -25,12 +27,28 @@ namespace Storage_System.Loot_Boxes_System
             ItemsNetData.OnValueChanged += (oldValue, newValue) => CheckCells();
         }
 
-        private void CheckCells()
+        public override void DoAfterMovingItemOut()
+        {
+            base.DoAfterMovingItemOut();
+            if (!StorageEmpty()) return;
+            _canvas.SetActive(false);
+            InventoryHandler.singleton.InventoryPanelsDisplayer.HandleCharacterPreview(true);
+            ActiveInvetoriesHandler.singleton.AddActiveInventory(null);
+            PlayerNetCode.Singleton.ItemInfoHandler.ResetPanel();
+        }
+
+        private bool StorageEmpty()
         {
             var cells = ItemsNetData.Value.Cells;
             foreach (var cell in cells)
                 if (cell.Id != -1)
-                    return;
+                    return false;
+            return true;
+        }
+
+        private void CheckCells()
+        {
+            if (!StorageEmpty()) return;
             StartCoroutine(RecoverRoutine());
         }
 
@@ -40,12 +58,6 @@ namespace Storage_System.Loot_Boxes_System
                 renderer.enabled = value;
             foreach (var collider in _colliders)
                 collider.enabled = value;
-            if (!value)
-            {
-                _canvas.SetActive(false);
-                InventoryHandler.singleton.InventoryPanelsDisplayer.HandleCharacterPreview(true);
-            }
-               
         }
 
         private IEnumerator RecoverRoutine()

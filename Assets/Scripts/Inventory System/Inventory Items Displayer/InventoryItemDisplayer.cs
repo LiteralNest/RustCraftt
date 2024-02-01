@@ -1,4 +1,3 @@
-using System.Threading.Tasks;
 using Events;
 using Inventory_System.Inventory_Slot_Displayers;
 using Player_Controller;
@@ -10,8 +9,6 @@ namespace Inventory_System.Inventory_Items_Displayer
 {
     public class InventoryItemDisplayer : ItemDisplayer, IBeginDragHandler, IDragHandler, IEndDragHandler
     {
-        protected Storage _storage;
-
         public void OnBeginDrag(PointerEventData eventData)
         {
             if (!GlobalValues.CanDragInventoryItems) return;
@@ -44,7 +41,6 @@ namespace Inventory_System.Inventory_Items_Displayer
 
         public void Init(SlotDisplayer slot, InventoryCell cell, Storage storage)
         {
-            _storage = storage;
             PreviousCell = slot;
 
             var cellTransform = slot.transform;
@@ -53,12 +49,6 @@ namespace Inventory_System.Inventory_Items_Displayer
 
             InventoryCell = new InventoryCell(cell);
             DisplayData();
-        }
-
-        public override void SetNewCell(SlotDisplayer slotDisplayer)
-        {
-            base.SetNewCell(slotDisplayer);
-            _storage = slotDisplayer.Inventory;
         }
     }
 }

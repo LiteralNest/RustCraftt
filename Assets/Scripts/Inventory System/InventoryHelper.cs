@@ -144,7 +144,7 @@ namespace Inventory_System
                     AddCountToCell(i, itemId, addingCount, data);
                     cachedCount -= addingCount;
                 }
-                else if (sum < item.StackCount)
+                else if (sum <= item.StackCount)
                 {
                     AddCountToCell(i, itemId, cachedCount, data);
                     cachedCount = 0;
@@ -160,7 +160,7 @@ namespace Inventory_System
                 var item = ItemFinder.singleton.GetItemById(itemId);
                 if (item.StackCount > cachedCount)
                 {
-                    SetItem(cellId, new CustomSendingInventoryDataCell(itemId, count, hp, 0), data);
+                    SetItem(cellId, new CustomSendingInventoryDataCell(itemId, cachedCount, hp, 0), data);
                     cachedCount = 0;
                 }
                 else
