@@ -38,7 +38,6 @@ namespace InHandItems
         private void Update()
         {
             if (!_isGathering) return;
-            if (IsRecovering) return;
             TryGather();
         }
 

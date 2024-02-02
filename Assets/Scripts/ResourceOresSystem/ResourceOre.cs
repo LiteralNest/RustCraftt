@@ -9,20 +9,22 @@ namespace ResourceOresSystem
 {
     public class ResourceOre : Ore
     {
-        [Header("Attached Components")] 
-        [SerializeField] private GatheringOreAnimator _animator;
-        
-        [Header("VFX")] 
-        [SerializeField] private GameObject _vfxEffect;
+        [Header("Attached Components")] [SerializeField]
+        private GatheringOreAnimator _animator;
+
+        [SerializeField] private List<Collider> _colliders;
+
+        [Header("VFX")] [SerializeField] private GameObject _vfxEffect;
         [SerializeField] private Transform _vfxParrent;
-        
-        [Header("Main Parameters")]
-        [SerializeField] private List<OreToolsForGatheringSlots> _toolsForGathering = new List<OreToolsForGatheringSlots>();
+
+        [Header("Main Parameters")] [SerializeField]
+        private List<OreToolsForGatheringSlots> _toolsForGathering = new List<OreToolsForGatheringSlots>();
+
         [field: SerializeField] public AudioClip GatheringClip { get; private set; }
-        
+
         private void Start()
             => gameObject.tag = "Ore";
-        
+
         private bool SlotFound(Item item, out OreToolsForGatheringSlots slot)
         {
             foreach (var tool in _toolsForGathering)
@@ -45,7 +47,7 @@ namespace ResourceOresSystem
             if (_currentHp.Value <= 0) return;
             if (!SlotFound(targetTool, out OreToolsForGatheringSlots toolSlot)) return;
             AddResourcesToInventory(targetTool as Tool, toolSlot);
-            if(_vfxEffect != null)
+            if (_vfxEffect != null)
                 DisplayVfxServerRpc(lastRayPos, lastRayRot);
             InventoryHandler.singleton.ActiveSlotDisplayer.ItemDisplayer.MinusCurrentHp(1);
             MinusHpServerRpc();
@@ -65,10 +67,18 @@ namespace ResourceOresSystem
             if (!IsServer) return;
             DisplayVfxClientRpc(pos, rot);
         }
-        
+
+        [ClientRpc]
+        private void TurnCollidersClientRpc(bool value)
+        {
+            foreach (var collider in _colliders)
+                collider.enabled = value;
+        }
+
         protected override IEnumerator DestroyRoutine()
         {
-            DoAfterDestroying();
+            base.DoAfterDestroying();
+            TurnCollidersClientRpc(false);
             if (_animator)
                 yield return _animator.SetFallRoutine();
             if (ObjectsPlacer)

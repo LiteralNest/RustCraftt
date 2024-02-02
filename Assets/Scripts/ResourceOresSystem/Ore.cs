@@ -57,6 +57,7 @@ namespace ResourceOresSystem
                 StartCoroutine(DestroyRoutine());
         }
 
+
         protected virtual void DoAfterDestroying()
         {
         }

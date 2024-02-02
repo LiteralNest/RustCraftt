@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Inventory_System;
 using Items_System.Items.Abstract;
 using Player_Controller;
+using Unity.Netcode;
 using UnityEngine;
 
 namespace Storage_System.Loot_Boxes_System
@@ -56,7 +57,8 @@ namespace Storage_System.Loot_Boxes_System
             StartCoroutine(RecoverRoutine());
         }
 
-        private void TurnRenderers(bool value)
+        [ClientRpc]
+        private void TurnRenderersClientRpc(bool value)
         {
             foreach (var renderer in _rendereres)
                 renderer.enabled = value;
@@ -66,9 +68,9 @@ namespace Storage_System.Loot_Boxes_System
 
         private IEnumerator RecoverRoutine()
         {
-            TurnRenderers(false);
+            TurnRenderersClientRpc(false);
             yield return new WaitForSeconds(_recoverTime);
-            TurnRenderers(true);
+            TurnRenderersClientRpc(true);
             GenerateCells();
         }
         
