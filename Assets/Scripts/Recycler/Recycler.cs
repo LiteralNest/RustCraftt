@@ -97,7 +97,7 @@ namespace Recycler
                 return;
             }
 
-            SetTurnedServerRpc(false);
+            Turned.Value = false;
         }
 
         [ServerRpc(RequireOwnership = false)]
