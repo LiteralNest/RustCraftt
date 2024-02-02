@@ -47,12 +47,7 @@ namespace Events
         public static Action<bool> ShouldHandleAttacking { get; set; }
 
         #endregion
-
-        #region Building Hammer
-
-        public static Action<bool> BuildingHammerActivated { get; set; }
-
-        #endregion
+        
 
         #region Player Net Code
 
