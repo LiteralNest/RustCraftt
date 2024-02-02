@@ -1,16 +1,19 @@
 using AI.Animals;
 using FightSystem.Damage;
+using InteractSystem;
 using Multiplayer;
+using Player_Controller;
 using Sound_System;
+using Sound_System.FightSystem.Damage;
 using Unity.Netcode;
 using UnityEngine;
 
 namespace AI
 {
-    public class AIStats : NetworkBehaviour, IDamagable
+    public class AIStats : NetworkBehaviour, IDamagable, IRayCastHpDusplayer
     {
         [SerializeField] private AnimalID _animalId;
-        
+
         [SerializeField] private NetworkVariable<ushort> _hp = new NetworkVariable<ushort>(100,
             NetworkVariableReadPermission.Everyone,
             NetworkVariableWritePermission.Server);
@@ -26,7 +29,7 @@ namespace AI
         #region IDamagable
 
         public AudioClip GetPlayerDamageClip()
-           => GlobalSoundsContainer.Singleton.HitSound;
+            => GlobalSoundsContainer.Singleton.HitSound;
 
         public int GetHp()
             => _hp.Value;
@@ -37,7 +40,7 @@ namespace AI
         [ServerRpc(RequireOwnership = false)]
         private void SetHpServerRpc(ushort hp)
         {
-            if(!IsServer) return;
+            if (!IsServer) return;
             _hp.Value = hp;
             if (hp <= 0)
                 Destroy();
@@ -54,16 +57,19 @@ namespace AI
 
         public void Destroy()
         {
-            AnimalObjectInstantiator.singleton.InstantiateAnimalObjectServerRpc(_animalId.Id, transform.position, transform.rotation.eulerAngles);
+            AnimalObjectInstantiator.singleton.InstantiateAnimalObjectServerRpc(_animalId.Id, transform.position,
+                transform.rotation.eulerAngles);
             GetComponent<NetworkObject>().Despawn();
             Destroy(gameObject);
         }
 
         public void Shake()
         {
-            
         }
 
         #endregion
+
+        public void DisplayData()
+            => PlayerNetCode.Singleton.ObjectHpDisplayer.DisplayObjectHp(this);
     }
 }

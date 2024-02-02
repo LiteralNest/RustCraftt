@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace FightSystem.Damage
+namespace Sound_System.FightSystem.Damage
 {
     public interface IDamagable
     {

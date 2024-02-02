@@ -4,13 +4,16 @@ using System.Collections.Generic;
 using Building_System.Buildings_Connecting;
 using Building_System.Upgrading;
 using FightSystem.Damage;
+using InteractSystem;
+using Player_Controller;
 using Sound_System;
+using Sound_System.FightSystem.Damage;
 using Unity.Netcode;
 using UnityEngine;
 
 namespace Building_System.Blocks
 {
-    public class BuildingBlock : NetworkBehaviour, IDamagable, IHammerInteractable, IDestroyable
+    public class BuildingBlock : NetworkBehaviour, IDamagable, IHammerInteractable, IDestroyable, IRayCastHpDusplayer
     {
         [SerializeField] private NetworkSoundPlayer _soundPlayer;
         [SerializeField] private List<Block> _levels;
@@ -233,5 +236,8 @@ namespace Building_System.Blocks
             => CurrentBlock.Hp;
 
         #endregion
+
+        public void DisplayData()
+            => PlayerNetCode.Singleton.ObjectHpDisplayer.DisplayObjectHp(this);
     }
 }

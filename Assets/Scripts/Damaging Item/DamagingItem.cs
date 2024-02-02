@@ -1,8 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using FightSystem.Damage;
+using InteractSystem;
 using Multiplayer;
+using Player_Controller;
 using Sound_System;
+using Sound_System.FightSystem.Damage;
 using Storage_System;
 using Storage_System.Loot_Boxes_System;
 using Unity.Netcode;
@@ -12,7 +15,7 @@ namespace Damaging_Item
 {
     [RequireComponent(typeof(NetworkSoundPlayer))]
     [RequireComponent(typeof(NetworkObject))]
-    public class DamagingItem : NetworkBehaviour, IDamagable
+    public class DamagingItem : NetworkBehaviour, IDamagable, IRayCastHpDusplayer
     {
         [SerializeField] private NetworkVariable<int> _currentHp = new(50, NetworkVariableReadPermission.Everyone,
             NetworkVariableWritePermission.Owner);
@@ -125,5 +128,8 @@ namespace Damaging_Item
         [ClientRpc]
         private void TurnRendederersClientRpc(bool value)
             => HandleRenderers(value);
+
+        public void DisplayData()
+            => PlayerNetCode.Singleton.ObjectHpDisplayer.DisplayObjectHp(this);
     }
 }

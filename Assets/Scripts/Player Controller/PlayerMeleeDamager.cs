@@ -1,5 +1,6 @@
 using System.Collections;
 using FightSystem.Damage;
+using Sound_System.FightSystem.Damage;
 using UnityEngine;
 
 namespace Player_Controller
