@@ -24,14 +24,15 @@ namespace Storage_System.Loot_Boxes_System
         public override void OnNetworkSpawn()
         {
             base.OnNetworkSpawn();
+            ItemsNetData.OnValueChanged += (oldValue, newValue) => TryResetPanels();
             if (!IsServer) return;
             GenerateCells();
             ItemsNetData.OnValueChanged += (oldValue, newValue) => CheckCells();
         }
 
-        public override void DoAfterMovingItemOut()
+        public void TryResetPanels()
         {
-            base.DoAfterMovingItemOut();
+            if(!Opened) return;
             if (!StorageEmpty()) return;
             _canvas.SetActive(false);
             InventoryHandler.singleton.InventoryPanelsDisplayer.HandleCharacterPreview(true);

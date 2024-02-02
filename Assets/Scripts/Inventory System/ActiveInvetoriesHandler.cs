@@ -16,8 +16,12 @@ namespace Inventory_System
             => singleton = this;
 
         public void AddActiveInventory(Storage storage)
-            => _activeInventory = storage; 
-    
+        {
+            if(_activeInventory != null)
+                _activeInventory.Close();
+             _activeInventory = storage; 
+        }
+
         public void HandleCell(ItemDisplayer itemDisplayer)
         { 
             var itemInventory = itemDisplayer.PreviousCell.Inventory;
