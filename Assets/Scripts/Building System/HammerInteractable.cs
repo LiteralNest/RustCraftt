@@ -21,15 +21,15 @@ namespace Building_System
 
         private ToolClipboard _targetToolClipboard;
 
-        public InventoryCell GetNeededItemsForUpgrade()
+        public bool CanBeUpgraded()
+            => false;
+
+        public bool CanBeUpgraded(int level)
         {
             throw new System.NotImplementedException();
         }
 
-        public bool CanBeUpgraded()
-            => false;
-
-        public List<InventoryCell> GetNeededCellsForUpgrade()
+        public List<InventoryCell> GetNeededCellsForUpgrade(int level)
         {
             throw new System.NotImplementedException();
         }
@@ -40,11 +40,6 @@ namespace Building_System
         }
 
         public int GetLevel()
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public void Upgrade()
         {
             throw new System.NotImplementedException();
         }

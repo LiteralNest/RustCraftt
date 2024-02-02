@@ -46,7 +46,8 @@ namespace InteractSystem
             IRayCastHpDusplayer target = null;
             if (!Physics.Raycast(ray, out RaycastHit hitInfo, _maxDistance, _layerMask))
             {
-                PlayerNetCode.Singleton.ObjectHpDisplayer.DisablePanel();
+                if(PlayerNetCode.Singleton)
+                    PlayerNetCode.Singleton.ObjectHpDisplayer.DisablePanel();
                 return;
             }
 

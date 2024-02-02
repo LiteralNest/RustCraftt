@@ -46,10 +46,10 @@ namespace Building_System.Placing_Objects
                 throw new System.NotImplementedException();
         }
 
-        public bool CanBeUpgraded()
+        public bool CanBeUpgraded(int level)
             => false;
 
-        public List<InventoryCell> GetNeededCellsForUpgrade()
+        public List<InventoryCell> GetNeededCellsForUpgrade(int level)
         {
             throw new System.NotImplementedException();
         }
