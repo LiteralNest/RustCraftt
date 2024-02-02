@@ -26,6 +26,7 @@ namespace Player_Controller
                 var damagable = hit.collider.GetComponent<IDamagable>();
                 if (damagable == null) return false;
                 damagable.GetDamage(damageAmount);
+                InventoryHandler.singleton.ActiveSlotDisplayer.ItemDisplayer.MinusCurrentHp(1);
                 return true;
             }
 
