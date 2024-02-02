@@ -10,8 +10,6 @@ public class LobbyScreenUI : MonoBehaviour
     public static LobbyScreenUI Singleton { get; set; }
     
     public string LobbyChannelName = "lobbyChannel";
-    
-    public GameObject LobbyScreen;
 
     private VivoxVoiceManager _vivoxVoiceManager;
     private EventSystem _evtSystem;
@@ -79,8 +77,6 @@ public class LobbyScreenUI : MonoBehaviour
     
     private void OnUserLoggedIn()
     {
-        LobbyScreen.SetActive(true);
-
         var lobbychannel = _vivoxVoiceManager.ActiveChannels.FirstOrDefault(ac => ac.Channel.Name == LobbyChannelName);
         if ((_vivoxVoiceManager && _vivoxVoiceManager.ActiveChannels.Count == 0) 
             || lobbychannel == null)
@@ -106,8 +102,6 @@ public class LobbyScreenUI : MonoBehaviour
     private void OnUserLoggedOut()
     {
         _vivoxVoiceManager.DisconnectAllChannels();
-
-        LobbyScreen.SetActive(false);
     }
 
     private void FixedUpdate()
