@@ -12,14 +12,7 @@ namespace Doors_System
         private Locker _locker;
 
         private NetworkVariable<bool> _wasOpened = new();
-        private NetworkVariable<int> _activeLock = new(0);
         private NetworkVariable<bool> _canBeInteracted = new(true);
-
-        public override void OnNetworkSpawn()
-        {
-            base.OnNetworkSpawn();
-            _wasOpened.OnValueChanged += (bool prevValue, bool newValue) => { OpenClientRpc(newValue); };
-        }
 
         private void Open(int id)
         {
@@ -33,6 +26,7 @@ namespace Doors_System
             if (!IsServer) return;
             _canBeInteracted.Value = false;
             _wasOpened.Value = !_wasOpened.Value;
+            Open(_wasOpened.Value);
         }
 
         [ServerRpc(RequireOwnership = false)]
@@ -41,9 +35,8 @@ namespace Doors_System
             if (!IsServer) return;
             _canBeInteracted.Value = true;
         }
-
-        [ClientRpc]
-        private void OpenClientRpc(bool value)
+        
+        private void Open(bool value)
         {
             if (value)
                 _anim.SetTrigger("Open");
