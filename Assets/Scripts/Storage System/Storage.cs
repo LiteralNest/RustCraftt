@@ -4,6 +4,7 @@ using InteractSystem;
 using Inventory_System;
 using Items_System.Items.Abstract;
 using Multiplayer;
+using Player_Controller;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -59,7 +60,7 @@ namespace Storage_System
         #endregion
 
         protected virtual void Appear()
-            => ActiveInvetoriesHandler.singleton.AddActiveInventory(this);
+            => PlayerNetCode.Singleton.ActiveInvetoriesHandler.AddActiveInventory(this);
 
         protected virtual void DoAfterRemovingItem(InventoryCell cell)
         {

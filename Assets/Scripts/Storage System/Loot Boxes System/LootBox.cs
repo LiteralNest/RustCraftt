@@ -36,7 +36,7 @@ namespace Storage_System.Loot_Boxes_System
             if (!StorageEmpty()) return;
             _canvas.SetActive(false);
             InventoryHandler.singleton.InventoryPanelsDisplayer.HandleCharacterPreview(true);
-            ActiveInvetoriesHandler.singleton.AddActiveInventory(null);
+            PlayerNetCode.Singleton.ActiveInvetoriesHandler.AddActiveInventory(null);
             PlayerNetCode.Singleton.ItemInfoHandler.ResetPanel();
         }
 

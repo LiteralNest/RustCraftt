@@ -7,13 +7,8 @@ namespace Inventory_System
 {
     public class ActiveInvetoriesHandler : MonoBehaviour
     {
-        public static ActiveInvetoriesHandler singleton { get; private set; }
-
         [SerializeField] private Storage _playerInventory;
         private Storage _activeInventory;
-
-        private void Awake()
-            => singleton = this;
 
         public void AddActiveInventory(Storage storage)
         {

@@ -22,6 +22,7 @@ namespace Player_Controller
     {
         public static PlayerNetCode Singleton { get; private set; }
 
+        [field:SerializeField] public ActiveInvetoriesHandler ActiveInvetoriesHandler { get; private set; }
         [field:SerializeField] public ObjectHpDisplayer ObjectHpDisplayer { get; private set; }
         [field:SerializeField] public CharacterHpHandler CharacterHpHandler { get; private set; }
         [field: SerializeField] public ResourcesDropper ResourcesDropper { get; private set; }
