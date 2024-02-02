@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Building_System.Buildings_Connecting;
 using Building_System.Upgrading;
+using Events;
 using FightSystem.Damage;
 using InteractSystem;
 using Player_Controller;
@@ -195,7 +196,11 @@ namespace Building_System.Blocks
 
         public void UpgradeTo(int level)
         {
-            InventoryHandler.singleton.CharacterInventory.RemoveItems(_levels[level].CellForPlace);
+            var cells = _levels[level].CellForPlace;
+            InventoryHandler.singleton.CharacterInventory.RemoveItems(cells);
+            
+            foreach(var slot in cells)
+                GlobalEventsContainer.OnInventoryItemRemoved?.Invoke(new InventoryCell(slot.Item, slot.Count));
             SetLevelServerRpc((ushort)level);
         }
 
