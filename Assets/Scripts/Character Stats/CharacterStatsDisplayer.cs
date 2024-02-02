@@ -1,5 +1,6 @@
 using System.Threading.Tasks;
 using Alerts_System.Alerts;
+using Player_Controller;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -36,10 +37,10 @@ namespace Character_Stats
             if (food < 0)
             {
                 fixedfood = 0;
-                AlertsDisplayer.Singleton.DisplayStarvingAlert(true);
+                PlayerNetCode.Singleton.AlertsDisplayer.DisplayStarvingAlert(true);
             }
             else
-                AlertsDisplayer.Singleton.DisplayStarvingAlert(false);
+                PlayerNetCode.Singleton.AlertsDisplayer.DisplayStarvingAlert(false);
             _foodText.text = fixedfood.ToString();
             _foodFill.fillAmount = fixedfood / 100;
         }
@@ -49,11 +50,12 @@ namespace Character_Stats
             float fixedwater = water;
             if (water < 0)
             {
-                AlertsDisplayer.Singleton.DisplayDehydratedAlert(true);
+                PlayerNetCode.Singleton.AlertsDisplayer.DisplayDehydratedAlert(true);
+
                 fixedwater = 0;
             }
             else
-                AlertsDisplayer.Singleton.DisplayDehydratedAlert(false);
+                PlayerNetCode.Singleton.AlertsDisplayer.DisplayDehydratedAlert(false);
             _waterText.text = fixedwater.ToString();
             _waterFill.fillAmount = fixedwater / 100;
         }

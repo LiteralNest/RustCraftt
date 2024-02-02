@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Alerts_System.Alerts;
 using ArmorSystem.Backend;
 using Character_Stats;
 using Events;
@@ -22,6 +23,7 @@ namespace Player_Controller
     {
         public static PlayerNetCode Singleton { get; private set; }
 
+        [field:SerializeField] public AlertsDisplayer AlertsDisplayer { get; private set; }
         [field:SerializeField] public ActiveInvetoriesHandler ActiveInvetoriesHandler { get; private set; }
         [field:SerializeField] public ObjectHpDisplayer ObjectHpDisplayer { get; private set; }
         [field:SerializeField] public CharacterHpHandler CharacterHpHandler { get; private set; }
@@ -29,7 +31,6 @@ namespace Player_Controller
         [field: SerializeField] public ItemInfoHandler ItemInfoHandler { get; private set; }
         [field: SerializeField] public PlayerSoundsPlayer PlayerSoundsPlayer { get; private set; }
         [field: SerializeField] public InHandObjectsContainer InHandObjectsContainer { get; private set; }
-        [field: SerializeField] public VehiclesController VehiclesController { get; private set; }
         [field: SerializeField] public CharacterInventory CharacterInventory { get; private set; }
         [field: SerializeField] public PlayerMeleeDamager PlayerMeleeDamager { get; private set; }
         [field: SerializeField] public PlayerKiller PlayerKiller { get; private set; }

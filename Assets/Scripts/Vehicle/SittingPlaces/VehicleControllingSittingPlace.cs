@@ -12,7 +12,7 @@ namespace Vehicle.SittingPlaces
         {
             base.SitIn(player);
             _vehicle.ActivateInput(true);
-            PlayerNetCode.Singleton.VehiclesController.SitIn(_vehicle);
+            //PlayerNetCode.Singleton.VehiclesController.SitIn(_vehicle);
             CharacterUIHandler.singleton.HandleIgnoringVehiclePanels(false);
             CharacterUIHandler.singleton.HandleJoystick(true);
         }
@@ -22,8 +22,8 @@ namespace Vehicle.SittingPlaces
         {
             base.StandUp(player);
             _vehicle.ActivateInput(false);
-            PlayerNetCode.Singleton.VehiclesController.StandUp();
-            PlayerNetCode.Singleton.VehiclesController.SetVehicleController(null);
+            //PlayerNetCode.Singleton.VehiclesController.StandUp();
+            //PlayerNetCode.Singleton.VehiclesController.SetVehicleController(null);
             CharacterUIHandler.singleton.HandleIgnoringVehiclePanels(true);
       
         }
