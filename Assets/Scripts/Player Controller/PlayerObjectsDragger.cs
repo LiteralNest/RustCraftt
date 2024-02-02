@@ -17,12 +17,12 @@ namespace Player_Controller
         {
             GlobalEventsContainer.BluePrintDeactivated += ClearCurrentPref;
         }
-        
+
         private void OnDisable()
         {
             GlobalEventsContainer.BluePrintDeactivated -= ClearCurrentPref;
         }
-        
+
         private void Update()
         {
             if (_targetBluePrint == null) return;
@@ -34,7 +34,8 @@ namespace Player_Controller
 
         private void TryMoveBuildingObject()
         {
-            if (!_targetBluePrint.TryGetObjectCoords(_targetCamera, out var coords, out var rotation, out var shouldRotate, _rayCastDistance))
+            if (!_targetBluePrint.TryGetObjectCoords(_targetCamera, out var coords, out var rotation,
+                    out var shouldRotate, _rayCastDistance))
             {
                 _targetBluePrint.SetOnFrontOfPlayer(true);
                 _targetBluePrint.transform.position = GetFrontOfCameraPosition();
@@ -43,17 +44,26 @@ namespace Player_Controller
 
             _targetBluePrint.SetOnFrontOfPlayer(false);
             _targetBluePrint.transform.position = coords;
-            if(!shouldRotate) return;
+            if (!shouldRotate) return;
             _targetBluePrint.transform.rotation = rotation;
         }
 
         public void Place()
         {
             if (_targetBluePrint == null) return;
+         
+            var slot = InventoryHandler.singleton.ActiveSlotDisplayer.ItemDisplayer.InventoryCell;
+            bool shouldClearPref = false;
+            
+            if (slot.Count == 1)
+            {
+                GlobalEventsContainer.OnActiveSlotReset?.Invoke();
+                CharacterUIHandler.singleton.ActivatePlacingPanel(false);
+                shouldClearPref = true;
+            }
             _targetBluePrint.Place();
-            GlobalEventsContainer.OnActiveSlotReset?.Invoke();
-            CharacterUIHandler.singleton.ActivatePlacingPanel(false);
-            ClearCurrentPref();
+            if(shouldClearPref)
+                ClearCurrentPref();
         }
 
         public void ClearCurrentPref()
