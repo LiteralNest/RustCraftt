@@ -16120,6 +16120,9 @@ MonoBehaviour:
   _climbForce: 10
   _raycastDistance: 0.5
   _raycastOrigin: {fileID: 4347651715069804792}
+  _rayCastMask:
+    serializedVersion: 2
+    m_Bits: 129
 --- !u!114 &-6262232929159552701
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -40409,9 +40412,12 @@ MonoBehaviour:
         m_CallState: 2
   _pointerClicked:
     m_PersistentCalls:
+      m_Calls: []
+  _pointerClickedWithoudDisable:
+    m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1451852465645917735}
-        m_TargetAssemblyTypeName: PlayerClimber, Assembly-CSharp
+        m_TargetAssemblyTypeName: Player_Controller.PlayerClimber, Assembly-CSharp
         m_MethodName: AssignClimbing
         m_Mode: 6
         m_Arguments:
@@ -40422,9 +40428,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  _pointerClickedWithoudDisable:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!1 &5842937444142742058
 GameObject:
   m_ObjectHideFlags: 0

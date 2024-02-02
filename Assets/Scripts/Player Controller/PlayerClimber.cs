@@ -14,8 +14,8 @@ namespace Player_Controller
         [SerializeField] private float _climbForce = 10.0f;
         [SerializeField] private float _raycastDistance = 0.3f;
         [SerializeField] private Transform _raycastOrigin;
-
-        private CharacterController _characterController;
+        [SerializeField] private LayerMask _rayCastMask;
+        
         private PlayerJumper _jumper;
 
         private Ladder _currentLadder;
@@ -23,15 +23,17 @@ namespace Player_Controller
 
         private void Start()
         {
-            _characterController = GetComponent<CharacterController>();
             _jumper = GetComponent<PlayerJumper>();
         }
 
         private void Update()
         {
-            if(CharacterUIHandler.singleton == null) return;
-            if(!_playerNetworkObject.IsOwner) return;
+            if (CharacterUIHandler.singleton == null) return;
+            if (!_playerNetworkObject.IsOwner) return;
             bool ladderFound = LadderFound();
+            if (!ladderFound)
+                _climbButtonPressed = false;
+            AssignGravity();
             CharacterUIHandler.singleton.HandleMovingUpButton(ladderFound);
         }
 
@@ -53,26 +55,20 @@ namespace Player_Controller
 
         public void AssignClimbing(bool value)
         {
-            if (!value)
-            {
-                if (_climbButtonPressed)
-                    StartCoroutine(AssignGravityRoutine());
-            }
-            else
+            if (value)
                 _jumper.CanUseGravity = false;
+
             _climbButtonPressed = value;
         }
 
-        private IEnumerator AssignGravityRoutine()
-        {
-            yield return null;
-            _jumper.CanUseGravity = _characterController.isGrounded || !_currentLadder;
-        }
+        private void AssignGravity()
+            => _jumper.CanUseGravity = !_currentLadder;
 
         private bool LadderFound()
         {
             _currentLadder = null;
-            if (!Physics.Raycast(_raycastOrigin.position, _raycastOrigin.forward, out RaycastHit hit, _raycastDistance)) return false;
+            if (!Physics.Raycast(_raycastOrigin.position, _raycastOrigin.forward, out RaycastHit hit,
+                    _raycastDistance, _rayCastMask)) return false;
             if (!hit.collider.CompareTag("DamagingItem") && !hit.collider.CompareTag("Ladder")) return false;
             if (!hit.collider.TryGetComponent(out Ladder ladder)) return false;
             _currentLadder = ladder;
