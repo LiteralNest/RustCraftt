@@ -1,18 +1,20 @@
 using System.Collections.Generic;
 using System.Collections;
+using InteractSystem;
 using Unity.Netcode;
 using UnityEngine;
 
 namespace ResourceOresSystem
 {
     [RequireComponent(typeof(BoxCollider))]
-    public class GatheringOre : Ore
+    public class GatheringOre : Ore, IRaycastInteractable
     {
-        [Header("Attached Scripts")] 
-        [SerializeField] private List<Renderer> _renderers;
-        [SerializeField] private List<Collider> _colliders; 
+        [Header("Attached Scripts")] [SerializeField]
+        private List<Renderer> _renderers;
+
+        [SerializeField] private List<Collider> _colliders;
         [SerializeField] private float _recoveringTime;
-        
+
         private NetworkVariable<bool> _recovering = new(false);
 
         public override void OnNetworkSpawn()
@@ -20,9 +22,6 @@ namespace ResourceOresSystem
             base.OnNetworkSpawn();
             _recovering.OnValueChanged += ((value, newValue) => DisplayRenderers(!newValue));
         }
-
-        private void Start()
-            => gameObject.tag = "Gathering";
 
         private void DisplayRenderers(bool value)
         {
@@ -52,5 +51,18 @@ namespace ResourceOresSystem
             yield return new WaitForSeconds(_recoveringTime);
             _recovering.Value = false;
         }
+
+        #region IRaycastInteractable
+
+        public string GetDisplayText()
+            => "Gather";
+
+        public void Interact()
+            => Gather();
+
+        public bool CanInteract()
+            => true;
+
+        #endregion
     }
 }

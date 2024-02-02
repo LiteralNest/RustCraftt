@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using AuthorizationSystem;
 using Building_System.Blocks;
+using InteractSystem;
 using Inventory_System;
 using Inventory_System.Slots_Displayer.Tool_CLipBoard;
 using Lock_System;
@@ -8,12 +9,11 @@ using Multiplayer.CustomData;
 using Storage_System;
 using Unity.Netcode;
 using UnityEngine;
-using UnityEngine.UI;
 using Web.UserData;
 
 namespace Tool_Clipboard
 {
-    public class ToolClipboard : Storage, ILockable
+    public class ToolClipboard : Storage
     {
         [Header("UI")] [SerializeField] private GameObject _selectingCircle;
         [SerializeField] private GameObject _inventoryPanel;
@@ -25,8 +25,8 @@ namespace Tool_Clipboard
         private bool _isLocked;
 
         public AuthorizedUsersData AuthorizedIds => _authorizedIds.Value;
-        
-        
+
+
         public override void Open(InventoryHandler handler)
         {
             if (_targetLocker != null && !_targetLocker.CanBeOpened(UserDataHandler.Singleton.UserData.Id))
@@ -222,5 +222,22 @@ namespace Tool_Clipboard
         }
 
         #endregion
+
+        public override string GetDisplayText()
+        {
+            if (!IsAutorized(UserDataHandler.Singleton.UserData.Id)) return "Authorize";
+            return base.GetDisplayText();
+        }
+
+        public override void Interact()
+        {
+            if (!IsAutorized(UserDataHandler.Singleton.UserData.Id))
+            {
+                AuthorizeServerRpc(UserDataHandler.Singleton.UserData.Id);
+                return;
+            }
+
+            base.Interact();
+        }
     }
 }

@@ -8,7 +8,7 @@ namespace Vehicle.SittingPlaces
     {
         [SerializeField] private VehicleController _vehicle;
 
-        public override void SitIn(PlayerNetCode player)
+        protected override void SitIn(PlayerNetCode player)
         {
             base.SitIn(player);
             _vehicle.ActivateInput(true);
@@ -18,7 +18,7 @@ namespace Vehicle.SittingPlaces
         }
         
 
-        public override void StandUp(PlayerNetCode player)
+        protected override void StandUp(PlayerNetCode player)
         {
             base.StandUp(player);
             _vehicle.ActivateInput(false);

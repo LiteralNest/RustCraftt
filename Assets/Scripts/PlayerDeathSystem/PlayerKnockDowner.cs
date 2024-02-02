@@ -1,17 +1,19 @@
 using System.Threading.Tasks;
 using Animation_System;
 using Character_Stats;
+using InteractSystem;
 using Multiplayer;
 using Player_Controller;
 using Player_Controller.Looking_Around;
 using UI;
 using Unity.Netcode;
+using Unity.VisualScripting;
 using UnityEngine;
 using Web.UserData;
 
 namespace PlayerDeathSystem
 {
-    public class PlayerKnockDowner : NetworkBehaviour
+    public class PlayerKnockDowner : NetworkBehaviour, IRaycastInteractable
     {
         public static PlayerKnockDowner Singleton { get; private set; }
 
@@ -102,5 +104,17 @@ namespace PlayerDeathSystem
         }
 
         #endregion
+
+        public string GetDisplayText()
+            => "Help";
+
+        public void Interact()
+            => StandUpServerRpc();
+
+        public bool CanInteract()
+        {
+           if(!_knockDown.Value && IsOwner) return false;
+           return true;
+        }
     }
 }

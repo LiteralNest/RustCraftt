@@ -1,3 +1,4 @@
+using InteractSystem;
 using Inventory_System;
 using Items_System.Items.Abstract;
 using Storage_System;
@@ -7,26 +8,29 @@ using UnityEngine;
 namespace Items_System
 {
     [RequireComponent(typeof(BoxCollider))]
-    public class LootingItem : NetworkBehaviour
+    public class LootingItem : NetworkBehaviour, IRaycastInteractable
     {
         public NetworkVariable<CustomSendingInventoryDataCell> Data { get; set; } = new();
         [field: SerializeField] public Item TargetItem { get; private set; }
+        
+        public string GetDisplayText()
+            => ItemFinder.singleton.GetItemById(Data.Value.Id).Name;
 
-        private void Start()
-            => gameObject.tag = "LootingItem";
-
-        [ServerRpc(RequireOwnership = false)]
-        public void PickUpServerRpc()
+        public void Interact()
         {
-            if (IsServer)
-            {
-                GetComponent<NetworkObject>().Despawn();
-            }
-
-            Destroy(gameObject);
+           InventoryHandler.singleton.CharacterInventory.AddItemToSlotWithAlert(Data.Value.Id,
+               Data.Value.Count, Data.Value.Ammo, Data.Value.Hp);
+           PickUpServerRpc();
         }
 
-        public string GetName()
-            => ItemFinder.singleton.GetItemById(Data.Value.Id).Name;
+        public bool CanInteract()
+            => true;
+
+        [ServerRpc(RequireOwnership = false)]
+        private void PickUpServerRpc()
+        {
+            if (IsServer)
+                GetComponent<NetworkObject>().Despawn();
+        }
     }
 }

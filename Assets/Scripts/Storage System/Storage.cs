@@ -1,16 +1,16 @@
 using System.Collections;
 using System.Collections.Generic;
+using InteractSystem;
 using Inventory_System;
 using Items_System.Items.Abstract;
 using Multiplayer;
 using Player_Controller;
 using Unity.Netcode;
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace Storage_System
 {
-    public abstract class Storage : NetworkBehaviour
+    public abstract class Storage : NetworkBehaviour, IRaycastInteractable
     {
         [field: SerializeField]
         public NetworkVariable<CustomSendingInventoryData> ItemsNetData { get; private set; } = new();
@@ -22,10 +22,7 @@ namespace Storage_System
         [field: SerializeField] public int MainSlotsCount;
 
         protected void Awake()
-        {
-            gameObject.tag = "LootBox";
-            SlotsDisplayer.InitCells();
-        }
+            => SlotsDisplayer.InitCells();
 
         #region virtual
 
@@ -36,7 +33,7 @@ namespace Storage_System
         public virtual void Open(InventoryHandler handler)
         {
             CurrentInventoriesHandler.Singleton.CurrentStorage = this;
-         
+
             InventoryHandler.singleton.InventoryPanelsDisplayer.OpenInventory(true);
             Appear();
             _ui.SetActive(true);
@@ -44,8 +41,22 @@ namespace Storage_System
             SlotsDisplayer.DisplayCells();
         }
 
+
+        #region IRayCastInteractable
+
         public void HandleUi(bool value)
             => _ui.SetActive(value);
+
+        public virtual string GetDisplayText()
+            => "Open";
+
+        public virtual void Interact()
+            => Open(InventoryHandler.singleton);
+
+        public bool CanInteract()
+            => true;
+
+        #endregion
 
         protected virtual void Appear()
             => ActiveInvetoriesHandler.singleton.AddActiveInventory(this);
