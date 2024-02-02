@@ -20,7 +20,7 @@ namespace Server
         
         private const string FleetId = "001918ba-7011-4fe5-abfb-cac116569c61";
         private const string EuropeRegionId = "0548345a-8510-49a8-80c8-ae8ce00fc934";
-        private const int BuildConfigId = 1253039;
+        private const int BuildConfigId = 1253306;
 
         private ServerDataUI _serverDataUI;
 
