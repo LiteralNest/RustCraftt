@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Alerts_System.Alerts;
+using AlertsSystem;
+using AlertsSystem.AlertTypes;
 using ArmorSystem.Backend;
 using Events;
 using Inventory_System;
@@ -22,7 +23,7 @@ namespace Player_Controller
     {
         public static PlayerNetCode Singleton { get; private set; }
 
-        [field:SerializeField] public AlertsDisplayer AlertsDisplayer { get; private set; }
+        [field:SerializeField] public AlertsView AlertsView { get; private set; }
         [field:SerializeField] public ActiveInvetoriesHandler ActiveInvetoriesHandler { get; private set; }
         [field:SerializeField] public ObjectHpDisplayer ObjectHpDisplayer { get; private set; }
         [field: SerializeField] public ResourcesDropper ResourcesDropper { get; private set; }

@@ -1,9 +1,4 @@
 using System;
-using FightSystem.Weapon.Melee;
-using FightSystem.Weapon.ShootWeapon;
-using FightSystem.Weapon.WeaponTypes;
-using InHandItems;
-using Items_System.Items.Weapon;
 using Player_Controller;
 using RespawnSystem.SleepingBag;
 
@@ -12,9 +7,6 @@ namespace Events
     public static class GlobalEventsContainer
     {
         public static Action InventoryClosed { get; set; }
-
-        public static Action<InventoryCell> OnInventoryItemAdded { get; set; }
-        public static Action<InventoryCell> OnInventoryItemRemoved { get; set; }
         public static Action InventoryDataChanged { get; set; }
         public static Action<int, ulong> ShouldDisplayHandItem { get; set; }
         public static Action BluePrintDeactivated { get; set; }

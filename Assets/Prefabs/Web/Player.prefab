@@ -11294,7 +11294,6 @@ Transform:
   m_Children:
   - {fileID: 3313945051201307093}
   - {fileID: 1666652446290917863}
-  - {fileID: 5447757192001166520}
   - {fileID: 5663251422154097518}
   - {fileID: 1073976444382258915}
   m_Father: {fileID: 4341349121896943449}
@@ -16015,7 +16014,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 840cdcc70a1fee143bcc5a7f10c27063, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <AlertsDisplayer>k__BackingField: {fileID: 346451324646516605}
+  <AlertsView>k__BackingField: {fileID: 0}
   <ActiveInvetoriesHandler>k__BackingField: {fileID: 6858446919533252270}
   <ObjectHpDisplayer>k__BackingField: {fileID: -6262232929159552701}
   <ResourcesDropper>k__BackingField: {fileID: 6772730443544180574}
@@ -36919,77 +36918,6 @@ Transform:
   - {fileID: 569554477463909547}
   m_Father: {fileID: 266114363149576616}
   m_LocalEulerAnglesHint: {x: -9.675401, y: -1.2440685, z: -6.8980513}
---- !u!1 &5404237553250098683
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 5447757192001166520}
-  - component: {fileID: 5488949269204735420}
-  - component: {fileID: 346451324646516605}
-  m_Layer: 15
-  m_Name: Alerts System
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &5447757192001166520
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5404237553250098683}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -25.084394, y: 745.7301, z: 0.6006205}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 8086720571742289560}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &5488949269204735420
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5404237553250098683}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ba9557b856613bc4ea516437c1991138, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _addingItemAlertPrefab: {fileID: -6658047772875898613, guid: aa71e5b2135adaf48999def9e48d496d, type: 3}
-  _removingAlertDisplayer: {fileID: -785074676849269139, guid: 67ab5e32474d87c4b909ebd25d1dd466, type: 3}
-  _placeForAlerts: {fileID: 2703294414250394453}
---- !u!114 &346451324646516605
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5404237553250098683}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f277d7d9b27685b4fb6965fe5e067e12, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _radiationAlert: {fileID: 5671735360115948598}
-  _tooHotAlert: {fileID: 2643930455643785035}
-  _tooColdAlert: {fileID: 8633570875971717121}
-  _poisonAlert: {fileID: 3549747042306334336}
-  _comfortAlert: {fileID: 8081926075319161767}
-  _bleedAlert: {fileID: 3957633257999064862}
-  _starvingAlert: {fileID: 5110131159195562861}
-  _dehydratedAlert: {fileID: 66967426015394804}
-  _workBenchAlert: {fileID: 8235525612380639879}
-  _buildingBlockedAlert: {fileID: 3987102199138555690}
-  _buildingUnblockedAlert: {fileID: 8420303281031224824}
 --- !u!1 &5424361768250066518
 GameObject:
   m_ObjectHideFlags: 0
