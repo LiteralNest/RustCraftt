@@ -1,4 +1,6 @@
-﻿namespace Items_System.Items.Food
+﻿using CharacterStatsSystem;
+
+namespace Items_System.Items.Food
 {
     [System.Serializable]
     public struct FoodSlot

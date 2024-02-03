@@ -36,9 +36,12 @@
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/f7237cf7abef49bfbb552d7eb076e422174200/44/5e8977e7/SetupCoroutine.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/f7237cf7abef49bfbb552d7eb076e422174200/95/6348720c/Random.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/f7237cf7abef49bfbb552d7eb076e422174200/ae/1082ddba/Component.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/f7237cf7abef49bfbb552d7eb076e422174200/d5/1955c22d/MonoBehaviour.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/AI/Animals/States/RandomCirclePointGetter.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/CharacterStatsSystem/CharacterStats.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Console/ConsoleDisplayer.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/InHandItems/InHandAnimations/Weapon/BowAnimator.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/InHandItems/InHandHeal.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/InHandItems/InHandViewSystem/EokaView.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/InHandItems/InHandViewSystem/GranadeView.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/InteractSystem/IRaycastInteractable.cs" root0="FORCE_HIGHLIGHTING" />
@@ -100,28 +103,29 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;Mobile-Dev&quot;,
-    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "git-widget-placeholder": "Refactorung",
+    "ignore.virus.scanning.warn.message": "true",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "CodeInspectionSettingsId",
+    "vue.rearranger.settings.migration": "true"
   },
-  &quot;keyToStringList&quot;: {
-    &quot;rider.external.source.directories&quot;: [
-      &quot;C:\\Users\\artab\\AppData\\Roaming\\JetBrains\\Rider2023.1\\resharper-host\\DecompilerCache&quot;,
-      &quot;C:\\Users\\artab\\AppData\\Roaming\\JetBrains\\Rider2023.1\\resharper-host\\SourcesCache&quot;,
-      &quot;C:\\Users\\artab\\AppData\\Local\\Symbols\\src&quot;
+  "keyToStringList": {
+    "rider.external.source.directories": [
+      "C:\\Users\\artab\\AppData\\Roaming\\JetBrains\\Rider2023.1\\resharper-host\\DecompilerCache",
+      "C:\\Users\\artab\\AppData\\Roaming\\JetBrains\\Rider2023.1\\resharper-host\\SourcesCache",
+      "C:\\Users\\artab\\AppData\\Local\\Symbols\\src"
     ]
   }
-}</component>
+}]]></component>
   <component name="RunManager" selected="Attach to Unity Editor.Attach to Unity Editor">
     <configuration name="Standalone Player" type="RunUnityExe" factoryName="Unity Executable">
       <option name="EXE_PATH" value="$PROJECT_DIR$/Builds/Server/Test2/Test2.x86_64" />
@@ -157,10 +161,10 @@
       </option>
       <method v="2" />
     </configuration>
-    <configuration name="Attach to Unity Editor" type="UNITY_DEBUG_RUN_CONFIGURATION" factoryName="Unity Debug" show_console_on_std_err="false" show_console_on_std_out="false" port="50000" address="localhost" ignored-value-for-modified-check="11560">
+    <configuration name="Attach to Unity Editor" type="UNITY_DEBUG_RUN_CONFIGURATION" factoryName="Unity Debug" show_console_on_std_err="false" show_console_on_std_out="false" port="50000" address="localhost" ignored-value-for-modified-check="24264">
       <option name="allowRunningInParallel" value="false" />
       <option name="listenPortForConnections" value="false" />
-      <option name="pid" value="11560" />
+      <option name="pid" value="24264" />
       <option name="projectPathOnTarget" />
       <option name="selectedOptions">
         <list />
@@ -313,32 +317,6 @@
           <option name="timeStamp" value="93" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
-          <url>file://$PROJECT_DIR$/Assets/Scripts/InHandItems/InHandViewSystem/HealView.cs</url>
-          <line>19</line>
-          <properties documentPath="D:\Work\Projects\BloodRust\Assets\Scripts\InHandItems\InHandViewSystem\HealView.cs" initialLine="19" containingFunctionPresentation="Method 'TryDisplayHealButton'">
-            <startOffsets>
-              <option value="524" />
-            </startOffsets>
-            <endOffsets>
-              <option value="579" />
-            </endOffsets>
-          </properties>
-          <option name="timeStamp" value="201" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="DotNet Breakpoints">
-          <url>file://$PROJECT_DIR$/Assets/Scripts/InHandItems/InHandViewSystem/HealView.cs</url>
-          <line>31</line>
-          <properties documentPath="D:\Work\Projects\BloodRust\Assets\Scripts\InHandItems\InHandViewSystem\HealView.cs" initialLine="31" containingFunctionPresentation="Method 'DisplayHealButton'">
-            <startOffsets>
-              <option value="897" />
-            </startOffsets>
-            <endOffsets>
-              <option value="907" />
-            </endOffsets>
-          </properties>
-          <option name="timeStamp" value="202" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="DotNet Breakpoints">
           <url>file://$PROJECT_DIR$/Assets/Scripts/Player Controller/PlayerClimber.cs</url>
           <line>79</line>
           <properties documentPath="D:\Work\Projects\BloodRust\Assets\Scripts\Player Controller\PlayerClimber.cs" initialLine="83" containingFunctionPresentation="Method 'TryClimb'">
@@ -350,6 +328,19 @@
             </endOffsets>
           </properties>
           <option name="timeStamp" value="282" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/Assets/Scripts/CharacterStatsSystem/CharacterStats.cs</url>
+          <line>59</line>
+          <properties documentPath="D:\Work\Projects\BloodRust\Assets\Scripts\CharacterStatsSystem\CharacterStats.cs" initialLine="59" containingFunctionPresentation="Method 'MinusStat'">
+            <startOffsets>
+              <option value="2181" />
+            </startOffsets>
+            <endOffsets>
+              <option value="2194" />
+            </endOffsets>
+          </properties>
+          <option name="timeStamp" value="291" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

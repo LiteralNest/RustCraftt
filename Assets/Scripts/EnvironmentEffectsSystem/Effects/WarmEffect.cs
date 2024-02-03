@@ -1,6 +1,6 @@
 using System.Collections;
 using Alerts_System.Alerts;
-using Character_Stats;
+using CharacterStatsSystem;
 using UnityEngine;
 
 public class WarmEffect : MonoBehaviour
@@ -8,7 +8,7 @@ public class WarmEffect : MonoBehaviour
     [SerializeField] private TemperatureZone _temperatureZone;
     [SerializeField] private float _warmIncreaseInterval = 3f;
 
-    private CharacterStats _characterStats;
+    private CharacterStatsHandler _characterStatsHandler;
     private bool _isEffectActive = false;
 
     public bool MatchesTrigger(Collider other) => other.CompareTag("WarmEnvironment");
@@ -19,9 +19,9 @@ public class WarmEffect : MonoBehaviour
         
     }
     
-    public void SetCharacterStats(CharacterStats characterStats)
+    public void SetCharacterStats(CharacterStatsHandler characterStatsHandler)
     {
-        _characterStats = characterStats;
+        _characterStatsHandler = characterStatsHandler;
     }
 
     public void OnEnter(Transform playerPosition)

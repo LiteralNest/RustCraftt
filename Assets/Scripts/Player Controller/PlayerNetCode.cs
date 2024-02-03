@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Alerts_System.Alerts;
 using ArmorSystem.Backend;
-using Character_Stats;
 using Events;
 using Inventory_System;
 using Inventory_System.ItemInfo;
@@ -26,7 +25,6 @@ namespace Player_Controller
         [field:SerializeField] public AlertsDisplayer AlertsDisplayer { get; private set; }
         [field:SerializeField] public ActiveInvetoriesHandler ActiveInvetoriesHandler { get; private set; }
         [field:SerializeField] public ObjectHpDisplayer ObjectHpDisplayer { get; private set; }
-        [field:SerializeField] public CharacterHpHandler CharacterHpHandler { get; private set; }
         [field: SerializeField] public ResourcesDropper ResourcesDropper { get; private set; }
         [field: SerializeField] public ItemInfoHandler ItemInfoHandler { get; private set; }
         [field: SerializeField] public PlayerSoundsPlayer PlayerSoundsPlayer { get; private set; }

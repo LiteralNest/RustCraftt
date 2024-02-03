@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Animation_System;
+using CharacterStatsSystem;
 using Multiplayer.PlayerSpawning;
 using Player_Controller;
 using UI;
@@ -13,7 +14,11 @@ namespace Multiplayer
 {
     public class PlayerNetworkController : MonoBehaviour
     {
-        [Header("NetCode")] [SerializeField] private PlayerNetCode _playerNetCode;
+        [Header("Attached Components")]
+        [SerializeField] private CharacterStats _characterStats;
+        
+        [Header("NetCode")]
+        [SerializeField] private PlayerNetCode _playerNetCode;
         [SerializeField] private CharacterAnimationsHandler _characterAnimationsHandler;
         [SerializeField] private CharacterAnimationsHandler _inventoryCharacterAnimationsHandler;
         [SerializeField] private List<Behaviour> _monos = new List<Behaviour>();
@@ -64,6 +69,7 @@ namespace Multiplayer
                 _playerNickName.SetActive(false);
                 SetBody(false);
                 EnableMonos(true);
+                CharacterStatsEventsContainer.OnCharacterStatsAssign.Invoke(_characterStats);
                 characterUIHandler.enabled = true;
                 characterUIHandler.AssignSingleton();
             }

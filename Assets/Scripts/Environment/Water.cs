@@ -1,4 +1,4 @@
-using Character_Stats;
+using CharacterStatsSystem;
 using Player_Controller;
 using UnityEngine;
 using Vehicle;
@@ -14,13 +14,7 @@ namespace Environment
         {
             if (_isRestoringOxygen)
             {
-
-                CharacterStats.Singleton.PlusStat(CharacterStatType.Oxygen, 1 * Time.fixedDeltaTime);
-                if (CharacterStats.Singleton.Oxygen >= CharacterStats.Singleton.CurrentOxygen)
-                {
-                    CharacterStats.Singleton.SetActiveOxygen(false);
-                    _isRestoringOxygen = false;
-                }
+                CharacterStatsEventsContainer.OnCharacterStatAdded.Invoke(CharacterStatType.Oxygen, (int)(1 * Time.fixedDeltaTime));
             }
         }
 
@@ -30,8 +24,7 @@ namespace Environment
             if (other.CompareTag("Player") && other.GetComponent<PlayerController>() != null)
             {
                 _isRestoringOxygen = false;
-                CharacterStats.Singleton.MinusStat(CharacterStatType.Oxygen, 10);
-                CharacterStats.Singleton.SetActiveOxygen(true);
+                CharacterStatsEventsContainer.OnCharacterStatRemoved.Invoke(CharacterStatType.Oxygen, 10);
                 var move = other.GetComponent<PlayerController>();
                 move.IsSwimming = true;
             }
@@ -48,7 +41,7 @@ namespace Environment
 
             if (other.CompareTag("Player") && other.GetComponent<PlayerController>() != null)
             {
-                CharacterStats.Singleton.MinusStat(CharacterStatType.Oxygen, 1 * Time.fixedDeltaTime);
+                CharacterStatsEventsContainer.OnCharacterStatRemoved.Invoke(CharacterStatType.Oxygen, (int)(1 * Time.fixedDeltaTime));
             }
         }
 

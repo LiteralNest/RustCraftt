@@ -1,6 +1,6 @@
 using System.Collections;
 using Alerts_System.Alerts;
-using Character_Stats;
+using CharacterStatsSystem;
 using Events;
 using UnityEngine;
 
@@ -16,16 +16,16 @@ namespace EnvironmentEffectsSystem.Effects
         private const float RadiationCritLevel = 10;
         private float _currentRadiationLevel = 0f;
         
-        private CharacterStats _characterStats;
+        private CharacterStatsHandler _characterStatsHandler;
         private bool _isEffectActive = false;
         private bool _isEnteringZone = false;
  
 
         public bool MatchesTrigger(Collider other) => other.CompareTag("RadioactiveEnvironment");
 
-        public void SetCharacterStats(CharacterStats characterStats)
+        public void SetCharacterStats(CharacterStatsHandler characterStatsHandler)
         {
-            _characterStats = characterStats;
+            _characterStatsHandler = characterStatsHandler;
         }
 
         public void OnEnter(float resist)
@@ -60,9 +60,9 @@ namespace EnvironmentEffectsSystem.Effects
             {
                 _currentRadiationLevel += _radiationEffectValue;
                 AlertsDisplayer.Singleton.DisplayRadiationAlert((int)_currentRadiationLevel);
-                if (_isEnteringZone && _characterStats != null && _currentRadiationLevel >= RadiationCritLevel)
+                if (_isEnteringZone && _characterStatsHandler != null && _currentRadiationLevel >= RadiationCritLevel)
                 {
-                    _characterStats.MinusStat(CharacterStatType.Health, Random.Range(7, 11) * resist);
+                    CharacterStatsEventsContainer.OnCharacterStatRemoved.Invoke(CharacterStatType.Health, (int)(Random.Range(7, 11) * resist));
                 }
 
                 Debug.Log($"Current Radiation Level: {_currentRadiationLevel}");
@@ -78,7 +78,7 @@ namespace EnvironmentEffectsSystem.Effects
 
                 if (!_isEnteringZone && _currentRadiationLevel >= RadiationCritLevel / 2)
                 {
-                    _characterStats.MinusStat(CharacterStatType.Health, Random.Range(3, 6) * resist);
+                    CharacterStatsEventsContainer.OnCharacterStatRemoved.Invoke(CharacterStatType.Health, (int)(Random.Range(3, 6) * resist));
                 }
 
                 Debug.Log($"Current Radiation Level: {_currentRadiationLevel}");

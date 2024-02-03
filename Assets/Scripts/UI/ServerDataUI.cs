@@ -1,4 +1,3 @@
-using System;
 using TMPro;
 using UnityEngine;
 
@@ -12,7 +11,8 @@ namespace UI
 
         private void Start()
         {
-            _regionText.text =  $"Region: {_region}\nIP: {_ip}";;
+            if(_regionText)
+                _regionText.text =  $"Region: {_region}\nIP: {_ip}";;
         }
 
         public static ServerDataUI Instance
