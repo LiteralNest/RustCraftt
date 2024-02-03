@@ -1,13 +1,18 @@
 using System.Collections;
 using Alerts_System.Alerts;
 using Events;
+using Player_Controller;
 using UnityEngine;
 
 namespace Character_Stats
 {
-    [RequireComponent(typeof(CharacterStats))]
     public class CharacterStatsRuntimeSubstracter : MonoBehaviour
     {
+        [Header("Atached Scripts")] [SerializeField]
+        private PlayerNetCode _playerNetCode;
+
+        [SerializeField] private CharacterStats _characterStats;
+
         [Header("Main Params")] [Range(1, 100)] [SerializeField]
         private float _timeForMinusingOneStat = 3f;
 
@@ -15,8 +20,6 @@ namespace Character_Stats
 
         private Coroutine _minusHpRoutine;
         private Coroutine _minusStatsRoutine;
-
-        private CharacterStats _characterStats;
 
         private void OnEnable()
             => GlobalEventsContainer.CharacterStatsChanged += CheckStats;
@@ -26,8 +29,16 @@ namespace Character_Stats
 
         private void Start()
         {
-            _characterStats = GetComponent<CharacterStats>();
-            _minusStatsRoutine = StartCoroutine(SubstractStatsRoutine());
+            if (_characterStats == null)
+                _characterStats = GetComponent<CharacterStats>();
+            StartCoroutine(StartSubstractRoutine());
+        }
+
+        private IEnumerator StartSubstractRoutine()
+        {
+            yield return new WaitForSeconds(3f);
+            if (_playerNetCode.IsOwner)
+                _minusStatsRoutine = StartCoroutine(SubstractStatsRoutine());
         }
 
         private IEnumerator SubstractStatsRoutine()

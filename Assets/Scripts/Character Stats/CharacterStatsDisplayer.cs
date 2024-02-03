@@ -1,3 +1,5 @@
+using System.Threading.Tasks;
+using Alerts_System.Alerts;
 using Player_Controller;
 using TMPro;
 using UnityEngine;
@@ -5,10 +7,9 @@ using UnityEngine.UI;
 
 namespace Character_Stats
 {
-    public class CharacterStatsView : MonoBehaviour
+    public class CharacterStatsDisplayer : MonoBehaviour
     {
-        [Header("UI")] 
-        [SerializeField] private TMP_Text _hpText;
+        [Header("UI")] [SerializeField] private TMP_Text _hpText;
         [SerializeField] private Image _hpFill;
         [SerializeField] private TMP_Text _foodText;
         [SerializeField] private Image _foodFill;
@@ -17,6 +18,10 @@ namespace Character_Stats
         [SerializeField] private TextMeshProUGUI _oxygenText;
 
         [SerializeField] private Image _oxygenFill;
+        // private void Awake()
+        // {
+        //     GlobalEventsContainer.PlayerSpawned += HideDeathMessage;
+        // }
 
         public void DisplayHp(int hp)
         {
@@ -61,5 +66,13 @@ namespace Character_Stats
             _oxygenText.text = oxygen.ToString();
             _oxygenFill.fillAmount = (float)oxygen / 100;
         }
+        // public void HideDeathMessage()
+        // {
+        //     _displayMessage.alpha = 0f;
+        // }
+        // private void OnDisable()
+        // {
+        //     GlobalEventsContainer.PlayerSpawned -= HideDeathMessage;
+        // }
     }
 }
