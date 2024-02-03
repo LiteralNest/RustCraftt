@@ -1,6 +1,5 @@
 using System.Threading.Tasks;
 using Events;
-using FightSystem.Damage;
 using FightSystem.Weapon.Explosive;
 using PlayerDeathSystem;
 using Sound_System.FightSystem.Damage;
@@ -11,18 +10,16 @@ using Web.UserData;
 
 namespace Character_Stats
 {
-    public class CharacterHpHandler : NetworkBehaviour, IDamagable
+    public class CharacterHpHandler : MonoBehaviour, IDamagable
     {
-        [SerializeField] private CharacterStats _characterStats;
         [SerializeField] private CameraShake _cameraShake;
 
-        private NetworkVariable<int> _currentHp = new(100, NetworkVariableReadPermission.Everyone,
-            NetworkVariableWritePermission.Server);
+        private int _currentHp;
 
         public NetworkVariable<bool> WasKnockedDown { get; set; } = new(false, NetworkVariableReadPermission.Everyone,
             NetworkVariableWritePermission.Server);
 
-        public int Hp => _currentHp.Value;
+        public int Hp => _currentHp;
 
 
         private async void Start()
@@ -48,19 +45,6 @@ namespace Character_Stats
             }
             else if (Hp <= 5)
                 PlayerKnockDowner.Singleton.KnockDownServerRpc(UserDataHandler.Singleton.UserData.Id);
-        }
-
-        [ServerRpc(RequireOwnership = false)]
-        public void AssignHpServerRpc(int value)
-        {
-            if (!IsServer) return;
-            _currentHp.Value = value;
-        }
-
-        [ServerRpc(RequireOwnership = false)]
-        public void SetKnockedDownServerRpc(bool value)
-        {
-            WasKnockedDown.Value = value;
         }
 
         [ServerRpc(RequireOwnership = false)]
@@ -114,12 +98,7 @@ namespace Character_Stats
         public void Destroy()
         {
         }
-
-        public void Shake()
-        {
-            if (!_cameraShake) return;
-            _cameraShake.StartShake(0.5f, 0.1f);
-        }
+        
 
         #endregion
     }

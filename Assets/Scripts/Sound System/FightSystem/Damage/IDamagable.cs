@@ -9,6 +9,5 @@ namespace Sound_System.FightSystem.Damage
         public int GetMaxHp();
         public void GetDamage(int damage, bool playSound = true);
         public void Destroy();
-        public void Shake();
     }
 }

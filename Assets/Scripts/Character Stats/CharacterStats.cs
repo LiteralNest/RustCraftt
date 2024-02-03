@@ -1,43 +1,39 @@
+using UniRx;
 using Events;
 using UnityEngine;
 
 namespace Character_Stats
 {
+    [RequireComponent(typeof(CharacterStatsView))]
     public class CharacterStats : MonoBehaviour
     {
-        public static CharacterStats Singleton { get; private set; }
+        [SerializeField] private ReactiveProperty<float>  _hp = 100f;
+        [SerializeField] private float _food = 100f;
+        [SerializeField] private float _water = 100f;
+        [SerializeField] private float _oxygen = 100f;
 
-        [SerializeField] private CharacterStatsDisplayer _statsDisplayer;
-        [SerializeField] private CharacterHpHandler _hpHandler;
-        [field: SerializeField] public float Food { get; private set; }
-        [field: SerializeField] public float Water { get; private set; }
-        [field: SerializeField] public float Oxygen { get; private set; }
-
-        [SerializeField] private GameObject _OxygenPanel;
-
-        public float CurrentOxygen { get; private set; }
+        
+        
+        private CharacterStatsView _statsView;
 
         private void Awake()
         {
-            if (_statsDisplayer == null)
-                _statsDisplayer = GetComponent<CharacterStatsDisplayer>();
-            Singleton = this;
-
-            CurrentOxygen = Oxygen;
+            if (_statsView == null)
+                _statsView = GetComponent<CharacterStatsView>();
         }
 
         private void Start()
-            => _statsDisplayer.DisplayHp(_hpHandler.Hp);
+            => _statsView.DisplayHp(_hpHandler.Hp);
 
         public void AssignHp(int value)
         {
             _hpHandler.AssignHpServerRpc(value);
-            _statsDisplayer.DisplayHp(value);
+            _statsView.DisplayHp(value);
         }
 
         public void DisplayHp(int value)
-            => _statsDisplayer.DisplayHp(value);
-        
+            => _statsView.DisplayHp(value);
+
         private float GetAddedStat(float stat, float addingValue)
         {
             float res = stat + addingValue;
@@ -54,21 +50,22 @@ namespace Character_Stats
                     _hpHandler.AddHpServerRpc((int)value);
                     break;
                 case CharacterStatType.Food:
-                    Food = GetAddedStat(Food, value);
-                    if (_statsDisplayer != null)
-                        _statsDisplayer.DisplayFood((int)Food);
+                    _food = GetAddedStat(_food, value);
+                    if (_statsView != null)
+                        _statsView.DisplayFood((int)_food);
                     break;
                 case CharacterStatType.Water:
-                    Water = GetAddedStat(Water, value);
-                    if (_statsDisplayer != null)
-                        _statsDisplayer.DisplayWater((int)Water);
+                    _water = GetAddedStat(_water, value);
+                    if (_statsView != null)
+                        _statsView.DisplayWater((int)_water);
                     break;
                 case CharacterStatType.Oxygen:
-                    Oxygen = GetAddedStat(Oxygen, value);
-                    if (_statsDisplayer != null)
-                        _statsDisplayer.DisplayOxygen((int)Oxygen);
+                    _oxygen = GetAddedStat(_oxygen, value);
+                    if (_statsView != null)
+                        _statsView.DisplayOxygen((int)_oxygen);
                     break;
             }
+
             GlobalEventsContainer.CharacterStatsChanged?.Invoke();
         }
 
@@ -88,40 +85,18 @@ namespace Character_Stats
                     _hpHandler.GetDamageServerRpc((int)value);
                     break;
                 case CharacterStatType.Food:
-                    Food = GetSubstractedStat(Food, value);
-                    _statsDisplayer.DisplayFood((int)Food);
-                    if (Food <= 0)
-                    {
-                        // GlobalEventsContainer.PlayerDied?.Invoke();
-                        // _statsDisplayer.DisplayDeathMessage("You died!", Color.green);
-                    }
-
+                    _food = GetSubstractedStat(_food, value);
+                    _statsView.DisplayFood((int)_food);
                     break;
                 case CharacterStatType.Water:
-                    Water = GetSubstractedStat(Water, value);
-                    _statsDisplayer.DisplayWater((int)Water);
-                    if (Water <= 0)
-                    {
-                        // GlobalEventsContainer.PlayerDied?.Invoke();
-                        // _statsDisplayer.DisplayDeathMessage("You died!", Color.blue);
-                    }
-
+                    _water = GetSubstractedStat(_water, value);
+                    _statsView.DisplayWater((int)_water);
                     break;
                 case CharacterStatType.Oxygen:
-                    Oxygen = GetSubstractedStat(Oxygen, value);
-                    _statsDisplayer.DisplayOxygen((int)Oxygen);
-
-                    if (Oxygen < 0)
-                    {
-                    }
-
+                    _oxygen = GetSubstractedStat(_oxygen, value);
+                    _statsView.DisplayOxygen((int)_oxygen);
                     break;
             }
-        }
-
-        public void SetActiveOxygen(bool state)
-        {
-            _OxygenPanel.SetActive(state);
         }
     }
 }
