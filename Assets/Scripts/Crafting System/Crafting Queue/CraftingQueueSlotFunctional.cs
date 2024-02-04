@@ -1,9 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
-using Events;
+using AlertsSystem;
 using Items_System.Items.Abstract;
 using UnityEngine;
-using Web.UserData;
 
 public class CraftingQueueSlotFunctional : MonoBehaviour
 {
@@ -39,7 +38,7 @@ public class CraftingQueueSlotFunctional : MonoBehaviour
         foreach (var slot in _reservedSlotsForOneItem)
         {
             var count = slot.Count * _count;
-            GlobalEventsContainer.OnInventoryItemRemoved?.Invoke(new InventoryCell(slot.Resource, count));
+            AlertEventsContainer.OnInventoryItemRemoved?.Invoke(slot.Resource.Name, count);
             InventoryHandler.singleton.CharacterInventory.RemoveItem(slot.Resource.Id, count);
         }
     }
@@ -49,7 +48,7 @@ public class CraftingQueueSlotFunctional : MonoBehaviour
         foreach (var slot in _reservedSlotsForOneItem)
         {
             var count = slot.Count * _count;
-            GlobalEventsContainer.OnInventoryItemAdded?.Invoke(new InventoryCell(slot.Resource, count));
+            AlertEventsContainer.OnInventoryItemAdded?.Invoke(slot.Resource.Name, count);
             InventoryHandler.singleton.CharacterInventory.AddCraftedItem(slot.Resource.Id, slot.Count * _count, 0);
         }
     }
@@ -60,13 +59,13 @@ public class CraftingQueueSlotFunctional : MonoBehaviour
     public void Delete(bool shouldRecoverData = false)
     {
         Destroy(_currentSlotDisplayer.gameObject); 
-        _queue.DisplayAlert(false);
-     
+        AlertEventsContainer.OnCreatingQueueAlertDataChanged?.Invoke(null, _count, 0);
+
         _queue.DeleteCell(this);
         if (shouldRecoverData)
             ReturnItemsToInventory();
         else
-           GlobalEventsContainer.OnInventoryItemAdded?.Invoke(new InventoryCell(_craftingItem, 1));
+           AlertEventsContainer.OnInventoryItemAdded?.Invoke(_craftingItem.Name, 1);
         Destroy(gameObject);
     }
     
@@ -79,7 +78,7 @@ public class CraftingQueueSlotFunctional : MonoBehaviour
             {
                _currentSlotDisplayer.DisplayTimeText(i);
                 yield return new WaitForSeconds(1);
-                _queue.DisplayAlert(_craftingItem, _count, i);
+                AlertEventsContainer.OnCreatingQueueAlertDataChanged?.Invoke(_craftingItem.Name, _count, i);
             }
 
             InventoryHandler.singleton.CharacterInventory.AddCraftedItem(_craftingItem.Id, 1, 0);

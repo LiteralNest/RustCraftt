@@ -1,11 +1,11 @@
 using System.Collections.Generic;
-using Alerts_System.Alerts;
+using AlertsSystem.AlertTypes.Alerts;
 using Items_System.Items.Abstract;
 using UnityEngine;
 
 public class CraftingQueue : MonoBehaviour
 {
-    [Header("UI")] [SerializeField] private CreatingQueueAlertDisplayer _alertDisplayer;
+    [Header("UI")]
     [SerializeField] private Transform _placeForCells;
     [SerializeField] private CraftingQueueSlotFunctional _slotPrefab;
 
@@ -33,17 +33,5 @@ public class CraftingQueue : MonoBehaviour
     {
         _slots.Remove(slot);
         CheckForCreatingCells();
-    }
-
-    public void DisplayAlert(bool value)
-    {
-        if (_alertDisplayer.gameObject.activeSelf != value)
-            _alertDisplayer.gameObject.SetActive(value);
-    }
-    
-    public void DisplayAlert(Item item, int count, int time)
-    {
-        DisplayAlert(true);
-        _alertDisplayer.Init(item, count, time);
     }
 }
