@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using AlertsSystem;
 using Building_System.Buildings_Connecting;
 using Building_System.Upgrading;
 using Events;
@@ -200,7 +201,7 @@ namespace Building_System.Blocks
             InventoryHandler.singleton.CharacterInventory.RemoveItems(cells);
             
             foreach(var slot in cells)
-                GlobalEventsContainer.OnInventoryItemRemoved?.Invoke(new InventoryCell(slot.Item, slot.Count));
+                AlertEventsContainer.OnInventoryItemRemoved?.Invoke(slot.Item.Name, slot.Count);
             SetLevelServerRpc((ushort)level);
         }
 
