@@ -1,4 +1,4 @@
-using Building_System.Placing_Objects;
+using Building_System.Building.Placing_Objects;
 using Events;
 using UI;
 using UnityEngine;
@@ -10,7 +10,8 @@ namespace Player_Controller
         [SerializeField] private Camera _targetCamera;
         [SerializeField] private float _forwardPlacingOffset = 5f;
         [SerializeField] private float _rayCastDistance = 10f;
-
+        [SerializeField] private LayerMask _noBuildMask;
+        
         private PlacingObjectBluePrint _targetBluePrint;
 
         private void OnEnable()
@@ -32,10 +33,18 @@ namespace Player_Controller
         private Vector3 GetFrontOfCameraPosition()
             => _targetCamera.transform.position + _targetCamera.transform.forward * _forwardPlacingOffset;
 
+        private bool CanBuild()
+        {
+            var ray = new Ray(_targetCamera.transform.position, _targetCamera.transform.forward);
+            if (Physics.Raycast(ray, out var hit, _rayCastDistance, _noBuildMask))
+                return !(hit.collider.CompareTag("NoBuild"));
+            return true;
+        }
+        
         private void TryMoveBuildingObject()
         {
             if (!_targetBluePrint.TryGetObjectCoords(_targetCamera, out var coords, out var rotation,
-                    out var shouldRotate, _rayCastDistance))
+                    out var shouldRotate, _rayCastDistance) || !CanBuild())
             {
                 _targetBluePrint.SetOnFrontOfPlayer(true);
                 _targetBluePrint.transform.position = GetFrontOfCameraPosition();

@@ -262,12 +262,36 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 70f5b07470fc72b46ba8044c83ab4d9e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <Hp>k__BackingField: 100
-  <CellForPlace>k__BackingField: []
+  _damageSlots:
+  - _damageItem: {fileID: 11400000, guid: 722b392527e89894ba230a29531d3973, type: 2}
+    _damageAmount: 5
+  - _damageItem: {fileID: 11400000, guid: c4791c33b05b3154992749c0dd27fc49, type: 2}
+    _damageAmount: 5
+  - _damageItem: {fileID: 11400000, guid: 4bca1e48d51c34d30a78ade40b2a211a, type: 2}
+    _damageAmount: 10
+  - _damageItem: {fileID: 11400000, guid: 22994ab29e3d64db387d1bcee48a3864, type: 2}
+    _damageAmount: 10
+  - _damageItem: {fileID: 11400000, guid: 99b717cefb9424dbbb1f06e724270532, type: 2}
+    _damageAmount: 10
+  - _damageItem: {fileID: 11400000, guid: 096e0c3eb4103474bb291184fde07afb, type: 2}
+    _damageAmount: 10
+  - _damageItem: {fileID: 11400000, guid: 87796b99ddcbb4f4ba1a3ea3dcfa96a3, type: 2}
+    _damageAmount: 10
+  - _damageItem: {fileID: 11400000, guid: ebeabc5889d66a241a55747f01558524, type: 2}
+    _damageAmount: 5
+  - _damageItem: {fileID: 11400000, guid: d6472b6ed6a95464cabe7e3b18ddc932, type: 2}
+    _damageAmount: 2.5
+  <Hp>k__BackingField: 10
+  <CellForPlace>k__BackingField:
+  - Item: {fileID: 11400000, guid: 200d2c64639dc31419395399e2005cfe, type: 2}
+    Count: 10
+    Ammo: 0
   <CellsForRemovingPerTime>k__BackingField:
   - Item: {fileID: 11400000, guid: 200d2c64639dc31419395399e2005cfe, type: 2}
     Count: 1
     Ammo: 0
+  _damageSound: {fileID: 8300000, guid: a71cc79315d970b4e8ad4c60e0f2b804, type: 3}
+  _destroyingSound: {fileID: 8300000, guid: a71cc79315d970b4e8ad4c60e0f2b804, type: 3}
   <UpgradingSound>k__BackingField: {fileID: 8300000, guid: df1f0f1e72cbd1c419839254d2009bd3, type: 3}
 --- !u!1 &4467443069540477974
 GameObject:
@@ -365,15 +389,159 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 70f5b07470fc72b46ba8044c83ab4d9e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <Hp>k__BackingField: 500
+  _damageSlots:
+  - _damageItem: {fileID: 11400000, guid: 722b392527e89894ba230a29531d3973, type: 2}
+    _damageAmount: 0.4
+  - _damageItem: {fileID: 11400000, guid: c4791c33b05b3154992749c0dd27fc49, type: 2}
+    _damageAmount: 0.6
+  - _damageItem: {fileID: 11400000, guid: 4bca1e48d51c34d30a78ade40b2a211a, type: 2}
+    _damageAmount: 1.7
+  - _damageItem: {fileID: 11400000, guid: 22994ab29e3d64db387d1bcee48a3864, type: 2}
+    _damageAmount: 2.9
+  - _damageItem: {fileID: 11400000, guid: 99b717cefb9424dbbb1f06e724270532, type: 2}
+    _damageAmount: 2.5
+  - _damageItem: {fileID: 11400000, guid: 096e0c3eb4103474bb291184fde07afb, type: 2}
+    _damageAmount: 3.35
+  - _damageItem: {fileID: 11400000, guid: d6472b6ed6a95464cabe7e3b18ddc932, type: 2}
+    _damageAmount: 0.13
+  - _damageItem: {fileID: 11400000, guid: ebeabc5889d66a241a55747f01558524, type: 2}
+    _damageAmount: 0.85
+  <Hp>k__BackingField: 1000
   <CellForPlace>k__BackingField:
   - Item: {fileID: 11400000, guid: 0d04174cf533e7346b17a34083715930, type: 2}
-    Count: 4
+    Count: 33
     Ammo: 0
   <CellsForRemovingPerTime>k__BackingField:
   - Item: {fileID: 11400000, guid: 0d04174cf533e7346b17a34083715930, type: 2}
+    Count: 3
+    Ammo: 0
+  _damageSound: {fileID: 8300000, guid: cce0ae275ecf24b4bb59806796df895a, type: 3}
+  _destroyingSound: {fileID: 0}
+  <UpgradingSound>k__BackingField: {fileID: 8300000, guid: 66981338be127ba4c98de0d65bfd3f48, type: 3}
+--- !u!1 &4549920163802341166
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3778309963963893140}
+  - component: {fileID: 270386889749170737}
+  - component: {fileID: 2604325474339192571}
+  - component: {fileID: 8568693884425036730}
+  m_Layer: 0
+  m_Name: 5 Lvl
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!4 &3778309963963893140
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4549920163802341166}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1.05, y: 1.05, z: 1.05}
+  m_ConstrainProportionsScale: 1
+  m_Children: []
+  m_Father: {fileID: 6434515295882756054}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!33 &270386889749170737
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4549920163802341166}
+  m_Mesh: {fileID: -126904827509488345, guid: ecdd33d531fb3ee43a436e4626cfe562, type: 3}
+--- !u!23 &2604325474339192571
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4549920163802341166}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: f32e4d277283b3f49bd05aea7ee7be9e, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &8568693884425036730
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4549920163802341166}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 70f5b07470fc72b46ba8044c83ab4d9e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _damageSlots:
+  - _damageItem: {fileID: 11400000, guid: 722b392527e89894ba230a29531d3973, type: 2}
+    _damageAmount: 0.78
+  - _damageItem: {fileID: 11400000, guid: c4791c33b05b3154992749c0dd27fc49, type: 2}
+    _damageAmount: 1.24
+  - _damageItem: {fileID: 11400000, guid: 4bca1e48d51c34d30a78ade40b2a211a, type: 2}
+    _damageAmount: 3.35
+  - _damageItem: {fileID: 11400000, guid: 22994ab29e3d64db387d1bcee48a3864, type: 2}
+    _damageAmount: 5.8
+  - _damageItem: {fileID: 11400000, guid: 99b717cefb9424dbbb1f06e724270532, type: 2}
+    _damageAmount: 5
+  - _damageItem: {fileID: 11400000, guid: 096e0c3eb4103474bb291184fde07afb, type: 2}
+    _damageAmount: 6.7
+  - _damageItem: {fileID: 11400000, guid: d6472b6ed6a95464cabe7e3b18ddc932, type: 2}
+    _damageAmount: 0.26
+  - _damageItem: {fileID: 11400000, guid: ebeabc5889d66a241a55747f01558524, type: 2}
+    _damageAmount: 1.7
+  <Hp>k__BackingField: 2000
+  <CellForPlace>k__BackingField:
+  - Item: {fileID: 11400000, guid: 848d61fc7c200a240b5618b5043813a1, type: 2}
+    Count: 4
+    Ammo: 0
+  <CellsForRemovingPerTime>k__BackingField:
+  - Item: {fileID: 11400000, guid: 848d61fc7c200a240b5618b5043813a1, type: 2}
     Count: 1
     Ammo: 0
+  _damageSound: {fileID: 8300000, guid: cce0ae275ecf24b4bb59806796df895a, type: 3}
+  _destroyingSound: {fileID: 0}
   <UpgradingSound>k__BackingField: {fileID: 8300000, guid: 66981338be127ba4c98de0d65bfd3f48, type: 3}
 --- !u!1 &4712265679344597813
 GameObject:
@@ -471,15 +639,34 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 70f5b07470fc72b46ba8044c83ab4d9e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <Hp>k__BackingField: 200
+  _damageSlots:
+  - _damageItem: {fileID: 11400000, guid: 722b392527e89894ba230a29531d3973, type: 2}
+    _damageAmount: 0.8
+  - _damageItem: {fileID: 11400000, guid: c4791c33b05b3154992749c0dd27fc49, type: 2}
+    _damageAmount: 1.5
+  - _damageItem: {fileID: 11400000, guid: 4bca1e48d51c34d30a78ade40b2a211a, type: 2}
+    _damageAmount: 3.3
+  - _damageItem: {fileID: 11400000, guid: 22994ab29e3d64db387d1bcee48a3864, type: 2}
+    _damageAmount: 7
+  - _damageItem: {fileID: 11400000, guid: 99b717cefb9424dbbb1f06e724270532, type: 2}
+    _damageAmount: 5.25
+  - _damageItem: {fileID: 11400000, guid: 096e0c3eb4103474bb291184fde07afb, type: 2}
+    _damageAmount: 8
+  - _damageItem: {fileID: 11400000, guid: ebeabc5889d66a241a55747f01558524, type: 2}
+    _damageAmount: 2
+  - _damageItem: {fileID: 11400000, guid: d6472b6ed6a95464cabe7e3b18ddc932, type: 2}
+    _damageAmount: 0.26
+  <Hp>k__BackingField: 500
   <CellForPlace>k__BackingField:
   - Item: {fileID: 11400000, guid: 28bd3b93ac23fe14db313f2088d450df, type: 2}
-    Count: 4
+    Count: 50
     Ammo: 0
   <CellsForRemovingPerTime>k__BackingField:
   - Item: {fileID: 11400000, guid: 28bd3b93ac23fe14db313f2088d450df, type: 2}
-    Count: 1
+    Count: 5
     Ammo: 0
+  _damageSound: {fileID: 8300000, guid: 5b629d5f309986141adc4ef0a0b8c904, type: 3}
+  _destroyingSound: {fileID: 0}
   <UpgradingSound>k__BackingField: {fileID: 8300000, guid: 66981338be127ba4c98de0d65bfd3f48, type: 3}
 --- !u!1 &4939893949509858151
 GameObject:
@@ -500,7 +687,7 @@ GameObject:
   - component: {fileID: 386595157851738326}
   m_Layer: 7
   m_Name: BlockStructure
-  m_TagString: DamagingItem
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -575,7 +762,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 3241392858
+  GlobalObjectIdHash: 4267866054
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
   ActiveSceneSynchronization: 0
@@ -663,7 +850,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 46a5f80798c25ad41a5d75aa66323529, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _audioSource: {fileID: 386595157851738326}
   _soundSlots:
   - Id: 1
     Volume: 1
@@ -674,6 +860,15 @@ MonoBehaviour:
   - Id: 3
     Volume: 1
     Clip: {fileID: 8300000, guid: df1f0f1e72cbd1c419839254d2009bd3, type: 3}
+  - Id: 4
+    Volume: 1
+    Clip: {fileID: 8300000, guid: a71cc79315d970b4e8ad4c60e0f2b804, type: 3}
+  - Id: 5
+    Volume: 1
+    Clip: {fileID: 8300000, guid: 5b629d5f309986141adc4ef0a0b8c904, type: 3}
+  - Id: 6
+    Volume: 1
+    Clip: {fileID: 8300000, guid: cce0ae275ecf24b4bb59806796df895a, type: 3}
 --- !u!82 &386595157851738326
 AudioSource:
   m_ObjectHideFlags: 0
@@ -961,129 +1156,32 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 70f5b07470fc72b46ba8044c83ab4d9e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <Hp>k__BackingField: 50
+  _damageSlots:
+  - _damageItem: {fileID: 11400000, guid: 722b392527e89894ba230a29531d3973, type: 2}
+    _damageAmount: 5.5
+  - _damageItem: {fileID: 11400000, guid: c4791c33b05b3154992749c0dd27fc49, type: 2}
+    _damageAmount: 5.5
+  - _damageItem: {fileID: 11400000, guid: 4bca1e48d51c34d30a78ade40b2a211a, type: 2}
+    _damageAmount: 21
+  - _damageItem: {fileID: 11400000, guid: 22994ab29e3d64db387d1bcee48a3864, type: 2}
+    _damageAmount: 21
+  - _damageItem: {fileID: 11400000, guid: 99b717cefb9424dbbb1f06e724270532, type: 2}
+    _damageAmount: 42
+  - _damageItem: {fileID: 11400000, guid: 096e0c3eb4103474bb291184fde07afb, type: 2}
+    _damageAmount: 31.25
+  - _damageItem: {fileID: 11400000, guid: d6472b6ed6a95464cabe7e3b18ddc932, type: 2}
+    _damageAmount: 0.26
+  - _damageItem: {fileID: 11400000, guid: ebeabc5889d66a241a55747f01558524, type: 2}
+    _damageAmount: 4.25
+  <Hp>k__BackingField: 250
   <CellForPlace>k__BackingField:
   - Item: {fileID: 11400000, guid: 200d2c64639dc31419395399e2005cfe, type: 2}
-    Count: 10
+    Count: 33
     Ammo: 0
   <CellsForRemovingPerTime>k__BackingField:
   - Item: {fileID: 11400000, guid: 200d2c64639dc31419395399e2005cfe, type: 2}
-    Count: 2
+    Count: 3
     Ammo: 0
+  _damageSound: {fileID: 8300000, guid: a71cc79315d970b4e8ad4c60e0f2b804, type: 3}
+  _destroyingSound: {fileID: 8300000, guid: a71cc79315d970b4e8ad4c60e0f2b804, type: 3}
   <UpgradingSound>k__BackingField: {fileID: 8300000, guid: df1f0f1e72cbd1c419839254d2009bd3, type: 3}
---- !u!1001 &3739669504009855615
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 6434515295882756054}
-    m_Modifications:
-    - target: {fileID: -8679921383154817045, guid: ecdd33d531fb3ee43a436e4626cfe562, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 1.05
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: ecdd33d531fb3ee43a436e4626cfe562, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 1.05
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: ecdd33d531fb3ee43a436e4626cfe562, type: 3}
-      propertyPath: m_LocalScale.z
-      value: 1.05
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: ecdd33d531fb3ee43a436e4626cfe562, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: ecdd33d531fb3ee43a436e4626cfe562, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: ecdd33d531fb3ee43a436e4626cfe562, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: ecdd33d531fb3ee43a436e4626cfe562, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: ecdd33d531fb3ee43a436e4626cfe562, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: ecdd33d531fb3ee43a436e4626cfe562, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: ecdd33d531fb3ee43a436e4626cfe562, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: ecdd33d531fb3ee43a436e4626cfe562, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: ecdd33d531fb3ee43a436e4626cfe562, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: ecdd33d531fb3ee43a436e4626cfe562, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: ecdd33d531fb3ee43a436e4626cfe562, type: 3}
-      propertyPath: m_ConstrainProportionsScale
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: -7511558181221131132, guid: ecdd33d531fb3ee43a436e4626cfe562, type: 3}
-      propertyPath: m_Materials.Array.data[0]
-      value: 
-      objectReference: {fileID: 2100000, guid: f32e4d277283b3f49bd05aea7ee7be9e, type: 2}
-    - target: {fileID: 919132149155446097, guid: ecdd33d531fb3ee43a436e4626cfe562, type: 3}
-      propertyPath: m_Name
-      value: 5 Lvl
-      objectReference: {fileID: 0}
-    - target: {fileID: 919132149155446097, guid: ecdd33d531fb3ee43a436e4626cfe562, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: ecdd33d531fb3ee43a436e4626cfe562, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 8568693884425036730}
-  m_SourcePrefab: {fileID: 100100000, guid: ecdd33d531fb3ee43a436e4626cfe562, type: 3}
---- !u!4 &3778309963963893140 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: ecdd33d531fb3ee43a436e4626cfe562, type: 3}
-  m_PrefabInstance: {fileID: 3739669504009855615}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &4549920163802341166 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: ecdd33d531fb3ee43a436e4626cfe562, type: 3}
-  m_PrefabInstance: {fileID: 3739669504009855615}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &8568693884425036730
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4549920163802341166}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 70f5b07470fc72b46ba8044c83ab4d9e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  <Hp>k__BackingField: 200
-  <CellForPlace>k__BackingField:
-  - Item: {fileID: 11400000, guid: 848d61fc7c200a240b5618b5043813a1, type: 2}
-    Count: 4
-    Ammo: 0
-  <CellsForRemovingPerTime>k__BackingField:
-  - Item: {fileID: 11400000, guid: 848d61fc7c200a240b5618b5043813a1, type: 2}
-    Count: 1
-    Ammo: 0
-  <UpgradingSound>k__BackingField: {fileID: 8300000, guid: 66981338be127ba4c98de0d65bfd3f48, type: 3}

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using CharacterStatsSystem;
 using Inventory_System.Inventory_Slot_Displayers;
 using Player_Controller;
 using UnityEngine;
@@ -15,8 +16,8 @@ namespace Items_System.Items.Food
         {
             base.Click(slotDisplayer);
             foreach (var slot in _slots)
-                InventoryHandler.singleton.Stats.PlusStat(slot.StatType, slot.AddingValue);
-           
+                CharacterStatsEventsContainer.OnCharacterStatAdded.Invoke(slot.StatType, slot.AddingValue);
+
             slotDisplayer.Inventory.RemoveItemCountFromSlotServerRpc(slotDisplayer.Index, Id, 1);
             PlayerNetCode.Singleton.PlayerSoundsPlayer.PlayHit(_eatingSound);
         }

@@ -1,4 +1,4 @@
-using Sound_System.FightSystem.Damage;
+using FightSystem.Damage;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -23,6 +23,17 @@ namespace UI.Hp_Panel
       
          _fillingImage.fillAmount = (float)hp / maxHp;
          _fillingText.text = hp + "/" + maxHp;
-      }   
+      }
+
+      public void DisplayBuildingHp(IBuildingDamagable buildingDamagable)
+      {
+         _displayingPanel.SetActive(true);
+      
+         int hp = buildingDamagable.GetHp();
+         int maxHp = buildingDamagable.GetMaxHp();
+      
+         _fillingImage.fillAmount = (float)hp / maxHp;
+         _fillingText.text = hp + "/" + maxHp;
+      }
    }
 }

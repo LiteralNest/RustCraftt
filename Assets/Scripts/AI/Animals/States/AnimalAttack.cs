@@ -1,7 +1,6 @@
 using System.Collections;
 using AI.Animals.Animators;
 using FightSystem.Damage;
-using Sound_System.FightSystem.Damage;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -27,7 +26,7 @@ namespace AI.Animals.States
             if(!NetworkManager.Singleton.IsServer) return;
             var damagable = target.GetComponent<IDamagable>();
             if(damagable == null) return;
-            damagable.GetDamage(_damagingForce);
+            damagable.GetDamageOnServer(_damagingForce);
             StartCoroutine(CoolDown());
         }
         

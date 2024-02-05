@@ -38,7 +38,6 @@ namespace InHandItems
         private void Update()
         {
             if (!_isGathering) return;
-            if (IsRecovering) return;
             TryGather();
         }
 
@@ -50,7 +49,7 @@ namespace InHandItems
         
         public void Gather()
         {
-            PlayerNetCode.Singleton.PlayerMeleeDamager.TryDamage(_gatheringTool.Damage, _gatheringAnimation.length);
+            PlayerNetCode.Singleton.PlayerMeleeDamager.TryDamage(_gatheringTool, _gatheringAnimation.length);
             StartCoroutine(RecoverRoutine(_gatheringAnimation.length));
             if (!_rayCaster.TryRaycast<ResourceOre>("Ore", _maxGatheringDistance, out ResourceOre targetResourceOre,
                     _rayCastMask, out RaycastHit hitInfo)) return;

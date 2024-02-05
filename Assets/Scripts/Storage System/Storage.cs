@@ -21,25 +21,26 @@ namespace Storage_System
         [Header("Test")] [SerializeField] private InventoryCell _testAddingCell;
         [field: SerializeField] public int MainSlotsCount;
 
+        protected bool Opened;
+
         protected void Awake()
             => SlotsDisplayer.InitCells();
 
         #region virtual
 
-        public virtual void DoAfterMovingItemOut()
-        {
-        }
-
         public virtual void Open(InventoryHandler handler)
         {
             CurrentInventoriesHandler.Singleton.CurrentStorage = this;
-
+            Opened = true;
             InventoryHandler.singleton.InventoryPanelsDisplayer.OpenInventory(true);
             Appear();
             _ui.SetActive(true);
             SlotsDisplayer.ResetCells();
             SlotsDisplayer.DisplayCells();
         }
+
+        public void Close()
+            => Opened = false;
 
 
         #region IRayCastInteractable
@@ -59,7 +60,7 @@ namespace Storage_System
         #endregion
 
         protected virtual void Appear()
-            => ActiveInvetoriesHandler.singleton.AddActiveInventory(this);
+            => PlayerNetCode.Singleton.ActiveInvetoriesHandler.AddActiveInventory(this);
 
         protected virtual void DoAfterRemovingItem(InventoryCell cell)
         {
@@ -105,18 +106,10 @@ namespace Storage_System
         [ServerRpc(RequireOwnership = false)]
         public void ResetItemServerRpc(int id, int interactingPlayerId)
         {
-            if (IsServer)
-                InventoryHelper.ResetCell(id, ItemsNetData);
-            HandleMovingItemOutClientRpc(interactingPlayerId);
+            if (!IsServer) return;
+            InventoryHelper.ResetCell(id, ItemsNetData);
         }
 
-        [ClientRpc]
-        public void HandleMovingItemOutClientRpc(int interactingPlayerId)
-        {
-            if (interactingPlayerId == -1 ||
-                PlayerNetCode.Singleton.OwnerClientId != (ulong)interactingPlayerId) return;
-            DoAfterMovingItemOut();
-        }
 
         public void AssignCells(CustomSendingInventoryData inputList)
         {

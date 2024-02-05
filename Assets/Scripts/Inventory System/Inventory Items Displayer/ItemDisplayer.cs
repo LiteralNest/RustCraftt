@@ -102,6 +102,6 @@ namespace Inventory_System.Inventory_Items_Displayer
             => _animator.SetTrigger("Moving");
 
         public void MoveToOtherInventory()
-            => ActiveInvetoriesHandler.singleton.HandleCell(this);
+            => PlayerNetCode.Singleton.ActiveInvetoriesHandler.HandleCell(this);
     }
 }

@@ -3046,7 +3046,7 @@ Rigidbody:
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 122
-  m_CollisionDetection: 0
+  m_CollisionDetection: 2
 --- !u!114 &4682536351979655567
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3391,9 +3391,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 442162623fee4d2baf5892ffb0b1ec61, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _animator: {fileID: 0}
-  _currentHp:
-    m_InternalValue: 15
   _resourceSlots:
   - Resource: {fileID: 11400000, guid: 79709cbf019cfc3439ad1b000ca77e75, type: 2}
     CountRange: {x: 1, y: 5}
@@ -3404,7 +3401,11 @@ MonoBehaviour:
   - Resource: {fileID: 11400000, guid: 42519802c97ff8f41bcc6bb79c6d7cb3, type: 2}
     CountRange: {x: 1, y: 5}
     ShouldAddWithRand: 0
+  _currentHp:
+    m_InternalValue: 15
+  _animator: {fileID: 0}
   _vfxEffect: {fileID: 7428556190383433676}
+  _vfxParrent: {fileID: 0}
   _toolsForGathering:
   - Tool: {fileID: 11400000, guid: f5c4258f963384ac5b58c73a8bd24773, type: 2}
     LossAmount: 0

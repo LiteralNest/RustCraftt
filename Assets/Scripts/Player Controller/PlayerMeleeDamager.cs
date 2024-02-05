@@ -1,6 +1,8 @@
 using System.Collections;
+using Building_System.Building.Blocks;
+using Building_System.Building.Placing_Objects;
 using FightSystem.Damage;
-using Sound_System.FightSystem.Damage;
+using Items_System.Items;
 using UnityEngine;
 
 namespace Player_Controller
@@ -15,7 +17,7 @@ namespace Player_Controller
         private void Start()
             => _canDamage = true;
 
-        public bool TryDamage(int damageAmount, float coolDownTime)
+        public bool TryDamage(Tool gatheringTool, float coolDownTime)
         {
             if (!_canDamage) return false;
             StartCoroutine(ResetCanDamageRoutine(coolDownTime));
@@ -24,8 +26,16 @@ namespace Player_Controller
             if (Physics.Raycast(ray, out var hit, _damageRange, _damageLayer))
             {
                 var damagable = hit.collider.GetComponent<IDamagable>();
-                if (damagable == null) return false;
-                damagable.GetDamage(damageAmount);
+                if (damagable != null)
+                    damagable.GetDamageOnServer(gatheringTool.Damage);
+                
+                var damagableBuilding = hit.collider.GetComponent<IBuildingDamagable>();
+                if (damagableBuilding != null)
+                    damagableBuilding.GetDamageOnServer(gatheringTool.Id);
+
+
+                if(damagableBuilding != null || damagable != null)
+                    InventoryHandler.singleton.ActiveSlotDisplayer.ItemDisplayer.MinusCurrentHp(1);
                 return true;
             }
 

@@ -1,4 +1,5 @@
 using Events;
+using Player_Controller;
 using UnityEngine;
 
 namespace Inventory_System
@@ -46,7 +47,7 @@ namespace Inventory_System
             _inventoryPanel.SetActive(false);
             CurrentInventoriesHandler.Singleton.ResetCurrentStorage();
             ResetInventories();
-            ActiveInvetoriesHandler.singleton.AddActiveInventory(null);
+            PlayerNetCode.Singleton.ActiveInvetoriesHandler.AddActiveInventory(null);
         }
 
         public void OpenInventory(bool deactivateCharacterView)

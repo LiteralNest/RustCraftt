@@ -21,9 +21,6 @@ namespace Recycler
 
         private bool _recycling;
 
-        private void Start()
-            => gameObject.tag = "Recycler";
-
         public override void OnNetworkSpawn()
         {
             Turned.OnValueChanged += (bool prevValue, bool newValue) => { Turn(newValue); };
@@ -97,7 +94,7 @@ namespace Recycler
                 return;
             }
 
-            SetTurnedServerRpc(false);
+            Turned.Value = false;
         }
 
         [ServerRpc(RequireOwnership = false)]

@@ -15,11 +15,11 @@ namespace Lock_System
         public override void OnNetworkSpawn()
         {
             base.OnNetworkSpawn();
+            DisplayCurrentLock(_activeLockId.Value);
             _activeLockId.OnValueChanged += (oldValue, newValue) =>
             {
                 DisplayCurrentLock(newValue);
             };
-            DisplayCurrentLock(_activeLockId.Value);
         }
 
         private void DisplayCurrentLock(int id)

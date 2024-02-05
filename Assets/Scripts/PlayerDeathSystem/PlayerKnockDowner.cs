@@ -1,13 +1,12 @@
 using System.Threading.Tasks;
 using Animation_System;
-using Character_Stats;
+using CharacterStatsSystem;
 using InteractSystem;
 using Multiplayer;
 using Player_Controller;
 using Player_Controller.Looking_Around;
 using UI;
 using Unity.Netcode;
-using Unity.VisualScripting;
 using UnityEngine;
 using Web.UserData;
 
@@ -16,8 +15,6 @@ namespace PlayerDeathSystem
     public class PlayerKnockDowner : NetworkBehaviour, IRaycastInteractable
     {
         public static PlayerKnockDowner Singleton { get; private set; }
-
-        [SerializeField] private CharacterHpHandler _characterHpHandler;
 
         [Header("Head")] [SerializeField] private PlayerRotator _playerRotator;
 
@@ -89,10 +86,9 @@ namespace PlayerDeathSystem
             AnimationsManager.Singleton.SetIdle();
             if (IsOwner)
             {
-                _characterHpHandler.SetKnockedDownServerRpc(false);
                 GetComponent<PlayerController>().enabled = true;
                 MainUiHandler.Singleton.DisplayKnockDownScreen(false);
-                CharacterStats.Singleton.PlusStat(CharacterStatType.Health, 10);
+                CharacterStatsEventsContainer.OnCharacterStatAdded.Invoke(CharacterStatType.Health, 10);
                 _playerRotator.SetDefaultHead();
             }
         }

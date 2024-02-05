@@ -1,5 +1,6 @@
 using System.Collections.Generic;
-using Building_System.Blocks;
+using AlertsSystem;
+using Building_System.Building.Blocks;
 using Building_System.NetWorking;
 using UnityEngine;
 
@@ -52,15 +53,16 @@ namespace Building_System.Blue_Prints
             SetCanBePlaced(true);
         }
 
-        public void InitPlacedObject(GameObject target)
-            => _bluePrint.InitPlacedObject(target.GetComponent<BuildingStructure>());
-
         public void TryPlace(bool shouldPlaySound)
         {
             if (!CanBePlaced) return;
-            
+
             foreach (var cell in _targetBuildingStructure.GetPlacingRemovingCells())
+            {
                 InventoryHandler.singleton.CharacterInventory.RemoveItem((ushort)cell.Item.Id, (ushort)cell.Count);
+                AlertEventsContainer.OnInventoryItemRemoved?.Invoke(cell.Item.Name, cell.Count);
+            }
+            
             BuildingsNetworkingSpawner.singleton.SpawnPrefServerRpc(_targetBuildingStructure.Id, transform.position,
                 transform.rotation, shouldPlaySound);
         }
