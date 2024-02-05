@@ -1,8 +1,9 @@
 using System.Collections.Generic;
 using System.Collections;
 using Animation_System;
-using Character_Stats;
+using CharacterStatsSystem;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Player_Controller
 {
@@ -11,7 +12,7 @@ namespace Player_Controller
     {
         public float minHeight;
         public float maxHeight;
-        public float damageAmount;
+        public int damageAmount;
     }
 
     [RequireComponent(typeof(CharacterController))]
@@ -20,7 +21,7 @@ namespace Player_Controller
         [Header("Attached Scripts")] [SerializeField]
         private CharacterController _characterController;
 
-        [SerializeField] private CharacterStats _characterStats;
+        [FormerlySerializedAs("_characterStats")] [SerializeField] private CharacterStatsHandler characterStatsHandler;
 
         [Header("Main Params")] [SerializeField]
         private float _gravity = -9.8f;
@@ -93,7 +94,7 @@ namespace Player_Controller
             {
                 if (fallHeight > fallDamageRange.minHeight && fallHeight <= fallDamageRange.maxHeight)
                 {
-                    _characterStats.MinusStat(CharacterStatType.Health, fallDamageRange.damageAmount);
+                    CharacterStatsEventsContainer.OnCharacterStatRemoved.Invoke(CharacterStatType.Health, fallDamageRange.damageAmount);
                     break;
                 }
             }

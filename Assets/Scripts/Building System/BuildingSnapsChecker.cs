@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using FightSystem.Damage;
+using Sound_System.FightSystem.Damage;
 using Unity.Netcode;
 using UnityEngine;
 

@@ -96,9 +96,6 @@ GameObject:
   - component: {fileID: 5454656259120726786}
   - component: {fileID: 5826834610660619043}
   - component: {fileID: 4849579300589058766}
-  - component: {fileID: 3468022670555323486}
-  - component: {fileID: 1536541447661361724}
-  - component: {fileID: 8445101727751464146}
   m_Layer: 9
   m_Name: Corn Plant
   m_TagString: Gathering
@@ -135,7 +132,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 293519785
+  GlobalObjectIdHash: 420545809
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
   ActiveSceneSynchronization: 0
@@ -155,20 +152,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4821f80e4cca5ce48a4fae2f0dd20d5b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _animator: {fileID: 8445101727751464146}
-  _currentHp:
-    m_InternalValue: 1
   _resourceSlots:
   - Resource: {fileID: 11400000, guid: 31d7508eb5e401a43b56096165eb6e99, type: 2}
     CountRange: {x: 1, y: 2}
     ShouldAddWithRand: 0
-  _vfxEffect: {fileID: 0}
   _renderers:
   - {fileID: 7365202320042848954}
   _colliders:
   - {fileID: 5826834610660619043}
-  _recovering:
-    m_InternalValue: 0
   _recoveringTime: 60
 --- !u!65 &5826834610660619043
 BoxCollider:
@@ -215,68 +206,6 @@ LODGroup:
     renderers:
     - renderer: {fileID: 6944189156709910137}
   m_Enabled: 1
---- !u!95 &3468022670555323486
-Animator:
-  serializedVersion: 5
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8776373995493184547}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 3af7fb859ba2661459efefc61f259b57, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
---- !u!114 &1536541447661361724
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8776373995493184547}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ad8deae8091111f4eb30a56c1f4e0d3e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  TransitionStateInfoList:
-  - IsCrossFadeExit: 0
-    Layer: 0
-    OriginatingState: -582493088
-    DestinationState: 404500206
-    TransitionDuration: 0.25
-    TriggerNameHash: 1533177906
-    TransitionIndex: 0
-  - IsCrossFadeExit: 0
-    Layer: 0
-    OriginatingState: 404500206
-    DestinationState: -582493088
-    TransitionDuration: 0.25
-    TriggerNameHash: 2081823275
-    TransitionIndex: 0
-  m_Animator: {fileID: 3468022670555323486}
---- !u!114 &8445101727751464146
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8776373995493184547}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 31d77d824d1a4fe29b561650164cc764, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _fallAnimation: {fileID: 7400000, guid: 4cca4b6196f5d1d429262f84d61b9a02, type: 2}
 --- !u!1001 &4844831998161712951
 PrefabInstance:
   m_ObjectHideFlags: 0

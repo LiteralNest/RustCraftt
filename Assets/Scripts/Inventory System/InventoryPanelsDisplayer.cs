@@ -1,4 +1,5 @@
 using Events;
+using Player_Controller;
 using UnityEngine;
 
 namespace Inventory_System
@@ -15,8 +16,7 @@ namespace Inventory_System
         [SerializeField] private GameObject _characterPreview;
         [Space] [Space] [SerializeField] private GameObject _backPackPanel;
         [SerializeField] private GameObject _workbenchPanel;
-        [Space][Space]
-        [SerializeField] private GameObject _inventoryCellsPanel;
+        [Space] [Space] [SerializeField] private GameObject _inventoryCellsPanel;
         [SerializeField] private GameObject _craftPanel;
 
         private void Awake()
@@ -47,6 +47,7 @@ namespace Inventory_System
             _inventoryPanel.SetActive(false);
             CurrentInventoriesHandler.Singleton.ResetCurrentStorage();
             ResetInventories();
+            PlayerNetCode.Singleton.ActiveInvetoriesHandler.AddActiveInventory(null);
         }
 
         public void OpenInventory(bool deactivateCharacterView)
@@ -54,15 +55,18 @@ namespace Inventory_System
             CurrentInventoriesHandler.Singleton.HandleCurrentStoragePanel(true);
             ResetInventories();
             HandleInventory(true);
-            if(deactivateCharacterView)
-                _characterPreview.SetActive(false);
+            if (deactivateCharacterView)
+                HandleCharacterPreview(false);
         }
+
+        public void HandleCharacterPreview(bool value)
+            => _characterPreview.SetActive(value);
 
         public void CloseWorkbenchPanel()
         {
             _workbenchPanel.SetActive(false);
         }
-        
+
         public void OpenWorkbenchPanel()
         {
             OpenInventory(true);
@@ -71,7 +75,7 @@ namespace Inventory_System
 
         public void OpenCraft()
             => CurrentInventoriesHandler.Singleton.HandleCurrentStoragePanel(false);
-        
+
         public void OpenInventory()
             => CurrentInventoriesHandler.Singleton.HandleCurrentStoragePanel(true);
     }

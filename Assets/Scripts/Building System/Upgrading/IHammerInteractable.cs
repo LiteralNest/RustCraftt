@@ -4,11 +4,10 @@ namespace Building_System.Upgrading
 {
     public interface IHammerInteractable
     {
-        public bool CanBeUpgraded();
-        public List<InventoryCell> GetNeededCellsForUpgrade();
+        public bool CanBeUpgraded(int level);
+        public List<InventoryCell> GetNeededCellsForUpgrade(int level);
         public void UpgradeTo(int level);
-        public int GetLevel();
-    
+
         public bool CanBeRepaired();
         public void Repair();
     

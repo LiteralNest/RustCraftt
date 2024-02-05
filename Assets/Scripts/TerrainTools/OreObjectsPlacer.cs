@@ -145,7 +145,8 @@ namespace TerrainTools
 
             var instance = Instantiate(prefab, position,
                 Quaternion.identity, transform);
-            instance.GetComponent<NetworkObject>().Spawn();
+            if(instance.GetComponent<NetworkObject>())
+                instance.GetComponent<NetworkObject>().Spawn();
             instance.Init(this);
             _prefabs.Add(instance);
         }

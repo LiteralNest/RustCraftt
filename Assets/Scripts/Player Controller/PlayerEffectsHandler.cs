@@ -1,85 +1,90 @@
 using System.Collections;
 using System.Linq;
-using Alerts_System.Alerts;
+using AlertsSystem;
+using AlertsSystem.AlertTypes;
 using Crafting_System.WorkBench;
 using Tool_Clipboard;
 using UnityEngine;
 using Web.UserData;
 
-public class PlayerEffectsHandler : MonoBehaviour
+namespace Player_Controller
 {
-    private Coroutine _checkClipBoardCoroutine;
-    
-    private void HandleComfort(Collider other, bool isEntering)
+    public class PlayerEffectsHandler : MonoBehaviour
     {
-        if (!other.CompareTag("Comfort")) return;
-        AlertsDisplayer.Singleton.DisplayComfortAlert(isEntering);
-    }
+        private Coroutine _checkClipBoardCoroutine;
 
-    private void HandleWorkBenchAlert(Collider other, bool isEntering)
-    {
-        if (!other.CompareTag("WorkBench")) return;
-        if (!isEntering)
+        private void HandleComfort(Collider other, bool isEntering)
         {
-            AlertsDisplayer.Singleton.DisplayWorkBenchAlert(0, false);
-            return;
+            if (!other.CompareTag("Comfort")) return;
+            AlertEventsContainer.OnComfortAlert?.Invoke(isEntering);
         }
 
-        var workBench = other.GetComponent<WorkBenchZone>();
-        if (workBench == null) return;
-        AlertsDisplayer.Singleton.DisplayWorkBenchAlert(workBench.Level, true);
-    }
-
-    private IEnumerator HandleClipBoardAlertCoroutine(ShelfZoneHandler zone)
-    {
-        while (true)
+        private void HandleWorkBenchAlert(Collider other, bool isEntering)
         {
-            yield return new WaitForSeconds(0.1f);
-            var clipBoard = zone.ToolClipboard;
-
-            var authorizedList = clipBoard.AuthorizedIds.AuthorizedIds.ToList();
-            if (authorizedList.Contains(UserDataHandler.Singleton.UserData.Id))
+            if (!other.CompareTag("WorkBench")) return;
+            if (!isEntering)
             {
-                AlertsDisplayer.Singleton.DisplayBuildingUnblockedAlert(true);
-                AlertsDisplayer.Singleton.DisplayBuildingBlockedAlert(false);
+                AlertEventsContainer.OnWorkBenchAlert?.Invoke(0, false);
+                return;
             }
-            else
-            {
-                AlertsDisplayer.Singleton.DisplayBuildingUnblockedAlert(false);
-                AlertsDisplayer.Singleton.DisplayBuildingBlockedAlert(true);
-            }
-        }
-    }
 
-    private void HandleClipBoardAlert(Collider other, bool isEntering)
-    {
-        if (!other.CompareTag("ShelfZone")) return;
-        if (!isEntering)
-        { 
-            if(_checkClipBoardCoroutine != null)
-                StopCoroutine(_checkClipBoardCoroutine);
-            AlertsDisplayer.Singleton.DisplayBuildingBlockedAlert(false);
-            AlertsDisplayer.Singleton.DisplayBuildingUnblockedAlert(false);
-            return;
+            var workBench = other.GetComponent<WorkBenchZone>();
+            if (workBench == null) return;
+            AlertEventsContainer.OnWorkBenchAlert?.Invoke(workBench.Level, true);
         }
 
-        var shelfZone = other.GetComponent<ShelfZoneHandler>();
-        if (shelfZone == null) return;
+        private IEnumerator HandleClipBoardAlertCoroutine(ShelfZoneHandler zone)
+        {
+            while (true)
+            {
+                yield return new WaitForSeconds(0.1f);
+                var clipBoard = zone.ToolClipboard;
 
-       _checkClipBoardCoroutine = StartCoroutine(HandleClipBoardAlertCoroutine(shelfZone));
-    }
+                var authorizedList = clipBoard.AuthorizedIds.AuthorizedIds.ToList();
+                if (authorizedList.Contains(UserDataHandler.Singleton.UserData.Id))
+                {
+                    AlertEventsContainer.OnBuildingUnblockedAlert?.Invoke(true);
+                    AlertEventsContainer.OnBuildingBlockedAlert?.Invoke(false);
+                }
+                else
+                {
+                    AlertEventsContainer.OnBuildingUnblockedAlert?.Invoke(false);
+                    AlertEventsContainer.OnBuildingBlockedAlert?.Invoke(true);
+                }
+            }
+        }
 
-    private void OnTriggerEnter(Collider other)
-    {
-        HandleComfort(other, true);
-        HandleWorkBenchAlert(other, true);
-        HandleClipBoardAlert(other, true);
-    }
+        private void HandleClipBoardAlert(Collider other, bool isEntering)
+        {
+            if (!other.CompareTag("ShelfZone")) return;
+            if (!isEntering)
+            {
+                if (_checkClipBoardCoroutine != null)
+                    StopCoroutine(_checkClipBoardCoroutine);
+                
+                AlertEventsContainer.OnBuildingBlockedAlert?.Invoke(false);
+                AlertEventsContainer.OnBuildingUnblockedAlert?.Invoke(false);
+                return;
+            }
 
-    private void OnTriggerExit(Collider other)
-    {
-        HandleComfort(other, false);
-        HandleWorkBenchAlert(other, false);
-        HandleClipBoardAlert(other, false);
+            var shelfZone = other.GetComponent<ShelfZoneHandler>();
+            if (shelfZone == null) return;
+
+            _checkClipBoardCoroutine = StartCoroutine(HandleClipBoardAlertCoroutine(shelfZone));
+        }
+
+        private void OnTriggerEnter(Collider other)
+        {
+            HandleComfort(other, true);
+            HandleWorkBenchAlert(other, true);
+            HandleClipBoardAlert(other, true);
+        }
+
+        private void OnTriggerExit(Collider other)
+        {
+            HandleComfort(other, false);
+            HandleWorkBenchAlert(other, false);
+            HandleClipBoardAlert(other, false);
+        }
     }
 }

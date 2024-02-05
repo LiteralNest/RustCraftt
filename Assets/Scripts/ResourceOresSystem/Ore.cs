@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using Events;
 using Items_System.Items;
 using Items_System.Ore_Type;
-using Sirenix.OdinInspector;
 using TerrainTools;
 using Unity.Netcode;
 using UnityEngine;
@@ -12,31 +11,22 @@ namespace ResourceOresSystem
 {
     public abstract class Ore : NetworkBehaviour
     {
-        [Header("Attached Scripts")] [SerializeField]
-        private GatheringOreAnimator _animator;
-
-        [Header("Start init")] [SerializeField]
-        protected NetworkVariable<int> _currentHp = new(100);
-
+        [Header("Start init")]
         [SerializeField] protected List<OreSlot> _resourceSlots = new List<OreSlot>();
-        [SerializeField] private GameObject _vfxEffect;
 
-        private OreObjectsPlacer _objectsPlacer;
-
+        protected OreObjectsPlacer ObjectsPlacer;
         public NetworkVariable<int> CurrentHp => _currentHp;
-
-        public bool Recovering { get; protected set; } = false;
-
+        [SerializeField] protected NetworkVariable<int> _currentHp = new(20);
+        
         public void Init(OreObjectsPlacer objectsPlacer)
-            => _objectsPlacer = objectsPlacer;
+            => ObjectsPlacer = objectsPlacer;
 
         protected void AddResourcesToInventory()
         {
             foreach (var slot in _resourceSlots)
             {
                 int rand = Random.Range(slot.CountRange.x, slot.CountRange.y + 1);
-                GlobalEventsContainer.OnInventoryItemAdded?.Invoke(new InventoryCell(slot.Resource, rand));
-                InventoryHandler.singleton.CharacterInventory.AddItemToDesiredSlotServerRpc(slot.Resource.Id, rand, 0);
+                InventoryHandler.singleton.CharacterInventory.AddItemToSlotWithAlert(slot.Resource.Id, rand, 0);
             }
         }
 
@@ -54,9 +44,8 @@ namespace ResourceOresSystem
                     rand = targetTool.GatheringAmount * ((100 - toolSlot.LossAmount) / 100);
 
                 if (rand <= 0) rand = 1;
-
-                GlobalEventsContainer.OnInventoryItemAdded?.Invoke(new InventoryCell(slot.Resource, rand));
-                InventoryHandler.singleton.CharacterInventory.AddItemToDesiredSlotServerRpc(slot.Resource.Id, rand, 0);
+                
+                InventoryHandler.singleton.CharacterInventory.AddItemToSlotWithAlert(slot.Resource.Id, rand, 0);
             }
         }
 
@@ -65,37 +54,17 @@ namespace ResourceOresSystem
         {
             _currentHp.Value--;
             if (_currentHp.Value <= 0)
-            {
                 StartCoroutine(DestroyRoutine());
-                return;
-            }
         }
+
 
         protected virtual void DoAfterDestroying()
         {
         }
 
-        private IEnumerator DestroyRoutine()
+        protected virtual IEnumerator DestroyRoutine()
         {
-            DoAfterDestroying();
-            if(_animator)
-                yield return _animator.SetFallRoutine();
-            if (_objectsPlacer)
-                StartCoroutine(_objectsPlacer.RegenerateObjectRoutine(this));
-        }
-
-        [ClientRpc]
-        private void DisplayVfxClientRpc(Vector3 pos, Vector3 rot)
-        {
-            if (!_vfxEffect) return;
-            Instantiate(_vfxEffect, pos, Quaternion.FromToRotation(Vector3.up, rot));
-        }
-
-        [ServerRpc(RequireOwnership = false)]
-        protected void DisplayVfxServerRpc(Vector3 pos, Vector3 rot)
-        {
-            if (!IsServer) return;
-            DisplayVfxClientRpc(pos, rot);
+            yield break;
         }
     }
 }

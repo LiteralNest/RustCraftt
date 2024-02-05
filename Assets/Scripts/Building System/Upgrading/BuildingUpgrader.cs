@@ -1,49 +1,43 @@
 using Building_System.Upgrading.UI;
-using Events;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace Building_System.Upgrading
 {
     public class BuildingUpgrader : MonoBehaviour
     {
-        [Header("Attached scripts")]
-        [SerializeField] private BuildingUpgradeView buildingUpgradeView;
+        [Header("Attached scripts")] [SerializeField]
+        private BuildingUpgradeView buildingUpgradeView;
+
+        [Header("Main Params")] [SerializeField]
+        private LayerMask _targetMask;
         
-        [Header("Main Params")]
-        [SerializeField] private LayerMask _targetMask;
         [SerializeField] private Camera _targetCamera;
         [SerializeField] private float _hammerRange = 5f;
 
-        private IHammerInteractable _hammerInteractable;
-        private bool _hammerActive;
+        private int _selectedLevel = 1;
+        public int SelectedLevel => _selectedLevel;
 
-        private void OnEnable()
-            => GlobalEventsContainer.BuildingHammerActivated += OnBuildingHammerActivated;
-    
+        private IHammerInteractable _hammerInteractable;
+
         private void OnDisable()
-            => GlobalEventsContainer.BuildingHammerActivated -= OnBuildingHammerActivated;
+        {
+            buildingUpgradeView.DisplayButtons(false, false, false, false);
+            buildingUpgradeView.DisplayCycle(false);
+        }
 
         private void Start()
         {
-            if(_targetCamera == null)
+            if (_targetCamera == null)
                 _targetCamera = Camera.main;
         }
 
         private void Update()
-        {
-            if(!_hammerActive) return;
-            _hammerInteractable = TryRayCastUpgradable();
-        }
+            => _hammerInteractable = TryRayCastUpgradable();
 
-        private void OnBuildingHammerActivated(bool value)
+        private bool EnoughItems(IHammerInteractable hammerInteractable)
         {
-            if (!value)
-            {
-                buildingUpgradeView.DisplayButtons(false,false,false,false);
-                buildingUpgradeView.DisplayCycle(false);
-            }       
-            _hammerActive = value;
+            var cells = hammerInteractable.GetNeededCellsForUpgrade(_selectedLevel);
+            return InventoryHandler.singleton.CharacterInventory.EnoughMaterials(cells);
         }
 
         private IHammerInteractable TryRayCastUpgradable()
@@ -57,31 +51,43 @@ namespace Building_System.Upgrading
                 var upgradable = hit.transform.GetComponent<IHammerInteractable>();
                 if (upgradable == null)
                 {
-                    buildingUpgradeView.DisplayButtons(false,false,false,false);
+                    buildingUpgradeView.DisplayButtons(false, false, false, false);
                     return null;
                 }
-                buildingUpgradeView.DisplayButtons(upgradable.CanBeUpgraded(), upgradable.CanBeDestroyed(), upgradable.CanBeRepaired(), upgradable.CanBePickUp(), upgradable.GetNeededCellsForUpgrade(), upgradable.GetLevel());
+                
+                bool canBeUpgraded = upgradable.CanBeUpgraded(_selectedLevel) && EnoughItems(upgradable);
+               
+                
+                buildingUpgradeView.DisplayButtons(canBeUpgraded, upgradable.CanBeDestroyed(),
+                    upgradable.CanBeRepaired(), upgradable.CanBePickUp(), upgradable.GetNeededCellsForUpgrade(_selectedLevel));
                 return upgradable;
             }
-            buildingUpgradeView.DisplayButtons(false,false,false,false);
+
+            buildingUpgradeView.DisplayButtons(false, false, false, false);
             return null;
         }
 
-        public void UpgradeTo(int lvl)
+        public void Upgrade()
         {
-            if(_hammerInteractable == null) return;
-            _hammerInteractable.UpgradeTo(lvl);
+            if (_hammerInteractable == null) return;
+            _hammerInteractable.UpgradeTo(_selectedLevel);
+        }
+
+        public void SetSelectedLevel(int value)
+        {
+            _selectedLevel = value;
+            buildingUpgradeView.RedisplayCells();
         }
 
         public void Repair()
         {
-            if(_hammerInteractable == null) return;
+            if (_hammerInteractable == null) return;
             _hammerInteractable.Repair();
         }
 
         public void Destroy()
         {
-            if(_hammerInteractable == null) return;
+            if (_hammerInteractable == null) return;
             _hammerInteractable.Destroy();
         }
 

@@ -25,7 +25,8 @@ namespace Building_System.Placing_Objects
             var ownerId = -1;
             if(_shouldLoadOwnerId)
                 ownerId = UserDataHandler.Singleton.UserData.Id;
-            InventoryHandler.singleton.CharacterInventory.RemoveItem(TargetPlacingObject.TargetItem.Id, 1);
+            InventoryHandler.singleton.CharacterInventory.RemoveItem(TargetPlacingObject.TargetItem.Id,
+                1);
             PlacingObjectsPool.singleton.InstantiateObjectServerRpc(TargetPlacingObject.TargetItem.Id,
                 transform.position,
                 transform.rotation,

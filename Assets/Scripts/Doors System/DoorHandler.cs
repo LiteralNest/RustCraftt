@@ -1,58 +1,75 @@
+using InteractSystem;
 using Lock_System;
 using Unity.Netcode;
 using UnityEngine;
+using Web.UserData;
 
-public class DoorHandler : NetworkBehaviour, ILockable
+namespace Doors_System
 {
-    [SerializeField] private Animator _anim;
-    private Locker _locker;
-
-    private NetworkVariable<bool> _wasOpened = new();
-    public bool IsOpened => _wasOpened.Value;
-
-    public override void OnNetworkSpawn()
+    public class DoorHandler : NetworkBehaviour, ILockable, IRaycastInteractable
     {
-        base.OnNetworkSpawn();
-        _wasOpened.OnValueChanged += (bool prevValue, bool newValue) =>
+        [SerializeField] private Animator _anim;
+        private Locker _locker;
+
+        private NetworkVariable<bool> _wasOpened = new();
+        private NetworkVariable<bool> _canBeInteracted = new(true);
+
+        private void Open(int id)
         {
-            Debug.Log(newValue);
-            OpenClientRpc(newValue);
-        };
+            if (_locker != null && !_locker.CanBeOpened(id)) return;
+            OpenServerRpc();
+        }
+
+        [ServerRpc(RequireOwnership = false)]
+        private void OpenServerRpc()
+        {
+            if (!IsServer) return;
+            _canBeInteracted.Value = false;
+            _wasOpened.Value = !_wasOpened.Value;
+            Open(_wasOpened.Value);
+        }
+
+        [ServerRpc(RequireOwnership = false)]
+        public void SetCanBeInteractedServerRpc()
+        {
+            if (!IsServer) return;
+            _canBeInteracted.Value = true;
+        }
+        
+        private void Open(bool value)
+        {
+            if (value)
+                _anim.SetTrigger("Open");
+            else
+                _anim.SetTrigger("Close");
+        }
+
+        #region IRaycastInteractable
+
+        public string GetDisplayText()
+        {
+            if (_wasOpened.Value)
+                return "Close";
+            return "Open";
+        }
+
+        public void Interact()
+            => Open(UserDataHandler.Singleton.UserData.Id);
+
+        public bool CanInteract()
+            => _canBeInteracted.Value;
+
+        #endregion
+
+
+        #region ILockable
+
+        public void Lock(Locker locker)
+            => _locker = locker;
+
+        bool ILockable.IsLocked()
+            => _locker != null;
+
+        #endregion
     }
-
-    private void Start()
-        => gameObject.tag = "Door";
-
-    public void Open(int id)
-    {
-        if (_locker != null && !_locker.CanBeOpened(id)) return;
-        OpenServerRpc();
-    }
-
-    [ServerRpc(RequireOwnership = false)]
-    private void OpenServerRpc()
-    {
-        if (!IsServer) return;
-        _wasOpened.Value = !_wasOpened.Value;
-    }
-
-    [ClientRpc]
-    private void OpenClientRpc(bool value)
-    {
-        if (value)
-            _anim.SetTrigger("Open");
-        else
-            _anim.SetTrigger("Close");
-    }
-
-    #region ILockable
-
-    public void Lock(Locker locker)
-        => _locker = locker;
-
-
-    bool ILockable.IsLocked()
-        => _locker != null;
-
-    #endregion
 }

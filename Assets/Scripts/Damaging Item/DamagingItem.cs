@@ -1,9 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using FightSystem.Damage;
+using InteractSystem;
 using Multiplayer;
+using Player_Controller;
 using Sound_System;
+using Sound_System.FightSystem.Damage;
 using Storage_System;
+using Storage_System.Loot_Boxes_System;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -11,41 +15,49 @@ namespace Damaging_Item
 {
     [RequireComponent(typeof(NetworkSoundPlayer))]
     [RequireComponent(typeof(NetworkObject))]
-    public class DamagingItem : NetworkBehaviour, IDamagable
+    public class DamagingItem : NetworkBehaviour, IDamagable, IRayCastHpDusplayer
     {
-        
         [SerializeField] private NetworkVariable<int> _currentHp = new(50, NetworkVariableReadPermission.Everyone,
             NetworkVariableWritePermission.Owner);
 
+        [SerializeField] private LootBoxSlot _scrapSlot;
+        [SerializeField] private List<LootBoxSlot> _lootCells = new List<LootBoxSlot>();
         [SerializeField] private float _spawningYOffset = 1f;
-        [SerializeField] private List<LootCell> _loot = new List<LootCell>();
         [SerializeField] private List<GameObject> _renderingObjects = new List<GameObject>();
         [SerializeField] private List<Collider> _colliders = new List<Collider>();
         [SerializeField] private float _recoveringTime = 60;
         [Header("Sound")] [SerializeField] private AudioClip _damagingSound;
         [SerializeField] private AudioClip _destroyingSound;
 
-
         private NetworkSoundPlayer _soundPlayer;
-        private NetworkObject _networkObject;
-
         private int _cachedHp;
 
         private void Start()
         {
-            _networkObject = GetComponent<NetworkObject>();
             _soundPlayer = GetComponent<NetworkSoundPlayer>();
             transform.tag = "DamagingItem";
             _cachedHp = _currentHp.Value;
         }
 
-        private void SpawnLootCell(LootCell cell)
+        private void SpawnCell(LootBoxSlot slot)
         {
-            int rand = Random.Range(cell.MinimalCount, cell.MaximalCount);
             var fixedPos = transform.position;
             fixedPos.y += _spawningYOffset;
             InstantiatingItemsPool.sigleton.SpawnObjectOnServer(
-                new CustomSendingInventoryDataCell(cell.Item.Id, rand, 100, 0), fixedPos);
+                new CustomSendingInventoryDataCell(slot.Item.Id, Random.Range(slot.RandCount.x, slot.RandCount.y + 1), 100, 0), fixedPos);
+        }
+
+        [ContextMenu("Generate Cells")]
+        private void GenerateCells()
+        {
+            SpawnCell(_scrapSlot);
+            foreach (var set in _lootCells)
+            {
+                var rand = Random.Range(0, 100);
+                if (rand > set.Chance) continue;
+                SpawnCell(set);
+                return;
+            }   
         }
 
         public void Destroy()
@@ -53,7 +65,6 @@ namespace Damaging_Item
 
         public void Shake()
         {
-    
         }
 
         public AudioClip GetPlayerDamageClip()
@@ -65,8 +76,8 @@ namespace Damaging_Item
         public int GetMaxHp()
             => _cachedHp;
 
-        public void GetDamage(int damage, bool playSound = true)
-            => GetDamageServerRpc(damage, playSound);
+        public void GetDamage(int damage)
+            => GetDamageServerRpc(damage);
 
         private void HandleRenderers(bool value)
         {
@@ -80,20 +91,19 @@ namespace Damaging_Item
         {
             if (!IsServer) yield break;
             _soundPlayer.PlayOneShot(_destroyingSound);
-            foreach(var collider in _colliders)
+            foreach (var collider in _colliders)
                 collider.enabled = false;
             TurnRendederersClientRpc(false);
-            foreach (var cell in _loot)
-                SpawnLootCell(cell);
+            GenerateCells();
             StartCoroutine(RecoverRoutine());
         }
 
         private IEnumerator RecoverRoutine()
         {
-            if(!IsServer) yield break;
+            if (!IsServer) yield break;
             yield return new WaitForSeconds(_recoveringTime);
             _currentHp.Value = _cachedHp;
-            foreach(var collider in _colliders)
+            foreach (var collider in _colliders)
                 collider.enabled = true;
             TurnRendederersClientRpc(true);
         }
@@ -107,8 +117,9 @@ namespace Damaging_Item
         }
 
         [ServerRpc(RequireOwnership = false)]
-        private void GetDamageServerRpc(int damage, bool value)
+        private void GetDamageServerRpc(int damage)
         {
+            if(_currentHp.Value <= 0) return;
             _currentHp.Value -= damage;
             CheckHp(_currentHp.Value);
             _soundPlayer.PlayOneShot(_damagingSound);
@@ -117,5 +128,8 @@ namespace Damaging_Item
         [ClientRpc]
         private void TurnRendederersClientRpc(bool value)
             => HandleRenderers(value);
+
+        public void DisplayData()
+            => PlayerNetCode.Singleton.ObjectHpDisplayer.DisplayObjectHp(this);
     }
 }

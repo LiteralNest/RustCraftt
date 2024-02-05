@@ -1,11 +1,12 @@
-﻿using TMPro;
+﻿using InteractSystem;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 namespace RespawnSystem.SleepingBag
 {
     [RequireComponent(typeof(SleepingBag))]
-    public class SleepingBagNamer : MonoBehaviour
+    public class SleepingBagNamer : MonoBehaviour, IRaycastInteractable
     {
         [Header("UI")] [SerializeField] private GameObject _renamePanel;
         [SerializeField] private TMP_InputField _inputField;
@@ -29,14 +30,20 @@ namespace RespawnSystem.SleepingBag
 
             _cancelButton.onClick.AddListener(CloseUI);
         }
+        
+        private void CloseUI()
+            => _renamePanel.SetActive(false);
 
-        public void Open()
+        public string GetDisplayText()
+            => "Rename";
+
+        public void Interact()
         {
             _renamePanel.SetActive(true);
             _inputField.text = _sleepingBag.Name.Value.ToString();
         }
 
-        private void CloseUI()
-            => _renamePanel.SetActive(false);
+        public bool CanInteract()
+            => true;
     }
 }

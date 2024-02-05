@@ -262,8 +262,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 70f5b07470fc72b46ba8044c83ab4d9e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <Hp>k__BackingField: 100
-  <CellForPlace>k__BackingField: []
+  <Hp>k__BackingField: 10
+  <CellForPlace>k__BackingField:
+  - Item: {fileID: 11400000, guid: 200d2c64639dc31419395399e2005cfe, type: 2}
+    Count: 10
+    Ammo: 0
   <CellsForRemovingPerTime>k__BackingField:
   - Item: {fileID: 11400000, guid: 200d2c64639dc31419395399e2005cfe, type: 2}
     Count: 1
@@ -365,14 +368,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 70f5b07470fc72b46ba8044c83ab4d9e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <Hp>k__BackingField: 500
+  <Hp>k__BackingField: 1000
   <CellForPlace>k__BackingField:
   - Item: {fileID: 11400000, guid: 0d04174cf533e7346b17a34083715930, type: 2}
-    Count: 4
+    Count: 33
     Ammo: 0
   <CellsForRemovingPerTime>k__BackingField:
   - Item: {fileID: 11400000, guid: 0d04174cf533e7346b17a34083715930, type: 2}
-    Count: 1
+    Count: 3
     Ammo: 0
   <UpgradingSound>k__BackingField: {fileID: 8300000, guid: 66981338be127ba4c98de0d65bfd3f48, type: 3}
 --- !u!1 &4712265679344597813
@@ -471,14 +474,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 70f5b07470fc72b46ba8044c83ab4d9e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <Hp>k__BackingField: 200
+  <Hp>k__BackingField: 500
   <CellForPlace>k__BackingField:
   - Item: {fileID: 11400000, guid: 28bd3b93ac23fe14db313f2088d450df, type: 2}
-    Count: 4
+    Count: 50
     Ammo: 0
   <CellsForRemovingPerTime>k__BackingField:
   - Item: {fileID: 11400000, guid: 28bd3b93ac23fe14db313f2088d450df, type: 2}
-    Count: 1
+    Count: 5
     Ammo: 0
   <UpgradingSound>k__BackingField: {fileID: 8300000, guid: 66981338be127ba4c98de0d65bfd3f48, type: 3}
 --- !u!1 &4939893949509858151
@@ -500,7 +503,7 @@ GameObject:
   - component: {fileID: 386595157851738326}
   m_Layer: 7
   m_Name: BlockStructure
-  m_TagString: DamagingItem
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -663,7 +666,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 46a5f80798c25ad41a5d75aa66323529, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _audioSource: {fileID: 386595157851738326}
   _soundSlots:
   - Id: 1
     Volume: 1
@@ -961,14 +963,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 70f5b07470fc72b46ba8044c83ab4d9e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <Hp>k__BackingField: 50
+  <Hp>k__BackingField: 250
   <CellForPlace>k__BackingField:
   - Item: {fileID: 11400000, guid: 200d2c64639dc31419395399e2005cfe, type: 2}
-    Count: 10
+    Count: 33
     Ammo: 0
   <CellsForRemovingPerTime>k__BackingField:
   - Item: {fileID: 11400000, guid: 200d2c64639dc31419395399e2005cfe, type: 2}
-    Count: 2
+    Count: 3
     Ammo: 0
   <UpgradingSound>k__BackingField: {fileID: 8300000, guid: df1f0f1e72cbd1c419839254d2009bd3, type: 3}
 --- !u!1001 &3739669504009855615
@@ -1077,7 +1079,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 70f5b07470fc72b46ba8044c83ab4d9e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <Hp>k__BackingField: 200
+  <Hp>k__BackingField: 2000
   <CellForPlace>k__BackingField:
   - Item: {fileID: 11400000, guid: 848d61fc7c200a240b5618b5043813a1, type: 2}
     Count: 4

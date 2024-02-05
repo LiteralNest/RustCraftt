@@ -1,12 +1,13 @@
 using System.Linq;
 using Animation_System;
+using InteractSystem;
 using Player_Controller;
 using Unity.Netcode;
 using UnityEngine;
 
 namespace Vehicle.SittingPlaces
 {
-    public abstract class SittingPlace : NetworkBehaviour
+    public abstract class SittingPlace : NetworkBehaviour, IRaycastInteractable
     {
         [SerializeField] private NetworkObject _networkObject;
         [SerializeField] private Transform _standingPoint;
@@ -14,6 +15,34 @@ namespace Vehicle.SittingPlaces
 
         private void Awake()
             => gameObject.tag = "SitPlace";
+
+        #region IRaycastInteractable
+
+        public string GetDisplayText()
+        {
+            if (CanSit())
+                return "Sit";
+            if (CanStand(PlayerNetCode.Singleton))
+                return "Stand";
+            
+            return "";
+        }
+
+        public void Interact()
+        {
+            if(CanSit())
+                SitIn(PlayerNetCode.Singleton);
+            else if(CanStand(PlayerNetCode.Singleton))
+                StandUp(PlayerNetCode.Singleton);
+        }
+
+        public bool CanInteract()
+        {
+            if (CanSit() || CanStand(PlayerNetCode.Singleton)) return true;
+            return false;
+        }
+
+        #endregion
 
         #region SitIn
 
@@ -29,7 +58,7 @@ namespace Vehicle.SittingPlaces
             foreach (var player in players)
             {
                 if (player.NetworkObjectId != ownerId) continue;
-                
+
                 _currentPlayer = player;
             }
         }
@@ -65,10 +94,10 @@ namespace Vehicle.SittingPlaces
         private void ResetPlayerClientRpc()
             => _currentPlayer = null;
 
-        public virtual void SitIn(PlayerNetCode playerNetCode)
+        protected virtual void SitIn(PlayerNetCode playerNetCode)
         {
             AnimationsManager.Singleton.SetSit();
-             SitServerRpc(playerNetCode.OwnerClientId, playerNetCode.NetworkObjectId);
+            SitServerRpc(playerNetCode.OwnerClientId, playerNetCode.NetworkObjectId);
         }
 
         #endregion
@@ -98,7 +127,7 @@ namespace Vehicle.SittingPlaces
             ResetPlayer();
         }
 
-        public virtual void StandUp(PlayerNetCode playerNetCode)
+        protected virtual void StandUp(PlayerNetCode playerNetCode)
         {
             AnimationsManager.Singleton.SetSit();
             StandUpServerRpc(playerNetCode.NetworkObjectId);

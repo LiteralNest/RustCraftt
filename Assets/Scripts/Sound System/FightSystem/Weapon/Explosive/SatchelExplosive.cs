@@ -1,20 +1,14 @@
+using InteractSystem;
 using UnityEngine;
 
-namespace FightSystem.Weapon.Explosive
+namespace Sound_System.FightSystem.Weapon.Explosive
 {
-    public class SatchelExplosive : Explosive
+    public class SatchelExplosive : global::FightSystem.Weapon.Explosive.Explosive, IRaycastInteractable
     {
         [Tooltip("%")] [Range(0, 100)] [SerializeField]
         private int _explodeChance = 80;
 
         private bool _turnedOff;
-        public bool TurnedOff => _turnedOff;
-
-        protected override void Start()
-        {
-            base.Start();
-            transform.tag = "Satchel";
-        }
 
         private void Update()
         {
@@ -45,5 +39,18 @@ namespace FightSystem.Weapon.Explosive
             ExplodeServerRpc();
             Exploded = true;
         }
+
+        #region IRayCastInteractable
+
+        public string GetDisplayText()
+            => "Fire";
+
+        public void Interact()
+            => TurnOn();
+
+        public bool CanInteract()
+            => _turnedOff;
+
+        #endregion
     }
 }

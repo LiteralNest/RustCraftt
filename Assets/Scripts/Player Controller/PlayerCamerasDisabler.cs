@@ -7,7 +7,6 @@ namespace Player_Controller
     {
         [SerializeField] private GameObject _mainCamera;
         [SerializeField] private GameObject _inventotyCamera;
-        [SerializeField] private ObjectsRayCaster _objectsRayCaster;
 
         private void OnEnable()
             => GlobalEventsContainer.OnMainHudHandle += HandleCameras;
@@ -19,7 +18,6 @@ namespace Player_Controller
         {
             _mainCamera.SetActive(value);
             _inventotyCamera.SetActive(value);
-            _objectsRayCaster.enabled = value;
         }
     }
 }

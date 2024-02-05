@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Events;
+using Inventory_System.Inventory_Items_Displayer;
 using Inventory_System.Inventory_Slot_Displayers;
 using UnityEngine;
 

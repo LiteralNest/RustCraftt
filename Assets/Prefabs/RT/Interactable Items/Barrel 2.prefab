@@ -30,14 +30,14 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2107187552412914163}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.41372266, y: -0.57344013, z: -0.57344013, w: 0.41372266}
+  m_LocalRotation: {x: -0.7071068, y: 0, z: 0, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 39.49, y: 39.49001, z: 60.66381}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 1252184479645210740}
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: -90, y: 0, z: -108.381}
+  m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
 --- !u!114 &3674677094765484643
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -50,7 +50,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 800325034
+  GlobalObjectIdHash: 100736107
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
   ActiveSceneSynchronization: 0
@@ -72,15 +72,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _currentHp:
     m_InternalValue: 100
+  _scrapSlot:
+    Item: {fileID: 11400000, guid: 9d7e3704bfa3c3545a2a608bd4d17a09, type: 2}
+    Chance: 100
+    RandCount: {x: 5, y: 9}
+  _lootCells: []
   _spawningYOffset: 1
-  _loot:
-  - <Item>k__BackingField: {fileID: 11400000, guid: c7c6f1721202fae4ab90fddd87a57ef5, type: 2}
-    <MinimalCount>k__BackingField: 1
-    <MaximalCount>k__BackingField: 10
   _renderingObjects:
   - {fileID: 1885732306865537742}
   _colliders:
   - {fileID: 6642206193521888465}
+  _recoveringTime: 60
   _damagingSound: {fileID: 8300000, guid: 54eb4814cbbcc374d9b4f97b915fcc9f, type: 3}
   _destroyingSound: {fileID: 8300000, guid: 1d52322213502f94589dbf48fd43d720, type: 3}
 --- !u!114 &567115542319326121
@@ -132,8 +134,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.02256104, y: 0.021508863, z: 0.02017477}
-  m_Center: {x: 3.5309646e-12, y: -0.0001752469, z: 0.012096919}
+  m_Size: {x: 0.022561042, y: 0.021508863, z: 0.019623017}
+  m_Center: {x: -1.226685e-12, y: -0.00017524727, z: 0.009813503}
 --- !u!82 &553400532601586157
 AudioSource:
   m_ObjectHideFlags: 0

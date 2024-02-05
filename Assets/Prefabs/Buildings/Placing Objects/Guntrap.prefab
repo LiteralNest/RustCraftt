@@ -14,7 +14,6 @@ GameObject:
   - component: {fileID: 3172702961503004558}
   - component: {fileID: 3734345089464141633}
   - component: {fileID: 4018147773538195819}
-  - component: {fileID: 3831472440078603494}
   - component: {fileID: 927160966768652221}
   - component: {fileID: 6572327945115695350}
   - component: {fileID: 2827218082333877102}
@@ -226,30 +225,6 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.8798931, y: 1, z: 0.5111678}
   m_Center: {x: 0.011306077, y: 0, z: -0.008272558}
---- !u!114 &3831472440078603494
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 663783664502928287}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f6c3d5bdbdd7415e9765ec9db9723471, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _ammo: {fileID: 927160966768652221}
-  _damageAmount: 100
-  _rayDistance: 5
-  _playerMask:
-    serializedVersion: 2
-    m_Bits: 32768
-  _fireReload: 1
-  _audioSource: {fileID: 3734345089464141633}
-  _shotClip: {fileID: 8300000, guid: a0c99ed342bc32c47918dcd2fb4bb0b1, type: 3}
-  _effectsDisplayingTime: 0.1
-  _vfxEffect: {fileID: 8898572310791142930}
-  _lightEffect: {fileID: 3905851998681142807}
 --- !u!114 &927160966768652221
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1027,7 +1002,7 @@ VisualEffect:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8898572310791142930}
   m_Enabled: 1
-  m_Asset: {fileID: 8926484042661614526, guid: 25e7f0d015a69844099e8ecd83862136, type: 3}
+  m_Asset: {fileID: 0}
   m_InitialEventName: OnPlay
   m_InitialEventNameOverriden: 0
   m_StartSeed: 0

@@ -1,27 +1,26 @@
 using System.Collections.Generic;
 using System.Collections;
+using InteractSystem;
 using Unity.Netcode;
 using UnityEngine;
 
 namespace ResourceOresSystem
 {
     [RequireComponent(typeof(BoxCollider))]
-    public class GatheringOre : Ore
+    public class GatheringOre : Ore, IRaycastInteractable
     {
-        [SerializeField] private List<Renderer> _renderers;
+        [Header("Attached Scripts")] [SerializeField]
+        private List<Renderer> _renderers;
+
         [SerializeField] private List<Collider> _colliders;
-        [SerializeField] private NetworkVariable<bool> _recovering = new(false);
         [SerializeField] private float _recoveringTime;
+
+        private NetworkVariable<bool> _recovering = new(false);
 
         public override void OnNetworkSpawn()
         {
             base.OnNetworkSpawn();
             _recovering.OnValueChanged += ((value, newValue) => DisplayRenderers(!newValue));
-        }
-
-        private void Start()
-        {
-            gameObject.tag = "Gathering";
         }
 
         private void DisplayRenderers(bool value)
@@ -34,7 +33,7 @@ namespace ResourceOresSystem
 
         public void Gather()
         {
-            if (Recovering) return;
+            if (_recovering.Value) return;
             AddResourcesToInventory();
             RecoverServerRpc();
         }
@@ -42,8 +41,7 @@ namespace ResourceOresSystem
         [ServerRpc(RequireOwnership = false)]
         private void RecoverServerRpc()
         {
-            if(!IsServer) return;
-            Recovering = true;
+            if (!IsServer) return;
             StartCoroutine(StartRecovering());
         }
 
@@ -53,5 +51,18 @@ namespace ResourceOresSystem
             yield return new WaitForSeconds(_recoveringTime);
             _recovering.Value = false;
         }
+
+        #region IRaycastInteractable
+
+        public string GetDisplayText()
+            => "Gather";
+
+        public void Interact()
+            => Gather();
+
+        public bool CanInteract()
+            => true;
+
+        #endregion
     }
 }
