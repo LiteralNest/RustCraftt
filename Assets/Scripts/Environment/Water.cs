@@ -8,6 +8,7 @@ namespace Environment
 {
     public class Water : MonoBehaviour
     {
+        [SerializeField] private GameObject _waterUI;
         private float _waveHeight = 0f;
         private bool _isRestoringOxygen = false;
         private Coroutine _oxygenCoroutine;
@@ -29,6 +30,7 @@ namespace Environment
             if (other.CompareTag("Player"))
             {
                 _isRestoringOxygen = false;
+                _waterUI.SetActive(true);
                 _oxygenCoroutine = StartCoroutine(RemoveOxygenOverTime());
             }
         }
@@ -40,6 +42,7 @@ namespace Environment
                 _isRestoringOxygen = true;
                 if (_oxygenCoroutine != null)
                 {
+                    _waterUI.SetActive(false);
                     StopCoroutine(_oxygenCoroutine);
                 }
                 StartCoroutine(RestoreOxygenToFull());
