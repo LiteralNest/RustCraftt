@@ -444,9 +444,6 @@ GameObject:
   - component: {fileID: 8460241099140372969}
   - component: {fileID: 5464406211920403980}
   - component: {fileID: 3651457460389765595}
-  - component: {fileID: 2778140408749261144}
-  - component: {fileID: 5907510769252296675}
-  - component: {fileID: 371612586800175121}
   m_Layer: 15
   m_Name: 'Canvas '
   m_TagString: Canvas
@@ -537,61 +534,6 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 1083277559
---- !u!114 &2778140408749261144
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 300762566407332482}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 49e12d74fe33f0f429d2bb7fb010bfd6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &5907510769252296675
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 300762566407332482}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d1b194e97dcddee47a8aca7f154f5c9f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _hitUi: {fileID: 1698511470497397764}
-  _buildingStaffPanel: {fileID: 2169172550899782174}
-  _buildingButton: {fileID: 1025921279043768566}
-  _buildingChoosingPanel: {fileID: 4346445257542274161}
-  _placingPanel: {fileID: 1323546913972948945}
-  _joystick: {fileID: 585114315250254484}
-  _moveUpButton: {fileID: 6277764847160007175}
-  _sitAndJumpPanel: {fileID: 5223292635215789589}
-  _vehicleIgnoringPanels:
-  - {fileID: 1578210263496262055}
-  - {fileID: 210025404655594848}
-  - {fileID: 8606479010853229386}
-  _movingHudPanels:
-  - {fileID: 585114315250254484}
-  - {fileID: 5223292635215789589}
-  _mainHudPanel: {fileID: 1790812709436064437}
---- !u!114 &371612586800175121
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 300762566407332482}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 02db49c8dc9d4baa9a4571a318cd1dee, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _displayText: {fileID: 6202245251241023657}
-  _displayPanel: {fileID: 7264930697276788828}
-  _targetButton: {fileID: 314584882951105796}
 --- !u!1 &308565666701413796
 GameObject:
   m_ObjectHideFlags: 0
@@ -3075,7 +3017,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2778140408749261144}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: PanelsHandler, Assembly-CSharp
         m_MethodName: TurnOnPanel
         m_Mode: 2
@@ -5075,7 +5017,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2778140408749261144}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: PanelsHandler, Assembly-CSharp
         m_MethodName: TurnOffPanel
         m_Mode: 2
@@ -5087,7 +5029,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 2778140408749261144}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: PanelsHandler, Assembly-CSharp
         m_MethodName: TurnOnPanel
         m_Mode: 2
@@ -5099,7 +5041,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 2778140408749261144}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: PanelsHandler, Assembly-CSharp
         m_MethodName: TurnOnPanel
         m_Mode: 2
@@ -5111,7 +5053,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 2778140408749261144}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: PanelsHandler, Assembly-CSharp
         m_MethodName: TurnOffPanel
         m_Mode: 2
@@ -5123,7 +5065,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 2778140408749261144}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: PanelsHandler, Assembly-CSharp
         m_MethodName: TurnOnPanel
         m_Mode: 2
@@ -5135,7 +5077,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 2778140408749261144}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: PanelsHandler, Assembly-CSharp
         m_MethodName: TurnOffPanel
         m_Mode: 2
@@ -26701,7 +26643,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2778140408749261144}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: PanelsHandler, Assembly-CSharp
         m_MethodName: TurnOffPanel
         m_Mode: 2
@@ -29128,7 +29070,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2778140408749261144}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: PanelsHandler, Assembly-CSharp
         m_MethodName: TurnOnPanel
         m_Mode: 2
@@ -29140,7 +29082,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 2778140408749261144}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: PanelsHandler, Assembly-CSharp
         m_MethodName: TurnOffPanel
         m_Mode: 2
@@ -29152,7 +29094,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 2778140408749261144}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: PanelsHandler, Assembly-CSharp
         m_MethodName: TurnOnPanel
         m_Mode: 2
@@ -29164,7 +29106,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 2778140408749261144}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: PanelsHandler, Assembly-CSharp
         m_MethodName: TurnOffPanel
         m_Mode: 2
@@ -29176,7 +29118,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 2778140408749261144}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: PanelsHandler, Assembly-CSharp
         m_MethodName: TurnOnPanel
         m_Mode: 2
@@ -29188,7 +29130,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 2778140408749261144}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: PanelsHandler, Assembly-CSharp
         m_MethodName: TurnOffPanel
         m_Mode: 2
