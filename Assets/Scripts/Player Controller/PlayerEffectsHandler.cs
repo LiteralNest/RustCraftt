@@ -70,6 +70,8 @@ namespace Player_Controller
             var shelfZone = other.GetComponent<ShelfZoneHandler>();
             if (shelfZone == null) return;
 
+            if(_checkClipBoardCoroutine != null)
+                StopCoroutine(_checkClipBoardCoroutine);
             _checkClipBoardCoroutine = StartCoroutine(HandleClipBoardAlertCoroutine(shelfZone));
         }
 

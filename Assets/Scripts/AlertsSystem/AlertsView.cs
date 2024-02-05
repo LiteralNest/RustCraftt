@@ -24,6 +24,17 @@ namespace AlertsSystem
             AlertEventsContainer.OnBuildingUnblockedAlert += DisplayBuildingUnblockedAlert;
         }
         
+        private void OnDisable()
+        {
+            AlertEventsContainer.OnBleedAlert -= DisplayBleedAlert;
+            AlertEventsContainer.OnComfortAlert -= DisplayComfortAlert;
+            AlertEventsContainer.OnDehydratedAlert -= DisplayDehydratedAlert;
+            AlertEventsContainer.OnStarvingAlert -= DisplayStarvingAlert;
+            AlertEventsContainer.OnWorkBenchAlert -= DisplayWorkBenchAlert;
+            AlertEventsContainer.OnBuildingBlockedAlert -= DisplayBuildingBlockedAlert;
+            AlertEventsContainer.OnBuildingUnblockedAlert -= DisplayBuildingUnblockedAlert;
+        }
+        
         private void DisplayComfortAlert(bool value)
         {
             if (_comfortAlert == null) return;
