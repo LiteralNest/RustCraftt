@@ -40,7 +40,7 @@ namespace DamageSystem
 
         public int GetMaxHp() => 100;
 
-        public void GetDamage(int damage, bool playSound = true)
+        public void GetDamage(int damage)
         {
             if (_characterStats.Hp.Value > 0)
             {

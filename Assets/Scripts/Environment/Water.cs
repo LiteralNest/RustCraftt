@@ -26,24 +26,18 @@ namespace Environment
         
         private void OnTriggerEnter(Collider other)
         {
-            if (other.CompareTag("Player") && other.GetComponent<PlayerController>() != null)
+            if (other.CompareTag("Player"))
             {
                 _isRestoringOxygen = false;
-                // var move = other.GetComponent<PlayerController>();
-                // move.IsSwimming = true;
-
                 _oxygenCoroutine = StartCoroutine(RemoveOxygenOverTime());
             }
         }
 
         private void OnTriggerExit(Collider other)
         {
-            if (other.CompareTag("Player") && other.GetComponent<PlayerController>() != null)
+            if (other.CompareTag("Player"))
             {
                 _isRestoringOxygen = true;
-                // var move = other.GetComponent<PlayerController>();
-                // move.IsSwimming = false;
-
                 if (_oxygenCoroutine != null)
                 {
                     StopCoroutine(_oxygenCoroutine);
@@ -66,7 +60,7 @@ namespace Environment
         {
             while (!_isRestoringOxygen)
             {
-                yield return new WaitForSeconds(1f);
+                yield return new WaitForSeconds(0.25f);
                 CharacterStatsEventsContainer.OnCharacterStatRemoved.Invoke(CharacterStatType.Oxygen, 1);
             }
         }
@@ -75,7 +69,7 @@ namespace Environment
         {
             while (_characterStats.Oxygen.Value < 100)
             {
-                yield return new WaitForSeconds(1f);
+                yield return new WaitForSeconds(0.05f);
                 CharacterStatsEventsContainer.OnCharacterStatAdded.Invoke(CharacterStatType.Oxygen, 1);
             }
         }

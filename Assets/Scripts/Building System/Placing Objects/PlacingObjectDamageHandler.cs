@@ -28,7 +28,7 @@ namespace Building_System.Placing_Objects
         public int GetMaxHp()
             => _maxHp;
 
-        public void GetDamage(int damage, bool playSound = true)
+        public void GetDamage(int damage)
             => GetDamageServerRpc(damage);
 
         public void Destroy()

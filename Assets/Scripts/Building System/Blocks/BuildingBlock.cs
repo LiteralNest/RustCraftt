@@ -219,7 +219,7 @@ namespace Building_System.Blocks
         {
             if(!IsServer) return;
             GetDamage(damage);
-            _soundPlayer.PlayOneShot(CurrentBlock.DamageSound, 0.5f);
+            _soundPlayer.PlayOneShot(CurrentBlock.DamageSound);
         }
 
         public void Decay(int damage)

@@ -49,7 +49,7 @@ namespace FightSystem.Weapon.Explosive
                 var distance = Vector3.Distance(transform.position, _colliders[i].transform.position);
                 var damage = Mathf.Lerp(_maxDamage, 0f, distance / _explosionRadius);
                 damageable.Shake();
-                damageable.GetDamage((int)damage, false);
+                damageable.GetDamage((int)damage);
             }
         }
 
