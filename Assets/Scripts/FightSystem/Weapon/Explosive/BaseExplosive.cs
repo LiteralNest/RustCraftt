@@ -1,5 +1,6 @@
 using System.Collections;
 using FightSystem.Damage;
+using Items_System.Items.Abstract;
 using Sound_System;
 using Unity.Netcode;
 using UnityEngine;
@@ -8,14 +9,17 @@ namespace FightSystem.Weapon.Explosive
 {
     public abstract class BaseExplosive : NetworkBehaviour
     {
-        [Header("Attached Scripts")]
-        [SerializeField] protected NetworkSoundPlayer _explosiveSoundPlayer;
+        [Header("Attached Scripts")] [SerializeField]
+        protected NetworkSoundPlayer _explosiveSoundPlayer;
+
         [SerializeField] protected AudioClip _explosiveClip;
         [SerializeField] private GameObject _model;
         [SerializeField] private GameObject _explosionVfx;
 
         [Header("Main Params")] [SerializeField]
-        protected float _explosionRadius = 5f;
+        private Item _targetItem;
+
+        [SerializeField] protected float _explosionRadius = 5f;
 
         [SerializeField] protected float _maxDamage = 50f;
 
@@ -43,11 +47,21 @@ namespace FightSystem.Weapon.Explosive
             for (var i = 0; i < numColliders; i++)
             {
                 var damageable = _colliders[i].GetComponent<IDamagable>();
-                if (damageable == null) continue;
+                if (damageable != null)
+                {
+                    var distance = Vector3.Distance(transform.position, _colliders[i].transform.position);
+                    var damage = Mathf.Lerp(_maxDamage, 0f, distance / _explosionRadius);
+                    damageable.GetDamageOnServer((int)damage);
+                    continue;
+                }
 
-                var distance = Vector3.Distance(transform.position, _colliders[i].transform.position);
-                var damage = Mathf.Lerp(_maxDamage, 0f, distance / _explosionRadius);
-                damageable.GetDamageOnServer((int)damage);
+                var buildingDamageable = _colliders[i].GetComponent<IBuildingDamagable>();
+                if (buildingDamageable != null)
+                {
+                    var distance = Vector3.Distance(transform.position, _colliders[i].transform.position);
+                    buildingDamageable.GetDamageByExplosive(_targetItem.Id, distance, _explosionRadius);
+                    continue;
+                }
             }
         }
 

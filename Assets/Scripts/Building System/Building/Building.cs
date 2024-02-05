@@ -17,5 +17,16 @@ namespace Building_System.Building
             
             return 0;
         }
+
+        public float GetDamageAmountByExplosive(int explosiveId, float distance, float radius)
+        {
+            foreach (var slot in _damageSlots)
+            {
+                if (slot.DamageItem.Id == explosiveId)
+                    return  Mathf.Lerp(slot.DamageAmount, 0f, distance / radius);
+            }
+
+            return 0;
+        }
     }
 }

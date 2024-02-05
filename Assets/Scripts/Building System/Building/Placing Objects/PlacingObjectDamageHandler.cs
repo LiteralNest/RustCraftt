@@ -24,20 +24,34 @@ namespace Building_System.Building.Placing_Objects
             _hp.Value = _maxHp;
         }
 
+        public void GetDamageByExplosive(int explosiveId, float distance, float radius)
+        {
+            var damage = GetDamageAmountByExplosive(explosiveId, distance, radius);
+            GetDamageServerRpc((int)damage);
+        }
+
         public int GetHp()
             => (int)_hp.Value;
 
         public int GetMaxHp()
             => _maxHp;
 
-        public void GetDamageOnServer(int damage)
-            => GetDamageServerRpc(damage);
+        public void GetDamageOnServer(int itemId)
+            => GetDamageServerRpcByIdServerRpc(itemId);
 
         public void Destroy()
             => _networkObject.Despawn();
 
+        [ServerRpc(RequireOwnership =  false)]
+        private void GetDamageServerRpc(int damage)
+        {
+            _hp.Value -= damage;
+            if (_hp.Value <= 0)
+                Destroy();
+        }
+        
         [ServerRpc(RequireOwnership = false)]
-        private void GetDamageServerRpc(int damageItemId)
+        private void GetDamageServerRpcByIdServerRpc(int damageItemId)
         {
             var damage = GetDamageAmount(damageItemId);
             _hp.Value -= damage;

@@ -224,8 +224,11 @@ namespace Building_System.Building.Blocks
                 _soundPlayer.PlayOneShot(CurrentBlock.DamageSound);
         }
 
-        public AudioClip GetPlayerDamageClip()
-            => GlobalSoundsContainer.Singleton.HitSound;
+        public void GetDamageByExplosive(int explosiveId, float distance, float radius)
+        {
+            var damage = CurrentBlock.GetDamageAmountByExplosive(explosiveId, distance, radius);
+            AssignDamage(damage);
+        }
 
         public int GetHp()
             => (int)_hp.Value;

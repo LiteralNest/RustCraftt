@@ -177,14 +177,14 @@ namespace FightSystem.Weapon.WeaponTypes
             return false;
         }
 
-        protected bool DisplayHit(RaycastHit hit)
+        protected void DisplayHit(RaycastHit hit)
         {
-            if (hit.transform.GetComponent<Collider>().isTrigger) return false;
+            if (hit.transform.GetComponent<Collider>().isTrigger) return;
             var fire = Instantiate(ImpactEffect, hit.point, Quaternion.LookRotation(hit.normal));
             Destroy(fire, 2f);
             var decalObj = Instantiate(Decal, hit.point, Quaternion.LookRotation(hit.normal));
             Destroy(decalObj, 5);
-            return true;
+            return;
         }
 
         public void TryDisplayReload()
