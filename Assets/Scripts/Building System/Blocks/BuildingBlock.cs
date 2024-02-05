@@ -149,10 +149,7 @@ namespace Building_System.Blocks
 
 
         #region IHammerInteractable
-
-        public int GetLevel()
-            => _currentLevel.Value;
-
+        
         public bool CanBeRepaired()
         {
             if (MaxHp()) return false;
@@ -217,7 +214,20 @@ namespace Building_System.Blocks
 
         #region IDamagable
 
-        public void GetDamage(int damage, bool playSound = true)
+        [ServerRpc(RequireOwnership = false)]
+        public void GetDamageServerRpc(int damage)
+        {
+            if(!IsServer) return;
+            GetDamage(damage);
+            _soundPlayer.PlayOneShot(CurrentBlock.DamageSound, 0.5f);
+        }
+
+        public void Decay(int damage)
+        {
+            GetDamage(damage);  
+        }
+
+        public void GetDamage(int damage)
         {
             int hp = _hp.Value - damage;
             _hp.Value = hp;

@@ -50,7 +50,6 @@ namespace Building_System.Buildings_Connecting
             Destroy(gameObject);
         }
 
-
         private bool ThereIsEnoughMaterials(List<InventoryCell> comparingCells)
         {
             if (TargetClipBoards.Count == 0) return false;
@@ -63,9 +62,7 @@ namespace Building_System.Buildings_Connecting
 
             return false;
         }
-
-            
-            
+        
         private void Decay()
         {
             foreach (var block in Blocks)

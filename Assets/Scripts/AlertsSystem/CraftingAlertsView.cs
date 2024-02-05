@@ -15,12 +15,14 @@ namespace AlertsSystem
         {
             AlertEventsContainer.OnInventoryItemAdded += CreateAddingItemAlert;
             AlertEventsContainer.OnInventoryItemRemoved += CreateRemovingtemAlert;
+            AlertEventsContainer.OnCreatingQueueAlertDataChanged += DisplayCreatingQueueAlert;
         }
     
         private void OnDisable()
         {
             AlertEventsContainer.OnInventoryItemAdded -= CreateAddingItemAlert;
             AlertEventsContainer.OnInventoryItemRemoved -= CreateRemovingtemAlert;
+            AlertEventsContainer.OnCreatingQueueAlertDataChanged -= DisplayCreatingQueueAlert;
         }
 
         private void CreateAddingItemAlert(string itemName, int count)
