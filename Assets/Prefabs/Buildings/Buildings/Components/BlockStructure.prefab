@@ -36,102 +36,6 @@ Transform:
   - {fileID: 3778309963963893140}
   m_Father: {fileID: 3611165240609803720}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &613535161334835356
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 6118562541693521204}
-  - component: {fileID: 98827706862350247}
-  - component: {fileID: 7324031045694741633}
-  - component: {fileID: 859705494317918086}
-  m_Layer: 6
-  m_Name: Building Connector
-  m_TagString: ConnectingPoint
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &6118562541693521204
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 613535161334835356}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 3611165240609803720}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!54 &98827706862350247
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 613535161334835356}
-  serializedVersion: 4
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_CenterOfMass: {x: 0, y: 0, z: 0}
-  m_InertiaTensor: {x: 1, y: 1, z: 1}
-  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ImplicitCom: 1
-  m_ImplicitTensor: 1
-  m_UseGravity: 0
-  m_IsKinematic: 0
-  m_Interpolate: 0
-  m_Constraints: 0
-  m_CollisionDetection: 0
---- !u!65 &7324031045694741633
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 613535161334835356}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 1
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 1.05, y: 1.05, z: 1.05}
-  m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &859705494317918086
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 613535161334835356}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 41f7875028f6ae245930ec0fba4ffd19, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _structurePrefab: {fileID: 7386430111113557817, guid: 785986b511a24594fafc03992d407f09, type: 3}
-  _buildingBlock: {fileID: 5492194466263934009}
 --- !u!1 &2081418208305412979
 GameObject:
   m_ObjectHideFlags: 0
@@ -161,7 +65,6 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 6118562541693521204}
   - {fileID: 7910722908984104127}
   - {fileID: 6434515295882756054}
   m_Father: {fileID: 5430651452815675992}
@@ -281,6 +184,7 @@ MonoBehaviour:
     _damageAmount: 5
   - _damageItem: {fileID: 11400000, guid: d6472b6ed6a95464cabe7e3b18ddc932, type: 2}
     _damageAmount: 2.5
+  <StartHp>k__BackingField: 10
   <Hp>k__BackingField: 10
   <CellForPlace>k__BackingField:
   - Item: {fileID: 11400000, guid: 200d2c64639dc31419395399e2005cfe, type: 2}
@@ -290,6 +194,7 @@ MonoBehaviour:
   - Item: {fileID: 11400000, guid: 200d2c64639dc31419395399e2005cfe, type: 2}
     Count: 1
     Ammo: 0
+  <DecayHoursTime>k__BackingField: 1
   _damageSound: {fileID: 8300000, guid: a71cc79315d970b4e8ad4c60e0f2b804, type: 3}
   _destroyingSound: {fileID: 8300000, guid: a71cc79315d970b4e8ad4c60e0f2b804, type: 3}
   <UpgradingSound>k__BackingField: {fileID: 8300000, guid: df1f0f1e72cbd1c419839254d2009bd3, type: 3}
@@ -406,6 +311,7 @@ MonoBehaviour:
     _damageAmount: 0.13
   - _damageItem: {fileID: 11400000, guid: ebeabc5889d66a241a55747f01558524, type: 2}
     _damageAmount: 0.85
+  <StartHp>k__BackingField: 1000
   <Hp>k__BackingField: 1000
   <CellForPlace>k__BackingField:
   - Item: {fileID: 11400000, guid: 0d04174cf533e7346b17a34083715930, type: 2}
@@ -415,6 +321,7 @@ MonoBehaviour:
   - Item: {fileID: 11400000, guid: 0d04174cf533e7346b17a34083715930, type: 2}
     Count: 3
     Ammo: 0
+  <DecayHoursTime>k__BackingField: 8
   _damageSound: {fileID: 8300000, guid: cce0ae275ecf24b4bb59806796df895a, type: 3}
   _destroyingSound: {fileID: 0}
   <UpgradingSound>k__BackingField: {fileID: 8300000, guid: 66981338be127ba4c98de0d65bfd3f48, type: 3}
@@ -531,6 +438,7 @@ MonoBehaviour:
     _damageAmount: 0.26
   - _damageItem: {fileID: 11400000, guid: ebeabc5889d66a241a55747f01558524, type: 2}
     _damageAmount: 1.7
+  <StartHp>k__BackingField: 2000
   <Hp>k__BackingField: 2000
   <CellForPlace>k__BackingField:
   - Item: {fileID: 11400000, guid: 848d61fc7c200a240b5618b5043813a1, type: 2}
@@ -540,6 +448,7 @@ MonoBehaviour:
   - Item: {fileID: 11400000, guid: 848d61fc7c200a240b5618b5043813a1, type: 2}
     Count: 1
     Ammo: 0
+  <DecayHoursTime>k__BackingField: 12
   _damageSound: {fileID: 8300000, guid: cce0ae275ecf24b4bb59806796df895a, type: 3}
   _destroyingSound: {fileID: 0}
   <UpgradingSound>k__BackingField: {fileID: 8300000, guid: 66981338be127ba4c98de0d65bfd3f48, type: 3}
@@ -656,6 +565,7 @@ MonoBehaviour:
     _damageAmount: 2
   - _damageItem: {fileID: 11400000, guid: d6472b6ed6a95464cabe7e3b18ddc932, type: 2}
     _damageAmount: 0.26
+  <StartHp>k__BackingField: 500
   <Hp>k__BackingField: 500
   <CellForPlace>k__BackingField:
   - Item: {fileID: 11400000, guid: 28bd3b93ac23fe14db313f2088d450df, type: 2}
@@ -665,6 +575,7 @@ MonoBehaviour:
   - Item: {fileID: 11400000, guid: 28bd3b93ac23fe14db313f2088d450df, type: 2}
     Count: 5
     Ammo: 0
+  <DecayHoursTime>k__BackingField: 5
   _damageSound: {fileID: 8300000, guid: 5b629d5f309986141adc4ef0a0b8c904, type: 3}
   _destroyingSound: {fileID: 0}
   <UpgradingSound>k__BackingField: {fileID: 8300000, guid: 66981338be127ba4c98de0d65bfd3f48, type: 3}
@@ -762,7 +673,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 4267866054
+  GlobalObjectIdHash: 3241392858
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
   ActiveSceneSynchronization: 0
@@ -790,7 +701,6 @@ MonoBehaviour:
   - {fileID: 8787049121611599496}
   - {fileID: 8568693884425036730}
   _canbeDestroyedByHammerTime: 60
-  <BuildingConnector>k__BackingField: {fileID: 859705494317918086}
   _destroyingTime: 0.1
 --- !u!114 &1989593182122475027
 MonoBehaviour:
@@ -1173,6 +1083,7 @@ MonoBehaviour:
     _damageAmount: 0.26
   - _damageItem: {fileID: 11400000, guid: ebeabc5889d66a241a55747f01558524, type: 2}
     _damageAmount: 4.25
+  <StartHp>k__BackingField: 250
   <Hp>k__BackingField: 250
   <CellForPlace>k__BackingField:
   - Item: {fileID: 11400000, guid: 200d2c64639dc31419395399e2005cfe, type: 2}
@@ -1182,6 +1093,7 @@ MonoBehaviour:
   - Item: {fileID: 11400000, guid: 200d2c64639dc31419395399e2005cfe, type: 2}
     Count: 3
     Ammo: 0
+  <DecayHoursTime>k__BackingField: 3
   _damageSound: {fileID: 8300000, guid: a71cc79315d970b4e8ad4c60e0f2b804, type: 3}
   _destroyingSound: {fileID: 8300000, guid: a71cc79315d970b4e8ad4c60e0f2b804, type: 3}
   <UpgradingSound>k__BackingField: {fileID: 8300000, guid: df1f0f1e72cbd1c419839254d2009bd3, type: 3}

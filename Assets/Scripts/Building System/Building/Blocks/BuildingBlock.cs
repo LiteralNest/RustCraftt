@@ -2,7 +2,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using AlertsSystem;
-using Building_System.Buildings_Connecting;
 using Building_System.Upgrading;
 using FightSystem.Damage;
 using InteractSystem;
@@ -13,7 +12,8 @@ using UnityEngine;
 
 namespace Building_System.Building.Blocks
 {
-    public class BuildingBlock : NetworkBehaviour, IBuildingDamagable, IHammerInteractable, IDestroyable, IRayCastHpDusplayer
+    public class BuildingBlock : NetworkBehaviour, IBuildingDamagable, IHammerInteractable, IDestroyable,
+        IRayCastHpDusplayer
     {
         [SerializeField] private NetworkSoundPlayer _soundPlayer;
         [SerializeField] private List<Block> _levels;
@@ -21,25 +21,15 @@ namespace Building_System.Building.Blocks
 
         public Action<IDestroyable> OnDestroyed { get; set; }
 
-        private ConnectedStructure _currentStructure;
-
-        public ConnectedStructure CurrentStructure
-        {
-            set => _currentStructure = value;
-        }
-
         private NetworkVariable<float> _hp = new(100, NetworkVariableReadPermission.Everyone,
             NetworkVariableWritePermission.Owner);
 
         public Block CurrentBlock => _levels[_currentLevel.Value];
-        [field: SerializeField] public StructureConnector BuildingConnector { get; private set; }
 
         [Tooltip("In Seconds")] [SerializeField]
         private float _destroyingTime = 0.1f;
 
         private NetworkVariable<bool> _canBeDestroyedByHammer = new(true);
-
-        public int StartHp => _startHp;
         private int _startHp;
 
         private NetworkVariable<ushort> _currentLevel = new(0, NetworkVariableReadPermission.Everyone,
@@ -48,7 +38,7 @@ namespace Building_System.Building.Blocks
         private List<InventoryCell> _cellsForRepairing = new List<InventoryCell>();
 
         private GameObject _activeBlock;
-
+        private Coroutine _decayCoroutine;
 
         public override void OnNetworkSpawn()
         {
@@ -62,6 +52,32 @@ namespace Building_System.Building.Blocks
         {
             OnDestroyed?.Invoke(this);
             base.OnDestroy();
+        }
+
+        private void Start()
+        {
+            if (IsServer)
+                _decayCoroutine = StartCoroutine(DecayRoutine());
+        }
+
+        public void ToolClipBoardAssign(bool value)
+        {
+            if (value)
+            {
+                if(_decayCoroutine != null)
+                    StopCoroutine(_decayCoroutine);
+            }
+            else
+                _decayCoroutine = StartCoroutine(DecayRoutine());
+        }
+
+        private IEnumerator DecayRoutine()
+        {
+            while (true)
+            {
+                yield return new WaitForSeconds(60);
+                Decay();
+            }
         }
 
         public void PlaySound()
@@ -130,20 +146,10 @@ namespace Building_System.Building.Blocks
                 networkObj.Despawn();
             _soundPlayer.PlayOneShot(CurrentBlock.DestroyingSound);
             Destroy(gameObject);
-            if (_currentStructure != null)
-                _currentStructure.RemoveBlock(this);
         }
 
         private bool MaxHp()
             => _hp.Value >= _startHp;
-
-        public void RestoreHealth(int value)
-        {
-            var hp = _hp.Value + value;
-            if (hp > _startHp)
-                hp = _startHp;
-            SetHpServerRpc((ushort)hp);
-        }
 
 
         #region IHammerInteractable
@@ -154,7 +160,12 @@ namespace Building_System.Building.Blocks
             var damagingPercent = 100 - (_hp.Value * 100 / _startHp);
             _cellsForRepairing.Clear();
             foreach (var cell in GetNeededCellsForPlacing())
-                _cellsForRepairing.Add(new InventoryCell(cell.Item, cell.Count / (int)damagingPercent));
+            {
+                int count = cell.Count / (int)damagingPercent;
+                if (count <= 0) count = 1;
+                _cellsForRepairing.Add(new InventoryCell(cell.Item, count));
+            }
+                
             return InventoryHandler.singleton.CharacterInventory.EnoughMaterials(_cellsForRepairing);
         }
 
@@ -193,7 +204,6 @@ namespace Building_System.Building.Blocks
 
         public void PickUp()
         {
-            
         }
 
         #endregion
@@ -211,8 +221,9 @@ namespace Building_System.Building.Blocks
             }
         }
 
-        public void Decay(float damage)
+        public void Decay()
         {
+            var damage = CurrentBlock.StartHp / CurrentBlock.DecayHoursTime / 60f;
             AssignDamage(damage);
         }
 
@@ -220,7 +231,7 @@ namespace Building_System.Building.Blocks
         {
             var damage = CurrentBlock.GetDamageAmount(itemId);
             AssignDamage(damage);
-            if(_hp.Value - damage > 0)
+            if (_hp.Value - damage > 0)
                 _soundPlayer.PlayOneShot(CurrentBlock.DamageSound);
         }
 
@@ -231,7 +242,7 @@ namespace Building_System.Building.Blocks
         }
 
         public int GetHp()
-            => (int)_hp.Value;
+            => Mathf.RoundToInt(_hp.Value);
 
         public int GetMaxHp()
             => CurrentBlock.Hp;

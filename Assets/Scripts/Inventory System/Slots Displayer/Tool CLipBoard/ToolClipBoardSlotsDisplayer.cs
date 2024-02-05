@@ -42,8 +42,8 @@ namespace Inventory_System.Slots_Displayer.Tool_CLipBoard
         public void DisplayRemainingTime()
         {
             var storage = TargetStorage as ToolClipboard;
-            DisplayTime(storage.GetAvaliableMinutes());
-            _cellsDisplayer.DisplayCells(storage.GetNeededResourcesForDay());
+            DisplayTime(storage.GetAvailableHours());
+            _cellsDisplayer.DisplayCells(storage.GetNeededResourcesForHour());
         }
         
         public override void DisplayCells()
