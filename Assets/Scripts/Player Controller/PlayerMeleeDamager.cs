@@ -17,29 +17,29 @@ namespace Player_Controller
         private void Start()
             => _canDamage = true;
 
-        public bool TryDamage(Tool gatheringTool, float coolDownTime)
+        public void TryDamage(Tool gatheringTool, float coolDownTime)
         {
-            if (!_canDamage) return false;
+            if (!_canDamage) return;
             StartCoroutine(ResetCanDamageRoutine(coolDownTime));
             var cameraTransform = Camera.main.transform;
             var ray = new Ray(cameraTransform.position, cameraTransform.forward);
-            if (Physics.Raycast(ray, out var hit, _damageRange, _damageLayer))
+            var targets = Physics.RaycastAll(ray, _damageRange, _damageLayer);
+            foreach (var target in targets)
             {
-                var damagable = hit.collider.GetComponent<IDamagable>();
+                var damagable = target.collider.GetComponent<IDamagable>();
                 if (damagable != null)
                     damagable.GetDamageOnServer(gatheringTool.Damage);
                 
-                var damagableBuilding = hit.collider.GetComponent<IBuildingDamagable>();
+                var damagableBuilding = target.collider.GetComponent<IBuildingDamagable>();
                 if (damagableBuilding != null)
                     damagableBuilding.GetDamageOnServer(gatheringTool.Id);
 
-
-                if(damagableBuilding != null || damagable != null)
+                if (damagableBuilding != null || damagable != null)
+                {
                     InventoryHandler.singleton.ActiveSlotDisplayer.ItemDisplayer.MinusCurrentHp(1);
-                return true;
+                    return;
+                }
             }
-
-            return false;
         }
 
         private IEnumerator ResetCanDamageRoutine(float coolDownTime)

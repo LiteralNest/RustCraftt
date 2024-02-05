@@ -9,7 +9,7 @@ using UnityEngine;
 
 namespace AI
 {
-    public class AIStats : NetworkBehaviour, IDamagable, IRayCastHpDusplayer
+    public class AIStats : NetworkBehaviour, IDamagable, IRayCastHpDisplayer
     {
         [SerializeField] private AnimalID _animalId;
 

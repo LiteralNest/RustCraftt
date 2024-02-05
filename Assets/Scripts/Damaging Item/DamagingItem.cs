@@ -14,7 +14,7 @@ namespace Damaging_Item
 {
     [RequireComponent(typeof(NetworkSoundPlayer))]
     [RequireComponent(typeof(NetworkObject))]
-    public class DamagingItem : NetworkBehaviour, IDamagable, IRayCastHpDusplayer
+    public class DamagingItem : NetworkBehaviour, IDamagable, IRayCastHpDisplayer
     {
         [SerializeField] private NetworkVariable<int> _currentHp = new(50, NetworkVariableReadPermission.Everyone,
             NetworkVariableWritePermission.Owner);

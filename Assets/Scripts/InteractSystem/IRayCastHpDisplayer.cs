@@ -1,6 +1,6 @@
 ﻿namespace InteractSystem
 {
-    public interface IRayCastHpDusplayer
+    public interface IRayCastHpDisplayer
     {
         public void DisplayData();
     }

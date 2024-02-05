@@ -13,7 +13,7 @@ using UnityEngine;
 namespace Building_System.Building.Blocks
 {
     public class BuildingBlock : NetworkBehaviour, IBuildingDamagable, IHammerInteractable, IDestroyable,
-        IRayCastHpDusplayer
+        IRayCastHpDisplayer
     {
         [SerializeField] private NetworkSoundPlayer _soundPlayer;
         [SerializeField] private List<Block> _levels;

@@ -42,20 +42,17 @@ namespace InteractSystem
         {
             if (!_targetCamera.gameObject.activeSelf) return;
             Ray ray = new Ray(_targetCamera.transform.position, _targetCamera.transform.forward);
-            Debug.DrawRay(_targetCamera.transform.position, Camera.main.transform.forward * _maxDistance, Color.red);
-            IRayCastHpDusplayer target = null;
-            if (!Physics.Raycast(ray, out RaycastHit hitInfo, _maxDistance, _layerMask))
+            var targets = Physics.RaycastAll(ray, _maxDistance, _layerMask);
+            foreach (var target in targets)
             {
-                if(PlayerNetCode.Singleton)
-                    PlayerNetCode.Singleton.ObjectHpDisplayer.DisablePanel();
-                return;
+                var dataDisplayable = target.collider.GetComponent<IRayCastHpDisplayer>();
+                if (dataDisplayable != null)
+                {
+                    dataDisplayable.DisplayData();
+                    return;
+                }
             }
-
-            target = hitInfo.collider.gameObject.GetComponent<IRayCastHpDusplayer>();
-            if (target != null)
-                target.DisplayData();
-            else
-                PlayerNetCode.Singleton.ObjectHpDisplayer.DisablePanel();
+             PlayerNetCode.Singleton.ObjectHpDisplayer.DisablePanel();
         }
     }
 }

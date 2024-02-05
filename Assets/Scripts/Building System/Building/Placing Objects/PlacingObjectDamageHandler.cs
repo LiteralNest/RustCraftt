@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace Building_System.Building.Placing_Objects
 {
-    public class PlacingObjectDamageHandler : Building, IBuildingDamagable, IRayCastHpDusplayer
+    public class PlacingObjectDamageHandler : Building, IBuildingDamagable, IRayCastHpDisplayer
     {
         [SerializeField] private NetworkObject _networkObject;
         [SerializeField] private int _maxHp = 100;
