@@ -1,8 +1,8 @@
 using System.Collections.Generic;
-using Building_System.Blocks;
 using Inventory_System;
 using UnityEngine;
 using System.Collections;
+using Building_System.Building.Blocks;
 using Tool_Clipboard;
 using Unity.Netcode;
 
@@ -69,7 +69,7 @@ namespace Building_System.Buildings_Connecting
             {
                 if (ThereIsEnoughMaterials(block.CurrentBlock.CellsForRemovingPerTime))
                     block.RestoreHealth(block.StartHp / 10);
-                block.GetDamage(block.StartHp / 10);
+                block.Decay(block.StartHp / 10);
             }
         }
 

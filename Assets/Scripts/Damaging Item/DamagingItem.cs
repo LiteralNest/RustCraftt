@@ -5,7 +5,6 @@ using InteractSystem;
 using Multiplayer;
 using Player_Controller;
 using Sound_System;
-using Sound_System.FightSystem.Damage;
 using Storage_System;
 using Storage_System.Loot_Boxes_System;
 using Unity.Netcode;
@@ -76,7 +75,7 @@ namespace Damaging_Item
         public int GetMaxHp()
             => _cachedHp;
 
-        public void GetDamage(int damage)
+        public void GetDamageOnServer(int damage)
             => GetDamageServerRpc(damage);
 
         private void HandleRenderers(bool value)

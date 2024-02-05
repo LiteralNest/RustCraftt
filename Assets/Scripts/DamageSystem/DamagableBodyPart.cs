@@ -1,7 +1,7 @@
 using ArmorSystem.Backend;
 using CharacterStatsSystem;
+using FightSystem.Damage;
 using Sound_System;
-using Sound_System.FightSystem.Damage;
 using UnityEngine;
 
 namespace DamageSystem
@@ -40,7 +40,7 @@ namespace DamageSystem
 
         public int GetMaxHp() => 100;
 
-        public void GetDamage(int damage)
+        public void GetDamageOnServer(int damage)
         {
             if (_characterStats.Hp.Value > 0)
             {

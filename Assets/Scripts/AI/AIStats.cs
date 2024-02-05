@@ -4,7 +4,6 @@ using InteractSystem;
 using Multiplayer;
 using Player_Controller;
 using Sound_System;
-using Sound_System.FightSystem.Damage;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -46,7 +45,7 @@ namespace AI
                 Destroy();
         }
 
-        public void GetDamage(int damage)
+        public void GetDamageOnServer(int damage)
         {
             int currHp = _hp.Value;
             var newHp = currHp - damage;
