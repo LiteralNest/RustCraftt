@@ -8,8 +8,15 @@ namespace Building_System.Building.Placing_Objects
 {
     public class PlacingObjectDamageHandler : Building, IBuildingDamagable, IRayCastHpDusplayer
     {
+        [SerializeField] private NetworkObject _networkObject;
         [SerializeField] private int _maxHp = 100;
         private NetworkVariable<float> _hp = new();
+
+        private void Awake()
+        {
+            if (_networkObject == null)
+                _networkObject = GetComponent<NetworkObject>();
+        }
 
         public override void OnNetworkSpawn()
         {
@@ -27,9 +34,7 @@ namespace Building_System.Building.Placing_Objects
             => GetDamageServerRpc(damage);
 
         public void Destroy()
-        {
-            GetComponent<NetworkObject>().Despawn();
-        }
+            => _networkObject.Despawn();
 
         [ServerRpc(RequireOwnership = false)]
         private void GetDamageServerRpc(int damageItemId)

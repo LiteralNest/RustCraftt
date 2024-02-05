@@ -167,6 +167,13 @@ namespace FightSystem.Weapon.WeaponTypes
                 return true;
             }
 
+            if (hit.transform.TryGetComponent<IBuildingDamagable>(out var buildingDamagable))
+            {
+                StartCoroutine(CharacterUIHandler.singleton.DisplayHitRoutine());
+                buildingDamagable.GetDamageOnServer(Weapon.Id);
+                return true;
+            }
+
             return false;
         }
 

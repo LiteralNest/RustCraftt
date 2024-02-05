@@ -12,36 +12,18 @@ namespace FightSystem.Weapon.WeaponTypes
         {
             if (!CanShoot() || CurrentAmmoCount <= 0) return;
             base.Attack();
-            
-            //PlayShot
-            
-            
-            //
             MinusAmmo();
-           
 
-            var raycastedTargets =
-                Physics.RaycastAll(AmmoSpawnPoint.position, AmmoSpawnPoint.forward, Weapon.Range, TargetMask);
-
-            bool hitDisplayed = false;
-            bool damaged = false;
-
-            foreach (var hit in raycastedTargets)
+            var ray = new Ray(AmmoSpawnPoint.position, AmmoSpawnPoint.forward);
+            if (Physics.Raycast(ray, out RaycastHit hit, Weapon.Range, TargetMask))
             {
-                if (!hitDisplayed)
-                {
-                    ShotEffectSpawner.SpawnTrailServerRpc(PlayerNetCode.Singleton.GetClientId(), _bulletSpeed, hit.point);
-                    hitDisplayed = DisplayHit(hit);
-                }
-
-                if (!damaged)
-                    damaged = TryDamage(hit);
-
-                if (damaged) break;
+                ShotEffectSpawner.SpawnTrailServerRpc(PlayerNetCode.Singleton.GetClientId(), _bulletSpeed, hit.point);
+                TryDamage(hit);
+                DisplayHit(hit);
             }
-            
-            if (!hitDisplayed)
-                ShotEffectSpawner.SpawnTrailServerRpc(PlayerNetCode.Singleton.GetClientId(), _bulletSpeed, AmmoSpawnPoint.position + AmmoSpawnPoint.forward * Weapon.Range);
+            else
+                ShotEffectSpawner.SpawnTrailServerRpc(PlayerNetCode.Singleton.GetClientId(), _bulletSpeed,
+                    AmmoSpawnPoint.position + AmmoSpawnPoint.forward * Weapon.Range);
 
             AdjustRecoil();
             StartCoroutine(WaitBetweenShootsRoutine());
