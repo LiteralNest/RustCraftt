@@ -20,7 +20,7 @@ namespace Server
         
         private const string FleetId = "001918ba-7011-4fe5-abfb-cac116569c61";
         private const string EuropeRegionId = "0548345a-8510-49a8-80c8-ae8ce00fc934";
-        private const int BuildConfigId = 1253306;
+        private const int BuildConfigId = 1253651;
 
         private ServerDataUI _serverDataUI;
 
@@ -33,7 +33,6 @@ namespace Server
             _serverDataUI = ServerDataUI.Instance;
             await MultiplayWebApi.Authenticate();
             await UniTask.Yield(PlayerLoopTiming.LastUpdate);
-            // Debug.LogError("Auth Completed");
         }
 
         public async void Connect()
