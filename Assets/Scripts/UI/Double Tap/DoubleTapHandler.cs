@@ -2,47 +2,50 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
 
-public class DoubleTapHandler : MonoBehaviour, IPointerDownHandler, IBeginDragHandler
+namespace UI.Double_Tap
 {
-    [SerializeField]private UnityEvent _onSingleTap;
-    [SerializeField] private UnityEvent _onDoubleTap;
-
-    private float _firstTapTime = 0f;
-    private float _timeBetweenTaps = 0.2f;
-    private bool _doubleTapInitialized;
-    
-    public void OnPointerDown(PointerEventData eventData)
+    public class DoubleTapHandler : MonoBehaviour, IPointerDownHandler, IBeginDragHandler
     {
-        if (!_doubleTapInitialized)
+        [SerializeField]private UnityEvent _onSingleTap;
+        [SerializeField] private UnityEvent _onDoubleTap;
+
+        private float _firstTapTime = 0f;
+        private float _timeBetweenTaps = 0.2f;
+        private bool _doubleTapInitialized;
+    
+        public void OnPointerDown(PointerEventData eventData)
         {
-            Invoke("SingleTap", _timeBetweenTaps);
-            _doubleTapInitialized = true;
-            _firstTapTime = Time.time;
+            if (!_doubleTapInitialized)
+            {
+                Invoke("SingleTap", _timeBetweenTaps);
+                _doubleTapInitialized = true;
+                _firstTapTime = Time.time;
+            }
+            else if (Time.time - _firstTapTime < _timeBetweenTaps)
+            {
+                CancelInvoke("SingleTap");
+                DoubleTap();
+            }
         }
-        else if (Time.time - _firstTapTime < _timeBetweenTaps)
+
+        private void SingleTap()
+        {
+            _doubleTapInitialized = false;
+            if(_onSingleTap != null)
+                _onSingleTap.Invoke();
+        }
+
+        private void DoubleTap()
+        {
+            _doubleTapInitialized = false;
+            if(_onDoubleTap != null)
+                _onDoubleTap.Invoke();
+        }
+
+        public void OnBeginDrag(PointerEventData eventData)
         {
             CancelInvoke("SingleTap");
-            DoubleTap();
+            _doubleTapInitialized = false;
         }
-    }
-
-    private void SingleTap()
-    {
-        _doubleTapInitialized = false;
-        if(_onSingleTap != null)
-            _onSingleTap.Invoke();
-    }
-
-    private void DoubleTap()
-    {
-        _doubleTapInitialized = false;
-        if(_onDoubleTap != null)
-            _onDoubleTap.Invoke();
-    }
-
-    public void OnBeginDrag(PointerEventData eventData)
-    {
-        CancelInvoke("SingleTap");
-        _doubleTapInitialized = false;
     }
 }

@@ -1,12 +1,12 @@
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Cysharp.Threading.Tasks;
 using MultiplayApi.Service;
-using TMPro;
 using Unity.Netcode.Samples;
 using UnityEngine;
 
-namespace UI
+namespace UI.Server
 {
     public class ServerListUI : MonoBehaviour
     {
@@ -19,57 +19,60 @@ namespace UI
         private const string EnvironmentId = "5105ae74-6981-4eb6-89a4-9da20b640c13";
         private const string FleetId = "001918ba-7011-4fe5-abfb-cac116569c61";
         private const string EuropeRegionId = "0548345a-8510-49a8-80c8-ae8ce00fc934";
-        private const int BuildConfigId = 1253306;
+        private const int BuildConfigId = 1253675;
 
         private IMultiplayWebApi MultiplayWebApi = new MultiplayWebApi(KeyId, SecretId, ProjectId, EnvironmentId,
             FleetId, EuropeRegionId, BuildConfigId);
 
+        private bool _authenticated;
+
+        private void OnEnable()
+        {
+            if (!_authenticated) return;
+            DisplayServerList();
+        }
+        
         private async void Start()
         {
             await MultiplayWebApi.Authenticate();
             await UniTask.Yield(PlayerLoopTiming.LastUpdate);
             DisplayServerList();
+            _authenticated = true;
+        }
+        
+        private async UniTask AllocateServer(ServerData server)
+        {
+            IMultiplayWebApi multiplayWebApi = new MultiplayWebApi(KeyId, SecretId, ProjectId, EnvironmentId,
+                server.FleetID, EuropeRegionId, BuildConfigId);
+            await multiplayWebApi.Authenticate();
+            await UniTask.Yield(PlayerLoopTiming.LastUpdate);
+            var allocationId = await multiplayWebApi.AllocateServer();
+            var serverById = await MultiplayWebApi.GetServerById(allocationId);
+
+            while (string.IsNullOrWhiteSpace(serverById.Ipv4))
+            {
+                await Task.Delay(TimeSpan.FromSeconds(1));
+
+                serverById = await multiplayWebApi.GetServerById(allocationId);
+                GetComponent<ServerPanelUI>().SetAllocatedServer(serverById.Ipv4, serverById.GamePort);
+            }
         }
 
         private async void DisplayServerList()
         {
+            foreach (Transform child in _serverPanelParent)
+                Destroy(child.gameObject);
             var serversList = await MultiplayWebApi.GetServersList();
-            
-            Unity.Netcode.Samples.ServerData server = null;
-            foreach (var x in serversList)
-            {
-                if (x.Status == ServerStatus.Allocated)
-                {
-                    server = x;
-                    break;
-                }
-            }
+
             foreach (var serv in serversList)
             {
-                if (server == null) continue;
                 var serverPanel = Instantiate(_serverPanelPrefab, _serverPanelParent);
                 var serverPanelUI = serverPanel.GetComponent<ServerPanelUI>();
-                serverPanelUI.SetServerDataUI(serv.IP, serv.LocationName);
-                serverPanelUI.SetServer(serv.IP, serv.Port);
-            }
-            
-            Allocate();
-        }
+                serverPanelUI.SetServer(serv);
 
-        private async void Allocate()
-        {
-            var allocationId = await MultiplayWebApi.AllocateServer();
-            var serverById = await MultiplayWebApi.GetServerById(allocationId);
-         
-            while (string.IsNullOrWhiteSpace(serverById.Ipv4))
-            {
-                await Task.Delay(TimeSpan.FromSeconds(1));
-                
-                serverById = await MultiplayWebApi.GetServerById(allocationId);
-                GetComponent<ServerPanelUI>().SetAllocatedServer(serverById.Ipv4, serverById.GamePort);
+                if (serv.Status != ServerStatus.Allocated) 
+                    AllocateServer(serv);
             }
         }
-        
-        
     }
 }

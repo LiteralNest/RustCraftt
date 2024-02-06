@@ -1,4 +1,4 @@
-using UI;
+using UI.Server;
 using Unity.Netcode;
 using Unity.Netcode.Transports.UTP;
 using UnityEngine;

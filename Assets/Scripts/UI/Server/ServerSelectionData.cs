@@ -1,4 +1,4 @@
-namespace UI
+namespace UI.Server
 {
     public static class ServerSelectionData
     {
