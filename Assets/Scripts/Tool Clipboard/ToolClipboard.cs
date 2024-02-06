@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using AuthorizationSystem;
-using Building_System.Building.Blocks;
 using Inventory_System;
 using Inventory_System.Slots_Displayer.Tool_CLipBoard;
 using Lock_System;
@@ -12,7 +11,7 @@ using Web.UserData;
 
 namespace Tool_Clipboard
 {
-    public class ToolClipboard : Storage
+    public class ToolClipboard : DropableStorage
     {
         [Header("UI")] [SerializeField] private GameObject _selectingCircle;
         [SerializeField] private GameObject _inventoryPanel;
@@ -37,7 +36,7 @@ namespace Tool_Clipboard
             _selectingCircle.SetActive(true);
             _inventoryPanel.SetActive(false);
             Appear();
-            _ui.SetActive(true);
+            Ui.SetActive(true);
         }
 
         public void OpenInventory()

@@ -1,6 +1,7 @@
 ﻿using FightSystem.Damage;
 using InteractSystem;
 using Player_Controller;
+using Storage_System;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -8,6 +9,7 @@ namespace Building_System.Building.Placing_Objects
 {
     public class PlacingObjectDamageHandler : Building, IBuildingDamagable, IRayCastHpDisplayer
     {
+        [SerializeField] private DropableStorage _targetBag;
         [SerializeField] private NetworkObject _networkObject;
         [SerializeField] private int _maxHp = 100;
         private NetworkVariable<float> _hp = new();
@@ -40,7 +42,11 @@ namespace Building_System.Building.Placing_Objects
             => GetDamageServerRpcByIdServerRpc(itemId);
 
         public void Destroy()
-            => _networkObject.Despawn();
+        {
+            if(_targetBag)
+                if(_targetBag.TryDisplayBagOnServer()) return;
+            _networkObject.Despawn();
+        }
 
         [ServerRpc(RequireOwnership =  false)]
         private void GetDamageServerRpc(int damage)

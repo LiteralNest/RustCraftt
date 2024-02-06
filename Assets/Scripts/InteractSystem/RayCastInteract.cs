@@ -52,7 +52,8 @@ namespace InteractSystem
                     return;
                 }
             }
-             PlayerNetCode.Singleton.ObjectHpDisplayer.DisablePanel();
+            if(PlayerNetCode.Singleton)
+                PlayerNetCode.Singleton.ObjectHpDisplayer.DisablePanel();
         }
     }
 }

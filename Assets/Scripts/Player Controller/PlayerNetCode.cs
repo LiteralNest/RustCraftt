@@ -1,7 +1,5 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using AlertsSystem;
-using AlertsSystem.AlertTypes;
 using ArmorSystem.Backend;
 using Events;
 using Inventory_System;
@@ -14,7 +12,6 @@ using TMPro;
 using UI.Hp_Panel;
 using Unity.Netcode;
 using UnityEngine;
-using Vehicle;
 using Web.UserData;
 
 namespace Player_Controller
@@ -22,8 +19,7 @@ namespace Player_Controller
     public class PlayerNetCode : NetworkBehaviour
     {
         public static PlayerNetCode Singleton { get; private set; }
-
-        [field:SerializeField] public AlertsView AlertsView { get; private set; }
+        
         [field:SerializeField] public ActiveInvetoriesHandler ActiveInvetoriesHandler { get; private set; }
         [field:SerializeField] public ObjectHpDisplayer ObjectHpDisplayer { get; private set; }
         [field: SerializeField] public ResourcesDropper ResourcesDropper { get; private set; }

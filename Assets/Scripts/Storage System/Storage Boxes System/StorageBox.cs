@@ -3,21 +3,18 @@ using Web.UserData;
 
 namespace Storage_System.Storage_Boxes_System
 {
-    public class StorageBox : Storage, ILockable
+    public class StorageBox : DropableStorage, ILockable
     {
         private Locker _locker;
-        
-        public override void Open(InventoryHandler handler)
-        {
-            if (_locker != null && !_locker.CanBeOpened(UserDataHandler.Singleton.UserData.Id)) return;
-            base.Open(handler);
-        }
+
+        public override bool CanInteract()
+            => _locker == null || _locker.CanBeOpened(UserDataHandler.Singleton.UserData.Id);
 
         #region ILockable
 
         public void Lock(Locker locker)
             => _locker = locker;
-        
+
         bool ILockable.IsLocked()
             => _locker != null;
 
