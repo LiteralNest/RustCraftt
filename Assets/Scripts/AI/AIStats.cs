@@ -36,21 +36,16 @@ namespace AI
         public int GetMaxHp()
             => _maxHp;
 
-        [ServerRpc(RequireOwnership = false)]
-        private void SetHpServerRpc(ushort hp)
-        {
-            if (!IsServer) return;
-            _hp.Value = hp;
-            if (hp <= 0)
-                Destroy();
-        }
 
         public void GetDamageOnServer(int damage)
         {
+            if (!IsServer) return;
             int currHp = _hp.Value;
             var newHp = currHp - damage;
             if (newHp < 0) newHp = 0;
-            SetHpServerRpc((ushort)newHp);
+            _hp.Value = (ushort)newHp;
+            if (_hp.Value <= 0)
+                Destroy();
         }
 
 

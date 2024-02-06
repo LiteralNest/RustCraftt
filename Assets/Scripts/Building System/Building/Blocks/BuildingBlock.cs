@@ -229,19 +229,13 @@ namespace Building_System.Building.Blocks
             AssignDamage(damage);
         }
 
-        [ServerRpc(RequireOwnership = false)]
-        private void GetDamageServerRpc(int itemId)
+        public void GetDamageOnServer(int itemId)
         {
             if (!IsServer) return;
             var damage = CurrentBlock.GetDamageAmount(itemId);
             AssignDamage(damage);
             if (_hp.Value - damage > 0)
                 _soundPlayer.PlayOneShot(CurrentBlock.DamageSound);
-        }
-
-        public void GetDamageOnServer(int itemId)
-        {
-            GetDamageServerRpc(itemId);
         }
 
         public void GetDamageByExplosive(int explosiveId, float distance, float radius)

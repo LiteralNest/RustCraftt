@@ -1,12 +1,14 @@
 using ArmorSystem.Backend;
 using CharacterStatsSystem;
 using FightSystem.Damage;
+using Player_Controller;
 using Sound_System;
+using Unity.Netcode;
 using UnityEngine;
 
 namespace DamageSystem
 {
-    public class DamagableBodyPart : MonoBehaviour, IDamagable
+    public class DamagableBodyPart : NetworkBehaviour, IDamagable
     {
         [Header("Attached Scripts")] [SerializeField]
         private PlayerSoundsPlayer _playerSoundsPlayer;
@@ -41,8 +43,13 @@ namespace DamageSystem
         public int GetMaxHp() => 100;
 
         public void GetDamageOnServer(int damage)
+            => GetDamageClientRpc(damage);
+
+        [ClientRpc]
+        private void GetDamageClientRpc(int damage)
         {
-            if (_characterStats.Hp.Value > 0)
+            if (!IsOwner) return;
+            if (_characterStats != null && _characterStats.Hp.Value > 0)
             {
                 _playerSoundsPlayer.PlayHit(_hitSound);
                 CharacterStatsEventsContainer.OnCharacterStatRemoved.Invoke(CharacterStatType.Health, damage);

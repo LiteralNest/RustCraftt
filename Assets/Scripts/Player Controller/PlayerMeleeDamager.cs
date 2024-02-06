@@ -1,13 +1,12 @@
 using System.Collections;
-using Building_System.Building.Blocks;
-using Building_System.Building.Placing_Objects;
 using FightSystem.Damage;
 using Items_System.Items;
+using Unity.Netcode;
 using UnityEngine;
 
 namespace Player_Controller
 {
-    public class PlayerMeleeDamager : MonoBehaviour
+    public class PlayerMeleeDamager : NetworkBehaviour
     {
         [SerializeField] private float _damageRange = 1f;
         [SerializeField] private LayerMask _damageLayer;
@@ -22,17 +21,23 @@ namespace Player_Controller
             if (!_canDamage) return;
             StartCoroutine(ResetCanDamageRoutine(coolDownTime));
             var cameraTransform = Camera.main.transform;
-            var ray = new Ray(cameraTransform.position, cameraTransform.forward);
+            DamageServerRpc(gatheringTool.Id, gatheringTool.Damage, cameraTransform.position, cameraTransform.forward);
+        }
+
+        [ServerRpc(RequireOwnership = false)]
+        private void DamageServerRpc(int toolId, int damage, Vector3 startPos, Vector3 direction)
+        {
+            var ray = new Ray(startPos, direction);
             var targets = Physics.RaycastAll(ray, _damageRange, _damageLayer);
             foreach (var target in targets)
             {
                 var damagable = target.collider.GetComponent<IDamagable>();
                 if (damagable != null)
-                    damagable.GetDamageOnServer(gatheringTool.Damage);
-                
+                    damagable.GetDamageOnServer(damage);
+
                 var damagableBuilding = target.collider.GetComponent<IBuildingDamagable>();
                 if (damagableBuilding != null)
-                    damagableBuilding.GetDamageOnServer(gatheringTool.Id);
+                    damagableBuilding.GetDamageOnServer(toolId);
 
                 if (damagableBuilding != null || damagable != null)
                 {
@@ -41,6 +46,7 @@ namespace Player_Controller
                 }
             }
         }
+
 
         private IEnumerator ResetCanDamageRoutine(float coolDownTime)
         {

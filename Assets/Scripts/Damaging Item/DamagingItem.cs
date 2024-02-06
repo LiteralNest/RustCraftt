@@ -61,10 +61,7 @@ namespace Damaging_Item
 
         public void Destroy()
             => StartCoroutine(DestroyRoutine());
-
-        public void Shake()
-        {
-        }
+        
 
         public AudioClip GetPlayerDamageClip()
             => GlobalSoundsContainer.Singleton.HitSound;
@@ -76,7 +73,13 @@ namespace Damaging_Item
             => _cachedHp;
 
         public void GetDamageOnServer(int damage)
-            => GetDamageServerRpc(damage);
+        { 
+            if(!IsServer) return;
+            if(_currentHp.Value <= 0) return;
+            _currentHp.Value -= damage;
+            CheckHp(_currentHp.Value);
+            _soundPlayer.PlayOneShot(_damagingSound);
+        }
 
         private void HandleRenderers(bool value)
         {
@@ -114,15 +117,7 @@ namespace Damaging_Item
             if (value > 0) return;
             Destroy();
         }
-
-        [ServerRpc(RequireOwnership = false)]
-        private void GetDamageServerRpc(int damage)
-        {
-            if(_currentHp.Value <= 0) return;
-            _currentHp.Value -= damage;
-            CheckHp(_currentHp.Value);
-            _soundPlayer.PlayOneShot(_damagingSound);
-        }
+        
 
         [ClientRpc]
         private void TurnRendederersClientRpc(bool value)
