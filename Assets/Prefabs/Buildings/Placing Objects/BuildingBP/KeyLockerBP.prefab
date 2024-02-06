@@ -11,9 +11,6 @@ GameObject:
   - component: {fileID: 6557102724040767453}
   - component: {fileID: 4420909704066347700}
   - component: {fileID: 5084614704474760534}
-  - component: {fileID: 4561273933726916878}
-  - component: {fileID: 7916807597596941306}
-  - component: {fileID: 1745306366709926345}
   m_Layer: 0
   m_Name: KeyLocker
   m_TagString: Untagged
@@ -30,7 +27,7 @@ Transform:
   m_GameObject: {fileID: 760407042635746675}
   serializedVersion: 2
   m_LocalRotation: {x: 0.5, y: 0.5, z: -0.5, w: 0.5}
-  m_LocalPosition: {x: 0.1, y: 0, z: 0}
+  m_LocalPosition: {x: 0.11, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -86,72 +83,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!54 &4561273933726916878
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 760407042635746675}
-  serializedVersion: 4
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_CenterOfMass: {x: 0, y: 0, z: 0}
-  m_InertiaTensor: {x: 1, y: 1, z: 1}
-  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ImplicitCom: 1
-  m_ImplicitTensor: 1
-  m_UseGravity: 0
-  m_IsKinematic: 0
-  m_Interpolate: 0
-  m_Constraints: 0
-  m_CollisionDetection: 0
---- !u!65 &7916807597596941306
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 760407042635746675}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 1
-  m_ProvidesContacts: 0
-  m_Enabled: 0
-  serializedVersion: 3
-  m_Size: {x: 0.14797528, y: 0.051500704, z: 0.14797528}
-  m_Center: {x: 0, y: 0.025750348, z: 0}
---- !u!114 &1745306366709926345
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 760407042635746675}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d6ab88aa131870d41b3b1ba568ff8961, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _bluePrint: {fileID: 1683059355442289101}
-  _targetBuildingStructure: {fileID: 1989593182122475027, guid: 3a40ef176d998a94d987c32d1c901d9b, type: 3}
-  _negativeMaterial: {fileID: 2100000, guid: 0971632772a28584ca35068ec62d6dd7, type: 2}
-  _normalMaterial: {fileID: 2100000, guid: 744e937d0ca5c324e80f80d9bd2ce177, type: 2}
-  _renderers:
-  - {fileID: 5084614704474760534}
 --- !u!1 &3278251360922449297
 GameObject:
   m_ObjectHideFlags: 0
@@ -163,7 +94,10 @@ GameObject:
   - component: {fileID: 3376773660752023200}
   - component: {fileID: 4447709862204570320}
   - component: {fileID: 6925278257842702489}
+  - component: {fileID: 3152655426798736381}
+  - component: {fileID: 4568799180957383487}
   - component: {fileID: 1683059355442289101}
+  - component: {fileID: 4375403121771618944}
   m_Layer: 0
   m_Name: KeyLockerBP
   m_TagString: Untagged
@@ -185,7 +119,6 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 6557102724040767453}
-  - {fileID: 8535870694642669651}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &4447709862204570320
@@ -238,121 +171,13 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &1683059355442289101
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3278251360922449297}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 11a54ee7b117cbb4ca6e86d7bc421aa0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  BluePrintCells:
-  - {fileID: 1014170356567690279}
-  - {fileID: 1745306366709926345}
-  _targetMask:
-    serializedVersion: 2
-    m_Bits: 64
-  _placingTags:
-  - Lock Snap
-  <StructureSize>k__BackingField: {x: 1, y: 1, z: 1}
-  TargetPlacingObject: {fileID: 2196846820076776693, guid: 2a6b27f6a229a9642bfa44060ae06186, type: 3}
---- !u!1 &3624755239793488972
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 8535870694642669651}
-  - component: {fileID: 2700181107401882270}
-  - component: {fileID: 7912360075339956539}
-  - component: {fileID: 5424040192527446061}
-  - component: {fileID: 2600798054136196972}
-  - component: {fileID: 1014170356567690279}
-  m_Layer: 0
-  m_Name: KeyLocker (1)
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &8535870694642669651
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3624755239793488972}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0.49999627, y: 0.5000037, z: -0.5000037, w: -0.49999627}
-  m_LocalPosition: {x: -0.1, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 3376773660752023200}
-  m_LocalEulerAnglesHint: {x: 89.98, y: 0, z: -269.999}
---- !u!33 &2700181107401882270
-MeshFilter:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3624755239793488972}
-  m_Mesh: {fileID: 4243913502701458645, guid: 5ef082ff1eb36d44d82516a9f3b5459b, type: 3}
---- !u!23 &7912360075339956539
-MeshRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3624755239793488972}
-  m_Enabled: 1
-  m_CastShadows: 1
-  m_ReceiveShadows: 1
-  m_DynamicOccludee: 1
-  m_StaticShadowCaster: 0
-  m_MotionVectors: 1
-  m_LightProbeUsage: 1
-  m_ReflectionProbeUsage: 1
-  m_RayTracingMode: 2
-  m_RayTraceProcedural: 0
-  m_RenderingLayerMask: 1
-  m_RendererPriority: 0
-  m_Materials:
-  - {fileID: 2100000, guid: 744e937d0ca5c324e80f80d9bd2ce177, type: 2}
-  m_StaticBatchInfo:
-    firstSubMesh: 0
-    subMeshCount: 0
-  m_StaticBatchRoot: {fileID: 0}
-  m_ProbeAnchor: {fileID: 0}
-  m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_ReceiveGI: 1
-  m_PreserveUVs: 0
-  m_IgnoreNormalsForChartDetection: 0
-  m_ImportantGI: 0
-  m_StitchLightmapSeams: 1
-  m_SelectedEditorRenderState: 3
-  m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: 0.5
-  m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
-  m_AdditionalVertexStreams: {fileID: 0}
---- !u!54 &5424040192527446061
+--- !u!54 &3152655426798736381
 Rigidbody:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3624755239793488972}
+  m_GameObject: {fileID: 3278251360922449297}
   serializedVersion: 4
   m_Mass: 1
   m_Drag: 0
@@ -368,18 +193,18 @@ Rigidbody:
     m_Bits: 0
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
-  m_UseGravity: 0
+  m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 126
   m_CollisionDetection: 0
---- !u!65 &2600798054136196972
+--- !u!65 &4568799180957383487
 BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3624755239793488972}
+  m_GameObject: {fileID: 3278251360922449297}
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
@@ -388,27 +213,49 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_ProvidesContacts: 0
-  m_Enabled: 0
+  m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.14797528, y: 0.051500704, z: 0.14797528}
-  m_Center: {x: 0, y: 0.025750348, z: 0}
---- !u!114 &1014170356567690279
+  m_Size: {x: 0.064738475, y: 0.06880487, z: 0.056693234}
+  m_Center: {x: 0.027418854, y: 0.0053222347, z: 0}
+--- !u!114 &1683059355442289101
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3624755239793488972}
+  m_GameObject: {fileID: 3278251360922449297}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d6ab88aa131870d41b3b1ba568ff8961, type: 3}
+  m_Script: {fileID: 11500000, guid: 11a54ee7b117cbb4ca6e86d7bc421aa0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  BluePrintCells:
+  - {fileID: 4375403121771618944}
+  _targetMask:
+    serializedVersion: 2
+    m_Bits: 64
+  _placingTags:
+  - Lock Snap
+  <StructureSize>k__BackingField: {x: 1, y: 1, z: 1}
+  TargetPlacingObject: {fileID: 2196846820076776693, guid: 2a6b27f6a229a9642bfa44060ae06186, type: 3}
+  _shouldLoadOwnerId: 0
+--- !u!114 &4375403121771618944
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3278251360922449297}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d46e154b00653b44ca2d334bc3d97ac5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _bluePrint: {fileID: 1683059355442289101}
-  _targetBuildingStructure: {fileID: 1989593182122475027, guid: 3a40ef176d998a94d987c32d1c901d9b, type: 3}
+  _targetBuildingStructure: {fileID: 2196846820076776693, guid: 2a6b27f6a229a9642bfa44060ae06186, type: 3}
   _negativeMaterial: {fileID: 2100000, guid: 0971632772a28584ca35068ec62d6dd7, type: 2}
   _normalMaterial: {fileID: 2100000, guid: 744e937d0ca5c324e80f80d9bd2ce177, type: 2}
   _renderers:
-  - {fileID: 7912360075339956539}
+  - {fileID: 5084614704474760534}

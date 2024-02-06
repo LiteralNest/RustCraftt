@@ -22,7 +22,7 @@ namespace Tool_Clipboard
         {
             while (true)
             {
-                yield return new WaitForSeconds(60);
+                yield return new WaitForSeconds(3600f);
                 if (_toolClipboard.GetAvailableHours() <= 0)
                 {
                     foreach (var block in _connectedBlocks)

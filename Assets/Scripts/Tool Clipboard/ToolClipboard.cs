@@ -10,17 +10,14 @@ using Web.UserData;
 
 namespace Tool_Clipboard
 {
-    public class ToolClipboard : DropableStorage
+    public class ToolClipboard : DropableStorage, ILockable
     {
-        [Header("UI")] 
-        [SerializeField] private GameObject _selectingCircle;
+        [Header("UI")] [SerializeField] private GameObject _selectingCircle;
         [SerializeField] private GameObject _inventoryPanel;
         [SerializeField] private NetworkVariable<AuthorizedUsersData> _authorizedIds = new();
         [SerializeField] private ShelfZoneHandler _shelfZoneHandler;
 
-
         private Locker _targetLocker;
-        private bool _isLocked;
 
         public AuthorizedUsersData AuthorizedIds => _authorizedIds.Value;
 
@@ -175,12 +172,6 @@ namespace Tool_Clipboard
         [ServerRpc(RequireOwnership = false)]
         public void AuthorizeServerRpc(int id)
         {
-            if (_targetLocker != null && !_targetLocker.CanBeOpened(UserDataHandler.Singleton.UserData.Id))
-            {
-                _targetLocker.Open();
-                return;
-            }
-
             if (!IsServer) return;
             var helper = new AuthorizationHelper();
             helper.Authorize(id, _authorizedIds);
@@ -188,8 +179,12 @@ namespace Tool_Clipboard
 
         #endregion
 
+        private bool CanBeOpened()
+            => !(_targetLocker != null && !_targetLocker.CanBeOpened(UserDataHandler.Singleton.UserData.Id));
+        
         public override string GetDisplayText()
         {
+            if(!CanBeOpened()) return "Locked";
             if (!IsAutorized(UserDataHandler.Singleton.UserData.Id)) return "Authorize";
             return base.GetDisplayText();
         }
@@ -198,11 +193,23 @@ namespace Tool_Clipboard
         {
             if (!IsAutorized(UserDataHandler.Singleton.UserData.Id))
             {
+                if (_targetLocker != null && !_targetLocker.CanBeOpened(UserDataHandler.Singleton.UserData.Id))
+                {
+                    _targetLocker.Open();
+                    return;
+                }
+
                 AuthorizeServerRpc(UserDataHandler.Singleton.UserData.Id);
                 return;
             }
 
             base.Interact();
         }
+
+        public void Lock(Locker locker)
+            => _targetLocker = locker;
+        
+        public bool IsLocked()
+            => _targetLocker != null;
     }
 }

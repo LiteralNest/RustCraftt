@@ -1,5 +1,3 @@
-using UnityEngine;
-
 namespace Lock_System
 {
     public interface ILockable

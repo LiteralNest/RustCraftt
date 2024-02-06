@@ -47,6 +47,7 @@ GameObject:
   - component: {fileID: 1747840290339494372}
   - component: {fileID: 6455976252592307362}
   - component: {fileID: 6544192405631309014}
+  - component: {fileID: 7043448045034077656}
   m_Layer: 6
   m_Name: Lock Snap
   m_TagString: Lock Snap
@@ -157,6 +158,33 @@ MonoBehaviour:
   _lockable: {fileID: 7450323018893914448}
   _activeLockId:
     m_InternalValue: 0
+--- !u!54 &7043448045034077656
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1592285738391564208}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 126
+  m_CollisionDetection: 0
 --- !u!1 &2369249041562562084
 GameObject:
   m_ObjectHideFlags: 0
@@ -413,6 +441,7 @@ MonoBehaviour:
     _damageAmount: 0
   - _damageItem: {fileID: 11400000, guid: f98a87f7890e448ea89034514dcbf5a6, type: 2}
     _damageAmount: 0
+  _targetBag: {fileID: 0}
   _networkObject: {fileID: 5105565767011144920}
   _maxHp: 1000
 --- !u!1 &3419945847687560306

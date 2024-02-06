@@ -848,6 +848,7 @@ GameObject:
   - component: {fileID: 1686336477540909731}
   - component: {fileID: -8758390344933982876}
   - component: {fileID: 2171270060672091586}
+  - component: {fileID: 7853831756309825960}
   m_Layer: 0
   m_Name: Large Chest
   m_TagString: Untagged
@@ -885,7 +886,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 856722851
+  GlobalObjectIdHash: 2698145854
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
   ActiveSceneSynchronization: 0
@@ -1053,6 +1054,33 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 0.5314504, z: 0.7736802}
   m_Center: {x: -5.2597887e-17, y: -0.23427415, z: 0.017271882}
+--- !u!54 &7853831756309825960
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3563322256224336183}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 126
+  m_CollisionDetection: 0
 --- !u!1 &3576728523681043776
 GameObject:
   m_ObjectHideFlags: 0
@@ -1079,8 +1107,8 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 0.75, y: 0.75, z: 0.75}
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 8440260323060400503}
   - {fileID: 5563953050736977306}
@@ -1353,8 +1381,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 4.6692905, y: 3.4245663, z: 6.7521253}
+  m_Center: {x: -1.7905889, y: -0.36007467, z: -0.0000004269096}
 --- !u!114 &946459025747362853
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1435,8 +1463,8 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 0.75, y: 0.75, z: 0.75}
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 7248622950834988370}
   m_Father: {fileID: 4126133796680792249}
