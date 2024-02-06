@@ -1,3 +1,4 @@
+using System.Collections;
 using InteractSystem;
 using Inventory_System;
 using Items_System.Items.Abstract;
@@ -10,12 +11,19 @@ namespace Items_System
     [RequireComponent(typeof(BoxCollider))]
     public class LootingItem : NetworkBehaviour, IRaycastInteractable
     {
+        
         public NetworkVariable<CustomSendingInventoryDataCell> Data { get; set; } = new();
         [field: SerializeField] public Item TargetItem { get; private set; }
         
         public string GetDisplayText()
             => ItemFinder.singleton.GetItemById(Data.Value.Id).Name;
 
+        public void Init(CustomSendingInventoryDataCell data)
+        {
+            Data.Value = data;
+            StartCoroutine(DespawnRoutine());
+        }
+        
         public void Interact()
         {
            InventoryHandler.singleton.CharacterInventory.AddItemToSlotWithAlert(Data.Value.Id,
@@ -31,6 +39,13 @@ namespace Items_System
         {
             if (IsServer)
                 GetComponent<NetworkObject>().Despawn();
+        }
+
+        private IEnumerator DespawnRoutine()
+        {
+            var item = ItemFinder.singleton.GetItemById(Data.Value.Id);
+            yield return new WaitForSeconds(item.DestroySecondsTime);
+            GetComponent<NetworkObject>().Despawn();
         }
     }
 }
