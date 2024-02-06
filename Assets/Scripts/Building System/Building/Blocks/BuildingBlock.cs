@@ -64,7 +64,7 @@ namespace Building_System.Building.Blocks
         {
             if (value)
             {
-                if(_decayCoroutine != null)
+                if (_decayCoroutine != null)
                     StopCoroutine(_decayCoroutine);
             }
             else
@@ -165,7 +165,7 @@ namespace Building_System.Building.Blocks
                 if (count <= 0) count = 1;
                 _cellsForRepairing.Add(new InventoryCell(cell.Item, count));
             }
-                
+
             return InventoryHandler.singleton.CharacterInventory.EnoughMaterials(_cellsForRepairing);
         }
 
@@ -227,12 +227,19 @@ namespace Building_System.Building.Blocks
             AssignDamage(damage);
         }
 
-        public void GetDamageOnServer(int itemId)
+        [ServerRpc(RequireOwnership = false)]
+        private void GetDamageServerRpc(int itemId)
         {
+            if (!IsServer) return;
             var damage = CurrentBlock.GetDamageAmount(itemId);
             AssignDamage(damage);
             if (_hp.Value - damage > 0)
                 _soundPlayer.PlayOneShot(CurrentBlock.DamageSound);
+        }
+
+        public void GetDamageOnServer(int itemId)
+        {
+            GetDamageServerRpc(itemId);
         }
 
         public void GetDamageByExplosive(int explosiveId, float distance, float radius)

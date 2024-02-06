@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using AuthorizationSystem;
 using Inventory_System;
-using Inventory_System.Slots_Displayer.Tool_CLipBoard;
 using Lock_System;
 using Multiplayer.CustomData;
 using Storage_System;
@@ -13,7 +12,8 @@ namespace Tool_Clipboard
 {
     public class ToolClipboard : DropableStorage
     {
-        [Header("UI")] [SerializeField] private GameObject _selectingCircle;
+        [Header("UI")] 
+        [SerializeField] private GameObject _selectingCircle;
         [SerializeField] private GameObject _inventoryPanel;
         [SerializeField] private NetworkVariable<AuthorizedUsersData> _authorizedIds = new();
         [SerializeField] private ShelfZoneHandler _shelfZoneHandler;
@@ -24,6 +24,15 @@ namespace Tool_Clipboard
 
         public AuthorizedUsersData AuthorizedIds => _authorizedIds.Value;
 
+        public override void OnNetworkSpawn()
+        {
+            base.OnNetworkSpawn();
+            ItemsNetData.OnValueChanged +=
+                (CustomSendingInventoryData prevValue, CustomSendingInventoryData newValue) =>
+                {
+                    SlotsDisplayer.DisplayCells();
+                };
+        }
 
         public override void Open(InventoryHandler handler)
         {
@@ -44,13 +53,6 @@ namespace Tool_Clipboard
             CurrentInventoriesHandler.Singleton.CurrentStorage = this;
             InventoryHandler.singleton.InventoryPanelsDisplayer.OpenInventory(true);
             SlotsDisplayer.DisplayCells();
-        }
-
-        public override void SetItem(int cellId, CustomSendingInventoryDataCell dataCell)
-        {
-            base.SetItem(cellId, dataCell);
-            var slotsDisplayer = SlotsDisplayer as ToolClipBoardSlotsDisplayer;
-            slotsDisplayer.DisplayRemainingTime();
         }
 
         [ServerRpc(RequireOwnership = false)]
@@ -100,8 +102,8 @@ namespace Tool_Clipboard
             List<InventoryCell> deletingCells = GetStackedList(GetRemovingCells());
             var list = GetStackedList(GetClipBoardCells());
 
-            if(deletingCells.Count == 0) return res;
-            
+            if (deletingCells.Count == 0) return res;
+
             while (true)
             {
                 foreach (var deleteCell in deletingCells)
@@ -122,6 +124,7 @@ namespace Tool_Clipboard
                     if (cachedDeletingList.Count != 0) return res;
                 }
             }
+
             return res;
         }
 
@@ -162,16 +165,6 @@ namespace Tool_Clipboard
         #endregion
 
         #region ILockable
-
-        public void Lock(Locker locker)
-            => _targetLocker = locker;
-
-
-        public bool IsLocked()
-        {
-            if (_targetLocker == null) return false;
-            return _targetLocker.IsLocked();
-        }
 
         public bool IsAutorized(int value)
         {

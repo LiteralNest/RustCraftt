@@ -55,14 +55,12 @@ namespace Tool_Clipboard
 
         private void OnTriggerEnter(Collider other)
         {
-            if (!IsServer) return;
             CheckBuildingBlockEnter(other);
             CheckHammerInteractableEnter(other);
         }
 
         private void OnTriggerExit(Collider other)
         {
-            if (!IsServer) return;
             var structure = other.GetComponent<BuildingBlock>();
             if (!_connectedBlocks.Contains(structure)) return;
             structure.ToolClipBoardAssign(false);

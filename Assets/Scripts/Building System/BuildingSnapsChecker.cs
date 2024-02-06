@@ -34,7 +34,8 @@ namespace Building_System
             foreach (var snap in _snapObjects)
                 if (snap.ThereIsGround())
                     return;
-            _destroyingObject.GetComponent<IDamagable>().Destroy();
+            if(_destroyingObject != null && _destroyingObject.GetComponent<IDamagable>() != null)
+                _destroyingObject.GetComponent<IDamagable>().Destroy();
         }
 
         private void OnTriggerEnter(Collider other)

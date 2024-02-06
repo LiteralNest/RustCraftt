@@ -37,6 +37,11 @@ namespace Inventory_System
             {
                 if(!(item is CraftingItem)) continue;
                 var craftItem = item as CraftingItem;
+                if (GlobalValues.AdministratorBuild)
+                {
+                    res.Add(item as CraftingItem);
+                    continue;
+                }
                 if (craftItem.ResearchedByDefault)
                     res.Add(item as CraftingItem);
             }

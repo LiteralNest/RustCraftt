@@ -74,6 +74,7 @@ public class CraftingQueueSlotCreator : MonoBehaviour
 
     private bool CanBeCreated()
     {
+        if(GlobalValues.AdministratorBuild) return true;
         foreach (var slot in _slotsContainer.SlotDisplayers)
         {
             if (!slot.ResourceAvailable)

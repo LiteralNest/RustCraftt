@@ -1,5 +1,8 @@
-﻿using Unity.Netcode;
+﻿using AlertsSystem;
+using Player_Controller;
+using Unity.Netcode;
 using UnityEngine;
+using Web.UserData;
 
 namespace CharacterStatsSystem
 {
@@ -9,6 +12,36 @@ namespace CharacterStatsSystem
         [field: SerializeField] public NetworkVariable<int> Food { get; set; } = new NetworkVariable<int>(100);
         [field: SerializeField] public NetworkVariable<int> Water { get; set; } = new NetworkVariable<int>(100);
         [field: SerializeField] public NetworkVariable<int> Oxygen { get; set; } = new NetworkVariable<int>(100);
+
+
+        private void OnEnable()
+            => CharacterStatsEventsContainer.OnCharacterStatsAssign += SetStatsValue;
+
+        private void OnDisable()
+            => CharacterStatsEventsContainer.OnCharacterStatsAssign -= SetStatsValue;
+
+        private void SetStatsValue(CharacterStats characterStats)
+        {
+            Hp.OnValueChanged += (int oldValue, int newValue) =>
+            {
+                if (newValue <= 0)
+                    PlayerNetCode.Singleton.PlayerKnockDowner.KnockDownServerRpc(UserDataHandler.Singleton.UserData.Id);
+            };
+
+            Food.OnValueChanged += (int oldValue, int newValue) =>
+            {
+                if (newValue <= 15)
+                    AlertEventsContainer.OnStarvingAlert?.Invoke(true);
+                else AlertEventsContainer.OnStarvingAlert?.Invoke(false);
+            };
+
+            Water.OnValueChanged += (int oldValue, int newValue) =>
+            {
+                if (newValue <= 15)
+                    AlertEventsContainer.OnDehydratedAlert?.Invoke(true);
+                else AlertEventsContainer.OnDehydratedAlert?.Invoke(false);
+            };
+        }
 
         [ServerRpc(RequireOwnership = false)]
         public void AddStatServerRpc(CharacterStatType type, int value)
@@ -61,12 +94,23 @@ namespace CharacterStatsSystem
             {
                 case CharacterStatType.Health:
                     Hp.Value = GetValidatedRemovingStat(Hp.Value, value);
+                    if (Hp.Value <= 0)
+                        PlayerNetCode.Singleton.PlayerKnockDowner.KnockDownServerRpc(UserDataHandler.Singleton.UserData
+                            .Id);
                     break;
                 case CharacterStatType.Food:
                     Food.Value = GetValidatedRemovingStat(Food.Value, value);
+                    if (Food.Value <= 15)
+                        AlertEventsContainer.OnStarvingAlert?.Invoke(true);
+                    else
+                        AlertEventsContainer.OnStarvingAlert?.Invoke(false);
                     break;
                 case CharacterStatType.Water:
                     Water.Value = GetValidatedRemovingStat(Water.Value, value);
+                    if (Water.Value <= 15)
+                        AlertEventsContainer.OnDehydratedAlert?.Invoke(true);
+                    else
+                        AlertEventsContainer.OnDehydratedAlert?.Invoke(false);
                     break;
                 case CharacterStatType.Oxygen:
                     Oxygen.Value = GetValidatedRemovingStat(Oxygen.Value, value);

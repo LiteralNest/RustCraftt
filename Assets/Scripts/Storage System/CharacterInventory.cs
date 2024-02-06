@@ -18,17 +18,20 @@ namespace Storage_System
             base.OnNetworkSpawn();
             SlotsDisplayer.DisplayCells();
 
-            if (InventoryClear())
-            {
-                foreach(var slot in _defaultItems)
-                    AddItemToDesiredSlotServerRpc(slot.Item.Id, slot.Count, slot.Ammo);
-            }
-            
             ItemsNetData.OnValueChanged += (oldValue, newValue) =>
             {
                 if (!IsOwner) return;
                 GlobalEventsContainer.InventoryDataChanged?.Invoke();
             };
+        }
+
+        private void Start()
+        {
+            if (InventoryClear())
+            {
+                foreach(var slot in _defaultItems)
+                    AddItemToDesiredSlotServerRpc(slot.Item.Id, slot.Count, slot.Ammo);
+            }
         }
 
         public override void Open(InventoryHandler handler)

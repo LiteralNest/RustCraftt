@@ -42,6 +42,7 @@ namespace Events
         #region Player Net Code
 
         public static Action<PlayerNetCode> PlayerNetCodeAssigned { get; set; }
+        public static Action OnZeroHp { get; set; }
 
         #endregion
     }

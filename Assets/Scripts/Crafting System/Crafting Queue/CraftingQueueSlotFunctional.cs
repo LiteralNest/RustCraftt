@@ -24,7 +24,8 @@ public class CraftingQueueSlotFunctional : MonoBehaviour
         _count = count;
         _queue = queue;
         CreateDisplayer(craftingItem, count, placeForCreatingCell);
-        DeleteItemsFromInventory();
+        if(!GlobalValues.AdministratorBuild)
+            DeleteItemsFromInventory();
     }
 
     private void CreateDisplayer(CraftingItem craftingItem, int count, Transform placeForCreatingCell)

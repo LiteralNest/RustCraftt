@@ -34,7 +34,7 @@ namespace Crafting_System.Crafting_Slots
                 Destroy(child.gameObject);
         }
 
-        public void DisplaySlots(List<CraftingItem> inputSlots)
+        protected void DisplaySlots(List<CraftingItem> inputSlots)
         {
             ClearPlace(_placeForSlots);
             foreach (var item in inputSlots)

@@ -5,8 +5,9 @@ namespace CharacterStatsSystem
 {
     public class CharacterStatsRuntimeSubstracter : MonoBehaviour
     {
-        [Header("Main Params")] 
-        [Range(1, 100)] [SerializeField] private float _timeForSubstractFood = 2f;
+        [Header("Main Params")] [Range(1, 100)] [SerializeField]
+        private float _timeForSubstractFood = 2f;
+
         [Range(1, 100)] [SerializeField] private float _timeForSubstractWater = 2.5f;
         [Range(1, 100)] [SerializeField] private float _timeForSubstractHp = 5f;
 

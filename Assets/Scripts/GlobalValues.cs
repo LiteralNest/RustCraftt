@@ -9,5 +9,5 @@ public static class GlobalValues
     public static float CameraFOV { get; set; } = 60f;
     public static bool EnableShadows { get; set; }
     public static bool EnableGrass { get; set; }
-    
+    public static bool AdministratorBuild { get; set; } = true;
 }

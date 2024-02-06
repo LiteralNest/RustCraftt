@@ -19,9 +19,9 @@ namespace Player_Controller
     public class PlayerNetCode : NetworkBehaviour
     {
         public static PlayerNetCode Singleton { get; private set; }
-        
-        [field:SerializeField] public ActiveInvetoriesHandler ActiveInvetoriesHandler { get; private set; }
-        [field:SerializeField] public ObjectHpDisplayer ObjectHpDisplayer { get; private set; }
+
+        [field: SerializeField] public ActiveInvetoriesHandler ActiveInvetoriesHandler { get; private set; }
+        [field: SerializeField] public ObjectHpDisplayer ObjectHpDisplayer { get; private set; }
         [field: SerializeField] public ResourcesDropper ResourcesDropper { get; private set; }
         [field: SerializeField] public ItemInfoHandler ItemInfoHandler { get; private set; }
         [field: SerializeField] public PlayerSoundsPlayer PlayerSoundsPlayer { get; private set; }
@@ -29,6 +29,7 @@ namespace Player_Controller
         [field: SerializeField] public CharacterInventory CharacterInventory { get; private set; }
         [field: SerializeField] public PlayerMeleeDamager PlayerMeleeDamager { get; private set; }
         [field: SerializeField] public PlayerKiller PlayerKiller { get; private set; }
+        [field: SerializeField] public PlayerKnockDowner PlayerKnockDowner { get; private set; }
 
 
         [Header("In Hand Items")] [SerializeField]
@@ -46,7 +47,7 @@ namespace Player_Controller
 
         [SerializeField] private List<TMP_Text> _nickNameTexts = new List<TMP_Text>();
 
-        [field: SerializeField]  public NetworkVariable<int> ActiveItemId { get; set; } = new NetworkVariable<int>(-1);
+        [field: SerializeField] public NetworkVariable<int> ActiveItemId { get; set; } = new NetworkVariable<int>(-1);
 
         private RigidbodyConstraints _cachedConstraints;
 
