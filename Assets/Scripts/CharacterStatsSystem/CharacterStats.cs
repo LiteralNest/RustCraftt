@@ -8,34 +8,39 @@ namespace CharacterStatsSystem
 {
     public class CharacterStats : NetworkBehaviour
     {
-        [field: SerializeField] public NetworkVariable<int> Hp { get; set; } = new NetworkVariable<int>(100);
-        [field: SerializeField] public NetworkVariable<int> Food { get; set; } = new NetworkVariable<int>(100);
-        [field: SerializeField] public NetworkVariable<int> Water { get; set; } = new NetworkVariable<int>(100);
-        [field: SerializeField] public NetworkVariable<int> Oxygen { get; set; } = new NetworkVariable<int>(100);
+        [SerializeField] private NetworkVariable<int> _hp = new NetworkVariable<int>(100);
+        [SerializeField] private NetworkVariable<int> _food = new NetworkVariable<int>(100);
+        [SerializeField] private NetworkVariable<int> _water = new NetworkVariable<int>(100);
+        [SerializeField] private NetworkVariable<int> _oxygen = new NetworkVariable<int>(100);
+
+        public NetworkVariable<int> Hp => _hp;
+        public NetworkVariable<int> Food => _food;
+        public NetworkVariable<int> Water => _water;
+        public NetworkVariable<int> Oxygen => _oxygen;
 
 
         private void OnEnable()
-            => CharacterStatsEventsContainer.OnCharacterStatsAssign += SetStatsValue;
+            => CharacterStatsEventsContainer.OnCharacterStatsAssign += InitStatsValue;
 
         private void OnDisable()
-            => CharacterStatsEventsContainer.OnCharacterStatsAssign -= SetStatsValue;
+            => CharacterStatsEventsContainer.OnCharacterStatsAssign -= InitStatsValue;
 
-        private void SetStatsValue(CharacterStats characterStats)
+        private void InitStatsValue(CharacterStats characterStats)
         {
-            Hp.OnValueChanged += (int oldValue, int newValue) =>
+            _hp.OnValueChanged += (int oldValue, int newValue) =>
             {
                 if (newValue <= 0)
                     PlayerNetCode.Singleton.PlayerKnockDowner.KnockDownServerRpc(UserDataHandler.Singleton.UserData.Id);
             };
 
-            Food.OnValueChanged += (int oldValue, int newValue) =>
+            _food.OnValueChanged += (int oldValue, int newValue) =>
             {
                 if (newValue <= 15)
                     AlertEventsContainer.OnStarvingAlert?.Invoke(true);
                 else AlertEventsContainer.OnStarvingAlert?.Invoke(false);
             };
 
-            Water.OnValueChanged += (int oldValue, int newValue) =>
+            _water.OnValueChanged += (int oldValue, int newValue) =>
             {
                 if (newValue <= 15)
                     AlertEventsContainer.OnDehydratedAlert?.Invoke(true);
@@ -74,16 +79,16 @@ namespace CharacterStatsSystem
             switch (type)
             {
                 case CharacterStatType.Health:
-                    Hp.Value = GetValidatedAddingStat(Hp.Value, value);
+                    _hp.Value = GetValidatedAddingStat(_hp.Value, value);
                     break;
                 case CharacterStatType.Food:
-                    Food.Value = GetValidatedAddingStat(Food.Value, value);
+                    _food.Value = GetValidatedAddingStat(_food.Value, value);
                     break;
                 case CharacterStatType.Water:
-                    Water.Value = GetValidatedAddingStat(Water.Value, value);
+                    _water.Value = GetValidatedAddingStat(_water.Value, value);
                     break;
                 case CharacterStatType.Oxygen:
-                    Oxygen.Value = GetValidatedAddingStat(Oxygen.Value, value);
+                    _oxygen.Value = GetValidatedAddingStat(_oxygen.Value, value);
                     break;
             }
         }
@@ -93,27 +98,16 @@ namespace CharacterStatsSystem
             switch (type)
             {
                 case CharacterStatType.Health:
-                    Hp.Value = GetValidatedRemovingStat(Hp.Value, value);
-                    if (Hp.Value <= 0)
-                        PlayerNetCode.Singleton.PlayerKnockDowner.KnockDownServerRpc(UserDataHandler.Singleton.UserData
-                            .Id);
+                    _hp.Value = GetValidatedRemovingStat(_hp.Value, value);
                     break;
                 case CharacterStatType.Food:
-                    Food.Value = GetValidatedRemovingStat(Food.Value, value);
-                    if (Food.Value <= 15)
-                        AlertEventsContainer.OnStarvingAlert?.Invoke(true);
-                    else
-                        AlertEventsContainer.OnStarvingAlert?.Invoke(false);
+                    _food.Value = GetValidatedRemovingStat(_food.Value, value);
                     break;
                 case CharacterStatType.Water:
-                    Water.Value = GetValidatedRemovingStat(Water.Value, value);
-                    if (Water.Value <= 15)
-                        AlertEventsContainer.OnDehydratedAlert?.Invoke(true);
-                    else
-                        AlertEventsContainer.OnDehydratedAlert?.Invoke(false);
+                    _water.Value = GetValidatedRemovingStat(_water.Value, value);
                     break;
                 case CharacterStatType.Oxygen:
-                    Oxygen.Value = GetValidatedRemovingStat(Oxygen.Value, value);
+                    _oxygen.Value = GetValidatedRemovingStat(_oxygen.Value, value);
                     break;
             }
         }

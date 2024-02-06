@@ -161,7 +161,9 @@ namespace Building_System.Building.Blocks
             _cellsForRepairing.Clear();
             foreach (var cell in GetNeededCellsForPlacing())
             {
-                int count = cell.Count / (int)damagingPercent;
+                int count = 1;
+                if((int)damagingPercent != 0)
+                    count = cell.Count / (int)damagingPercent;
                 if (count <= 0) count = 1;
                 _cellsForRepairing.Add(new InventoryCell(cell.Item, count));
             }
@@ -257,6 +259,9 @@ namespace Building_System.Building.Blocks
         #endregion
 
         public void DisplayData()
-            => PlayerNetCode.Singleton.ObjectHpDisplayer.DisplayBuildingHp(this);
+        {
+            if(PlayerNetCode.Singleton == null) return;
+             PlayerNetCode.Singleton.ObjectHpDisplayer.DisplayBuildingHp(this);
+        }
     }
 }
