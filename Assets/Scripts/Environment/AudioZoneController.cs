@@ -7,7 +7,7 @@ namespace Environment
     public class AudioZoneController : MonoBehaviour
     {
         [SerializeField] private AudioMixer _mixer;
-       
+
         private void OnTriggerEnter(Collider other)
         {
             // Detect entering a zone and adjust effects accordingly
@@ -27,6 +27,6 @@ namespace Environment
             _mixer.SetFloat("ReverbAmount", 0f);
             other.GetComponent<AudioSource>().Stop();
         }
-
     }
 }
+    
