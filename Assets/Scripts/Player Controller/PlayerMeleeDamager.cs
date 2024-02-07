@@ -22,6 +22,20 @@ namespace Player_Controller
             StartCoroutine(ResetCanDamageRoutine(coolDownTime));
             var cameraTransform = Camera.main.transform;
             DamageServerRpc(gatheringTool.Id, gatheringTool.Damage, cameraTransform.position, cameraTransform.forward);
+            
+              var ray = new Ray(cameraTransform.position, cameraTransform.forward);
+            var targets = Physics.RaycastAll(ray, _damageRange, _damageLayer);
+            foreach (var target in targets)
+            {
+                var damagable = target.collider.GetComponent<IDamagable>();
+                var damagableBuilding = target.collider.GetComponent<IBuildingDamagable>();
+
+                if (damagableBuilding != null || damagable != null)
+                {
+                    InventoryHandler.singleton.ActiveSlotDisplayer.ItemDisplayer.MinusCurrentHp(1);
+                    return;
+                }
+            }
         }
 
         [ServerRpc(RequireOwnership = false)]
@@ -38,12 +52,6 @@ namespace Player_Controller
                 var damagableBuilding = target.collider.GetComponent<IBuildingDamagable>();
                 if (damagableBuilding != null)
                     damagableBuilding.GetDamageOnServer(toolId);
-
-                if (damagableBuilding != null || damagable != null)
-                {
-                    InventoryHandler.singleton.ActiveSlotDisplayer.ItemDisplayer.MinusCurrentHp(1);
-                    return;
-                }
             }
         }
 

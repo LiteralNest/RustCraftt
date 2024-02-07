@@ -1,3 +1,6 @@
+using Items_System;
+using Items_System.Items;
+using Player_Controller;
 using UnityEngine;
 
 namespace FightSystem.Weapon.Melee
@@ -6,12 +9,15 @@ namespace FightSystem.Weapon.Melee
     {
         [Header("Attached Compontents")] 
         [SerializeField] private Rigidbody _rb;
+        [SerializeField] private LootingItem _lootingItem;
 
         [Header("Main Params")] [SerializeField]
         private float _lerpSpeed = 2f;
+        private int _throwingHp;
 
-        public void Throw(Vector3 direction, float force)
+        public void Throw(Vector3 direction, float force, int throwingHp)
         {
+            _throwingHp = throwingHp;
             if(!_rb) return;
             _rb.AddForce(direction * force, ForceMode.Impulse);
             Rotate();
@@ -28,14 +34,19 @@ namespace FightSystem.Weapon.Melee
             }
         }
 
-        private void OnCollisionEnter(Collision other)
+        private void MinusItemHp()
         {
-            if(_rb) return;
-            _rb.velocity = Vector3.zero;
-            _rb.angularVelocity = Vector3.zero;
-            _rb.isKinematic = true;
-            _rb.constraints = RigidbodyConstraints.FreezeAll;
+            var item = _lootingItem.TargetItem as DamagableItem;
+            var minusingHp = item.Hp / 10;
+            var currentHp = _throwingHp - minusingHp;
+            _lootingItem.InitByTargetItem(currentHp, currentHp <= 0);
+        }
 
+private void OnCollisionEnter(Collision other)
+        {
+            if(!_rb) return;
+            MinusItemHp();
+            _rb.constraints = RigidbodyConstraints.FreezeAll;
             transform.position = other.contacts[0].point;
         }
     }
