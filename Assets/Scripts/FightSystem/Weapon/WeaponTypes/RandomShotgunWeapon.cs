@@ -6,7 +6,6 @@ using Inventory_System.Inventory_Items_Displayer;
 using Items_System.Items;
 using Player_Controller;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace FightSystem.Weapon.WeaponTypes
 {
@@ -14,18 +13,14 @@ namespace FightSystem.Weapon.WeaponTypes
     {
         private const string EokaView = "Weapon/View/EokaView";
 
-        [Header("Shotgun Settings")] [SerializeField]
+        [Header("Random shotgun settings")] [SerializeField]
         private int _pelletCount = 12;
 
-        [SerializeField] private AnimationClip _missFireAnim;
         [SerializeField] private float _spreadRadiusNoFocus = 0.5f;
         [SerializeField] private float _spreadRadiusFocus = 0.1f;
         [SerializeField, Range(1, 100)] private int _shotProbability = 25;
         [SerializeField] private EokaAnimator _eokaAnimator;
         [SerializeField] private Ammo _ammo;
-
-        [FormerlySerializedAs("_reloadAnim")] [Header("Animations")] [SerializeField]
-        private AnimationClip _reloadAnimation;
 
         private LongRangeWeaponItemDisplayer _inventoryItemDisplayer;
         private Vector3[] _spreadOffsets;
@@ -39,8 +34,9 @@ namespace FightSystem.Weapon.WeaponTypes
         private void OnEnable()
         {
             TryDisplayReload();
-            if(_eokaView)
+            if (_eokaView)
                 _eokaView.DisplayAttackButton(CurrentAmmoCount > 0);
+            DisplayReload();
             GlobalEventsContainer.InventoryDataChanged += TryDisplayReload;
         }
 
@@ -49,21 +45,30 @@ namespace FightSystem.Weapon.WeaponTypes
             GlobalEventsContainer.InventoryDataChanged -= TryDisplayReload;
         }
 
-        private void Start()
+        private new void Start()
         {
             ViewAssign = true;
             base.Start();
             _eokaView = Instantiate(Resources.Load<EokaView>(EokaView), transform);
 
             _eokaView.Init(this);
+            DisplayReload();
+        }
+
+        protected override void Attack()
+        {
+        }
+
+        public override void TryDisplayReload()
+        {
         }
 
         public void StartAttack()
         {
+            if (CurrentAmmoCount == 0) return;
             _shooted = false;
             _eokaAnimator.PlayStartFire();
             HandleShoot(true);
-            SetCanShot(true);
         }
 
         public void StopAttack()
@@ -71,23 +76,18 @@ namespace FightSystem.Weapon.WeaponTypes
             if (_shooted || CanShoot()) return;
             _eokaAnimator.PlayStopFire();
             HandleShoot(false);
-            SetCanShot(false);
         }
 
-        public void Reload()
-            => StartCoroutine(ReloadRoutine());
-
-        private void TryDisplayReload()
+        public void TryShot()
         {
-            if (CurrentAmmoCount > 0 || PlayerNetCode.Singleton == null || _eokaView == null) return;
-            var itemCount = PlayerNetCode.Singleton.CharacterInventory.GetItemCount(_ammo.Id);
-            _eokaView.DisplayReloadButton(itemCount > 0);
+            if (RandomShotSucceeded()) _eokaAnimator.PlayFire();
         }
 
-        private IEnumerator ReloadRoutine()
+        public override void Reload()
+            => _eokaAnimator.PlayReload();
+
+        public void HandleReloaded()
         {
-            _eokaAnimator.PlayReload();
-            yield return new WaitForSeconds(_reloadAnimation.length);
             _eokaView.DisplayAttackButton(true);
             _eokaView.DisplayReloadButton(false);
             InventoryHandler.singleton.ActiveSlotDisplayer.ItemDisplayer.SetCurrentAmmo(1);
@@ -95,40 +95,25 @@ namespace FightSystem.Weapon.WeaponTypes
             CurrentAmmoCount++;
         }
 
-        private IEnumerator WaitMissAnimRoutine()
+        private void DisplayReload()
         {
-            _isMissingAnimation = true;
-            yield return new WaitForSeconds(_missFireAnim.length);
-            _isMissingAnimation = false;
+            if (CurrentAmmoCount > 0 || PlayerNetCode.Singleton == null || _eokaView == null) return;
+            var itemCount = PlayerNetCode.Singleton.CharacterInventory.GetItemCount(_ammo.Id);
+            _eokaView.DisplayReloadButton(itemCount > 0);
         }
 
-        protected override void Attack()
+        public void Fire()
         {
-            if (_isMissingAnimation || !CanShoot() || CurrentAmmoCount <= 0) return;
-            if (!RandomShotSucceeded())
-            {
-                if (!_missingFirePlayed)
-                    _eokaAnimator.PlayMissFire();
-                _missingFirePlayed = true;
-                StartCoroutine(WaitMissAnimRoutine());
-                return;
-            }
-
-            _missingFirePlayed = false;
             base.Attack();
-            _eokaAnimator.PlayFire();
             SetCanShot(false);
             _shooted = true;
-
             MinusAmmo();
-            
-            TryDisplayReload();
             _eokaView.DisplayAttackButton(false);
             var spawnPoint = AmmoSpawnPoint.position;
             var shootDirection = transform.forward;
             SpreadShots(spawnPoint, shootDirection, WeaponAim.IsAiming ? _spreadRadiusFocus : _spreadRadiusNoFocus);
             AdjustRecoil();
-            StartCoroutine(WaitBetweenShootsRoutine());
+            DisplayReload();
         }
 
         private bool RandomShotSucceeded()

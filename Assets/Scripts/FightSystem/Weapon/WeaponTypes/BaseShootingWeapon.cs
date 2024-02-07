@@ -114,7 +114,7 @@ namespace FightSystem.Weapon.WeaponTypes
             _soundPlayer.PlayOneShotFromClient(_shotSound);
         }
 
-        public void Reload()
+        public virtual void Reload()
         {
             if (_isReloading) return;
             _weaponAnimator.PlayReload();
@@ -187,7 +187,7 @@ namespace FightSystem.Weapon.WeaponTypes
             return;
         }
 
-        public void TryDisplayReload()
+        public virtual void TryDisplayReload()
         {
             if (InventoryHandler.singleton == null || InventoryHandler.singleton.ActiveSlotDisplayer == null ||
                 InHandView == null || CurrentAmmoCount >= Weapon.MagazineCount)
