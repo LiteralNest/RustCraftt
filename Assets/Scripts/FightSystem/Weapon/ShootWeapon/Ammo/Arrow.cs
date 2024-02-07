@@ -1,4 +1,5 @@
 using System.Collections;
+using Items_System;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -6,8 +7,9 @@ namespace FightSystem.Weapon.ShootWeapon.Ammo
 {
     public class Arrow : NetworkBehaviour
     {
-        [field: SerializeField] public int AmmoPoolId { get; private set; }
-        [SerializeField] private float _despawnTime;
+        [Header("Attached Components")]
+        [SerializeField] private LootingItem _targetLootingItem;
+        [Header("Main Values")]
         [SerializeField] private Rigidbody _rb;
         [SerializeField] private float _torque = 10f;
  
@@ -31,19 +33,10 @@ namespace FightSystem.Weapon.ShootWeapon.Ammo
             _rb.constraints = RigidbodyConstraints.FreezeAll;
             if (IsServer)
             {
+                _targetLootingItem.InitByTargetItem();
                 GetComponent<NetworkObject>().TrySetParent(other.transform);
-                StartCoroutine(DespawnObject());
             }
-           
-        }
-
-        
-        private IEnumerator DespawnObject()
-        {
-            if (!IsServer) yield break;
-            yield return new WaitForSeconds(_despawnTime); 
-            Destroy(gameObject);
-            GetComponent<NetworkObject>().Despawn();
+               
         }
     }
 }

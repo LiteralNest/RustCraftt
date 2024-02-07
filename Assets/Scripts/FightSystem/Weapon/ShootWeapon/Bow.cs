@@ -3,6 +3,7 @@ using Building_System.NetWorking;
 using FightSystem.Weapon.ShootWeapon.Ammo;
 using InHandItems.InHandAnimations.Weapon;
 using InHandItems.InHandViewSystem;
+using Items_System.Items.Abstract;
 using UnityEngine;
 
 namespace FightSystem.Weapon.ShootWeapon
@@ -16,6 +17,7 @@ namespace FightSystem.Weapon.ShootWeapon
         [SerializeField] private BowAnimator _weaponAnimator;
         [SerializeField] private Transform _ammoSpawnPoint;
         [SerializeField] private AnimationClip _prepearingForShootClip;
+        [SerializeField] private Item _targetItem;
         private Arrow _currentArrow;
         private Vector3 _force;
         
@@ -68,7 +70,7 @@ namespace FightSystem.Weapon.ShootWeapon
         private void ShootArrow()
         {
             _force = _ammoSpawnPoint.TransformDirection(Vector3.forward * _arrowForce);
-            AmmoObjectsPool.Singleton.SpawnArrowServerRpc(_ammoSpawnPoint.position, _ammoSpawnPoint.rotation, _force);
+            AmmoObjectsPool.Singleton.SpawnArrowServerRpc(_targetItem.Id,_ammoSpawnPoint.position, _ammoSpawnPoint.rotation, _force);
             _currentAmmoCount--;
         }
     }
