@@ -2,6 +2,7 @@ using System.Collections;
 using CharacterStatsSystem;
 using Player_Controller;
 using UnityEngine;
+using UnityEngine.Audio;
 using Vehicle;
 
 namespace Environment
@@ -9,10 +10,13 @@ namespace Environment
     public class Water : MonoBehaviour
     {
         [SerializeField] private GameObject _waterUI;
+        [SerializeField] private AudioSource _source;
+        [SerializeField] private AudioMixer _mixer;
+
         private float _waveHeight = 0f;
         private bool _isRestoringOxygen = false;
         private Coroutine _oxygenCoroutine;
-        
+
         private CharacterStats _characterStats;
 
         private void OnEnable()
@@ -24,11 +28,14 @@ namespace Environment
         {
             _characterStats = characterStats;
         }
-        
+
         private void OnTriggerEnter(Collider other)
         {
             if (other.CompareTag("Player"))
             {
+                _mixer.SetFloat("ReverbAmount", 0.5f);
+                _source.Play();
+                
                 _isRestoringOxygen = false;
                 _waterUI.SetActive(true);
                 _oxygenCoroutine = StartCoroutine(RemoveOxygenOverTime());
@@ -39,12 +46,16 @@ namespace Environment
         {
             if (other.CompareTag("Player"))
             {
+                _mixer.SetFloat("ReverbAmount", 0f);
+                _source.Stop();
+                
                 _isRestoringOxygen = true;
                 if (_oxygenCoroutine != null)
                 {
                     _waterUI.SetActive(false);
                     StopCoroutine(_oxygenCoroutine);
                 }
+
                 StartCoroutine(RestoreOxygenToFull());
             }
 
@@ -67,7 +78,7 @@ namespace Environment
                 CharacterStatsEventsContainer.OnCharacterStatRemoved.Invoke(CharacterStatType.Oxygen, 1);
             }
         }
-        
+
         private IEnumerator RestoreOxygenToFull()
         {
             while (_characterStats.Oxygen.Value < 100)
@@ -78,3 +89,5 @@ namespace Environment
         }
     }
 }
+
+    
