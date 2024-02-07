@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using ArmorSystem.Backend;
+using CharacterStatsSystem;
 using Events;
 using Inventory_System;
 using Inventory_System.ItemInfo;
@@ -31,6 +32,8 @@ namespace Player_Controller
         [field: SerializeField] public PlayerKiller PlayerKiller { get; private set; }
         [field: SerializeField] public PlayerKnockDowner PlayerKnockDowner { get; private set; }
 
+        public CharacterStats CharacterStats { get; private set; }
+
 
         [Header("In Hand Items")] [SerializeField]
         private InHandObjectsContainer _inHandObjectsContainer;
@@ -52,11 +55,17 @@ namespace Player_Controller
         private RigidbodyConstraints _cachedConstraints;
 
         private void OnEnable()
-            => GlobalEventsContainer.ShouldDisplayHandItem += SendChangeInHandItem;
+        {
+            GlobalEventsContainer.ShouldDisplayHandItem += SendChangeInHandItem;
+            CharacterStatsEventsContainer.OnCharacterStatsAssign += AssignCharacterStats;
+        }
 
         private void OnDisable()
-            => GlobalEventsContainer.ShouldDisplayHandItem -= SendChangeInHandItem;
-
+        {
+            GlobalEventsContainer.ShouldDisplayHandItem -= SendChangeInHandItem;
+            CharacterStatsEventsContainer.OnCharacterStatsAssign -= AssignCharacterStats;
+        }
+        
         private async void Start()
         {
             await Task.Delay(1000);
@@ -89,6 +98,11 @@ namespace Player_Controller
             _playerId.OnValueChanged += (int prevValue, int newValue) => { AssignName(); };
 
             AssignName();
+        }
+
+        private void AssignCharacterStats(CharacterStats characterStats)
+        {
+            CharacterStats = characterStats;
         }
 
         [ServerRpc(RequireOwnership = false)]

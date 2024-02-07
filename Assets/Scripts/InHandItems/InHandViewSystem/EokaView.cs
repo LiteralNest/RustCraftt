@@ -8,7 +8,6 @@ namespace InHandItems.InHandViewSystem
     public class EokaView : InHandView
     {
         [SerializeField] private CustomButton _attackButton;
-        [SerializeField] private Button _scopeButton;
         [SerializeField] private Button _reloadButton;
 
         public override void Init(IViewable weapon)
@@ -16,7 +15,6 @@ namespace InHandItems.InHandViewSystem
             var eoka = weapon as RandomShotgunWeapon;
             _attackButton.PointerDown.AddListener(() => { eoka.StartAttack(); });
             _attackButton.PointerClickedWithoudDisable.AddListener(() => {eoka.StopAttack(); });
-            _scopeButton.onClick.AddListener(eoka.Scope);
             _reloadButton.onClick.AddListener(eoka.Reload);
         }
         

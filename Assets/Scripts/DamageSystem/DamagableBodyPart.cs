@@ -17,7 +17,6 @@ namespace DamageSystem
         private float _gettingDamageKoef = 1;
 
         [SerializeField] private AudioClip _hitSound;
-        [SerializeField] private BodyPartType _partType = BodyPartType.None;
 
         private CharacterStats _characterStats;
 
@@ -57,10 +56,6 @@ namespace DamageSystem
         }
 
         public void Destroy()
-        {
-        }
-
-        public void Shake()
         {
         }
     }

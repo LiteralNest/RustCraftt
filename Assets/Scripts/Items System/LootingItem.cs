@@ -30,9 +30,11 @@ namespace Items_System
             StartCoroutine(DespawnRoutine());
         }
 
-        public void InitByTargetItem()
+        public void InitByTargetItem(int hp = 0, bool shouldDelete = false)
         {
-            Data.Value = new CustomSendingInventoryDataCell(TargetItem.Id, 1, 0, 0);
+            if (shouldDelete)
+                _targetNetworkObject.Despawn();
+            Data.Value = new CustomSendingInventoryDataCell(TargetItem.Id, 1, hp, 0);
             StartCoroutine(DespawnRoutine());
         }
 
@@ -44,7 +46,7 @@ namespace Items_System
         }
 
         public bool CanInteract()
-            => true;
+            => Data.Value.Id != -1;
 
         [ServerRpc(RequireOwnership = false)]
         private void PickUpServerRpc()
