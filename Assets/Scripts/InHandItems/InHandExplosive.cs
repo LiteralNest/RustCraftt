@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using InHandItems.InHandAnimations.Weapon;
+﻿using InHandItems.InHandAnimations.Weapon;
 using InHandItems.InHandViewSystem;
 using Multiplayer.Multiplay_Instances;
 using Player_Controller;
@@ -12,7 +11,6 @@ namespace InHandItems
     {
         private const string ViewName = "Weapon/View/ExplosiveView";
 
-        [SerializeField] protected AnimationClip _throwingClip;
         [SerializeField] protected float _throwForce = 10f;
         [SerializeField] protected Transform _spawnPoint;
         [SerializeField] protected ExplosiveAnimator _explosiveAnimator;
@@ -24,18 +22,14 @@ namespace InHandItems
         }
 
         public void TryThrow()
-            => StartCoroutine(ThrowRoutine());
-        
-        private IEnumerator ThrowRoutine()
+            => _explosiveAnimator.SetThrow();
+
+        public virtual void SpawnPrefab()
         {
-            if(_explosiveAnimator)
-                _explosiveAnimator.SetThrow();
-            yield return new WaitForSeconds(_throwingClip.length);
             MultiplayObjectsPool.singleton.InstantiateObjectServerRpc(GetComponent<MultiplayInstanceId>().Id,
                 _spawnPoint.position, Quaternion.identity, _throwForce, Camera.main.transform.forward);
             PlayerNetCode.Singleton.SetDefaultHandsServerRpc();
             InventoryHandler.singleton.RemoveActiveSlotDisplayer();
-       
         }
     }
 }
