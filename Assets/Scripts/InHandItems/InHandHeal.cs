@@ -19,12 +19,6 @@ namespace InHandItems
 
         private HealView _view;
 
-        private void OnEnable()
-        {
-            if (_view)
-                _view.DisplayHealButton(true);
-        }
-
         private void Start()
         {
             _view = Instantiate(Resources.Load<HealView>(ViewName), this.transform);

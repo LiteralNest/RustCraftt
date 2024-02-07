@@ -13,6 +13,12 @@ namespace InHandItems
 
         private CharacterStats _characterStats;
 
+        private void OnEnable()
+        {
+            if (_characterStats)
+                TryDisplayHealButton(_characterStats.Hp.Value);
+        }
+
         private void Start()
         {
             Init(PlayerNetCode.Singleton.CharacterStats);
@@ -22,6 +28,7 @@ namespace InHandItems
         {
             _characterStats = characterStats;
             characterStats.Hp.OnValueChanged += (int oldValue, int newValue) => TryDisplayHealButton(newValue);
+            TryDisplayHealButton(_characterStats.Hp.Value);
         }
 
         private void TryDisplayHealButton(int value)
