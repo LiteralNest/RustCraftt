@@ -1,6 +1,7 @@
 ﻿using CharacterStatsSystem;
 using Events;
 using InHandItems.InHandViewSystem;
+using Player_Controller;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -11,7 +12,12 @@ namespace InHandItems
         [SerializeField] private Button _healButton;
 
         private CharacterStats _characterStats;
-        
+
+        private void Start()
+        {
+            Init(PlayerNetCode.Singleton.CharacterStats);
+        }
+
         private void Init(CharacterStats characterStats)
         {
             _characterStats = characterStats;
