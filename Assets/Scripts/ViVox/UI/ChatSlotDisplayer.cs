@@ -1,12 +1,15 @@
 using TMPro;
 using UnityEngine;
 
-public class ChatSlotDisplayer : MonoBehaviour
+namespace ViVox.UI
 {
-    [SerializeField] private TMP_Text _messageText;
-
-    public void DisplayMessage(string text)
+    public class ChatSlotDisplayer : MonoBehaviour
     {
-        _messageText.text = text;
+        [SerializeField] private TMP_Text _messageText;
+
+        public void DisplayMessage(string text)
+        {
+            _messageText.text = text;
+        }
     }
 }

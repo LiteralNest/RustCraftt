@@ -1,15 +1,18 @@
 using Items_System.Items.Abstract;
 using UnityEngine;
 
-[System.Serializable]
-public struct CraftingItemDataTableSlot
+namespace Crafting_System.Crafting_Item_Data_Displayer.CraftingItemDataTable
 {
-    [field:SerializeField] public Item Resource { get; private set; }
-    [field:SerializeField] public int Count { get; set; }
-
-    public CraftingItemDataTableSlot(Item resource, int count)
+    [System.Serializable]
+    public struct CraftingItemDataTableSlot
     {
-        Resource = resource;
-        Count = count;
+        [field:SerializeField] public Item Resource { get; private set; }
+        [field:SerializeField] public int Count { get; set; }
+
+        public CraftingItemDataTableSlot(Item resource, int count)
+        {
+            Resource = resource;
+            Count = count;
+        }
     }
 }

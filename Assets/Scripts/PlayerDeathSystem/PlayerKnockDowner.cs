@@ -2,6 +2,7 @@ using System.Threading.Tasks;
 using Animation_System;
 using CharacterStatsSystem;
 using InteractSystem;
+using Inventory_System;
 using Multiplayer;
 using Player_Controller;
 using Player_Controller.Looking_Around;

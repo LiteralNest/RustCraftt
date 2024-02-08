@@ -2,7 +2,7 @@
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 
-namespace Unity.Netcode.Samples
+namespace MultiplayApi.Common
 {
     [Serializable]
     public class ServerData

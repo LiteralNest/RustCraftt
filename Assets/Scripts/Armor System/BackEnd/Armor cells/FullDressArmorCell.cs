@@ -1,7 +1,6 @@
-using Armor_System.BackEnd.Armor_cells;
 using Player_Controller;
 
-namespace ArmorSystem.Backend
+namespace Armor_System.BackEnd.Armor_cells
 {
     public class FullDressArmorCell : DressArmorCell
     {

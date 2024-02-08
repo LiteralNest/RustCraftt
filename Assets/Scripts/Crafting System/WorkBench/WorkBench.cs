@@ -1,4 +1,5 @@
 using InteractSystem;
+using Inventory_System;
 using UnityEngine;
 
 namespace Crafting_System.WorkBench

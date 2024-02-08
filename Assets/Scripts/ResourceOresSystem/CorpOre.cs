@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace ResourceOresSystem
 {
-    public class CorpesOre : ResourceOre, IRayCastHpDisplayer, IRaycastInteractable
+    public class CorpOre : ResourceOre, IRayCastHpDisplayer, IRaycastInteractable
     {
         [SerializeField] private List<GameObject> _displayingObjects = new();
         [SerializeField] private List<GameObject> _activatingObjects = new();

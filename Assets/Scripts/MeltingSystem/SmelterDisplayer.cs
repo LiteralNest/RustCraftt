@@ -1,3 +1,4 @@
+using Inventory_System.Slots_Displayer;
 using UnityEngine;
 
 namespace MeltingSystem

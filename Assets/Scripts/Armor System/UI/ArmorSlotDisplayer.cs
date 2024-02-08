@@ -1,8 +1,10 @@
 using System.Collections.Generic;
-using ArmorSystem.Backend;
+using Armor_System.BackEnd.Body_Part;
+using Inventory_System;
 using Inventory_System.Inventory_Items_Displayer;
 using Inventory_System.Inventory_Slot_Displayers;
 using Items_System.Items;
+using OnPlayerItems;
 using UnityEngine;
 
 namespace Armor_System.UI

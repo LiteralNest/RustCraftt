@@ -1,4 +1,5 @@
 using Events;
+using Inventory_System;
 using Inventory_System.Inventory_Slot_Displayers;
 using Items_System.Items.Abstract;
 using UnityEngine;

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Inventory_System;
 
 namespace Building_System.Upgrading
 {

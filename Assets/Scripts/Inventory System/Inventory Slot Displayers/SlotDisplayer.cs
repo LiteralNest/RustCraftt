@@ -1,4 +1,5 @@
 using Inventory_System.Inventory_Items_Displayer;
+using Inventory_System.Slots_Displayer;
 using Player_Controller;
 using Storage_System;
 using UnityEngine;

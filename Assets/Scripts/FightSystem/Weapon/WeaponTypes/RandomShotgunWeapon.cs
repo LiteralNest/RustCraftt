@@ -2,6 +2,7 @@ using System.Collections;
 using Events;
 using InHandItems.InHandAnimations.Weapon;
 using InHandItems.InHandViewSystem;
+using Inventory_System;
 using Inventory_System.Inventory_Items_Displayer;
 using Items_System.Items;
 using Player_Controller;

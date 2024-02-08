@@ -6,6 +6,7 @@ using FightSystem.Weapon.ShootWeapon.Sway;
 using FightSystem.Weapon.ShootWeapon.TrailSystem;
 using InHandItems.InHandAnimations.Weapon;
 using InHandItems.InHandViewSystem;
+using Inventory_System;
 using Items_System.Items.Weapon;
 using Player_Controller;
 using Sound_System;

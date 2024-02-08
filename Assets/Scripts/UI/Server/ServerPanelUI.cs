@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Net;
 using System.Net.NetworkInformation;
 using System.Net.Sockets;
+using MultiplayApi.Common;
 using TMPro;
-using Unity.Netcode.Samples;
 using UnityEngine;
 using Ping = UnityEngine.Ping;
 

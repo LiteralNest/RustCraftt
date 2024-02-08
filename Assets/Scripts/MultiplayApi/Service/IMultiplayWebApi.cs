@@ -1,6 +1,7 @@
 ﻿using System.Threading.Tasks;
+using MultiplayApi.Common;
 
-namespace Unity.Netcode.Samples
+namespace MultiplayApi.Service
 {
     public interface IMultiplayWebApi
     {

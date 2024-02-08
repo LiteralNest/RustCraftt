@@ -1,5 +1,6 @@
 using System.Collections;
 using FightSystem.Damage;
+using Inventory_System;
 using Items_System.Items;
 using Unity.Netcode;
 using UnityEngine;

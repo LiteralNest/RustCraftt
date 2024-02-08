@@ -1,9 +1,12 @@
 using System.Collections.Generic;
+using Armor_System.BackEnd.Body_Part;
+using Armor_System.BackEnd.Dressed_Armor_Slots;
 using Items_System.Items;
+using OnPlayerItems;
 using Player_Controller;
 using UnityEngine;
 
-namespace ArmorSystem.Backend
+namespace Armor_System.BackEnd.Armor_cells
 {
     public abstract class ArmorCell: MonoBehaviour
     {

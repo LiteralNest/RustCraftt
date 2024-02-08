@@ -1,4 +1,4 @@
-namespace SurroundingEffectsSystem
+namespace Environment
 {
     public enum EnvironmentEffectsStateType 
     {

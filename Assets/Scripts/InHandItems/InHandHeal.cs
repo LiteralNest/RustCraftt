@@ -2,6 +2,7 @@
 using CharacterStatsSystem;
 using InHandItems.InHandAnimations;
 using InHandItems.InHandViewSystem;
+using Inventory_System;
 using Items_System.Items;
 using Player_Controller;
 using Unity.Netcode;

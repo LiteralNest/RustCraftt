@@ -1,10 +1,11 @@
 using System.Collections.Generic;
+using Armor_System.BackEnd.Armor_cells;
 using Player_Controller;
 using UI;
 using Unity.Netcode;
 using UnityEngine;
 
-namespace ArmorSystem.Backend
+namespace OnPlayerItems
 {
     public class ArmorsContainer : NetworkBehaviour
     {

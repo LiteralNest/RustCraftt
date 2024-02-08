@@ -1,28 +1,32 @@
+using Crafting_System.Crafting_Item_Data_Displayer;
 using Items_System.Items.Abstract;
-using UnityEngine.UI;
-using UnityEngine;
 using TMPro;
+using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
-public class CraftingSlotDisplayer : MonoBehaviour, IPointerDownHandler
+namespace Crafting_System.Crafting_Slots
 {
-    [Header("UI")] [SerializeField] private TMP_Text _titleText;
-    [SerializeField] private Image _icon;
-
-    private CraftingItemDataDisplayer _dataDisplayer;
-    private CraftingItem _item;
-
-    public void Init(CraftingItem item, CraftingItemDataDisplayer dataDisplayer)
+    public class CraftingSlotDisplayer : MonoBehaviour, IPointerDownHandler
     {
-        _item = item;
-        _dataDisplayer = dataDisplayer;
-        _titleText.text = item.Name;
-        _icon.sprite = item.Icon;
+        [Header("UI")] [SerializeField] private TMP_Text _titleText;
+        [SerializeField] private Image _icon;
+
+        private CraftingItemDataDisplayer _dataDisplayer;
+        private CraftingItem _item;
+
+        public void Init(CraftingItem item, CraftingItemDataDisplayer dataDisplayer)
+        {
+            _item = item;
+            _dataDisplayer = dataDisplayer;
+            _titleText.text = item.Name;
+            _icon.sprite = item.Icon;
+        }
+
+        private void DisplayData()
+            => _dataDisplayer.DisplayData(_item);
+
+        public void OnPointerDown(PointerEventData eventData)
+            => DisplayData();
     }
-
-    private void DisplayData()
-        => _dataDisplayer.DisplayData(_item);
-
-    public void OnPointerDown(PointerEventData eventData)
-        => DisplayData();
 }

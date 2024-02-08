@@ -1,60 +1,62 @@
-using TechTree;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class TechnologyUI : MonoBehaviour
+namespace TechTree
 {
-    [Header("UI")] [SerializeField] private Image _fon;
-    [SerializeField] private Image _techImage;
-    [SerializeField] private TechnologyInfoPanelUI _infoPanel;
-    [SerializeField] private Button _researchButton;
-    [Space] [Space] [SerializeField] private GameObject _lockedPanel;
-
-    [SerializeField] private Color _selectedColor;
-    [SerializeField] private Color _unselectedColor;
-    [SerializeField] private Color _researchedColor;
-
-    private Technology _technology;
-
-    private void Start()
+    public class TechnologyUI : MonoBehaviour
     {
-        _researchButton.onClick.AddListener(() => _infoPanel.ShowTechnologyInfo(_technology, this));
-        CheckUnlocked();
-    }
+        [Header("UI")] [SerializeField] private Image _fon;
+        [SerializeField] private Image _techImage;
+        [SerializeField] private TechnologyInfoPanelUI _infoPanel;
+        [SerializeField] private Button _researchButton;
+        [Space] [Space] [SerializeField] private GameObject _lockedPanel;
 
-    public void DisplayTech(Technology tech)
-    {
-        _technology = tech;
-        _techImage.sprite = tech.Item.Icon;
-    }
+        [SerializeField] private Color _selectedColor;
+        [SerializeField] private Color _unselectedColor;
+        [SerializeField] private Color _researchedColor;
 
-    public void UnlockTech()
-    {
-        _fon.color = _unselectedColor;
-        _lockedPanel.SetActive(false);
-    }
+        private Technology _technology;
 
-    public void ResearchTech()
-    {
-        _fon.color = _researchedColor;
-    }
-
-    public void Select(bool value)
-    {
-        if (value)
-            _fon.color = _selectedColor;
-        else
+        private void Start()
         {
-            if (_technology && _technology.IsResearched)
-                _fon.color = _researchedColor;
-            else
-                _fon.color = _unselectedColor;
+            _researchButton.onClick.AddListener(() => _infoPanel.ShowTechnologyInfo(_technology, this));
+            CheckUnlocked();
         }
-    }
 
-    private void CheckUnlocked()
-    {
-        if (_technology.IsActive)
-            UnlockTech();
+        public void DisplayTech(Technology tech)
+        {
+            _technology = tech;
+            _techImage.sprite = tech.Item.Icon;
+        }
+
+        public void UnlockTech()
+        {
+            _fon.color = _unselectedColor;
+            _lockedPanel.SetActive(false);
+        }
+
+        public void ResearchTech()
+        {
+            _fon.color = _researchedColor;
+        }
+
+        public void Select(bool value)
+        {
+            if (value)
+                _fon.color = _selectedColor;
+            else
+            {
+                if (_technology && _technology.IsResearched)
+                    _fon.color = _researchedColor;
+                else
+                    _fon.color = _unselectedColor;
+            }
+        }
+
+        private void CheckUnlocked()
+        {
+            if (_technology.IsActive)
+                UnlockTech();
+        }
     }
 }

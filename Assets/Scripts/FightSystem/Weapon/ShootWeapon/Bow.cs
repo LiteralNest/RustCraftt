@@ -3,6 +3,7 @@ using Building_System.NetWorking;
 using FightSystem.Weapon.ShootWeapon.Ammo;
 using InHandItems.InHandAnimations.Weapon;
 using InHandItems.InHandViewSystem;
+using Inventory_System;
 using Items_System.Items.Abstract;
 using UnityEngine;
 

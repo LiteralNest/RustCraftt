@@ -1,5 +1,6 @@
 ﻿using InHandItems.InHandAnimations.Weapon;
 using InHandItems.InHandViewSystem;
+using Inventory_System;
 using Multiplayer.Multiplay_Instances;
 using Player_Controller;
 using Unity.Netcode;

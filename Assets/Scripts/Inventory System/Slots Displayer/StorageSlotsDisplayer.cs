@@ -1,12 +1,15 @@
 using UnityEngine;
 
-public class StorageSlotsDisplayer : SlotsDisplayer
+namespace Inventory_System.Slots_Displayer
 {
-    [SerializeField] private bool _canSetSlots;
-    
-    public override void InitItems()
+    public class StorageSlotsDisplayer : SlotsDisplayer
     {
-        foreach (var cell in CellDisplayers)
-            cell.CanSetSlot = _canSetSlots;
+        [SerializeField] private bool _canSetSlots;
+    
+        public override void InitItems()
+        {
+            foreach (var cell in CellDisplayers)
+                cell.CanSetSlot = _canSetSlots;
+        }
     }
 }

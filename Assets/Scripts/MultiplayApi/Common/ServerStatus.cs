@@ -1,4 +1,4 @@
-﻿namespace Unity.Netcode.Samples
+﻿namespace MultiplayApi.Common
 {
     public enum ServerStatus
     {

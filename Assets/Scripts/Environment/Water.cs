@@ -3,6 +3,7 @@ using CharacterStatsSystem;
 using Player_Controller;
 using UnityEngine;
 using Vehicle;
+using Vehicle.Boat;
 
 namespace Environment
 {

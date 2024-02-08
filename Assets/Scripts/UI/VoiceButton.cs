@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using ViVox.UI;
 
 namespace UI
 {

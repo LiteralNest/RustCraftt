@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using InteractSystem;
 using Inventory_System;
+using Inventory_System.Slots_Displayer;
 using Items_System.Items.Abstract;
 using Multiplayer;
 using Player_Controller;

@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Inventory_System;
+using Inventory_System.Slots_Displayer;
 using Items_System.Items;
 using Items_System.Items.Abstract;
 using Storage_System;

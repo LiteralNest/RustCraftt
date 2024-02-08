@@ -97,7 +97,7 @@ GameObject:
   - component: {fileID: 7777751856429972054}
   - component: {fileID: 9075787340978704893}
   - component: {fileID: 2947172884035491319}
-  - component: {fileID: -5369353216285532969}
+  - component: {fileID: 9061854818519135768}
   m_Layer: 9
   m_Name: Wolf Dead
   m_TagString: Ore
@@ -232,7 +232,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <Id>k__BackingField: 3
---- !u!114 &-5369353216285532969
+--- !u!114 &9061854818519135768
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -241,46 +241,52 @@ MonoBehaviour:
   m_GameObject: {fileID: 2992294867601666429}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 442162623fee4d2baf5892ffb0b1ec61, type: 3}
+  m_Script: {fileID: 11500000, guid: 1fc834b2d75744df927f07fc320ac516, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _resourceSlots:
-  - Resource: {fileID: 11400000, guid: a125763f8d773924b815354b2051f09b, type: 2}
-    CountRange: {x: 1, y: 2}
-    ShouldAddWithRand: 1
   - Resource: {fileID: 11400000, guid: 79709cbf019cfc3439ad1b000ca77e75, type: 2}
-    CountRange: {x: 4, y: 5}
+    CountRange: {x: 5, y: 6}
     ShouldAddWithRand: 1
   - Resource: {fileID: 11400000, guid: 42519802c97ff8f41bcc6bb79c6d7cb3, type: 2}
-    CountRange: {x: 3, y: 4}
+    CountRange: {x: 2, y: 3}
     ShouldAddWithRand: 1
   - Resource: {fileID: 11400000, guid: 2768babedf856e54f88b068259da7913, type: 2}
-    CountRange: {x: 1, y: 2}
-    ShouldAddWithRand: 1
+    CountRange: {x: 1, y: 1}
+    ShouldAddWithRand: 0
+  - Resource: {fileID: 11400000, guid: a125763f8d773924b815354b2051f09b, type: 2}
+    CountRange: {x: 1, y: 1}
+    ShouldAddWithRand: 0
   _currentHp:
     m_InternalValue: 10
-  _colliders: []
+  _colliders:
+  - {fileID: 139387469316843012}
   _vfxEffect: {fileID: 3277485785675601479, guid: 85ea70fce8b89124784eab353da2c323, type: 3}
   _vfxParrent: {fileID: 3135388049029535716}
   _toolsForGathering:
-  - Tool: {fileID: 11400000, guid: f5c4258f963384ac5b58c73a8bd24773, type: 2}
-    LossAmount: 0
+  - Tool: {fileID: 11400000, guid: 722b392527e89894ba230a29531d3973, type: 2}
+    LossAmount: 4
+  - Tool: {fileID: 11400000, guid: 722b392527e89894ba230a29531d3973, type: 2}
+    LossAmount: 3
+  - Tool: {fileID: 11400000, guid: c4791c33b05b3154992749c0dd27fc49, type: 2}
+    LossAmount: 13
+  - Tool: {fileID: 11400000, guid: 4bca1e48d51c34d30a78ade40b2a211a, type: 2}
+    LossAmount: 3
+  - Tool: {fileID: 11400000, guid: 22994ab29e3d64db387d1bcee48a3864, type: 2}
+    LossAmount: 3
+  - Tool: {fileID: 11400000, guid: 99b717cefb9424dbbb1f06e724270532, type: 2}
+    LossAmount: 2
+  - Tool: {fileID: 11400000, guid: 096e0c3eb4103474bb291184fde07afb, type: 2}
+    LossAmount: 2
   - Tool: {fileID: 11400000, guid: beeb8cae151c24c8786bde42fa7491a5, type: 2}
     LossAmount: 0
-  - Tool: {fileID: 11400000, guid: 722b392527e89894ba230a29531d3973, type: 2}
-    LossAmount: 30
-  - Tool: {fileID: 11400000, guid: 99b717cefb9424dbbb1f06e724270532, type: 2}
-    LossAmount: 25
-  - Tool: {fileID: 11400000, guid: 4bca1e48d51c34d30a78ade40b2a211a, type: 2}
-    LossAmount: 30
-  - Tool: {fileID: 11400000, guid: 22994ab29e3d64db387d1bcee48a3864, type: 2}
-    LossAmount: 35
-  - Tool: {fileID: 11400000, guid: c4791c33b05b3154992749c0dd27fc49, type: 2}
-    LossAmount: 35
-  - Tool: {fileID: 11400000, guid: 096e0c3eb4103474bb291184fde07afb, type: 2}
-    LossAmount: 35
+  - Tool: {fileID: 11400000, guid: f5c4258f963384ac5b58c73a8bd24773, type: 2}
+    LossAmount: 0
+  - Tool: {fileID: 11400000, guid: 87796b99ddcbb4f4ba1a3ea3dcfa96a3, type: 2}
+    LossAmount: 3
   <GatheringClip>k__BackingField: {fileID: 8300000, guid: 5b629d5f309986141adc4ef0a0b8c904, type: 3}
   _animator: {fileID: 0}
   _displayingObjects:
-  - {fileID: 2992294867601666429}
+  - {fileID: 1980682728958032663}
   _activatingObjects: []
+  _targetAnimal: {fileID: 657592028347266323, guid: 62cf3c64702ca0341992e84bcef8b16f, type: 3}
