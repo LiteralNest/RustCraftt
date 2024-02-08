@@ -4,12 +4,15 @@ using System.Threading.Tasks;
 using Cysharp.Threading.Tasks;
 using MultiplayApi.Common;
 using MultiplayApi.Service;
+using TMPro;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace UI.Server
 {
     public class ServerListUI : MonoBehaviour
     {
+        [SerializeField] private TMP_Text _connectionStatusText;
         [SerializeField] private GameObject _serverPanelPrefab;
         [SerializeField] private Transform _serverPanelParent;
 
@@ -34,6 +37,7 @@ namespace UI.Server
         
         private async void Start()
         {
+            _connectionStatusText.text = "Waiting for connection...";
             await MultiplayWebApi.Authenticate();
             await UniTask.Yield(PlayerLoopTiming.LastUpdate);
             DisplayServerList();
@@ -73,6 +77,8 @@ namespace UI.Server
                 if (serv.Status != ServerStatus.Allocated) 
                     AllocateServer(serv);
             }
+            
+            _connectionStatusText.gameObject.SetActive(false); // Hide the connection status text
         }
     }
 }
