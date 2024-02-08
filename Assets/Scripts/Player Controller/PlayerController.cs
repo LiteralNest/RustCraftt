@@ -44,12 +44,7 @@ namespace Player_Controller
                 Move();
             }
         }
-
-        private void ReturnOriginalController()
-        {
-            // for swimming behavior
-        }
-
+        
         #region InputMap
 
         public void OnMove(InputAction.CallbackContext context)
