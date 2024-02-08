@@ -75,18 +75,20 @@ namespace Storage_System.Loot_Boxes_System
             GenerateCells();
         }
         
+        private LootBoxSlot GetRandomSlot()
+        {
+            var rand = Random.Range(0, 100);
+            foreach (var slot in _setsPool)
+                if(slot.Chance > rand) return slot;
+            return _setsPool[0];
+        }
         
         [ContextMenu("Generate Cells")]
         private void GenerateCells()
         {
             AddItemToDesiredSlot(_scrap.Item.Id, Random.Range(_scrap.RandCount.x, _scrap.RandCount.y + 1), 0);
-            foreach (var set in _setsPool)
-            {
-                var rand = Random.Range(0, 100);
-                if (rand > set.Chance) continue;
-                AddItemToDesiredSlot(set.Item.Id, Random.Range(set.RandCount.x, set.RandCount.y + 1), 0);
-                return;
-            }
+            var set = GetRandomSlot();
+            AddItemToDesiredSlot(set.Item.Id, Random.Range(set.RandCount.x, set.RandCount.y + 1), 0);
         }
     }
 }
