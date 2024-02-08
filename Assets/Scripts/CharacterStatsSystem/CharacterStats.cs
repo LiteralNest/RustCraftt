@@ -23,10 +23,18 @@ namespace CharacterStatsSystem
             => CharacterStatsEventsContainer.OnCharacterStatsAssign += InitStatsValue;
 
         private void OnDisable()
-            => CharacterStatsEventsContainer.OnCharacterStatsAssign -= InitStatsValue;
+        {
+            CharacterStatsEventsContainer.OnCharacterStatsAssign -= InitStatsValue;
+            CharacterStatsEventsContainer.OnCharacterStatAdded -= AddStatServerRpc;
+            CharacterStatsEventsContainer.OnCharacterStatRemoved -= MinusStatServerRpc;
+        }
 
         private void InitStatsValue(CharacterStats characterStats)
         {
+            CharacterStatsEventsContainer.OnCharacterStatAdded += AddStatServerRpc;
+            CharacterStatsEventsContainer.OnCharacterStatRemoved += MinusStatServerRpc;
+
+
             _hp.OnValueChanged += (int oldValue, int newValue) =>
             {
                 if (newValue <= 0)

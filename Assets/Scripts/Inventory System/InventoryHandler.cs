@@ -1,5 +1,4 @@
 using System.Threading.Tasks;
-using CharacterStatsSystem;
 using Inventory_System.Inventory_Slot_Displayers;
 using Items_System.Items.Abstract;
 using OnPlayerItems;
@@ -16,7 +15,6 @@ namespace Inventory_System
 
         [field: SerializeField] public InventoryPanelsDisplayer InventoryPanelsDisplayer { get; private set; }
         [field: SerializeField] public PlayerNetCode PlayerNetCode { get; private set; }
-        [field: SerializeField] public CharacterStatsHandler StatsHandler { get; private set; }
         [field: SerializeField] public PlayerObjectsDragger PlayerObjectsDragger { get; private set; }
         [field: SerializeField] public InHandObjectsContainer InHandObjectsContainer { get; private set; }
         [field: SerializeField] public ArmorsContainer ArmorsContainer { get; private set; }
