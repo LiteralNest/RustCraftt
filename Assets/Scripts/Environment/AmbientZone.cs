@@ -1,50 +1,53 @@
+using System;
+using System.Collections;
 using UnityEngine;
-using Cinemachine;
 
 public class AmbientZone : MonoBehaviour
 {
-    [Tooltip("Cinemachine Path to follow")]
-    public CinemachinePathBase m_Path;
-    [Tooltip("Tag of the player")]
-    public string playerTag = "Player";
-    [Tooltip("Reference to the AudioSource object")]
-    public AudioSource audioSource;
-
-    private Transform playerTransform;
-    private float m_Position;
-    private CinemachinePathBase.PositionUnits m_PositionUnits = CinemachinePathBase.PositionUnits.PathUnits;
-
-    void Start()
+    [SerializeField] private AudioClip _ambientSound;
+    
+    private AudioSource _audioSource;
+    private Coroutine _coroutine;
+    private void Awake()
     {
-        GameObject playerObject = GameObject.FindWithTag(playerTag);
-        
-        playerTransform = playerObject.transform;
-        audioSource.volume = 0.3f;
-        audioSource.Play();
     }
 
-    void Update()
+    private void OnTriggerEnter(Collider other)
     {
-        if (playerTransform != null && m_Path != null)
+        if (other.CompareTag("Player"))
         {
-            SetCartPosition(m_Path.FindClosestPoint(playerTransform.position, 0, -1, 10));
-            
-            Vector3 Sub = transform.position - playerTransform.position;
-            Vector3 Spline = transform.right;
-            
-            if (Vector3.Dot(Sub, Spline) > 0)
-            {
-             
-                audioSource.transform.position = playerTransform.position;
-                audioSource.transform.rotation = playerTransform.rotation;
-            }
+            _audioSource = other.GetComponent<AudioSource>();
+            _audioSource.clip = _ambientSound;
+            _audioSource.Play();
+            _coroutine = StartCoroutine(IncreaseVolumeRoutine());
+        }
+    }
+    
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            StopCoroutine(_coroutine);
+            StartCoroutine(DecreaseVolumeRoutine());
+        }
+    }
+    
+    private IEnumerator IncreaseVolumeRoutine()
+    {
+        while (_audioSource.volume < 0.4f)
+        {
+            _audioSource.volume += 0.05f;
+            yield return new WaitForSeconds(0.5f);
         }
     }
 
-    void SetCartPosition(float distanceAlongPath)
+    private IEnumerator DecreaseVolumeRoutine()
     {
-        m_Position = m_Path.StandardizeUnit(distanceAlongPath, m_PositionUnits);
-        transform.position = m_Path.EvaluatePositionAtUnit(m_Position, m_PositionUnits);
-        transform.rotation = m_Path.EvaluateOrientationAtUnit(m_Position, m_PositionUnits);
+        while (_audioSource.volume > 0)
+        {
+            _audioSource.volume -= 0.1f;
+            yield return new WaitForSeconds(0.5f);
+        }
+        _audioSource.Stop();
     }
 }
