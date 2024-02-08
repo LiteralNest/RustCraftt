@@ -7,11 +7,13 @@ namespace TechTree
     [RequireComponent(typeof(Button))]
     public class WorkBenchButton : MonoBehaviour
     {
+        [SerializeField] private InventoryPanelsDisplayer _inventoryPanelsDisplayer;
+        
         private void Awake()
         {
             GetComponent<Button>().onClick.AddListener(() =>
             {
-                InventoryPanelsDisplayer.singleton.CloseWorkbenchPanel();
+                _inventoryPanelsDisplayer.CloseWorkbenchPanel();
             });
         }
     }

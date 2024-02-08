@@ -6,8 +6,6 @@ namespace Inventory_System
 {
     public class InventoryPanelsDisplayer : MonoBehaviour
     {
-        public static InventoryPanelsDisplayer singleton { get; set; }
-
         [Header("Attached Scripts")] [SerializeField]
         private InventoryHandler _inventoryHandler;
 
@@ -18,9 +16,6 @@ namespace Inventory_System
         [SerializeField] private GameObject _workbenchPanel;
         [Space] [Space] [SerializeField] private GameObject _inventoryCellsPanel;
         [SerializeField] private GameObject _craftPanel;
-
-        private void Awake()
-            => singleton = this;
 
         public void DisplayInventoryCells()
             => _inventoryHandler.DisplayInventoryCells();
