@@ -25,6 +25,7 @@ namespace AI.Animals.States
         
         private IEnumerator MoveToPoint()
         {
+            Controller.NavMeshAgent.speed = Controller.WalkSpeed;
             Controller.NavMeshAgent.SetDestination(_currentMovingPoint);
             AnimalAnimator.SetWalk();
             

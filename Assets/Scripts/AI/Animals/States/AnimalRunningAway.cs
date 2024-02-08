@@ -28,6 +28,7 @@ namespace AI.Animals.States
                 Vector3 runDirection = transform.position - nearestObject.position;
                 runDirection.Normalize();
                 Vector3 destination = transform.position + runDirection * 10.0f;
+                Controller.NavMeshAgent.speed = Controller.RunSpeed;
                 Controller.NavMeshAgent.SetDestination(destination);
                 yield return null;
             }

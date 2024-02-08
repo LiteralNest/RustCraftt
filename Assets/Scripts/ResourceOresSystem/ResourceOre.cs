@@ -9,21 +9,18 @@ namespace ResourceOresSystem
 {
     public class ResourceOre : Ore
     {
-        [Header("Attached Components")] [SerializeField]
-        private GatheringOreAnimator _animator;
-
+        [Header("Attached Components")] 
         [SerializeField] private List<Collider> _colliders;
 
-        [Header("VFX")] [SerializeField] private GameObject _vfxEffect;
+        [Header("VFX")] 
+        [SerializeField] private GameObject _vfxEffect;
         [SerializeField] private Transform _vfxParrent;
 
-        [Header("Main Parameters")] [SerializeField]
-        private List<OreToolsForGatheringSlots> _toolsForGathering = new List<OreToolsForGatheringSlots>();
-
+        [Header("Main Parameters")] 
+        [SerializeField] private List<OreToolsForGatheringSlots> _toolsForGathering = new List<OreToolsForGatheringSlots>();
         [field: SerializeField] public AudioClip GatheringClip { get; private set; }
-
-        private void Start()
-            => gameObject.tag = "Ore";
+        
+        [SerializeField] private GatheringOreAnimator _animator;
 
         private bool SlotFound(Item item, out OreToolsForGatheringSlots slot)
         {

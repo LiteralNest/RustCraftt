@@ -22,6 +22,7 @@ namespace AI
          var res = new List<Transform>();
          foreach (var target in _targets)
          {
+            if(target == null) continue;
             var component = target.GetComponent<T>();
             if (component == null) continue;
             res.Add(target.transform);

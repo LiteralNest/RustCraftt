@@ -17,6 +17,7 @@ namespace AI
             NetworkVariableReadPermission.Everyone,
             NetworkVariableWritePermission.Server);
 
+        private bool _destroyed;
         private int _maxHp;
 
         public override void OnNetworkSpawn()
@@ -39,7 +40,7 @@ namespace AI
 
         public void GetDamageOnServer(int damage)
         {
-            if (!IsServer) return;
+            if (!IsServer || _destroyed) return;
             int currHp = _hp.Value;
             var newHp = currHp - damage;
             if (newHp < 0) newHp = 0;
@@ -51,15 +52,12 @@ namespace AI
 
         public void Destroy()
         {
-            AnimalObjectInstantiator.singleton.InstantiateAnimalObjectServerRpc(_animalId.Id, transform.position,
+            _destroyed = true;
+            AnimalObjectInstantiator.singleton.SpawnAnimalCorpById(_animalId.Id, transform.position,
                 transform.rotation.eulerAngles);
             GetComponent<NetworkObject>().Despawn();
-            Destroy(gameObject);
         }
 
-        public void Shake()
-        {
-        }
 
         #endregion
 

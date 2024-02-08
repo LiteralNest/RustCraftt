@@ -16,10 +16,14 @@ namespace AI.Animals
 
         [Header("Main Params")] [SerializeField]
         private Vector2 _interactingRange = new Vector2(4, 10);
-
+        [SerializeField] private float _walkSpeed;
+        [SerializeField] private float _runSpeed;
+        
         [Header("States")] [SerializeField] protected AnimalState _idleState;
         [SerializeField] private AnimalState _playerInteractionState;
 
+        public float WalkSpeed => _walkSpeed;
+        public float RunSpeed => _runSpeed;
         public Vector2 InteractingRange => _interactingRange;
 
         private AnimalState _currentState;
