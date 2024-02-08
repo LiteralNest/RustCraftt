@@ -79,7 +79,7 @@ namespace Multiplayer.PlayerSpawning
         {
             if (_userId.Value != userId) return;
             var point = PlayerSpawnManager.Singleton.GetRandomSpawnPoint();
-            if (spawnPoint != new Vector3(0, -1000000, 0))
+            if (spawnPoint != new Vector3(0, 1000000, 0))
                 point = spawnPoint;
             PlayerStaffSpawner.Singleton.SpawnPlayerServerRpc(point, Quaternion.identity,
                 GetComponent<NetworkObject>().OwnerClientId);

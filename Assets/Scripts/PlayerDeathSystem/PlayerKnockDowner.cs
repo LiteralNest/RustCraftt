@@ -57,10 +57,12 @@ namespace PlayerDeathSystem
                 var data = InventoryHandler.singleton.CharacterInventory.ItemsNetData.Value.Cells[cellIndex];
 
                 var slotDisplayer = InventoryHandler.singleton.ActiveSlotDisplayer;
-                if (slotDisplayer == null) return;
-                InstantiatingItemsPool.sigleton.SpawnObjectServerRpc(data,
-                    Camera.main.transform.position + Camera.main.transform.forward);
-                InventoryHandler.singleton.CharacterInventory.RemoveItem(slotDisplayer.ItemDisplayer.InventoryCell.Item.Id, 1);
+                if (!(slotDisplayer == null || slotDisplayer.ItemDisplayer == null || slotDisplayer.ItemDisplayer.InventoryCell.Item == null)){
+                          InstantiatingItemsPool.sigleton.SpawnObjectServerRpc(data,
+                                    Camera.main.transform.position + Camera.main.transform.forward);
+                                InventoryHandler.singleton.CharacterInventory.RemoveItem(slotDisplayer.ItemDisplayer.InventoryCell.Item.Id, 1);
+                }
+     
                 PlayerNetCode.Singleton.SetDefaultHandsServerRpc();
                 InventoryHandler.singleton.ActiveSlotDisplayer = null;
             }

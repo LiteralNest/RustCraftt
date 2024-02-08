@@ -21,8 +21,6 @@ namespace Player_Controller
         [Header("Attached Scripts")] [SerializeField]
         private CharacterController _characterController;
 
-        [FormerlySerializedAs("_characterStats")] [SerializeField] private CharacterStatsHandler characterStatsHandler;
-
         [Header("Main Params")] [SerializeField]
         private float _gravity = -9.8f;
 
