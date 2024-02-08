@@ -12,16 +12,25 @@ namespace Sound_System.TerrainSounds
 
         private bool _canPlaySound;
         private Vector2Int _previousPlayerWorldPosition;
-
+        private int _currentStepIndex = 0;
+        private AudioClip[] _terrainStepClips;
+        
+        public void SetTerrainStepClips(AudioClip[] terrainStepClips)
+        {
+            _terrainStepClips = terrainStepClips;
+        }
+        
         private void Start()
-            => _canPlaySound = true;
+        {
+            _canPlaySound = true;
+            _currentStepIndex = 0;
+        }
 
         private void Update()
         {
             if (_playerController.IsCrouching) return;
             var playerWorldPosition = Vector3Int.FloorToInt(transform.position);
             var fixedPlayerWorldPosition = new Vector2Int(playerWorldPosition.x, playerWorldPosition.z);
-
 
             if (fixedPlayerWorldPosition != _previousPlayerWorldPosition)
             {
@@ -35,7 +44,11 @@ namespace Sound_System.TerrainSounds
             if (Physics.Raycast(transform.position, Vector3.down, out RaycastHit hit, 1000, _terrainLayer))
             {
                 if (!hit.collider.TryGetComponent(out TerrainSoundInteractor soundInteractor)) return;
-                StartCoroutine(PlaySound(soundInteractor.StepClip));
+                SetTerrainStepClips(soundInteractor.StepClips);
+                var nextStepClip = _terrainStepClips[_currentStepIndex];
+                StartCoroutine(PlaySound(nextStepClip));
+
+                _currentStepIndex = (_currentStepIndex + 1) % _terrainStepClips.Length;
             }
         }
 

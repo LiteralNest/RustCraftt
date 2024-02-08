@@ -14,6 +14,7 @@ public class AmbientZone : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        if(_ambientSound == null) return;
         if (other.CompareTag("Player"))
         {
             _audioSource = other.GetComponent<AudioSource>();
@@ -25,6 +26,7 @@ public class AmbientZone : MonoBehaviour
     
     private void OnTriggerExit(Collider other)
     {
+        if(_ambientSound == null) return;
         if (other.CompareTag("Player"))
         {
             StopCoroutine(_coroutine);
