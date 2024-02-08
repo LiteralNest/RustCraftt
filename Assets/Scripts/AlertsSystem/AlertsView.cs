@@ -12,6 +12,7 @@ namespace AlertsSystem
         [SerializeField] private WorkBenchAlert _workBenchAlert;
         [SerializeField] private OtherEffectsAlertDisplayer _buildingBlockedAlert;
         [SerializeField] private OtherEffectsAlertDisplayer _buildingUnblockedAlert;
+        [SerializeField] private OtherEffectsAlertDisplayer _buildingDecayAlert;
 
         private void OnEnable()
         {
@@ -22,6 +23,7 @@ namespace AlertsSystem
             AlertEventsContainer.OnWorkBenchAlert += DisplayWorkBenchAlert;
             AlertEventsContainer.OnBuildingBlockedAlert += DisplayBuildingBlockedAlert;
             AlertEventsContainer.OnBuildingUnblockedAlert += DisplayBuildingUnblockedAlert;
+            AlertEventsContainer.OnBuildingDecayAlert += DisplayBuildingDecayAlert;
         }
         
         private void OnDisable()
@@ -33,6 +35,13 @@ namespace AlertsSystem
             AlertEventsContainer.OnWorkBenchAlert -= DisplayWorkBenchAlert;
             AlertEventsContainer.OnBuildingBlockedAlert -= DisplayBuildingBlockedAlert;
             AlertEventsContainer.OnBuildingUnblockedAlert -= DisplayBuildingUnblockedAlert;
+            AlertEventsContainer.OnBuildingDecayAlert -= DisplayBuildingDecayAlert;
+        }
+
+        private void DisplayBuildingDecayAlert(bool value)
+        {
+            if(!_bleedAlert) return;
+            _buildingDecayAlert.gameObject.SetActive(value);
         }
         
         private void DisplayComfortAlert(bool value)

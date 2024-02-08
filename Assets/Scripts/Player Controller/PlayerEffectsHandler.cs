@@ -51,6 +51,8 @@ namespace Player_Controller
                     AlertEventsContainer.OnBuildingUnblockedAlert?.Invoke(false);
                     AlertEventsContainer.OnBuildingBlockedAlert?.Invoke(true);
                 }
+
+                AlertEventsContainer.OnBuildingDecayAlert?.Invoke(clipBoard.IsDecay());
             }
         }
 
@@ -61,7 +63,7 @@ namespace Player_Controller
             {
                 if (_checkClipBoardCoroutine != null)
                     StopCoroutine(_checkClipBoardCoroutine);
-                
+
                 AlertEventsContainer.OnBuildingBlockedAlert?.Invoke(false);
                 AlertEventsContainer.OnBuildingUnblockedAlert?.Invoke(false);
                 return;
@@ -70,7 +72,7 @@ namespace Player_Controller
             var shelfZone = other.GetComponent<ShelfZoneHandler>();
             if (shelfZone == null) return;
 
-            if(_checkClipBoardCoroutine != null)
+            if (_checkClipBoardCoroutine != null)
                 StopCoroutine(_checkClipBoardCoroutine);
             _checkClipBoardCoroutine = StartCoroutine(HandleClipBoardAlertCoroutine(shelfZone));
         }

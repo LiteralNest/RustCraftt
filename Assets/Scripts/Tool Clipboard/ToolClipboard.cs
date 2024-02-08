@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using AlertsSystem;
 using AuthorizationSystem;
 using Inventory_System;
 using Lock_System;
@@ -29,6 +30,12 @@ namespace Tool_Clipboard
                 {
                     SlotsDisplayer.DisplayCells();
                 };
+        }
+
+        public bool IsDecay()
+        {
+            if(_shelfZoneHandler.ConnectedBlocks.Count == 0) return false;
+            return GetAvailableHours() <= 0;
         }
 
         public override void Open(InventoryHandler handler)
