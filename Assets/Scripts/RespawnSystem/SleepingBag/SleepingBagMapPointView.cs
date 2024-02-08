@@ -7,7 +7,10 @@ namespace RespawnSystem.SleepingBag
 {
     public class SleepingBagMapPointView : MonoBehaviour, IPointerDownHandler
     {
-        [Header("UI")] [SerializeField] private TMP_Text _remainingTimeText;
+        [SerializeField] private Transform _targetPlace;
+        
+        [Header("UI")]
+        [SerializeField] private TMP_Text _remainingTimeText;
         [SerializeField] private GameObject _reloadingPanel;
         [SerializeField] private SleepingBag _sleepingBag;
         private bool _canRespawn;
@@ -31,9 +34,8 @@ namespace RespawnSystem.SleepingBag
         public void OnPointerDown(PointerEventData eventData)
         {
             if (DeathScreenUI.Singleton == null) return;
-            Debug.Log("Clicked");
             if (!_canRespawn) return;
-            DeathScreenUI.Singleton.RespawnInCoordinates(transform.position);
+            DeathScreenUI.Singleton.RespawnInCoordinates(_targetPlace.position);
             _sleepingBag.RespawnPlayerServerRpc();
         }
 

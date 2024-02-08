@@ -16,8 +16,7 @@ namespace Map
         [Header("Zoom")]
         [SerializeField] private float _minZoom = 100f;
         [SerializeField] private float _maxZoom = 420f;
-        [SerializeField] private float _zoomSpeed = 4f;
-    
+
         private Vector2 _initialOffset;
         private float _currentOrthographicSize;
 
@@ -31,56 +30,12 @@ namespace Map
 
         private void LateUpdate()
         {
-            var dynamicOffset = CalculateDynamicOffset();
             var clampedPosition = _camera.transform.position;
 
-            clampedPosition.x = Mathf.Clamp(clampedPosition.x, _minX + dynamicOffset.x, _maxX - dynamicOffset.x);
-            clampedPosition.z = Mathf.Clamp(clampedPosition.z, _minY + dynamicOffset.y, _maxY - dynamicOffset.y);
+            clampedPosition.x = Mathf.Clamp(clampedPosition.x, _minX, _maxX);
+            clampedPosition.z = Mathf.Clamp(clampedPosition.z, _minY, _maxY);
 
             _camera.transform.position = clampedPosition;
-        }
-
-        private void OnGUI()
-        {
-            var buttonWidth = 100f;
-            var buttonHeight = 100f;
-    
-            var screenWidth = Screen.width;
-            var screenHeight = Screen.height;
-    
-            var buttonX = (screenWidth - buttonWidth) / 2f;
-            var buttonY = 10f;
-    
-            if (GUI.Button(new Rect(buttonX, buttonY, buttonWidth, buttonHeight), "Zoom In"))
-            {
-                ZoomCamera(-10);
-            }
-    
-            buttonY += buttonHeight + 10f;
-    
-            if (GUI.Button(new Rect(buttonX, buttonY, buttonWidth, buttonHeight), "Zoom Out"))
-            {
-                ZoomCamera(10);
-            }
-        }
-
-        private void ZoomCamera(int direction)
-        {
-        
-        
-            _currentOrthographicSize += direction * _zoomSpeed;
-            _currentOrthographicSize = Mathf.Clamp(_currentOrthographicSize, _minZoom, _maxZoom);
-        
-            _camera.orthographicSize = _currentOrthographicSize;
-        
-            _initialOffset = CalculateInitialOffset();
-        }
-
-        private Vector2 CalculateInitialOffset()
-        {
-            var offsetX = _initialOffset.x * (_currentOrthographicSize / _minZoom);
-            var offsetY = _initialOffset.y * (_currentOrthographicSize / _minZoom);
-            return new Vector2(offsetX, offsetY);
         }
 
         private Vector2 CalculateDynamicOffset()

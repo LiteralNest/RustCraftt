@@ -48,10 +48,9 @@ namespace Map
                 case TouchPhase.Moved:
                     var deltaMagnitudeDiff = _cachedFingersPosition.magnitude - touchDelta.magnitude;
                     var orthographicSize = _camera.orthographicSize;
-                    orthographicSize += deltaMagnitudeDiff * _zoomSpeed /* Time.deltaTime*/;
+                    orthographicSize += deltaMagnitudeDiff * _zoomSpeed;
 
                     _cachedFingersPosition = touchDelta;
-                    _camera.orthographicSize = orthographicSize;
                     _camera.orthographicSize =
                         Mathf.Clamp(orthographicSize, _orthographicSizeLimits.x, _orthographicSizeLimits.y);
                     break;

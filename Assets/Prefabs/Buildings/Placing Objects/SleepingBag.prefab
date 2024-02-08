@@ -488,6 +488,37 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!1 &2078944511256997652
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7092203595906119813}
+  m_Layer: 0
+  m_Name: RespawnPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7092203595906119813
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2078944511256997652}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.405, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 6960087743891177677}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2789351557671312987
 GameObject:
   m_ObjectHideFlags: 0
@@ -699,6 +730,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 38efa2e7e4004acfa9d21a8e0b9d4bbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _targetPlace: {fileID: 7092203595906119813}
   _remainingTimeText: {fileID: 3502549914491007081}
   _reloadingPanel: {fileID: 8201188092755351643}
   _sleepingBag: {fileID: 5106168603677578745}
@@ -1581,6 +1613,7 @@ Transform:
   - {fileID: 2563842714874250387}
   - {fileID: 1699778755636977332}
   - {fileID: 1843805092273786865}
+  - {fileID: 7092203595906119813}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &4535661973437664664
@@ -1595,7 +1628,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 2966315112
+  GlobalObjectIdHash: 2547486769
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
   ActiveSceneSynchronization: 0
@@ -1704,6 +1737,7 @@ MonoBehaviour:
     m_InternalValue: 300
   _targetCanvas: {fileID: 278287259328141624}
   _mapPoint: {fileID: 3211757352729239948}
+  _respawnPoint: {fileID: 7092203595906119813}
 --- !u!65 &9056596453308724632
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1820,6 +1854,7 @@ MonoBehaviour:
     _damageAmount: 200
   - _damageItem: {fileID: 11400000, guid: f98a87f7890e448ea89034514dcbf5a6, type: 2}
     _damageAmount: 10
+  _targetBag: {fileID: 0}
   _networkObject: {fileID: 0}
   _maxHp: 200
 --- !u!1 &6503458260996228736
