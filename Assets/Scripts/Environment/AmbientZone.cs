@@ -1,0 +1,53 @@
+using System;
+using System.Collections;
+using UnityEngine;
+
+public class AmbientZone : MonoBehaviour
+{
+    [SerializeField] private AudioClip _ambientSound;
+    
+    private AudioSource _audioSource;
+    private Coroutine _coroutine;
+    private void Awake()
+    {
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            _audioSource = other.GetComponent<AudioSource>();
+            _audioSource.clip = _ambientSound;
+            _audioSource.Play();
+            _coroutine = StartCoroutine(IncreaseVolumeRoutine());
+        }
+    }
+    
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            StopCoroutine(_coroutine);
+            StartCoroutine(DecreaseVolumeRoutine());
+        }
+    }
+    
+    private IEnumerator IncreaseVolumeRoutine()
+    {
+        while (_audioSource.volume < 0.4f)
+        {
+            _audioSource.volume += 0.05f;
+            yield return new WaitForSeconds(0.5f);
+        }
+    }
+
+    private IEnumerator DecreaseVolumeRoutine()
+    {
+        while (_audioSource.volume > 0)
+        {
+            _audioSource.volume -= 0.1f;
+            yield return new WaitForSeconds(0.5f);
+        }
+        _audioSource.Stop();
+    }
+}
