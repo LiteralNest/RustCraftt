@@ -18,8 +18,7 @@ namespace UI
         [SerializeField] private GameObject _joystick;
         [SerializeField] private GameObject _moveUpButton;
         [SerializeField] private GameObject _sitAndJumpPanel;
-        
-        
+
         [SerializeField] private List<GameObject> _vehicleIgnoringPanels = new List<GameObject>();
 
         [SerializeField] private List<GameObject> _movingHudPanels = new List<GameObject>();
@@ -27,13 +26,27 @@ namespace UI
         [SerializeField] private GameObject _mainHudPanel;
 
         private void OnEnable()
-            => GlobalEventsContainer.OnMainHudHandle += HandleHud;
+        {
+            GlobalEventsContainer.OnMainHudHandle += HandleHud;
+            GlobalEventsContainer.OnPlayerKnockDown += DeactivateHud;
+            GlobalEventsContainer.OnPlayerStandUp += ActivateHud;
+        }
 
         private void OnDisable()
-            => GlobalEventsContainer.OnMainHudHandle -= HandleHud;
+        {
+            GlobalEventsContainer.OnMainHudHandle -= HandleHud;
+            GlobalEventsContainer.OnPlayerKnockDown -= DeactivateHud;
+            GlobalEventsContainer.OnPlayerStandUp -= ActivateHud;
+        }
 
         private void HandleHud(bool value)
             => _mainHudPanel.SetActive(value);
+
+        private void ActivateHud()
+            => _mainHudPanel.SetActive(true);
+        
+        private void DeactivateHud()
+            => _mainHudPanel.SetActive(false);
 
         public void AssignSingleton()
             => singleton = this;

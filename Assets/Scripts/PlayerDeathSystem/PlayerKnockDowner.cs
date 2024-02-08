@@ -1,6 +1,7 @@
 using System.Threading.Tasks;
 using Animation_System;
 using CharacterStatsSystem;
+using Events;
 using InteractSystem;
 using Inventory_System;
 using Multiplayer;
@@ -45,21 +46,23 @@ namespace PlayerDeathSystem
         {
             if (UserDataHandler.Singleton.UserData.Id == id)
             {
+                GlobalEventsContainer.OnPlayerKnockDown?.Invoke();
                 _playerRotator.SetKnockDownHead();
                 GetComponent<PlayerController>().enabled = false;
                 MainUiHandler.Singleton.DisplayKnockDownScreen(true);
                 AnimationsManager.Singleton.SetKnockDown();
-                
+
                 if (InventoryHandler.singleton.ActiveSlotDisplayer == null) return;
                 var cellIndex = InventoryHandler.singleton.ActiveSlotDisplayer.Index;
                 var data = InventoryHandler.singleton.CharacterInventory.ItemsNetData.Value.Cells[cellIndex];
-                
-                var item = InventoryHandler.singleton.ActiveItem;
-                if (item == null) return;
+
+                var slotDisplayer = InventoryHandler.singleton.ActiveSlotDisplayer;
+                if (slotDisplayer == null) return;
                 InstantiatingItemsPool.sigleton.SpawnObjectServerRpc(data,
                     Camera.main.transform.position + Camera.main.transform.forward);
-                InventoryHandler.singleton.CharacterInventory.RemoveItem(item.Id, 1);
+                InventoryHandler.singleton.CharacterInventory.RemoveItem(slotDisplayer.ItemDisplayer.InventoryCell.Item.Id, 1);
                 PlayerNetCode.Singleton.SetDefaultHandsServerRpc();
+                InventoryHandler.singleton.ActiveSlotDisplayer = null;
             }
         }
 
@@ -89,6 +92,7 @@ namespace PlayerDeathSystem
             {
                 GetComponent<PlayerController>().enabled = true;
                 MainUiHandler.Singleton.DisplayKnockDownScreen(false);
+                GlobalEventsContainer.OnPlayerStandUp?.Invoke();
                 CharacterStatsEventsContainer.OnCharacterStatAdded.Invoke(CharacterStatType.Health, 10);
                 _playerRotator.SetDefaultHead();
             }
@@ -110,8 +114,8 @@ namespace PlayerDeathSystem
 
         public bool CanInteract()
         {
-           if(!_knockDown.Value && IsOwner) return false;
-           return true;
+            if (!_knockDown.Value && IsOwner) return false;
+            return true;
         }
     }
 }

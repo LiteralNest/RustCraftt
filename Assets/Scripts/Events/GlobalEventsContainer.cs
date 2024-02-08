@@ -13,8 +13,9 @@ namespace Events
         public static Action OnCurrentItemDeleted { get; set; }
         public static Action<bool> OnMicrophoneButtonClicked { get; set; }
         public static Action<SleepingBag> SleepingBagSpawned { get; set; }
-
         public static Action<bool> OnMainHudHandle { get; set; }
+        public static Action OnPlayerStandUp { get; set; }
+        public static Action OnPlayerKnockDown { get; set; }
         public static Action OnMapOpened { get; set; }
         public static Action OnActiveSlotReset { get; set; }
 

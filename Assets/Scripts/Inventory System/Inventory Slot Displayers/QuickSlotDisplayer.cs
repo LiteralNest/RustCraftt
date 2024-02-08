@@ -50,6 +50,7 @@ namespace Inventory_System.Inventory_Slot_Displayers
             characterInventory.SetActiveQuickSlot(this);
             if (ItemDisplayer == null)
             {
+                InventoryHandler.singleton.ActiveSlotDisplayer = null;
                 PlayerNetCode.Singleton.SetDefaultHandsServerRpc();
                 return;
             }
