@@ -25,7 +25,6 @@ namespace InHandItems
         [SerializeField] private float _maxGatheringDistance;
 
         private GatheringObjectView _view;
-        private bool _isGathering;
 
         private Raycaster _rayCaster;
 
@@ -36,18 +35,9 @@ namespace InHandItems
             _rayCaster = new Raycaster();
         }
 
-        private void Update()
-        {
-            if (!_isGathering) return;
-            TryGather();
-        }
-
         public void SetGathering(bool value)
-            => _isGathering = value;
+            => _gatheringObjectAnimator.Attack(value);
 
-        private void TryGather()
-            => _gatheringObjectAnimator.Attack();
-        
         public void Gather()
         {
             PlayerNetCode.Singleton.PlayerMeleeDamager.TryDamage(_gatheringTool, _gatheringAnimation.length);

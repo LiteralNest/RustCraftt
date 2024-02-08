@@ -4,7 +4,7 @@
     {
         private const string AttackKey = "Attack";
 
-        public void Attack()
-            => PlayAnimationServerRpc(AttackKey);
+        public void Attack(bool value)
+            => PlayAnimationServerRpc(AttackKey, value);
     }
 }
