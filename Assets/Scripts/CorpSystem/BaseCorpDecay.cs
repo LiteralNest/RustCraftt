@@ -12,7 +12,7 @@ namespace CorpSystem
         protected IEnumerator StartDecayRoutine(int rotSecondsTime)
         {
             if (!IsServer) yield break;
-            float waitingTime = _targetCorpOre.CurrentHp.Value / rotSecondsTime;
+            float waitingTime = rotSecondsTime / _targetCorpOre.CurrentHp.Value;
             while (_targetCorpOre.CurrentHp.Value > 0)
             {
                 yield return new WaitForSeconds(waitingTime);
