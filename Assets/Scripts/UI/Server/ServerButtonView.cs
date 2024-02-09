@@ -1,24 +1,32 @@
 using System.Collections;
-using System.Collections.Generic;
-using System.Net;
-using System.Net.NetworkInformation;
-using System.Net.Sockets;
 using MultiplayApi.Common;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 using Ping = UnityEngine.Ping;
 
 namespace UI.Server
 {
-    public class ServerPanelUI : MonoBehaviour
+    public class ServerButtonView : MonoBehaviour
     {
         [SerializeField] private TextMeshProUGUI _serverInfo;
         [SerializeField] private TMP_Text _pingText;
+        [SerializeField] private Button _loadButton; 
 
         private string _serverIp;
         private int _serverPort;
         private string _allocateServerIpv4;
         private int _allocateServerGamePort;
+
+        private void Start()
+        {
+            _loadButton.onClick.RemoveAllListeners();
+            _loadButton.onClick.AddListener(OnServerSelected);
+            _loadButton.onClick.AddListener(() =>
+            {
+                LevelsLoader.singleton.LoadLevelAsync(1);
+            });
+        }
 
         public void SetServer(ServerData serverData)
         {
@@ -41,7 +49,7 @@ namespace UI.Server
             _allocateServerGamePort = allocateServerGamePort;
         }
 
-        public void OnServerSelected()
+        private void OnServerSelected()
         {
             ServerSelectionData.SelectedServerIp = _serverIp;
             ServerSelectionData.SelectedServerPort = _serverPort;

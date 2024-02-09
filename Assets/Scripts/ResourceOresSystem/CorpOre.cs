@@ -7,6 +7,7 @@ namespace ResourceOresSystem
 {
     public class CorpOre : ResourceOre, IRayCastHpDisplayer, IRaycastInteractable
     {
+        [SerializeField] private Sprite _displayIcon;
         [SerializeField] private List<GameObject> _displayingObjects = new();
         [SerializeField] private List<GameObject> _activatingObjects = new();
 
@@ -30,6 +31,9 @@ namespace ResourceOresSystem
         public void Interact()
         {
         }
+
+        public Sprite GetIcon()
+            => _displayIcon;
 
         public bool CanInteract()
             => _currentHp.Value > 0;

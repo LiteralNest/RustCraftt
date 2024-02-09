@@ -9,6 +9,7 @@ namespace Vehicle.SittingPlaces
 {
     public abstract class SittingPlace : NetworkBehaviour, IRaycastInteractable
     {
+        [SerializeField] private Sprite _displayIcon;
         [SerializeField] private NetworkObject _networkObject;
         [SerializeField] private Transform _standingPoint;
         private PlayerNetCode _currentPlayer;
@@ -35,6 +36,9 @@ namespace Vehicle.SittingPlaces
             else if(CanStand(PlayerNetCode.Singleton))
                 StandUp(PlayerNetCode.Singleton);
         }
+
+        public Sprite GetIcon()
+            => _displayIcon;
 
         public bool CanInteract()
         {

@@ -16,7 +16,7 @@ namespace Storage_System
     {
         [field: SerializeField]
         public NetworkVariable<CustomSendingInventoryData> ItemsNetData { get; private set; } = new();
-
+        [SerializeField] private Sprite _displayIcon;
         [field: SerializeField] public SlotsDisplayer SlotsDisplayer { get; set; }
         [FormerlySerializedAs("_ui")] [SerializeField] protected GameObject Ui;
 
@@ -55,6 +55,9 @@ namespace Storage_System
 
         public virtual void Interact()
             => Open(InventoryHandler.singleton);
+
+        public Sprite GetIcon()
+            => _displayIcon;
 
         public virtual bool CanInteract()
             => true;

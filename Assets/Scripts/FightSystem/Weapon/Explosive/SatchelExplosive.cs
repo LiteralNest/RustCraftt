@@ -4,9 +4,10 @@ using UnityEngine;
 namespace FightSystem.Weapon.Explosive
 {
     public class SatchelExplosive : global::FightSystem.Weapon.Explosive.Explosive, IRaycastInteractable
-    {
-        [Tooltip("%")] [Range(0, 100)] [SerializeField]
-        private int _explodeChance = 80;
+    { 
+        [Tooltip("%")] 
+        [SerializeField] private Sprite _displayIcon;
+        [Range(0, 100)] [SerializeField] private int _explodeChance = 80;
 
         private bool _turnedOff;
 
@@ -47,6 +48,9 @@ namespace FightSystem.Weapon.Explosive
 
         public void Interact()
             => TurnOn();
+
+        public Sprite GetIcon()
+            => _displayIcon;
 
         public bool CanInteract()
             => _turnedOff;

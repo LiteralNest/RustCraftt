@@ -7,6 +7,7 @@ namespace Storage_System
 {
     public class StorageBag : NetworkBehaviour, IRaycastInteractable
     {
+        [SerializeField] private Sprite _displayIcon;
         [SerializeField] private NetworkObject _networkObject;
         [SerializeField] private Storage _targetStorage;
 
@@ -22,6 +23,9 @@ namespace Storage_System
 
         public void Interact()
             => _targetStorage.Interact();
+
+        public Sprite GetIcon()
+            => _displayIcon;
 
         public bool CanInteract()
             => true;

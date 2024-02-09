@@ -11,6 +11,7 @@ namespace Items_System
     [RequireComponent(typeof(BoxCollider))]
     public class LootingItem : NetworkBehaviour, IRaycastInteractable
     {
+        [SerializeField] private Sprite _displayIcon;
         [SerializeField] private NetworkObject _targetNetworkObject;
         [field: SerializeField] public Item TargetItem { get; private set; }
         public NetworkVariable<CustomSendingInventoryDataCell> Data { get; set; } = new();
@@ -44,6 +45,9 @@ namespace Items_System
                 Data.Value.Count, Data.Value.Ammo, Data.Value.Hp);
             PickUpServerRpc();
         }
+
+        public Sprite GetIcon()
+            => _displayIcon;
 
         public bool CanInteract()
             => Data.Value.Id != -1;

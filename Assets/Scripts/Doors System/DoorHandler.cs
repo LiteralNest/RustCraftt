@@ -8,6 +8,8 @@ namespace Doors_System
 {
     public class DoorHandler : NetworkBehaviour, ILockable, IRaycastInteractable
     {
+        [SerializeField] private Sprite _openDoorIcon;
+        [SerializeField] private Sprite _closeDoorIcon;
         [SerializeField] private Animator _anim;
         private Locker _locker;
 
@@ -35,7 +37,7 @@ namespace Doors_System
             if (!IsServer) return;
             _canBeInteracted.Value = true;
         }
-        
+
         private void Open(bool value)
         {
             if (value)
@@ -48,7 +50,7 @@ namespace Doors_System
 
         public string GetDisplayText()
         {
-            if(_locker != null && !_locker.CanBeOpened(UserDataHandler.Singleton.UserData.Id)) return "Locked";
+            if (_locker != null && !_locker.CanBeOpened(UserDataHandler.Singleton.UserData.Id)) return "Locked";
             if (_wasOpened.Value)
                 return "Close";
             return "Open";
@@ -56,6 +58,12 @@ namespace Doors_System
 
         public void Interact()
             => Open(UserDataHandler.Singleton.UserData.Id);
+
+        public Sprite GetIcon()
+        {
+            if (_wasOpened.Value) return _closeDoorIcon;
+            return _openDoorIcon;
+        }
 
         public bool CanInteract()
             => _canBeInteracted.Value;

@@ -25,14 +25,14 @@ namespace UI.Hp_Panel
             int maxHp = buildingDamagable.GetMaxHp();
 
             _fillingImage.fillAmount = (float)hp / maxHp;
-            _fillingText.text = hp + "/" + maxHp;
+            _fillingText.text = hp + " / " + maxHp;
         }
 
         public void DisplayHp(int maxHp, int currentHp)
         {
             _displayingPanel.SetActive(true);
             _fillingImage.fillAmount = (float)currentHp / maxHp;
-            _fillingText.text = currentHp + "/" + maxHp;
+            _fillingText.text = currentHp + " / " + maxHp;
         }
     }
 }

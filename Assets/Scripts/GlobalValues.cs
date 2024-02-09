@@ -9,7 +9,7 @@ public static class GlobalValues
     public static float CameraFarDistance { get; set; } = 100f;
     public static float CameraFOV { get; set; } = 60f;
     public static bool EnableShadows { get; set; }
-    public static bool EnableGrass { get; set; }
+    public static bool EnableGrass { get; set; } = false;
     public static bool EnableFPSCounter { get; set; }
     public static bool AdministratorBuild { get; set; } = true;
 }

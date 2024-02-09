@@ -9,6 +9,8 @@ namespace ResourceOresSystem
     [RequireComponent(typeof(BoxCollider))]
     public class GatheringOre : Ore, IRaycastInteractable
     {
+        [SerializeField] private Sprite _displayIcon;
+    
         [Header("Attached Scripts")] [SerializeField]
         private List<Renderer> _renderers;
 
@@ -59,6 +61,9 @@ namespace ResourceOresSystem
 
         public void Interact()
             => Gather();
+
+        public Sprite GetIcon()
+            => _displayIcon;
 
         public bool CanInteract()
             => true;

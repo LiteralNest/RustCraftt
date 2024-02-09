@@ -8,7 +8,8 @@ namespace RespawnSystem.SleepingBag
     [RequireComponent(typeof(SleepingBag))]
     public class SleepingBagNamer : MonoBehaviour, IRaycastInteractable
     {
-        [Header("UI")] [SerializeField] private GameObject _renamePanel;
+        [Header("UI")] [SerializeField] private Sprite _displayIcon;
+        [SerializeField] private GameObject _renamePanel;
         [SerializeField] private TMP_InputField _inputField;
         [SerializeField] private Button _confirmButton;
         [SerializeField] private Button _cancelButton;
@@ -30,7 +31,7 @@ namespace RespawnSystem.SleepingBag
 
             _cancelButton.onClick.AddListener(CloseUI);
         }
-        
+
         private void CloseUI()
             => _renamePanel.SetActive(false);
 
@@ -42,6 +43,9 @@ namespace RespawnSystem.SleepingBag
             _renamePanel.SetActive(true);
             _inputField.text = _sleepingBag.Name.Value.ToString();
         }
+
+        public Sprite GetIcon()
+            => _displayIcon;
 
         public bool CanInteract()
             => true;

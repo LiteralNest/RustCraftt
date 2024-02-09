@@ -17,7 +17,7 @@ namespace PlayerDeathSystem
     public class PlayerKnockDowner : NetworkBehaviour, IRaycastInteractable
     {
         public static PlayerKnockDowner Singleton { get; private set; }
-
+        [SerializeField] private Sprite _displayIcon;
         [Header("Head")] [SerializeField] private PlayerRotator _playerRotator;
 
 
@@ -113,6 +113,9 @@ namespace PlayerDeathSystem
 
         public void Interact()
             => StandUpServerRpc();
+
+        public Sprite GetIcon()
+            => _displayIcon;
 
         public bool CanInteract()
         {

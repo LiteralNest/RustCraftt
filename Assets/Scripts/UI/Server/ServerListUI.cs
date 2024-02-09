@@ -58,7 +58,7 @@ namespace UI.Server
                 await Task.Delay(TimeSpan.FromSeconds(1));
 
                 serverById = await multiplayWebApi.GetServerById(allocationId);
-                GetComponent<ServerPanelUI>().SetAllocatedServer(serverById.Ipv4, serverById.GamePort);
+                GetComponent<ServerButtonView>().SetAllocatedServer(serverById.Ipv4, serverById.GamePort);
             }
         }
 
@@ -71,7 +71,7 @@ namespace UI.Server
             foreach (var serv in serversList)
             {
                 var serverPanel = Instantiate(_serverPanelPrefab, _serverPanelParent);
-                var serverPanelUI = serverPanel.GetComponent<ServerPanelUI>();
+                var serverPanelUI = serverPanel.GetComponent<ServerButtonView>();
                 serverPanelUI.SetServer(serv);
 
                 if (serv.Status != ServerStatus.Allocated) 

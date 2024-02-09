@@ -8,6 +8,7 @@ namespace InteractSystem
     {
         [Header("UI")]
         [SerializeField] private TMP_Text _displayText;
+        [SerializeField] private Image _targetImage;
         [SerializeField] private GameObject _displayPanel;
         [SerializeField] private Button _targetButton;
 
@@ -15,6 +16,7 @@ namespace InteractSystem
         {
             _displayPanel.gameObject.SetActive(true);
             _displayText.text = interactable.GetDisplayText();
+            _targetImage.sprite = interactable.GetIcon();
             _targetButton.onClick.RemoveAllListeners();
             _targetButton.onClick.AddListener(() => interactable.Interact());
         }
