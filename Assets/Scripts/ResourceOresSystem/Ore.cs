@@ -17,11 +17,7 @@ namespace ResourceOresSystem
         protected OreObjectsPlacer ObjectsPlacer;
         public NetworkVariable<int> CurrentHp => _currentHp;
         [SerializeField] protected NetworkVariable<int> _currentHp = new(20);
-
-        protected int CachedMaxHp;
-
-        private void Awake()
-            => CachedMaxHp = _currentHp.Value;
+        [SerializeField] protected int CachedMaxHp = 20;
 
         public void Init(OreObjectsPlacer objectsPlacer)
             => ObjectsPlacer = objectsPlacer;
@@ -56,6 +52,9 @@ namespace ResourceOresSystem
 
         [ServerRpc(RequireOwnership = false)]
         protected void MinusHpServerRpc()
+            => MinusHpOnServer(1);
+
+        public void MinusHpOnServer(int value)
         {
             _currentHp.Value--;
             if (_currentHp.Value <= 0)

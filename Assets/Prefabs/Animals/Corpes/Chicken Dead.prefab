@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 4880561337097570723}
   - component: {fileID: 9060565187582381313}
   - component: {fileID: 8767887723727415178}
+  - component: {fileID: 7591430859468319276}
   m_Layer: 9
   m_Name: Chicken Dead
   m_TagString: Ore
@@ -145,6 +146,8 @@ MonoBehaviour:
     ShouldAddWithRand: 0
   _currentHp:
     m_InternalValue: 5
+  CachedMaxHp: 5
+  _targetNetworkObject: {fileID: 0}
   _colliders:
   - {fileID: 3233522887587040198}
   _vfxEffect: {fileID: 3277485785675601479, guid: 85ea70fce8b89124784eab353da2c323, type: 3}
@@ -171,12 +174,27 @@ MonoBehaviour:
   - Tool: {fileID: 11400000, guid: 87796b99ddcbb4f4ba1a3ea3dcfa96a3, type: 2}
     LossAmount: 3
   <GatheringClip>k__BackingField: {fileID: 8300000, guid: 5b629d5f309986141adc4ef0a0b8c904, type: 3}
+  _shouldDestroy: 1
   _animator: {fileID: 0}
   _displayIcon: {fileID: 21300000, guid: 8ad4d192189a5c54c87fa1299d811a47, type: 3}
   _displayingObjects:
   - {fileID: 6481049308412144755}
   _activatingObjects: []
   _targetAnimal: {fileID: 2814044194007606491, guid: 7b0eb1c150b581444840fe981b0e6898, type: 3}
+--- !u!114 &7591430859468319276
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8603674942033952941}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bf1fa7d05af2499f9a9c4f184a54c12b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _targetCorpOre: {fileID: 8767887723727415178}
+  _decaySecondsTime: 300
 --- !u!1001 &6138469874327834914
 PrefabInstance:
   m_ObjectHideFlags: 0

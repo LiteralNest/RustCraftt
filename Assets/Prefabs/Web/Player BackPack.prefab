@@ -3059,7 +3059,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 282895634
+  GlobalObjectIdHash: 213345339
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
   ActiveSceneSynchronization: 0
@@ -3320,10 +3320,12 @@ GameObject:
   - component: {fileID: 5547458616773711996}
   - component: {fileID: 2897035452440649922}
   - component: {fileID: 5345700984040152358}
+  - component: {fileID: 463738343711520190}
   - component: {fileID: 7074419467217379495}
+  - component: {fileID: 5702442413931929971}
   m_Layer: 9
   m_Name: Corp
-  m_TagString: Untagged
+  m_TagString: Ore
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3380,6 +3382,33 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.0037735747, y: 0.017509887, z: 0.0015649896}
   m_Center: {x: 0, y: 0.008945194, z: -0.0005119254}
+--- !u!54 &463738343711520190
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6359057193532681089}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 126
+  m_CollisionDetection: 0
 --- !u!114 &7074419467217379495
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3404,9 +3433,12 @@ MonoBehaviour:
     ShouldAddWithRand: 0
   _currentHp:
     m_InternalValue: 15
-  _colliders: []
+  CachedMaxHp: 15
+  _targetNetworkObject: {fileID: 4682536351979655567}
+  _colliders:
+  - {fileID: 5345700984040152358}
   _vfxEffect: {fileID: 7428556190383433676}
-  _vfxParrent: {fileID: 0}
+  _vfxParrent: {fileID: 5547458616773711996}
   _toolsForGathering:
   - Tool: {fileID: 11400000, guid: f5c4258f963384ac5b58c73a8bd24773, type: 2}
     LossAmount: 0
@@ -3425,12 +3457,28 @@ MonoBehaviour:
   - Tool: {fileID: 11400000, guid: 096e0c3eb4103474bb291184fde07afb, type: 2}
     LossAmount: 35
   <GatheringClip>k__BackingField: {fileID: 8300000, guid: 5b629d5f309986141adc4ef0a0b8c904, type: 3}
+  _shouldDestroy: 0
   _animator: {fileID: 0}
-  _displayIcon: {fileID: 0}
+  _displayIcon: {fileID: 21300000, guid: 8ad4d192189a5c54c87fa1299d811a47, type: 3}
   _displayingObjects:
   - {fileID: 6359057193532681089}
   _activatingObjects:
   - {fileID: 1099844629519493147}
+--- !u!114 &5702442413931929971
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6359057193532681089}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e64f1771f9da482fa5306c8aa8812e80, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _targetCorpOre: {fileID: 7074419467217379495}
+  _playerStorage: {fileID: 4783321794012517289}
+  _emptyDecaySecondsTime: 120
 --- !u!1 &6849009479430656142
 GameObject:
   m_ObjectHideFlags: 0

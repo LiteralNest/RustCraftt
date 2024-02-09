@@ -10,7 +10,8 @@ namespace ResourceOresSystem
 {
     public class ResourceOre : Ore
     {
-        [Header("Attached Components")] 
+        [Header("Attached Components")] [SerializeField]
+        private NetworkObject _targetNetworkObject;
         [SerializeField] private List<Collider> _colliders;
 
         [Header("VFX")] 
@@ -20,9 +21,15 @@ namespace ResourceOresSystem
         [Header("Main Parameters")] 
         [SerializeField] private List<OreToolsForGatheringSlots> _toolsForGathering = new List<OreToolsForGatheringSlots>();
         [field: SerializeField] public AudioClip GatheringClip { get; private set; }
-        
+        [SerializeField] private bool _shouldDestroy = true;
         [SerializeField] private GatheringOreAnimator _animator;
 
+        private void Awake()
+        {
+            if(_targetNetworkObject == null)
+                _targetNetworkObject = GetComponent<NetworkObject>();
+        }
+        
         private bool SlotFound(Item item, out OreToolsForGatheringSlots slot)
         {
             foreach (var tool in _toolsForGathering)
@@ -81,8 +88,8 @@ namespace ResourceOresSystem
                 yield return _animator.SetFallRoutine();
             if (ObjectsPlacer)
                 StartCoroutine(ObjectsPlacer.RegenerateObjectRoutine(this));
-            else
-                GetComponent<NetworkObject>().Despawn();
+            else if(_shouldDestroy)
+                _targetNetworkObject.Despawn();
         }
     }
 }
