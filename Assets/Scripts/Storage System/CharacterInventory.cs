@@ -27,6 +27,8 @@ namespace Storage_System
 
         private void Start()
         {
+            if(!IsServer) return;
+        
             if (InventoryClear())
             {
                 foreach(var slot in _defaultItems)

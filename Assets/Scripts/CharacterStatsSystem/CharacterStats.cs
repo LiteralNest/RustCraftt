@@ -31,9 +31,10 @@ namespace CharacterStatsSystem
 
         private void InitStatsValue(CharacterStats characterStats)
         {
+            if(!IsOwner) return;
+            
             CharacterStatsEventsContainer.OnCharacterStatAdded += AddStatServerRpc;
             CharacterStatsEventsContainer.OnCharacterStatRemoved += MinusStatServerRpc;
-
 
             _hp.OnValueChanged += (int oldValue, int newValue) =>
             {

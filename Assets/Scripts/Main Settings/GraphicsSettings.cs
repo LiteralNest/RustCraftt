@@ -7,10 +7,8 @@ namespace Main_Settings
         private void Start()
         {
 #if UNITY_SERVER
-        Application.targetFrameRate = 60;
+        Application.targetFrameRate = 45;
         QualitySettings.vSyncCount  = 0;
-#else
-            Application.targetFrameRate = 45;
 #endif
         }
     }

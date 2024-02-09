@@ -14,6 +14,8 @@ namespace CharacterStatsSystem
         private CharacterStats _characterStats;
 
         private Coroutine _substractHpRoutine;
+        private Coroutine _substractFoodRoutine;
+        private Coroutine _substractWaterRoutine;
 
         private void OnEnable()
             => CharacterStatsEventsContainer.OnCharacterStatsAssign += Init;
@@ -24,8 +26,12 @@ namespace CharacterStatsSystem
         private void Init(CharacterStats characterStats)
         {
             _characterStats = characterStats;
-            StartCoroutine(SubstractFoodRoutine());
-            StartCoroutine(SubstractWaterRoutine());
+            if(_substractFoodRoutine != null)
+                StopCoroutine(_substractFoodRoutine);
+            _substractFoodRoutine = StartCoroutine(SubstractFoodRoutine());
+            if(_substractWaterRoutine != null)
+                StopCoroutine(_substractWaterRoutine);
+            _substractWaterRoutine = StartCoroutine(SubstractWaterRoutine());
             _characterStats.Water.OnValueChanged += (int oldValue, int newValue) => CheckWater(newValue);
             _characterStats.Food.OnValueChanged += (int oldValue, int newValue) => CheckFood(newValue);
         }
@@ -35,7 +41,7 @@ namespace CharacterStatsSystem
             yield return new WaitForSeconds(_timeForSubstractFood);
             if (_characterStats.Food.Value > 0)
                 CharacterStatsEventsContainer.OnCharacterStatRemoved(CharacterStatType.Food, 1);
-            StartCoroutine(SubstractFoodRoutine());
+            _substractFoodRoutine = StartCoroutine(SubstractFoodRoutine());
         }
 
         private IEnumerator SubstractWaterRoutine()
@@ -43,7 +49,7 @@ namespace CharacterStatsSystem
             yield return new WaitForSeconds(_timeForSubstractWater);
             if (_characterStats.Water.Value > 0)
                 CharacterStatsEventsContainer.OnCharacterStatRemoved(CharacterStatType.Water, 1);
-            StartCoroutine(SubstractWaterRoutine());
+            _substractWaterRoutine = StartCoroutine(SubstractWaterRoutine());
         }
 
         private IEnumerator SubstractHpRoutine()
