@@ -15,8 +15,8 @@ namespace Multiplayer
     public class PlayerNetworkController : MonoBehaviour
     {
         [Header("Attached Components")]
-        [SerializeField] private CharacterStats _characterStats;
-        
+        [SerializeField] private CharacterStats _characterStats; 
+        [SerializeField] private PlayerEffectsHandler _playerEffectsHandler;
         [Header("NetCode")]
         [SerializeField] private PlayerNetCode _playerNetCode;
         [SerializeField] private CharacterAnimationsHandler _characterAnimationsHandler;
@@ -63,6 +63,7 @@ namespace Multiplayer
             {
                 EnableMonos(false);
                 ClearObjects();
+                _playerEffectsHandler.CanInteract = false;
             }
             else
             {
@@ -72,6 +73,7 @@ namespace Multiplayer
                 CharacterStatsEventsContainer.OnCharacterStatsAssign.Invoke(_characterStats);
                 characterUIHandler.enabled = true;
                 characterUIHandler.AssignSingleton();
+                _playerEffectsHandler.CanInteract = true;
             }
 
             StartCoroutine(Destroy());

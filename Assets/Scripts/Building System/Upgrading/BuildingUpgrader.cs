@@ -28,6 +28,7 @@ namespace Building_System.Upgrading
         {
             buildingUpgradeView.DisplayButtons(false, false, false, false);
             buildingUpgradeView.DisplayCycle(false);
+            PlayerNetCode.Singleton.UpgradeTextView.HandleText(false);
         }
 
         private void Start()

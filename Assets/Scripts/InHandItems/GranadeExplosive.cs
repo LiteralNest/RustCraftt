@@ -1,9 +1,5 @@
-﻿using System.Collections;
-using InHandItems.InHandAnimations.Weapon;
+﻿using InHandItems.InHandAnimations.Weapon;
 using InHandItems.InHandViewSystem;
-using Inventory_System;
-using Multiplayer.Multiplay_Instances;
-using Player_Controller;
 using UnityEngine;
 
 namespace InHandItems
@@ -27,14 +23,6 @@ namespace InHandItems
         public void Throw()
         {
             _granadeAnimator.PlayThrow();
-        }
-
-        public override void SpawnPrefab()
-        {
-            MultiplayObjectsPool.singleton.InstantiateObjectServerRpc(GetComponent<MultiplayInstanceId>().Id,
-                _spawnPoint.position, Quaternion.identity, _throwForce, Camera.main.transform.forward);
-            PlayerNetCode.Singleton.SetDefaultHandsServerRpc();
-            InventoryHandler.singleton.RemoveActiveSlotDisplayer();
         }
     }
 }

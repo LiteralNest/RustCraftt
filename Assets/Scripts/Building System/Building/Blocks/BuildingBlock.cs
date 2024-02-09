@@ -137,14 +137,20 @@ namespace Building_System.Building.Blocks
             if (_hp.Value <= 0)
             {
                 if (IsServer)
-                    Destroy();
+                    StartCoroutine(DestroyRoutine());
             }
         }
 
         public void Destroy()
         {
-            if (IsServer)
-                StartCoroutine(DestroyRoutine());
+            DestroyServerRpc();
+        }
+
+        [ServerRpc(RequireOwnership = false)]
+        private void DestroyServerRpc()
+        {
+            if (!IsServer) return;
+            StartCoroutine(DestroyRoutine());
         }
 
 

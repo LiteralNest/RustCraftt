@@ -18,7 +18,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1704090090276515771
 RectTransform:
   m_ObjectHideFlags: 0
@@ -4767,7 +4767,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 155.43823, y: -29.607552}
+  m_AnchoredPosition: {x: 46.812744, y: -29.607552}
   m_SizeDelta: {x: 93.62549, y: 43.4362}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1437435223121903980
@@ -9595,19 +9595,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 289662646316822343}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 7755595671405303605}
-        m_TargetAssemblyTypeName: 
-        m_MethodName: 
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: 
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!1 &1587956289000728596
 GameObject:
   m_ObjectHideFlags: 0
@@ -10864,6 +10852,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _explosive: {fileID: 3355263983284881194}
+  _explosiveObject: {fileID: 797352798951990041}
 --- !u!1 &1868016584323967766
 GameObject:
   m_ObjectHideFlags: 0
@@ -15712,7 +15701,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 1057753847
+  GlobalObjectIdHash: 1144982328
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
   ActiveSceneSynchronization: 0
@@ -15809,6 +15798,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _characterStats: {fileID: 6476400000083737564}
+  _playerEffectsHandler: {fileID: 228275790847561711}
   _playerNetCode: {fileID: -5502007171107923210}
   _characterAnimationsHandler: {fileID: 189926528279566929}
   _inventoryCharacterAnimationsHandler: {fileID: 6405808735470092417}
@@ -15825,7 +15815,6 @@ MonoBehaviour:
   - {fileID: 274879223211706544}
   - {fileID: 1553957174920031044}
   - {fileID: 3864285999590946211}
-  - {fileID: 228275790847561711}
   - {fileID: 7221513865209393274}
   _disablingObjects:
   - {fileID: 4785573788255898050}
@@ -17316,12 +17305,12 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 21.12
+  m_fontSize: 20
   m_fontSizeBase: 21.12
   m_fontWeight: 400
-  m_enableAutoSizing: 0
-  m_fontSizeMin: 18
-  m_fontSizeMax: 72
+  m_enableAutoSizing: 1
+  m_fontSizeMin: 12.18
+  m_fontSizeMax: 20
   m_fontStyle: 0
   m_HorizontalAlignment: 1
   m_VerticalAlignment: 256
@@ -17444,6 +17433,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _explosive: {fileID: 317531919002152878}
+  _explosiveObject: {fileID: 4372225472901172875}
 --- !u!1 &2676968788775962998
 GameObject:
   m_ObjectHideFlags: 0
@@ -34731,6 +34721,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _explosive: {fileID: 3732077324519041725}
+  _explosiveObject: {fileID: 4106113610438859230}
 --- !u!1 &5184994076572611079
 GameObject:
   m_ObjectHideFlags: 0
@@ -41368,6 +41359,7 @@ GameObject:
   - component: {fileID: 4367490702560100244}
   - component: {fileID: 2538629772605411656}
   - component: {fileID: 3147478659095780116}
+  - component: {fileID: 7746040527166401248}
   m_Layer: 15
   m_Name: DarkFon
   m_TagString: Untagged
@@ -41432,6 +41424,62 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &7746040527166401248
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6161878191099201443}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Navigation:
+    m_Mode: 3
+    m_WrapAround: 0
+    m_SelectOnUp: {fileID: 0}
+    m_SelectOnDown: {fileID: 0}
+    m_SelectOnLeft: {fileID: 0}
+    m_SelectOnRight: {fileID: 0}
+  m_Transition: 1
+  m_Colors:
+    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
+    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
+    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
+    m_ColorMultiplier: 1
+    m_FadeDuration: 0.1
+  m_SpriteState:
+    m_HighlightedSprite: {fileID: 0}
+    m_PressedSprite: {fileID: 0}
+    m_SelectedSprite: {fileID: 0}
+    m_DisabledSprite: {fileID: 0}
+  m_AnimationTriggers:
+    m_NormalTrigger: Normal
+    m_HighlightedTrigger: Highlighted
+    m_PressedTrigger: Pressed
+    m_SelectedTrigger: Selected
+    m_DisabledTrigger: Disabled
+  m_Interactable: 1
+  m_TargetGraphic: {fileID: 3147478659095780116}
+  m_OnClick:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 6439827748726455513}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &6162114042957425444
 GameObject:
   m_ObjectHideFlags: 0
@@ -47535,6 +47583,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _explosive: {fileID: 340767020750099989}
+  _explosiveObject: {fileID: 8050294576165418396}
 --- !u!1 &6888266654449824000
 GameObject:
   m_ObjectHideFlags: 0
@@ -69499,7 +69548,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1122240192621694920, guid: 1e1afd1a496fee542876db0e589f3b76, type: 3}
       propertyPath: GlobalObjectIdHash
-      value: 1057753847
+      value: 2586980339
       objectReference: {fileID: 0}
     - target: {fileID: 1183237256113117395, guid: 1e1afd1a496fee542876db0e589f3b76, type: 3}
       propertyPath: m_Name

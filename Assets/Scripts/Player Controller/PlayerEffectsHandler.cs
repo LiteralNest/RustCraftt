@@ -11,10 +11,13 @@ namespace Player_Controller
 {
     public class PlayerEffectsHandler : MonoBehaviour
     {
+        public bool CanInteract { private get; set; }
+        
         private Coroutine _checkClipBoardCoroutine;
 
         private void HandleComfort(Collider other, bool isEntering)
         {
+            
             if (!other.CompareTag("Comfort")) return;
             AlertEventsContainer.OnComfortAlert?.Invoke(isEntering);
         }
@@ -79,6 +82,7 @@ namespace Player_Controller
 
         private void OnTriggerEnter(Collider other)
         {
+            if(!CanInteract) return;
             HandleComfort(other, true);
             HandleWorkBenchAlert(other, true);
             HandleClipBoardAlert(other, true);
@@ -86,6 +90,7 @@ namespace Player_Controller
 
         private void OnTriggerExit(Collider other)
         {
+            if(!CanInteract) return;
             HandleComfort(other, false);
             HandleWorkBenchAlert(other, false);
             HandleClipBoardAlert(other, false);
