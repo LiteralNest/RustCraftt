@@ -34,6 +34,16 @@ namespace Building_System.Building.Placing_Objects
                 Destroy();
         }
 
+        [ServerRpc(RequireOwnership = false)]
+        private void GetDamageServerRpc(int damageItemId)
+        {
+            if (!IsServer) return;
+            GetDamageOnServer(damageItemId);
+        }
+
+        public void GetDamageToServer(int damageItemId)
+            => GetDamageServerRpc(damageItemId);
+
         public int GetHp()
             => (int)_hp.Value;
 
@@ -41,8 +51,8 @@ namespace Building_System.Building.Placing_Objects
             => _maxHp;
 
         public void GetDamageOnServer(int itemId)
-        { 
-            if(!IsServer) return;
+        {
+            if (!IsServer) return;
             var damage = GetDamageAmount(itemId);
             _hp.Value -= damage;
             if (_hp.Value <= 0)
@@ -51,12 +61,13 @@ namespace Building_System.Building.Placing_Objects
 
         public void Destroy()
         {
-            if(_targetBag)
-                if(_targetBag.TryDisplayBagOnServer()) return;
+            if (_targetBag)
+                if (_targetBag.TryDisplayBagOnServer())
+                    return;
             _networkObject.Despawn();
         }
-        
-        
+
+
         public void DisplayData()
             => PlayerNetCode.Singleton.ObjectHpDisplayer.DisplayBuildingHp(this);
     }

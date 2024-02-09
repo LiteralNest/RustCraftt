@@ -1,6 +1,9 @@
 using System.Collections;
 using CharacterStatsSystem;
+using DamageSystem;
+using FightSystem.Damage;
 using Player_Controller;
+using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.Audio;
 using Vehicle;
@@ -8,7 +11,7 @@ using Vehicle.Boat;
 
 namespace Environment
 {
-    public class Water : MonoBehaviour
+    public class Water : NetworkBehaviour
     {
         [SerializeField] private GameObject _waterUI;
         [SerializeField] private AudioSource _source;
@@ -32,28 +35,32 @@ namespace Environment
 
         private void OnTriggerEnter(Collider other)
         {
-            if (other.CompareTag("Player"))
+            if (other.CompareTag("Player") && other.GetComponent<DamagableBodyPart>().IsOwner)
             {
                 _mixer.SetFloat("ReverbAmount", 0.5f);
-                _source.Play();
+                if(_source)
+                    _source.Play();
                 
                 _isRestoringOxygen = false;
-                _waterUI.SetActive(true);
+                if(_waterUI)
+                    _waterUI.SetActive(true);
                 _oxygenCoroutine = StartCoroutine(RemoveOxygenOverTime());
             }
         }
 
         private void OnTriggerExit(Collider other)
         {
-            if (other.CompareTag("Player"))
+            if (other.CompareTag("Player") && other.GetComponent<DamagableBodyPart>().IsOwner)
             {
                 _mixer.SetFloat("ReverbAmount", 0f);
-                _source.Stop();
+                if(_source)
+                    _source.Stop();
                 
                 _isRestoringOxygen = true;
                 if (_oxygenCoroutine != null)
                 {
-                    _waterUI.SetActive(false);
+                    if(_waterUI)
+                        _waterUI.SetActive(false);
                     StopCoroutine(_oxygenCoroutine);
                 }
 

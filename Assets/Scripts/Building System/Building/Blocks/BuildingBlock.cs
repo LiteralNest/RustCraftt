@@ -61,6 +61,17 @@ namespace Building_System.Building.Blocks
                 _decayCoroutine = StartCoroutine(DecayRoutine());
         }
 
+
+        [ServerRpc(RequireOwnership = false)]
+        private void GetDamageServerRpc(int damageItemId)
+        {
+            if (!IsServer) return;
+            GetDamageOnServer(damageItemId);
+        }
+
+        public void GetDamageToServer(int damageItemId)
+            => GetDamageServerRpc(damageItemId);
+
         public void ToolClipBoardAssign(bool value)
         {
             if (value)
@@ -163,7 +174,7 @@ namespace Building_System.Building.Blocks
             foreach (var cell in GetNeededCellsForPlacing())
             {
                 int count = 1;
-                if((int)damagingPercent != 0)
+                if ((int)damagingPercent != 0)
                     count = cell.Count / (int)damagingPercent;
                 if (count <= 0) count = 1;
                 _cellsForRepairing.Add(new InventoryCell(cell.Item, count));
@@ -255,8 +266,8 @@ namespace Building_System.Building.Blocks
 
         public void DisplayData()
         {
-            if(PlayerNetCode.Singleton == null) return;
-             PlayerNetCode.Singleton.ObjectHpDisplayer.DisplayBuildingHp(this);
+            if (PlayerNetCode.Singleton == null) return;
+            PlayerNetCode.Singleton.ObjectHpDisplayer.DisplayBuildingHp(this);
         }
     }
 }

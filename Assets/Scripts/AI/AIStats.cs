@@ -28,6 +28,16 @@ namespace AI
 
         #region IDamagable
 
+        [ServerRpc(RequireOwnership = false)]
+        private void GetDamageServerRpc(int damage)
+        {
+            if (!IsServer) return;
+            GetDamageOnServer(damage);
+        }
+
+        public void GetDamageToServer(int damage)
+            => GetDamageServerRpc(damage);
+
         public AudioClip GetPlayerDamageClip()
             => GlobalSoundsContainer.Singleton.HitSound;
 
@@ -57,7 +67,6 @@ namespace AI
                 transform.rotation.eulerAngles);
             GetComponent<NetworkObject>().Despawn();
         }
-
 
         #endregion
 

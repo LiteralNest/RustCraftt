@@ -43,7 +43,8 @@ namespace Damaging_Item
             var fixedPos = transform.position;
             fixedPos.y += _spawningYOffset;
             InstantiatingItemsPool.sigleton.SpawnObjectOnServer(
-                new CustomSendingInventoryDataCell(slot.Item.Id, Random.Range(slot.RandCount.x, slot.RandCount.y + 1), 100, 0), fixedPos);
+                new CustomSendingInventoryDataCell(slot.Item.Id, Random.Range(slot.RandCount.x, slot.RandCount.y + 1),
+                    100, 0), fixedPos);
         }
 
         [ContextMenu("Generate Cells")]
@@ -56,12 +57,13 @@ namespace Damaging_Item
                 if (rand > set.Chance) continue;
                 SpawnCell(set);
                 return;
-            }   
+            }
+            SpawnCell(_lootCells[0]);
         }
 
         public void Destroy()
             => StartCoroutine(DestroyRoutine());
-        
+
 
         public AudioClip GetPlayerDamageClip()
             => GlobalSoundsContainer.Singleton.HitSound;
@@ -73,9 +75,9 @@ namespace Damaging_Item
             => _cachedHp;
 
         public void GetDamageOnServer(int damage)
-        { 
-            if(!IsServer) return;
-            if(_currentHp.Value <= 0) return;
+        {
+            if (!IsServer) return;
+            if (_currentHp.Value <= 0) return;
             _currentHp.Value -= damage;
             CheckHp(_currentHp.Value);
             _soundPlayer.PlayOneShot(_damagingSound);
@@ -117,8 +119,17 @@ namespace Damaging_Item
             if (value > 0) return;
             Destroy();
         }
-        
 
+        [ServerRpc(RequireOwnership = false)]
+        private void GetDamageServerRpc(int damage)
+        {
+            if (!IsServer) return;
+            GetDamageOnServer(damage);
+        }
+
+        public void GetDamageToServer(int damage)
+            => GetDamageServerRpc(damage);
+        
         [ClientRpc]
         private void TurnRendederersClientRpc(bool value)
             => HandleRenderers(value);

@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace Player_Controller
 {
-    public class PlayerMeleeDamager : NetworkBehaviour
+    public class PlayerMeleeDamager : MonoBehaviour
     {
         [SerializeField] private float _damageRange = 1f;
         [SerializeField] private LayerMask _damageLayer;
@@ -22,14 +22,18 @@ namespace Player_Controller
             if (!_canDamage) return;
             StartCoroutine(ResetCanDamageRoutine(coolDownTime));
             var cameraTransform = Camera.main.transform;
-            DamageServerRpc(gatheringTool.Id, gatheringTool.Damage, cameraTransform.position, cameraTransform.forward);
-            
-              var ray = new Ray(cameraTransform.position, cameraTransform.forward);
+
+            var ray = new Ray(cameraTransform.position, cameraTransform.forward);
             var targets = Physics.RaycastAll(ray, _damageRange, _damageLayer);
             foreach (var target in targets)
             {
                 var damagable = target.collider.GetComponent<IDamagable>();
+                if (damagable != null)
+                    damagable.GetDamageToServer(gatheringTool.Damage);
+
                 var damagableBuilding = target.collider.GetComponent<IBuildingDamagable>();
+                if (damagableBuilding != null)
+                    damagableBuilding.GetDamageToServer(gatheringTool.Id);
 
                 if (damagableBuilding != null || damagable != null)
                 {
@@ -38,24 +42,6 @@ namespace Player_Controller
                 }
             }
         }
-
-        [ServerRpc(RequireOwnership = false)]
-        private void DamageServerRpc(int toolId, int damage, Vector3 startPos, Vector3 direction)
-        {
-            var ray = new Ray(startPos, direction);
-            var targets = Physics.RaycastAll(ray, _damageRange, _damageLayer);
-            foreach (var target in targets)
-            {
-                var damagable = target.collider.GetComponent<IDamagable>();
-                if (damagable != null)
-                    damagable.GetDamageOnServer(damage);
-
-                var damagableBuilding = target.collider.GetComponent<IBuildingDamagable>();
-                if (damagableBuilding != null)
-                    damagableBuilding.GetDamageOnServer(toolId);
-            }
-        }
-
 
         private IEnumerator ResetCanDamageRoutine(float coolDownTime)
         {

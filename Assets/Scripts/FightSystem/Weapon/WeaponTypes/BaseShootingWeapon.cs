@@ -164,14 +164,14 @@ namespace FightSystem.Weapon.WeaponTypes
             {
                 StartCoroutine(CharacterUIHandler.singleton.DisplayHitRoutine());
                 PlayerNetCode.Singleton.PlayerSoundsPlayer.PlaySoundLocal(damagableObj.GetPlayerDamageClip());
-                damagableObj.GetDamageOnServer((int)(Weapon.Damage * Weapon.Ammo.MultiplyKoef));
+                damagableObj.GetDamageToServer((int)(Weapon.Damage * Weapon.Ammo.MultiplyKoef));
                 return true;
             }
 
             if (hit.transform.TryGetComponent<IBuildingDamagable>(out var buildingDamagable))
             {
                 StartCoroutine(CharacterUIHandler.singleton.DisplayHitRoutine());
-                buildingDamagable.GetDamageOnServer(Weapon.Id);
+                buildingDamagable.GetDamageToServer(Weapon.Id);
                 return true;
             }
 
