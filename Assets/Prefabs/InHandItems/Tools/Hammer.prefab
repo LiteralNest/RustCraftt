@@ -233,7 +233,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &4650817149050842781
 Transform:
   m_ObjectHideFlags: 0
@@ -321,11 +321,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   buildingUpgradeView: {fileID: 6936139688801114620}
+  _buildingUpgradeSlots:
+  - _level: 1
+    _upgradeName: WOOD
+  - _level: 2
+    _upgradeName: STONE
+  - _level: 3
+    _upgradeName: METAL
+  - _level: 4
+    _upgradeName: HQM
   _targetMask:
     serializedVersion: 2
     m_Bits: 128
   _targetCamera: {fileID: 0}
-  _hammerRange: 5
+  _hammerRange: 3
 --- !u!114 &6936139688801114620
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -429,7 +438,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 2229551755
+  GlobalObjectIdHash: 1057753847
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
   ActiveSceneSynchronization: 0

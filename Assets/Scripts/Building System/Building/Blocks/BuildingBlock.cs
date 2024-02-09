@@ -147,6 +147,7 @@ namespace Building_System.Building.Blocks
                 StartCoroutine(DestroyRoutine());
         }
 
+
         private IEnumerator DestroyRoutine()
         {
             //Потрібно щоб OnTriggerExit зчитався

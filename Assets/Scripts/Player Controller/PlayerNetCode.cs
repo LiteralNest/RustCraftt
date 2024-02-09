@@ -10,6 +10,7 @@ using Sound_System;
 using Storage_System;
 using TMPro;
 using UI.Hp_Panel;
+using UI.UpgradeUI;
 using Unity.Netcode;
 using UnityEngine;
 using Web.UserData;
@@ -19,6 +20,7 @@ namespace Player_Controller
     public class PlayerNetCode : NetworkBehaviour
     {
         public static PlayerNetCode Singleton { get; private set; }
+        [field:SerializeField] public UpgradeTextView UpgradeTextView { get; private set; }
         [field: SerializeField] public ActiveInvetoriesHandler ActiveInvetoriesHandler { get; private set; }
         [field: SerializeField] public ObjectHpDisplayer ObjectHpDisplayer { get; private set; }
         [field: SerializeField] public ResourcesDropper ResourcesDropper { get; private set; }

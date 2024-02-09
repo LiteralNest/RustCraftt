@@ -7,8 +7,11 @@ namespace Building_System.Upgrading.UI
 {
     public class BuildingUpgradeView : MonoBehaviour
     {
-        [Header("Attached scripts")]
-        [SerializeField] private BuildingUpgrader _buildingUpgrader;
+        [Header("Attached scripts")] 
+        [SerializeField]
+        private BuildingUpgrader _buildingUpgrader;
+
+        [Header("Upgrade Cycle")]
         [SerializeField] private List<UpgradeCellView> _upgradeCells;
         [SerializeField] private GameObject _upgradeCyclePanel;
 
@@ -23,7 +26,7 @@ namespace Building_System.Upgrading.UI
             _selectUpgradingButton.onClick.RemoveAllListeners();
             _selectUpgradingButton.onClick.AddListener(() => DisplayCycle(true));
         }
-        
+
         private void DisplayButton(bool value, Button targetButton)
             => targetButton.gameObject.SetActive(value);
 
@@ -38,7 +41,7 @@ namespace Building_System.Upgrading.UI
         {
             foreach (var cell in _upgradeCells)
             {
-                cell.Init(_buildingUpgrader);
+                cell.Init(_buildingUpgrader, _upgradeCyclePanel);
                 cell.DisplayActive();
             }
         }
