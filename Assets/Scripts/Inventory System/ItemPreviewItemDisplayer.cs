@@ -25,7 +25,7 @@ namespace Inventory_System
             PlayerNetCode.Singleton.ItemInfoHandler.ResetPanel();
         }
 
-        protected override void PointerClicked()
+        public override void PointerClicked()
         {
         }
 
