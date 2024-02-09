@@ -12,8 +12,7 @@ namespace InHandItems
     {
         private const string GatheringViewPath = "Weapon/View/GatheringObjectView";
 
-        [Header("Attached Components")] [SerializeField]
-        private AnimationClip _gatheringAnimation;
+        [Header("Attached Components")]
 
         [SerializeField] private InHandItems.InHandAnimations.GatheringObjectAnimator _gatheringObjectAnimator;
 
@@ -40,8 +39,7 @@ namespace InHandItems
 
         public void Gather()
         {
-            PlayerNetCode.Singleton.PlayerMeleeDamager.TryDamage(_gatheringTool, _gatheringAnimation.length);
-            StartCoroutine(RecoverRoutine(_gatheringAnimation.length));
+            PlayerNetCode.Singleton.PlayerMeleeDamager.TryDamage(_gatheringTool);
             if (!_rayCaster.TryRaycast<ResourceOre>("Ore", _maxGatheringDistance, out ResourceOre targetResourceOre,
                     _rayCastMask, out RaycastHit hitInfo)) return;
 

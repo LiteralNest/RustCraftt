@@ -27,13 +27,23 @@ namespace InteractSystem
             if (!_targetCamera.gameObject.activeSelf) return;
             Ray ray = new Ray(_targetCamera.transform.position, _targetCamera.transform.forward);
             Debug.DrawRay(_targetCamera.transform.position, Camera.main.transform.forward * _maxDistance, Color.red);
-            if (Physics.Raycast(ray, out RaycastHit hitInfo, _maxDistance, _layerMask))
-                _target = hitInfo.collider.gameObject.GetComponent<IRaycastInteractable>();
-            else
-                _target = null;
+            var rayCastTargets = Physics.RaycastAll(ray, _maxDistance, _layerMask);
+            foreach(var target in rayCastTargets)
+            {
+                var interactable = target.collider.GetComponent<IRaycastInteractable>();
+                if (interactable != null)
+                {
+                    _rayCastInteractView.DisplayData(interactable);
+                    _target = interactable;
+                    return;
+                }
+            }
 
             if (_target != null && _target.CanInteract())
+            {
                 _rayCastInteractView.DisplayData(_target);
+                _target = null;
+            }
             else
                 _rayCastInteractView.ClosePanel();
         }

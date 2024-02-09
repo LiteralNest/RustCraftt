@@ -58,8 +58,9 @@ namespace Damaging_Item
                 SpawnCell(set);
                 return;
             }
-            SpawnCell(_lootCells[0]);
-        }
+            if(_lootCells.Count > 0)
+                SpawnCell(_lootCells[0]);
+        }   
 
         public void Destroy()
             => StartCoroutine(DestroyRoutine());

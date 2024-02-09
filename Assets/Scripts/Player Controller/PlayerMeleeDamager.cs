@@ -1,8 +1,6 @@
-using System.Collections;
 using FightSystem.Damage;
 using Inventory_System;
 using Items_System.Items;
-using Unity.Netcode;
 using UnityEngine;
 
 namespace Player_Controller
@@ -17,10 +15,9 @@ namespace Player_Controller
         private void Start()
             => _canDamage = true;
 
-        public void TryDamage(Tool gatheringTool, float coolDownTime)
+        public void TryDamage(Tool gatheringTool)
         {
             if (!_canDamage) return;
-            StartCoroutine(ResetCanDamageRoutine(coolDownTime));
             var cameraTransform = Camera.main.transform;
 
             var ray = new Ray(cameraTransform.position, cameraTransform.forward);
@@ -41,13 +38,6 @@ namespace Player_Controller
                     return;
                 }
             }
-        }
-
-        private IEnumerator ResetCanDamageRoutine(float coolDownTime)
-        {
-            _canDamage = false;
-            yield return new WaitForSeconds(coolDownTime);
-            _canDamage = true;
         }
     }
 }

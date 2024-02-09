@@ -119,7 +119,7 @@ namespace PlayerDeathSystem
 
         public bool CanInteract()
         {
-            if (!_knockDown.Value && IsOwner) return false;
+            if (!_knockDown.Value || IsOwner) return false;
             return true;
         }
     }

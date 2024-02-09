@@ -47,7 +47,7 @@ namespace FightSystem.Weapon.Melee
             => _inHandAnimator.SetScope();
 
         public void Damage()
-            => PlayerNetCode.Singleton.PlayerMeleeDamager.TryDamage(_targetWeapon, 1);
+            => PlayerNetCode.Singleton.PlayerMeleeDamager.TryDamage(_targetWeapon);
 
         public void SetThrow()
             => _inHandAnimator.SetThrow();
