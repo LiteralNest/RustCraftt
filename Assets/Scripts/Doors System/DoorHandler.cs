@@ -1,5 +1,6 @@
 using InteractSystem;
 using Lock_System;
+using Sound_System;
 using Unity.Netcode;
 using UnityEngine;
 using Web.UserData;
@@ -11,6 +12,12 @@ namespace Doors_System
         [SerializeField] private Sprite _openDoorIcon;
         [SerializeField] private Sprite _closeDoorIcon;
         [SerializeField] private Animator _anim;
+        
+        [Header("Sound")]
+        [SerializeField] private NetworkSoundPlayer _networkSoundPlayer;
+        [SerializeField] private AudioClip _openClip;
+        [SerializeField] private AudioClip _closeClip;
+        
         private Locker _locker;
 
         private NetworkVariable<bool> _wasOpened = new();
@@ -41,9 +48,15 @@ namespace Doors_System
         private void Open(bool value)
         {
             if (value)
+            {
+                _networkSoundPlayer.PlayOneShot(_openClip);
                 _anim.SetTrigger("Open");
+            }
             else
+            {
+                _networkSoundPlayer.PlayOneShot(_closeClip);
                 _anim.SetTrigger("Close");
+            }
         }
 
         #region IRaycastInteractable

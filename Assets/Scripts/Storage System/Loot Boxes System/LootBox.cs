@@ -24,7 +24,10 @@ namespace Storage_System.Loot_Boxes_System
         public override void OnNetworkSpawn()
         {
             base.OnNetworkSpawn();
-            ItemsNetData.OnValueChanged += (oldValue, newValue) => TryResetPanels();
+            ItemsNetData.OnValueChanged += (oldValue, newValue) =>
+            {
+                TryResetPanels();
+            };
             if (!IsServer) return;
             GenerateCells();
             ItemsNetData.OnValueChanged += (oldValue, newValue) => CheckCells();
@@ -32,7 +35,7 @@ namespace Storage_System.Loot_Boxes_System
 
         public void TryResetPanels()
         {
-            if(!Opened) return;
+            if (!Opened) return;
             if (!StorageEmpty()) return;
             _canvas.SetActive(false);
             InventoryHandler.singleton.InventoryPanelsDisplayer.HandleCharacterPreview(true);
@@ -74,15 +77,16 @@ namespace Storage_System.Loot_Boxes_System
             TurnRenderersClientRpc(true);
             GenerateCells();
         }
-        
+
         private LootBoxSlot GetRandomSlot()
         {
             var rand = Random.Range(0, 100);
             foreach (var slot in _setsPool)
-                if(slot.Chance > rand) return slot;
+                if (slot.Chance > rand)
+                    return slot;
             return _setsPool[0];
         }
-        
+
         [ContextMenu("Generate Cells")]
         private void GenerateCells()
         {
