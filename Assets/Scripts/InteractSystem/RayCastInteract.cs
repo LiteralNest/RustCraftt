@@ -24,11 +24,12 @@ namespace InteractSystem
 
         private void TryRayCastInteractable()
         {
+            _target = null;
             if (!_targetCamera.gameObject.activeSelf) return;
             Ray ray = new Ray(_targetCamera.transform.position, _targetCamera.transform.forward);
             Debug.DrawRay(_targetCamera.transform.position, Camera.main.transform.forward * _maxDistance, Color.red);
             var rayCastTargets = Physics.RaycastAll(ray, _maxDistance, _layerMask);
-            foreach(var target in rayCastTargets)
+            foreach (var target in rayCastTargets)
             {
                 var interactable = target.collider.GetComponent<IRaycastInteractable>();
                 if (interactable != null)
@@ -42,7 +43,6 @@ namespace InteractSystem
             if (_target != null && _target.CanInteract())
             {
                 _rayCastInteractView.DisplayData(_target);
-                _target = null;
             }
             else
                 _rayCastInteractView.ClosePanel();
@@ -62,7 +62,8 @@ namespace InteractSystem
                     return;
                 }
             }
-            if(PlayerNetCode.Singleton)
+
+            if (PlayerNetCode.Singleton)
                 PlayerNetCode.Singleton.ObjectHpDisplayer.DisablePanel();
         }
     }

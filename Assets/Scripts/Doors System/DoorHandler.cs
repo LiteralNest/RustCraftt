@@ -50,7 +50,7 @@ namespace Doors_System
 
         public string GetDisplayText()
         {
-            if (_locker != null && !_locker.CanBeOpened(UserDataHandler.Singleton.UserData.Id)) return "Locked";
+            if (_locker != null && !_locker.AvailableForOpen(UserDataHandler.Singleton.UserData.Id)) return "Locked";
             if (_wasOpened.Value)
                 return "Close";
             return "Open";

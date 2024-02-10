@@ -8,7 +8,7 @@ namespace Storage_System.Storage_Boxes_System
         private Locker _locker;
 
         public override bool CanInteract()
-            => _locker == null || _locker.CanBeOpened(UserDataHandler.Singleton.UserData.Id);
+            => _locker == null || _locker.AvailableForOpen(UserDataHandler.Singleton.UserData.Id);
 
         public override string GetDisplayText()
         {

@@ -187,7 +187,7 @@ namespace Tool_Clipboard
         #endregion
 
         private bool CanBeOpened()
-            => !(_targetLocker != null && !_targetLocker.CanBeOpened(UserDataHandler.Singleton.UserData.Id));
+            => !(_targetLocker != null && !_targetLocker.AvailableForOpen(UserDataHandler.Singleton.UserData.Id));
         
         public override string GetDisplayText()
         {
