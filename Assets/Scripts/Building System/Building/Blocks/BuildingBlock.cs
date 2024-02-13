@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using AlertsSystem;
 using Building_System.Upgrading;
+using CloudStorageSystem;
 using FightSystem.Damage;
 using InteractSystem;
 using Inventory_System;
@@ -127,6 +128,7 @@ namespace Building_System.Building.Blocks
         private void SetLevelServerRpc(ushort value)
         {
             _currentLevel.Value = value;
+            CloudSaveEventsContainer.OnBuildingBlockUpgraded?.Invoke(transform.position, value);
         }
 
 
