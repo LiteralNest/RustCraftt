@@ -24,14 +24,20 @@ namespace Building_System.Building.Placing_Objects
         public override void OnNetworkSpawn()
         {
             base.OnNetworkSpawn();
-            _hp.Value = _maxHp;
+            if (IsServer)
+            {
+                _hp.OnValueChanged += (float prevValue, float newValue) =>
+                {
+                    CloudSaveEventsContainer.OnStructureHpChanged?.Invoke((int)_hp.Value, transform.position);
+                };
+                _hp.Value = _maxHp;
+            }
         }
 
         public void GetDamageByExplosive(int explosiveId, float distance, float radius)
         {
             var damage = GetDamageAmountByExplosive(explosiveId, distance, radius);
             _hp.Value -= damage;
-            CloudSaveEventsContainer.OnStructureHpChanged?.Invoke((int)_hp.Value, transform.position);
             if (_hp.Value <= 0)
                 Destroy();
           
@@ -42,7 +48,6 @@ namespace Building_System.Building.Placing_Objects
         {
             if (!IsServer) return;
             GetDamageOnServer(damageItemId);
-            CloudSaveEventsContainer.OnStructureHpChanged?.Invoke((int)_hp.Value, transform.position);
         }
 
         public void GetDamageToServer(int damageItemId)
@@ -70,8 +75,7 @@ namespace Building_System.Building.Placing_Objects
                     return;
             _networkObject.Despawn();
         }
-
-
+        
         public void DisplayData()
             => PlayerNetCode.Singleton.ObjectHpDisplayer.DisplayBuildingHp(this);
     }
