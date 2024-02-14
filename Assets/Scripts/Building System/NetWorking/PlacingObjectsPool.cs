@@ -32,11 +32,11 @@ namespace Building_System.NetWorking
         public void InstantiateObjectServerRpc(int id, Vector3 pos, Quaternion rot, int playerId = -1)
         {
             if (!IsServer) return;
+            CloudSaveEventsContainer.OnStructureSpawned?.Invoke(id, pos, rot.eulerAngles);
             var obj = Instantiate(GetObjectById(id), pos, rot);
             obj.NetObject.Spawn();
             obj.SetOwnerId(playerId);
             obj.NetObject.DontDestroyWithOwner = true;
-            CloudSaveEventsContainer.OnStructureSpawned?.Invoke(id, pos, rot.eulerAngles);
         }
     }
 }

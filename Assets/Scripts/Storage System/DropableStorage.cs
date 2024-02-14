@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using CloudStorageSystem;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -6,8 +7,9 @@ namespace Storage_System
 {
     public class DropableStorage : Storage
     {
-        [Header("Dropable Storage")] 
-        [SerializeField] private List<Renderer> _targetRenders;
+        [Header("Dropable Storage")] [SerializeField]
+        private List<Renderer> _targetRenders;
+
         [SerializeField] private List<Collider> _colliders;
         [SerializeField] private List<GameObject> _disalingObjects;
         [SerializeField] private GameObject _bag;
@@ -17,7 +19,17 @@ namespace Storage_System
         public override void OnNetworkSpawn()
         {
             base.OnNetworkSpawn();
-            if(WasDropped.Value) DisplayBag();
+            if (WasDropped.Value) DisplayBag();
+
+            if (IsServer)
+            {
+                ItemsNetData.OnValueChanged += (_, _) =>
+                {
+                    CloudSaveEventsContainer.OnStructureInventoryChanged?.Invoke(transform.position,
+                        ItemsNetData.Value);
+                };
+            }
+
             WasDropped.OnValueChanged += (_, _) =>
             {
                 if (WasDropped.Value) DisplayBag();
@@ -36,7 +48,7 @@ namespace Storage_System
         {
             foreach (var render in _targetRenders)
                 render.enabled = false;
-            foreach(var collider in _colliders)
+            foreach (var collider in _colliders)
                 collider.enabled = false;
             foreach (var obj in _disalingObjects)
                 obj.SetActive(false);

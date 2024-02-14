@@ -13,6 +13,7 @@ namespace CloudStorageSystem
         public static Action<int, int, int> OnBuildingBlockSpawned { get; set; }
         public static Action<Vector3, int> OnBuildingBlockUpgraded { get; set; }
         public static Action<Vector3, int> OnBuildingBlockHpChanged { get; set; }
+        public static Action<Vector3> OnBuildingBlockDestroyed { get; set; }
 
         #endregion
 
@@ -21,6 +22,7 @@ namespace CloudStorageSystem
         public static Action<int, Vector3, Vector3> OnStructureSpawned { get; set; }
         public static Action<Vector3, CustomSendingInventoryData> OnStructureInventoryChanged { get; set; }
         public static Action<int, Vector3> OnStructureHpChanged { get; set; }
+        public static Action<Vector3> OnStructureDestroyed { get; set; }
 
         #endregion
     }

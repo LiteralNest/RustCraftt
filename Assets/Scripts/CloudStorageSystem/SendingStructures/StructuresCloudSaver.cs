@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using CloudStorageSystem.CloudStorageServices;
+using CustomMathSystem;
 using Storage_System;
 using UnityEngine;
 
@@ -15,6 +16,7 @@ namespace CloudStorageSystem.SendingStructures
             CloudSaveEventsContainer.OnStructureSpawned += AddStructure;
             CloudSaveEventsContainer.OnStructureInventoryChanged += ApplyStructureInventory;
             CloudSaveEventsContainer.OnStructureHpChanged += ApplyStructureHp;
+            CloudSaveEventsContainer.OnStructureDestroyed += RemoveStructure;
         }
 
         private void OnDisable()
@@ -22,6 +24,7 @@ namespace CloudStorageSystem.SendingStructures
             CloudSaveEventsContainer.OnStructureSpawned -= AddStructure;
             CloudSaveEventsContainer.OnStructureInventoryChanged -= ApplyStructureInventory;
             CloudSaveEventsContainer.OnStructureHpChanged -= ApplyStructureHp;
+            CloudSaveEventsContainer.OnStructureDestroyed -= RemoveStructure;
         }
 
         public override void SaveData()
@@ -34,15 +37,23 @@ namespace CloudStorageSystem.SendingStructures
         private int GetListStructureIndexByPosition(Vector3 position)
         {
             for (int i = 0; i < _data.Count; i++)
-                if (_data[i].X == (int)position.x && _data[i].Y == (int)position.y && _data[i].Z == (int)position.z)
+                if ((int)_data[i].X == CustomMath.GetParsedFloatToInt(position.x) &&
+                    (int)_data[i].Y == CustomMath.GetParsedFloatToInt(position.y) && (int)_data[i].Z == CustomMath.GetParsedFloatToInt(position.z))
                     return i;
-            throw new Exception("Can't find structure at position: " + position);
+            throw new Exception("Can't find structure at position: " + "X: " + (int)position.x + " Y: " + position.y +
+                                " Z: " + (int)position.z);
         }
 
         private void AddStructure(int structureId, Vector3 position, Vector3 rotation)
         {
             _data.Add(new StructureSendingData(structureId, 0, position, rotation,
                 new CustomSendingInventoryData(Array.Empty<CustomSendingInventoryDataCell>())));
+        }
+
+        private void RemoveStructure(Vector3 position)
+        {
+            int id = GetListStructureIndexByPosition(position);
+            _data.RemoveAt(id);
         }
 
         private void ApplyStructureInventory(Vector3 position, CustomSendingInventoryData inventory)

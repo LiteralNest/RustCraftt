@@ -174,6 +174,7 @@ namespace Building_System.Building.Blocks
         private IEnumerator DestroyRoutine()
         {
             //Потрібно щоб OnTriggerExit зчитався
+            CloudSaveEventsContainer.OnBuildingBlockDestroyed?.Invoke(transform.position);
             transform.position = new Vector3(1000000, 1000000, 1000000);
             yield return new WaitForSeconds(_destroyingTime);
             if (gameObject == null) yield break;

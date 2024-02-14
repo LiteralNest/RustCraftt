@@ -13,24 +13,31 @@ namespace CloudStorageSystem.Blocks
         public override void OnNetworkSpawn()
         {
             if (!IsServer) return;
-            CloudSaveEventsContainer.OnBuildingBlockSpawned += UpdateBlockList;
+            CloudSaveEventsContainer.OnBuildingBlockSpawned += AddBlockToList;
             CloudSaveEventsContainer.OnBuildingBlockUpgraded += UpdateBlockLevel;
             CloudSaveEventsContainer.OnBuildingBlockHpChanged += UpdateBlockHp;
+            CloudSaveEventsContainer.OnBuildingBlockDestroyed += RemoveBlockFromList;
             _blockPositions = new List<BuildingStructureSendingData>();
         }
 
         private void OnDisable()
         {
             if (!IsServer) return;
-            CloudSaveEventsContainer.OnBuildingBlockSpawned -= UpdateBlockList;
+            CloudSaveEventsContainer.OnBuildingBlockSpawned -= AddBlockToList;
             CloudSaveEventsContainer.OnBuildingBlockUpgraded -= UpdateBlockLevel;
             CloudSaveEventsContainer.OnBuildingBlockHpChanged -= UpdateBlockHp;
+            CloudSaveEventsContainer.OnBuildingBlockDestroyed -= RemoveBlockFromList;
         }
 
-        private void UpdateBlockList(int posX, int posY, int posZ)
+        private void AddBlockToList(int posX, int posY, int posZ)
             => _blockPositions.Add(new BuildingStructureSendingData(posX, posY, posZ, 0, 0));
-
-
+        
+        private void RemoveBlockFromList(Vector3 position)
+        {
+            var index = GetBlockIndexByPosition(position);
+            _blockPositions.RemoveAt(index);
+        }
+        
         private int GetBlockIndexByPosition(Vector3 position)
         {
             var fixedPos = new Vector3Int((int)position.x, (int)position.y, (int)position.z);

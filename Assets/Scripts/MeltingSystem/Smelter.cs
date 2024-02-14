@@ -52,12 +52,6 @@ namespace MeltingSystem
             if (WasDropped.Value)
                 DisplayBag();
 
-            ItemsNetData.OnValueChanged += (_, _) =>
-            {
-                CloudSaveEventsContainer.OnStructureInventoryChanged?.Invoke(transform.position,
-                    ItemsNetData.Value);
-            };
-
             WasDropped.OnValueChanged += (_, _) =>
             {
                 if (WasDropped.Value)

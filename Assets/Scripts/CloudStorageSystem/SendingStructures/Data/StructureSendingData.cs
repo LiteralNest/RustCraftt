@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using CustomMathSystem;
+using UnityEngine;
 using Storage_System;
 
 namespace CloudStorageSystem.SendingStructures
@@ -20,12 +21,12 @@ namespace CloudStorageSystem.SendingStructures
         {
             StructureId = structureId;
             Hp = hp;
-            X = (int)position.x;
-            Y = (int)position.y;
-            Z = (int)position.z;
-            RotX = (int)rotation.x;
-            RotY = (int)rotation.y;
-            RotZ = (int)rotation.z;
+            X = CustomMath.GetParsedFloatToInt(position.x);
+            Y = CustomMath.GetParsedFloatToInt(position.y);
+            Z = CustomMath.GetParsedFloatToInt(position.z);
+            RotX = CustomMath.GetParsedFloatToInt(rotation.x);
+            RotY = CustomMath.GetParsedFloatToInt(rotation.y);
+            RotZ = CustomMath.GetParsedFloatToInt(rotation.z);
             Inventory = new CustomSendingInventoryData(inventory.Cells);
         }
     }

@@ -40,7 +40,6 @@ namespace Building_System.Building.Placing_Objects
             _hp.Value -= damage;
             if (_hp.Value <= 0)
                 Destroy();
-          
         }
 
         [ServerRpc(RequireOwnership = false)]
@@ -73,9 +72,10 @@ namespace Building_System.Building.Placing_Objects
             if (_targetBag)
                 if (_targetBag.TryDisplayBagOnServer())
                     return;
+            CloudSaveEventsContainer.OnStructureDestroyed?.Invoke(transform.position);
             _networkObject.Despawn();
         }
-        
+
         public void DisplayData()
             => PlayerNetCode.Singleton.ObjectHpDisplayer.DisplayBuildingHp(this);
     }
