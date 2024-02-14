@@ -11,10 +11,6 @@ namespace Storage_System.Vehicles
         [SerializeField] private float _timeBetweenRemovingFuel = 1;
         private Coroutine _removeFuelRoutine;
 
-        private void Update()
-        {
-        }
-
         private IEnumerator RemoveFuelRoutine()
         {
             while (GetAvailableFuel() > 0)

@@ -1,4 +1,5 @@
-﻿using FightSystem.Damage;
+﻿using CloudStorageSystem;
+using FightSystem.Damage;
 using InteractSystem;
 using Player_Controller;
 using Storage_System;
@@ -30,8 +31,10 @@ namespace Building_System.Building.Placing_Objects
         {
             var damage = GetDamageAmountByExplosive(explosiveId, distance, radius);
             _hp.Value -= damage;
+            CloudSaveEventsContainer.OnStructureHpChanged?.Invoke((int)_hp.Value, transform.position);
             if (_hp.Value <= 0)
                 Destroy();
+          
         }
 
         [ServerRpc(RequireOwnership = false)]
@@ -39,6 +42,7 @@ namespace Building_System.Building.Placing_Objects
         {
             if (!IsServer) return;
             GetDamageOnServer(damageItemId);
+            CloudSaveEventsContainer.OnStructureHpChanged?.Invoke((int)_hp.Value, transform.position);
         }
 
         public void GetDamageToServer(int damageItemId)
