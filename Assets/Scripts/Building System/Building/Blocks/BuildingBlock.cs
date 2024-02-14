@@ -136,6 +136,7 @@ namespace Building_System.Building.Blocks
         private void SetHpServerRpc(int value)
         {
             _hp.Value = value;
+            CloudSaveEventsContainer.OnBuildingBlockHpChanged?.Invoke(transform.position, value);
             if (_hp.Value <= 0)
             {
                 if (IsServer)
