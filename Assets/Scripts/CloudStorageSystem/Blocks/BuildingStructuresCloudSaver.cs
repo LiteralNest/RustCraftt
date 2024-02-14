@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace CloudStorageSystem.Blocks
 {
-    public class BuildingStructuresCloudSaver : NetworkBehaviour
+    public class BuildingStructuresCloudSaver : CloudService
     {
         private List<BuildingStructureSendingData> _blockPositions = new();
 
@@ -26,19 +26,8 @@ namespace CloudStorageSystem.Blocks
         }
 
         private void UpdateBlockList(int posX, int posY, int posZ)
-        {
-            _blockPositions.Add(new BuildingStructureSendingData(posX, posY, posZ, 0, 0));
-            SaveBlocksData(_blockPositions);
-        }
+            => _blockPositions.Add(new BuildingStructureSendingData(posX, posY, posZ, 0, 0));
 
-        private void SaveBlocksData(List<BuildingStructureSendingData> positions)
-        {
-            var data = new SendingBlocksData();
-            data.BlockPositions = positions;
-
-            ServerDataHandler dataHandler = new();
-            StartCoroutine(dataHandler.SendDataCoroutine("Blocks", data));
-        }
 
         private int GetBlockIndexByPosition(Vector3 position)
         {
@@ -59,7 +48,15 @@ namespace CloudStorageSystem.Blocks
             var cachedBlockData = _blockPositions[index];
             _blockPositions[index] = new BuildingStructureSendingData(cachedBlockData.X, cachedBlockData.Y,
                 cachedBlockData.Z, cachedBlockData.Hp, level);
-            SaveBlocksData(_blockPositions);
+        }
+
+        public override void SaveData()
+        {
+            var data = new SendingBlocksData();
+            data.BlockPositions = _blockPositions;
+
+            ServerDataHandler dataHandler = new();
+            StartCoroutine(dataHandler.SendDataCoroutine("Blocks", data));
         }
     }
 }

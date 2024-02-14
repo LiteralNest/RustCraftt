@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Events;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -36,12 +37,17 @@ namespace ViVox.UI
 
             MessageInputField.onEndEdit.AddListener((string text) => { EnterKeyOnTextField(); });
 
-            if(_vivoxVoiceManager == null || _vivoxVoiceManager.ActiveChannels == null) return;
+            if (_vivoxVoiceManager == null || _vivoxVoiceManager.ActiveChannels == null) return;
             if (_vivoxVoiceManager.ActiveChannels.Count > 0)
                 _lobbyChannelId = _vivoxVoiceManager.ActiveChannels
                     .FirstOrDefault(ac => ac.Channel.Name == LobbyChannelName).Key;
         }
 
+        private void OnEnable()
+            => GlobalEventsContainer.OnChatMessageCreated += CreateMessageObject;
+        
+        private void OnDisable()
+            => GlobalEventsContainer.OnChatMessageCreated -= CreateMessageObject;
 
         private void OnDestroy()
         {
@@ -71,6 +77,13 @@ namespace ViVox.UI
             MessageInputField.ActivateInputField();
         }
 
+        private void CreateMessageObject(string msg)
+        {
+            var messageObj = Instantiate(MessageObject, ChatContentObj.transform);
+            messageObj.DisplayMessage(msg);
+            _messageObjPool.Add(messageObj.gameObject);
+        }
+        
         private void EnterKeyOnTextField()
         {
             if (!Input.GetKeyDown(KeyCode.Return))

@@ -18,6 +18,7 @@ namespace Events
         public static Action OnPlayerKnockDown { get; set; }
         public static Action OnMapOpened { get; set; }
         public static Action OnActiveSlotReset { get; set; }
+        public static Action<string> OnChatMessageCreated { get; set; }
 
         #region Inventory
 
