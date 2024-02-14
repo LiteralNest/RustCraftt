@@ -39,7 +39,7 @@ namespace Multiplayer.CloudStore
             data.ServerIp = _serverIp;
             data.ServerName = "Server";
             data.PlayersCount = value;
-            StartCoroutine(_dataHandler.SendDataCoroutine(data.ServerName, data));
+            _dataHandler.SendDataAsync(data.ServerName, data);
         }
     }
 }

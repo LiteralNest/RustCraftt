@@ -130,18 +130,26 @@ namespace Building_System.Building.Blocks
             _currentLevel.Value = value;
             CloudSaveEventsContainer.OnBuildingBlockUpgraded?.Invoke(transform.position, value);
         }
+        
+        public void SetLevel(ushort value)
+            => SetLevelServerRpc(value);
 
-
-        [ServerRpc(RequireOwnership = false)]
-        private void SetHpServerRpc(int value)
+        public void SetHp(float value)
         {
             _hp.Value = value;
-            CloudSaveEventsContainer.OnBuildingBlockHpChanged?.Invoke(transform.position, value);
+            CloudSaveEventsContainer.OnBuildingBlockHpChanged?.Invoke(transform.position, (int)value);
             if (_hp.Value <= 0)
             {
                 if (IsServer)
                     StartCoroutine(DestroyRoutine());
             }
+        }
+        
+        [ServerRpc(RequireOwnership = false)]
+        private void SetHpServerRpc(int value)
+        {
+           if(!IsServer) return;
+           SetHp(value);
         }
 
         public void Destroy()
@@ -237,12 +245,7 @@ namespace Building_System.Building.Blocks
         private void AssignDamage(float damage)
         {
             float hp = _hp.Value - damage;
-            _hp.Value = hp;
-            if (_hp.Value <= 0)
-            {
-                if (IsServer)
-                    StartCoroutine(DestroyRoutine());
-            }
+            SetHp((int)hp);
         }
 
         public void Decay()

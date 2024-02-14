@@ -66,7 +66,7 @@ namespace CloudStorageSystem.Blocks
             data.BlockPositions = _blockPositions;
 
             ServerDataHandler dataHandler = new();
-            StartCoroutine(dataHandler.SendDataCoroutine("Blocks", data));
+            dataHandler.SendDataAsync("Blocks", data);
         }
     }
 }
