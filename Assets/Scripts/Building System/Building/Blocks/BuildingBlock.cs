@@ -46,8 +46,16 @@ namespace Building_System.Building.Blocks
         {
             InitSlot();
             _currentLevel.OnValueChanged += (ushort prevValue, ushort newValue) => { InitSlot(); };
-            if (IsServer)
-                StartCoroutine(HandleDestroyingByHammerTime());
+            if (!IsServer) return;
+            StartCoroutine(HandleDestroyingByHammerTime());
+            _currentLevel.OnValueChanged += (ushort prevValue, ushort newValue) =>
+            {
+                CloudSaveEventsContainer.OnBuildingBlockUpgraded?.Invoke(transform.position, _currentLevel.Value);
+            };
+            _hp.OnValueChanged += (float prevValue, float newValue) =>
+            {
+                CloudSaveEventsContainer.OnBuildingBlockHpChanged?.Invoke(transform.position, (int)newValue);
+            };
         }
 
         public override void OnDestroy()
@@ -128,12 +136,12 @@ namespace Building_System.Building.Blocks
         private void SetLevelServerRpc(ushort value)
         {
             _currentLevel.Value = value;
-            CloudSaveEventsContainer.OnBuildingBlockUpgraded?.Invoke(transform.position, value);
         }
 
+        public void SetLevel(ushort value)
+            => SetLevelServerRpc(value);
 
-        [ServerRpc(RequireOwnership = false)]
-        private void SetHpServerRpc(int value)
+        public void SetHp(float value)
         {
             _hp.Value = value;
             if (_hp.Value <= 0)
@@ -141,6 +149,13 @@ namespace Building_System.Building.Blocks
                 if (IsServer)
                     StartCoroutine(DestroyRoutine());
             }
+        }
+
+        [ServerRpc(RequireOwnership = false)]
+        private void SetHpServerRpc(int value)
+        {
+            if (!IsServer) return;
+            SetHp(value);
         }
 
         public void Destroy()
@@ -236,12 +251,7 @@ namespace Building_System.Building.Blocks
         private void AssignDamage(float damage)
         {
             float hp = _hp.Value - damage;
-            _hp.Value = hp;
-            if (_hp.Value <= 0)
-            {
-                if (IsServer)
-                    StartCoroutine(DestroyRoutine());
-            }
+            SetHp((int)hp);
         }
 
         public void Decay()

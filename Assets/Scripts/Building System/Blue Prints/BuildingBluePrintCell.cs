@@ -58,7 +58,7 @@ namespace Building_System.Blue_Prints
                 AlertEventsContainer.OnInventoryItemRemoved?.Invoke(cell.Item.Name, cell.Count);
             }
 
-            BuildingsNetworkingSpawner.singleton.SpawnPrefServerRpc(_targetBuildingStructure.Id, transform.position,
+            BuildingsNetworkingSpawner.Singleton.SpawnPrefServerRpc(_targetBuildingStructure.Id, transform.position,
                 transform.rotation, shouldPlaySound);
         }
 

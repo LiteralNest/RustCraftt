@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using CloudStorageSystem;
 using Inventory_System;
 using Inventory_System.Slots_Displayer;
 using Items_System.Items;
@@ -29,8 +30,9 @@ namespace MeltingSystem
         [Header("UI")] [SerializeField] private GameObject _turnOnPanel;
         [SerializeField] private GameObject _turnOffPanel;
 
-        [Header("Drop Bag Staff")]
-        [SerializeField] private StorageSlotsDisplayer _bagSlotsDisplayer;
+        [Header("Drop Bag Staff")] [SerializeField]
+        private StorageSlotsDisplayer _bagSlotsDisplayer;
+
         [SerializeField] private GameObject _targetUI;
 
         private void Start()
@@ -49,6 +51,12 @@ namespace MeltingSystem
             base.OnNetworkSpawn();
             if (WasDropped.Value)
                 DisplayBag();
+
+            ItemsNetData.OnValueChanged += (_, _) =>
+            {
+                CloudSaveEventsContainer.OnStructureInventoryChanged?.Invoke(transform.position,
+                    ItemsNetData.Value);
+            };
 
             WasDropped.OnValueChanged += (_, _) =>
             {

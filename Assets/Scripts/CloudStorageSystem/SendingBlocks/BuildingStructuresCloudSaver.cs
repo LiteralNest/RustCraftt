@@ -15,6 +15,7 @@ namespace CloudStorageSystem.Blocks
             if (!IsServer) return;
             CloudSaveEventsContainer.OnBuildingBlockSpawned += UpdateBlockList;
             CloudSaveEventsContainer.OnBuildingBlockUpgraded += UpdateBlockLevel;
+            CloudSaveEventsContainer.OnBuildingBlockHpChanged += UpdateBlockHp;
             _blockPositions = new List<BuildingStructureSendingData>();
         }
 
@@ -23,6 +24,7 @@ namespace CloudStorageSystem.Blocks
             if (!IsServer) return;
             CloudSaveEventsContainer.OnBuildingBlockSpawned -= UpdateBlockList;
             CloudSaveEventsContainer.OnBuildingBlockUpgraded -= UpdateBlockLevel;
+            CloudSaveEventsContainer.OnBuildingBlockHpChanged -= UpdateBlockHp;
         }
 
         private void UpdateBlockList(int posX, int posY, int posZ)
@@ -49,6 +51,14 @@ namespace CloudStorageSystem.Blocks
             _blockPositions[index] = new BuildingStructureSendingData(cachedBlockData.X, cachedBlockData.Y,
                 cachedBlockData.Z, cachedBlockData.Hp, level);
         }
+        
+        private void UpdateBlockHp(Vector3 position, int hp)
+        {
+            var index = GetBlockIndexByPosition(position);
+            var cachedBlockData = _blockPositions[index];
+            _blockPositions[index] = new BuildingStructureSendingData(cachedBlockData.X, cachedBlockData.Y,
+                cachedBlockData.Z, hp, cachedBlockData.Level);
+        }
 
         public override void SaveData()
         {
@@ -56,7 +66,7 @@ namespace CloudStorageSystem.Blocks
             data.BlockPositions = _blockPositions;
 
             ServerDataHandler dataHandler = new();
-            StartCoroutine(dataHandler.SendDataCoroutine("Blocks", data));
+            dataHandler.SendDataAsync("Blocks", data);
         }
     }
 }

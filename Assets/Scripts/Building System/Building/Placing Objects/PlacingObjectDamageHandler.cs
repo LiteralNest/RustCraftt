@@ -1,4 +1,5 @@
-﻿using FightSystem.Damage;
+﻿using CloudStorageSystem;
+using FightSystem.Damage;
 using InteractSystem;
 using Player_Controller;
 using Storage_System;
@@ -23,7 +24,14 @@ namespace Building_System.Building.Placing_Objects
         public override void OnNetworkSpawn()
         {
             base.OnNetworkSpawn();
-            _hp.Value = _maxHp;
+            if (IsServer)
+            {
+                _hp.OnValueChanged += (float prevValue, float newValue) =>
+                {
+                    CloudSaveEventsContainer.OnStructureHpChanged?.Invoke((int)_hp.Value, transform.position);
+                };
+                _hp.Value = _maxHp;
+            }
         }
 
         public void GetDamageByExplosive(int explosiveId, float distance, float radius)
@@ -32,6 +40,7 @@ namespace Building_System.Building.Placing_Objects
             _hp.Value -= damage;
             if (_hp.Value <= 0)
                 Destroy();
+          
         }
 
         [ServerRpc(RequireOwnership = false)]
@@ -66,8 +75,7 @@ namespace Building_System.Building.Placing_Objects
                     return;
             _networkObject.Despawn();
         }
-
-
+        
         public void DisplayData()
             => PlayerNetCode.Singleton.ObjectHpDisplayer.DisplayBuildingHp(this);
     }

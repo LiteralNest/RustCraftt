@@ -9,10 +9,10 @@ namespace CloudStorageSystem.CloudStorageServices
 {
     public class ServerDataHandler
     {
-        public IEnumerator SendDataCoroutine<T>(string key, T data) where T : struct
+        public async void SendDataAsync<T>(string key, T data) where T : struct
         {
             var sendingData = new Dictionary<string, object> { { key, data } };
-            yield return CloudSaveService.Instance.Data.ForceSaveAsync(sendingData);
+            await CloudSaveService.Instance.Data.ForceSaveAsync(sendingData);
             Debug.Log("Data with key " + key + " has been sent");
         }
 

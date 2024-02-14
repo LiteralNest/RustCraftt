@@ -2505,6 +2505,50 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 7187374762738863937, guid: 62cf3c64702ca0341992e84bcef8b16f, type: 3}
   m_PrefabInstance: {fileID: 1379451998}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &404826630
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 404826631}
+  - component: {fileID: 404826632}
+  m_Layer: 0
+  m_Name: StructuresCloud
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &404826631
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 404826630}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1761081716}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &404826632
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 404826630}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 732a10c99dc24aebb8e23f324a4a2fe4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &407448283
 GameObject:
   m_ObjectHideFlags: 0
@@ -4042,7 +4086,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 753035669}
-  - component: {fileID: 753035670}
   - component: {fileID: 753035671}
   m_Layer: 0
   m_Name: ServerCharactersCounter
@@ -4066,26 +4109,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1761081716}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &753035670
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 753035668}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 2382504610
-  AlwaysReplicateAsRoot: 0
-  SynchronizeTransform: 1
-  ActiveSceneSynchronization: 0
-  SceneMigrationSynchronization: 1
-  SpawnWithObservers: 1
-  DontDestroyWithOwner: 0
-  AutoObjectParentSync: 1
 --- !u!114 &753035671
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9113,10 +9136,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1519851546}
-  - component: {fileID: 1519851547}
   - component: {fileID: 1519851548}
+  - component: {fileID: 1519851547}
   m_Layer: 0
-  m_Name: BuildingStructuresCloudSaver
+  m_Name: BuildingBlocksCloud
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -9158,17 +9181,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 1519851545}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Script: {fileID: 11500000, guid: 2809b522ed8946e29669433f2cadff4a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 245501424
-  AlwaysReplicateAsRoot: 0
-  SynchronizeTransform: 1
-  ActiveSceneSynchronization: 0
-  SceneMigrationSynchronization: 1
-  SpawnWithObservers: 1
-  DontDestroyWithOwner: 0
-  AutoObjectParentSync: 1
 --- !u!1 &1522116211
 GameObject:
   m_ObjectHideFlags: 0
@@ -10092,6 +10107,7 @@ GameObject:
   - component: {fileID: 1761081716}
   - component: {fileID: 1761081715}
   - component: {fileID: 1761081717}
+  - component: {fileID: 1761081718}
   m_Layer: 0
   m_Name: CloudSaveLogic
   m_TagString: Untagged
@@ -10126,6 +10142,7 @@ Transform:
   m_Children:
   - {fileID: 753035669}
   - {fileID: 1519851546}
+  - {fileID: 404826631}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1761081717
@@ -10140,9 +10157,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0060d6231a974af7b3cd48645d14ba8f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _timeBetweenSaves: 60
+  _timeBetweenSaves: 10
   _cloudServices:
   - {fileID: 1519851547}
+  - {fileID: 404826632}
+--- !u!114 &1761081718
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1761081714}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GlobalObjectIdHash: 888504715
+  AlwaysReplicateAsRoot: 0
+  SynchronizeTransform: 1
+  ActiveSceneSynchronization: 0
+  SceneMigrationSynchronization: 1
+  SpawnWithObservers: 1
+  DontDestroyWithOwner: 0
+  AutoObjectParentSync: 1
 --- !u!1 &1765987473 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8374678942788203786, guid: 39e97d8d1c15c9f448609acf77ed7037, type: 3}

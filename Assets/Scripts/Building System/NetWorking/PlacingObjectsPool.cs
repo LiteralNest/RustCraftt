@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using Building_System.Building.Placing_Objects;
-using Lock_System;
+using CloudStorageSystem;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -11,8 +11,7 @@ namespace Building_System.NetWorking
         public static PlacingObjectsPool singleton { get; private set; }
 
         [SerializeField] private List<PlacingObject> _placingObjects = new List<PlacingObject>();
-
-        public GameObject LastInstantiatedObj { get; private set; }
+        
     
         private void Awake()
         {
@@ -37,6 +36,7 @@ namespace Building_System.NetWorking
             obj.NetObject.Spawn();
             obj.SetOwnerId(playerId);
             obj.NetObject.DontDestroyWithOwner = true;
+            CloudSaveEventsContainer.OnStructureSpawned?.Invoke(id, pos, rot.eulerAngles);
         }
     }
 }
