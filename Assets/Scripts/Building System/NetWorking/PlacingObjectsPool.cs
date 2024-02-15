@@ -27,16 +27,21 @@ namespace Building_System.NetWorking
             return null;
         }
 
-    
-        [ServerRpc(RequireOwnership = false)]
-        public void InstantiateObjectServerRpc(int id, Vector3 pos, Quaternion rot, int playerId = -1)
+        public PlacingObject GetInstantiatedObjectOnServer(int id, Vector3 pos, Quaternion rot, int playerId = -1)
         {
-            if (!IsServer) return;
             CloudSaveEventsContainer.OnStructureSpawned?.Invoke(id, pos, rot.eulerAngles);
             var obj = Instantiate(GetObjectById(id), pos, rot);
             obj.NetObject.Spawn();
             obj.SetOwnerId(playerId);
             obj.NetObject.DontDestroyWithOwner = true;
+            return obj;
+        }
+        
+        [ServerRpc(RequireOwnership = false)]
+        public void InstantiateObjectServerRpc(int id, Vector3 pos, Quaternion rot, int playerId = -1)
+        {
+            if (!IsServer) return;
+            GetInstantiatedObjectOnServer(id, pos, rot, playerId);
         }
     }
 }

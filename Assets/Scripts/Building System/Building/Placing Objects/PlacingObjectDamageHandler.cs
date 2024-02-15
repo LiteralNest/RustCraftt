@@ -58,13 +58,19 @@ namespace Building_System.Building.Placing_Objects
         public int GetMaxHp()
             => _maxHp;
 
+
+        public void SetHpOnServer(float hp)
+        {
+            _hp.Value = hp;
+            if (_hp.Value <= 0)
+                Destroy();
+        }
+
         public void GetDamageOnServer(int itemId)
         {
             if (!IsServer) return;
             var damage = GetDamageAmount(itemId);
-            _hp.Value -= damage;
-            if (_hp.Value <= 0)
-                Destroy();
+            SetHpOnServer(_hp.Value - damage);
         }
 
         public void Destroy()

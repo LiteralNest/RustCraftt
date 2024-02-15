@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using CloudStorageSystem.CloudStorageServices;
+using CloudStorageSystem.SendingStructures.Data;
 using CustomMathSystem;
 using Storage_System;
 using UnityEngine;
@@ -31,7 +32,7 @@ namespace CloudStorageSystem.SendingStructures
         {
             ServerDataHandler dataHandler = new();
             StructuresSendingDataList sendingData = new(_data);
-            dataHandler.SendDataAsync("Structures", sendingData);
+            dataHandler.SendDataAsync(CloudStorageKeys.Structures, sendingData);
         }
 
         private int GetListStructureIndexByPosition(Vector3 position)

@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace CloudStorageSystem.SendingStructures
+namespace CloudStorageSystem.SendingStructures.Data
 {
     public struct StructuresSendingDataList
     {

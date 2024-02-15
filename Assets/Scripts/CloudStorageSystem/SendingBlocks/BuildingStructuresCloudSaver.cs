@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using CloudStorageSystem.CloudStorageServices;
-using Unity.Netcode;
+using CloudStorageSystem.SendingBlocks.Data;
 using UnityEngine;
 
-namespace CloudStorageSystem.Blocks
+namespace CloudStorageSystem.SendingBlocks
 {
     public class BuildingStructuresCloudSaver : CloudService
     {
@@ -73,7 +73,7 @@ namespace CloudStorageSystem.Blocks
             data.BlockPositions = _blockPositions;
 
             ServerDataHandler dataHandler = new();
-            dataHandler.SendDataAsync("Blocks", data);
+            dataHandler.SendDataAsync(CloudStorageKeys.Blocks, data);
         }
     }
 }

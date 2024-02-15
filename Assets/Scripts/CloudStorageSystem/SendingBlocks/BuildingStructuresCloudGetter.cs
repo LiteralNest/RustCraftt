@@ -1,9 +1,10 @@
 ﻿using Building_System.NetWorking;
 using CloudStorageSystem.CloudStorageServices;
+using CloudStorageSystem.SendingBlocks.Data;
 using Unity.Netcode;
 using UnityEngine;
 
-namespace CloudStorageSystem.Blocks
+namespace CloudStorageSystem.SendingBlocks
 {
     public class BuildingStructuresCloudGetter : NetworkBehaviour
     {
@@ -21,7 +22,7 @@ namespace CloudStorageSystem.Blocks
         private async void LoadObjectsAsync()
         {
             ServerDataHandler dataHandler = new();
-            var data = await dataHandler.LoadDataAsync<SendingBlocksData>("Blocks");
+            var data = await dataHandler.LoadDataAsync<SendingBlocksData>(CloudStorageKeys.Blocks);
             var blocks = data.BlockPositions;
             foreach (var block in blocks)
             {

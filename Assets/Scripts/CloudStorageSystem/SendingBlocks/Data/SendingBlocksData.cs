@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace CloudStorageSystem.Blocks
+namespace CloudStorageSystem.SendingBlocks.Data
 {
     public struct SendingBlocksData
     {

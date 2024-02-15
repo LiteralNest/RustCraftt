@@ -1,13 +1,13 @@
 ﻿using CustomMathSystem;
-using UnityEngine;
 using Storage_System;
+using UnityEngine;
 
-namespace CloudStorageSystem.SendingStructures
+namespace CloudStorageSystem.SendingStructures.Data
 {
     public struct StructureSendingData
     {
         public int StructureId;
-        public int Hp;
+        public float Hp;
         public int X;
         public int Y;
         public int Z;
@@ -16,7 +16,7 @@ namespace CloudStorageSystem.SendingStructures
         public int RotZ;
         public CustomSendingInventoryData Inventory;
 
-        public StructureSendingData(int structureId, int hp, Vector3 position, Vector3 rotation,
+        public StructureSendingData(int structureId, float hp, Vector3 position, Vector3 rotation,
             CustomSendingInventoryData inventory)
         {
             StructureId = structureId;

@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using Building_System.Building.Blocks;
 using Building_System.Upgrading;
-using CloudStorageSystem;
 using Inventory_System;
 using Items_System.Items.Abstract;
 using Unity.Netcode;
@@ -13,17 +12,24 @@ namespace Building_System.Building.Placing_Objects
     {
         [field: SerializeField] public Item TargetItem { get; private set; }
         public NetworkVariable<int> OwnerId { get; set; } = new();
+
+        private PlacingObjectDamageHandler _damageHandler;
         private IPlacingObjectInteractable _interactable;
+
+        public PlacingObjectDamageHandler DamageHandler => _damageHandler;
 
         private void Awake()
             => _interactable = GetComponent<IPlacingObjectInteractable>();
-        
+
+        private void Start()
+            => _damageHandler = GetComponent<PlacingObjectDamageHandler>();
+
         public void SetOwnerId(int id)
         {
             OwnerId.Value = id;
             _interactable?.Init(id);
         }
-        
+
         [ServerRpc(RequireOwnership = false)]
         private void DestroyObjectServerRpc()
         {
@@ -45,7 +51,7 @@ namespace Building_System.Building.Placing_Objects
 
         public InventoryCell GetNeededItemsForUpgrade()
         {
-                throw new System.NotImplementedException();
+            throw new System.NotImplementedException();
         }
 
         public bool CanBeUpgraded(int level)

@@ -1,4 +1,4 @@
-﻿namespace CloudStorageSystem.Blocks
+﻿namespace CloudStorageSystem.SendingBlocks.Data
 {
     public struct BuildingStructureSendingData
     {
