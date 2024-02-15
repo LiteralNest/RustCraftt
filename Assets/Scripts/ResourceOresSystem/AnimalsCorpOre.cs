@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using AI.Animals;
 using AI.Animals.AnimalsSpawner;
+using Items_System.Items.Abstract;
 using UnityEngine;
 
 namespace ResourceOresSystem

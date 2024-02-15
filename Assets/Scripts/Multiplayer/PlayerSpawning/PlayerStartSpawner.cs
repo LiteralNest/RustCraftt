@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Animation_System;
 using Building_System.NetWorking;
+using CloudStorageSystem;
 using PlayerDeathSystem;
 using Unity.Netcode;
 using UnityEngine;
@@ -34,7 +35,8 @@ namespace Multiplayer.PlayerSpawning
             foreach (var player in players)
             {
                 if (player.UserId != _userId.Value) continue;
-                player.GenerateBackPack(true, _userId.Value, UserDataHandler.Singleton.UserData.Name);
+                player.GenerateBackPackOnServer(true, _userId.Value,
+                    UserDataHandler.Singleton.UserData.Name);
             }
         }
 

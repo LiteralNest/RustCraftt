@@ -1,10 +1,11 @@
 using System.Threading.Tasks;
 using Animation_System;
-using Player_Controller;
+using CloudStorageSystem;
 using Storage_System;
 using UI;
 using Unity.Netcode;
 using UnityEngine;
+using UnityEngine.Serialization;
 using Web.UserData;
 
 namespace PlayerDeathSystem
@@ -14,7 +15,10 @@ namespace PlayerDeathSystem
         public static PlayerKiller Singleton { get; private set; }
 
         [SerializeField] private CharacterInventory _characterInventory;
-        [SerializeField] private PlayerCorpesHanler _playerCorpesHanler;
+
+        [FormerlySerializedAs("_playerCorpesHanler")] [SerializeField]
+        private PlayerCorpesHandler playerCorpesHandler;
+
         [SerializeField] private CharacterAnimationsHandler _characterAnimationsHandler;
 
         private NetworkVariable<int> _userId = new(-1, NetworkVariableReadPermission.Everyone,
@@ -40,18 +44,18 @@ namespace PlayerDeathSystem
         [ServerRpc(RequireOwnership = false)]
         public void GenerateBackPackServerRpc(bool wasDisconnected, int ownerId, string nickName)
         {
-            if(!IsServer) return;
-            GenerateBackPack(wasDisconnected, ownerId, nickName);
+            if (!IsServer) return;
+            GenerateBackPackOnServer(wasDisconnected, ownerId, nickName);
         }
 
-        public void GenerateBackPack(bool wasDisconnected, int ownerId, string nickName)
+        public void GenerateBackPackOnServer(bool wasDisconnected, int ownerId, string nickName)
         {
             GetComponent<NetworkObject>().ChangeOwnership(NetworkManager.Singleton.LocalClientId);
-            _playerCorpesHanler.GenerateBackPack(_characterInventory.ItemsNetData.Value, wasDisconnected,
+            playerCorpesHandler.GenerateBackPack(_characterInventory.ItemsNetData.Value, wasDisconnected,
                 ownerId, nickName);
             GetComponent<NetworkObject>().Despawn();
         }
-        
+
 
         [ClientRpc]
         private void DieClientRpc(bool wasDisconnected, int ownerId, bool shouldDisplayDeathScreen)
@@ -60,7 +64,8 @@ namespace PlayerDeathSystem
             {
                 if (shouldDisplayDeathScreen)
                     MainUiHandler.Singleton.DisplayDeathScreen(true);
-                GenerateBackPackServerRpc(wasDisconnected, ownerId, UserDataHandler.Singleton.UserData.Name);
+                GenerateBackPackServerRpc(wasDisconnected, ownerId,
+                    UserDataHandler.Singleton.UserData.Name);
             }
         }
 

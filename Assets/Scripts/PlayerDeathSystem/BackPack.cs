@@ -1,3 +1,5 @@
+using CloudStorageSystem;
+using ResourceOresSystem;
 using Storage_System;
 using TMPro;
 using Unity.Collections;
@@ -8,6 +10,7 @@ namespace PlayerDeathSystem
 {
     public class BackPack : Storage
     {
+        [SerializeField] private CorpOre _ore;
         [SerializeField] private NetworkObject _networkObject;
         [SerializeField] private Transform _mapPoint;
         [SerializeField] private PlayerCorpDisplay _playerCorpDisplay;
@@ -17,6 +20,8 @@ namespace PlayerDeathSystem
         public NetworkVariable<bool> WasDisconnected { get; private set; } = new(false);
         public NetworkVariable<int> OwnerId { get; private set; } = new(-1);
         public NetworkVariable<FixedString64Bytes> NickName { get; set; } = new();
+        public int BackPackId { get; set; }
+        public CorpOre Ore => _ore;
 
         private void OnDestroy()
             => Destroy(_mapPoint.gameObject);
@@ -25,7 +30,11 @@ namespace PlayerDeathSystem
         {
             base.OnNetworkSpawn();
             RedisplayCloth();
-            ItemsNetData.OnValueChanged += (oldValue, newValue) => RedisplayCloth();
+            ItemsNetData.OnValueChanged += (oldValue, newValue) =>
+            {
+                RedisplayCloth();
+                CloudSaveEventsContainer.OnBackPackInventoryChanged?.Invoke(BackPackId, newValue);
+            };
             _nickNameText.text = NickName.Value.ToString();
             NickName.OnValueChanged += (FixedString64Bytes oldValue, FixedString64Bytes newValue) =>
                 _nickNameText.text = newValue.ToString();
@@ -48,6 +57,7 @@ namespace PlayerDeathSystem
         public void DespawnServerRpc()
         {
             if (!IsServer) return;
+            CloudSaveEventsContainer.OnBackPackDestroyed?.Invoke(BackPackId);
             _networkObject.Despawn();
         }
 

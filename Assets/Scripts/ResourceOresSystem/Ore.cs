@@ -54,9 +54,19 @@ namespace ResourceOresSystem
         protected void MinusHpServerRpc()
             => MinusHpOnServer(1);
 
+        protected virtual void DoAfterDamage()
+        {
+        }
+
+        protected virtual void DoAfterDestroy()
+        {
+            
+        }
+
         public void MinusHpOnServer(int value)
         {
             _currentHp.Value--;
+            DoAfterDamage();
             if (_currentHp.Value <= 0)
                 StartCoroutine(DestroyRoutine());
         }
