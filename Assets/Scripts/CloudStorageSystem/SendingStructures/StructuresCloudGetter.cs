@@ -29,6 +29,8 @@ namespace CloudStorageSystem.SendingStructures
                 var rot = Quaternion.Euler(new Vector3(block.RotX, block.RotY, block.RotZ));
                 var placingObject =
                     PlacingObjectsPool.singleton.GetInstantiatedObjectOnServer(block.StructureId, pos, rot);
+                if (placingObject.TargetStorage != null && block.Inventory.Cells.Length > 0)
+                    placingObject.TargetStorage.AssignCells(block.Inventory);
                 placingObject.DamageHandler.SetHpOnServer(block.Hp);
             }
         }

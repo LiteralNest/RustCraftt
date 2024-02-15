@@ -37,6 +37,7 @@ namespace CloudStorageSystem.SendingStructures
 
         private int GetListStructureIndexByPosition(Vector3 position)
         {
+            var y = CustomMath.GetParsedFloatToInt(position.y);
             for (int i = 0; i < _data.Count; i++)
                 if ((int)_data[i].X == CustomMath.GetParsedFloatToInt(position.x) &&
                     (int)_data[i].Y == CustomMath.GetParsedFloatToInt(position.y) && (int)_data[i].Z == CustomMath.GetParsedFloatToInt(position.z))

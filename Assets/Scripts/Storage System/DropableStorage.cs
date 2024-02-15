@@ -10,6 +10,7 @@ namespace Storage_System
         [Header("Dropable Storage")] [SerializeField]
         private List<Renderer> _targetRenders;
 
+        [SerializeField] private Transform _fatherTransform;
         [SerializeField] private List<Collider> _colliders;
         [SerializeField] private List<GameObject> _disalingObjects;
         [SerializeField] private GameObject _bag;
@@ -25,7 +26,7 @@ namespace Storage_System
             {
                 ItemsNetData.OnValueChanged += (_, _) =>
                 {
-                    CloudSaveEventsContainer.OnStructureInventoryChanged?.Invoke(transform.position,
+                    CloudSaveEventsContainer.OnStructureInventoryChanged?.Invoke(_fatherTransform.position,
                         ItemsNetData.Value);
                 };
             }

@@ -1,6 +1,8 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using Events;
+using Unity.Netcode;
 using UnityEngine;
 
 namespace CloudStorageSystem.CloudStorageServices
@@ -15,11 +17,19 @@ namespace CloudStorageSystem.CloudStorageServices
         private void Start()
             => StartCoroutine(SaveDataCoroutine());
 
+        private void OnDestroy()
+            => Save();
+
+        private void Save()
+        {
+            foreach (var cloudService in _cloudServices)
+                cloudService.SaveData();
+        }
+        
         private IEnumerator SaveDataCoroutine()
         {
             yield return new WaitForSeconds(_timeBetweenSaves);
-            foreach (var cloudService in _cloudServices)
-                cloudService.SaveData();
+            Save();
             GlobalEventsContainer.OnChatMessageCreated?.Invoke("[Server] Data Saved");
             StartCoroutine(SaveDataCoroutine());
         }

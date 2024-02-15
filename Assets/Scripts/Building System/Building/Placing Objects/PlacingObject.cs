@@ -3,6 +3,7 @@ using Building_System.Building.Blocks;
 using Building_System.Upgrading;
 using Inventory_System;
 using Items_System.Items.Abstract;
+using Storage_System;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -11,18 +12,24 @@ namespace Building_System.Building.Placing_Objects
     public class PlacingObject : BuildingStructure, IHammerInteractable
     {
         [field: SerializeField] public Item TargetItem { get; private set; }
+        [SerializeField] private Storage _targetStorage;
         public NetworkVariable<int> OwnerId { get; set; } = new();
 
-        private PlacingObjectDamageHandler _damageHandler;
+        [SerializeField] private PlacingObjectDamageHandler _damageHandler;
         private IPlacingObjectInteractable _interactable;
 
+        public Storage TargetStorage => _targetStorage;
+        
         public PlacingObjectDamageHandler DamageHandler => _damageHandler;
 
         private void Awake()
             => _interactable = GetComponent<IPlacingObjectInteractable>();
 
         private void Start()
-            => _damageHandler = GetComponent<PlacingObjectDamageHandler>();
+        {
+            if(_damageHandler == null)
+                _damageHandler = GetComponent<PlacingObjectDamageHandler>();
+        }
 
         public void SetOwnerId(int id)
         {

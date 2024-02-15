@@ -1,5 +1,7 @@
 ﻿using System.Collections;
 using InteractSystem;
+using Inventory_System;
+using Player_Controller;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -11,13 +13,17 @@ namespace Storage_System
         [SerializeField] private NetworkObject _networkObject;
         [SerializeField] private Storage _targetStorage;
 
-        public override void OnNetworkSpawn()
+        private void OnEnable()
         {
-            base.OnNetworkSpawn();
-            if(IsServer)
-                StartCoroutine(DespawnRoutine());
+            if(!IsServer) return;
+            _targetStorage.ItemsNetData.OnValueChanged += (_, _) =>
+            {
+                if (InventoryEmpty(_targetStorage.ItemsNetData.Value))
+                    _networkObject.Despawn();
+            };
+            StartCoroutine(DespawnRoutine());
         }
-        
+
         public string GetDisplayText()
             => "Open";
 
@@ -30,6 +36,14 @@ namespace Storage_System
         public bool CanInteract()
             => true;
 
+        private bool InventoryEmpty(CustomSendingInventoryData data)
+        {
+            foreach(var slot in data.Cells)
+                if(slot.Id != -1)
+                    return false;
+            return true;
+        }
+        
         private IEnumerator DespawnRoutine()
         {
             yield return new WaitForSeconds(1200f);
