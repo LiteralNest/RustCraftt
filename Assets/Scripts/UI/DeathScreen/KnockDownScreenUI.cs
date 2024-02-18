@@ -1,9 +1,9 @@
 using System.Collections;
+using Cloud.DataBaseSystem.UserData;
 using PlayerDeathSystem;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using Web.UserData;
 using Random = UnityEngine.Random;
 
 namespace UI.DeathScreen
