@@ -19,33 +19,33 @@ namespace Sound_System
         [ClientRpc]
         private void PlayOneShotClientRpc(int soundId)
             => PlaySoundLocal(soundId);
+            
 
         public void PlayHit(AudioClip clip)
         {
-            foreach (var slot in _soundSlots)
+            for (int i = 0; i < _soundSlots.Count; i++)
             {
-                if (slot.Clip != clip) continue;
-                PlayOneShotServerRpc(slot.Id);
+                if (_soundSlots[i].Clip != clip) continue;
+                PlayOneShotServerRpc(i);
+                return;
             }
         }
 
         public void PlaySoundLocal(AudioClip clip)
         {
-            foreach (var slot in _soundSlots)
+            for (int i = 0; i < _soundSlots.Count; i++)
             {
-                if (slot.Clip != clip) continue;
-                PlaySoundLocal(slot.Id);
+                if (_soundSlots[i].Clip != clip) continue;
+                PlaySoundLocal(i);
+                return;
             }
         }
 
         private void PlaySoundLocal(int soundId)
         {
-            foreach (var slot in _soundSlots)
-            {
-                if (slot.Id != soundId) continue;
-                _audioSource.volume = slot.Volume;
-                _audioSource.PlayOneShot(slot.Clip);
-            }
+            var slot = _soundSlots[soundId];
+            _audioSource.volume = slot.Volume;
+            _audioSource.PlayOneShot(slot.Clip);
         }
     }
 }
