@@ -69,6 +69,7 @@ namespace Player_Controller
 
                 AlertEventsContainer.OnBuildingBlockedAlert?.Invoke(false);
                 AlertEventsContainer.OnBuildingUnblockedAlert?.Invoke(false);
+                AlertEventsContainer.OnBuildingDecayAlert?.Invoke(false);
                 return;
             }
 
