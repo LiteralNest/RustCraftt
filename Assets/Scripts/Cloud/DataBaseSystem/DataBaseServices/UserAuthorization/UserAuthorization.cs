@@ -3,9 +3,9 @@ using Cysharp.Threading.Tasks;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
-namespace Cloud.DataBaseSystem.DataBaseServices.DataBaseAuthorization
+namespace Cloud.DataBaseSystem.DataBaseServices.UserAuthorization
 {
-    public class DataBaseAuthorization
+    public class UserAuthorization
     {
         [Button]
         public async Task<string> RegisterPlayerAsync(string login, string password)

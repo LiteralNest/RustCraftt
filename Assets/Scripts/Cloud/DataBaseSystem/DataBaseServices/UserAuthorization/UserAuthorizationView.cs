@@ -3,9 +3,9 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Cloud.DataBaseSystem.DataBaseServices.DataBaseAuthorization
+namespace Cloud.DataBaseSystem.DataBaseServices.UserAuthorization
 {
-    public class DataBaseAuthorizationView : MonoBehaviour
+    public class UserAuthorizationView : MonoBehaviour
     {
         [Header("Attached Components")] [SerializeField]
         private UserJsonDataHandler _userJsonDataHandler;
@@ -16,7 +16,7 @@ namespace Cloud.DataBaseSystem.DataBaseServices.DataBaseAuthorization
         [SerializeField] private Button _registerButton;
         [SerializeField] private Button _loginButton;
 
-        private DataBaseAuthorization _dataBaseAuthorization = new();
+        private UserAuthorization _userAuthorization = new();
 
         private void Start()
         {
@@ -26,7 +26,7 @@ namespace Cloud.DataBaseSystem.DataBaseServices.DataBaseAuthorization
 
         private async void Register()
         {
-            var res = await _dataBaseAuthorization.RegisterPlayerAsync(_loginInput.text, _passwordInput.text);
+            var res = await _userAuthorization.RegisterPlayerAsync(_loginInput.text, _passwordInput.text);
             if (res == "true")
                 await _userJsonDataHandler.SaveUserData(_loginInput.text);
             else
@@ -35,7 +35,7 @@ namespace Cloud.DataBaseSystem.DataBaseServices.DataBaseAuthorization
 
         private async void Login()
         {
-            var res = await _dataBaseAuthorization.LoginPlayerAsync(_loginInput.text, _passwordInput.text);
+            var res = await _userAuthorization.LoginPlayerAsync(_loginInput.text, _passwordInput.text);
             if (res == "true")
                 await _userJsonDataHandler.SaveUserData(_loginInput.text);
             else
