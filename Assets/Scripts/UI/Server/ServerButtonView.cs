@@ -1,4 +1,5 @@
 using System.Collections;
+using Cloud.DataBaseSystem.DataBaseServices.ServerData;
 using MultiplayApi.Common;
 using TMPro;
 using UnityEngine;
@@ -11,6 +12,7 @@ namespace UI.Server
     {
         [SerializeField] private TextMeshProUGUI _serverInfo;
         [SerializeField] private TMP_Text _pingText;
+        [SerializeField] private TMP_Text _playersCountText;
         [SerializeField] private Button _loadButton; 
 
         private string _serverIp;
@@ -34,6 +36,7 @@ namespace UI.Server
             _serverPort = serverData.Port;
             _serverInfo.text = $"{serverData.IP} - {serverData.LocationName}";
             StartCoroutine(DisplayPingTextRoutine(serverData.IP));
+            DisplayPlayersCountAsync();
         }
 
         private IEnumerator DisplayPingTextRoutine(string ip)
@@ -41,6 +44,13 @@ namespace UI.Server
             Ping ping = new Ping(ip);
             while (!ping.isDone) yield return null;
             _pingText.text = ping.time.ToString();
+        }
+        
+        private async void DisplayPlayersCountAsync()
+        {
+            ServerDataBaseHandler handler = new ServerDataBaseHandler();
+            var playersCount = await handler.GetServerDataAsync(_serverIp);
+            _playersCountText.text = playersCount + "/40";
         }
 
         public void SetAllocatedServer(string allocateServerIpv4, int allocateServerGamePort)

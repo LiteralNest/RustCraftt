@@ -17,11 +17,11 @@ $serverCheck = mysqli_query($connection, $serverCheckQuery) or die("Server check
 
 
 if(mysqli_num_rows($serverCheck) > 0){
-  $row = mysqli_fetch_assoc($serverCheck)
+  $row = mysqli_fetch_assoc($serverCheck);
  echo $row['playerscount'];
  exit();
 }
 
-echo "0";
+echo '0';
 
 ?>
