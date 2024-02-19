@@ -15,5 +15,12 @@ namespace Cloud.DataBaseSystem.DataBaseServices.ServerData
             ServerDataBaseHandler serverDataBaseHandler = new();
             serverDataBaseHandler.UpdateServerDataAsync(_ip, _playersCount);
         }
+
+        [Button]
+        private void TestGettingData()
+        {
+            ServerDataBaseHandler serverDataBaseHandler = new();
+            serverDataBaseHandler.GetServerDataAsync(_ip);
+        }
     }
 }
