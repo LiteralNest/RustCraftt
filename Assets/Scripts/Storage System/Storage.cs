@@ -25,7 +25,7 @@ namespace Storage_System
 
         protected bool Opened;
 
-        protected void Awake()
+        protected void OnEnable()
             => SlotsDisplayer.InitCells();
 
         #region virtual
