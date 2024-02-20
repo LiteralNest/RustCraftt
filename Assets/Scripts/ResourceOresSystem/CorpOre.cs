@@ -5,6 +5,7 @@ using InteractSystem;
 using Items_System.Items.Abstract;
 using Player_Controller;
 using PlayerDeathSystem;
+using Unity.Netcode;
 using UnityEngine;
 
 namespace ResourceOresSystem
@@ -18,14 +19,20 @@ namespace ResourceOresSystem
 
         protected override IEnumerator DestroyRoutine()
         {
-            foreach (var obj in _displayingObjects)
-                obj.SetActive(false);
-            foreach (var obj in _activatingObjects)
-                obj.SetActive(true);
+            TurnCollidersClientRpc();
             DoAfterDestroy();
             yield return base.DestroyRoutine();
         }
 
+        [ClientRpc]
+        private void TurnCollidersClientRpc()
+        {
+            foreach (var obj in _displayingObjects)
+                obj.SetActive(false);
+            foreach (var obj in _activatingObjects)
+                obj.SetActive(true);
+        }
+        
         public void DisplayData()
         {
             if (PlayerNetCode.Singleton == null) return;
