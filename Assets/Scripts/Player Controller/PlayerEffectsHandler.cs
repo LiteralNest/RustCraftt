@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Linq;
 using AlertsSystem;
-using AlertsSystem.AlertTypes;
 using Cloud.DataBaseSystem.UserData;
 using Crafting_System.WorkBench;
 using Tool_Clipboard;
@@ -17,7 +16,6 @@ namespace Player_Controller
 
         private void HandleComfort(Collider other, bool isEntering)
         {
-            
             if (!other.CompareTag("Comfort")) return;
             AlertEventsContainer.OnComfortAlert?.Invoke(isEntering);
         }

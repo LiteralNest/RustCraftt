@@ -23,16 +23,14 @@ namespace Storage_System
                 if (!IsOwner) return;
                 GlobalEventsContainer.InventoryDataChanged?.Invoke();
             };
-        }
 
-        private void Start()
-        {
-            if(!IsServer) return;
-        
-            if (InventoryClear())
+            if (IsServer)
             {
-                foreach(var slot in _defaultItems)
-                    AddItemToDesiredSlotServerRpc(slot.Item.Id, slot.Count, slot.Ammo);
+                if (InventoryClear())
+                {
+                    foreach (var slot in _defaultItems)
+                        AddItemToDesiredSlot(slot.Item.Id, slot.Count, slot.Ammo);
+                }
             }
         }
 
@@ -55,20 +53,21 @@ namespace Storage_System
             GlobalEventsContainer.InventoryDataChanged?.Invoke();
         }
 
-        public override void AddItemToSlotWithAlert(int itemId, int count, int ammo, int hp = 100, Vector2Int range = default)
+        public override void AddItemToSlotWithAlert(int itemId, int count, int ammo, int hp = 100,
+            Vector2Int range = default)
         {
             base.AddItemToSlotWithAlert(itemId, count, ammo, hp, range);
             var item = ItemFinder.singleton.GetItemById(itemId);
             AlertEventsContainer.OnInventoryItemAdded?.Invoke(item.Name, count);
         }
-        
+
         public override void RemoveItemCountWithAlert(int slotId, int itemId, int count)
         {
             base.RemoveItemCountWithAlert(slotId, itemId, count);
             var item = ItemFinder.singleton.GetItemById(itemId);
             AlertEventsContainer.OnInventoryItemRemoved?.Invoke(item.Name, count);
         }
-        
+
         public void SetActiveQuickSlot(QuickSlotDisplayer quickSlot)
         {
             if (_activeQuickSlot != null)
@@ -79,10 +78,8 @@ namespace Storage_System
         private bool InventoryClear()
         {
             foreach (var slot in ItemsNetData.Value.Cells)
-            {
-                if(slot.Id == -1) continue;
-                return false;
-            }
+                if (slot.Id != -1)
+                    return false;
             return true;
         }
     }

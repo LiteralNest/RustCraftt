@@ -1,4 +1,5 @@
-﻿using Cloud.CloudStorageSystem;
+﻿using System.Collections;
+using Cloud.CloudStorageSystem;
 using FightSystem.Damage;
 using InteractSystem;
 using Player_Controller;
