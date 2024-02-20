@@ -41,6 +41,9 @@ namespace ResourceOresSystem
         public string GetDisplayText()
             => "Gather";
 
+        public bool CanDisplayInteract()
+            => true;
+        
         public void Interact()
         {
         }

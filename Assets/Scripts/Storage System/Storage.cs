@@ -108,6 +108,9 @@ namespace Storage_System
             };
         }
 
+        public bool CanDisplayInteract()
+            => true;
+        
         [ServerRpc(RequireOwnership = false)]
         public void ResetItemServerRpc(int id, int interactingPlayerId)
         {

@@ -44,6 +44,9 @@ namespace RespawnSystem.SleepingBag
             _inputField.text = _sleepingBag.Name.Value.ToString();
         }
 
+        public bool CanDisplayInteract()
+            => true;
+        
         public Sprite GetIcon()
             => _displayIcon;
 

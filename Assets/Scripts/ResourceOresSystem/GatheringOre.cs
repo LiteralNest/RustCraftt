@@ -12,8 +12,9 @@ namespace ResourceOresSystem
     {
         [SerializeField] private Sprite _displayIcon;
 
-        [Header("Attached Scripts")] 
-        [SerializeField] private List<Renderer> _renderers;
+        [Header("Attached Scripts")] [SerializeField]
+        private List<Renderer> _renderers;
+
         [SerializeField] private AudioClip _gatherClip;
         [SerializeField] private List<Collider> _colliders;
         [SerializeField] private float _recoveringTime;
@@ -48,6 +49,9 @@ namespace ResourceOresSystem
             if (!IsServer) return;
             StartCoroutine(StartRecovering());
         }
+
+        public bool CanDisplayInteract()
+            => true;
 
         private IEnumerator StartRecovering()
         {

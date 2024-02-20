@@ -49,6 +49,9 @@ namespace Items_System
         public Sprite GetIcon()
             => _displayIcon;
 
+        public bool CanDisplayInteract()
+            => true;
+        
         public bool CanInteract()
             => Data.Value.Id != -1;
 

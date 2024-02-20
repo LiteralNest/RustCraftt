@@ -19,5 +19,8 @@ namespace Crafting_System.WorkBench
 
         public bool CanInteract()
             => true;
+
+        public bool CanDisplayInteract()
+            => true;
     }
 }

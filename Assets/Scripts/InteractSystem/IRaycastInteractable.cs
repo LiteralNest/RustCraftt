@@ -8,5 +8,6 @@ namespace InteractSystem
         public void Interact();
         public Sprite GetIcon();
         public bool CanInteract();
+        public bool CanDisplayInteract();
     }
 }

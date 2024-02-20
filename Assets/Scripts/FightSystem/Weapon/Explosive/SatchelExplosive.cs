@@ -43,6 +43,9 @@ namespace FightSystem.Weapon.Explosive
 
         #region IRayCastInteractable
 
+        public bool CanDisplayInteract()
+            => true;
+        
         public string GetDisplayText()
             => "Fire";
 

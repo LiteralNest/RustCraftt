@@ -61,6 +61,9 @@ namespace Doors_System
 
         #region IRaycastInteractable
 
+        public bool CanDisplayInteract()
+            => true;
+        
         public string GetDisplayText()
         {
             if (_locker != null && !_locker.AvailableForOpen(UserDataHandler.Singleton.UserData.Id)) return "Locked";

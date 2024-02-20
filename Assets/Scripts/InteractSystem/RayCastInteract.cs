@@ -32,7 +32,7 @@ namespace InteractSystem
             foreach (var target in rayCastTargets)
             {
                 var interactable = target.collider.GetComponent<IRaycastInteractable>();
-                if (interactable != null)
+                if (interactable != null && interactable.CanDisplayInteract())
                 {
                     _rayCastInteractView.DisplayData(interactable);
                     _target = interactable;
@@ -40,7 +40,7 @@ namespace InteractSystem
                 }
             }
 
-            if (_target != null && _target.CanInteract())
+            if (_target != null && _target.CanDisplayInteract())
             {
                 _rayCastInteractView.DisplayData(_target);
             }

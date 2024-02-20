@@ -117,6 +117,9 @@ namespace PlayerDeathSystem
         public Sprite GetIcon()
             => _displayIcon;
 
+        public bool CanDisplayInteract()
+            => CanInteract();
+        
         public bool CanInteract()
         {
             if (!_knockDown.Value || IsOwner) return false;

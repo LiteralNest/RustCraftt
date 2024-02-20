@@ -19,6 +19,9 @@ namespace Vehicle.SittingPlaces
 
         #region IRaycastInteractable
 
+        public bool CanDisplayInteract()
+            => true;
+        
         public string GetDisplayText()
         {
             if (CanSit())

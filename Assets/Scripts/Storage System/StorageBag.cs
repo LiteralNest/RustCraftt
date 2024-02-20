@@ -44,6 +44,9 @@ namespace Storage_System
             return true;
         }
         
+        public bool CanDisplayInteract()
+            => true;
+        
         private IEnumerator DespawnRoutine()
         {
             yield return new WaitForSeconds(1200f);

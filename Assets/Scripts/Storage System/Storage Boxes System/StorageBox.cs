@@ -10,6 +10,7 @@ namespace Storage_System.Storage_Boxes_System
         public override bool CanInteract()
             => _locker == null || _locker.AvailableForOpen(UserDataHandler.Singleton.UserData.Id);
 
+
         public override string GetDisplayText()
         {
             if (!CanInteract()) return "Locked";
