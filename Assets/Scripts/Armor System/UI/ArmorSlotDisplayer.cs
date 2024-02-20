@@ -21,7 +21,7 @@ namespace Armor_System.UI
 
         public Armor GetCurrentArmor()
         {
-            if(_currentArmor == _defaultArmor) return null;
+            if (_currentArmor == _defaultArmor) return null;
             return _currentArmor;
         }
 
@@ -32,8 +32,8 @@ namespace Armor_System.UI
 
             _currentArmor = armor;
             InventoryHandler.singleton.ArmorsContainer.AssignItem(armor.Id);
-           
 
+            ArmorSystemEventsContainer.ArmorSlotDataChanged?.Invoke();
             return base.TrySetItem(itemDisplayer);
         }
 
@@ -43,6 +43,7 @@ namespace Armor_System.UI
             if (_currentArmor != null)
                 _armorsContainer.PutOffItem(_currentArmor.Id);
             _currentArmor = _defaultArmor;
+            ArmorSystemEventsContainer.ArmorSlotDataChanged?.Invoke();
         }
     }
 }

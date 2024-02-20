@@ -68,11 +68,13 @@ namespace Recycler
                 if (desiredCellId == -1)
                 {
                     _recycling = false;
-                    Debug.LogError("Recycler: Can't find item placed in desired cell");
+                    Turned.Value = false;
                     return;
                 }
 
-                SetItem(desiredCellId, new CustomSendingInventoryDataCell(cell.ResultItem.Id, rand, -1, 0));
+                SetItem(desiredCellId,
+                    new CustomSendingInventoryDataCell(cell.ResultItem.Id, ItemsNetData.Value.Cells[desiredCellId].Count + rand, -1,
+                        0));
             }
 
             RemoveItemCountFromSlot(slotIndex, item.Id, 1);

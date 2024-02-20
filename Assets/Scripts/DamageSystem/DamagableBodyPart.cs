@@ -1,6 +1,7 @@
 using CharacterStatsSystem;
 using Cloud.DataBaseSystem.UserData;
 using FightSystem.Damage;
+using Player_Controller;
 using Sound_System;
 using Unity.Netcode;
 using UnityEngine;
@@ -50,24 +51,6 @@ namespace DamageSystem
             GetDamageOnServer(damage);
         }
 
-        [ClientRpc]
-        private void GetDamageClientRpc(int damage, int targetOwnerId)
-        {
-            if (UserDataHandler.Singleton.UserData.Id != targetOwnerId) return;
-            if (_characterStats != null && _characterStats.Hp.Value > 0)
-            {
-                _playerSoundsPlayer.PlayHit(_hitSound);
-                CharacterStatsEventsContainer.OnCharacterStatRemoved.Invoke(CharacterStatType.Health, damage);
-            }
-        }
-
-        [ServerRpc(RequireOwnership = false)]
-        private void GetDamageServerRpc(int damage, int targetOwnerId)
-        {
-            if (!IsServer) return;
-            GetDamageClientRpc(damage, targetOwnerId);
-        }
-
         public void GetDamageToServer(int damage)
             => GetDamageServerRpc(damage);
 
@@ -78,7 +61,11 @@ namespace DamageSystem
             if (_characterStats != null && _characterStats.Hp.Value > 0)
             {
                 _playerSoundsPlayer.PlayHit(_hitSound);
-                CharacterStatsEventsContainer.OnCharacterStatRemoved.Invoke(CharacterStatType.Health, damage);
+                var fixedDamage = damage * _gettingDamageKoef;
+                var hitresist = PlayerNetCode.Singleton.ArmorSlotsHandler.HitResistValue.Value;
+                if(hitresist > 0)
+                    fixedDamage *= hitresist / 100;
+                CharacterStatsEventsContainer.OnCharacterStatRemoved.Invoke(CharacterStatType.Health, (int)fixedDamage);
             }
         }
 

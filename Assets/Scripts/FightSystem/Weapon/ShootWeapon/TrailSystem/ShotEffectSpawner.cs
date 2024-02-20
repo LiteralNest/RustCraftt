@@ -22,6 +22,7 @@ namespace FightSystem.Weapon.ShootWeapon.TrailSystem
         
         private IEnumerator PlayVfx(VisualEffect effect)
         {
+            if(!effect) yield break;
             effect.Play();
             yield return new WaitForSeconds(_flameEffectDuration);
             effect.Stop();

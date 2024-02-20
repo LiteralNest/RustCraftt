@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Armor_System;
 using CharacterStatsSystem;
 using Cloud.DataBaseSystem.UserData;
 using Events;
@@ -20,6 +21,7 @@ namespace Player_Controller
     public class PlayerNetCode : NetworkBehaviour
     {
         public static PlayerNetCode Singleton { get; private set; }
+        [field:SerializeField] public ArmorSlotsHandler ArmorSlotsHandler { get; private set; }
         [field:SerializeField] public UpgradeTextView UpgradeTextView { get; private set; }
         [field: SerializeField] public ActiveInvetoriesHandler ActiveInvetoriesHandler { get; private set; }
         [field: SerializeField] public ObjectHpDisplayer ObjectHpDisplayer { get; private set; }
