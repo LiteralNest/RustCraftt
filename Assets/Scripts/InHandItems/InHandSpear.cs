@@ -9,9 +9,15 @@ namespace InHandItems
         [SerializeField] private WeaponThrower _weaponThrower;
 
         public void Gather()
-            => _meleeShootingWeapon.Damage();
-        
+        {
+            if (_meleeShootingWeapon.gameObject.activeSelf)
+                _meleeShootingWeapon.Damage();
+        }
+
         public void EndThrow()
-            => _weaponThrower.EndThrow();
+        {
+            if(_weaponThrower.gameObject.activeSelf)
+                _weaponThrower.EndThrow();
+        }
     }
 }
