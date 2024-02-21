@@ -197,6 +197,7 @@ GameObject:
   - component: {fileID: 8344484566981652086}
   - component: {fileID: 6454680612190282995}
   - component: {fileID: 6246615452967691945}
+  - component: {fileID: 5058819203817315258}
   m_Layer: 0
   m_Name: FP_Spear
   m_TagString: Untagged
@@ -273,7 +274,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _meleeShootingWeapon: {fileID: 6240530969513880401}
-  _weaponThrower: {fileID: 5119207073404725560}
+  _weaponThrower: {fileID: 5058819203817315258}
+--- !u!114 &5058819203817315258
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 14050545971840282}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cca58d5cf61ff574fae5f5021eee8762, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _spawnPoint: {fileID: 4064869597776640660}
+  _targetPref: {fileID: 3847803123547367479, guid: 7cf429bebb6bc4c8da7682e7372bb313, type: 3}
+  _throwForce: 300
 --- !u!1 &16885276153794040
 GameObject:
   m_ObjectHideFlags: 0
@@ -15344,7 +15360,7 @@ Camera:
   m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 1083212791
+    m_Bits: 1083213815
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
@@ -36272,7 +36288,6 @@ GameObject:
   - component: {fileID: 1147544652278921746}
   - component: {fileID: 2975545347582067751}
   - component: {fileID: 6240530969513880401}
-  - component: {fileID: 5119207073404725560}
   m_Layer: 0
   m_Name: Spear.001
   m_TagString: Untagged
@@ -36368,22 +36383,7 @@ MonoBehaviour:
   _targetWeapon: {fileID: 11400000, guid: ebeabc5889d66a241a55747f01558524, type: 2}
   _viewSpawningPoint: {fileID: 1147544652278921746}
   _inHandAnimator: {fileID: 279010763733893076}
-  _weaponThrower: {fileID: 5119207073404725560}
---- !u!114 &5119207073404725560
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5349906346936609298}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cca58d5cf61ff574fae5f5021eee8762, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _spawnPoint: {fileID: 4064869597776640660}
-  _targetPref: {fileID: 3847803123547367479, guid: 7cf429bebb6bc4c8da7682e7372bb313, type: 3}
-  _throwForce: 300
+  _weaponThrower: {fileID: 0}
 --- !u!1 &5360969103223191283
 GameObject:
   m_ObjectHideFlags: 0

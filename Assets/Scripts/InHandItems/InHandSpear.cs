@@ -14,9 +14,15 @@ namespace InHandItems
                 _meleeShootingWeapon.Damage();
         }
 
+        public void StartThrow()
+        {
+            if(_meleeShootingWeapon.gameObject.activeSelf)
+                _weaponThrower.EndThrow();
+        }
+        
         public void EndThrow()
         {
-            if(_weaponThrower.gameObject.activeSelf)
+            if(_meleeShootingWeapon.gameObject.activeSelf)
                 _weaponThrower.EndThrow();
         }
     }
