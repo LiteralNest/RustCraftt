@@ -6,6 +6,8 @@ using Player_Controller;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.Audio;
+using UnityEngine.Rendering;
+using UnityEngine.Rendering.Universal;
 using Vehicle;
 using Vehicle.Boat;
 
@@ -16,6 +18,10 @@ namespace Environment
         [SerializeField] private GameObject _waterUI;
         [SerializeField] private AudioSource _source;
         [SerializeField] private AudioMixer _mixer;
+        [SerializeField] private UniversalRendererData _data;
+        [SerializeField] private string _targetRenderFeature;
+
+        private float _cachedMaxCameraDistance;
 
         private float _waveHeight = 0f;
         private bool _isRestoringOxygen = false;
@@ -37,12 +43,20 @@ namespace Environment
         {
             if (other.CompareTag("Player") && other.GetComponent<DamagableBodyPart>().IsOwner)
             {
+                _cachedMaxCameraDistance = Camera.main.farClipPlane;
+                Camera.main.farClipPlane = 1000f;
+                foreach (var feature in _data.rendererFeatures)
+                {
+                    if (feature.name == _targetRenderFeature)
+                        feature.SetActive(true);
+                }
+
                 _mixer.SetFloat("ReverbAmount", 0.5f);
-                if(_source)
+                if (_source)
                     _source.Play();
-                
+
                 _isRestoringOxygen = false;
-                if(_waterUI)
+                if (_waterUI)
                     _waterUI.SetActive(true);
                 _oxygenCoroutine = StartCoroutine(RemoveOxygenOverTime());
             }
@@ -52,14 +66,22 @@ namespace Environment
         {
             if (other.CompareTag("Player") && other.GetComponent<DamagableBodyPart>().IsOwner)
             {
+                foreach (var feature in _data.rendererFeatures)
+                {
+                    if (feature.name == _targetRenderFeature)
+                        feature.SetActive(false);
+                }
+
+                Camera.main.farClipPlane = _cachedMaxCameraDistance;
+
                 _mixer.SetFloat("ReverbAmount", 0f);
-                if(_source)
+                if (_source)
                     _source.Stop();
-                
+
                 _isRestoringOxygen = true;
                 if (_oxygenCoroutine != null)
                 {
-                    if(_waterUI)
+                    if (_waterUI)
                         _waterUI.SetActive(false);
                     StopCoroutine(_oxygenCoroutine);
                 }
@@ -97,5 +119,3 @@ namespace Environment
         }
     }
 }
-
-    
