@@ -58,7 +58,6 @@ namespace FightSystem.Weapon.WeaponTypes
         protected int CurrentAmmoCount;
         private bool _canShoot;
         private bool _isShooting;
-        private readonly float _timeBetweenShots = 0f;
         private bool _isReloading = false;
 
         protected bool ViewAssign;
@@ -142,7 +141,7 @@ namespace FightSystem.Weapon.WeaponTypes
         }
 
         protected bool CanShoot()
-            => _canShoot && _timeBetweenShots <= 0 && CurrentAmmoCount > 0 && !_isReloading;
+            => _canShoot && CurrentAmmoCount > 0 && !_isReloading;
 
         private IEnumerator ReloadCoroutine(int count)
         {
