@@ -61,7 +61,7 @@ namespace Inventory_System.Inventory_Slot_Displayers
                 new CustomSendingInventoryDataCell(cell.Item.Id, cell.Count, cell.Hp, cell.Ammo));
         }
 
-        private void ResetItem()
+        protected void ResetItem()
         {
             ItemDisplayer = null;
         }

@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Armor_System.BackEnd.Armor_cells;
+using Armor_System.UI;
 using Player_Controller;
 using UI;
 using Unity.Netcode;
@@ -11,6 +12,7 @@ namespace OnPlayerItems
     {
         [SerializeField] private PlayerNetCode _playerNetCode;
         [SerializeField] private ArmorCell _defaulArmorCell;
+        [SerializeField] private List<ArmorSlotDisplayer> _armorSlotDisplayers = new List<ArmorSlotDisplayer>();
         [SerializeField] private List<ArmorCell> _armorCells = new List<ArmorCell>();
         [SerializeField] private ResistsDisplayer _resistsDisplayer;
         
@@ -30,6 +32,12 @@ namespace OnPlayerItems
             _defaulArmorCell.DisplayObjects(_playerNetCode);
         }
 
+        public void ResetItems()
+        {
+            foreach (var cell in _armorSlotDisplayers)
+                cell.ResetInventoryArmor();
+        }
+        
         public void PutOffItem(int armorId)
         {
             foreach (var armor in _armorCells)

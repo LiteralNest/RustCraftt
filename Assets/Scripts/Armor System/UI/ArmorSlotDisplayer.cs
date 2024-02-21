@@ -30,6 +30,10 @@ namespace Armor_System.UI
             if (!(itemDisplayer.InventoryCell.Item is Armor armor && _bodyPartTypes.Contains(armor.BodyPartType)))
                 return false;
 
+            if (armor.BodyPartType == BodyPartType.All)
+                _armorsContainer.ResetItems();
+
+            TryResetArmor();
             _currentArmor = armor;
             InventoryHandler.singleton.ArmorsContainer.AssignItem(armor.Id);
 
@@ -37,13 +41,29 @@ namespace Armor_System.UI
             return base.TrySetItem(itemDisplayer);
         }
 
+        public void ResetInventoryArmor()
+        {
+            if (ItemDisplayer == null || _currentArmor == null || _currentArmor == _defaultArmor) return;
+            //sInventory.AddItemToDesiredSlot(_currentArmor.Id, 1, ItemDisplayer.InventoryCell.Hp, 0);
+            TryResetArmor();
+            _currentArmor = _defaultArmor;
+            Destroy(ItemDisplayer.gameObject);
+            ResetItem();
+        }
+
+        private void TryResetArmor()
+        {
+            if (_currentArmor == null) return;
+            _armorsContainer.PutOffItem(_currentArmor.Id);
+            ArmorSystemEventsContainer.ArmorSlotDataChanged?.Invoke();
+        }
+
         public override void ResetItemWhileDrag()
         {
-            base.ResetItemWhileDrag();
-            if (_currentArmor != null)
-                _armorsContainer.PutOffItem(_currentArmor.Id);
-            _currentArmor = _defaultArmor;
             ArmorSystemEventsContainer.ArmorSlotDataChanged?.Invoke();
+            TryResetArmor();
+            _currentArmor = _defaultArmor;
+            base.ResetItemWhileDrag();
         }
     }
 }
