@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace StabilizationSystem.Blocks
 {
-    public class StabilizationBlock : MonoBehaviour
+    public class StabilizationBlock : NetworkBehaviour
     {
         [SerializeField] private NetworkObject _networkObject;
         
@@ -14,8 +14,10 @@ namespace StabilizationSystem.Blocks
         private List<StabilizationBlock> _stabilizationBlocks = new List<StabilizationBlock>();
         private bool _isGrounded;
 
-        private void OnDestroy()
+        public override void OnDestroy()
         {
+            base.OnDestroy();
+            if(!IsServer) return;
             OnBlockDestroyed?.Invoke();
             _isGrounded = false;
             CheckStabilization();

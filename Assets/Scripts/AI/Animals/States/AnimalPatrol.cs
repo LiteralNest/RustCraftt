@@ -21,13 +21,31 @@ namespace AI.Animals.States
             StartCoroutine(MoveToPoint());
         }
 
-        
-        
+        private void AssignNextPatrolPoint()
+        {
+            int breakCounter = 100;
+            var navMeshAgent = Controller.NavMeshAgent;
+            navMeshAgent.speed = Controller.WalkSpeed;
+            while (true)
+            {
+                breakCounter--;
+                if (breakCounter <= 0)
+                {
+                    Controller.SetIdleState();
+                    break;
+                }
+                
+                _currentMovingPoint = _pointGetter.GetRandomPointInCircle();
+                navMeshAgent.SetDestination(_currentMovingPoint);
+                if(navMeshAgent.pathEndPosition != _currentMovingPoint) continue;
+                AnimalAnimator.SetWalk();
+                break;
+            }
+          
+        }
         private IEnumerator MoveToPoint()
         {
-            Controller.NavMeshAgent.speed = Controller.WalkSpeed;
-            Controller.NavMeshAgent.SetDestination(_currentMovingPoint);
-            AnimalAnimator.SetWalk();
+            AssignNextPatrolPoint();
             
             while (!EnoughDistance(_currentMovingPoint))
             {

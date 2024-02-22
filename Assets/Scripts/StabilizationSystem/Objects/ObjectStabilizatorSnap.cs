@@ -1,10 +1,11 @@
 ﻿using StabilizationSystem.Blocks;
+using Unity.Netcode;
 using UnityEngine;
 
 namespace StabilizationSystem.Objects
 {
     [RequireComponent(typeof(BoxCollider), typeof(Rigidbody))]
-    public class ObjectStabilizatorSnap : MonoBehaviour
+    public class ObjectStabilizatorSnap : NetworkBehaviour
     {
         [Header("Attached Components")] [SerializeField]
         private ObjectStabilizator _objectStabilizator;
@@ -24,6 +25,7 @@ namespace StabilizationSystem.Objects
 
         private void OnTriggerEnter(Collider other)
         {
+            if(!IsServer) return;
             if (!other.TryGetComponent(out StabilizationBlock stabilizationBlock)) return;
             stabilizationBlock.OnBlockDestroyed += _objectStabilizator.TryDestroy;
             _stabilizationBlock = stabilizationBlock;

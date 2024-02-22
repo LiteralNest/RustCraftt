@@ -1,9 +1,10 @@
-﻿using UnityEngine;
+﻿using Unity.Netcode;
+using UnityEngine;
 
 namespace StabilizationSystem.Blocks
 {
     [RequireComponent(typeof(BoxCollider), typeof(Rigidbody))]
-    public class BlockSnap : MonoBehaviour
+    public class BlockSnap : NetworkBehaviour
     {
         [Header("Attached Components")] [SerializeField]
         private StabilizationBlock _stabilizationBlock;
@@ -20,12 +21,14 @@ namespace StabilizationSystem.Blocks
 
         private void OnTriggerEnter(Collider other)
         {
+            if(!IsServer) return;
             CheckBlockSnapEnter(other);
             CheckGroundEnter(other);
         }
 
         private void OnTriggerExit(Collider other)
         {
+            if(!IsServer) return;
             CheckGroundExit(other);
         }
 

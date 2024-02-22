@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace AI.Animals.States
+namespace AI.Animals
 {
     public class RandomCirclePointGetter : MonoBehaviour
     {
