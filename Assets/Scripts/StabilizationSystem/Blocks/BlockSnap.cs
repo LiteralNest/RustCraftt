@@ -1,7 +1,6 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
-namespace BlocksStabilizationSystem
+namespace StabilizationSystem.Blocks
 {
     [RequireComponent(typeof(BoxCollider), typeof(Rigidbody))]
     public class BlockSnap : MonoBehaviour
@@ -14,7 +13,8 @@ namespace BlocksStabilizationSystem
         {
             Gizmos.color = Color.red;
             var collider = GetComponent<BoxCollider>();
-            Gizmos.DrawCube(transform.position, new Vector3(collider.size.x, collider.size.y, collider.size.z));
+            var size = collider.size;
+            Gizmos.DrawCube(transform.position, new Vector3(size.x, size.y, size.z));
         }
 #endif
 

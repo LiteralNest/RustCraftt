@@ -1,15 +1,22 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using Unity.Netcode;
 using UnityEngine;
 
-namespace BlocksStabilizationSystem
+namespace StabilizationSystem.Blocks
 {
     public class StabilizationBlock : MonoBehaviour
     {
+        [SerializeField] private NetworkObject _networkObject;
+        
+        public Action OnBlockDestroyed { get; set; } 
+        
         private List<StabilizationBlock> _stabilizationBlocks = new List<StabilizationBlock>();
         private bool _isGrounded;
 
         private void OnDestroy()
         {
+            OnBlockDestroyed?.Invoke();
             _isGrounded = false;
             CheckStabilization();
         }
@@ -27,7 +34,7 @@ namespace BlocksStabilizationSystem
                 if (block == null || block.gameObject == null) continue;
                 _stabilizationBlocks.Remove(block);
                 i--;
-                Destroy(block.gameObject);
+                block._networkObject.Despawn();
             }
         }
 
