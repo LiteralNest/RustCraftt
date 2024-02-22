@@ -51,13 +51,18 @@ namespace OnPlayerItems
                 if (armor.Armor.Id == armorId)
                 {
                     armor.PutOff(netCode);
-                    if(_resistsDisplayer != null)
-                        _resistsDisplayer.DisplayValues();
+                    DisplayResistValues();
                     return;
                 }
             }
         }
 
+        public void DisplayResistValues()
+        {
+            if(_resistsDisplayer != null)
+                _resistsDisplayer.DisplayValues();
+        }
+        
         public void DisplayArmor(int targetArmorId, PlayerNetCode netCode)
         {
             if(targetArmorId == - 1) return;
@@ -66,8 +71,8 @@ namespace OnPlayerItems
                 if (armor.Armor.Id != targetArmorId) continue;
                 armor.PutOnArmor(netCode);
             }
-            if(_resistsDisplayer != null)
-                _resistsDisplayer.DisplayValues();
+
+            DisplayResistValues();
         }
     }
 }

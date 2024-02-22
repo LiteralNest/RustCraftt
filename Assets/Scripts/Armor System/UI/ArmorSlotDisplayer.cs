@@ -37,10 +37,11 @@ namespace Armor_System.UI
                 _armorsContainer.CheckFullDressArmor();
             
             TryResetArmor();
+            _currentArmor = _defaultArmor;
             _currentArmor = armor;
             InventoryHandler.singleton.ArmorsContainer.AssignItem(armor.Id);
-
             ArmorSystemEventsContainer.ArmorSlotDataChanged?.Invoke();
+            _armorsContainer.DisplayResistValues();
             return base.TrySetItem(itemDisplayer);
         }
 
@@ -57,6 +58,7 @@ namespace Armor_System.UI
                 cachedInventoryCell.Hp);
             TryResetArmor();
             _currentArmor = _defaultArmor;
+            _armorsContainer.DisplayResistValues();
         }
 
         public void CheckForFullDress()
@@ -78,6 +80,7 @@ namespace Armor_System.UI
             ArmorSystemEventsContainer.ArmorSlotDataChanged?.Invoke();
             TryResetArmor();
             _currentArmor = _defaultArmor;
+            _armorsContainer.DisplayResistValues();
             base.ResetItemWhileDrag();
         }
     }
