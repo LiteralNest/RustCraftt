@@ -18,12 +18,12 @@ namespace FightSystem.Weapon.Melee
         private bool _startedThrow;
         
         [ServerRpc(RequireOwnership = false)]
-        private void SpawnSpearServerRpc(Vector3 direction, Vector3 spawnPoint, Quaternion rotation, int spearHp)
+        private void SpawnSpearServerRpc(Vector3 spawnPoint, Quaternion rotation, int spearHp)
         {
             if(!IsServer) return;
             var target = Instantiate(_targetPref, spawnPoint, rotation);
             target.GetComponent<NetworkObject>().Spawn();
-            target.Throw(direction, _throwForce, spearHp);
+            target.Throw(spearHp);
         }
         
  
@@ -36,7 +36,7 @@ namespace FightSystem.Weapon.Melee
             if (InventoryHandler.singleton.ActiveSlotDisplayer.ItemDisplayer != null)
                 hp = InventoryHandler.singleton.ActiveSlotDisplayer.ItemDisplayer.InventoryCell.Hp;
             
-            SpawnSpearServerRpc(Camera.main.transform.forward, _spawnPoint.position, _spawnPoint.rotation, hp);
+            SpawnSpearServerRpc(_spawnPoint.position, _spawnPoint.rotation, hp);
 
             InventoryHandler.singleton.CharacterInventory.RemoveItem(
                 InventoryHandler.singleton.ActiveSlotDisplayer.ItemDisplayer.InventoryCell.Item.Id, 1);

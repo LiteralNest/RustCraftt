@@ -29,7 +29,7 @@ namespace Building_System.NetWorking
             else
                 arrow = Instantiate(_crossBowArrow, position, rotation);
             arrow.GetComponent<NetworkObject>().Spawn();
-            arrow.ArrowFly(force);
+            arrow.ArrowFly();
         }
     }
 }
