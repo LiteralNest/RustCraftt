@@ -40,7 +40,7 @@ namespace Armor_System.BackEnd.Armor_cells
                 slot.SetActive(true);
         }
 
-        public virtual void PutOff()
+        public virtual void PutOff(PlayerNetCode netCode)
         {
             // foreach(var targetObject in _targetObjects)
             //     targetObject.SetActive(false);

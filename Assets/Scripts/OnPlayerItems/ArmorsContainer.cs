@@ -37,14 +37,20 @@ namespace OnPlayerItems
             foreach (var cell in _armorSlotDisplayers)
                 cell.ResetInventoryArmor();
         }
+
+        public void CheckFullDressArmor()
+        {
+            foreach (var cell in _armorSlotDisplayers)
+                cell.CheckForFullDress();
+        }
         
-        public void PutOffItem(int armorId)
+        public void PutOffItem(int armorId, PlayerNetCode netCode)
         {
             foreach (var armor in _armorCells)
             {
                 if (armor.Armor.Id == armorId)
                 {
-                    armor.PutOff();
+                    armor.PutOff(netCode);
                     if(_resistsDisplayer != null)
                         _resistsDisplayer.DisplayValues();
                     return;

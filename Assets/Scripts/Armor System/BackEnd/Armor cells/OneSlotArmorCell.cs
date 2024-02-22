@@ -11,7 +11,7 @@ namespace Armor_System.BackEnd.Armor_cells
             _bodyPartsDisplayer.DressArmor(_bodyPartType, _targetMaterial);
         }
         
-        public override void PutOff()
+        public override void PutOff(PlayerNetCode netCode)
         {
             foreach(var targetObject in _targetObjects)
                 targetObject.SetActive(false);

@@ -5,6 +5,7 @@ using Inventory_System.Inventory_Items_Displayer;
 using Inventory_System.Inventory_Slot_Displayers;
 using Items_System.Items;
 using OnPlayerItems;
+using Player_Controller;
 using UnityEngine;
 
 namespace Armor_System.UI
@@ -32,7 +33,9 @@ namespace Armor_System.UI
 
             if (armor.BodyPartType == BodyPartType.All)
                 _armorsContainer.ResetItems();
-
+            else
+                _armorsContainer.CheckFullDressArmor();
+            
             TryResetArmor();
             _currentArmor = armor;
             InventoryHandler.singleton.ArmorsContainer.AssignItem(armor.Id);
@@ -44,17 +47,29 @@ namespace Armor_System.UI
         public void ResetInventoryArmor()
         {
             if (ItemDisplayer == null || _currentArmor == null || _currentArmor == _defaultArmor) return;
-            //sInventory.AddItemToDesiredSlot(_currentArmor.Id, 1, ItemDisplayer.InventoryCell.Hp, 0);
+
+            var cachedIndex = ItemDisplayer.PreviousCell.Index;
+            var cachedInventoryCell = new InventoryCell(ItemDisplayer.InventoryCell);
+
+            Inventory.RemoveItemCountFromSlotServerRpc(cachedIndex,
+                cachedInventoryCell.Item.Id, 1);
+            Inventory.AddItemToDesiredSlotServerRpc(cachedInventoryCell.Item.Id, 1, cachedInventoryCell.Ammo,
+                cachedInventoryCell.Hp);
             TryResetArmor();
             _currentArmor = _defaultArmor;
-            Destroy(ItemDisplayer.gameObject);
-            ResetItem();
+        }
+
+        public void CheckForFullDress()
+        {
+            if (ItemDisplayer == null || _currentArmor == null || _currentArmor == _defaultArmor) return;
+            if (_currentArmor.BodyPartType != BodyPartType.All) return;
+            ResetInventoryArmor();
         }
 
         private void TryResetArmor()
         {
             if (_currentArmor == null) return;
-            _armorsContainer.PutOffItem(_currentArmor.Id);
+            _armorsContainer.PutOffItem(_currentArmor.Id, PlayerNetCode.Singleton);
             ArmorSystemEventsContainer.ArmorSlotDataChanged?.Invoke();
         }
 
