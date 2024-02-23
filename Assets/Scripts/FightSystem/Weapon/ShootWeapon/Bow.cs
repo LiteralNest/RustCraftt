@@ -1,6 +1,8 @@
 using System.Collections;
 using Building_System.NetWorking;
+using FightSystem.Weapon.Ballistic;
 using FightSystem.Weapon.ShootWeapon.Ammo;
+using FightSystem.Weapon.ThrowingWeapon;
 using InHandItems.InHandAnimations.Weapon;
 using InHandItems.InHandViewSystem;
 using Inventory_System;
@@ -13,8 +15,7 @@ namespace FightSystem.Weapon.ShootWeapon
     {
         private const string ViewName = "Weapon/View/BowWeaponView";
 
-        [Header("Bow")]
-        [SerializeField] private Items_System.Items.Ammo _ammo;
+        [Header("Bow")] [SerializeField] private Items_System.Items.Ammo _ammo;
         [SerializeField] private float _arrowForce;
         [SerializeField] private BowAnimator _weaponAnimator;
         [SerializeField] private Transform _ammoSpawnPoint;
@@ -22,9 +23,9 @@ namespace FightSystem.Weapon.ShootWeapon
         [SerializeField] private Item _targetItem;
         private Arrow _currentArrow;
         private Vector3 _force;
-        
-        private bool _canShoot;
 
+        private bool _canShoot;
+        private BallisticCalculator _ballisticCalculator = new BallisticCalculator();
         private int _currentAmmoCount;
 
         private BowInHandView _inHandView;
@@ -43,6 +44,7 @@ namespace FightSystem.Weapon.ShootWeapon
                 _weaponAnimator.SetIdle();
                 return;
             }
+
             _weaponAnimator.SetAttack();
             ShootArrow();
             InventoryHandler.singleton.CharacterInventory.RemoveItem(_ammo.Id, 1);
@@ -55,7 +57,7 @@ namespace FightSystem.Weapon.ShootWeapon
             _currentAmmoCount = 1;
             _weaponAnimator.SetScope();
         }
-        
+
         private IEnumerator WaitForScopingRoutine()
         {
             _canShoot = false;
@@ -71,21 +73,10 @@ namespace FightSystem.Weapon.ShootWeapon
 
         private void ShootArrow()
         {
-            var angle = CalculateAngle();
-
-            AmmoObjectsPool.Singleton.SpawnArrowServerRpc(_targetItem.Id, _ammoSpawnPoint.position, _ammoSpawnPoint.rotation, angle);
+            var angle = _ballisticCalculator.GetCalculatedAngle(_ammoSpawnPoint.forward, _arrowForce);
+            AmmoObjectsPool.Singleton.SpawnArrowServerRpc(_targetItem.Id, _ammoSpawnPoint.position,
+                _ammoSpawnPoint.rotation, angle);
             _currentAmmoCount--;
-        }
-
-        private float CalculateAngle()
-        {
-            var bowDirection = transform.forward;
-
-            var bowTiltAngle = Vector3.Angle(Vector3.up, bowDirection) - 90f;
-            var deltaY = Mathf.Clamp(bowTiltAngle, 0f, 90f);
-
-            var angle = Mathf.Atan2(deltaY, _arrowForce) * Mathf.Rad2Deg;
-            return angle;
         }
     }
 }

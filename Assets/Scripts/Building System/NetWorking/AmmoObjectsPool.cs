@@ -1,4 +1,5 @@
 ﻿using FightSystem.Weapon.ShootWeapon.Ammo;
+using FightSystem.Weapon.ThrowingWeapon;
 using Items_System.Items.Abstract;
 using Unity.Netcode;
 using UnityEngine;
@@ -29,7 +30,7 @@ namespace Building_System.NetWorking
             else
                 arrow = Instantiate(_crossBowArrow, position, rotation);
             arrow.GetComponent<NetworkObject>().Spawn();
-            arrow.ArrowFly(angle);
+            arrow.Throw(angle);
         }
     }
 }

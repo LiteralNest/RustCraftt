@@ -11,5 +11,5 @@ public static class GlobalValues
     public static bool EnableShadows { get; set; }
     public static bool EnableGrass { get; set; } = false;
     public static bool EnableFPSCounter { get; set; }
-    public static bool AdministratorBuild { get; set; } = true;
+    public static bool AdministratorBuild { get; set; } = false;
 }

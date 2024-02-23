@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Test
 {
@@ -6,9 +7,11 @@ namespace Test
     {
         #if UNITY_EDITOR
 
-        private void OnDrawGizmos()
+        [SerializeField] private Color _gizmosColor = Color.yellow;
+        
+        private void OnDrawGizmosSelected()
         {
-            Gizmos.color = Color.yellow;
+            Gizmos.color = _gizmosColor;
             Gizmos.DrawRay(transform.position, transform.forward * 4);
         }
         
