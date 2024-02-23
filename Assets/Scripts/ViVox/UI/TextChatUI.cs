@@ -109,6 +109,7 @@ namespace ViVox.UI
         {
             yield return new WaitForEndOfFrame();
 
+            if(_textChatScrollRect == null) yield break;
             _textChatScrollRect.normalizedPosition = new Vector2(0, 0);
 
             yield return null;
