@@ -14,7 +14,7 @@ namespace Items_System
         [SerializeField] private Sprite _displayIcon;
         [SerializeField] private NetworkObject _targetNetworkObject;
         [field: SerializeField] public Item TargetItem { get; private set; }
-        public NetworkVariable<CustomSendingInventoryDataCell> Data { get; set; } = new();
+        public NetworkVariable<CustomSendingInventoryDataCell> Data { get; set; } = new(new CustomSendingInventoryDataCell(-1, 0, 0, 0));
 
         private void Awake()
         {
@@ -23,12 +23,21 @@ namespace Items_System
         }
 
         public string GetDisplayText()
-            => ItemFinder.singleton.GetItemById(Data.Value.Id).Name;
+        {
+            if(Data.Value.Id == -1) return "";
+            return ItemFinder.singleton.GetItemById(Data.Value.Id).Name;
+        }
 
         public void Init(CustomSendingInventoryDataCell data)
         {
-            Data.Value = data;
+            StartCoroutine(InitWithDelayRoutine(data));
             StartCoroutine(DespawnRoutine());
+        }
+
+        private IEnumerator InitWithDelayRoutine(CustomSendingInventoryDataCell data)
+        {
+            yield return new WaitForSeconds(1f);
+            Data.Value = data;
         }
 
         public void InitByTargetItem(int hp = 0, bool shouldDelete = false)
@@ -51,7 +60,7 @@ namespace Items_System
 
         public bool CanDisplayInteract()
             => true;
-        
+
         public bool CanInteract()
             => Data.Value.Id != -1;
 

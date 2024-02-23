@@ -70,8 +70,7 @@ namespace FightSystem.Weapon.ShootWeapon
 
         private void ShootArrow()
         {
-            _force = _ammoSpawnPoint.TransformDirection(Vector3.forward * _arrowForce);
-            AmmoObjectsPool.Singleton.SpawnArrowServerRpc(_targetItem.Id,_ammoSpawnPoint.position, _ammoSpawnPoint.rotation, _force);
+            AmmoObjectsPool.Singleton.SpawnArrowServerRpc(_targetItem.Id,_ammoSpawnPoint.position, _ammoSpawnPoint.rotation, transform.eulerAngles.x - 90);
             _currentAmmoCount--;
         }
     }

@@ -34,23 +34,29 @@ namespace FightSystem.Weapon.Melee
             _collider.enabled = true;
         }
 
+        // private void Update()
+        // {
+        //     if (!_rb) return;
+        //     var velocity = _rb.velocity.normalized;
+        //     if (_rb.velocity.sqrMagnitude > 0.01f)
+        //     {
+        //         var newRotation = Quaternion.LookRotation(velocity, Vector3.down);
+        //         transform.rotation = Quaternion.Lerp(transform.rotation, newRotation, Time.deltaTime * _lerpSpeed);
+        //     }
+        // }
+
         private void Update()
         {
-            if (!_rb) return;
-            var velocity = _rb.velocity.normalized;
-            if (_rb.velocity.sqrMagnitude > 0.01f)
-            {
-                var newRotation = Quaternion.LookRotation(velocity, Vector3.down);
-                transform.rotation = Quaternion.Lerp(transform.rotation, newRotation, Time.deltaTime * _lerpSpeed);
-            }
+            var velocity = _rb.velocity;
+            if(velocity.magnitude > 0.01f) 
+                gameObject.transform.forward = _rb.velocity;
         }
-
-        public void Throw(int throwingHp)
+        
+        public void Throw(int throwingHp, Vector3 direction)
         {
             _throwingHp = throwingHp;
             if (!_rb) return;
             
-            var direction = CalculateDirection();
             var v = CalculateVelocity(direction);
 
            
@@ -77,12 +83,7 @@ namespace FightSystem.Weapon.Melee
                     _rb.constraints = RigidbodyConstraints.None;
             }
         }
-
-        private Vector3 CalculateDirection()
-        {
-            return transform.forward;
-        }
-
+        
         private Vector3 CalculateVelocity(Vector3 direction)
         {
             var angleInRadians = _angleInDegrees * Mathf.Deg2Rad;
@@ -97,8 +98,6 @@ namespace FightSystem.Weapon.Melee
         
         private void OnCollisionEnter(Collision other)
         {
-            _rb.isKinematic = true;
-            _rb.constraints = RigidbodyConstraints.FreezeAll;
             if (!IsServer) return;
             if (!_rb) return;
             MinusItemHp();
@@ -107,7 +106,8 @@ namespace FightSystem.Weapon.Melee
                 Physics.IgnoreCollision(other.collider, GetComponent<Collider>());
                 return;
             }
-            
+            _rb.isKinematic = true;
+            _rb.constraints = RigidbodyConstraints.FreezeAll;
             if(_hitObject == null)
                 _hitObject = other;
             StartCoroutine(CheckHitObject());

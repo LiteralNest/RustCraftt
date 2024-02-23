@@ -20,7 +20,7 @@ namespace Building_System.NetWorking
         }
 
         [ServerRpc(RequireOwnership = false)]
-        public void SpawnArrowServerRpc(int weaponId, Vector3 position, Quaternion rotation, Vector3 force)
+        public void SpawnArrowServerRpc(int weaponId, Vector3 position, Quaternion rotation, float angle)
         {
             if (!IsServer) return;
             Arrow arrow = null;
@@ -29,7 +29,7 @@ namespace Building_System.NetWorking
             else
                 arrow = Instantiate(_crossBowArrow, position, rotation);
             arrow.GetComponent<NetworkObject>().Spawn();
-            arrow.ArrowFly();
+            arrow.ArrowFly(angle);
         }
     }
 }

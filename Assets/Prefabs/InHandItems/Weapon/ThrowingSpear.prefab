@@ -15,10 +15,9 @@ GameObject:
   - component: {fileID: 3847803123547367479}
   - component: {fileID: -1581057642220230790}
   - component: {fileID: 1164766004213839814}
-  - component: {fileID: 8550729710057383345}
   m_Layer: 0
   m_Name: ThrowingSpear
-  m_TagString: Untagged
+  m_TagString: Arrow
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -31,13 +30,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3207674100288365559}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 9216107025867726529}
-  - {fileID: 3598858568027695589}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!54 &2684198740483917851
@@ -48,7 +46,7 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3207674100288365559}
   serializedVersion: 4
-  m_Mass: 10
+  m_Mass: 1
   m_Drag: 0
   m_AngularDrag: 0.05
   m_CenterOfMass: {x: 0, y: 0, z: 0}
@@ -60,12 +58,12 @@ Rigidbody:
   m_ExcludeLayers:
     serializedVersion: 2
     m_Bits: 0
-  m_ImplicitCom: 1
+  m_ImplicitCom: 0
   m_ImplicitTensor: 1
   m_UseGravity: 1
-  m_IsKinematic: 0
-  m_Interpolate: 1
-  m_Constraints: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 80
   m_CollisionDetection: 2
 --- !u!65 &8705575569463625358
 BoxCollider:
@@ -87,7 +85,7 @@ BoxCollider:
   m_Enabled: 1
   serializedVersion: 3
   m_Size: {x: 0.0828781, y: 1.646236, z: 0.072695}
-  m_Center: {x: 0.008639999, y: -0.06703198, z: 0.001905039}
+  m_Center: {x: 0, y: -0.06, z: 0}
 --- !u!114 &7750088960681910652
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -100,7 +98,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 4282524711
+  GlobalObjectIdHash: 3661415168
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
   ActiveSceneSynchronization: 0
@@ -123,10 +121,9 @@ MonoBehaviour:
   _rb: {fileID: 2684198740483917851}
   _lootingItem: {fileID: -1581057642220230790}
   _collider: {fileID: 8705575569463625358}
-  _forceMode: 2
-  _lerpSpeed: 2
-  headWeight: 5
-  head: {fileID: 5524527025576904310}
+  _lerpSpeed: 1
+  _angleInDegrees: 5
+  _speed: 20
 --- !u!114 &-1581057642220230790
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -172,50 +169,6 @@ MonoBehaviour:
   InLocalSpace: 0
   Interpolate: 1
   SlerpPosition: 0
---- !u!114 &8550729710057383345
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3207674100288365559}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b5099dfee6744bf9b87c0852c7d802ac, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _centerOfMass: {x: 0, y: 1, z: 0}
---- !u!1 &6647461335079032049
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 3598858568027695589}
-  m_Layer: 0
-  m_Name: MassCenter
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &3598858568027695589
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6647461335079032049}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.6, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 5524527025576904310}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &8407622568791737467
 GameObject:
   m_ObjectHideFlags: 0
@@ -232,7 +185,7 @@ GameObject:
   - component: {fileID: 8635795151599325785}
   m_Layer: 0
   m_Name: Spear
-  m_TagString: Untagged
+  m_TagString: Arrow
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -359,8 +312,8 @@ Rigidbody:
     m_Bits: 0
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
-  m_UseGravity: 1
-  m_IsKinematic: 0
+  m_UseGravity: 0
+  m_IsKinematic: 1
   m_Interpolate: 0
   m_Constraints: 126
   m_CollisionDetection: 0

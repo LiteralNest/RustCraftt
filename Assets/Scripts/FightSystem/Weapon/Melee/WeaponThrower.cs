@@ -23,7 +23,7 @@ namespace FightSystem.Weapon.Melee
             if(!IsServer) return;
             var target = Instantiate(_targetPref, spawnPoint, rotation);
             target.GetComponent<NetworkObject>().Spawn();
-            target.Throw(spearHp);
+            target.Throw(spearHp, transform.forward);
         }
         
  
