@@ -30,10 +30,18 @@ namespace PlayerDeathSystem
         {
             base.OnNetworkSpawn();
             RedisplayCloth();
+
+            if (IsServer)
+            {
+                ItemsNetData.OnValueChanged += (oldValue, newValue) =>
+                {
+                    CloudSaveEventsContainer.OnBackPackInventoryChanged?.Invoke(BackPackId, newValue);
+                };
+            }
+            
             ItemsNetData.OnValueChanged += (oldValue, newValue) =>
             {
                 RedisplayCloth();
-                CloudSaveEventsContainer.OnBackPackInventoryChanged?.Invoke(BackPackId, newValue);
             };
             _nickNameText.text = NickName.Value.ToString();
             NickName.OnValueChanged += (FixedString64Bytes oldValue, FixedString64Bytes newValue) =>

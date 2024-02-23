@@ -31,16 +31,10 @@ namespace CharacterStatsSystem
 
         private void InitStatsValue(CharacterStats characterStats)
         {
-            if(!IsOwner) return;
-            
+            if (!IsOwner) return;
+
             CharacterStatsEventsContainer.OnCharacterStatAdded += AddStatServerRpc;
             CharacterStatsEventsContainer.OnCharacterStatRemoved += MinusStatServerRpc;
-
-            _hp.OnValueChanged += (int oldValue, int newValue) =>
-            {
-                if (newValue <= 0)
-                    PlayerNetCode.Singleton.PlayerKnockDowner.KnockDownServerRpc(UserDataHandler.Singleton.UserData.Id);
-            };
 
             _food.OnValueChanged += (int oldValue, int newValue) =>
             {
@@ -61,14 +55,14 @@ namespace CharacterStatsSystem
         public void AddStatServerRpc(CharacterStatType type, int value)
         {
             if (!IsServer) return;
-            PlusStat(type, value);
+            PlusStatOnServer(type, value);
         }
 
         [ServerRpc(RequireOwnership = false)]
         public void MinusStatServerRpc(CharacterStatType type, int value)
         {
             if (!IsServer) return;
-            MinusStat(type, value);
+            MinusStatOnServer(type, value);
         }
 
         private int GetValidatedAddingStat(int stat, int addingValue)
@@ -83,7 +77,7 @@ namespace CharacterStatsSystem
             return res < 0 ? 0 : res;
         }
 
-        private void PlusStat(CharacterStatType type, int value)
+        private void PlusStatOnServer(CharacterStatType type, int value)
         {
             switch (type)
             {
@@ -102,13 +96,27 @@ namespace CharacterStatsSystem
             }
         }
 
-        private void MinusStat(CharacterStatType type, int value)
+        [ClientRpc]
+        private void ValidateHpClientRpc(int newHp)
+        {
+            if(!IsOwner) return;
+            Debug.Log("Hp validation: " + newHp);
+            if (newHp <= 0)
+                PlayerNetCode.Singleton.PlayerKiller.DieServerRpc(UserDataHandler.Singleton.UserData.Id);
+            else if (newHp <= 15)
+                PlayerNetCode.Singleton.PlayerKnockDowner.KnockDownServerRpc(UserDataHandler.Singleton.UserData.Id);
+        }
+
+        private void MinusStatOnServer(CharacterStatType type, int value)
         {
             switch (type)
             {
                 case CharacterStatType.Health:
+                {
                     _hp.Value = GetValidatedRemovingStat(_hp.Value, value);
+                    ValidateHpClientRpc(_hp.Value);
                     break;
+                }
                 case CharacterStatType.Food:
                     _food.Value = GetValidatedRemovingStat(_food.Value, value);
                     break;

@@ -62,7 +62,11 @@ namespace PlayerDeathSystem
             if (ownerId == _userId.Value && IsOwner)
             {
                 if (shouldDisplayDeathScreen)
+                {
                     MainUiHandler.Singleton.DisplayDeathScreen(true);
+                    MainUiHandler.Singleton.DisplayKnockDownScreen(false);
+                }
+                
                 GenerateBackPackServerRpc(wasDisconnected, ownerId,
                     UserDataHandler.Singleton.UserData.Name);
             }
