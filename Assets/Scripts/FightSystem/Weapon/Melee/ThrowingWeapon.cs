@@ -14,7 +14,6 @@ namespace FightSystem.Weapon.Melee
         [SerializeField] private BoxCollider _collider;
         [Header("Main Params")]
         [SerializeField] private float _lerpSpeed = 2f;
-        [SerializeField] private float _angleInDegrees;
         [SerializeField] private float _speed;
         
         private int _throwingHp;
@@ -52,12 +51,12 @@ namespace FightSystem.Weapon.Melee
                 gameObject.transform.forward = _rb.velocity;
         }
         
-        public void Throw(int throwingHp, Vector3 direction)
+        public void Throw(int throwingHp, Vector3 direction, float angle)
         {
             _throwingHp = throwingHp;
             if (!_rb) return;
             
-            var v = CalculateVelocity(direction);
+            var v = CalculateVelocity(direction, angle);
 
            
             var tipObjRb = gameObject.GetComponentInChildren<Rigidbody>();
@@ -84,9 +83,9 @@ namespace FightSystem.Weapon.Melee
             }
         }
         
-        private Vector3 CalculateVelocity(Vector3 direction)
+        private Vector3 CalculateVelocity(Vector3 direction, float angle)
         {
-            var angleInRadians = _angleInDegrees * Mathf.Deg2Rad;
+            var angleInRadians = angle * Mathf.Deg2Rad;
             var horizontalSpeed = Mathf.Cos(angleInRadians) * _speed;
             var verticalSpeed = Mathf.Sin(angleInRadians) * _speed;
 
