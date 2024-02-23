@@ -8,23 +8,22 @@ namespace FightSystem.Weapon.Melee
 {
     public class ThrowingWeapon : NetworkBehaviour
     {
-        [Header("Attached Compontents")] 
+        [Header("Attached Components")] 
         [SerializeField] private Rigidbody _rb;
         [SerializeField] private LootingItem _lootingItem;
         [SerializeField] private BoxCollider _collider;
-        [SerializeField] private ForceMode _forceMode;
-
-        private Collision _hitObject;
-
-        [Header("Main Params")] [SerializeField]
-        private float _lerpSpeed = 2f;
-
+        [Header("Main Params")]
+        [SerializeField] private float _lerpSpeed = 2f;
+        [SerializeField] private float _angleInDegrees;
+        [SerializeField] private float _speed;
+        
         private int _throwingHp;
+        private Collision _hitObject;
 
         private void Start()
         {
-            int arrowLayer = LayerMask.NameToLayer("Arrow");
-            Physics.IgnoreLayerCollision(arrowLayer, arrowLayer);
+            // var arrowLayer = LayerMask.NameToLayer("Arrow");
+            // Physics.IgnoreLayerCollision(arrowLayer, arrowLayer);
             StartCoroutine(WaitForEnable());
         }
 
@@ -35,15 +34,7 @@ namespace FightSystem.Weapon.Melee
             _collider.enabled = true;
         }
 
-        public void Throw(Vector3 direction, float force, int throwingHp)
-        {
-            _throwingHp = throwingHp;
-            if (!_rb) return;
-            _rb.AddForce(direction * force, _forceMode);
-            Rotate();
-        }
-
-        private void Rotate()
+        private void Update()
         {
             if (!_rb) return;
             var velocity = _rb.velocity.normalized;
@@ -52,6 +43,21 @@ namespace FightSystem.Weapon.Melee
                 var newRotation = Quaternion.LookRotation(velocity, Vector3.down);
                 transform.rotation = Quaternion.Lerp(transform.rotation, newRotation, Time.deltaTime * _lerpSpeed);
             }
+        }
+
+        public void Throw(int throwingHp)
+        {
+            _throwingHp = throwingHp;
+            if (!_rb) return;
+            
+            var direction = CalculateDirection();
+            var v = CalculateVelocity(direction);
+
+           
+            var tipObjRb = gameObject.GetComponentInChildren<Rigidbody>();
+            _rb.isKinematic = false;
+            _rb.velocity = v;
+            tipObjRb.useGravity = true;
         }
 
         private void MinusItemHp()
@@ -72,12 +78,36 @@ namespace FightSystem.Weapon.Melee
             }
         }
 
+        private Vector3 CalculateDirection()
+        {
+            return transform.forward;
+        }
+
+        private Vector3 CalculateVelocity(Vector3 direction)
+        {
+            var angleInRadians = _angleInDegrees * Mathf.Deg2Rad;
+            var horizontalSpeed = Mathf.Cos(angleInRadians) * _speed;
+            var verticalSpeed = Mathf.Sin(angleInRadians) * _speed;
+
+            var velocity = direction.normalized * horizontalSpeed;
+            velocity.y = verticalSpeed;
+
+            return velocity;
+        }
+        
         private void OnCollisionEnter(Collision other)
         {
+            _rb.isKinematic = true;
+            _rb.constraints = RigidbodyConstraints.FreezeAll;
             if (!IsServer) return;
             if (!_rb) return;
             MinusItemHp();
-            _rb.constraints = RigidbodyConstraints.FreezeAll;
+            if (other.gameObject.CompareTag("Arrow"))
+            {
+                Physics.IgnoreCollision(other.collider, GetComponent<Collider>());
+                return;
+            }
+            
             if(_hitObject == null)
                 _hitObject = other;
             StartCoroutine(CheckHitObject());
