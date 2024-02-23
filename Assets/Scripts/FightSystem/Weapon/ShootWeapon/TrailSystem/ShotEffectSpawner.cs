@@ -8,7 +8,7 @@ namespace FightSystem.Weapon.ShootWeapon.TrailSystem
 {
     public class ShotEffectSpawner : NetworkBehaviour
     {
-        [Header("Trail")] 
+        [Header("Trail")]
         [
             SerializeField]
         private Transform _fpSpawningPos;
@@ -16,23 +16,21 @@ namespace FightSystem.Weapon.ShootWeapon.TrailSystem
         [SerializeField] private Transform _tpSpawningPos;
         [SerializeField] private TrailRenderer _bulletTrail;
 
-        [Header("VFX")] [SerializeField] private VisualEffect _shotVfxFp;
-        [SerializeField] private VisualEffect _shotVfxTp;
-        [SerializeField] private float _flameEffectDuration = 1;
-        
-        private IEnumerator PlayVfx(VisualEffect effect)
+        [Header("VFX")] [SerializeField] private Transform _fpShotPlace;
+        [SerializeField] private Transform _tpShotPlace;
+        [SerializeField] private ParticleSystem _shotVfxPref;
+
+        private void PlayVfx(ParticleSystem effect, Transform parrent)
         {
-            if(!effect) yield break;
-            effect.Play();
-            yield return new WaitForSeconds(_flameEffectDuration);
-            effect.Stop();
+            var vfx = Instantiate(effect, parrent);
+            vfx.Play();
         }
 
         [ClientRpc]
         private void DisplayEffectClientRpc()
         {
-            StartCoroutine(PlayVfx(_shotVfxFp));
-            StartCoroutine(PlayVfx(_shotVfxTp));
+            PlayVfx(_shotVfxPref, _fpShotPlace);
+            PlayVfx(_shotVfxPref, _tpShotPlace);
         }
 
         [ServerRpc(RequireOwnership = false)]

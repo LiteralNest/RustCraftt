@@ -30,7 +30,8 @@ namespace Environment
             if(_ambientSound == null) return;
             if (other.CompareTag("Player"))
             {
-                StopCoroutine(_coroutine);
+                if(_coroutine != null)
+                    StopCoroutine(_coroutine);
                 StartCoroutine(DecreaseVolumeRoutine());
             }
         }

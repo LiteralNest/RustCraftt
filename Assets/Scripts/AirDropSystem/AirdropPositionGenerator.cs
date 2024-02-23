@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Collections;
+using Sirenix.OdinInspector;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -35,7 +36,20 @@ namespace AirDropSystem
             var instacne = Instantiate(_airdropPrefab, spawnPoint, Quaternion.identity);
             instacne.GetComponent<NetworkObject>().Spawn();
         }
+        
+        [ServerRpc(RequireOwnership = false)]
+        public void SpawnAirDropServerRpc()
+        {
+            if(!IsServer) return;
+            CalculateAndSpawn();
+        }
 
+        [ContextMenu("SpawnAirDrop")]
+        public void SpawnAirDrop()
+        {
+            SpawnAirDropServerRpc();
+        }
+        
         private void CalculateAndSpawn()
         {
             var randomEdge1 = Random.Range(0, 4);
