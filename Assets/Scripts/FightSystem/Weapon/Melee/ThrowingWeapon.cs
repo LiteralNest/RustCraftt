@@ -1,5 +1,4 @@
 using System.Collections;
-using FightSystem.Weapon.Ballistic;
 using FightSystem.Weapon.ThrowingWeapon;
 using Items_System.Items;
 using UnityEngine;
@@ -8,9 +7,9 @@ namespace FightSystem.Weapon.Melee
 {
     public class ThrowingWeapon : BaseThrowingWeapon
     {
-        [Header("Attached Components")]
-        [SerializeField] private BoxCollider _collider;
-
+        [Header("Attached Components")] [SerializeField]
+        private BoxCollider _collider;
+        
         private int _throwingHp;
         private Collision _hitObject;
 
@@ -31,6 +30,7 @@ namespace FightSystem.Weapon.Melee
         {
             base.Throw(angle, throwingHp);
             _throwingHp = throwingHp;
+            TargetLootingItem.InitByTargetItem(throwingHp);
         }
 
         private void MinusItemHp()

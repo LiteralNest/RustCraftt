@@ -5,7 +5,7 @@ using Crafting_System.WorkBench;
 using Inventory_System;
 using Items_System.Items;
 using Items_System.Items.Abstract;
-using Items_System.Items.Weapon;
+using Items_System.Items.WeaponSystem;
 using TechTree;
 using UnityEngine;
 

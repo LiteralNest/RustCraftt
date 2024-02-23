@@ -1,6 +1,6 @@
 using InHandItems.InHandAnimations.Weapon;
 using InHandItems.InHandViewSystem;
-using Items_System.Items.Weapon;
+using Items_System.Items.WeaponSystem;
 using Player_Controller;
 using UnityEngine;
 using UnityEngine.Serialization;
