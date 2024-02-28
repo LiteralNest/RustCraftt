@@ -1,6 +1,7 @@
 using UnityEngine;
 using TMPro;
 using System;
+using System.Collections;
 using UnityEngine.Purchasing;
 using System.Collections.Generic;
 using Cloud.DataBaseSystem.UserData;
