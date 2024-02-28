@@ -42,3 +42,4 @@ public class AdsManager : MonoBehaviour
         _rewardedAds.ShowRewardedAd(_goldTextMeshProUGUI);
     }
 }
+
