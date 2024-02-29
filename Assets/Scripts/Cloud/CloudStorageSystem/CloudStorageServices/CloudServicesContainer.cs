@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using Events;
+using Unity.Services.Core;
 using UnityEngine;
 
 namespace Cloud.CloudStorageSystem.CloudStorageServices
@@ -27,6 +28,7 @@ namespace Cloud.CloudStorageSystem.CloudStorageServices
         private IEnumerator SaveDataCoroutine()
         {
             yield return new WaitForSeconds(_timeBetweenSaves);
+            yield return new WaitUntil(() => UnityServices.State == ServicesInitializationState.Initialized);
             Save();
             GlobalEventsContainer.OnChatMessageCreated?.Invoke("[Server] Data Saved");
             StartCoroutine(SaveDataCoroutine());

@@ -6,10 +6,11 @@ namespace Cloud.CloudStorageSystem.CloudStorageServices
 {
     public class CloudSaveInititalizer : MonoBehaviour
     {
-        private async void Start()
+        private async void Awake()
         {
             await UnityServices.InitializeAsync();
-            await AuthenticationService.Instance.SignInAnonymouslyAsync();
+            if(AuthenticationService.Instance.IsAuthorized == false)
+                await AuthenticationService.Instance.SignInAnonymouslyAsync();
             CloudSaveEventsContainer.OnCloudSaveServiceInitialized?.Invoke();
         }
     }

@@ -11,7 +11,8 @@ namespace Cloud.CloudStorageSystem.CloudStorageServices
         public async void SendDataAsync<T>(string key, T data) where T : struct
         {
             var sendingData = new Dictionary<string, object> { { key, data } };
-            await CloudSaveService.Instance.Data.ForceSaveAsync(sendingData);
+            await CloudSaveService.Instance.Data.Player.SaveAsync(sendingData);
+            // await CloudSaveService.Instance.Data.ForceSaveAsync(sendingData);
             Debug.Log("Data with key " + key + " has been sent");
         }
 
