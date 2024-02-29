@@ -1,10 +1,11 @@
+using Cloud.DataBaseSystem.UserData;
 using TMPro;
 using UnityEngine;
 
 public class ShopCurrencyAddTest : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI _currencyText;
-    private int _goldAmount = 0;
+    
 
     private void Start()
     {
@@ -13,7 +14,7 @@ public class ShopCurrencyAddTest : MonoBehaviour
 
     public void AddGold(int amount)
     {
-        _goldAmount += amount;
+        UserDataHandler.Singleton.UserData.GoldValue += amount;
         UpdateCurrencyText();
     }
     
@@ -21,7 +22,7 @@ public class ShopCurrencyAddTest : MonoBehaviour
     {
         if (_currencyText != null)
         {
-            _currencyText.text = _goldAmount.ToString();
+            _currencyText.text = UserDataHandler.Singleton.UserData.GoldValue.ToString();
         }
     }
 }

@@ -45,7 +45,7 @@ public class RewardedAds
             {
                 UserDataHandler.Singleton.AddGold(15);
                 Debug.Log("Give reward to player !!");
-                goldTextMeshProUGUI.text = "" + UserDataHandler.Singleton.UserData.GoldValue;
+                goldTextMeshProUGUI.text = UserDataHandler.Singleton.UserData.GoldValue.ToString();
             });
         }
         else {

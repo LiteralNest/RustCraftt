@@ -11,7 +11,12 @@ namespace Cloud.DataBaseSystem.UserData
 
       public int Id => id;
       public string Name => name;
-      public int GoldValue => _goldValue;
+
+      public int GoldValue
+      {
+         get => _goldValue;
+         set => _goldValue = value;
+      }
 
       public UserData(int id, string name, int goldValue)
       {
