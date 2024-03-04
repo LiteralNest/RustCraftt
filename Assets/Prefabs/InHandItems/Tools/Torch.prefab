@@ -198,7 +198,7 @@ Light:
   m_Type: 2
   m_Shape: 0
   m_Color: {r: 1, g: 0.5997325, b: 0, a: 1}
-  m_Intensity: 10
+  m_Intensity: 3
   m_Range: 10
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
@@ -470,7 +470,7 @@ Light:
   m_Type: 2
   m_Shape: 0
   m_Color: {r: 1, g: 0.5997325, b: 0, a: 1}
-  m_Intensity: 10
+  m_Intensity: 3
   m_Range: 10
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
@@ -648,6 +648,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7176835091661243531}
+  - component: {fileID: 6609073689945642805}
   - component: {fileID: 5939928062719960916}
   m_Layer: 15
   m_Name: Torch
@@ -673,6 +674,26 @@ Transform:
   - {fileID: 7905162958176763808}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6609073689945642805
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5002354294638673448}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GlobalObjectIdHash: 3786923216
+  AlwaysReplicateAsRoot: 0
+  SynchronizeTransform: 1
+  ActiveSceneSynchronization: 0
+  SceneMigrationSynchronization: 1
+  SpawnWithObservers: 1
+  DontDestroyWithOwner: 0
+  AutoObjectParentSync: 1
 --- !u!114 &5939928062719960916
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5640,7 +5661,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cdc593c00da4640499d89c42868ed70b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _gatheringAnimation: {fileID: -7647727509886956846, guid: 38eba8a6babb26741ab975562dd31166, type: 3}
   _gatheringObjectAnimator: {fileID: 5939928062719960916}
   _gatheringTool: {fileID: 11400000, guid: d6472b6ed6a95464cabe7e3b18ddc932, type: 2}
   _rayCastMask:
@@ -6317,7 +6337,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7406925323366276356, guid: f802fdbff8db8cb4fac68572d2d1b7b3, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects:
