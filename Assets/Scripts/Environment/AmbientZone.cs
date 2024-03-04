@@ -38,8 +38,10 @@ namespace Environment
     
         private IEnumerator IncreaseVolumeRoutine()
         {
+            if(_audioSource == null) yield break;
             while (_audioSource.volume < 0.4f)
             {
+                if(_audioSource == null) yield break;
                 _audioSource.volume += 0.05f;
                 yield return new WaitForSeconds(0.5f);
             }
@@ -47,8 +49,10 @@ namespace Environment
 
         private IEnumerator DecreaseVolumeRoutine()
         {
+            if(_audioSource == null) yield break;
             while (_audioSource.volume > 0)
             {
+                if(_audioSource == null) yield break;
                 _audioSource.volume -= 0.1f;
                 yield return new WaitForSeconds(0.5f);
             }

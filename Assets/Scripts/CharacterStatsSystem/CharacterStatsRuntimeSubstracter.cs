@@ -26,10 +26,10 @@ namespace CharacterStatsSystem
         private void Init(CharacterStats characterStats)
         {
             _characterStats = characterStats;
-            if(_substractFoodRoutine != null)
+            if (_substractFoodRoutine != null)
                 StopCoroutine(_substractFoodRoutine);
             _substractFoodRoutine = StartCoroutine(SubstractFoodRoutine());
-            if(_substractWaterRoutine != null)
+            if (_substractWaterRoutine != null)
                 StopCoroutine(_substractWaterRoutine);
             _substractWaterRoutine = StartCoroutine(SubstractWaterRoutine());
             _characterStats.Water.OnValueChanged += (int oldValue, int newValue) => CheckWater(newValue);
@@ -62,14 +62,30 @@ namespace CharacterStatsSystem
 
         private void CheckFood(int value)
         {
-            if (value <= 15 && _substractHpRoutine == null)
-                _substractHpRoutine = StartCoroutine(SubstractHpRoutine());
+            if (value <= 15)
+            {
+                if (_substractHpRoutine == null)
+                    _substractHpRoutine = StartCoroutine(SubstractHpRoutine());
+            }
+            else
+            {
+                if (_substractHpRoutine != null)
+                    StopCoroutine(_substractHpRoutine);
+            }
         }
 
         private void CheckWater(int value)
         {
-            if (value <= 15 && _substractHpRoutine == null)
-                _substractHpRoutine = StartCoroutine(SubstractHpRoutine());
+            if (value <= 15)
+            {
+                if (_substractFoodRoutine == null)
+                    _substractFoodRoutine = StartCoroutine(SubstractFoodRoutine());
+            }
+            else
+            {
+                if (_substractHpRoutine != null)
+                    StopCoroutine(_substractHpRoutine);
+            }
         }
     }
 }

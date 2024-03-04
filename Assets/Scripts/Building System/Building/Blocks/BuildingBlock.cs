@@ -10,6 +10,7 @@ using Inventory_System;
 using Player_Controller;
 using Sound_System;
 using Unity.Netcode;
+using Unity.VisualScripting;
 using UnityEngine;
 
 namespace Building_System.Building.Blocks
@@ -18,6 +19,7 @@ namespace Building_System.Building.Blocks
         IRayCastHpDisplayer
     {
         [SerializeField] private NetworkSoundPlayer _soundPlayer;
+        [SerializeField] private Block _defaultLevel;
         [SerializeField] private List<Block> _levels;
         [SerializeField] private float _canbeDestroyedByHammerTime = 60f;
 
@@ -122,6 +124,9 @@ namespace Building_System.Building.Blocks
 
             PlaySound();
 
+            foreach(var level in _levels)
+                level.gameObject.SetActive(false);
+            
             activatingBlock.gameObject.SetActive(true);
             _activeBlock = activatingBlock.gameObject;
             var gettingHp = (ushort)activatingBlock.GetComponent<Block>().Hp;

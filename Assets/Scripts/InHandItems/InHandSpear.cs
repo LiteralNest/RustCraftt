@@ -17,7 +17,7 @@ namespace InHandItems
         public void StartThrow()
         {
             if(_meleeShootingWeapon.gameObject.activeSelf)
-                _weaponThrower.EndThrow();
+                _weaponThrower.StartThrow();
         }
         
         public void EndThrow()
