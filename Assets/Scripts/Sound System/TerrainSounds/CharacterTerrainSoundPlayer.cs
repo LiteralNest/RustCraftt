@@ -33,7 +33,7 @@ public class CharacterTerrainSoundPlayer : NetworkBehaviour
         if(!IsOwner) return;
         
         
-        if (!_isInWater && Physics.Raycast(transform.position, Vector3.down, out RaycastHit hit, _rayCastDistance, _terrainLayer))
+        if (_isInWater && Physics.Raycast(transform.position, Vector3.down, out RaycastHit hit, _rayCastDistance, _terrainLayer))
         {
             if (!hit.collider.TryGetComponent(out TerrainSoundInteractor soundInteractor)) return;
             SetTerrainStepClips(soundInteractor.StepClips);
