@@ -27,6 +27,8 @@ namespace Environment
         private bool _isRestoringOxygen = false;
         private Coroutine _oxygenCoroutine;
 
+        public bool _inWater;
+
         private CharacterStats _characterStats;
 
         private void OnEnable()
@@ -43,6 +45,8 @@ namespace Environment
         {
             if (other.CompareTag("Player") && other.GetComponent<DamagableBodyPart>().IsOwner)
             {
+                _inWater = true;
+                
                 _cachedMaxCameraDistance = Camera.main.farClipPlane;
                 Camera.main.farClipPlane = 1000f;
                 foreach (var feature in _data.rendererFeatures)
@@ -66,6 +70,8 @@ namespace Environment
         {
             if (other.CompareTag("Player") && other.GetComponent<DamagableBodyPart>().IsOwner)
             {
+                _inWater = false;
+                
                 foreach (var feature in _data.rendererFeatures)
                 {
                     if (feature.name == _targetRenderFeature)
@@ -99,7 +105,6 @@ namespace Environment
             }
         }
 
-        // Coroutine to gradually restore oxygen over time
         private IEnumerator RemoveOxygenOverTime()
         {
             while (!_isRestoringOxygen)
