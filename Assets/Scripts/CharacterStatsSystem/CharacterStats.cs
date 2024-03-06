@@ -109,6 +109,7 @@ namespace CharacterStatsSystem
 
         private void MinusStatOnServer(CharacterStatType type, int value)
         {
+            if(_hp.Value <= 0) return;
             switch (type)
             {
                 case CharacterStatType.Health:

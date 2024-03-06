@@ -17,13 +17,11 @@ namespace Multiplayer.PlayerSpawning
 
         [field: SerializeField] public AnimationsManager AnimationsManager { get; private set; }
 
-        private async void Start()
+        private void Start()
         {
             if (!IsOwner) return;
             _userId.Value = UserDataHandler.Singleton.UserData.Id;
             TryConnectServerToBackPack();
-            await Task.Delay(1500);
-            if (!IsOwner) return;
         }
 
         public override void OnNetworkDespawn()

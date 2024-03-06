@@ -22,7 +22,6 @@ namespace PlayerDeathSystem
 
 
         private NetworkVariable<bool> _knockDown = new();
-        public bool IsKnockDown => _knockDown.Value;
 
         private async void Start()
         {
@@ -49,8 +48,6 @@ namespace PlayerDeathSystem
                 GlobalEventsContainer.OnPlayerKnockDown?.Invoke();
                 _playerRotator.SetKnockDownHead();
                 GetComponent<PlayerController>().enabled = false;
-                MainUiHandler.Singleton.DisplayKnockDownScreen(true);
-                AnimationsManager.Singleton.SetKnockDown();
 
                 if (InventoryHandler.singleton.ActiveSlotDisplayer == null) return;
                 var cellIndex = InventoryHandler.singleton.ActiveSlotDisplayer.Index;
@@ -64,14 +61,10 @@ namespace PlayerDeathSystem
                 }
      
                 PlayerNetCode.Singleton.SetDefaultHandsServerRpc();
+                AnimationsManager.Singleton.SetKnockDown();
+                MainUiHandler.Singleton.DisplayKnockDownScreen(true);
                 InventoryHandler.singleton.ActiveSlotDisplayer = null;
             }
-        }
-
-        [ContextMenu("KnockDown")]
-        private void KnockDown()
-        {
-            KnockDownServerRpc(UserDataHandler.Singleton.UserData.Id);
         }
 
         #endregion

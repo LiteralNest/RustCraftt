@@ -18,6 +18,8 @@ namespace UI.DeathScreen
         [SerializeField] private Image _reviveProgressBar;
         private Transform _transform;
 
+        private Coroutine _deathCoroutine;
+        
         private int _currentDeathTimer;
         
         private void OnEnable()
@@ -29,7 +31,8 @@ namespace UI.DeathScreen
             _reviveProgressBar.fillAmount = 1f;
             _reviveChanceText.text = _reviveChance.ToString();
 
-            StartCoroutine(DeathTimerCoroutine());
+            if(_deathCoroutine != null) StopCoroutine(_deathCoroutine);
+            _deathCoroutine = StartCoroutine(DeathTimerCoroutine());
         }
 
         private IEnumerator DeathTimerCoroutine()
