@@ -1,3 +1,4 @@
+using System;
 using Cloud.DataBaseSystem.UserData;
 using InteractSystem;
 using Lock_System;
@@ -9,6 +10,10 @@ namespace Doors_System
 {
     public class DoorHandler : NetworkBehaviour, ILockable, IRaycastInteractable
     {
+
+        public event Action OnOpenDoor;
+        public event Action OnCloseDoor;
+        
         [SerializeField] private Sprite _openDoorIcon;
         [SerializeField] private Sprite _closeDoorIcon;
         [SerializeField] private Animator _anim;
@@ -22,6 +27,12 @@ namespace Doors_System
 
         private NetworkVariable<bool> _wasOpened = new();
         private NetworkVariable<bool> _canBeInteracted = new(true);
+
+        private void OnEnable()
+        {
+            OnOpenDoor += PlayOpenAnimation;
+            OnCloseDoor += PlayCloseAnimation;
+        }
 
         private void Open(int id)
         {
@@ -50,13 +61,31 @@ namespace Doors_System
             if (value)
             {
                 _networkSoundPlayer.PlayOneShot(_openClip);
-                _anim.SetTrigger("Open");
+                OnOpenDoor?.Invoke();
             }
             else
             {
                 _networkSoundPlayer.PlayOneShot(_closeClip);
-                _anim.SetTrigger("Close");
+                OnCloseDoor?.Invoke();
             }
+        }
+
+        private void PlayCloseAnimation()
+        {
+            _anim.SetTrigger("Close");
+            _anim.speed = 4f;
+        }
+
+        private void PlayOpenAnimation()
+        {
+            _anim.SetTrigger("Open");
+            _anim.speed = 2f;
+        }
+
+        private void OnDisable()
+        {
+            OnOpenDoor -= PlayOpenAnimation;
+            OnCloseDoor -= PlayCloseAnimation;
         }
 
         #region IRaycastInteractable
