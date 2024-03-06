@@ -1,3 +1,4 @@
+using System;
 using Player_Controller;
 using Sound_System;
 using Sound_System.TerrainSounds;
@@ -20,20 +21,18 @@ public class CharacterTerrainSoundPlayer : NetworkBehaviour
     {
         _terrainStepClips = terrainStepClips;
     }
-
-
-    public void Awake()
-    {
-        var swimming = GetComponent<PlayerController>();
-        _isInWater = swimming.IsSwimming;
-    }
-
+    
     public void ChangePosition()
     {
         if(!IsOwner) return;
-        
-        
-        if (_isInWater && Physics.Raycast(transform.position, Vector3.down, out RaycastHit hit, _rayCastDistance, _terrainLayer))
+
+        if (_isInWater)
+        {
+            SetTerrainStepClips(null);
+            return;
+        }
+
+        if (!_isInWater && Physics.Raycast(transform.position, Vector3.down, out RaycastHit hit, _rayCastDistance, _terrainLayer))
         {
             if (!hit.collider.TryGetComponent(out TerrainSoundInteractor soundInteractor)) return;
             SetTerrainStepClips(soundInteractor.StepClips);
@@ -44,8 +43,21 @@ public class CharacterTerrainSoundPlayer : NetworkBehaviour
                 _cachedClipIndex = rand;
                 break;
             }
+
             var nextStepClip = _terrainStepClips[_cachedClipIndex];
             _playerSoundsPlayer.PlayHit(nextStepClip);
         }
+    }
+    
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Water"))
+            _isInWater = true;
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.CompareTag("Water"))
+            _isInWater = false;
     }
 }
