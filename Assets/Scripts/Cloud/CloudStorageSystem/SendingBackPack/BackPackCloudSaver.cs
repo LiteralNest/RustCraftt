@@ -41,8 +41,8 @@ namespace Cloud.CloudStorageSystem.SendingBackPack
                 if(_savingData[i].BackPackId == backPackId)
                     return i;
             }
-            
-            throw new Exception("BackPack with id" + backPackId + " not found");
+            Debug.LogWarning("BackPack with id" + backPackId + " not found");
+            return -1;
         }
 
         private void AddBackPack(int backPackId, Vector3 position, CustomSendingInventoryData itemsNetData,
@@ -51,11 +51,16 @@ namespace Cloud.CloudStorageSystem.SendingBackPack
             => _savingData.Add(new BackPackSlotData(backPackId, position, itemsNetData, nickName, ownerId, wasDisconnected, hp));
 
         private void RemoveBackPack(int backPackId)
-            => _savingData.RemoveAt(GetBackpackIndexByPosition(backPackId));
+        {
+            var index = GetBackpackIndexByPosition(backPackId);
+            if(index == -1) return;
+            _savingData.RemoveAt(index);
+        }
 
         private void AssignBackPackHp(int backPackId, float hp)
         {
             int index = GetBackpackIndexByPosition(backPackId);
+            if(index == -1) return;
             var cachedSlot = _savingData[index];
             cachedSlot.Hp = hp;
             _savingData[index] = cachedSlot;
@@ -64,6 +69,7 @@ namespace Cloud.CloudStorageSystem.SendingBackPack
         private void AssignBackPackInventory(int backPackId, CustomSendingInventoryData itemsNetData)
         {
             int index = GetBackpackIndexByPosition(backPackId);
+            if(index == -1) return;
             var cachedSlot = _savingData[index];
             cachedSlot.ItemsNetData = itemsNetData;
             _savingData[index] = cachedSlot;
