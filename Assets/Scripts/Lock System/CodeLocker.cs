@@ -1,8 +1,8 @@
 using AuthorizationSystem;
+using Cloud.DataBaseSystem.UserData;
 using Multiplayer.CustomData;
 using Unity.Netcode;
 using UnityEngine;
-using Web.UserData;
 
 namespace Lock_System
 {
@@ -11,6 +11,12 @@ namespace Lock_System
         [SerializeField] private GameObject _codeUI;
         [SerializeField] private NetworkVariable<AuthorizedUsersData> _authorizedIds = new();
         [field: SerializeField] public NetworkVariable<int> Password { get; private set; } = new NetworkVariable<int>();
+
+        public override bool AvailableForOpen(int value)
+        {
+            AuthorizationHelper helper = new AuthorizationHelper();
+            return helper.IsAuthorized(value, _authorizedIds);
+        }
 
         public override bool CanBeOpened(int value)
         {
@@ -23,6 +29,7 @@ namespace Lock_System
                     return false;
                 }
             }
+
             return true;
         }
 

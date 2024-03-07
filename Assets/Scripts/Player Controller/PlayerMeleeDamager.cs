@@ -1,7 +1,5 @@
-using System.Collections;
-using Building_System.Building.Blocks;
-using Building_System.Building.Placing_Objects;
 using FightSystem.Damage;
+using Inventory_System;
 using Items_System.Items;
 using UnityEngine;
 
@@ -17,36 +15,29 @@ namespace Player_Controller
         private void Start()
             => _canDamage = true;
 
-        public bool TryDamage(Tool gatheringTool, float coolDownTime)
+        public void TryDamage(Tool gatheringTool)
         {
-            if (!_canDamage) return false;
-            StartCoroutine(ResetCanDamageRoutine(coolDownTime));
+            if (!_canDamage) return;
             var cameraTransform = Camera.main.transform;
+
             var ray = new Ray(cameraTransform.position, cameraTransform.forward);
-            if (Physics.Raycast(ray, out var hit, _damageRange, _damageLayer))
+            var targets = Physics.RaycastAll(ray, _damageRange, _damageLayer);
+            foreach (var target in targets)
             {
-                var damagable = hit.collider.GetComponent<IDamagable>();
+                var damagable = target.collider.GetComponent<IDamagable>();
                 if (damagable != null)
-                    damagable.GetDamageOnServer(gatheringTool.Damage);
-                
-                var damagableBuilding = hit.collider.GetComponent<IBuildingDamagable>();
+                    damagable.GetDamageToServer(gatheringTool.Damage);
+
+                var damagableBuilding = target.collider.GetComponent<IBuildingDamagable>();
                 if (damagableBuilding != null)
-                    damagableBuilding.GetDamageOnServer(gatheringTool.Id);
+                    damagableBuilding.GetDamageToServer(gatheringTool.Id);
 
-
-                if(damagableBuilding != null || damagable != null)
+                if (damagableBuilding != null || damagable != null)
+                {
                     InventoryHandler.singleton.ActiveSlotDisplayer.ItemDisplayer.MinusCurrentHp(1);
-                return true;
+                    return;
+                }
             }
-
-            return false;
-        }
-
-        private IEnumerator ResetCanDamageRoutine(float coolDownTime)
-        {
-            _canDamage = false;
-            yield return new WaitForSeconds(coolDownTime);
-            _canDamage = true;
         }
     }
 }

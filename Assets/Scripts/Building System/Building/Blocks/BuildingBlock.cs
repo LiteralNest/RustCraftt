@@ -2,44 +2,38 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using AlertsSystem;
-using Building_System.Buildings_Connecting;
 using Building_System.Upgrading;
+using Cloud.CloudStorageSystem;
 using FightSystem.Damage;
 using InteractSystem;
+using Inventory_System;
 using Player_Controller;
 using Sound_System;
 using Unity.Netcode;
+using Unity.VisualScripting;
 using UnityEngine;
 
 namespace Building_System.Building.Blocks
 {
-    public class BuildingBlock : NetworkBehaviour, IBuildingDamagable, IHammerInteractable, IDestroyable, IRayCastHpDusplayer
+    public class BuildingBlock : NetworkBehaviour, IBuildingDamagable, IHammerInteractable, IDestroyable,
+        IRayCastHpDisplayer
     {
         [SerializeField] private NetworkSoundPlayer _soundPlayer;
+        [SerializeField] private Block _defaultLevel;
         [SerializeField] private List<Block> _levels;
         [SerializeField] private float _canbeDestroyedByHammerTime = 60f;
 
         public Action<IDestroyable> OnDestroyed { get; set; }
 
-        private ConnectedStructure _currentStructure;
-
-        public ConnectedStructure CurrentStructure
-        {
-            set => _currentStructure = value;
-        }
-
         private NetworkVariable<float> _hp = new(100, NetworkVariableReadPermission.Everyone,
             NetworkVariableWritePermission.Owner);
 
         public Block CurrentBlock => _levels[_currentLevel.Value];
-        [field: SerializeField] public StructureConnector BuildingConnector { get; private set; }
 
         [Tooltip("In Seconds")] [SerializeField]
         private float _destroyingTime = 0.1f;
 
         private NetworkVariable<bool> _canBeDestroyedByHammer = new(true);
-
-        public int StartHp => _startHp;
         private int _startHp;
 
         private NetworkVariable<ushort> _currentLevel = new(0, NetworkVariableReadPermission.Everyone,
@@ -48,20 +42,65 @@ namespace Building_System.Building.Blocks
         private List<InventoryCell> _cellsForRepairing = new List<InventoryCell>();
 
         private GameObject _activeBlock;
-
+        private Coroutine _decayCoroutine;
 
         public override void OnNetworkSpawn()
         {
             InitSlot();
             _currentLevel.OnValueChanged += (ushort prevValue, ushort newValue) => { InitSlot(); };
-            if (IsServer)
-                StartCoroutine(HandleDestroyingByHammerTime());
+            if (!IsServer) return;
+            StartCoroutine(HandleDestroyingByHammerTime());
+            _currentLevel.OnValueChanged += (ushort prevValue, ushort newValue) =>
+            {
+                CloudSaveEventsContainer.OnBuildingBlockUpgraded?.Invoke(transform.position, _currentLevel.Value);
+            };
+            _hp.OnValueChanged += (float prevValue, float newValue) =>
+            {
+                CloudSaveEventsContainer.OnBuildingBlockHpChanged?.Invoke(transform.position, (int)newValue);
+            };
         }
 
         public override void OnDestroy()
         {
             OnDestroyed?.Invoke(this);
             base.OnDestroy();
+        }
+
+        private void Start()
+        {
+            if (IsServer)
+                _decayCoroutine = StartCoroutine(DecayRoutine());
+        }
+
+
+        [ServerRpc(RequireOwnership = false)]
+        private void GetDamageServerRpc(int damageItemId)
+        {
+            if (!IsServer) return;
+            GetDamageOnServer(damageItemId);
+        }
+
+        public void GetDamageToServer(int damageItemId)
+            => GetDamageServerRpc(damageItemId);
+
+        public void ToolClipBoardAssign(bool value)
+        {
+            if (value)
+            {
+                if (_decayCoroutine != null)
+                    StopCoroutine(_decayCoroutine);
+            }
+            else
+                _decayCoroutine = StartCoroutine(DecayRoutine());
+        }
+
+        private IEnumerator DecayRoutine()
+        {
+            while (true)
+            {
+                yield return new WaitForSeconds(60);
+                Decay();
+            }
         }
 
         public void PlaySound()
@@ -85,6 +124,9 @@ namespace Building_System.Building.Blocks
 
             PlaySound();
 
+            foreach(var level in _levels)
+                level.gameObject.SetActive(false);
+            
             activatingBlock.gameObject.SetActive(true);
             _activeBlock = activatingBlock.gameObject;
             var gettingHp = (ushort)activatingBlock.GetComponent<Block>().Hp;
@@ -101,27 +143,43 @@ namespace Building_System.Building.Blocks
             _currentLevel.Value = value;
         }
 
+        public void SetLevel(ushort value)
+            => SetLevelServerRpc(value);
 
-        [ServerRpc(RequireOwnership = false)]
-        private void SetHpServerRpc(int value)
+        public void SetHp(float value)
         {
             _hp.Value = value;
             if (_hp.Value <= 0)
             {
                 if (IsServer)
-                    Destroy();
+                    StartCoroutine(DestroyRoutine());
             }
+        }
+
+        [ServerRpc(RequireOwnership = false)]
+        private void SetHpServerRpc(int value)
+        {
+            if (!IsServer) return;
+            SetHp(value);
         }
 
         public void Destroy()
         {
-            if (IsServer)
-                StartCoroutine(DestroyRoutine());
+            DestroyServerRpc();
         }
+
+        [ServerRpc(RequireOwnership = false)]
+        private void DestroyServerRpc()
+        {
+            if (!IsServer) return;
+            StartCoroutine(DestroyRoutine());
+        }
+
 
         private IEnumerator DestroyRoutine()
         {
             //Потрібно щоб OnTriggerExit зчитався
+            CloudSaveEventsContainer.OnBuildingBlockDestroyed?.Invoke(transform.position);
             transform.position = new Vector3(1000000, 1000000, 1000000);
             yield return new WaitForSeconds(_destroyingTime);
             if (gameObject == null) yield break;
@@ -130,20 +188,10 @@ namespace Building_System.Building.Blocks
                 networkObj.Despawn();
             _soundPlayer.PlayOneShot(CurrentBlock.DestroyingSound);
             Destroy(gameObject);
-            if (_currentStructure != null)
-                _currentStructure.RemoveBlock(this);
         }
 
         private bool MaxHp()
             => _hp.Value >= _startHp;
-
-        public void RestoreHealth(int value)
-        {
-            var hp = _hp.Value + value;
-            if (hp > _startHp)
-                hp = _startHp;
-            SetHpServerRpc((ushort)hp);
-        }
 
 
         #region IHammerInteractable
@@ -154,7 +202,14 @@ namespace Building_System.Building.Blocks
             var damagingPercent = 100 - (_hp.Value * 100 / _startHp);
             _cellsForRepairing.Clear();
             foreach (var cell in GetNeededCellsForPlacing())
-                _cellsForRepairing.Add(new InventoryCell(cell.Item, cell.Count / (int)damagingPercent));
+            {
+                int count = 1;
+                if ((int)damagingPercent != 0)
+                    count = cell.Count / (int)damagingPercent;
+                if (count <= 0) count = 1;
+                _cellsForRepairing.Add(new InventoryCell(cell.Item, count));
+            }
+
             return InventoryHandler.singleton.CharacterInventory.EnoughMaterials(_cellsForRepairing);
         }
 
@@ -193,7 +248,6 @@ namespace Building_System.Building.Blocks
 
         public void PickUp()
         {
-            
         }
 
         #endregion
@@ -203,24 +257,21 @@ namespace Building_System.Building.Blocks
         private void AssignDamage(float damage)
         {
             float hp = _hp.Value - damage;
-            _hp.Value = hp;
-            if (_hp.Value <= 0)
-            {
-                if (IsServer)
-                    StartCoroutine(DestroyRoutine());
-            }
+            SetHp((int)hp);
         }
 
-        public void Decay(float damage)
+        public void Decay()
         {
+            var damage = CurrentBlock.StartHp / CurrentBlock.DecayHoursTime / 60f;
             AssignDamage(damage);
         }
 
         public void GetDamageOnServer(int itemId)
         {
+            if (!IsServer) return;
             var damage = CurrentBlock.GetDamageAmount(itemId);
             AssignDamage(damage);
-            if(_hp.Value - damage > 0)
+            if (_hp.Value - damage > 0)
                 _soundPlayer.PlayOneShot(CurrentBlock.DamageSound);
         }
 
@@ -231,7 +282,7 @@ namespace Building_System.Building.Blocks
         }
 
         public int GetHp()
-            => (int)_hp.Value;
+            => Mathf.RoundToInt(_hp.Value);
 
         public int GetMaxHp()
             => CurrentBlock.Hp;
@@ -239,6 +290,9 @@ namespace Building_System.Building.Blocks
         #endregion
 
         public void DisplayData()
-            => PlayerNetCode.Singleton.ObjectHpDisplayer.DisplayBuildingHp(this);
+        {
+            if (PlayerNetCode.Singleton == null) return;
+            PlayerNetCode.Singleton.ObjectHpDisplayer.DisplayBuildingHp(this);
+        }
     }
 }

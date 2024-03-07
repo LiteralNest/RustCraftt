@@ -8,7 +8,7 @@ using UnityEngine.UI;
 
 namespace Inventory_System.Inventory_Items_Displayer
 {
-    public abstract class ItemDisplayer : MonoBehaviour, IPointerClickHandler
+    public abstract class ItemDisplayer : MonoBehaviour
     {
         [Header("UI")] [SerializeField] protected TMP_Text _countText;
         [SerializeField] protected Image _itemIcon;
@@ -16,11 +16,8 @@ namespace Inventory_System.Inventory_Items_Displayer
 
         public InventoryCell InventoryCell { get; protected set; }
         public SlotDisplayer PreviousCell { get; protected set; }
-
-        public void OnPointerClick(PointerEventData eventData)
-            => PointerClicked();
-
-        protected virtual void PointerClicked()
+        
+        public virtual void PointerClicked()
         {
             if (PlayerNetCode.Singleton.ItemInfoHandler)
                 PlayerNetCode.Singleton.ItemInfoHandler.AssignItem(PreviousCell);

@@ -6,7 +6,8 @@ using FightSystem.Weapon.ShootWeapon.Sway;
 using FightSystem.Weapon.ShootWeapon.TrailSystem;
 using InHandItems.InHandAnimations.Weapon;
 using InHandItems.InHandViewSystem;
-using Items_System.Items.Weapon;
+using Inventory_System;
+using Items_System.Items.WeaponSystem;
 using Player_Controller;
 using Sound_System;
 using UI;
@@ -57,7 +58,6 @@ namespace FightSystem.Weapon.WeaponTypes
         protected int CurrentAmmoCount;
         private bool _canShoot;
         private bool _isShooting;
-        private readonly float _timeBetweenShots = 0f;
         private bool _isReloading = false;
 
         protected bool ViewAssign;
@@ -114,7 +114,7 @@ namespace FightSystem.Weapon.WeaponTypes
             _soundPlayer.PlayOneShotFromClient(_shotSound);
         }
 
-        public void Reload()
+        public virtual void Reload()
         {
             if (_isReloading) return;
             _weaponAnimator.PlayReload();
@@ -141,7 +141,7 @@ namespace FightSystem.Weapon.WeaponTypes
         }
 
         protected bool CanShoot()
-            => _canShoot && _timeBetweenShots <= 0 && CurrentAmmoCount > 0 && !_isReloading;
+            => _canShoot && CurrentAmmoCount > 0 && !_isReloading;
 
         private IEnumerator ReloadCoroutine(int count)
         {
@@ -163,14 +163,14 @@ namespace FightSystem.Weapon.WeaponTypes
             {
                 StartCoroutine(CharacterUIHandler.singleton.DisplayHitRoutine());
                 PlayerNetCode.Singleton.PlayerSoundsPlayer.PlaySoundLocal(damagableObj.GetPlayerDamageClip());
-                damagableObj.GetDamageOnServer((int)(Weapon.Damage * Weapon.Ammo.MultiplyKoef));
+                damagableObj.GetDamageToServer((int)(Weapon.Damage * Weapon.Ammo.MultiplyKoef));
                 return true;
             }
 
             if (hit.transform.TryGetComponent<IBuildingDamagable>(out var buildingDamagable))
             {
                 StartCoroutine(CharacterUIHandler.singleton.DisplayHitRoutine());
-                buildingDamagable.GetDamageOnServer(Weapon.Id);
+                buildingDamagable.GetDamageToServer(Weapon.Id);
                 return true;
             }
 
@@ -187,7 +187,7 @@ namespace FightSystem.Weapon.WeaponTypes
             return;
         }
 
-        public void TryDisplayReload()
+        public virtual void TryDisplayReload()
         {
             if (InventoryHandler.singleton == null || InventoryHandler.singleton.ActiveSlotDisplayer == null ||
                 InHandView == null || CurrentAmmoCount >= Weapon.MagazineCount)

@@ -2,8 +2,8 @@
 using System.Text;
 using System.Threading.Tasks;
 using Cysharp.Threading.Tasks;
+using MultiplayApi.Common;
 using Newtonsoft.Json;
-using Unity.Netcode.Samples;
 using UnityEngine;
 using UnityEngine.Networking;
 
@@ -100,7 +100,7 @@ namespace MultiplayApi.Service
         /// Retrieves a list of available servers.
         /// </summary>
         /// <returns>Array of server data.</returns>
-        public async Task<Unity.Netcode.Samples.ServerData[]> GetServersList()
+        public async Task<ServerData[]> GetServersList()
         {
             var getServersListUrl = $"https://services.api.unity.com/multiplay/servers/v1/projects/{_projectId}/environments/{_environmentId}/servers";
 
@@ -109,7 +109,7 @@ namespace MultiplayApi.Service
                 request.SetRequestHeader("Authorization", "Basic " + _keyBase64);
             });
 
-            var serversList = JsonConvert.DeserializeObject<Unity.Netcode.Samples.ServerData[]>(serversListJson);
+            var serversList = JsonConvert.DeserializeObject<ServerData[]>(serversListJson);
             return serversList;
         }
 

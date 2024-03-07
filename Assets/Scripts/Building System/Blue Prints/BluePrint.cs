@@ -11,7 +11,6 @@ namespace Building_System.Blue_Prints
         [Header("Renderers")] public List<BuildingBluePrintCell> BluePrintCells = new List<BuildingBluePrintCell>();
         [Header("Layers")] [SerializeField] protected LayerMask _targetMask;
         [SerializeField] protected List<string> _placingTags = new List<string>();
-        [field: SerializeField] public Vector3 StructureSize { get; private set; } = Vector3.one;
         protected bool _rotatedSide;
 
         #region Abstract

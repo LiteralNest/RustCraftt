@@ -1,12 +1,13 @@
 using System.Collections.Generic;
+using Cloud.DataBaseSystem.UserData;
+using Crafting_System.Crafting_Item_Data_Displayer;
 using Crafting_System.WorkBench;
 using Inventory_System;
 using Items_System.Items;
 using Items_System.Items.Abstract;
-using Items_System.Items.Weapon;
+using Items_System.Items.WeaponSystem;
 using TechTree;
 using UnityEngine;
-using Web.UserData;
 
 namespace Crafting_System.Crafting_Slots
 {
@@ -34,7 +35,7 @@ namespace Crafting_System.Crafting_Slots
                 Destroy(child.gameObject);
         }
 
-        public void DisplaySlots(List<CraftingItem> inputSlots)
+        protected void DisplaySlots(List<CraftingItem> inputSlots)
         {
             ClearPlace(_placeForSlots);
             foreach (var item in inputSlots)

@@ -2,99 +2,102 @@
 using UnityEngine.UI;
 using VivoxUnity;
 
-public class RosterItem : MonoBehaviour
+namespace ViVox.UI
 {
-    private VivoxVoiceManager _vivoxVoiceManager;
-
-    // Player specific items.
-    public IParticipant Participant;
-    public Text PlayerNameText;
-
-    public Image ChatStateImage;
-    public Sprite MutedImage;
-    public Sprite SpeakingImage;
-    public Sprite NotSpeakingImage;
-
-    private bool isMuted;
-    public bool IsMuted
+    public class RosterItem : MonoBehaviour
     {
-        get { return isMuted; }
-        private set
+        private VivoxVoiceManager _vivoxVoiceManager;
+
+        // Player specific items.
+        public IParticipant Participant;
+        public Text PlayerNameText;
+
+        public Image ChatStateImage;
+        public Sprite MutedImage;
+        public Sprite SpeakingImage;
+        public Sprite NotSpeakingImage;
+
+        private bool isMuted;
+        public bool IsMuted
         {
-            if (Participant.IsSelf)
+            get { return isMuted; }
+            private set
             {
-                // Muting/unmuting the local input device.
-                _vivoxVoiceManager.AudioInputDevices.Muted = value;
-            }
-            else
-            {
-                // Check if a participant is in audio other wise you cant hear them anyways
-                if (Participant.InAudio)
+                if (Participant.IsSelf)
                 {
-                    Participant.LocalMute = value;
+                    // Muting/unmuting the local input device.
+                    _vivoxVoiceManager.AudioInputDevices.Muted = value;
+                }
+                else
+                {
+                    // Check if a participant is in audio other wise you cant hear them anyways
+                    if (Participant.InAudio)
+                    {
+                        Participant.LocalMute = value;
+                    }
+                }
+                isMuted = value;
+                UpdateChatStateImage();
+            }                           
+        }
+
+        private bool isSpeaking;
+        public bool IsSpeaking
+        {
+            get { return isSpeaking; }
+            private set
+            {
+                if  (ChatStateImage && !IsMuted)
+                {
+                    isSpeaking = value;
+                    UpdateChatStateImage();
                 }
             }
-            isMuted = value;
-            UpdateChatStateImage();
-        }                           
-    }
-
-    private bool isSpeaking;
-    public bool IsSpeaking
-    {
-        get { return isSpeaking; }
-        private set
-        {
-            if  (ChatStateImage && !IsMuted)
-            {
-                isSpeaking = value;
-                UpdateChatStateImage();
-            }
         }
-    }
 
-    private void UpdateChatStateImage()
-    {
-        if (IsMuted)
+        private void UpdateChatStateImage()
         {
-            ChatStateImage.sprite = MutedImage;
-            ChatStateImage.gameObject.transform.localScale = Vector3.one;
-        }
-        else
-        {
-            if (isSpeaking)
+            if (IsMuted)
             {
-                ChatStateImage.sprite = SpeakingImage;
+                ChatStateImage.sprite = MutedImage;
                 ChatStateImage.gameObject.transform.localScale = Vector3.one;
             }
             else
             {
-                ChatStateImage.sprite = NotSpeakingImage;
-                //ChatStateImage.gameObject.transform.localScale = Vector3.one * 0.85f;
+                if (isSpeaking)
+                {
+                    ChatStateImage.sprite = SpeakingImage;
+                    ChatStateImage.gameObject.transform.localScale = Vector3.one;
+                }
+                else
+                {
+                    ChatStateImage.sprite = NotSpeakingImage;
+                    //ChatStateImage.gameObject.transform.localScale = Vector3.one * 0.85f;
+                }
             }
         }
-    }
 
-    public void SetupRosterItem(IParticipant participant)
-    {
-        _vivoxVoiceManager = VivoxVoiceManager.Instance;
-        Participant = participant;
+        public void SetupRosterItem(IParticipant participant)
+        {
+            _vivoxVoiceManager = VivoxVoiceManager.Instance;
+            Participant = participant;
 
-        PlayerNameText.text = Participant.Account.DisplayName;
-        IsMuted = participant.IsSelf ? _vivoxVoiceManager.AudioInputDevices.Muted : Participant.LocalMute;
-        IsSpeaking = participant.SpeechDetected;
-        gameObject.GetComponent<Button>().onClick.AddListener(() =>
-        {
-            IsMuted = !IsMuted;
-        });
-        Participant.PropertyChanged += (obj, args) =>
-        {
-            switch (args.PropertyName)
+            PlayerNameText.text = Participant.Account.DisplayName;
+            IsMuted = participant.IsSelf ? _vivoxVoiceManager.AudioInputDevices.Muted : Participant.LocalMute;
+            IsSpeaking = participant.SpeechDetected;
+            gameObject.GetComponent<Button>().onClick.AddListener(() =>
             {
-                case "SpeechDetected":
-                    IsSpeaking = Participant.SpeechDetected;
-                    break;
-            }
-        };
+                IsMuted = !IsMuted;
+            });
+            Participant.PropertyChanged += (obj, args) =>
+            {
+                switch (args.PropertyName)
+                {
+                    case "SpeechDetected":
+                        IsSpeaking = Participant.SpeechDetected;
+                        break;
+                }
+            };
+        }
     }
 }

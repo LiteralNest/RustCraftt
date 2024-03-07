@@ -2,6 +2,7 @@
 using CharacterStatsSystem;
 using InHandItems.InHandAnimations;
 using InHandItems.InHandViewSystem;
+using Inventory_System;
 using Items_System.Items;
 using Player_Controller;
 using Unity.Netcode;
@@ -18,12 +19,6 @@ namespace InHandItems
         [SerializeField] private InHandHealAnimator _animator;
 
         private HealView _view;
-
-        private void OnEnable()
-        {
-            if (_view)
-                _view.DisplayHealButton(true);
-        }
 
         private void Start()
         {

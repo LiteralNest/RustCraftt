@@ -1,9 +1,10 @@
 using UnityEngine;
-using UnityEngine.Serialization;
 using UnityEngine.UI;
 
-public class MapDisplayUI : MonoBehaviour
+namespace Map
 {
+    public class MapDisplayUI : MonoBehaviour
+    {
     
         [SerializeField] private Camera _mapCamera;
 
@@ -40,4 +41,5 @@ public class MapDisplayUI : MonoBehaviour
 
             _mapCamera.enabled = true;
         }
+    }
 }

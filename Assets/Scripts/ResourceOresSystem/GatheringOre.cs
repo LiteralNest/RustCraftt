@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Collections;
 using InteractSystem;
+using Player_Controller;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -9,9 +10,12 @@ namespace ResourceOresSystem
     [RequireComponent(typeof(BoxCollider))]
     public class GatheringOre : Ore, IRaycastInteractable
     {
+        [SerializeField] private Sprite _displayIcon;
+
         [Header("Attached Scripts")] [SerializeField]
         private List<Renderer> _renderers;
 
+        [SerializeField] private AudioClip _gatherClip;
         [SerializeField] private List<Collider> _colliders;
         [SerializeField] private float _recoveringTime;
 
@@ -34,6 +38,7 @@ namespace ResourceOresSystem
         public void Gather()
         {
             if (_recovering.Value) return;
+            PlayerNetCode.Singleton.PlayerSoundsPlayer.PlayHit(_gatherClip);
             AddResourcesToInventory();
             RecoverServerRpc();
         }
@@ -44,6 +49,9 @@ namespace ResourceOresSystem
             if (!IsServer) return;
             StartCoroutine(StartRecovering());
         }
+
+        public bool CanDisplayInteract()
+            => true;
 
         private IEnumerator StartRecovering()
         {
@@ -59,6 +67,9 @@ namespace ResourceOresSystem
 
         public void Interact()
             => Gather();
+
+        public Sprite GetIcon()
+            => _displayIcon;
 
         public bool CanInteract()
             => true;

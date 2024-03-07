@@ -1,7 +1,7 @@
 using Player_Controller;
 using UnityEngine;
 
-namespace Vehicle
+namespace Vehicle.Boat
 {
     public class BoatController : VehicleController
     {

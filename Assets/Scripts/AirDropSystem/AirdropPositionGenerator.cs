@@ -1,4 +1,6 @@
 using System.Collections.Generic;
+using System.Collections;
+using Sirenix.OdinInspector;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -10,26 +12,44 @@ namespace AirDropSystem
         [SerializeField] private MapSizeGetter _mapSizeGetter;
         [SerializeField] private float _airdropHeight = 80f;
         [SerializeField] private float _spawnZoneOffsetY;
-
+        [SerializeField] private Vector2 _airDropSpawnTimeRange = new Vector2(3600f, 18000);
         private Vector3 _point1;
         private Vector3 _point2;
         private Vector3 _spawnPoint;
         private float _randomDistance;
+
+        private void Start()
+        {
+            StartCoroutine(SpawnAirdropRoutine());
+        }
+        
+        private IEnumerator SpawnAirdropRoutine()
+        {
+            var randomTime = Random.Range(_airDropSpawnTimeRange.x, _airDropSpawnTimeRange.y);
+            yield return new WaitForSeconds(randomTime);
+            CalculateAndSpawn();
+            StartCoroutine(SpawnAirdropRoutine());
+        }
 
         private void SpawnAirdrop(Vector3 spawnPoint)
         {
             var instacne = Instantiate(_airdropPrefab, spawnPoint, Quaternion.identity);
             instacne.GetComponent<NetworkObject>().Spawn();
         }
-
-    [ContextMenu("Spawn AirDrop")]
+        
         [ServerRpc(RequireOwnership = false)]
-        private void SpawnAirDropServerRpc()
+        public void SpawnAirDropServerRpc()
         {
             if(!IsServer) return;
             CalculateAndSpawn();
         }
-   
+
+        [ContextMenu("SpawnAirDrop")]
+        public void SpawnAirDrop()
+        {
+            SpawnAirDropServerRpc();
+        }
+        
         private void CalculateAndSpawn()
         {
             var randomEdge1 = Random.Range(0, 4);

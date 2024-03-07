@@ -23,11 +23,13 @@ namespace Player_Controller.Looking_Around
         private Vector2 _touchEndPos;
         private bool _isKnockDown;
 
+        private Quaternion _cachedHeadRotation;
 
         private void Awake()
         {
             if (_playerController == null)
                 _playerController = FindObjectOfType<PlayerController>();
+            _cachedHeadRotation = _defaultHead.localRotation;
             SetDefaultHead();
         }
 
@@ -45,6 +47,7 @@ namespace Player_Controller.Looking_Around
 
         public void SetKnockDownHead()
         {
+            _defaultHead.localRotation = _cachedHeadRotation;
             _rotationTarget = _knockDownHead;
             _currentRotationBounds = _rotationBoundsKnockDown;
             _isKnockDown = true;

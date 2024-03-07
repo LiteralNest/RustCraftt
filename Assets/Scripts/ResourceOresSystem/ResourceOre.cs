@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Inventory_System;
 using Items_System.Items;
 using Items_System.Items.Abstract;
 using Unity.Netcode;
@@ -10,21 +11,25 @@ namespace ResourceOresSystem
     public class ResourceOre : Ore
     {
         [Header("Attached Components")] [SerializeField]
-        private GatheringOreAnimator _animator;
-
+        private NetworkObject _targetNetworkObject;
         [SerializeField] private List<Collider> _colliders;
 
-        [Header("VFX")] [SerializeField] private GameObject _vfxEffect;
+        [Header("VFX")] 
+        [SerializeField] private GameObject _vfxEffect;
         [SerializeField] private Transform _vfxParrent;
 
-        [Header("Main Parameters")] [SerializeField]
-        private List<OreToolsForGatheringSlots> _toolsForGathering = new List<OreToolsForGatheringSlots>();
-
+        [Header("Main Parameters")] 
+        [SerializeField] private List<OreToolsForGatheringSlots> _toolsForGathering = new List<OreToolsForGatheringSlots>();
         [field: SerializeField] public AudioClip GatheringClip { get; private set; }
+        [SerializeField] private bool _shouldDestroy = true;
+        [SerializeField] private GatheringOreAnimator _animator;
 
-        private void Start()
-            => gameObject.tag = "Ore";
-
+        private void Awake()
+        {
+            if(_targetNetworkObject == null)
+                _targetNetworkObject = GetComponent<NetworkObject>();
+        }
+        
         private bool SlotFound(Item item, out OreToolsForGatheringSlots slot)
         {
             foreach (var tool in _toolsForGathering)
@@ -77,14 +82,14 @@ namespace ResourceOresSystem
 
         protected override IEnumerator DestroyRoutine()
         {
-            base.DoAfterDestroying();
             TurnCollidersClientRpc(false);
             if (_animator)
                 yield return _animator.SetFallRoutine();
             if (ObjectsPlacer)
                 StartCoroutine(ObjectsPlacer.RegenerateObjectRoutine(this));
-            else
-                GetComponent<NetworkObject>().Despawn();
+            else if(_shouldDestroy)
+                _targetNetworkObject.Despawn();
+            base.DoAfterDestroying();
         }
     }
 }

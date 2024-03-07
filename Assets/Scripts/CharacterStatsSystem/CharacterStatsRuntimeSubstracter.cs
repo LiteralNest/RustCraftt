@@ -5,14 +5,17 @@ namespace CharacterStatsSystem
 {
     public class CharacterStatsRuntimeSubstracter : MonoBehaviour
     {
-        [Header("Main Params")] 
-        [Range(1, 100)] [SerializeField] private float _timeForSubstractFood = 2f;
+        [Header("Main Params")] [Range(1, 100)] [SerializeField]
+        private float _timeForSubstractFood = 2f;
+
         [Range(1, 100)] [SerializeField] private float _timeForSubstractWater = 2.5f;
         [Range(1, 100)] [SerializeField] private float _timeForSubstractHp = 5f;
 
         private CharacterStats _characterStats;
 
         private Coroutine _substractHpRoutine;
+        private Coroutine _substractFoodRoutine;
+        private Coroutine _substractWaterRoutine;
 
         private void OnEnable()
             => CharacterStatsEventsContainer.OnCharacterStatsAssign += Init;
@@ -23,8 +26,12 @@ namespace CharacterStatsSystem
         private void Init(CharacterStats characterStats)
         {
             _characterStats = characterStats;
-            StartCoroutine(SubstractFoodRoutine());
-            StartCoroutine(SubstractWaterRoutine());
+            if (_substractFoodRoutine != null)
+                StopCoroutine(_substractFoodRoutine);
+            _substractFoodRoutine = StartCoroutine(SubstractFoodRoutine());
+            if (_substractWaterRoutine != null)
+                StopCoroutine(_substractWaterRoutine);
+            _substractWaterRoutine = StartCoroutine(SubstractWaterRoutine());
             _characterStats.Water.OnValueChanged += (int oldValue, int newValue) => CheckWater(newValue);
             _characterStats.Food.OnValueChanged += (int oldValue, int newValue) => CheckFood(newValue);
         }
@@ -34,7 +41,7 @@ namespace CharacterStatsSystem
             yield return new WaitForSeconds(_timeForSubstractFood);
             if (_characterStats.Food.Value > 0)
                 CharacterStatsEventsContainer.OnCharacterStatRemoved(CharacterStatType.Food, 1);
-            StartCoroutine(SubstractFoodRoutine());
+            _substractFoodRoutine = StartCoroutine(SubstractFoodRoutine());
         }
 
         private IEnumerator SubstractWaterRoutine()
@@ -42,7 +49,7 @@ namespace CharacterStatsSystem
             yield return new WaitForSeconds(_timeForSubstractWater);
             if (_characterStats.Water.Value > 0)
                 CharacterStatsEventsContainer.OnCharacterStatRemoved(CharacterStatType.Water, 1);
-            StartCoroutine(SubstractWaterRoutine());
+            _substractWaterRoutine = StartCoroutine(SubstractWaterRoutine());
         }
 
         private IEnumerator SubstractHpRoutine()
@@ -55,14 +62,30 @@ namespace CharacterStatsSystem
 
         private void CheckFood(int value)
         {
-            if (value <= 15 && _substractHpRoutine == null)
-                _substractHpRoutine = StartCoroutine(SubstractHpRoutine());
+            if (value <= 15)
+            {
+                if (_substractHpRoutine == null)
+                    _substractHpRoutine = StartCoroutine(SubstractHpRoutine());
+            }
+            else
+            {
+                if (_substractHpRoutine != null)
+                    StopCoroutine(_substractHpRoutine);
+            }
         }
 
         private void CheckWater(int value)
         {
-            if (value <= 15 && _substractHpRoutine == null)
-                _substractHpRoutine = StartCoroutine(SubstractHpRoutine());
+            if (value <= 15)
+            {
+                if (_substractFoodRoutine == null)
+                    _substractFoodRoutine = StartCoroutine(SubstractFoodRoutine());
+            }
+            else
+            {
+                if (_substractHpRoutine != null)
+                    StopCoroutine(_substractHpRoutine);
+            }
         }
     }
 }

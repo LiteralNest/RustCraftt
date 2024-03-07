@@ -11,7 +11,7 @@ namespace InHandItems.InHandViewSystem
             var gatheringObject = weapon as ResourceGatheringObject;
             
             _attackButton.PointerDown.AddListener(() => { gatheringObject.SetGathering(true); });
-            _attackButton.PointerClicked.AddListener(() => { gatheringObject.SetGathering(false); });
+            _attackButton.PointerClickedWithoudDisable.AddListener(() => { gatheringObject.SetGathering(false); });
             ActiveAttackButton(true);
         }
 

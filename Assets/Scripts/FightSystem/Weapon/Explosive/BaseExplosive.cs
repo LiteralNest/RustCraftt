@@ -83,8 +83,7 @@ namespace FightSystem.Weapon.Explosive
             DisplayExplosionClientRpc();
             DamageObjects();
             yield return StartCoroutine(PlaySoundRoutine());
-            if (IsServer)
-                GetComponent<NetworkObject>().Despawn();
+            GetComponent<NetworkObject>().Despawn();
         }
 
         [ServerRpc(RequireOwnership = false)]

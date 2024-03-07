@@ -1,7 +1,7 @@
 using Storage_System.Vehicles;
 using UnityEngine;
 
-namespace Vehicle
+namespace Vehicle.Boat
 {
     public class Boat : BaseVehicle
     {

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Inventory_System;
 
 namespace Building_System.Upgrading
 {
@@ -10,7 +11,7 @@ namespace Building_System.Upgrading
 
         public bool CanBeRepaired();
         public void Repair();
-    
+
         public bool CanBeDestroyed();
         public void Destroy();
 

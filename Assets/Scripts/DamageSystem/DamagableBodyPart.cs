@@ -1,21 +1,22 @@
-using ArmorSystem.Backend;
 using CharacterStatsSystem;
+using Cloud.DataBaseSystem.UserData;
 using FightSystem.Damage;
+using Player_Controller;
 using Sound_System;
+using Unity.Netcode;
 using UnityEngine;
 
 namespace DamageSystem
 {
-    public class DamagableBodyPart : MonoBehaviour, IDamagable
+    public class DamagableBodyPart : NetworkBehaviour, IDamagable
     {
-        [Header("Attached Scripts")] [SerializeField]
-        private PlayerSoundsPlayer _playerSoundsPlayer;
+        [Header("Attached Scripts")]
+        [SerializeField] private PlayerSoundsPlayer _playerSoundsPlayer; 
 
         [Header("Main Parameters")] [Range(0, 2)] [SerializeField]
         private float _gettingDamageKoef = 1;
 
         [SerializeField] private AudioClip _hitSound;
-        [SerializeField] private BodyPartType _partType = BodyPartType.None;
 
         private CharacterStats _characterStats;
 
@@ -41,19 +42,34 @@ namespace DamageSystem
         public int GetMaxHp() => 100;
 
         public void GetDamageOnServer(int damage)
+            => GetDamageClientRpc(damage);
+
+        [ServerRpc(RequireOwnership = false)]
+        private void GetDamageServerRpc(int damage)
         {
-            if (_characterStats.Hp.Value > 0)
+            if (!IsServer) return;
+            GetDamageOnServer(damage);
+        }
+
+        public void GetDamageToServer(int damage)
+            => GetDamageServerRpc(damage);
+
+        [ClientRpc]
+        private void GetDamageClientRpc(int damage)
+        {
+            if (!IsOwner) return;
+            if (_characterStats != null && _characterStats.Hp.Value > 0)
             {
                 _playerSoundsPlayer.PlayHit(_hitSound);
-                CharacterStatsEventsContainer.OnCharacterStatRemoved.Invoke(CharacterStatType.Health, damage);
+                var fixedDamage = damage * _gettingDamageKoef;
+                var hitresist = PlayerNetCode.Singleton.ArmorSlotsHandler.HitResistValue.Value;
+                if(hitresist > 0)
+                    fixedDamage *= hitresist / 100;
+                CharacterStatsEventsContainer.OnCharacterStatRemoved.Invoke(CharacterStatType.Health, (int)fixedDamage);
             }
         }
 
         public void Destroy()
-        {
-        }
-
-        public void Shake()
         {
         }
     }

@@ -6,6 +6,9 @@ namespace Lock_System
     {
         private NetworkVariable<int> _registratedKey = new(0, NetworkVariableReadPermission.Everyone,
             NetworkVariableWritePermission.Owner);
+        
+        public override bool AvailableForOpen(int value)
+            => _registratedKey.Value == value;
 
         public override void Init(int userId)
             => _registratedKey.Value = userId;

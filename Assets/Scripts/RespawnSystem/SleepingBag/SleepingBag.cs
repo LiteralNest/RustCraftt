@@ -1,11 +1,11 @@
 using System.Collections;
 using Building_System.Building.Placing_Objects;
+using Cloud.DataBaseSystem.UserData;
 using Events;
 using Map;
 using Unity.Collections;
 using Unity.Netcode;
 using UnityEngine;
-using Web.UserData;
 
 namespace RespawnSystem.SleepingBag
 {
@@ -23,6 +23,8 @@ namespace RespawnSystem.SleepingBag
         private Canvas _targetCanvas;
 
         [SerializeField] private GameObject _mapPoint;
+        [SerializeField] private Transform _respawnPoint;
+        public Transform RespawnPoint => _respawnPoint;
 
         private int _cachedReloadTime;
 
@@ -33,11 +35,14 @@ namespace RespawnSystem.SleepingBag
             _reloadTime.Value = 0;
 
             CheckPlayerId(_playerId.Value);
-            
-            _playerId.OnValueChanged += (int oldValue, int newValue) =>
-            {
-                CheckPlayerId(newValue);
-            };
+
+            _playerId.OnValueChanged += (int oldValue, int newValue) => { CheckPlayerId(newValue); };
+        }
+
+        private void Start()
+        {
+            if (!GetComponent<NetworkObject>().IsSpawned) return;
+            CheckPlayerId(_playerId.Value);
         }
 
         public void Init(int ownerId)
@@ -58,7 +63,7 @@ namespace RespawnSystem.SleepingBag
             if (!IsServer) return;
             _name.Value = value;
         }
-        
+
         private void SetPlayerId(int id)
         {
             if (!IsServer) return;
@@ -73,7 +78,7 @@ namespace RespawnSystem.SleepingBag
                 _reloadTime.Value--;
             }
         }
-        
+
         private void CheckPlayerId(int newValue)
         {
             if (_mapPoint == null) return;

@@ -4,8 +4,8 @@ namespace Sound_System.TerrainSounds
 {
     public class TerrainSoundInteractor : MonoBehaviour
     {
-        [SerializeField] private AudioClip _stepClip;
+        [SerializeField] private AudioClip[] _stepClips;
 
-        public AudioClip StepClip => _stepClip;
+        public AudioClip[] StepClips => _stepClips;
     }
 }

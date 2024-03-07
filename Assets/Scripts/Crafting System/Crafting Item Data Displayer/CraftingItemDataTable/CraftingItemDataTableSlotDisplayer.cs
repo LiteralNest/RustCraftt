@@ -1,59 +1,63 @@
+using Inventory_System;
 using TMPro;
 using UnityEngine;
 
-public class CraftingItemDataTableSlotDisplayer : MonoBehaviour
+namespace Crafting_System.Crafting_Item_Data_Displayer.CraftingItemDataTable
 {
-    [Header("Colors")] [SerializeField] private Color _defaultColor = Color.white;
-    [SerializeField] private Color _unAvailableColor = Color.red;
-    [Header("UI")] 
-    [SerializeField] private TMP_Text _neededAmountText;
-    [SerializeField] private TMP_Text _titleText;
-    [SerializeField] private TMP_Text _selectedAmountText;
-    [SerializeField] private TMP_Text _inventoryAmountText;
-
-    [field:SerializeField] public bool ResourceAvailable { get; private set; }
-    private CraftingItemDataTableSlot _slot;
-    private int _inventoryCount;
-
-    public void Init()
+    public class CraftingItemDataTableSlotDisplayer : MonoBehaviour
     {
-        _neededAmountText.text = "";
-        _titleText.text = "";
-        _selectedAmountText.text = "";
-        _inventoryAmountText.text = "";
-        ResourceAvailable = true;
-    }
+        [Header("Colors")] [SerializeField] private Color _defaultColor = Color.white;
+        [SerializeField] private Color _unAvailableColor = Color.red;
+        [Header("UI")] 
+        [SerializeField] private TMP_Text _neededAmountText;
+        [SerializeField] private TMP_Text _titleText;
+        [SerializeField] private TMP_Text _selectedAmountText;
+        [SerializeField] private TMP_Text _inventoryAmountText;
 
-    public void Init(CraftingItemDataTableSlot slot)
-    {
-        _slot = slot;
-        _neededAmountText.text = slot.Count.ToString();
-        _titleText.text = slot.Resource.Name;
-        CalculateAmount(1);
-    }
+        [field:SerializeField] public bool ResourceAvailable { get; private set; }
+        private CraftingItemDataTableSlot _slot;
+        private int _inventoryCount;
 
-    private void DisplayInventoryCount(int count)
-    {
-        if(_slot.Resource == null) return;
-        var inventoryCount =  InventoryHandler.singleton.CharacterInventory.GetItemCount(_slot.Resource.Id);
-        _inventoryCount = inventoryCount;
-        int globalCount = count * _slot.Count;
-        ResourceAvailable  = _inventoryCount >= globalCount;
-        DisplayInventoryText(_inventoryCount, ResourceAvailable);
-    }
+        public void Init()
+        {
+            _neededAmountText.text = "";
+            _titleText.text = "";
+            _selectedAmountText.text = "";
+            _inventoryAmountText.text = "";
+            ResourceAvailable = true;
+        }
 
-    private void DisplayInventoryText(int count, bool avaliable)
-    {
-        Color color = _defaultColor;
-        if(!avaliable)
-            color = _unAvailableColor;
-        _inventoryAmountText.color = color;
-        _inventoryAmountText.text = count.ToString();
-    }
+        public void Init(CraftingItemDataTableSlot slot)
+        {
+            _slot = slot;
+            _neededAmountText.text = slot.Count.ToString();
+            _titleText.text = slot.Resource.Name;
+            CalculateAmount(1);
+        }
+
+        private void DisplayInventoryCount(int count)
+        {
+            if(_slot.Resource == null) return;
+            var inventoryCount =  InventoryHandler.singleton.CharacterInventory.GetItemCount(_slot.Resource.Id);
+            _inventoryCount = inventoryCount;
+            int globalCount = count * _slot.Count;
+            ResourceAvailable  = _inventoryCount >= globalCount;
+            DisplayInventoryText(_inventoryCount, ResourceAvailable);
+        }
+
+        private void DisplayInventoryText(int count, bool avaliable)
+        {
+            Color color = _defaultColor;
+            if(!avaliable)
+                color = _unAvailableColor;
+            _inventoryAmountText.color = color;
+            _inventoryAmountText.text = count.ToString();
+        }
     
-    public void CalculateAmount(int count)
-    {
-        DisplayInventoryCount(count);
-        _selectedAmountText.text = (count * _slot.Count).ToString();
+        public void CalculateAmount(int count)
+        {
+            DisplayInventoryCount(count);
+            _selectedAmountText.text = (count * _slot.Count).ToString();
+        }
     }
 }

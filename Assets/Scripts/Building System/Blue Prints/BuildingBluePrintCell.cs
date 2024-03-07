@@ -1,7 +1,9 @@
+using System;
 using System.Collections.Generic;
 using AlertsSystem;
 using Building_System.Building.Blocks;
 using Building_System.NetWorking;
+using Inventory_System;
 using UnityEngine;
 
 namespace Building_System.Blue_Prints
@@ -24,7 +26,7 @@ namespace Building_System.Blue_Prints
         public bool OnFrontOfPlayer { get; set; }
 
         public bool EnoughMaterials { get; set; }
-        
+
         private void SetMaterial(Material material)
         {
             foreach (var renderer in _renderers)
@@ -44,14 +46,7 @@ namespace Building_System.Blue_Prints
         }
 
         public void CheckForAvailable()
-        {
-            if (!CanBePlace())
-            {
-                SetCanBePlaced(false);
-                return;
-            }
-            SetCanBePlaced(true);
-        }
+            => SetCanBePlaced(CanBePlace());
 
         public void TryPlace(bool shouldPlaySound)
         {
@@ -62,31 +57,53 @@ namespace Building_System.Blue_Prints
                 InventoryHandler.singleton.CharacterInventory.RemoveItem((ushort)cell.Item.Id, (ushort)cell.Count);
                 AlertEventsContainer.OnInventoryItemRemoved?.Invoke(cell.Item.Name, cell.Count);
             }
-            
-            BuildingsNetworkingSpawner.singleton.SpawnPrefServerRpc(_targetBuildingStructure.Id, transform.position,
+
+            BuildingsNetworkingSpawner.Singleton.SpawnPrefServerRpc(_targetBuildingStructure.Id, transform.position,
                 transform.rotation, shouldPlaySound);
         }
 
-        private void OnTriggerEnter(Collider other)
+        private void CheckEnter(GameObject target)
         {
-            if (other.CompareTag("NoBuild"))
+            if (target.CompareTag("NoBuild"))
             {
                 SetCanBePlaced(false);
                 return;
             }
 
-            if (other.CompareTag("ConnectingPoint") || other.CompareTag("ShelfZone") || other.CompareTag("WorkBench")) return;
-            if (_triggeredObjects.Contains(other.gameObject)) return;
-            _triggeredObjects.Add(other.gameObject);
+            if (target.CompareTag("ConnectingPoint") || target.CompareTag("ShelfZone") ||
+                target.CompareTag("WorkBench")) return;
+            if (_triggeredObjects.Contains(target)) return;
+            _triggeredObjects.Add(target);
             CheckForAvailable();
+        }
+
+        private void CheckExit(GameObject target)
+        {
+            if (target.CompareTag("ConnectingPoint") || target.CompareTag("ShelfZone") ||
+                target.CompareTag("WorkBench")) return;
+            if (!_triggeredObjects.Contains(target)) return;
+            _triggeredObjects.Remove(target);
+            CheckForAvailable();
+        }
+
+        private void OnCollisionEnter(Collision other)
+        {
+            CheckEnter(other.gameObject);
+        }
+
+        private void OnTriggerEnter(Collider other)
+        {
+            CheckEnter(other.gameObject);
         }
 
         private void OnTriggerExit(Collider other)
         {
-            if (other.CompareTag("ConnectingPoint") || other.CompareTag("ShelfZone") || other.CompareTag("WorkBench")) return;
-            if (!_triggeredObjects.Contains(other.gameObject)) return;
-            _triggeredObjects.Remove(other.gameObject);
-            CheckForAvailable();
+            CheckExit(other.gameObject);
+        }
+
+        private void OnCollisionExit(Collision other)
+        {
+            CheckExit(other.gameObject);
         }
     }
 }

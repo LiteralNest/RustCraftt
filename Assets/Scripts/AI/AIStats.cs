@@ -9,14 +9,16 @@ using UnityEngine;
 
 namespace AI
 {
-    public class AIStats : NetworkBehaviour, IDamagable, IRayCastHpDusplayer
+    public class AIStats : NetworkBehaviour, IDamagable, IRayCastHpDisplayer
     {
+        [SerializeField] private Transform _corpSpawnPos;
         [SerializeField] private AnimalID _animalId;
 
         [SerializeField] private NetworkVariable<ushort> _hp = new NetworkVariable<ushort>(100,
             NetworkVariableReadPermission.Everyone,
             NetworkVariableWritePermission.Server);
 
+        private bool _destroyed;
         private int _maxHp;
 
         public override void OnNetworkSpawn()
@@ -27,6 +29,16 @@ namespace AI
 
         #region IDamagable
 
+        [ServerRpc(RequireOwnership = false)]
+        private void GetDamageServerRpc(int damage)
+        {
+            if (!IsServer) return;
+            GetDamageOnServer(damage);
+        }
+
+        public void GetDamageToServer(int damage)
+            => GetDamageServerRpc(damage);
+
         public AudioClip GetPlayerDamageClip()
             => GlobalSoundsContainer.Singleton.HitSound;
 
@@ -36,36 +48,32 @@ namespace AI
         public int GetMaxHp()
             => _maxHp;
 
-        [ServerRpc(RequireOwnership = false)]
-        private void SetHpServerRpc(ushort hp)
-        {
-            if (!IsServer) return;
-            _hp.Value = hp;
-            if (hp <= 0)
-                Destroy();
-        }
 
         public void GetDamageOnServer(int damage)
         {
+            if (!IsServer || _destroyed) return;
             int currHp = _hp.Value;
             var newHp = currHp - damage;
             if (newHp < 0) newHp = 0;
-            SetHpServerRpc((ushort)newHp);
+            _hp.Value = (ushort)newHp;
+            if (_hp.Value <= 0)
+                Destroy();
         }
-
-
+        
         public void Destroy()
         {
-            AnimalObjectInstantiator.singleton.InstantiateAnimalObjectServerRpc(_animalId.Id, transform.position,
-                transform.rotation.eulerAngles);
+            _destroyed = true;
+            AnimalObjectInstantiator.singleton.SpawnAnimalCorpById(_animalId.Id, _corpSpawnPos.position,
+                _corpSpawnPos.rotation.eulerAngles);
             GetComponent<NetworkObject>().Despawn();
-            Destroy(gameObject);
         }
 
-        public void Shake()
+        [ContextMenu("Die")]
+        public void DieTest()
         {
+            GetDamageServerRpc(_hp.Value);
         }
-
+        
         #endregion
 
         public void DisplayData()

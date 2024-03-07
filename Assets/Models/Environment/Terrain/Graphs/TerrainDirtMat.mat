@@ -22,11 +22,12 @@ Material:
   m_PrefabAsset: {fileID: 0}
   m_Name: TerrainDirtMat
   m_Shader: {fileID: -6465566751694194690, guid: cb7c5cc3610362549b4c3f954b1b2251, type: 3}
-  m_Parent: {fileID: 0}
+  m_Parent: {fileID: -876546973899608171, guid: cb7c5cc3610362549b4c3f954b1b2251, type: 3}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
-  m_InvalidKeywords: []
-  m_LightmapFlags: 2
+  m_InvalidKeywords:
+  - _NORMALMAP
+  m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
   m_CustomRenderQueue: -1
@@ -36,29 +37,28 @@ Material:
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
-    - _SampleTexture2D_7f1918f7cd57404e8dfcd615658de1ab_Texture_1_Texture2D:
+    - _Dirt:
         m_Texture: {fileID: 2800000, guid: 6094c568fab5c6342bdc46bb957501ae, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-    - _SampleTexture2D_b7a5e4452b4d479584a799bb7396809c_Texture_1_Texture2D:
+    - _Grass:
+        m_Texture: {fileID: 2800000, guid: 6094c568fab5c6342bdc46bb957501ae, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Texture2DAsset_31ef10006ca5404585a98d5b28b92f3a_Out_0_Texture2D:
         m_Texture: {fileID: 2800000, guid: 5aea48942a1df824cac93a57478e8c76, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-    - unity_Lightmaps:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - unity_LightmapsInd:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - unity_ShadowMasks:
-        m_Texture: {fileID: 0}
+    - _Texture2DAsset_86a314ce489d483eabaf0934a0647e01_Out_0_Texture2D:
+        m_Texture: {fileID: 2800000, guid: 6094c568fab5c6342bdc46bb957501ae, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _GrassY: 0
+    - _GrassYmultiplier: 0
+    - _Interception: 1
     - _QueueControl: 0
-    - _QueueOffset: 0
+    - _Threshhold: 0.5
     m_Colors: []
   m_BuildTextureStacks: []

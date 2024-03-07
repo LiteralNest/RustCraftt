@@ -1,61 +1,62 @@
-using Lock_System;
 using TMPro;
 using UnityEngine;
-using UnityEngine.Serialization;
 using UnityEngine.UI;
 
-public class CodeLockUI : MonoBehaviour
+namespace Lock_System
 {
-    [SerializeField] private TextMeshProUGUI _passwordText;
-    [SerializeField] private Button[] _numberButtons;
-    [SerializeField] private Button _clearButton;
-    [SerializeField] private CodeLocker _codeLocker;
-    
-    private string _currentPassword = "";
-
-    private void Start()
+    public class CodeLockUI : MonoBehaviour
     {
-        for (var i = 0; i < _numberButtons.Length; i++)
+        [SerializeField] private TextMeshProUGUI _passwordText;
+        [SerializeField] private Button[] _numberButtons;
+        [SerializeField] private Button _clearButton;
+        [SerializeField] private CodeLocker _codeLocker;
+    
+        private string _currentPassword = "";
+
+        private void Start()
         {
-            var number = i;
-            _numberButtons[i].onClick.AddListener(() => OnNumberButtonPressed(number));
+            for (var i = 0; i < _numberButtons.Length; i++)
+            {
+                var number = i;
+                _numberButtons[i].onClick.AddListener(() => OnNumberButtonPressed(number));
+            }
+
+            _clearButton.onClick.AddListener(OnClearButtonPressed);
         }
-
-        _clearButton.onClick.AddListener(OnClearButtonPressed);
-    }
     
-    private void OnNumberButtonPressed(int number)
-    {
-        if (_currentPassword.Length < 4)
+        private void OnNumberButtonPressed(int number)
         {
-            _currentPassword += number.ToString();
+            if (_currentPassword.Length < 4)
+            {
+                _currentPassword += number.ToString();
+                UpdatePasswordText();
+            }
+        }
+    
+        private void OnClearButtonPressed()
+        {
+            _currentPassword = "";
             UpdatePasswordText();
         }
-    }
     
-    private void OnClearButtonPressed()
-    {
-        _currentPassword = "";
-        UpdatePasswordText();
-    }
-    
-    private void UpdatePasswordText()
-    {
-        _passwordText.text = new string('*', _currentPassword.Length);
-
-        if (_currentPassword.Length == 4)
+        private void UpdatePasswordText()
         {
-            _codeLocker.OnEnteredPassword(_currentPassword);
-            _currentPassword = "";
+            _passwordText.text = new string('*', _currentPassword.Length);
+
+            if (_currentPassword.Length == 4)
+            {
+                _codeLocker.OnEnteredPassword(_currentPassword);
+                _currentPassword = "";
+            }
         }
-    }
     
-    // private void OnSubmitButtonPressed()
-    // {
-    //     if (currentPassword.Length == 4)
-    //     {
-    //         _codeLocker.OnPlayerApproach(UserDataHandler.singleton.UserData.Id);
-    //         currentPassword = "";
-    //     }
-    // }
+        // private void OnSubmitButtonPressed()
+        // {
+        //     if (currentPassword.Length == 4)
+        //     {
+        //         _codeLocker.OnPlayerApproach(UserDataHandler.singleton.UserData.Id);
+        //         currentPassword = "";
+        //     }
+        // }
+    }
 }

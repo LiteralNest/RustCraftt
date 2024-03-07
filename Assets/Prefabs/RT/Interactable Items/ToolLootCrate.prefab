@@ -88,6 +88,7 @@ GameObject:
   - component: {fileID: 7891301992045549433}
   - component: {fileID: 5967573415984295874}
   - component: {fileID: 1114201209226600528}
+  - component: {fileID: -1706244349255450370}
   m_Layer: 0
   m_Name: ToolLootCrate
   m_TagString: Untagged
@@ -145,7 +146,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 4235379126
+  GlobalObjectIdHash: 616410474
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
   ActiveSceneSynchronization: 0
@@ -232,8 +233,9 @@ MonoBehaviour:
         Count: 0
         Hp: -1
         Ammo: 0
+  _displayIcon: {fileID: 21300000, guid: 02b49e3a634b28641b4b274066455c77, type: 3}
   <SlotsDisplayer>k__BackingField: {fileID: 1114201209226600528}
-  _ui: {fileID: 7956568151138908771}
+  Ui: {fileID: 7956568151138908771}
   _testAddingCell:
     Item: {fileID: 0}
     Count: 0
@@ -255,6 +257,12 @@ MonoBehaviour:
     RandCount: {x: 5, y: 5}
   - Item: {fileID: 11400000, guid: 148cbb5637acac24e809a18202cb3677, type: 2}
     Chance: 7
+    RandCount: {x: 1, y: 1}
+  - Item: {fileID: 11400000, guid: 9528bbb553c430a40b10297c34b6acd6, type: 2}
+    Chance: 6
+    RandCount: {x: 1, y: 1}
+  - Item: {fileID: 11400000, guid: 42332cf4b258b0046be7ca212f487762, type: 2}
+    Chance: 6
     RandCount: {x: 1, y: 1}
   - Item: {fileID: 11400000, guid: 87796b99ddcbb4f4ba1a3ea3dcfa96a3, type: 2}
     Chance: 5
@@ -314,6 +322,102 @@ MonoBehaviour:
   - {fileID: 3876252065842967618}
   - {fileID: 261806074827797960}
   _canSetSlots: 0
+--- !u!82 &-1706244349255450370
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1879521328849255155}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 0}
+  m_PlayOnAwake: 1
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &2343508531267995603
 GameObject:
   m_ObjectHideFlags: 0

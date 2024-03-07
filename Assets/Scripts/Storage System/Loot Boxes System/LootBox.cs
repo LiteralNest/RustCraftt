@@ -14,7 +14,7 @@ namespace Storage_System.Loot_Boxes_System
         [Header("Main Values")] [SerializeField]
         private LootBoxSlot _scrap;
 
-        [SerializeField] private List<LootBoxSlot> _setsPool = new List<LootBoxSlot>();
+        [SerializeField] protected List<LootBoxSlot> _setsPool = new List<LootBoxSlot>();
         [SerializeField] private float _recoverTime = 120f;
 
         [Header("Display")] [SerializeField] private List<Collider> _colliders;
@@ -24,7 +24,10 @@ namespace Storage_System.Loot_Boxes_System
         public override void OnNetworkSpawn()
         {
             base.OnNetworkSpawn();
-            ItemsNetData.OnValueChanged += (oldValue, newValue) => TryResetPanels();
+            ItemsNetData.OnValueChanged += (oldValue, newValue) =>
+            {
+                TryResetPanels();
+            };
             if (!IsServer) return;
             GenerateCells();
             ItemsNetData.OnValueChanged += (oldValue, newValue) => CheckCells();
@@ -32,7 +35,7 @@ namespace Storage_System.Loot_Boxes_System
 
         public void TryResetPanels()
         {
-            if(!Opened) return;
+            if (!Opened) return;
             if (!StorageEmpty()) return;
             _canvas.SetActive(false);
             InventoryHandler.singleton.InventoryPanelsDisplayer.HandleCharacterPreview(true);
@@ -43,7 +46,7 @@ namespace Storage_System.Loot_Boxes_System
         public override int GetAvailableCellIndexForMovingItem(Item item)
             => -1;
 
-        private bool StorageEmpty()
+        protected bool StorageEmpty()
         {
             var cells = ItemsNetData.Value.Cells;
             foreach (var cell in cells)
@@ -52,7 +55,7 @@ namespace Storage_System.Loot_Boxes_System
             return true;
         }
 
-        private void CheckCells()
+        protected virtual void CheckCells()
         {
             if (!StorageEmpty()) return;
             StartCoroutine(RecoverRoutine());
@@ -74,19 +77,22 @@ namespace Storage_System.Loot_Boxes_System
             TurnRenderersClientRpc(true);
             GenerateCells();
         }
-        
-        
+
+        protected LootBoxSlot GetRandomSlot(List<LootBoxSlot> setsPool)
+        {
+            var rand = Random.Range(0, 100);
+            foreach (var slot in setsPool)
+                if (slot.Chance > rand)
+                    return slot;
+            return setsPool[0];
+        }
+
         [ContextMenu("Generate Cells")]
-        private void GenerateCells()
+        protected virtual void GenerateCells()
         {
             AddItemToDesiredSlot(_scrap.Item.Id, Random.Range(_scrap.RandCount.x, _scrap.RandCount.y + 1), 0);
-            foreach (var set in _setsPool)
-            {
-                var rand = Random.Range(0, 100);
-                if (rand > set.Chance) continue;
-                AddItemToDesiredSlot(set.Item.Id, Random.Range(set.RandCount.x, set.RandCount.y + 1), 0);
-                return;
-            }
+            var set = GetRandomSlot(_setsPool);
+            AddItemToDesiredSlot(set.Item.Id, Random.Range(set.RandCount.x, set.RandCount.y + 1), 0);
         }
     }
 }

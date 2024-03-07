@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Inventory_System;
+using Inventory_System.Slots_Displayer;
 using Items_System.Items;
 using Items_System.Items.Abstract;
 using Storage_System;
@@ -10,7 +11,7 @@ using UnityEngine;
 
 namespace MeltingSystem
 {
-    public class Smelter : Storage
+    public class Smelter : DropableStorage
     {
         public NetworkVariable<bool> Flaming { get; private set; } = new(false,
             NetworkVariableReadPermission.Everyone,
@@ -28,6 +29,11 @@ namespace MeltingSystem
         [Header("UI")] [SerializeField] private GameObject _turnOnPanel;
         [SerializeField] private GameObject _turnOffPanel;
 
+        [Header("Drop Bag Staff")] [SerializeField]
+        private StorageSlotsDisplayer _bagSlotsDisplayer;
+
+        [SerializeField] private GameObject _targetUI;
+
         private void Start()
             => gameObject.tag = "CampFire";
 
@@ -42,6 +48,22 @@ namespace MeltingSystem
             Flaming.OnValueChanged += (bool prevValue, bool newValue) => { TurnFire(newValue); };
             TurnFire(Flaming.Value);
             base.OnNetworkSpawn();
+            if (WasDropped.Value)
+                DisplayBag();
+
+            WasDropped.OnValueChanged += (_, _) =>
+            {
+                if (WasDropped.Value)
+                    DisplayBag();
+            };
+        }
+
+        private void DisplayBag()
+        {
+            Ui = _targetUI;
+            SlotsDisplayer = _bagSlotsDisplayer;
+            if (IsServer)
+                Turn(false);
         }
 
         public override int GetAvailableCellIndexForMovingItem(Item item)

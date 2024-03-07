@@ -21,7 +21,7 @@ namespace Multiplayer
             networkObject.Spawn();
         }
 
-        private void SpawnAnimalById(int id, Vector3 position, Vector3 rotation)
+        public void SpawnAnimalCorpById(int id, Vector3 position, Vector3 rotation)
         {
             foreach (var animal in _animalIds)
             {
@@ -32,13 +32,6 @@ namespace Multiplayer
                 }
             }
             Debug.LogError("Can't find object with id: " + id);
-        }
-    
-        [ServerRpc(RequireOwnership = false)]
-        public void InstantiateAnimalObjectServerRpc(int id, Vector3 position, Vector3 rotation)
-        {
-            if (!IsServer) return;
-            SpawnAnimalById(id, position, rotation);
         }
     }
 }

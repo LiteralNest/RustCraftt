@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Crafting_System.Crafting_Item_Data_Displayer.CraftingItemDataTable;
 using UnityEngine;
 
 namespace Items_System.Items.Abstract

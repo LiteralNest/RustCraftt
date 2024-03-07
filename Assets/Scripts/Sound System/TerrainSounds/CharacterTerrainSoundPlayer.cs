@@ -1,51 +1,63 @@
-using System.Collections;
+using System;
 using Player_Controller;
+using Sound_System;
+using Sound_System.TerrainSounds;
+using Unity.Netcode;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
-namespace Sound_System.TerrainSounds
+public class CharacterTerrainSoundPlayer : NetworkBehaviour
 {
-    public class CharacterTerrainSoundPlayer : MonoBehaviour
+    [SerializeField] private PlayerSoundsPlayer _playerSoundsPlayer;
+    [SerializeField] private LayerMask _terrainLayer;
+    [SerializeField] private LayerMask _waterLayer;
+    [SerializeField] private float _rayCastDistance = 0.5f;
+    private AudioClip[] _terrainStepClips;
+
+    private int _cachedClipIndex = -1;
+    private bool _isInWater;
+    
+    private void SetTerrainStepClips(AudioClip[] terrainStepClips)
     {
-        [SerializeField] private PlayerSoundsPlayer _playerSoundsPlayer;
-        [SerializeField] private LayerMask _terrainLayer;
-        [SerializeField] private PlayerController _playerController;
+        _terrainStepClips = terrainStepClips;
+    }
+    
+    public void ChangePosition()
+    {
+        if(!IsOwner) return;
 
-        private bool _canPlaySound;
-        private Vector2Int _previousPlayerWorldPosition;
-
-        private void Start()
-            => _canPlaySound = true;
-
-        private void Update()
+        if (_isInWater)
         {
-            if (_playerController.IsCrouching) return;
-            var playerWorldPosition = Vector3Int.FloorToInt(transform.position);
-            var fixedPlayerWorldPosition = new Vector2Int(playerWorldPosition.x, playerWorldPosition.z);
+            SetTerrainStepClips(null);
+            return;
+        }
 
-
-            if (fixedPlayerWorldPosition != _previousPlayerWorldPosition)
+        if (!_isInWater && Physics.Raycast(transform.position, Vector3.down, out RaycastHit hit, _rayCastDistance, _terrainLayer))
+        {
+            if (!hit.collider.TryGetComponent(out TerrainSoundInteractor soundInteractor)) return;
+            SetTerrainStepClips(soundInteractor.StepClips);
+            while (true)
             {
-                _previousPlayerWorldPosition = fixedPlayerWorldPosition;
-                ChangePosition();
+                var rand = Random.Range(0, _terrainStepClips.Length);
+                if (rand == _cachedClipIndex) continue;
+                _cachedClipIndex = rand;
+                break;
             }
-        }
 
-        private void ChangePosition()
-        {
-            if (Physics.Raycast(transform.position, Vector3.down, out RaycastHit hit, 1000, _terrainLayer))
-            {
-                if (!hit.collider.TryGetComponent(out TerrainSoundInteractor soundInteractor)) return;
-                StartCoroutine(PlaySound(soundInteractor.StepClip));
-            }
+            var nextStepClip = _terrainStepClips[_cachedClipIndex];
+            _playerSoundsPlayer.PlayHit(nextStepClip);
         }
+    }
+    
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Water"))
+            _isInWater = true;
+    }
 
-        private IEnumerator PlaySound(AudioClip clip)
-        {
-            if (!_canPlaySound) yield break;
-            _playerSoundsPlayer.PlayHit(clip);
-            _canPlaySound = false;
-            yield return new WaitForSeconds(clip.length);
-            _canPlaySound = true;
-        }
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.CompareTag("Water"))
+            _isInWater = false;
     }
 }

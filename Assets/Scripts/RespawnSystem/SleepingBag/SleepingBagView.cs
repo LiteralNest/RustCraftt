@@ -43,7 +43,7 @@ namespace RespawnSystem.SleepingBag
             
             _button.onClick.AddListener(() =>
             {
-                DeathScreenUI.Singleton.RespawnInCoordinates(_sleepingBag.transform.position);
+                DeathScreenUI.Singleton.RespawnInCoordinates(_sleepingBag.RespawnPoint.position);
                 _sleepingBag.RespawnPlayerServerRpc();
             });
         }

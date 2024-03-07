@@ -1,7 +1,7 @@
 ﻿using System;
 using Newtonsoft.Json;
 
-namespace Unity.Netcode.Samples
+namespace MultiplayApi.Common
 {
     [Serializable]
     public class ServerAllocationRequest

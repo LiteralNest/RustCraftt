@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 7812479423712602751}
   - component: {fileID: 851940798633152106}
   - component: {fileID: 5205045395715990461}
+  - component: {fileID: -8416178072129165717}
   m_Layer: 15
   m_Name: Spear
   m_TagString: Untagged
@@ -86,6 +87,26 @@ MonoBehaviour:
   _fpAnimators:
   - {fileID: 7812479423712602751}
   _tpAnimators: []
+--- !u!114 &-8416178072129165717
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 478355575480329509}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GlobalObjectIdHash: 0
+  AlwaysReplicateAsRoot: 0
+  SynchronizeTransform: 1
+  ActiveSceneSynchronization: 0
+  SceneMigrationSynchronization: 1
+  SpawnWithObservers: 1
+  DontDestroyWithOwner: 0
+  AutoObjectParentSync: 1
 --- !u!1 &767967287544952986
 GameObject:
   m_ObjectHideFlags: 0
@@ -266,12 +287,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b94f5874f3749d242a29ba7b3a09b3dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _attackAnimation: {fileID: 7400000, guid: ff2deb266e02b604c8664f2adbd61ee9, type: 2}
   _targetWeapon: {fileID: 11400000, guid: ebeabc5889d66a241a55747f01558524, type: 2}
   _viewSpawningPoint: {fileID: 9184475224881221504}
-  inHandAnimator: {fileID: 5205045395715990461}
+  _inHandAnimator: {fileID: 5205045395715990461}
   _weaponThrower: {fileID: 8288145910687826300}
-  _mainObj: {fileID: 1036636685373083111}
 --- !u!114 &8276301152232134896
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -284,8 +303,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 352c8db0e359cf6449b206a0615414d2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _damageItem: {fileID: 0}
   _damage: 25
-  _destroyOnEnter: 0
 --- !u!1 &2351965837970804246
 GameObject:
   m_ObjectHideFlags: 0
@@ -449,7 +468,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _spawnPoint: {fileID: 4160695324607035981}
   _targetPref: {fileID: 3847803123547367479, guid: 7cf429bebb6bc4c8da7682e7372bb313, type: 3}
-  _throwForce: 10
+  _throwForce: 1
 --- !u!114 &6027346265249477434
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -463,4 +482,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _rb: {fileID: 0}
+  _lootingItem: {fileID: 0}
+  _collider: {fileID: 0}
+  _forceMode: 0
   _lerpSpeed: 2

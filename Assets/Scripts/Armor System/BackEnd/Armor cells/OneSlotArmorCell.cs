@@ -1,6 +1,6 @@
 using Player_Controller;
 
-namespace ArmorSystem.Backend
+namespace Armor_System.BackEnd.Armor_cells
 {
     public class OneSlotArmorCell : ArmorCell
     {
@@ -11,7 +11,7 @@ namespace ArmorSystem.Backend
             _bodyPartsDisplayer.DressArmor(_bodyPartType, _targetMaterial);
         }
         
-        public override void PutOff()
+        public override void PutOff(PlayerNetCode netCode)
         {
             foreach(var targetObject in _targetObjects)
                 targetObject.SetActive(false);

@@ -7,6 +7,9 @@ namespace InHandItems
         [SerializeField] private ResourceGatheringObject _gatheringObject;
 
         public void Gather()
-            => _gatheringObject.Gather();
+        {
+            if (_gatheringObject.gameObject.activeSelf)
+                _gatheringObject.Gather();
+        }
     }
 }

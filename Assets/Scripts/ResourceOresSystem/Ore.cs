@@ -1,8 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using Events;
+using Inventory_System;
 using Items_System.Items;
-using Items_System.Ore_Type;
 using TerrainTools;
 using Unity.Netcode;
 using UnityEngine;
@@ -11,13 +11,14 @@ namespace ResourceOresSystem
 {
     public abstract class Ore : NetworkBehaviour
     {
-        [Header("Start init")]
-        [SerializeField] protected List<OreSlot> _resourceSlots = new List<OreSlot>();
+        [Header("Start init")] [SerializeField]
+        protected List<OreSlot> _resourceSlots = new List<OreSlot>();
 
         protected OreObjectsPlacer ObjectsPlacer;
         public NetworkVariable<int> CurrentHp => _currentHp;
         [SerializeField] protected NetworkVariable<int> _currentHp = new(20);
-        
+        [SerializeField] protected int CachedMaxHp = 20;
+
         public void Init(OreObjectsPlacer objectsPlacer)
             => ObjectsPlacer = objectsPlacer;
 
@@ -44,15 +45,28 @@ namespace ResourceOresSystem
                     rand = targetTool.GatheringAmount * ((100 - toolSlot.LossAmount) / 100);
 
                 if (rand <= 0) rand = 1;
-                
+
                 InventoryHandler.singleton.CharacterInventory.AddItemToSlotWithAlert(slot.Resource.Id, rand, 0);
             }
         }
 
         [ServerRpc(RequireOwnership = false)]
         protected void MinusHpServerRpc()
+            => MinusHpOnServer(1);
+
+        protected virtual void DoAfterDamage()
+        {
+        }
+
+        protected virtual void DoAfterDestroy()
+        {
+            
+        }
+
+        public void MinusHpOnServer(int value)
         {
             _currentHp.Value--;
+            DoAfterDamage();
             if (_currentHp.Value <= 0)
                 StartCoroutine(DestroyRoutine());
         }

@@ -15,5 +15,6 @@ namespace AlertsSystem
         public static Action<int, bool> OnWorkBenchAlert { get; set; }
         public static Action<bool> OnBuildingBlockedAlert { get; set; }
         public static Action<bool> OnBuildingUnblockedAlert { get; set; }
+        public static Action<bool> OnBuildingDecayAlert { get; set; }
     }
 }

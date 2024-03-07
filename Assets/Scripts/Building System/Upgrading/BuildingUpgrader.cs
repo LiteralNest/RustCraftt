@@ -1,4 +1,7 @@
+using System.Collections.Generic;
 using Building_System.Upgrading.UI;
+using Inventory_System;
+using Player_Controller;
 using UnityEngine;
 
 namespace Building_System.Upgrading
@@ -8,9 +11,11 @@ namespace Building_System.Upgrading
         [Header("Attached scripts")] [SerializeField]
         private BuildingUpgradeView buildingUpgradeView;
 
+        [SerializeField] private List<BuildingUpgradeSlot> _buildingUpgradeSlots;
+
         [Header("Main Params")] [SerializeField]
         private LayerMask _targetMask;
-        
+
         [SerializeField] private Camera _targetCamera;
         [SerializeField] private float _hammerRange = 5f;
 
@@ -23,6 +28,7 @@ namespace Building_System.Upgrading
         {
             buildingUpgradeView.DisplayButtons(false, false, false, false);
             buildingUpgradeView.DisplayCycle(false);
+            PlayerNetCode.Singleton.UpgradeTextView.HandleText(false);
         }
 
         private void Start()
@@ -40,6 +46,14 @@ namespace Building_System.Upgrading
             return InventoryHandler.singleton.CharacterInventory.EnoughMaterials(cells);
         }
 
+        private string GetUpgradeText()
+        {
+            foreach (var slot in _buildingUpgradeSlots)
+                if (slot.Level == _selectedLevel)
+                    return slot.UpgradeName;
+            return "Error";
+        }
+
         private IHammerInteractable TryRayCastUpgradable()
         {
             Vector3 rayOrigin = _targetCamera.transform.position;
@@ -54,12 +68,18 @@ namespace Building_System.Upgrading
                     buildingUpgradeView.DisplayButtons(false, false, false, false);
                     return null;
                 }
-                
+
                 bool canBeUpgraded = upgradable.CanBeUpgraded(_selectedLevel) && EnoughItems(upgradable);
-               
-                
+
+                if (upgradable.CanBeUpgraded(_selectedLevel))
+                    PlayerNetCode.Singleton.UpgradeTextView.DisplayText(GetUpgradeText(),
+                        upgradable.GetNeededCellsForUpgrade(_selectedLevel)[0]);
+                else
+                    PlayerNetCode.Singleton.UpgradeTextView.HandleText(false);
+
                 buildingUpgradeView.DisplayButtons(canBeUpgraded, upgradable.CanBeDestroyed(),
-                    upgradable.CanBeRepaired(), upgradable.CanBePickUp(), upgradable.GetNeededCellsForUpgrade(_selectedLevel));
+                    upgradable.CanBeRepaired(), upgradable.CanBePickUp(),
+                    upgradable.GetNeededCellsForUpgrade(_selectedLevel));
                 return upgradable;
             }
 

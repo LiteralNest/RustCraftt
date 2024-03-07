@@ -1,12 +1,13 @@
 using System.Collections.Generic;
 using AI.Animals.Animators;
 using AI.Animals.States;
+using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.AI;
 
 namespace AI.Animals
 {
-    public abstract class AnimalController : MonoBehaviour
+    public abstract class AnimalController : NetworkBehaviour
     {
         [Header("Attached Components")] 
         [SerializeField] private AnimalAnimator _animalAnimator;
@@ -16,17 +17,29 @@ namespace AI.Animals
 
         [Header("Main Params")] [SerializeField]
         private Vector2 _interactingRange = new Vector2(4, 10);
-
+        [SerializeField] private float _walkSpeed;
+        [SerializeField] private float _runSpeed;
+        
         [Header("States")] [SerializeField] protected AnimalState _idleState;
         [SerializeField] private AnimalState _playerInteractionState;
 
+        public float WalkSpeed => _walkSpeed;
+        public float RunSpeed => _runSpeed;
         public Vector2 InteractingRange => _interactingRange;
 
         private AnimalState _currentState;
         protected List<Transform> ObjectsToInteract { get; private set; } = new List<Transform>();
 
+        public override void OnNetworkSpawn()
+        {
+            base.OnNetworkSpawn();
+            if(!IsServer) return;
+            SetState(_idleState);
+        }
+        
         private void Update()
         {
+            if(!IsServer) return;
             if (_currentState == _playerInteractionState) return;
             var nearestObject = GetNearestObject();
             if (nearestObject == null) return;
@@ -34,8 +47,6 @@ namespace AI.Animals
                 SetState(_playerInteractionState);
         }
 
-        private void Start()
-            => SetState(_idleState);
 
         public virtual void RefreshList()
         {

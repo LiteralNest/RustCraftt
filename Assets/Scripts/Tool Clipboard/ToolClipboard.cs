@@ -1,31 +1,42 @@
 using System.Collections.Generic;
+using AlertsSystem;
 using AuthorizationSystem;
-using Building_System.Building.Blocks;
-using InteractSystem;
+using Cloud.DataBaseSystem.UserData;
 using Inventory_System;
-using Inventory_System.Slots_Displayer.Tool_CLipBoard;
 using Lock_System;
 using Multiplayer.CustomData;
 using Storage_System;
 using Unity.Netcode;
 using UnityEngine;
-using Web.UserData;
 
 namespace Tool_Clipboard
 {
-    public class ToolClipboard : Storage
+    public class ToolClipboard : DropableStorage, ILockable
     {
         [Header("UI")] [SerializeField] private GameObject _selectingCircle;
         [SerializeField] private GameObject _inventoryPanel;
-        [SerializeField] private List<BuildingBlock> _connectedBlocks = new List<BuildingBlock>();
-        public List<BuildingBlock> ConnectedBlocks => _connectedBlocks;
         [SerializeField] private NetworkVariable<AuthorizedUsersData> _authorizedIds = new();
+        [SerializeField] private ShelfZoneHandler _shelfZoneHandler;
 
         private Locker _targetLocker;
-        private bool _isLocked;
 
         public AuthorizedUsersData AuthorizedIds => _authorizedIds.Value;
 
+        public override void OnNetworkSpawn()
+        {
+            base.OnNetworkSpawn();
+            ItemsNetData.OnValueChanged +=
+                (CustomSendingInventoryData prevValue, CustomSendingInventoryData newValue) =>
+                {
+                    SlotsDisplayer.DisplayCells();
+                };
+        }
+
+        public bool IsDecay()
+        {
+            if(_shelfZoneHandler.ConnectedBlocks.Count == 0) return false;
+            return GetAvailableHours() <= 0;
+        }
 
         public override void Open(InventoryHandler handler)
         {
@@ -38,7 +49,7 @@ namespace Tool_Clipboard
             _selectingCircle.SetActive(true);
             _inventoryPanel.SetActive(false);
             Appear();
-            _ui.SetActive(true);
+            Ui.SetActive(true);
         }
 
         public void OpenInventory()
@@ -46,13 +57,6 @@ namespace Tool_Clipboard
             CurrentInventoriesHandler.Singleton.CurrentStorage = this;
             InventoryHandler.singleton.InventoryPanelsDisplayer.OpenInventory(true);
             SlotsDisplayer.DisplayCells();
-        }
-
-        public override void SetItem(int cellId, CustomSendingInventoryDataCell dataCell)
-        {
-            base.SetItem(cellId, dataCell);
-            var slotsDisplayer = SlotsDisplayer as ToolClipBoardSlotsDisplayer;
-            slotsDisplayer.DisplayRemainingTime();
         }
 
         [ServerRpc(RequireOwnership = false)]
@@ -77,57 +81,10 @@ namespace Tool_Clipboard
             return res;
         }
 
-        private List<InventoryCell> GetInitedList(List<InventoryCell> data)
-        {
-            List<InventoryCell> res = new List<InventoryCell>();
-            foreach (var cell in data)
-                res.Add(new InventoryCell(cell));
-            return res;
-        }
-
-        private bool TryMinusItemsPreSecond(List<InventoryCell> delCells,
-            List<InventoryCell> data)
-        {
-            var deletingCells = GetInitedList(delCells);
-            for (int i = 0; i < deletingCells.Count; i++)
-            {
-                for (int j = 0; j < data.Count; j++)
-                {
-                    if (i == -1 || deletingCells[i].Item == null || data[j].Item == null) continue;
-                    if (deletingCells[i].Item.Id == data[j].Item.Id)
-                    {
-                        if (deletingCells.Count <= data[j].Count)
-                        {
-                            if (data[j].Count <= 0)
-                            {
-                                data.RemoveAt(j);
-                                j--;
-                            }
-                            else
-                                data[j].Count -= deletingCells.Count;
-
-                            deletingCells.RemoveAt(i);
-                            i--;
-                            if (i == -1) return true;
-                            if (deletingCells.Count == 0) return true;
-                            continue;
-                        }
-
-                        deletingCells[i].Count -= data[j].Count;
-                        if (deletingCells.Count == 0) return true;
-                    }
-                }
-
-                if (deletingCells.Count == 0) return true;
-            }
-
-            return false;
-        }
-
         private List<InventoryCell> GetRemovingCells()
         {
             List<InventoryCell> res = new List<InventoryCell>();
-            foreach (var block in _connectedBlocks)
+            foreach (var block in _shelfZoneHandler.ConnectedBlocks)
             {
                 foreach (var cell in block.CurrentBlock.CellsForRemovingPerTime)
                     res.Add(cell);
@@ -143,13 +100,35 @@ namespace Tool_Clipboard
             return GetConvertedItemsList(cells);
         }
 
-        public int GetAvaliableMinutes()
+        public int GetAvailableHours()
         {
             var res = 0;
-            List<InventoryCell> deletingCells = GetRemovingCells();
-            var list = GetClipBoardCells();
-            while (TryMinusItemsPreSecond(deletingCells, list))
-                res++;
+            List<InventoryCell> deletingCells = GetStackedList(GetRemovingCells());
+            var list = GetStackedList(GetClipBoardCells());
+
+            if (deletingCells.Count == 0) return res;
+
+            while (true)
+            {
+                foreach (var deleteCell in deletingCells)
+                {
+                    var cachedDeletingList = new List<InventoryCell>(deletingCells);
+                    foreach (var inventoryCell in list)
+                    {
+                        if (deleteCell.Item.Id == inventoryCell.Item.Id)
+                        {
+                            if (inventoryCell.Count < deleteCell.Count) return res;
+                            res++;
+                            cachedDeletingList.Remove(deleteCell);
+                            inventoryCell.Count -= deleteCell.Count;
+                            break;
+                        }
+                    }
+
+                    if (cachedDeletingList.Count != 0) return res;
+                }
+            }
+
             return res;
         }
 
@@ -178,7 +157,7 @@ namespace Tool_Clipboard
             return res;
         }
 
-        public List<InventoryCell> GetNeededResourcesForDay()
+        public List<InventoryCell> GetNeededResourcesForHour()
         {
             var res = new List<InventoryCell>();
             var inputList = GetStackedList(GetRemovingCells());
@@ -191,16 +170,6 @@ namespace Tool_Clipboard
 
         #region ILockable
 
-        public void Lock(Locker locker)
-            => _targetLocker = locker;
-
-
-        public bool IsLocked()
-        {
-            if (_targetLocker == null) return false;
-            return _targetLocker.IsLocked();
-        }
-
         public bool IsAutorized(int value)
         {
             var helper = new AuthorizationHelper();
@@ -210,12 +179,6 @@ namespace Tool_Clipboard
         [ServerRpc(RequireOwnership = false)]
         public void AuthorizeServerRpc(int id)
         {
-            if (_targetLocker != null && !_targetLocker.CanBeOpened(UserDataHandler.Singleton.UserData.Id))
-            {
-                _targetLocker.Open();
-                return;
-            }
-
             if (!IsServer) return;
             var helper = new AuthorizationHelper();
             helper.Authorize(id, _authorizedIds);
@@ -223,8 +186,12 @@ namespace Tool_Clipboard
 
         #endregion
 
+        private bool CanBeOpened()
+            => !(_targetLocker != null && !_targetLocker.AvailableForOpen(UserDataHandler.Singleton.UserData.Id));
+        
         public override string GetDisplayText()
         {
+            if(!CanBeOpened()) return "Locked";
             if (!IsAutorized(UserDataHandler.Singleton.UserData.Id)) return "Authorize";
             return base.GetDisplayText();
         }
@@ -233,11 +200,23 @@ namespace Tool_Clipboard
         {
             if (!IsAutorized(UserDataHandler.Singleton.UserData.Id))
             {
+                if (_targetLocker != null && !_targetLocker.CanBeOpened(UserDataHandler.Singleton.UserData.Id))
+                {
+                    _targetLocker.Open();
+                    return;
+                }
+
                 AuthorizeServerRpc(UserDataHandler.Singleton.UserData.Id);
                 return;
             }
 
             base.Interact();
         }
+
+        public void Lock(Locker locker)
+            => _targetLocker = locker;
+        
+        public bool IsLocked()
+            => _targetLocker != null;
     }
 }

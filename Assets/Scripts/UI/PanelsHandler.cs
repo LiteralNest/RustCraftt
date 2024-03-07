@@ -1,23 +1,31 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
-public class PanelsHandler : MonoBehaviour
+namespace UI
 {
-    public void TurnOffPanel(GameObject panel)
-        => panel.SetActive(false);
+    public class PanelsHandler : MonoBehaviour
+    {
+        public void TurnOffPanel(GameObject panel)
+            => panel.SetActive(false);
 
-    public void TurnOnPanel(GameObject panel)
-        => panel.SetActive(true);
+        public void TurnOnPanel(GameObject panel)
+            => panel.SetActive(true);
+        
+        public void DeactivateButton(Button button) => button.interactable = false;
 
-    public void SetCanDragInventoryItems(bool canDrag)
-        => GlobalValues.CanDragInventoryItems = canDrag;
+        public void ActivateButton(Button button) => button.interactable = true;
 
-    public void Quit()
-        => Application.Quit();
+        public void SetCanDragInventoryItems(bool canDrag)
+            => GlobalValues.CanDragInventoryItems = canDrag;
+        
+        public void Quit()
+            => Application.Quit();
 
-    public void LoadLevel(int id)
-        => SceneManager.LoadScene(id);
+        public void LoadLevel(int id)
+            => SceneManager.LoadScene(id);
 
-    public void LoadLevelAsync(int id)
-        => LevelsLoader.singleton.LoadLevelAsync(id);
+        public void LoadLevelAsync(int id)
+            => LevelsLoader.singleton.LoadLevelAsync(id);
+    }
 }

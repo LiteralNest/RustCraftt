@@ -1,8 +1,8 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using AlertsSystem;
-using AlertsSystem.AlertTypes;
-using ArmorSystem.Backend;
+using Armor_System;
+using CharacterStatsSystem;
+using Cloud.DataBaseSystem.UserData;
 using Events;
 using Inventory_System;
 using Inventory_System.ItemInfo;
@@ -12,20 +12,19 @@ using Sound_System;
 using Storage_System;
 using TMPro;
 using UI.Hp_Panel;
+using UI.UpgradeUI;
 using Unity.Netcode;
 using UnityEngine;
-using Vehicle;
-using Web.UserData;
 
 namespace Player_Controller
 {
     public class PlayerNetCode : NetworkBehaviour
     {
         public static PlayerNetCode Singleton { get; private set; }
-
-        [field:SerializeField] public AlertsView AlertsView { get; private set; }
-        [field:SerializeField] public ActiveInvetoriesHandler ActiveInvetoriesHandler { get; private set; }
-        [field:SerializeField] public ObjectHpDisplayer ObjectHpDisplayer { get; private set; }
+        [field:SerializeField] public ArmorSlotsHandler ArmorSlotsHandler { get; private set; }
+        [field:SerializeField] public UpgradeTextView UpgradeTextView { get; private set; }
+        [field: SerializeField] public ActiveInvetoriesHandler ActiveInvetoriesHandler { get; private set; }
+        [field: SerializeField] public ObjectHpDisplayer ObjectHpDisplayer { get; private set; }
         [field: SerializeField] public ResourcesDropper ResourcesDropper { get; private set; }
         [field: SerializeField] public ItemInfoHandler ItemInfoHandler { get; private set; }
         [field: SerializeField] public PlayerSoundsPlayer PlayerSoundsPlayer { get; private set; }
@@ -33,6 +32,9 @@ namespace Player_Controller
         [field: SerializeField] public CharacterInventory CharacterInventory { get; private set; }
         [field: SerializeField] public PlayerMeleeDamager PlayerMeleeDamager { get; private set; }
         [field: SerializeField] public PlayerKiller PlayerKiller { get; private set; }
+        [field: SerializeField] public PlayerKnockDowner PlayerKnockDowner { get; private set; }
+
+        public CharacterStats CharacterStats { get; private set; }
 
 
         [Header("In Hand Items")] [SerializeField]
@@ -50,16 +52,22 @@ namespace Player_Controller
 
         [SerializeField] private List<TMP_Text> _nickNameTexts = new List<TMP_Text>();
 
-        [field: SerializeField]  public NetworkVariable<int> ActiveItemId { get; set; } = new NetworkVariable<int>(-1);
+        [field: SerializeField] public NetworkVariable<int> ActiveItemId { get; set; } = new NetworkVariable<int>(-1);
 
         private RigidbodyConstraints _cachedConstraints;
 
         private void OnEnable()
-            => GlobalEventsContainer.ShouldDisplayHandItem += SendChangeInHandItem;
+        {
+            GlobalEventsContainer.ShouldDisplayHandItem += SendChangeInHandItem;
+            CharacterStatsEventsContainer.OnCharacterStatsAssign += AssignCharacterStats;
+        }
 
         private void OnDisable()
-            => GlobalEventsContainer.ShouldDisplayHandItem -= SendChangeInHandItem;
-
+        {
+            GlobalEventsContainer.ShouldDisplayHandItem -= SendChangeInHandItem;
+            CharacterStatsEventsContainer.OnCharacterStatsAssign -= AssignCharacterStats;
+        }
+        
         private async void Start()
         {
             await Task.Delay(1000);
@@ -92,6 +100,11 @@ namespace Player_Controller
             _playerId.OnValueChanged += (int prevValue, int newValue) => { AssignName(); };
 
             AssignName();
+        }
+
+        private void AssignCharacterStats(CharacterStats characterStats)
+        {
+            CharacterStats = characterStats;
         }
 
         [ServerRpc(RequireOwnership = false)]

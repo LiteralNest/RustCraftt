@@ -1,8 +1,12 @@
 using System.Collections;
 using Building_System.NetWorking;
+using FightSystem.Weapon.Ballistic;
 using FightSystem.Weapon.ShootWeapon.Ammo;
+using FightSystem.Weapon.ThrowingWeapon;
 using InHandItems.InHandAnimations.Weapon;
 using InHandItems.InHandViewSystem;
+using Inventory_System;
+using Items_System.Items.Abstract;
 using UnityEngine;
 
 namespace FightSystem.Weapon.ShootWeapon
@@ -16,11 +20,12 @@ namespace FightSystem.Weapon.ShootWeapon
         [SerializeField] private BowAnimator _weaponAnimator;
         [SerializeField] private Transform _ammoSpawnPoint;
         [SerializeField] private AnimationClip _prepearingForShootClip;
+        [SerializeField] private Item _targetItem;
         private Arrow _currentArrow;
         private Vector3 _force;
-        
-        private bool _canShoot;
 
+        private bool _canShoot;
+        private BallisticCalculator _ballisticCalculator = new BallisticCalculator();
         private int _currentAmmoCount;
 
         private BowInHandView _inHandView;
@@ -39,6 +44,7 @@ namespace FightSystem.Weapon.ShootWeapon
                 _weaponAnimator.SetIdle();
                 return;
             }
+
             _weaponAnimator.SetAttack();
             ShootArrow();
             InventoryHandler.singleton.CharacterInventory.RemoveItem(_ammo.Id, 1);
@@ -51,7 +57,7 @@ namespace FightSystem.Weapon.ShootWeapon
             _currentAmmoCount = 1;
             _weaponAnimator.SetScope();
         }
-        
+
         private IEnumerator WaitForScopingRoutine()
         {
             _canShoot = false;
@@ -67,8 +73,9 @@ namespace FightSystem.Weapon.ShootWeapon
 
         private void ShootArrow()
         {
-            _force = _ammoSpawnPoint.TransformDirection(Vector3.forward * _arrowForce);
-            AmmoObjectsPool.Singleton.SpawnArrowServerRpc(_ammoSpawnPoint.position, _ammoSpawnPoint.rotation, _force);
+            var angle = _ballisticCalculator.GetCalculatedAngle(_ammoSpawnPoint.forward, _arrowForce);
+            AmmoObjectsPool.Singleton.SpawnArrowServerRpc(_targetItem.Id, _ammoSpawnPoint.position,
+                _ammoSpawnPoint.rotation, angle);
             _currentAmmoCount--;
         }
     }

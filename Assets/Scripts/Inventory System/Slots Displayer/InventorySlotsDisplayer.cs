@@ -5,54 +5,57 @@ using Inventory_System.Inventory_Slot_Displayers;
 using Inventory_System.Quick_Slots;
 using UnityEngine;
 
-public class InventorySlotsDisplayer : SlotsDisplayer
+namespace Inventory_System.Slots_Displayer
 {
-    [Header("Attached Scripts")] [SerializeField]
-    private QuickSlotsDisplayer _quickSlotsDisplayer;
-
-    [SerializeField] private int _mainSlotsCount;
-    [SerializeField] private int _armorCellsCount;
-
-    public override List<ArmorSlotDisplayer> GetArmorSlots()
+    public class InventorySlotsDisplayer : SlotsDisplayer
     {
-        var res = new List<ArmorSlotDisplayer>();
-        for (int i = _mainSlotsCount; i < CellDisplayers.Count; i++)
-            res.Add(CellDisplayers[i] as ArmorSlotDisplayer);
-        return res;
-    }
+        [Header("Attached Scripts")] [SerializeField]
+        private QuickSlotsDisplayer _quickSlotsDisplayer;
 
-    public override void InitItems()
-    {
-        foreach (var cell in CellDisplayers)
+        [SerializeField] private int _mainSlotsCount;
+        [SerializeField] private int _armorCellsCount;
+
+        public override List<ArmorSlotDisplayer> GetArmorSlots()
         {
-            cell.CanSetSlot = true;
-        }
-    }
-
-    public List<SlotDisplayer> GetQuickSlots()
-    {
-        List<SlotDisplayer> res = new List<SlotDisplayer>();
-        foreach (var slotDisplayer in CellDisplayers)
-        {
-            if (slotDisplayer.IsQuickSlot)
-                res.Add(slotDisplayer);
+            var res = new List<ArmorSlotDisplayer>();
+            for (int i = _mainSlotsCount; i < CellDisplayers.Count; i++)
+                res.Add(CellDisplayers[i] as ArmorSlotDisplayer);
+            return res;
         }
 
-        return res;
-    }
+        public override void InitItems()
+        {
+            foreach (var cell in CellDisplayers)
+            {
+                cell.CanSetSlot = true;
+            }
+        }
 
-    public void DisplayQuickSlots()
-        => _quickSlotsDisplayer.AssignSlots(GetQuickSlots());
+        public List<SlotDisplayer> GetQuickSlots()
+        {
+            List<SlotDisplayer> res = new List<SlotDisplayer>();
+            foreach (var slotDisplayer in CellDisplayers)
+            {
+                if (slotDisplayer.IsQuickSlot)
+                    res.Add(slotDisplayer);
+            }
 
-    private async void DisplayQuickCells()
-    {
-        await Task.Delay(100);
-        DisplayQuickSlots();
-    }
+            return res;
+        }
 
-    public override void DisplayCells()
-    {
-        base.DisplayCells();
-        DisplayQuickCells();
+        public void DisplayQuickSlots()
+            => _quickSlotsDisplayer.AssignSlots(GetQuickSlots());
+
+        private async void DisplayQuickCells()
+        {
+            await Task.Delay(100);
+            DisplayQuickSlots();
+        }
+
+        public override void DisplayCells()
+        {
+            base.DisplayCells();
+            DisplayQuickCells();
+        }
     }
 }

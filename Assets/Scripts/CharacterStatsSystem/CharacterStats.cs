@@ -1,27 +1,68 @@
-﻿using Unity.Netcode;
+﻿using AlertsSystem;
+using Cloud.DataBaseSystem.UserData;
+using Player_Controller;
+using Unity.Netcode;
 using UnityEngine;
 
 namespace CharacterStatsSystem
 {
     public class CharacterStats : NetworkBehaviour
     {
-        [field: SerializeField] public NetworkVariable<int> Hp { get; set; } = new NetworkVariable<int>(100);
-        [field: SerializeField] public NetworkVariable<int> Food { get; set; } = new NetworkVariable<int>(100);
-        [field: SerializeField] public NetworkVariable<int> Water { get; set; } = new NetworkVariable<int>(100);
-        [field: SerializeField] public NetworkVariable<int> Oxygen { get; set; } = new NetworkVariable<int>(100);
+        [SerializeField] private NetworkVariable<int> _hp = new NetworkVariable<int>(100);
+        [SerializeField] private NetworkVariable<int> _food = new NetworkVariable<int>(100);
+        [SerializeField] private NetworkVariable<int> _water = new NetworkVariable<int>(100);
+        [SerializeField] private NetworkVariable<int> _oxygen = new NetworkVariable<int>(100);
+
+        public NetworkVariable<int> Hp => _hp;
+        public NetworkVariable<int> Food => _food;
+        public NetworkVariable<int> Water => _water;
+        public NetworkVariable<int> Oxygen => _oxygen;
+
+
+        private void OnEnable()
+            => CharacterStatsEventsContainer.OnCharacterStatsAssign += InitStatsValue;
+
+        private void OnDisable()
+        {
+            CharacterStatsEventsContainer.OnCharacterStatsAssign -= InitStatsValue;
+            CharacterStatsEventsContainer.OnCharacterStatAdded -= AddStatServerRpc;
+            CharacterStatsEventsContainer.OnCharacterStatRemoved -= MinusStatServerRpc;
+        }
+
+        private void InitStatsValue(CharacterStats characterStats)
+        {
+            if (!IsOwner) return;
+
+            CharacterStatsEventsContainer.OnCharacterStatAdded += AddStatServerRpc;
+            CharacterStatsEventsContainer.OnCharacterStatRemoved += MinusStatServerRpc;
+
+            _food.OnValueChanged += (int oldValue, int newValue) =>
+            {
+                if (newValue <= 15)
+                    AlertEventsContainer.OnStarvingAlert?.Invoke(true);
+                else AlertEventsContainer.OnStarvingAlert?.Invoke(false);
+            };
+
+            _water.OnValueChanged += (int oldValue, int newValue) =>
+            {
+                if (newValue <= 15)
+                    AlertEventsContainer.OnDehydratedAlert?.Invoke(true);
+                else AlertEventsContainer.OnDehydratedAlert?.Invoke(false);
+            };
+        }
 
         [ServerRpc(RequireOwnership = false)]
         public void AddStatServerRpc(CharacterStatType type, int value)
         {
             if (!IsServer) return;
-            PlusStat(type, value);
+            PlusStatOnServer(type, value);
         }
 
         [ServerRpc(RequireOwnership = false)]
         public void MinusStatServerRpc(CharacterStatType type, int value)
         {
             if (!IsServer) return;
-            MinusStat(type, value);
+            MinusStatOnServer(type, value);
         }
 
         private int GetValidatedAddingStat(int stat, int addingValue)
@@ -36,40 +77,55 @@ namespace CharacterStatsSystem
             return res < 0 ? 0 : res;
         }
 
-        private void PlusStat(CharacterStatType type, int value)
+        private void PlusStatOnServer(CharacterStatType type, int value)
         {
             switch (type)
             {
                 case CharacterStatType.Health:
-                    Hp.Value = GetValidatedAddingStat(Hp.Value, value);
+                    _hp.Value = GetValidatedAddingStat(_hp.Value, value);
                     break;
                 case CharacterStatType.Food:
-                    Food.Value = GetValidatedAddingStat(Food.Value, value);
+                    _food.Value = GetValidatedAddingStat(_food.Value, value);
                     break;
                 case CharacterStatType.Water:
-                    Water.Value = GetValidatedAddingStat(Water.Value, value);
+                    _water.Value = GetValidatedAddingStat(_water.Value, value);
                     break;
                 case CharacterStatType.Oxygen:
-                    Oxygen.Value = GetValidatedAddingStat(Oxygen.Value, value);
+                    _oxygen.Value = GetValidatedAddingStat(_oxygen.Value, value);
                     break;
             }
         }
 
-        private void MinusStat(CharacterStatType type, int value)
+        [ClientRpc]
+        private void ValidateHpClientRpc(int newHp)
         {
+            if(!IsOwner) return;
+            Debug.Log("Hp validation: " + newHp);
+            if (newHp <= 0)
+                PlayerNetCode.Singleton.PlayerKiller.DieServerRpc(UserDataHandler.Singleton.UserData.Id);
+            else if (newHp <= 15)
+                PlayerNetCode.Singleton.PlayerKnockDowner.KnockDownServerRpc(UserDataHandler.Singleton.UserData.Id);
+        }
+
+        private void MinusStatOnServer(CharacterStatType type, int value)
+        {
+            if(_hp.Value <= 0) return;
             switch (type)
             {
                 case CharacterStatType.Health:
-                    Hp.Value = GetValidatedRemovingStat(Hp.Value, value);
+                {
+                    _hp.Value = GetValidatedRemovingStat(_hp.Value, value);
+                    ValidateHpClientRpc(_hp.Value);
                     break;
+                }
                 case CharacterStatType.Food:
-                    Food.Value = GetValidatedRemovingStat(Food.Value, value);
+                    _food.Value = GetValidatedRemovingStat(_food.Value, value);
                     break;
                 case CharacterStatType.Water:
-                    Water.Value = GetValidatedRemovingStat(Water.Value, value);
+                    _water.Value = GetValidatedRemovingStat(_water.Value, value);
                     break;
                 case CharacterStatType.Oxygen:
-                    Oxygen.Value = GetValidatedRemovingStat(Oxygen.Value, value);
+                    _oxygen.Value = GetValidatedRemovingStat(_oxygen.Value, value);
                     break;
             }
         }

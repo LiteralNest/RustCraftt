@@ -3,10 +3,10 @@ using System.Linq;
 using System.Threading.Tasks;
 using Animation_System;
 using Building_System.NetWorking;
+using Cloud.DataBaseSystem.UserData;
 using PlayerDeathSystem;
 using Unity.Netcode;
 using UnityEngine;
-using Web.UserData;
 
 namespace Multiplayer.PlayerSpawning
 {
@@ -17,13 +17,11 @@ namespace Multiplayer.PlayerSpawning
 
         [field: SerializeField] public AnimationsManager AnimationsManager { get; private set; }
 
-        private async void Start()
+        private void Start()
         {
             if (!IsOwner) return;
             _userId.Value = UserDataHandler.Singleton.UserData.Id;
             TryConnectServerToBackPack();
-            await Task.Delay(1500);
-            if (!IsOwner) return;
         }
 
         public override void OnNetworkDespawn()
@@ -34,7 +32,8 @@ namespace Multiplayer.PlayerSpawning
             foreach (var player in players)
             {
                 if (player.UserId != _userId.Value) continue;
-                player.GenerateBackPack(true, _userId.Value, UserDataHandler.Singleton.UserData.Name);
+                player.GenerateBackPackOnServer(true, _userId.Value,
+                    UserDataHandler.Singleton.UserData.Name);
             }
         }
 
@@ -79,7 +78,7 @@ namespace Multiplayer.PlayerSpawning
         {
             if (_userId.Value != userId) return;
             var point = PlayerSpawnManager.Singleton.GetRandomSpawnPoint();
-            if (spawnPoint == new Vector3(0, -1000000, 0))
+            if (spawnPoint != new Vector3(0, 1000000, 0))
                 point = spawnPoint;
             PlayerStaffSpawner.Singleton.SpawnPlayerServerRpc(point, Quaternion.identity,
                 GetComponent<NetworkObject>().OwnerClientId);

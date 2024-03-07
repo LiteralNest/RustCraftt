@@ -4,6 +4,7 @@ using Items_System.Items;
 using Items_System.Items.Food;
 using Player_Controller;
 using Storage_System;
+using UI.Double_Tap;
 using UnityEngine;
 
 namespace Inventory_System.Inventory_Slot_Displayers
@@ -49,6 +50,7 @@ namespace Inventory_System.Inventory_Slot_Displayers
             characterInventory.SetActiveQuickSlot(this);
             if (ItemDisplayer == null)
             {
+                InventoryHandler.singleton.ActiveSlotDisplayer = null;
                 PlayerNetCode.Singleton.SetDefaultHandsServerRpc();
                 return;
             }

@@ -3,7 +3,6 @@ using AI.Animals.Animators;
 using FightSystem.Damage;
 using Unity.Netcode;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace AI.Animals.States
 {
@@ -24,6 +23,7 @@ namespace AI.Animals.States
         private void TryAttack(Transform target)
         {
             if(!NetworkManager.Singleton.IsServer) return;
+            Debug.Log("Damaging");
             var damagable = target.GetComponent<IDamagable>();
             if(damagable == null) return;
             damagable.GetDamageOnServer(_damagingForce);
@@ -37,6 +37,7 @@ namespace AI.Animals.States
             _canDamage = true;
         }
         
+  
         private IEnumerator AttackTarget()
         {
             var nearestTarget = Controller.GetNearestObject();
@@ -48,6 +49,12 @@ namespace AI.Animals.States
             AnimalAnimator.SetRun();
             while (true)
             {
+                if (nearestTarget == null)
+                {
+                    AnimalAnimator.SetIdle();
+                    Controller.SetIdleState();
+                }
+                Controller.NavMeshAgent.speed = Controller.RunSpeed;
                 Controller.NavMeshAgent.SetDestination(nearestTarget.position);
                 
 
@@ -57,7 +64,11 @@ namespace AI.Animals.States
                     break;
                 }
 
-                if(!_canDamage) yield return null;
+                if (!_canDamage)
+                {
+                    yield return null;
+                    continue;
+                }
                 if (Controller.GetDistanceTo(nearestTarget.position) <= _attackRange)
                 {
                     TryAttack(nearestTarget);

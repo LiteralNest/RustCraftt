@@ -361,13 +361,13 @@ GameObject:
   - component: {fileID: 4503114659264057750}
   - component: {fileID: 5886685113611225826}
   - component: {fileID: -5366272341205885770}
+  - component: {fileID: 718846181038357174}
   - component: {fileID: 3435620133994981506}
   - component: {fileID: 2176999967714436432}
   - component: {fileID: 1037852635728798627}
   - component: {fileID: 5986825837521743611}
   - component: {fileID: 2814044194007606491}
   - component: {fileID: 5758573500931984155}
-  - component: {fileID: 718846181038357174}
   m_Layer: 0
   m_Name: Chicken
   m_TagString: Untagged
@@ -391,6 +391,7 @@ Transform:
   - {fileID: 415401589178818826}
   - {fileID: 9006329363021093512}
   - {fileID: 1989277562340749187}
+  - {fileID: 4113400502825895785}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!195 &4503114659264057750
@@ -457,6 +458,27 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.12, y: 0.15018089, z: 0.23087986}
   m_Center: {x: 0.0029080573, y: 0.12669331, z: 0.04882802}
+--- !u!95 &718846181038357174
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6955868715168596032}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 1da0e9302e68c994aa1b2146cfca449f, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!114 &3435620133994981506
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -469,7 +491,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 868672896
+  GlobalObjectIdHash: 4275526672
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
   ActiveSceneSynchronization: 0
@@ -519,9 +541,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eff9c25c10c4ee047ac64c90577ffd4a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _corpSpawnPos: {fileID: 4113400502825895785}
   _animalId: {fileID: 2814044194007606491}
   _hp:
-    m_InternalValue: 50
+    m_InternalValue: 25
 --- !u!114 &5986825837521743611
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -540,6 +563,8 @@ MonoBehaviour:
   - {fileID: 8311132424659905538}
   <NavMeshAgent>k__BackingField: {fileID: 4503114659264057750}
   _interactingRange: {x: 4, y: 10}
+  _walkSpeed: 2
+  _runSpeed: 3.1
   _idleState: {fileID: 680837599766404596}
   _playerInteractionState: {fileID: 5816119707777465745}
 --- !u!114 &2814044194007606491
@@ -568,27 +593,37 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   circleRadius: 30
---- !u!95 &718846181038357174
-Animator:
-  serializedVersion: 5
+--- !u!1 &7434618654184601822
+GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6955868715168596032}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 1da0e9302e68c994aa1b2146cfca449f, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4113400502825895785}
+  m_Layer: 0
+  m_Name: CorpSpawnPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4113400502825895785
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7434618654184601822}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.248, y: 0.138, z: -0.063}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8718043449452909677}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &7479389190354327790
 GameObject:
   m_ObjectHideFlags: 0
@@ -873,14 +908,14 @@ MonoBehaviour:
     Layer: 0
     OriginatingState: 765711723
     DestinationState: -1074674337
-    TransitionDuration: 0.25
+    TransitionDuration: 0.1
     TriggerNameHash: 2081823275
     TransitionIndex: 0
   - IsCrossFadeExit: 0
     Layer: 0
     OriginatingState: 1748754976
     DestinationState: -1074674337
-    TransitionDuration: 0.25
+    TransitionDuration: 0.1
     TriggerNameHash: 2081823275
     TransitionIndex: 0
   m_Animator: {fileID: 3029564924693991312}

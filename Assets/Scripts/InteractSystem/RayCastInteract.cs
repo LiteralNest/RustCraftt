@@ -24,16 +24,26 @@ namespace InteractSystem
 
         private void TryRayCastInteractable()
         {
+            _target = null;
             if (!_targetCamera.gameObject.activeSelf) return;
             Ray ray = new Ray(_targetCamera.transform.position, _targetCamera.transform.forward);
             Debug.DrawRay(_targetCamera.transform.position, Camera.main.transform.forward * _maxDistance, Color.red);
-            if (Physics.Raycast(ray, out RaycastHit hitInfo, _maxDistance, _layerMask))
-                _target = hitInfo.collider.gameObject.GetComponent<IRaycastInteractable>();
-            else
-                _target = null;
+            var rayCastTargets = Physics.RaycastAll(ray, _maxDistance, _layerMask);
+            foreach (var target in rayCastTargets)
+            {
+                var interactable = target.collider.GetComponent<IRaycastInteractable>();
+                if (interactable != null && interactable.CanDisplayInteract())
+                {
+                    _rayCastInteractView.DisplayData(interactable);
+                    _target = interactable;
+                    return;
+                }
+            }
 
-            if (_target != null && _target.CanInteract())
+            if (_target != null && _target.CanDisplayInteract())
+            {
                 _rayCastInteractView.DisplayData(_target);
+            }
             else
                 _rayCastInteractView.ClosePanel();
         }
@@ -42,19 +52,18 @@ namespace InteractSystem
         {
             if (!_targetCamera.gameObject.activeSelf) return;
             Ray ray = new Ray(_targetCamera.transform.position, _targetCamera.transform.forward);
-            Debug.DrawRay(_targetCamera.transform.position, Camera.main.transform.forward * _maxDistance, Color.red);
-            IRayCastHpDusplayer target = null;
-            if (!Physics.Raycast(ray, out RaycastHit hitInfo, _maxDistance, _layerMask))
+            var targets = Physics.RaycastAll(ray, _maxDistance, _layerMask);
+            foreach (var target in targets)
             {
-                if(PlayerNetCode.Singleton)
-                    PlayerNetCode.Singleton.ObjectHpDisplayer.DisablePanel();
-                return;
+                var dataDisplayable = target.collider.GetComponent<IRayCastHpDisplayer>();
+                if (dataDisplayable != null)
+                {
+                    dataDisplayable.DisplayData();
+                    return;
+                }
             }
 
-            target = hitInfo.collider.gameObject.GetComponent<IRayCastHpDusplayer>();
-            if (target != null)
-                target.DisplayData();
-            else
+            if (PlayerNetCode.Singleton)
                 PlayerNetCode.Singleton.ObjectHpDisplayer.DisablePanel();
         }
     }

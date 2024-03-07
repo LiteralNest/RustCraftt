@@ -1,26 +1,29 @@
 using Items_System.Items.Abstract;
 
-[System.Serializable]
-public class InventoryCell
+namespace Inventory_System
 {
-   public Item Item;
-   public int Count;
-   public int Hp { get; set; } = -1;
-   public int Ammo = 0;
-
-   public InventoryCell(InventoryCell cell)
+   [System.Serializable]
+   public class InventoryCell
    {
-      Item = cell.Item;
-      Count = cell.Count;
-      Hp = cell.Hp;
-      Ammo = cell.Ammo;
-   }
+      public Item Item;
+      public int Count;
+      public int Hp { get; set; } = -1;
+      public int Ammo = 0;
 
-   public InventoryCell(Item item, int count, int hp = -1, int ammo = 0)
-   {
-      Item = item;
-      Count = count;
-      Hp = hp;
-      Ammo = ammo;
+      public InventoryCell(InventoryCell cell)
+      {
+         Item = cell.Item;
+         Count = cell.Count;
+         Hp = cell.Hp;
+         Ammo = cell.Ammo;
+      }
+
+      public InventoryCell(Item item, int count, int hp = -1, int ammo = 0)
+      {
+         Item = item;
+         Count = count;
+         Hp = hp;
+         Ammo = ammo;
+      }
    }
 }

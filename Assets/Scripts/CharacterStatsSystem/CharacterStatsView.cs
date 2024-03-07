@@ -25,6 +25,10 @@ namespace CharacterStatsSystem
 
         private void Init(CharacterStats stats)
         {
+            DisplayOxygen(stats.Oxygen.Value);
+            DisplayStat(_hpText, _hpFill, stats.Hp.Value);
+            DisplayStat(_foodText, _foodFill, stats.Food.Value);
+            DisplayStat(_waterText, _waterFill, stats.Water.Value);
             stats.Hp.OnValueChanged += (int oldValue, int newValue) => DisplayStat(_hpText, _hpFill, newValue);
             stats.Food.OnValueChanged += (int oldValue, int newValue) => DisplayStat(_foodText, _foodFill, newValue);
             stats.Water.OnValueChanged += (int oldValue, int newValue) => DisplayStat(_waterText, _waterFill, newValue);

@@ -1,42 +1,50 @@
+using System.Collections;
+using FightSystem.Weapon.ThrowingWeapon;
+using Items_System.Items;
 using UnityEngine;
 
 namespace FightSystem.Weapon.Melee
 {
-    public class ThrowingWeapon : MonoBehaviour
+    public class ThrowingWeapon : BaseThrowingWeapon
     {
-        [Header("Attached Compontents")] 
-        [SerializeField] private Rigidbody _rb;
+        [Header("Attached Components")] [SerializeField]
+        private BoxCollider _collider;
+        
+        private int _throwingHp;
+        private Collision _hitObject;
 
-        [Header("Main Params")] [SerializeField]
-        private float _lerpSpeed = 2f;
-
-        public void Throw(Vector3 direction, float force)
+        protected override void Start()
         {
-            if(!_rb) return;
-            _rb.AddForce(direction * force, ForceMode.Impulse);
-            Rotate();
+            base.Start();
+            StartCoroutine(WaitForEnable());
         }
 
-        private void Rotate()
+        private IEnumerator WaitForEnable()
         {
-            if(!_rb) return;
-            var velocity = _rb.velocity.normalized;
-            if (_rb.velocity.sqrMagnitude > 0.01f)
-            {
-                var newRotation = Quaternion.LookRotation(velocity, Vector3.down);
-                transform.rotation = Quaternion.Lerp(transform.rotation, newRotation, Time.deltaTime * _lerpSpeed);
-            }
+            _collider.enabled = false;
+            yield return new WaitForSeconds(0.05f);
+            _collider.enabled = true;
         }
 
-        private void OnCollisionEnter(Collision other)
+        public override void Throw(float angle, int throwingHp = -1)
         {
-            if(_rb) return;
-            _rb.velocity = Vector3.zero;
-            _rb.angularVelocity = Vector3.zero;
-            _rb.isKinematic = true;
-            _rb.constraints = RigidbodyConstraints.FreezeAll;
+            base.Throw(angle, throwingHp);
+            _throwingHp = throwingHp;
+            TargetLootingItem.InitByTargetItem(throwingHp);
+        }
 
-            transform.position = other.contacts[0].point;
+        private void MinusItemHp()
+        {
+            var item = TargetLootingItem.TargetItem as DamagableItem;
+            var minusingHp = item.Hp / 10;
+            var currentHp = _throwingHp - minusingHp;
+            TargetLootingItem.InitByTargetItem(currentHp, currentHp <= 0);
+        }
+
+        protected override void OnCollisionEnter(Collision other)
+        {
+            MinusItemHp();
+            base.OnCollisionEnter(other);
         }
     }
 }

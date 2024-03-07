@@ -17,7 +17,10 @@ namespace Inventory_System.ItemInfo
         [SerializeField] private Transform _itemDisplayerPlace;
         [SerializeField] private Slider _slider;
         [SerializeField] private ItemPreviewItemDisplayer _itemDisplayerPrefab;
-        [Header("Buttons")] [SerializeField] private GameObject _eatButton;
+        
+        [Header("Buttons")] 
+        [SerializeField] private Button _eatButton;
+        [SerializeField] private Button _dropButton;
 
         private SlotDisplayer _currentSlotDisplayer;
         private ItemPreviewItemDisplayer _targetItemDisplayer;
@@ -38,7 +41,12 @@ namespace Inventory_System.ItemInfo
         private void Start()
         {
             _slider.onValueChanged.AddListener(HandleSliderValue);
-          
+            _dropButton.onClick.AddListener(() =>
+            {
+                Drop();
+                _displayingPanel.SetActive(false);
+            });
+            _eatButton.onClick.AddListener(Eat);
         }
 
         public void ResetPanel()
@@ -53,9 +61,9 @@ namespace Inventory_System.ItemInfo
             _descriptionText.text = cell.Item.Description;
             GenerateItemDisplayer(slotDisplayer);
             if (cell.Item is Food)
-                _eatButton.SetActive(true);
+                _eatButton.gameObject.SetActive(true);
             else
-                _eatButton.SetActive(false);
+                _eatButton.gameObject.SetActive(false);
         }
 
         public void Eat()
@@ -65,11 +73,12 @@ namespace Inventory_System.ItemInfo
             if (food == null) return;
             if (cell.Count == 1) ResetPanel();
             food.Click(_currentSlotDisplayer);
+            _targetItemDisplayer.SetData(new InventoryCell(cell.Item, cell.Count - 1));
         }
 
-        public void Drop()
+        private void Drop()
         {
-            var cell = _currentSlotDisplayer.ItemDisplayer.InventoryCell;
+            var cell = _targetItemDisplayer.InventoryCell;
             var camera = Camera.main.transform;
             InstantiatingItemsPool.sigleton.SpawnObjectServerRpc(
                 new CustomSendingInventoryDataCell(cell.Item.Id, cell.Count, cell.Hp, cell.Ammo),

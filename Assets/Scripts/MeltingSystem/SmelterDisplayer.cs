@@ -1,3 +1,4 @@
+using Inventory_System.Slots_Displayer;
 using UnityEngine;
 
 namespace MeltingSystem
@@ -15,13 +16,6 @@ namespace MeltingSystem
         {
             _turnOnButton.SetActive(!value);
             _turnOffButton.SetActive(value);
-        }
-
-        public void SetFlaming(bool value)
-        {
-            var smelter = _slotsDisplayer.TargetStorage as Smelter;
-            smelter.TurnFlamingServerRpc(value);
-            DisplayButton(smelter.Flaming.Value);
         }
     }
 }

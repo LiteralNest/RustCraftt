@@ -1,4 +1,4 @@
-using Player_Controller;
+using DamageSystem;
 
 namespace AI.Animals
 {
@@ -9,7 +9,7 @@ namespace AI.Animals
             base.RefreshList();
             foreach (var perception in _aIPerceptions)
             {
-                ObjectsToInteract.AddRange(perception.GetObjects<PlayerNetCode>());
+                ObjectsToInteract.AddRange(perception.GetObjects<DamagableBodyPart>());
                 ObjectsToInteract.AddRange(perception.GetObjects<AC_Predator>());
             }
         }

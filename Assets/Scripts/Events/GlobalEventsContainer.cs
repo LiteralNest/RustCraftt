@@ -13,10 +13,12 @@ namespace Events
         public static Action OnCurrentItemDeleted { get; set; }
         public static Action<bool> OnMicrophoneButtonClicked { get; set; }
         public static Action<SleepingBag> SleepingBagSpawned { get; set; }
-
         public static Action<bool> OnMainHudHandle { get; set; }
+        public static Action OnPlayerStandUp { get; set; }
+        public static Action OnPlayerKnockDown { get; set; }
         public static Action OnMapOpened { get; set; }
         public static Action OnActiveSlotReset { get; set; }
+        public static Action<string> OnChatMessageCreated { get; set; }
 
         #region Inventory
 
@@ -42,6 +44,7 @@ namespace Events
         #region Player Net Code
 
         public static Action<PlayerNetCode> PlayerNetCodeAssigned { get; set; }
+        public static Action OnZeroHp { get; set; }
 
         #endregion
     }

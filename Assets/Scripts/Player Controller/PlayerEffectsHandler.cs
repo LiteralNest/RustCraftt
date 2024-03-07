@@ -1,16 +1,17 @@
 using System.Collections;
 using System.Linq;
 using AlertsSystem;
-using AlertsSystem.AlertTypes;
+using Cloud.DataBaseSystem.UserData;
 using Crafting_System.WorkBench;
 using Tool_Clipboard;
 using UnityEngine;
-using Web.UserData;
 
 namespace Player_Controller
 {
     public class PlayerEffectsHandler : MonoBehaviour
     {
+        public bool CanInteract { private get; set; }
+        
         private Coroutine _checkClipBoardCoroutine;
 
         private void HandleComfort(Collider other, bool isEntering)
@@ -51,6 +52,8 @@ namespace Player_Controller
                     AlertEventsContainer.OnBuildingUnblockedAlert?.Invoke(false);
                     AlertEventsContainer.OnBuildingBlockedAlert?.Invoke(true);
                 }
+
+                AlertEventsContainer.OnBuildingDecayAlert?.Invoke(clipBoard.IsDecay());
             }
         }
 
@@ -61,20 +64,24 @@ namespace Player_Controller
             {
                 if (_checkClipBoardCoroutine != null)
                     StopCoroutine(_checkClipBoardCoroutine);
-                
+
                 AlertEventsContainer.OnBuildingBlockedAlert?.Invoke(false);
                 AlertEventsContainer.OnBuildingUnblockedAlert?.Invoke(false);
+                AlertEventsContainer.OnBuildingDecayAlert?.Invoke(false);
                 return;
             }
 
             var shelfZone = other.GetComponent<ShelfZoneHandler>();
             if (shelfZone == null) return;
 
+            if (_checkClipBoardCoroutine != null)
+                StopCoroutine(_checkClipBoardCoroutine);
             _checkClipBoardCoroutine = StartCoroutine(HandleClipBoardAlertCoroutine(shelfZone));
         }
 
         private void OnTriggerEnter(Collider other)
         {
+            if(!CanInteract) return;
             HandleComfort(other, true);
             HandleWorkBenchAlert(other, true);
             HandleClipBoardAlert(other, true);
@@ -82,6 +89,7 @@ namespace Player_Controller
 
         private void OnTriggerExit(Collider other)
         {
+            if(!CanInteract) return;
             HandleComfort(other, false);
             HandleWorkBenchAlert(other, false);
             HandleClipBoardAlert(other, false);

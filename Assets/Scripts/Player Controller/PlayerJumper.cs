@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Collections;
 using Animation_System;
 using CharacterStatsSystem;
+using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -16,12 +17,10 @@ namespace Player_Controller
     }
 
     [RequireComponent(typeof(CharacterController))]
-    public class PlayerJumper : MonoBehaviour
+    public class PlayerJumper : NetworkBehaviour
     {
         [Header("Attached Scripts")] [SerializeField]
         private CharacterController _characterController;
-
-        [FormerlySerializedAs("_characterStats")] [SerializeField] private CharacterStatsHandler characterStatsHandler;
 
         [Header("Main Params")] [SerializeField]
         private float _gravity = -9.8f;
@@ -88,6 +87,7 @@ namespace Player_Controller
 
         private void CheckFallDamage()
         {
+            if(!IsOwner || IsServer) return;
             var fallHeight = _fallStartHeight - transform.position.y;
 
             foreach (var fallDamageRange in _fallDamageRanges)

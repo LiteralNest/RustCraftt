@@ -7,6 +7,7 @@ namespace Lock_System
    {
       [field: SerializeField] public GameObject Model { get; private set; }
 
+      public abstract bool AvailableForOpen(int value);
       public abstract bool CanBeOpened(int value);
       public virtual bool IsLocked() => true;
       public virtual void Open() {}

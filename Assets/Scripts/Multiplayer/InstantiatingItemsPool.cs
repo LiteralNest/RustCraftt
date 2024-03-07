@@ -46,12 +46,12 @@ namespace Multiplayer
                 lootingItem = Instantiate(item, position, Quaternion.identity);
                 SpawnLoot(lootingItem, position);
                 lootingItem.transform.position = position;
-                lootingItem.Data.Value = data;
+                lootingItem.Init(data);
                 return;
             }
             lootingItem = Instantiate(_universalDropableItem, position, Quaternion.identity);
             SpawnLoot(lootingItem, position);
-            lootingItem.Data.Value = data;
+            lootingItem.Init(data);
         }
     }
 }

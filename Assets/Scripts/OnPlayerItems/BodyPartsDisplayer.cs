@@ -1,7 +1,8 @@
 using System.Collections.Generic;
+using Armor_System.BackEnd.Body_Part;
 using UnityEngine;
 
-namespace ArmorSystem.Backend
+namespace OnPlayerItems
 {
     public class BodyPartsDisplayer : MonoBehaviour
     {

@@ -2,11 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using InteractSystem;
 using Inventory_System;
+using Inventory_System.Slots_Displayer;
 using Items_System.Items.Abstract;
 using Multiplayer;
 using Player_Controller;
 using Unity.Netcode;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Storage_System
 {
@@ -14,16 +16,16 @@ namespace Storage_System
     {
         [field: SerializeField]
         public NetworkVariable<CustomSendingInventoryData> ItemsNetData { get; private set; } = new();
-
+        [SerializeField] private Sprite _displayIcon;
         [field: SerializeField] public SlotsDisplayer SlotsDisplayer { get; set; }
-        [SerializeField] protected GameObject _ui;
+        [FormerlySerializedAs("_ui")] [SerializeField] protected GameObject Ui;
 
         [Header("Test")] [SerializeField] private InventoryCell _testAddingCell;
         [field: SerializeField] public int MainSlotsCount;
 
         protected bool Opened;
 
-        protected void Awake()
+        protected void OnEnable()
             => SlotsDisplayer.InitCells();
 
         #region virtual
@@ -34,7 +36,7 @@ namespace Storage_System
             Opened = true;
             InventoryHandler.singleton.InventoryPanelsDisplayer.OpenInventory(true);
             Appear();
-            _ui.SetActive(true);
+            Ui.SetActive(true);
             SlotsDisplayer.ResetCells();
             SlotsDisplayer.DisplayCells();
         }
@@ -46,7 +48,7 @@ namespace Storage_System
         #region IRayCastInteractable
 
         public void HandleUi(bool value)
-            => _ui.SetActive(value);
+            => Ui.SetActive(value);
 
         public virtual string GetDisplayText()
             => "Open";
@@ -54,7 +56,10 @@ namespace Storage_System
         public virtual void Interact()
             => Open(InventoryHandler.singleton);
 
-        public bool CanInteract()
+        public Sprite GetIcon()
+            => _displayIcon;
+
+        public virtual bool CanInteract()
             => true;
 
         #endregion
@@ -103,6 +108,9 @@ namespace Storage_System
             };
         }
 
+        public bool CanDisplayInteract()
+            => true;
+        
         [ServerRpc(RequireOwnership = false)]
         public void ResetItemServerRpc(int id, int interactingPlayerId)
         {
