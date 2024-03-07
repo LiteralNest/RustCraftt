@@ -82,7 +82,6 @@ namespace ResourceOresSystem
 
         protected override IEnumerator DestroyRoutine()
         {
-            base.DoAfterDestroying();
             TurnCollidersClientRpc(false);
             if (_animator)
                 yield return _animator.SetFallRoutine();
@@ -90,6 +89,7 @@ namespace ResourceOresSystem
                 StartCoroutine(ObjectsPlacer.RegenerateObjectRoutine(this));
             else if(_shouldDestroy)
                 _targetNetworkObject.Despawn();
+            base.DoAfterDestroying();
         }
     }
 }

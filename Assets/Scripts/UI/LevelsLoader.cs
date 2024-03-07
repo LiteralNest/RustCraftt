@@ -24,11 +24,5 @@ namespace UI
          await SceneManager.LoadSceneAsync(id);
          _loadScreenPanel.SetActive(false);
       }
-
-      public void CancelLoading()
-      {
-         SceneManager.LoadScene(0);
-         _loadScreenPanel.SetActive(false);
-      }
    }
 }

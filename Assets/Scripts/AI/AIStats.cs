@@ -11,6 +11,7 @@ namespace AI
 {
     public class AIStats : NetworkBehaviour, IDamagable, IRayCastHpDisplayer
     {
+        [SerializeField] private Transform _corpSpawnPos;
         [SerializeField] private AnimalID _animalId;
 
         [SerializeField] private NetworkVariable<ushort> _hp = new NetworkVariable<ushort>(100,
@@ -58,16 +59,21 @@ namespace AI
             if (_hp.Value <= 0)
                 Destroy();
         }
-
-
+        
         public void Destroy()
         {
             _destroyed = true;
-            AnimalObjectInstantiator.singleton.SpawnAnimalCorpById(_animalId.Id, transform.position,
-                transform.rotation.eulerAngles);
+            AnimalObjectInstantiator.singleton.SpawnAnimalCorpById(_animalId.Id, _corpSpawnPos.position,
+                _corpSpawnPos.rotation.eulerAngles);
             GetComponent<NetworkObject>().Despawn();
         }
 
+        [ContextMenu("Die")]
+        public void DieTest()
+        {
+            GetDamageServerRpc(_hp.Value);
+        }
+        
         #endregion
 
         public void DisplayData()
