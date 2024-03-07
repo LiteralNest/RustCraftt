@@ -1,4 +1,4 @@
-﻿using System;
+﻿using Settings;
 using TMPro;
 using UnityEngine;
 
@@ -12,8 +12,9 @@ namespace Main_Settings
 
         private void Start()
         {
-            if(!GlobalValues.EnableFPSCounter)
-                gameObject.SetActive(false);
+            var settings = SettingsContainer.Singleton;
+            if(settings == null) return;
+            gameObject.SetActive(settings.EnableFPSCounter);
         }
 
         private void Update () 

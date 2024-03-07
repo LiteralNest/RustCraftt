@@ -3,14 +3,16 @@ using UnityEngine;
 
 namespace Settings
 {
-    public class TerrainSettings : MonoBehaviour
+    public class TerrainSettingsCatcher : MonoBehaviour
     {
 
         public List<GameObject> vegetationObjects; 
 
         private void Start()
         {
-            UpdateGrassVisibility(GlobalValues.EnableGrass);
+            var settings = SettingsContainer.Singleton;
+            if(settings == null) return;
+            UpdateGrassVisibility(settings.EnableGrass);
         }
 
 

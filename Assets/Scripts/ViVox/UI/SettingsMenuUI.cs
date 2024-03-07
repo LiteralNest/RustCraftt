@@ -1,3 +1,5 @@
+using System;
+using Settings;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Audio;
@@ -10,29 +12,28 @@ namespace ViVox.UI
         [SerializeField] private AudioMixer _audioMixer;
         [SerializeField] private TMP_Dropdown _qualityDropdown;
         [SerializeField] private Slider _farDistanceSlider;
-        [SerializeField] private Slider _fovSlider;
         [SerializeField] private Slider _fpsSlider;
         [SerializeField] private Slider _sensitivitySlider;
         [SerializeField] private Slider _volumeSlider;
-        [SerializeField] private Toggle _shadowsToggle;
         [SerializeField] private Toggle _grassToggle;
         [SerializeField] private Toggle _fpsCounterToggle;
         [SerializeField] private TextMeshProUGUI _renderSliderInfo;
-        [SerializeField] private TextMeshProUGUI _fovSliderInfo;
         [SerializeField] private TextMeshProUGUI _sensSliderInfo;
         [SerializeField] private TextMeshProUGUI _fpsSliderInfo;
         [SerializeField] private TextMeshProUGUI _volumeSliderInfo;
 
 #if !UNITY_SERVER
+
         private void Start()
         {
             SetStartVolume();
-            InitializeUIValues();
+        
         }
 
         private void OnEnable()
         {
             AddListeners();
+            InitializeUIValues();
         }
 
         private void OnDisable()
@@ -56,7 +57,6 @@ namespace ViVox.UI
         private void AddListeners()
         {
             _farDistanceSlider.onValueChanged.AddListener(UpdateRenderSliderText);
-            _fovSlider.onValueChanged.AddListener(UpdateFOVSliderText);
             _fpsSlider.onValueChanged.AddListener(UpdateFixedFPS);
             _volumeSlider.onValueChanged.AddListener(UpdateVolume);
             _sensitivitySlider.onValueChanged.AddListener(UpdateSensitivitySliderText);
@@ -65,7 +65,6 @@ namespace ViVox.UI
         private void RemoveListeners()
         {
             _farDistanceSlider.onValueChanged.RemoveListener(UpdateRenderSliderText);
-            _fovSlider.onValueChanged.RemoveListener(UpdateFOVSliderText);
             _fpsSlider.onValueChanged.RemoveListener(UpdateFixedFPS);
             _volumeSlider.onValueChanged.RemoveListener(UpdateVolume);
             _sensitivitySlider.onValueChanged.RemoveListener(UpdateSensitivitySliderText);
@@ -73,37 +72,41 @@ namespace ViVox.UI
 
         private void InitializeUIValues()
         {
-            _qualityDropdown.value = GlobalValues.GraphicsQualityIndex;
-            _farDistanceSlider.value = GlobalValues.CameraFarDistance;
-            _fovSlider.value = GlobalValues.CameraFOV;
-            _shadowsToggle.isOn = GlobalValues.EnableShadows;
-            _grassToggle.isOn = GlobalValues.EnableGrass;
-            _fpsSlider.value = GlobalValues.FixedFPS;
-            _fpsCounterToggle.isOn = GlobalValues.EnableFPSCounter;
-            _sensitivitySlider.value = GlobalValues.Sensitivity;
+            var settings = SettingsContainer.Singleton;
+            if(settings == null) return;
+            
+            _qualityDropdown.value =  QualitySettings.GetQualityLevel();
+            _farDistanceSlider.value = settings.CameraFarDistance;
+            _grassToggle.isOn = settings.EnableGrass;
+            _fpsSlider.value = Application.targetFrameRate;
+            _fpsSliderInfo.text = $"{Application.targetFrameRate}";
+            _fpsCounterToggle.isOn = settings.EnableFPSCounter;
+            _sensitivitySlider.value = settings.Sensitivity;
 
-            UpdateRenderSliderText(GlobalValues.CameraFarDistance);
-            UpdateFOVSliderText(GlobalValues.CameraFOV);
-            UpdateSensitivitySliderText(GlobalValues.Sensitivity);
+            UpdateRenderSliderText(settings.CameraFarDistance);
+            UpdateSensitivitySliderText(settings.Sensitivity);
         }
 
         private void UpdateGlobalValues()
         {
-            GlobalValues.GraphicsQualityIndex = _qualityDropdown.value;
-            GlobalValues.CameraFarDistance = _farDistanceSlider.value;
-            GlobalValues.CameraFOV = _fovSlider.value;
-            GlobalValues.EnableShadows = _shadowsToggle.isOn;
-            GlobalValues.EnableGrass = _grassToggle.isOn;
-            GlobalValues.EnableFPSCounter = _fpsCounterToggle.isOn;
-            GlobalValues.FixedFPS = Mathf.RoundToInt(_fpsSlider.value);
-            GlobalValues.Volume = _volumeSlider.value;
+            var settings = SettingsContainer.Singleton;
+            if(settings == null) return;
+            
+            int newFPS = Mathf.RoundToInt(_fpsSlider.value);
+            Application.targetFrameRate = newFPS;
+            QualitySettings.SetQualityLevel(_qualityDropdown.value);
+            
+            settings.Volume = _volumeSlider.value;
+            settings.EnableGrass = _grassToggle.isOn;
+            settings.CameraFarDistance = Mathf.RoundToInt(_farDistanceSlider.value);
+            settings.EnableFPSCounter = _fpsCounterToggle.isOn;
+            settings.Sensitivity = _sensitivitySlider.value;
+            settings.Save();
         }
 
         private void UpdateFixedFPS(float value)
         {
-            int newFPS = Mathf.RoundToInt(value);
-            GlobalValues.FixedFPS = newFPS;
-            Application.targetFrameRate = newFPS;
+           
             UpdateSliderValueText(_fpsSliderInfo, value);
         }
 
@@ -117,8 +120,6 @@ namespace ViVox.UI
 
         private void UpdateRenderSliderText(float value) => UpdateSliderValueText(_renderSliderInfo, value);
 
-        private void UpdateFOVSliderText(float value) => UpdateSliderValueText(_fovSliderInfo, value);
-
         private void UpdateSensitivitySliderText(float value)
         {
             _sensSliderInfo.text = value.ToString("0.0");
@@ -130,7 +131,6 @@ namespace ViVox.UI
             _audioMixer.SetFloat("Main", dbVolume);
             var displayVolume = volume * 100f;
             _volumeSliderInfo.SetText($"{displayVolume:N0}");
-            GlobalValues.Volume = volume;
         }
 #endif
     }
