@@ -7,19 +7,17 @@
         public bool EnableFPSCounter;
         public float Sensitivity;
         public float Volume;
+        public int FrameRate;
 
         public SettingsData(bool enableGrass, int cameraFarDistance, bool enableFPSCounter, float sensitivity,
-            float volume)
+            float volume, int frameRate)
         {
             EnableGrass = enableGrass;
             CameraFarDistance = cameraFarDistance;
             EnableFPSCounter = enableFPSCounter;
             Sensitivity = sensitivity;
             Volume = volume;
-        }
-
-        public SettingsData()
-        {
+            FrameRate = frameRate;
         }
     }
 }

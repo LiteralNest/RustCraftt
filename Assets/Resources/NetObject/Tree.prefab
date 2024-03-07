@@ -244,6 +244,7 @@ GameObject:
   - component: {fileID: 4495937717897502519}
   - component: {fileID: 1023573232044658056}
   - component: {fileID: 5904589658893688619}
+  - component: {fileID: 5117086354282318972}
   m_Layer: 9
   m_Name: Tree
   m_TagString: Ore
@@ -287,8 +288,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1, y: 2.986734, z: 1}
-  m_Center: {x: 0, y: 1.5759721, z: 0}
+  m_Size: {x: 1, y: 2.5741253, z: 1}
+  m_Center: {x: 0, y: 1.7822764, z: 0}
 --- !u!114 &4495937717897502519
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -366,6 +367,22 @@ LODGroup:
     renderers:
     - renderer: {fileID: 2422511301777697493}
   m_Enabled: 1
+--- !u!208 &5117086354282318972
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5474001812520990889}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 0.5, y: 0.5, z: 0.5}
+  m_MoveThreshold: 0.1
+  m_Carve: 0
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 1, z: 0}
+  m_TimeToStationary: 0.5
 --- !u!1 &5591281636010050300
 GameObject:
   m_ObjectHideFlags: 0

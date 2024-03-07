@@ -8,6 +8,7 @@ namespace Settings
 
         [SerializeField] private bool _enableGrass = true;
         [SerializeField] private int _cameraFarDistance = 100;
+        [SerializeField] private int _targetFrameRate = 60;
         [SerializeField] private bool _enableFPSCounter = false;
         [SerializeField] private float _sensitivity = 1;
         [SerializeField] private float _volume = 1;
@@ -16,6 +17,12 @@ namespace Settings
         {
             get => _enableGrass;
             set => _enableGrass = value;
+        }
+        
+        public int FrameRate
+        {
+            get => _targetFrameRate;
+            set => _targetFrameRate = value;
         }
 
         public int CameraFarDistance
@@ -57,8 +64,9 @@ namespace Settings
             
             var saver = new SettingsDataSaver();
             var data = saver.LoadData();
-            
-            if(data == null) return;
+
+            if (data == null)
+                return;
             
             _enableGrass = data.EnableGrass;
             _cameraFarDistance = data.CameraFarDistance;
@@ -70,7 +78,7 @@ namespace Settings
         public void Save()
         {
             SettingsDataSaver saver = new SettingsDataSaver();
-            saver.SaveData(new SettingsData(_enableGrass, _cameraFarDistance, _enableFPSCounter, _sensitivity, _volume));
+            saver.SaveData(new SettingsData(_enableGrass, _cameraFarDistance, _enableFPSCounter, _sensitivity, _volume, Application.targetFrameRate));
         }
     }
 }

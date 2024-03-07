@@ -73,13 +73,17 @@ namespace ViVox.UI
         private void InitializeUIValues()
         {
             var settings = SettingsContainer.Singleton;
-            if(settings == null) return;
-            
+            if (settings == null)
+            {
+                Application.targetFrameRate = 60;
+                return;
+            }
+            Application.targetFrameRate = settings.FrameRate;
             _qualityDropdown.value =  QualitySettings.GetQualityLevel();
             _farDistanceSlider.value = settings.CameraFarDistance;
             _grassToggle.isOn = settings.EnableGrass;
-            _fpsSlider.value = Application.targetFrameRate;
-            _fpsSliderInfo.text = $"{Application.targetFrameRate}";
+            _fpsSlider.value = settings.FrameRate;
+            _fpsSliderInfo.text = $"{settings.FrameRate}";
             _fpsCounterToggle.isOn = settings.EnableFPSCounter;
             _sensitivitySlider.value = settings.Sensitivity;
 
