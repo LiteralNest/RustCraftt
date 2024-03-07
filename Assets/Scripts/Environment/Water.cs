@@ -1,21 +1,16 @@
 using System.Collections;
 using CharacterStatsSystem;
 using DamageSystem;
-using FightSystem.Damage;
-using Player_Controller;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.Audio;
-using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
-using Vehicle;
 using Vehicle.Boat;
 
 namespace Environment
 {
     public class Water : NetworkBehaviour
     {
-        [SerializeField] private GameObject _waterUI;
         [SerializeField] private AudioSource _source;
         [SerializeField] private AudioMixer _mixer;
         [SerializeField] private UniversalRendererData _data;
@@ -60,8 +55,6 @@ namespace Environment
                     _source.Play();
 
                 _isRestoringOxygen = false;
-                if (_waterUI)
-                    _waterUI.SetActive(true);
                 _oxygenCoroutine = StartCoroutine(RemoveOxygenOverTime());
             }
         }
@@ -87,8 +80,6 @@ namespace Environment
                 _isRestoringOxygen = true;
                 if (_oxygenCoroutine != null)
                 {
-                    if (_waterUI)
-                        _waterUI.SetActive(false);
                     StopCoroutine(_oxygenCoroutine);
                 }
 
