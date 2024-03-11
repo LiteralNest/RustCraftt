@@ -13,7 +13,7 @@ namespace FightSystem.Weapon.Melee
 
         [SerializeField] private ThrowingWeapon _targetPref;
         [Header("Physics")] [SerializeField] private float _throwForce = 40f;
-
+        
         private BallisticCalculator _ballisticCalculator = new();
 
         private bool _startedThrow;
@@ -29,7 +29,7 @@ namespace FightSystem.Weapon.Melee
 
         private void ThrowSpear()
         {
-            if (InventoryHandler.singleton.ActiveSlotDisplayer.ItemDisplayer == null) return;
+            if (InventoryHandler.singleton.ActiveSlotDisplayer.ItemDisplayer == null || !IsOwner) return;
 
             var hp = 100;
             if (InventoryHandler.singleton.ActiveSlotDisplayer.ItemDisplayer != null)
@@ -50,9 +50,7 @@ namespace FightSystem.Weapon.Melee
 
         public void EndThrow()
         {
-            Debug.Log("Try Throw");
             if (!_startedThrow) return;
-            Debug.Log("Throw");
             _startedThrow = false;
             ThrowSpear();
             PlayerNetCode.Singleton.SetDefaultHandsServerRpc();
