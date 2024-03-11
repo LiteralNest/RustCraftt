@@ -31,12 +31,12 @@ namespace Inventory_System.Inventory_Items_Displayer
 
         public virtual void EndDrag(PointerEventData eventData)
         {
-            if (!GlobalValues.CanDragInventoryItems) return;
-            if (_countText != null)
-                _countText.gameObject.SetActive(true);
-            transform.position = PreviousCell.transform.position;
-            transform.SetParent(PreviousCell.transform);
-            _itemIcon.raycastTarget = true;
+            // if (!GlobalValues.CanDragInventoryItems) return;
+            // if (_countText != null)
+            //     _countText.gameObject.SetActive(true);
+            // transform.position = PreviousCell.transform.position;
+            // transform.SetParent(PreviousCell.transform);
+            // _itemIcon.raycastTarget = true;
         }
 
         public void OnBeginDrag(PointerEventData eventData)
